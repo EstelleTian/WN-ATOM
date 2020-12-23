@@ -1,0 +1,58 @@
+.performance_item {
+  @include display_flex(column);
+  @include flex();
+  margin: 5px;
+  //border-color: transparent;
+  //-webkit-box-shadow: 0 1px 2px -2px $c-white-20, 0 3px 6px 0 $c-white-20, 0 5px 12px 4px $c-white-20;
+  //box-shadow: 0 1px 2px -2px $c-white-20, 0 3px 6px 0 $c-white-20, 0 5px 12px 4px $c-white-20;
+  .header {
+    @include display_flex(column);
+    justify-content: center;
+    .title {
+      font-size: 28px;
+      text-align: center;
+      width: 100%;
+      background: rgba(0, 204, 255, 0.419607843137255);
+    }
+    .description {
+      text-align: center;
+      font-weight: 500;
+      .value {
+        font-size: 48px;
+        display: inline-block;
+        margin-right: 10px;
+      }
+      .unit {
+        font-size: 30px;
+      }
+    }
+  }
+  .content {
+    @include flex();
+    justify-content: center;
+    margin: 0 1%;
+    //padding-top: 20px;
+    //text-align: center;
+    .list-item {
+      font-size: 24px;
+      margin: 10px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      -o-text-overflow: ellipsis;
+      text-overflow: ellipsis;
+      color: $c-white-50;
+    }
+    .ant-badge-status-dot {
+      position: relative;
+      top: -4px;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      border-radius: 16px;
+    }
+    .ant-badge-status-text {
+      font-size: 24px;
+    }
+  }
+}

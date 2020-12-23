@@ -1,0 +1,11 @@
+.add_monitor{
+    font-size: 24px;
+    display: inline-block;
+    vertical-align: top;
+    &:hover{
+        cursor: pointer;
+    }
+    .add{
+        margin: 25px auto 0;
+    }
+}

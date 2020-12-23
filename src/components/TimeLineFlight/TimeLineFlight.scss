@@ -1,0 +1,102 @@
+
+.flight_content{
+    @include display_flex(column);
+    @include flex();
+    margin: 5px 0 5px 5px;
+    .filter_header{
+        border: 1px solid grey;
+        text-align: center;
+        margin-left: 20px;
+        >span{
+            display: inline-block;
+            width: 50%;
+        }
+        >div{
+            >span{
+                display: inline-block;
+            }
+        }
+        .unit_name{
+            font-size: 16px;
+            color: orange;
+            line-height: 20px;
+            vertical-align: top;
+            border-right: 1px solid grey;
+        }
+        .filter_dom{
+            font-size: 12px;
+            display: inline-block;
+            width: 50%;
+            &:hover{
+                cursor: pointer;
+            }
+        }
+        .condition{
+            border-right: 1px solid grey;
+        }
+        .unit_time{
+            color: #000;
+            background-color: #4F94E5;
+            display: inline-block;
+            width: 50%;
+        }
+        .unit_time:first-child{
+            border-right: 1px solid #000;
+        }
+        .unit_hour{
+            width: 16%;
+            color: #000;
+            background-color:#FBD84D;
+            display: inline-block;
+            border-right: 1px solid rgb(49, 49, 49);
+            &:hover{
+                cursor: pointer;
+            }
+        }
+        .unit_hour.left,.unit_hour.right{
+            width: 10%;
+            height: 20px;
+            >i{
+                font-size: 12px;
+                display: inline-block;
+                transform: scale(.9);
+            }
+            
+        }
+        .unit_hour.left{;
+            color: red;
+        }
+        .unit_hour.right{
+            border-right: none;
+            color: green;
+        }
+        
+    }
+    .timeline_canvas{
+        @include flex();
+        @include display_flex();
+        .timeline_scale{
+            >span{
+                position: relative;
+                top: -5px;
+            }
+        }
+        .timeline{
+            font-size: 12px;
+            >div{
+                min-height: 12px;
+            }
+        }
+        .fline{
+            @include flex();
+        }
+        .date_line{
+            display: inline-block;
+            color: #0076F7;
+            width: 20px;
+            vertical-align: top;
+        }
+    }
+    
+    
+}

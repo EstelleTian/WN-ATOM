@@ -1,0 +1,18 @@
+.ant-table-wrapper{
+    height: 100px;
+}
+.ant-table-container{
+    @include display_flex(column);
+    .ant-table-body{
+        @include flex();
+    }
+}
+.flight_canvas{
+    position: relative;
+    .total_num{
+        position: absolute;
+        right: 12px;
+        top: 3px;
+        font-size: 14px;
+    }
+}

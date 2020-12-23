@@ -1,0 +1,22 @@
+
+
+.modal_box{
+    @include display_flex(column);
+    height: calc(100% - 20px );
+    margin: 10px 5px;
+    background: rgba(0,0,0,0.35);
+    
+    .box_header{
+        background: rgba(0,0,0,0.35);
+        height: 31px;
+        line-height: 31px;
+        padding-left: 10px;
+        font-size: 16px;
+
+    }
+    .box_content{
+        @include display_flex(column);
+        @include flex();
+    }
+}
+

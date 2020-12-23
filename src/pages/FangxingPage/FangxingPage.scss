@@ -1,0 +1,37 @@
+.layout{
+    @include display_flex(column);
+    .nav_bar{
+        height: 44px;
+    }
+    .nav_body{
+        @include flex();
+        @include display_flex();
+        .cont_left{
+            @include display_flex(column);
+            @include flex(1);
+            .timeline_dom{
+                height: 100%;
+                >div{
+                    width: 300px;
+                    display: inline-block;
+                    height: 100%;
+                }
+                
+            }
+            .kpi{
+                @include flex(1);
+            }
+            
+    
+        }
+        .cont_center{
+            @include display_flex(column);
+            @include flex(2);
+        }
+        .cont_right{
+            width: 400px;
+            @include display_flex(column);
+        }
+    }
+}
+
