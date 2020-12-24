@@ -122,12 +122,12 @@ const names = {
         "cn":"ACTYPE"
     },
 
-    "DEPAP":{
-        "en":"DEPAP",
+    "ADEP":{
+        "en":"ADEP",
         "cn":"ADEP"
     },
-    "ARRAP":{
-        "en":"ARRAP",
+    "ADES":{
+        "en":"ADES",
         "cn":"ADES"
     },
     "SOBT":{
@@ -162,7 +162,7 @@ const names = {
         "en":"FFIX",
         "cn":"FFix"
     },
-    "FFIXI":{
+    "FFIXT":{
         "en":"FFIXT",
         "cn":"FFixT"
     },
@@ -256,6 +256,7 @@ for(let key in names){
 const data = [];
 for (let i = 0; i < 200; i++) {
     data.push({
+        "key": i,
         "FLIGHTID":"CCA3345",
         "ALARM":"",
         "TASK":"",
@@ -264,7 +265,7 @@ for (let i = 0; i < 200; i++) {
         "OAP":"VISIN",
         "OAPT":"15/1345",
         "ACTYPE":"B737",
-        "DEPAP":"ZLXY",
+        "ADEP":"ZLXY",
         "ARRAP":"ZBAA",
         "SOBT":"15/1200",
         "EOBT":"15/1200",

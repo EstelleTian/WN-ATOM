@@ -9,9 +9,10 @@
 import { schemeListData } from './schemeStores'
 import { timeLineList } from './timelineStores'
 import { newsList } from './newsStores'
+import { flightTableData } from './flightTableStores'
 
 export { 
     schemeListData, timeLineList,
-    newsList
+    newsList, flightTableData
  };
 
