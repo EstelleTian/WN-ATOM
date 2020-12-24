@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 module.exports = {
     entry: {
@@ -16,10 +18,11 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
+                exclude: /node_modules/,// 排除不处理的目录
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        cacheDirectory: true
+                        cacheDirectory: true, // 缓存loader执行结果 发现打包速度已经明显提升了
                     }
                 }]
             },
@@ -103,21 +106,43 @@ module.exports = {
     ],
     optimization: {
         splitChunks: {
-            cacheGroups: {
-                commons: {
-                    chunks: 'initial',
+            cacheGroups: { //缓存策略，默认设置了分割node_modules和公用模块
+                common: {// ‘src/js’ 下的js文件
+                    chunks:"all",
+                    test:/[\\/]src[\\/].*\.js/,//也可以值文件/[\\/]src[\\/]js[\\/].*\.js/,
+                    name: "common", //生成文件名，依据output规则
                     minChunks: 2,
                     maxInitialRequests: 5,
-                    minSize: 0
+                    minSize: 0,
+                    priority:1
                 },
-                vendor: {
-                    test: /node_modules/,
-                    chunks: 'initial',
-                    name: 'vendor',
-                    priority: 10,
+                vendors: {
+                    chunks:"initial",
+                    test: path.resolve(process.cwd(), "node_modules"),
+                    name:"vendor",
                     enforce: true
                 }
             }
-        }
+        },
+        // minimizer: [
+        //     new UglifyJSPlugin({
+        //         uglifyOptions: {
+        //             sourceMap: true,
+        //             compress: {
+        //                 drop_console: true,
+        //                 conditionals: true,
+        //                 unused: true,
+        //                 comparisons: true,
+        //                 dead_code: true,
+        //                 if_return: true,
+        //                 join_vars: true,
+        //                 warnings: false
+        //             },
+        //             output: {
+        //                 comments: false
+        //             }
+        //         }
+        //     })
+        // ]
     }
 };

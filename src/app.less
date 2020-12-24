@@ -1,6 +1,5 @@
 @import '~antd/dist/antd.dark.less';
 html,body{
-  font-size: 12px;
   position: relative;
   height: 100%;
   width: 100%;
@@ -12,9 +11,18 @@ html,body{
   font-family:   Calibri, Microsoft Yahei, sans-serif;
   position: relative;
 }
-
+@media screen and ( max-width: 1920px){
+  body{
+    font-size: 12px;
+  }
+}
+@media screen and ( min-width: 1921px){
+  body{
+    font-size: 18px;
+  }
+}
 .ant-layout{
-  background-image: url('./images/4.jpg');
+  background-image: url('./images/cloth.png');
   background-repeat: repeat;
   height: 100vh;
 }

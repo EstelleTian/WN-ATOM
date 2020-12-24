@@ -2,10 +2,11 @@
     width: 680px;
     height: 437px;
     background:  rgb(34,51,51);
-    font-size: 16px;
-    overflow-x: hidden;
+    overflow: hidden;
+    @include display_flex(column);
     
     .info_header{
+        height: 1.83rem;
         position: relative;
         padding: 3px 10px;
         border-bottom: 2px solid grey;
@@ -35,9 +36,13 @@
             }
         }
     }
-    .info_content{
+    .todo-list{
+        @include flex();
         overflow-y: auto;
         overflow-x: hidden;
+    }
+    .info_content{
+
         >div{
             position: relative;
         }

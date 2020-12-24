@@ -1,4 +1,13 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-23 20:10:28
+ * @LastEditTime: 2020-12-24 16:54:48
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \WN-ATOM\src\routes\route.jsx
+ */
 import React, { Component, Suspense } from 'react';
+import { Spin } from 'antd';
 import { HashRouter as Router , Switch, Redirect, Route } from "react-router-dom";
 import { Provider } from 'mobx-react';
 import * as stores  from '../stores/stores.jsx'
@@ -9,7 +18,7 @@ class Routes extends Component {
         return (
             <Router>
                 <Provider {...stores}>
-                    <Suspense fallback={<div>loading</div>}>
+                    <Suspense fallback={ <h1><Spin /></h1> }>
                         <Switch>
                             {
                                 routes.length > 0 && routes.map((route) => {  //遍历路由数组
