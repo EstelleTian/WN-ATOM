@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:28
- * @LastEditTime: 2020-12-24 16:54:48
+ * @LastEditTime: 2020-12-24 17:34:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\route.jsx
@@ -12,13 +12,14 @@ import { HashRouter as Router , Switch, Redirect, Route } from "react-router-dom
 import { Provider } from 'mobx-react';
 import * as stores  from '../stores/stores.jsx'
 import routes from './index';
+import './spin.scss'
 
 class Routes extends Component {
     render() {
         return (
             <Router>
                 <Provider {...stores}>
-                    <Suspense fallback={ <h1><Spin /></h1> }>
+                    <Suspense fallback={ <div className="load_spin"><Spin tip="加载中..."/></div> }>
                         <Switch>
                             {
                                 routes.length > 0 && routes.map((route) => {  //遍历路由数组

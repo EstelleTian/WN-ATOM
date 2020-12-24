@@ -1,23 +1,24 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2020-12-24 16:43:06
+ * @LastEditTime: 2020-12-24 17:32:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
 import React, {Component, lazy, Suspense} from 'react';
-import { Layout } from 'antd';
+import { Layout, Spin } from 'antd';
 import { withRouter } from 'react-router-dom';
 // import FlightTable from 'components/FlightTable/FlightTable'
-import SchemeList from 'components/SchemeList/SchemeList'
+// import SchemeList from 'components/SchemeList/SchemeList'
 import ExecuteKPI  from 'components/ExecuteKPI/ExecuteKPI'
 import FlightSearch  from 'components/FlightSearch/FlightSearch'
 import NavBar  from 'components/NavBar/NavBar.jsx';
 import ModalBox from 'components/ModalBox/ModalBox'
 import './FangxingPage.scss'
 
-const FlightTable = lazy(() => import('components/FlightTable/FlightTable') )
+const FlightTable = lazy(() => import('components/FlightTable/FlightTable') );
+const SchemeList = lazy(() => import('components/SchemeList/SchemeList') );
 
 
 //放行监控布局模块
@@ -44,7 +45,7 @@ function TodoPage(){
                         </ModalBox>
                     </div>
                     <div className="cont_center">
-                        <Suspense fallback={<div>3333333loading</div>}>
+                        <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
                             <FlightTable />
                         </Suspense>
                         
@@ -53,7 +54,10 @@ function TodoPage(){
                         <ModalBox 
                             title="方案列表"
                         >
-                            <SchemeList />
+                            <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+                        <SchemeList />
+                        </Suspense>
+                            
                         </ModalBox>
                     </div>
                 </div>
