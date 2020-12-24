@@ -8,7 +8,7 @@
  */
 import React from 'react'
 import { isValidVariable } from '../../utils/basic-verify'
-import { Input, Button , Popover, Checkbox, DatePicker     } from 'antd'
+import { Input, Button , Popover, Checkbox, DatePicker ,Space     } from 'antd'
 
 
 
@@ -27,8 +27,10 @@ const getContent = (opt)  =>{
                 <Input addonBefore="机场"  defaultValue={ record.FLIGHTID } disabled  />
             </div>
             <div>
-                <Input addonBefore="日期"  defaultValue={ record.FLIGHTID } />
-                <DatePicker addonBefore="日期"  />
+                <Space size={1}>
+                    <span class="ant-input-group-addon">日期</span>
+                    <DatePicker />
+                </Space>
             </div>
             <div>
                 <Input addonBefore="时间"  defaultValue={ record.FLIGHTID } />
@@ -50,10 +52,13 @@ const getContent = (opt)  =>{
 }
 
 
-const render = (opt)  => {
-    const {text, record, index, col} = opt;
-    if(isValidVariable(text)){
-        return  <Popover
+const getCell = (opt) => {
+
+    const {text, record, index, col, colCN} = opt;
+    let color = "";
+
+    let obj  = {
+        children: <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
             placement="rightTop"
             title={getTitle(opt)}
@@ -61,9 +66,22 @@ const render = (opt)  => {
             trigger={[`contextMenu`]}
         >
             <div className="ccc">{text}</div>
-        </Popover >
-    }else {
+        </Popover >,
+        props: {
+            "col-key":col,
+        },
+    };
+    return obj;
 
+};
+
+
+const render = (opt)  => {
+    const {text, record, index, col} = opt;
+    if(isValidVariable(text)){
+        return  getCell(opt);
+    }else {
+        return <div className="ccc">{text}</div>
     }
 
 }
@@ -75,10 +93,35 @@ const names = {
         "en":"FLIGHTID",
         "cn":"CallSign"
     },
-    "SPECIAL_STATUS":{
-        "en":"SPECIAL_STATUS",
+    "ALARM":{
+        "en":"ALARM",
         "cn":"告警"
     },
+    "TASK":{
+        "en":"TASK",
+        "cn":"TASK"
+    },
+    "EAP":{
+        "en":"EAP",
+        "cn":"EAP"
+    },
+    "EAPT":{
+        "en":"EAPT",
+        "cn":"EAPT"
+    },
+    "OAP":{
+        "en":"OAP",
+        "cn":"OAP"
+    },
+    "OAPT":{
+        "en":"OAPT",
+        "cn":"OAPT"
+    },
+    "ACTYPE":{
+        "en":"ACTYPE",
+        "cn":"ACTYPE"
+    },
+
     "DEPAP":{
         "en":"DEPAP",
         "cn":"ADEP"
@@ -111,46 +154,32 @@ const names = {
         "en":"ATOT",
         "cn":"ATOT"
     },
-    "ACCFIX":{
-        "en":"ACCFIX",
-        "cn":"CFix"
+    "FETA":{
+        "en":"FETA",
+        "cn":"FETA"
     },
-    "FLOWCONTROL_POINT_PASSTIME_CTO":{
-        "en":"FLOWCONTROL_POINT_PASSTIME_CTO",
-        "cn":"CTO"
-    },
-    "FLOWCONTROL_POINT":{
-        "en":"FLOWCONTROL_POINT",
+    "FFIX":{
+        "en":"FFIX",
         "cn":"FFix"
     },
-    "FLOWCONTROL_POINT_PASSTIME":{
-        "en":"FLOWCONTROL_POINT_PASSTIME",
+    "FFIXI":{
+        "en":"FFIXT",
         "cn":"FFixT"
     },
-    "EXIT_POINT":{
-        "en":"EXIT_POINT",
-        "cn":"出区域点"
+    "CTO":{
+        "en":"CTO",
+        "cn":"CTO"
     },
-    "EXIT_POINT_TIME":{
-        "en":"EXIT_POINT_TIME",
-        "cn":"出区时间"
+    "ETO":{
+        "en":"ETO",
+        "cn":"ETO"
     },
-    "ENTRY_POINT":{
-        "en":"ENTRY_POINT",
-        "cn":"入区域点"
-    },
-    "ENTRY_POINT_TIME":{
-        "en":"ENTRY_POINT_TIME",
-        "cn":"入区时间"
-    },
+
     "STATUS":{
         "en":"STATUS",
         "cn":"状态"
     },
-    "GUID":{
-        "en":"GUID",
-        "cn":"数据来源"
-    }
+
 }
 
 const columns = [
@@ -178,6 +207,7 @@ for(let key in names){
         ellipsis: true,
         className: en,
     }
+
     //排序
     tem["sorter"] = (a,b) => {
         let data1 = a[en] + "";
@@ -213,6 +243,7 @@ for(let key in names){
             record,
             index,
             col: en,
+            colCN: cn,
         };
         return render(opt);
     }
@@ -226,7 +257,13 @@ const data = [];
 for (let i = 0; i < 200; i++) {
     data.push({
         "FLIGHTID":"CCA3345",
-        "SPECIAL_STATUS":"",
+        "ALARM":"",
+        "TASK":"",
+        "EAP":"OMBON",
+        "EAPT":"15/1312",
+        "OAP":"VISIN",
+        "OAPT":"15/1345",
+        "ACTYPE":"B737",
         "DEPAP":"ZLXY",
         "ARRAP":"ZBAA",
         "SOBT":"15/1200",
@@ -235,16 +272,12 @@ for (let i = 0; i < 200; i++) {
         "COBT":"15/1200",
         "CTOT":"15/1200",
         "ATOT":"15/1200",
-        "ACCFIX":"ENH",
-        "FLOWCONTROL_POINT_PASSTIME_CTO":"15/1200",
-        "FLOWCONTROL_POINT":"ENH",
-        "FLOWCONTROL_POINT_PASSTIME":"15/"+ (1250-i),
-        "EXIT_POINT":"ENH",
-        "EXIT_POINT_TIME":"15/1200",
-        "ENTRY_POINT":"ENH",
-        "ENTRY_POINT_TIME":"15/1200",
+        "FETA":"15/1007",
+        "FFIX":"ENH",
+        "FFIXT":"15/"+ (1250-i),
+        "CTO":"15/1200",
+        "ETO":"15/1200",
         "STATUS":"已起飞",
-        "GUID":""
     });
 }
 export { columns, data }
