@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 13:47:11
- * @LastEditTime: 2020-12-22 20:50:13
+ * @LastEditTime: 2020-12-24 17:51:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\ExecuteKPI\ExecuteKPI.jsx
@@ -22,6 +22,52 @@ import './ExecuteKPI.scss'
 const SchemePage =(props) => {
     return(
         <div className="kpi_canvas">
+            <Row>
+                <Col className="impact">
+                    <div className="title">影响航班</div>
+                    <div className="num">79</div>
+                    <div className="sub_title">架次</div>
+                </Col>
+            </Row>
+        <div className="layout-row">
+                <div className="flex  layout-column justify-content-center">
+                    <div className="title justify-content-center">影响航班</div>
+                    <div className="justify-content-center layout-column">
+                        <div className="title cus_cont">80架次</div>
+                    </div>
+                </div>
+                <div className="flex layout-column justify-content-center">
+                    <div className="flex layout-row justify-content-center">
+                        <div className="flex  layout-column justify-content-center" >
+                            <div className="title justify-content-center">临界航班</div>
+                            <div className=" flex justify-content-center layout-column">
+                                <div className="title cus_cont">80架次</div>
+                            </div>
+                        </div>
+                        <div className="flex  layout-column justify-content-center" >
+                            <div className="title justify-content-center">申请协调航班</div>
+                            <div className=" flex justify-content-center layout-column">
+                                <div className="title cus_cont">80架次</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex layout-row justify-content-center">
+                        <div className="flex  layout-column justify-content-center" >
+                            <div className="title justify-content-center">入池航班</div>
+                            <div className=" flex justify-content-center layout-column">
+                                <div className="title cus_cont">80架次</div>
+                            </div>
+                        </div>
+                        <div className="flex  layout-column justify-content-center" >
+                            <div className="title justify-content-center">关舱门等待航班</div>
+                            <div className=" flex justify-content-center layout-column">
+                                <div className="title cus_cont">80架次</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div className="layout-row">
                 <div className="flex effect layout-column justify-content-center">
                     <div className="title">影响程度</div>
@@ -63,45 +109,7 @@ const SchemePage =(props) => {
 
                 </div>
             </div>
-            <div className="layout-row">
-                <div className="flex  layout-column justify-content-center">
-                    <div className="title justify-content-center">影响航班</div>
-                    <div className="justify-content-center layout-column">
-                        <div className="title cus_cont">80架次</div>
-                    </div>
-                </div>
-                <div className="flex layout-column justify-content-center">
-                    <div className="flex layout-row justify-content-center">
-                        <div className="flex  layout-column justify-content-center" >
-                            <div className="title justify-content-center">临界航班</div>
-                            <div className=" flex justify-content-center layout-column">
-                                <div className="title cus_cont">80架次</div>
-                            </div>
-                        </div>
-                        <div className="flex  layout-column justify-content-center" >
-                            <div className="title justify-content-center">申请协调航班</div>
-                            <div className=" flex justify-content-center layout-column">
-                                <div className="title cus_cont">80架次</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex layout-row justify-content-center">
-                        <div className="flex  layout-column justify-content-center" >
-                            <div className="title justify-content-center">入池航班</div>
-                            <div className=" flex justify-content-center layout-column">
-                                <div className="title cus_cont">80架次</div>
-                            </div>
-                        </div>
-                        <div className="flex  layout-column justify-content-center" >
-                            <div className="title justify-content-center">关舱门等待航班</div>
-                            <div className=" flex justify-content-center layout-column">
-                                <div className="title cus_cont">80架次</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            
         </div>
     )
 }

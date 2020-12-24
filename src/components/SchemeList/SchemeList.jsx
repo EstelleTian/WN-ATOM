@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2020-12-22 20:17:36
+ * @LastEditTime: 2020-12-24 17:40:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -74,7 +74,7 @@ class SchemeList extends React.Component{
     }
     componentWillMount(){
         const opt = {
-            url:'http://192.168.243.120:58189/schemeFlow/xianflw',
+            url:'http://192.168.243.120:58189/schemeFlow/xian',
             method:'GET',
             params:{},
             resFunc: (data)=> this.updateSchemeListData(data),
@@ -87,7 +87,6 @@ class SchemeList extends React.Component{
     }
 
     render(){
-        console.log(333, "render");
         const schemeListData = this.props.schemeListData;
         const { list } = schemeListData;
         return (
