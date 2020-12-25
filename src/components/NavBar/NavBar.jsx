@@ -32,13 +32,9 @@ class NavBar extends Component{
         ppp.show = this.addNews.bind(this);
     }
     addNews( num ){
-        debugger
         this.setState({
             newsLen: num
         })
-    }
-    componentDidMount(){
-        console.log(1111)
     }
     render(){
         const { newsList, username, title } = this.props;

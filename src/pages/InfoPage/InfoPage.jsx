@@ -13,7 +13,7 @@ import { DeleteOutlined, AlertOutlined, WarningOutlined, MailOutlined } from '@a
 import { inject, observer } from 'mobx-react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { formatTimeString } from '../../utils/basic-verify'
-import {sendMsgToClient} from '../../utils/client'
+import { sendMsgToClient, openTimeSlotFrame, closeMessageDlg } from '../../utils/client'
 import Stomp from 'stompjs'
 import './InfoPage.scss'
 
@@ -35,7 +35,8 @@ class InfoCard extends Component{
         }
     }
 
-    removeCard(){
+    removeCard(massage){
+        closeMessageDlg(massage)
         this.setState({
             inProp: false
         })
@@ -46,7 +47,9 @@ class InfoCard extends Component{
 
     }
     render (){
-        let { message:{level, sendTime, content, dataType}, newsList } = this.props;
+        let { message, newsList } = this.props;
+        let {level, sendTime, content, dataType} = message;
+        console.log( message );
         level = getLevel( level );
         return (
             <CSSTransition
@@ -67,13 +70,13 @@ class InfoCard extends Component{
                         <div className="date">{ formatTimeString( sendTime ) }</div>
                         <div className="options">
                             {
-                                dataType === "FCDM" ? <Button size="small">查看放行监控</Button> : ""
+                                dataType === "FCDM" ? <Button size="small" onClick={ function(e){ openTimeSlotFrame(message) } }>查看放行监控</Button> : ""
                             }
                             {
-                                (dataType === "OPEI" || dataType === "FTMI") ? <Button size="small">查看容流监控</Button> : ""
+                                (dataType === "OPEI" || dataType === "FTMI") ? <Button size="small" onClick={ function(e){ sendMsgToClient(message) } } >查看容流监控</Button> : ""
                             }
                         </div>
-                        <div className="close" onClick={this.removeCard}>X</div>
+                        <div className="close" onClick={ this.removeCard}>X</div>
                     </div>
 
                     <div className="text">
@@ -111,7 +114,6 @@ class InfoPage extends Component{
                 console.log(d.body);
                 const body = d.body;
                 const msgObj = JSON.parse(body);
-                sendMsgToClient(body);
                 const { message } = msgObj;
                 thisProxy.props.newsList.addNews(message);
             })
@@ -161,16 +163,13 @@ class InfoPage extends Component{
                         </div>
                         {/** <div className="scroll"><Checkbox checked>滚屏</Checkbox></div>
                         <div className="to_top"><Checkbox checked>告警置顶</Checkbox></div>*/}
-                        <div className="close" >X</div>
+                        <div className="close" onClick={()=>{ closeMessageDlg()}}>X</div>
                     </div>
                     <TransitionGroup className="todo-list">
                         <div className="info_content">
                             {
                                 newsList.list.map( (newItem,index) => (
-
                                         <InfoCard key={index}  message={ newItem } newsList={newsList} />
-
-
                                 ))
                             }
                         </div>

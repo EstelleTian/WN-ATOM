@@ -1,6 +1,51 @@
 
 .kpi_canvas{
     overflow: auto;
+    .row_model{
+        margin-bottom:15px;
+    }
+    .ant-col{
+        text-align: center;
+        justify-content: center;
+        @include display_flex(column);
+    }
+    .impact{
+        border-right: 1px solid grey;
+        .title{
+            
+        }
+        .num{
+            color: #0095eb;
+            font-size:3rem;
+        }
+        .sub_title{
+            font-size: 1rem;
+        }
+    }
+    .impact_sub{
+        margin-bottom: 10px 0;
+        .title{
+            
+        }
+        .num{
+            color: #0095eb;
+            font-size: 2rem;
+        }
+        .sub_title2{
+            font-size: 0.75rem;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
     .flex {
         @include flex()
     }

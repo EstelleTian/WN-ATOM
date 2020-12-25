@@ -68,7 +68,7 @@ const GaugeChart = (props) => {
                     name: '',
                     type: 'gauge',
                     detail: {formatter: '{value}%', fontSize: 20, offsetCenter: [0, "-20%"],},
-                    data: [{value: props.value, name: '正常率'}],
+                    data: [{value: props.value, name: '预计延误率'}],
                     pointer: {
                         width: 1
                     },
@@ -76,7 +76,7 @@ const GaugeChart = (props) => {
                         show: true,
                         color:"#e7f1fa",
                         offsetCenter: [0, "55%"],
-                        fontSize: 20
+                        fontSize: 14
                     },
                     axisLabel: {
                         show: false

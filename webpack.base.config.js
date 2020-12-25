@@ -1,8 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
-const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const { getThemeVariables } = require('antd/dist/theme');
 
 module.exports = {
     entry: {
@@ -28,49 +27,50 @@ module.exports = {
             },
             {
                 test: /\.(css|less)$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        {
-                            loader:'css-loader'
-                        },
-                        {
-                            loader:'postcss-loader'
-                        },
-                        {
-                            loader:'less-loader',
-                            options: {
-                                javascriptEnabled: true,
-                            }
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader:'css-loader'
+                    },
+                    {
+                        loader:'postcss-loader'
+                    },
+                    {
+                        loader:'less-loader',
+                        options: {
+                            modifyVars: getThemeVariables({
+                                dark: true, // 开启暗黑模式
+
+                            }),
+                            javascriptEnabled: true,
+
                         }
-                    ]
-                }),
+                    }
+                ]
             },
             {
                 test: /\.scss/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        {
-                            loader:'css-loader'
-                        },
-                        {
-                            loader:'postcss-loader'
-                        },
-                        {
-                            loader:'sass-loader',
-                            options: {
-                                sourceMap: true
-                            }
-                        },
-                        {
-                            loader: 'sass-resources-loader',
-                            options: {
-                                resources: ['./src/common.scss']
-                            }
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader:'css-loader'
+                    },
+                    {
+                        loader:'postcss-loader'
+                    },
+                    {
+                        loader:'sass-loader',
+                        options: {
+                            sourceMap: true
                         }
-                    ]
-                }),
+                    },
+                    {
+                        loader: 'sass-resources-loader',
+                        options: {
+                            resources: ['./src/common.scss']
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(eot|woff|eot|ttf|svg)$/,
@@ -99,9 +99,9 @@ module.exports = {
             template: __dirname + '/src/index.html',
             inject: 'body'
         }),
-        new ExtractTextPlugin({
+        new MiniCssExtractPlugin({
             filename: 'css/[name][hash:8].css',
-            allChunks: true
+            chunkFilename: "css/[id].css"
         }),
     ],
     optimization: {
@@ -123,26 +123,6 @@ module.exports = {
                     enforce: true
                 }
             }
-        },
-        // minimizer: [
-        //     new UglifyJSPlugin({
-        //         uglifyOptions: {
-        //             sourceMap: true,
-        //             compress: {
-        //                 drop_console: true,
-        //                 conditionals: true,
-        //                 unused: true,
-        //                 comparisons: true,
-        //                 dead_code: true,
-        //                 if_return: true,
-        //                 join_vars: true,
-        //                 warnings: false
-        //             },
-        //             output: {
-        //                 comments: false
-        //             }
-        //         }
-        //     })
-        // ]
+        }
     }
 };

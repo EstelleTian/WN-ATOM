@@ -19,8 +19,7 @@ import { columns ,data} from '../../components/FlightTable/TableColumns'
 import { getDayTimeFromString } from '../../utils/basic-verify'
 import './FlightTable.scss';
 
-@inject("flightTableData")
-@observer
+
 
 
 // FlightTable.ProtoTypes = {
@@ -30,14 +29,15 @@ import './FlightTable.scss';
 //     columns: ProtoTypes.object,
 //
 // }
+// class FlightTableConten extends React.Component{
+//     render(){
+//         return
+//     }
+// }
 
+@inject("flightTableData")
+@observer
 class FlightTable extends React.Component{
-    constructor( props ){
-        super(props);
-    }
-
-
-
     /**
      * @function 设置表格行的 class
      * @param {array} record 当前行数据
@@ -101,72 +101,32 @@ class FlightTable extends React.Component{
         return list.map((flight,index) => this.formatSingleFlight(flight))
     };
 
-
-    updateFlightTableData = flightData => {
-       let  { flights } = flightData;
-       console.log(flights)
-       this.props.flightTableData.updateList(flights)
-    };
-
-
-    requestErr(err){
-        message.error('航班列表数据获取失败'+err);
-    }
-
-    requestFlightTableData(id = "1") {
-
-        const opt = {
-            url:'http://192.168.243.8:29890/tactic/' + id,
-            method:'GET',
-            params:{},
-            resFunc: (data)=> this.updateFlightTableData(data),
-            errFunc: (err)=> this.requestErr(err),
-        };
-        request(opt);
-    }
-
-
-    componentWillMount(){
-        const arr = ["1","2","3","4"];
-
-        // setInterval(()=>{
-        //     var id = Math.floor(Math.random()+4);
-        //     this.requestFlightTableData(id)
-        // },3000)
-
-        this.requestFlightTableData();
-
-    }
-
     render(){
-
+        console.log("航班列表 render---");
         const flightTableData = this.props.flightTableData;
         const { list } = flightTableData;
         const data = this.coverFlightTableData(list);
-
-
         return (
             <ModalBox
                 className="flight_canvas"
                 title="航班列表"
             >
-                <Table
-                    columns={columns}
-                    dataSource={ data }
-                    size="small"
-                    bordered
-                    pagination={false}
-                    // onRow={onRow}
-                    rowClassName={(record, index)=>this.setRowClassName(record, index)}
+            <Table
+                columns={columns}
+                dataSource={ data }
+                size="small"
+                bordered
+                pagination={false}
 
-                />
+                // onRow={onRow}
+                rowClassName={(record, index)=>this.setRowClassName(record, index)}
+            />
             </ModalBox>
+
         )
     }
-
-
-
 }
+
 //航班列表
 // function FlightTable(){
 //   let [tableWidth, setWidth] = useState(0);
@@ -252,6 +212,18 @@ class FlightTable extends React.Component{
 //   </ResizeObserver>
 // )
 // }
-
+// @inject("schemeListData")
+// @observer
+// class FlightTableContainer extends React.Component{
+//     render(){
+//         const schemeId = this.props.schemeListData.schemeId;
+//         console.log("activeScheme:",schemeId);
+//         return(
+//
+//                 <FlightTable schemeId={schemeId}  />
+//
+//             )
+//         }
+// }
 
 export default FlightTable

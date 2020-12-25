@@ -5,7 +5,6 @@
  */
 const path = require('path');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpackConfigBase = require("./webpack.base.config");
 const WebpackMerge = require("webpack-merge");
 
@@ -18,16 +17,12 @@ const webpackConfigDev = {
         new OpenBrowserPlugin({
             url: `http://localhost:${port}`
         }),
-        new ExtractTextPlugin({
-            filename: 'css/[name][hash:8].css',
-            allChunks: true
-        }),
     ],
     devServer: {
         compress: false, // 启用gzip压缩
         contentBase: path.join(__dirname, 'src'),
         port: port, // 运行端口3000
-        inline: true,
+        inline: false,
         hot: true,
         host: '0.0.0.0',
         historyApiFallback: true,

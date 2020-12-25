@@ -7,12 +7,11 @@
  * @FilePath: \WN-CDM\src\stores\stores.jsx
  */
 import { schemeListData } from './schemeStores'
-import { timeLineList } from './timelineStores'
 import { newsList } from './newsStores'
 import { flightTableData } from './flightTableStores'
 
 export { 
-    schemeListData, timeLineList,
+    schemeListData, 
     newsList, flightTableData
  };
 

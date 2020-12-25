@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2020-12-24 17:32:57
+ * @LastEditTime: 2020-12-24 19:19:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -45,7 +45,7 @@ function TodoPage(){
                         </ModalBox>
                     </div>
                     <div className="cont_center">
-                        <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+                        {/***/} <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
                             <FlightTable />
                         </Suspense>
                         
@@ -54,15 +54,15 @@ function TodoPage(){
                         <ModalBox 
                             title="方案列表"
                         >
-                            <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
-                        <SchemeList />
-                        </Suspense>
+                            {/***/} <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+                                <SchemeList />
+                                </Suspense>
                             
                         </ModalBox>
                     </div>
                 </div>
         
-        </Layout>       
+        </Layout>
     )
     
 }

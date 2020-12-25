@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2020-12-22 19:24:44
+ * @LastEditTime: 2020-12-24 19:07:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -17,6 +17,8 @@ class SchemeItem{
      @observable active = false
     // 方案名称
     @observable tacticName = ""
+    // 方案状态
+    @observable tacticStatus = ""
     // 方案发布单位
     @observable tacticPublishUnit = ""
     // 方案发布用户
@@ -27,9 +29,13 @@ class SchemeItem{
     @observable trafficFlowDomainMap = {}
     // 方案来源
     @observable tacticSource = ""
-    // 方案时间信息对象
-    @observable tacticTimeInfo = {}
-    
+    // 方案原因
+    @observable basicTacticInfoReason = ""
+    // 方案备注
+    @observable basicTacticInfoRemark = ""
+
+
+
     constructor( opt ){
         makeObservable(this)
         for( let key in opt ){
@@ -45,9 +51,9 @@ class SchemeItem{
             }
         }
     }
-    // 方案状态切换
-    @action toggleActive( ){
-        this.active = !this.active;
+    // 方案状态激活
+    @action toggleActive( flag ){
+        this.active = flag;
     }
 
 }
@@ -58,6 +64,8 @@ class SchemeListData{
     }
     // 方案列表
     @observable list = [];
+    //方案id
+    @observable schemeId = "";
     // 增加方案-单条
     @action addScheme( opt ){
         const item = new SchemeItem(opt);
@@ -74,7 +82,7 @@ class SchemeListData{
     @action delScheme( schemeItem ){
         this.list.remove( schemeItem );
     }
-
+    // 更新方案-多条
     @action updateList( arr ){
         const len = this.list.length;
         arr.map( item => {
@@ -102,11 +110,33 @@ class SchemeListData{
             return false
         }
     } 
-    
-
+    //查找激活方案的id
+    @computed get activeScheme(){
+        let id = "";
+        let activeList = this.list.filter( todo => todo.active );
+        if( activeList.length > 0 ){
+            id = activeList[0].id;
+        }
+        return id;
+    }
+    //激活选中方案，重置其他方案
+    @action toggleSchemeActive( id ){
+        this.list.map( todo => {
+            const todoid = todo.id;
+            if( id === todoid ){
+                todo.toggleActive( true );
+            }else{
+                todo.toggleActive( false );
+            }
+        } );
+    }
+    // 增加航班-单条
+    @action setActiveSchemeId( id ){
+        console.log("setActiveSchemeId:", id);
+        this.schemeId = id;
+    }
 }
 
 let schemeListData = new SchemeListData();
-
 
 export { schemeListData }

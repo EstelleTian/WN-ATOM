@@ -43,6 +43,7 @@ class FlightTableData{
     }
     // 列表
     @observable list = [];
+
     // 增加航班-单条
     @action addFlight( opt ){
         const item = new FlightItem(opt);
@@ -72,38 +73,31 @@ class FlightTableData{
     }
 
     @action updateList( arr ){
-        const len = this.list.length;
-        arr.map( item => {
-            const id = item.id;
-            //检验list有没有同id的航班
-            let hasFlight = this.list.filter( todo => id === todo.id).length === 0 ? false : true;
-
-            //没有同id的就添加一条
-            if( len === 0 || hasFlight === false ){
-                const itemIns = new FlightItem(item);
-                this.list.unshift( itemIns );
-            }else{
-                //有同id的 更新数据
-                this.list.filter( (flight, index)=> {
-                    if(flight.id == item.id){
-                        const itemIns = new FlightItem(item);
-                        this.list.splice(index, 1, itemIns);
-                    }
-                });
-
-            }
-            
-        })
+        this.list = arr;
+        // const len = this.list.length;
+        // arr.map( item => {
+        //     const id = item.id;
+        //     //检验list有没有同id的航班
+        //     let hasFlight = this.list.filter( todo => id === todo.id).length === 0 ? false : true;
+        //
+        //     //没有同id的就添加一条
+        //     if( len === 0 || hasFlight === false ){
+        //         const itemIns = new FlightItem(item);
+        //         this.list.unshift( itemIns );
+        //     }else{
+        //         //有同id的 更新数据
+        //         this.list.filter( (flight, index)=> {
+        //             if(flight.id == item.id){
+        //                 const itemIns = new FlightItem(item);
+        //                 this.list.splice(index, 1, itemIns);
+        //             }
+        //         });
+        //
+        //     }
+        //
+        // })
     }
-    //查找有没有激活的航班
-    @computed get hasSelectedFlight(){
-        let len = this.list.filter( todo => todo.selected).length;
-        if( len > 0 ){
-            return true
-        }else{
-            return false
-        }
-    } 
+
     
 
 }
