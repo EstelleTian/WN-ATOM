@@ -113,6 +113,7 @@ class SchemeList extends React.Component{
             return basicTacticInfo;
         })
         this.props.schemeListData.updateList(list)
+        this.handleActive(list[0].id)
     }
     requestErr(err){
         message.error('方案列表获取失败'+err);
@@ -137,6 +138,7 @@ class SchemeList extends React.Component{
         if( flights !== null ){
             this.props.flightTableData.updateList(flights)
         }
+
 
     };
 

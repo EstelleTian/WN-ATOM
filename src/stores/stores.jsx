@@ -11,7 +11,7 @@ import { newsList } from './newsStores'
 import { flightTableData } from './flightTableStores'
 
 export { 
-    schemeListData, 
+    schemeListData,
     newsList, flightTableData
  };
 
