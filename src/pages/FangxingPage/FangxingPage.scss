@@ -8,7 +8,8 @@
         @include display_flex();
         .cont_left{
             @include display_flex(column);
-            @include flex(2);
+            //@include flex(2);
+            width: 500px;
             .timeline_dom{
                 height: 100%;
                 >div{
@@ -29,8 +30,8 @@
             @include flex(5);
         }
         .cont_right{
-            // width: 400px;
-            @include flex(2);
+             width: 500px;
+            //@include flex(2);
             @include display_flex(column);
         }
     }

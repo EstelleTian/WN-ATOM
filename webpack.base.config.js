@@ -4,6 +4,7 @@
  * @date 2020-12-25
  */
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const { getThemeVariables } = require('antd/dist/theme');
@@ -117,7 +118,9 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'css/[name][hash:8].css',
             chunkFilename: "css/[id].css"
-        })
+        }),
+        // moment 只打包 cn locale
+        new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
     ],
     optimization: {
         splitChunks: {

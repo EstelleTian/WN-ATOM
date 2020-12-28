@@ -83,7 +83,6 @@ const render = (opt)  => {
     }else {
         return <div className="ccc">{text}</div>
     }
-
 }
 
 
@@ -91,7 +90,7 @@ const render = (opt)  => {
 const names = {
     "FLIGHTID":{
         "en":"FLIGHTID",
-        "cn":"CallSign"
+        "cn":"航班号"
     },
     "ALARM":{
         "en":"ALARM",
@@ -99,52 +98,23 @@ const names = {
     },
     "TASK":{
         "en":"TASK",
-        "cn":"TASK"
+        "cn":"优先级"
     },
-    "EAP":{
-        "en":"EAP",
-        "cn":"EAP"
-    },
-    "EAPT":{
-        "en":"EAPT",
-        "cn":"EAPT"
-    },
-    "OAP":{
-        "en":"OAP",
-        "cn":"OAP"
-    },
-    "OAPT":{
-        "en":"OAPT",
-        "cn":"OAPT"
-    },
-    "ACTYPE":{
-        "en":"ACTYPE",
-        "cn":"ACTYPE"
-    },
-
     "ADEP":{
         "en":"ADEP",
-        "cn":"ADEP"
+        "cn":"起飞机场"
     },
     "ADES":{
         "en":"ADES",
-        "cn":"ADES"
+        "cn":"降落机场"
     },
     "SOBT":{
         "en":"SOBT",
         "cn":"SOBT"
-    },
-    "EOBT":{
+    }
+    ,"EOBT":{
         "en":"EOBT",
         "cn":"EOBT"
-    },
-    "TOBT":{
-        "en":"TOBT",
-        "cn":"TOBT"
-    },
-    "COBT":{
-        "en":"COBT",
-        "cn":"COBT"
     },
     "CTOT":{
         "en":"CTOT",
@@ -153,10 +123,6 @@ const names = {
     "ATOT":{
         "en":"ATOT",
         "cn":"ATOT"
-    },
-    "FETA":{
-        "en":"FETA",
-        "cn":"FETA"
     },
     "FFIX":{
         "en":"FFIX",
@@ -174,12 +140,42 @@ const names = {
         "en":"ETO",
         "cn":"ETO"
     },
-
+    "EAP":{
+        "en":"EAP",
+        "cn":"EAP"
+    },
+    "EAPT":{
+        "en":"EAPT",
+        "cn":"EAPT"
+    },
+    "OAP":{
+        "en":"OAP",
+        "cn":"OAP"
+    },
+    "OAPT":{
+        "en":"OAPT",
+        "cn":"OAPT"
+    },
+    "FETA":{
+        "en":"FETA",
+        "cn":"FETA"
+    },
+    "TOBT":{
+        "en":"TOBT",
+        "cn":"TOBT"
+    },
+    "COBT":{
+        "en":"COBT",
+        "cn":"COBT"
+    },
+    "ACTYPE":{
+        "en":"ACTYPE",
+        "cn":"机型"
+    },
     "STATUS":{
         "en":"STATUS",
         "cn":"状态"
-    },
-
+    }
 }
 
 const columns = [

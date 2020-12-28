@@ -15,6 +15,53 @@ import { columns ,data} from 'components/FlightTable/TableColumns'
 import { getDayTimeFromString, formatTimeString } from 'utils/basic-verify'
 import './FlightTable.scss';
 
+const formatSingleFlight = flight => {
+    let { alarmField, taskField, eapField, oapField, tobtField, cobtField, ctotField, fmeToday, ffixField, ctoField, etoField, } = flight;
+    alarmField = alarmField || {};
+    taskField = taskField || {};
+    eapField = eapField || {};
+    oapField = oapField || {};
+    tobtField = tobtField || {};
+    tobtField = tobtField || {};
+    cobtField = cobtField || {};
+    ctotField = ctotField || {};
+    fmeToday = fmeToday || {};
+    ffixField = ffixField || {};
+    ctoField = ctoField || {};
+    etoField = etoField || {};
+    let taskVal = taskField.value || "";
+    if( taskVal === "null" ){
+        taskVal = ""
+    }
+    let flightObj = {
+        key: flight.id,
+        id: flight.id,
+        FLIGHTID: flight.flightid,
+        ALARM: alarmField.value,
+        TASK: taskVal,
+        EAP: eapField.name,
+        EAPT: getDayTimeFromString(eapField.value),
+        OAP: oapField.name,
+        OAPT: getDayTimeFromString(oapField.value),
+        ACTYPE: flight.aircrafttype,
+        DEPAP:  flight.depap,
+        ADES: flight.arrap,
+        SOBT: getDayTimeFromString(flight.sobt),
+        EOBT: getDayTimeFromString(fmeToday.PDeptime),
+        TOBT: getDayTimeFromString(tobtField.value),
+        COBT: getDayTimeFromString(cobtField.value),
+        CTOT: getDayTimeFromString(ctotField.value),
+        ATOT: getDayTimeFromString(fmeToday.RDeptime),
+        FETA: getDayTimeFromString(flight.formerArrtime),
+        FFIX: ffixField.name,
+        FFIXT:getDayTimeFromString(ffixField.value) ,
+        CTO: getDayTimeFromString(ctoField.value),
+        ETO: getDayTimeFromString(etoField.value),
+        STATUS: flight.status,
+    }
+    return flightObj;
+};
+
 function FlightTable(props){
     let [tableWidth, setWidth] = useState(0);
     let [tableHeight, setHeight] = useState(0);
@@ -30,53 +77,6 @@ function FlightTable(props){
         return className;
     };
 
-    const formatSingleFlight = flight => {
-        let { alarmField, taskField, eapField, oapField, tobtField, cobtField, ctotField, fmeToday, ffixField, ctoField,etoField, } = flight;
-        alarmField = alarmField || {};
-        taskField = taskField || {};
-        eapField = eapField || {};
-        oapField = oapField || {};
-        tobtField = tobtField || {};
-        tobtField = tobtField || {};
-        cobtField = cobtField || {};
-        ctotField = ctotField || {};
-        fmeToday = fmeToday || {};
-        ffixField = ffixField || {};
-        ctoField = ctoField || {};
-        etoField = etoField || {};
-        let taskVal = taskField.value || "";
-        if( taskVal === "null" ){
-            taskVal = ""
-        }
-        let flightObj = {
-            key: flight.id,
-            id: flight.id,
-            FLIGHTID: flight.flightid,
-            ALARM: alarmField.value,
-            TASK: taskVal,
-            EAP: eapField.name,
-            EAPT: getDayTimeFromString(eapField.value),
-            OAP: oapField.name,
-            OAPT: getDayTimeFromString(oapField.value),
-            ACTYPE: flight.aircrafttype,
-            DEPAP:  flight.depap,
-            ADES: flight.arrap,
-            SOBT: getDayTimeFromString(flight.sobt),
-            EOBT: getDayTimeFromString(flight.eobt),
-            TOBT: getDayTimeFromString(tobtField.value),
-            COBT: getDayTimeFromString(cobtField.value),
-            CTOT: getDayTimeFromString(ctotField.value),
-            ATOT: getDayTimeFromString(fmeToday.RDeptime),
-            FETA: getDayTimeFromString(flight.formerArrtime),
-            FFIX: ffixField.name,
-            FFIXT:getDayTimeFromString(ffixField.value) ,
-            CTO: getDayTimeFromString(ctoField.value),
-            ETO: getDayTimeFromString(etoField.value),
-            STATUS: flight.status,
-
-        }
-        return flightObj;
-    };
     //转换为表格数据
     const coverFlightTableData = list => {
         return list.map((flight,index) => formatSingleFlight(flight))
@@ -85,15 +85,31 @@ function FlightTable(props){
       const dom = document.getElementsByClassName("flight_canvas")[0];
       let width = dom.offsetWidth;
       let height = dom.offsetHeight;
-      height -= 31;
+      height -= 40;
       height -= 39;
       setWidth( width );
       setHeight( height );
 
   }, [tableWidth, tableHeight])
 
+    //过滤值处理
     const filterInput = (data) => {
-        return data
+        if( searchVal === "" ){
+            return data;
+        }
+        let newArr = data.filter( flight => {
+            for(let key in flight){
+                let val = flight[key] || ""
+                val = val + ""
+                val = val.toLowerCase();
+                const sVal = searchVal.toLowerCase();
+                if( val.indexOf( sVal ) !== -1 ){
+                    return true
+                }
+            }
+            return false
+        } )
+        return newArr
     }
     const flightTableData = props.flightTableData;
     const { list, generateTime } = flightTableData;
