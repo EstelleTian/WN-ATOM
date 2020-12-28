@@ -9,7 +9,6 @@
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
 
-
 // 环形饼图
 const PieChart = (props) => {
     const getOption = function () {

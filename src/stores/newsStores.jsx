@@ -45,13 +45,14 @@ class NewsList{
     //消息数据
     @observable list = [];
 
-
-
     //插入消息
     @action addNews( newList ){
         newList.map( item => this.list.unshift( item ))
     }
-
+    // 清空消息
+    @action emptyNews(){
+        this.list = [];
+    }
     //删除消息
     @action delNew( item ){
         this.list.remove( item );

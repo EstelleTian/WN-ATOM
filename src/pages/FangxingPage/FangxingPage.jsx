@@ -6,11 +6,9 @@
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
-import React, {Component, lazy, Suspense} from 'react';
+import React, { lazy, Suspense} from 'react';
 import { Layout, Spin } from 'antd';
 import { withRouter } from 'react-router-dom';
-// import FlightTable from 'components/FlightTable/FlightTable'
-// import SchemeList from 'components/SchemeList/SchemeList'
 import ExecuteKPI  from 'components/ExecuteKPI/ExecuteKPI'
 import FlightSearch  from 'components/FlightSearch/FlightSearch'
 import NavBar  from 'components/NavBar/NavBar.jsx';

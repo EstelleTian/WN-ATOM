@@ -1,3 +1,8 @@
+/*
+ * @file webpack配置文件
+ * @author liutianjiao
+ * @date 2020-12-25
+ */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
@@ -51,12 +56,10 @@ module.exports = {
             {
                 test: /\.scss/,
                 use: [
+                    'css-hot-loader',
                     MiniCssExtractPlugin.loader,
                     {
                         loader:'css-loader'
-                    },
-                    {
-                        loader:'postcss-loader'
                     },
                     {
                         loader:'sass-loader',
@@ -97,12 +100,24 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: __dirname + '/src/index.html',
-            inject: 'body'
+            inject: 'body',
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeRedundantAttributes: true,
+                useShortDoctype: true,
+                removeEmptyAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                keepClosingSlash: true,
+                minifyJS: true,
+                minifyCSS: true,
+                minifyURLs: true,
+            }
         }),
         new MiniCssExtractPlugin({
             filename: 'css/[name][hash:8].css',
             chunkFilename: "css/[id].css"
-        }),
+        })
     ],
     optimization: {
         splitChunks: {

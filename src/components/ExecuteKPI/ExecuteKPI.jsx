@@ -25,29 +25,29 @@ const SchemePage =(props) => {
             <Row className="row_model">
                 <Col span={10} className="impact">
                     <div className="title">影响航班</div>
-                    <div className="num">79</div>
+                    <div className="num">—</div>
                     <div className="sub_title">架次</div>
                 </Col>
                 <Col span={14}>
                     <Row>
                         <Col span={12} className="impact_sub">
                             <div className="title">临界航班</div>
-                            <div className="num">79<span className="sub_title2">架次</span></div>
+                            <div className="num">—<span className="sub_title2">架次</span></div>
                         </Col>
                         <Col span={12} className="impact_sub">
                             <div className="title">申请协调航班</div>
-                            <div className="num">79<span className="sub_title2">架次</span></div>
+                            <div className="num">—<span className="sub_title2">架次</span></div>
                             
                         </Col>
                     </Row>
                     <Row>
                         <Col span={12} className="impact_sub">
                             <div className="title">入池航班</div>
-                            <div className="num">79<span className="sub_title2">架次</span></div>
+                            <div className="num">—<span className="sub_title2">架次</span></div>
                         </Col>
                         <Col span={12} className="impact_sub">
                             <div className="title">关舱门等待航班</div>
-                            <div className="num">79<span className="sub_title2">架次</span></div>
+                            <div className="num">—<span className="sub_title2">架次</span></div>
                         </Col>
                     </Row>
                 </Col>
@@ -97,7 +97,7 @@ const SchemePage =(props) => {
                 </Col>
                 <Col span={14} className="impact_sub">
                     <div className="title">平均跳变次数</div>
-                    <div className="num">3<span className="sub_title2">次</span></div>
+                    <div className="num">—<span className="sub_title2">次</span></div>
                 </Col>
             </Row>
         </div>

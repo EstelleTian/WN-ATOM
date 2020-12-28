@@ -225,8 +225,7 @@ for(let key in names){
             return 0;
         }
     }
-    if( en === "FLOWCONTROL_POINT_PASSTIME"){
-
+    if( en === "FFIXT"){
         tem["defaultSortOrder"] ='ascend'
     }
     if( en === "FLIGHTID" ){

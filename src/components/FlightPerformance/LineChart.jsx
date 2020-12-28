@@ -8,8 +8,7 @@
  */
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
-
-import { getFullTime, addStringTime } from '../../utils/basic-verify'
+import { getFullTime, addStringTime } from 'utils/basic-verify'
 
 //堆叠区域图
 const LineChart =(props) => {

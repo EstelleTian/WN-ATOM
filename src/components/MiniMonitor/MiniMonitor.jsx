@@ -11,11 +11,8 @@ import ReactEcharts from 'echarts-for-react'
 import ModalBox from '../ModalBox/ModalBox'
 import "./MiniMonitor.scss"
 
-
 function MiniMonitor(props){
-
     return (
-        
             <ModalBox title={props.title} style={{width: '180px', height: '140px', margin: '10px 5px 0 5px'}}  className={props.className}>
                 <ReactEcharts
                 option={props.option}

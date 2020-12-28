@@ -43,6 +43,8 @@ class FlightTableData{
     }
     // 列表
     @observable list = [];
+    //数据时间
+    @observable generateTime = "";
 
     // 增加航班-单条
     @action addFlight( opt ){
@@ -72,8 +74,9 @@ class FlightTableData{
         this.list.unshift( item );
     }
 
-    @action updateList( arr ){
+    @action updateList( arr, generateTime ){
         this.list = arr;
+        this.generateTime = generateTime;
         // const len = this.list.length;
         // arr.map( item => {
         //     const id = item.id;

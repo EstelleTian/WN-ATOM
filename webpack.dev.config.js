@@ -1,21 +1,28 @@
 /*
  * @file webpack配置文件(开发环境)
  * @author liutianjiao
- * @date 2017-09-05
+ * @date 2020-12-25
  */
 const path = require('path');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const webpackConfigBase = require("./webpack.base.config");
 const WebpackMerge = require("webpack-merge");
-
+const WebpackBar = require('webpackbar');
+const webpack = require('webpack');
 const port = 3033;
 
 const webpackConfigDev = {
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'inline-source-map',
     mode:'development',
     plugins: [
         new OpenBrowserPlugin({
             url: `http://localhost:${port}`
+        }),
+        // HMR
+        new webpack.HotModuleReplacementPlugin(),
+        new WebpackBar({
+            color: '#0096f5',
+            name: 'frontend',
         }),
     ],
     devServer: {

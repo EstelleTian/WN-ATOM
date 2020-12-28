@@ -11,9 +11,6 @@ import { Badge } from 'antd';
 
 
 const List =(props) => {
-
-
-
     const getListData = function () {
         const { listData =[] } = props;
 
@@ -28,10 +25,7 @@ const List =(props) => {
                 </li>
             )
         })
-
-
     };
-
     return(
         <div>
             <ul className="ant-list-items">

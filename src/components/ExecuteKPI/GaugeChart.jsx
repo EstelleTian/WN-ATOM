@@ -110,7 +110,6 @@ const GaugeChart = (props) => {
                 style={props.style}
                 className='react_for_echarts'
             />
-
         </div>
     )
 }

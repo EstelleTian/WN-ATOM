@@ -82,6 +82,7 @@ class SchemeListData{
     @action delScheme( schemeItem ){
         this.list.remove( schemeItem );
     }
+
     // 更新方案-多条
     @action updateList( arr ){
         const len = this.list.length;
