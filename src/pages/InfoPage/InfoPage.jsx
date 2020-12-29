@@ -7,7 +7,7 @@
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
  */
 import React, {useEffect, useState} from 'react'
-import { Layout, Button, Collapse   } from 'antd'
+import { Layout, Button, Collapse, Row, Col } from 'antd'
 import { DeleteOutlined, AlertOutlined, WarningOutlined, MailOutlined } from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
 import { Link } from  'react-router-dom'
@@ -29,7 +29,7 @@ function getLevel(level){
     return res;
 }
 
-//单个消息模块
+//单个消息-消息头
 function InfoCard(props){
     let [inProp, setInProp] = useState(true);
 
@@ -62,12 +62,12 @@ function InfoCard(props){
                         <div className="date">{ formatTimeString( sendTime ) }</div>
                         <div className="options">
                             {
-                                dataType === "FCDM" ? <Button size="small" onClick={ function(e){ openTimeSlotFrame(message) } }>查看放行监控</Button> : ""
+                                dataType === "FCDM" ? <Button className="info_btn btn_blue" size="small" onClick={ function(e){ openTimeSlotFrame(message) } }>查看放行监控</Button> : ""
                             }
                             {
                                 (dataType === "OPEI" || dataType === "FTMI") ?
                                     <div>
-                                        <Button size="small" onClick={ function(e){ sendMsgToClient(message) } } >查看容流监控</Button>
+                                        <Button className="info_btn btn_blue" size="small" onClick={ function(e){ sendMsgToClient(message) } } >查看容流监控</Button>
                                         <Link to="/restriction"  target="_blank"><Button size="small">查看流控详情</Button></Link>
                                     </div>
                                     : ""
@@ -87,12 +87,48 @@ function InfoCard(props){
 
 //单个消息模块下详情
 function InfoCardDetail(props){
+    let { message } = props;
+    let {sendTime, content, name, source } = message;
     return (
         <div className="card_detail">
-            <div>
-                <div></div>
-            </div>
+            <Row>
+                <Col span={2} className="name">时间：</Col>
+                <Col span={22} className="text send_time">{ formatTimeString( sendTime ) }</Col>
+            </Row>
+            <Row>
+                <Col span={2} className="name">名称：</Col>
+                <Col span={22} className="text send_time">{ name }</Col>
+            </Row>
+            <Row>
+                <Col span={2} className="name">来源：</Col>
+                <Col span={22} className="text send_time">{ source }</Col>
+            </Row>
+            <Row>
+                <Col span={2} className="name">内容：</Col>
+                <Col span={22} className="text send_time">{  content  }</Col>
+            </Row>
         </div>
+    )
+}
+
+//单个消息-panel模块
+function PanelList(props){
+    return (
+        <TransitionGroup className="todo-list">
+            <Collapse accordion className="info_content">
+                {
+                    props.newsList.list.map( (newItem,index) => (
+                        <Panel
+                            showArrow={false}
+                            header={ <InfoCard message={ newItem } newsList={props.newsList} /> }
+                            key={ index }
+                        >
+                            <InfoCardDetail message={ newItem  }/>
+                        </Panel>
+                    ))
+                }
+            </Collapse>
+        </TransitionGroup>
     )
 }
 //消息模块
@@ -142,17 +178,17 @@ function InfoPage(props){
                         "sendTime":"20201229125806",
                         "name":"外区流控信息",
                         "content":"202012291300  过P40往武汉方向15分钟一架   发布单位：ZHHH 202012291600-202012292000",
-                        "data":'{"id":2460917,"sourceId":"557877","source":"ATOM","sourceType":"MIT"}',
+                        "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" }',
                         "dataCode":"DATACODE_FCAO",
                         "dataType":"FTMI",
                         "level":"LEVEL_NOTICE",
                         "source":"ATOM"
                     }
-                    ]
+                ]
             };
             const { message } = msgObj;
             props.newsList.addNews(message);
-        },2000)
+        },2000 );
         stompClient();
     }, [])
     const emptyNews = () =>{
@@ -175,21 +211,8 @@ function InfoPage(props){
                      <div className="to_top"><Checkbox checked>告警置顶</Checkbox></div>*/}
                     <div className="close" onClick={()=>{ closeMessageDlg()}}>X</div>
                 </div>
-                <TransitionGroup className="todo-list">
-                    <Collapse accordion className="info_content">
-                        {
-                            newsList.list.map( (newItem,index) => (
-                                <Panel
-                                    showArrow={false}
-                                    header={<InfoCard message={ newItem } newsList={newsList} />}
-                                    key={index}>
-                                    <InfoCardDetail message={ newItem }/>
-                                </Panel>
+                <PanelList newsList={newsList}/>
 
-                            ))
-                        }
-                    </Collapse>
-                </TransitionGroup>
             </div>
         </Layout>
     )

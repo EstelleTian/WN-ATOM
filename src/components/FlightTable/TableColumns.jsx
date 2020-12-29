@@ -7,8 +7,8 @@
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
  */
 import React from 'react'
-import { isValidVariable } from '../../utils/basic-verify'
-import { Input, Button , Popover, Checkbox, DatePicker ,Space     } from 'antd'
+import { isValidVariable } from 'utils/basic-verify'
+import { Input, Button , Popover, Checkbox, DatePicker ,Space, Tooltip     } from 'antd'
 
 
 
@@ -51,7 +51,7 @@ const getContent = (opt)  =>{
     )
 }
 
-
+//右键渲染内容
 const getCell = (opt) => {
 
     const {text, record, index, col, colCN} = opt;
@@ -77,7 +77,7 @@ const getCell = (opt) => {
 
 
 const render = (opt)  => {
-    const {text, record, index, col} = opt;
+    const {text, record, index, col, colCN} = opt;
     if(isValidVariable(text)){
         return  getCell(opt);
     }else {
@@ -118,11 +118,11 @@ const names = {
     },
     "EAP":{
         "en":"EAP",
-        "cn":"入点"
+        "cn":"入区域点"
     },
     "EAPT":{
         "en":"EAPT",
-        "cn":"入点时间"
+        "cn":"入区域点时间"
     },
     "ACTYPE":{
         "en":"ACTYPE",
@@ -130,7 +130,7 @@ const names = {
     },
     "STATUS":{
         "en":"STATUS",
-        "cn":"状态"
+        "cn":"航班状态"
     },
     "DEPAP":{
         "en":"DEPAP",
@@ -140,37 +140,44 @@ const names = {
         "en":"ARRAP",
         "cn":"降落机场"
     },
-    "CTOT":{
-        "en":"CTOT",
-        "cn":"计算起飞"
+    "EOBT":{
+        "en":"EOBT",
+        "cn":"预计撤轮档时间"
     },
+    "COBT":{
+        "en":"COBT",
+        "cn":"计算预撤时间"
+    },
+     "CTOT":{
+        "en":"CTOT",
+        "cn":"计算起飞时间"
+    },
+
     "ATOT":{
         "en":"ATOT",
-        "cn":"实际起飞"
+        "cn":"实际起飞时间"
     },
     "SOBT":{
         "en":"SOBT",
         "cn":"计划撤轮档"
     },
-    "EOBT":{
-        "en":"EOBT",
-        "cn":"预计撤轮档"
-    },
+
     "TOBT":{
         "en":"TOBT",
         "cn":"目标撤轮档"
     },
-    "COBT":{
-        "en":"COBT",
-        "cn":"计算撤轮档"
-    },
+
     "OAP":{
         "en":"OAP",
-        "cn":"出点"
+        "cn":"出区域点"
     },
     "OAPT":{
         "en":"OAPT",
-        "cn":"出点时间"
+        "cn":"出区域点时间"
+    },
+    "FETA":{
+        "en":"FETA",
+        "cn":"前段降落时间"
     }
 }
 
@@ -190,24 +197,26 @@ for(let key in names){
     const obj = names[key]
     const en = obj["en"]
     const cn = obj["cn"]
-    const cnLen = cn.length;
-    let colWidth = cnLen*16+22;
-    if( colWidth < 63){
-        colWidth =  63;
-    }
     let tem = {
-        title: cn,
+        title: <span title={cn}>{en}</span>,
         dataIndex: en,
         align: 'center',
         key: en,
-        width: colWidth,
+        width: 65,
         ellipsis: true,
         className: en,
+        showSorterTooltip: false ,
     }
     //排序
     tem["sorter"] = (a,b) => {
         let data1 = a[en] + "";
+        if( data1.length > 14 ){
+            data1 = data1.substring(0,14)
+        }
         let data2 = b[en] + "";
+        if( data2.length > 14 ){
+            data2 = data1.substring(0,14)
+        }
         if (isValidVariable(data1) && isValidVariable(data2)) {
             let res = data1.localeCompare(data2);
             if (0 != res) {
@@ -222,8 +231,11 @@ for(let key in names){
         }
     }
     //默认排序
-    if( en === "FFIXT"){
+    if( en === "FFIXT" ){
         tem["defaultSortOrder"] ='ascend'
+    }
+    if( en === "FFIXT" || en === "CTO" || en === "ETO"|| en === "EAPT" || en === "OAPT"){
+        tem["width"] = 72
     }
     if( en === "FLIGHTID" ){
         tem["width"] = 80

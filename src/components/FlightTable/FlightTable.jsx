@@ -49,7 +49,7 @@ const formatSingleFlight = flight => {
         DEPAP:  flight.depap,
         ARRAP: flight.arrap,
         SOBT: getDayTimeFromString(flight.sobt),
-        EOBT: getDayTimeFromString(fmeToday.PDeptime),
+        EOBT: getDayTimeFromString(flight.eobt),
         TOBT: getDayTimeFromString(tobtField.value),
         COBT: getDayTimeFromString(cobtField.value),
         CTOT: getDayTimeFromString(ctotField.value),
@@ -57,8 +57,8 @@ const formatSingleFlight = flight => {
         FETA: getDayTimeFromString(flight.formerArrtime),
         FFIX: ffixField.name,
         FFIXT:getTimeAndStatus(ffixField.value) ,
-        CTO: getDayTimeFromString(ctoField.value),
-        ETO: getDayTimeFromString(etoField.value),
+        CTO: getTimeAndStatus(ctoField.value),
+        ETO: getTimeAndStatus(etoField.value),
         STATUS: flight.runningStatus,
     }
     return flightObj;

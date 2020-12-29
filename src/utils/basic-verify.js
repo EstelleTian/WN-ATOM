@@ -237,9 +237,12 @@ const getTimeAndStatus = ( str ) => {
     if( isValidVariable(str) && ( str.length >= 14 ) ){
         // 解析各个值
         const time = str.substring(0, 14);
-        const status = str.substring(14);
-
-        return getDayTimeFromString(time ) + ' ' + status
+        let status = "";
+        if( str.length > 14 ){
+            status = str.substring(14)
+            return getDayTimeFromString( time ) + ' ' + status
+        }
+        return getDayTimeFromString( time )
     }
     return "";
 };
