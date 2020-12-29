@@ -6,6 +6,7 @@
         position: relative;
         left: -35px;
     }
+    padding-left: 0;
 }
 .nav_right{
     float: right;
@@ -24,4 +25,27 @@
 
 .info-drawer{
     height: 256px;
+}
+.layout-column{
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+.layout-row{
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+.justify-content-center {
+    justify-content: center;
+}
+.flex-wrap {
+    flex-wrap: wrap;
+}
+.space-between {
+    justify-content: space-between;
 }
