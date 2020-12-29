@@ -4,62 +4,23 @@
  * @Date: 2020-12-09 21:19:04
  * @LastEditTime: 2020-12-22 18:35:41
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \WN-CDM\src\components\NavBar\NavBar.jsx
+ * @Description: ATOM流控详情
  */
 import React, {useEffect} from 'react'
-import { inject, observer } from 'mobx-react'
-import { withRouter } from 'react-router-dom';
-import { Layout, Badge, Avatar, Radio, Tag, Dropdown, Button, Menu, Descriptions, Checkbox , Space, Card  } from 'antd'
-import { BellOutlined, UserOutlined, PoweroffOutlined, SettingOutlined } from '@ant-design/icons'
-import Stomp from "stompjs";
-import { openMessageDlg } from 'utils/client.js'
+import { Tag, Descriptions, Checkbox , Space, Card  } from 'antd'
 import './ATOMDetail.scss'
 
-const { Header } = Layout
+
 
 //顶部导航模块
 
 function ATOMDetail(props){
-    const stompClient = () => {
-        // 建立连接
-        let ws = new WebSocket('ws://192.168.210.150:15674/ws');
-        let stompClient = Stomp.over(ws)
-        stompClient.heartbeat.outgoing = 200;
-        stompClient.heartbeat.incoming = 0;
-        stompClient.debug = null;
-        let on_connect = function (x) {
-            console.log("WebSocket连接成功:");
-            //收到限制消息
-            stompClient.subscribe("/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE" , function (d) {
-                //收到消息
-                // console.log("WebSocket收到消息:");
-                // console.log(d.body);
-                const body = d.body;
-                const msgObj = JSON.parse(body);
-                const { message } = msgObj;
-                props.newsList.addNews(message);
-            })
-        }
-
-        let on_error = function (error) {
-            console.log("WebSocket连接失败:");
-            console.log(error);
-        }
-        // 连接消息服务器
-        stompClient.connect('guest', 'guest', on_connect, on_error, '/');
-
-    }
-    useEffect(function(){
-        stompClient();
-    }, [])
 
     const options = [
         { label: '是否同意高度', value: '1' },
         { label: '起飞申请', value: '2' },
         { label: '禁航', value: '3' },
     ];
-
 
     return (
         <div>
@@ -172,6 +133,6 @@ function ATOMDetail(props){
 }
 
 
-export default inject("newsList")(observer( withRouter(ATOMDetail) ));
+export default ATOMDetail;
 
 

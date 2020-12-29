@@ -66,10 +66,12 @@ function InfoCard(props){
                             }
                             {
                                 (dataType === "OPEI" || dataType === "FTMI") ?
-                                    <div>
-                                        <Button className="info_btn btn_blue" size="small" onClick={ function(e){ sendMsgToClient(message) } } >查看容流监控</Button>
-                                        <Link to="/restriction"  target="_blank"><Button size="small">查看流控详情</Button></Link>
-                                    </div>
+                                        <span>
+                                            <Button className="info_btn btn_blue" size="small" onClick={ function(e){ sendMsgToClient(message) } } >查看容流监控</Button>
+                                            <Link to="/restriction" target="_blank"><Button size="small" onClick={ (e)=>{
+                                                sessionStorage.setItem("newsid", Math.random() )
+                                            }}>编辑</Button></Link>
+                                        </span>
                                     : ""
                             }
                         </div>
@@ -93,7 +95,10 @@ function InfoCardDetail(props){
         <div className="card_detail">
             <Row>
                 <Col span={2} className="name">时间：</Col>
-                <Col span={22} className="text send_time">{ formatTimeString( sendTime ) }</Col>
+                <Col span={8} className="text send_time">{ formatTimeString( sendTime ) }</Col>
+                <Col span={14} className="text send_time">
+
+                </Col>
             </Row>
             <Row>
                 <Col span={2} className="name">名称：</Col>
