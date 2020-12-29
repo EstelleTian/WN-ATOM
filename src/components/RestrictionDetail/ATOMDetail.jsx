@@ -24,9 +24,10 @@ function ATOMDetail(props){
 
     return (
         <div>
-            <Card title="基本信息" size="small">
-                <Descriptions  bordered column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
-                    <Descriptions.Item label="流控名称" span={2}>
+
+            <Card title="基本信息" size="small" className="advanced-card" bordered={false} >
+                <Descriptions  bordered column={{ xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
+                    <Descriptions.Item label="流控名称" span={3}>
                         ZPPP ACC起飞落地晋江
                     </Descriptions.Item>
                     <Descriptions.Item label="流控ID">
@@ -49,7 +50,7 @@ function ATOMDetail(props){
                     </Descriptions.Item>
                 </Descriptions>
             </Card>
-            <Card title="流控内容" size="small" >
+            <Card title="流控内容" size="small" className="advanced-card" bordered={false}  >
                 <Descriptions title="" bordered column={{ xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
                     <Descriptions.Item label="交接点(入点)">
                         LAGEX
