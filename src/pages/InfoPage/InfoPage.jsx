@@ -70,7 +70,7 @@ function InfoCard(props){
                                             <Button className="info_btn btn_blue" size="small" onClick={ function(e){ sendMsgToClient(message) } } >查看容流监控</Button>
                                             <Link to="/restriction" target="_blank"><Button size="small" onClick={ (e)=>{
                                                 sessionStorage.setItem("newsid", Math.random() )
-                                            }}>编辑</Button></Link>
+                                            }}>查看流控详情</Button></Link>
                                         </span>
                                     : ""
                             }

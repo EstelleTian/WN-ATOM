@@ -1,13 +1,11 @@
 
 import React, { Suspense } from  'react'
 import {Form, Input, Button, Checkbox, Spin, Row, Col} from "antd";
-import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail.jsx';
-
-
-import './RestictionPage.scss'
+import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail.jsx'
+import './RestrictionPage.scss'
 
 //限制详情
-function RestictionPage( props ) {
+function RestrictionPage(props ) {
 
     return (
         <Suspense fallback={ <div className="load_spin"><Spin tip="加载中..."/></div> }>
@@ -66,4 +64,4 @@ function RestictionPage( props ) {
 
 }
 
-export default RestictionPage
+export default RestrictionPage

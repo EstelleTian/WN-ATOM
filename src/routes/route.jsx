@@ -3,7 +3,7 @@
  * @Date: 2020-12-23 20:10:28
  * @LastEditTime: 2020-12-24 17:34:27
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @Description: 路由
  * @FilePath: \WN-ATOM\src\routes\route.jsx
  */
 import React, { Component, Suspense } from 'react';
@@ -57,20 +57,5 @@ class Routes extends Component {
         );
     }
 }
-
-// const Routes = () => (
-//
-//         <HashRouter>
-//             <Provider {...stores}>
-//             <Switch>
-//                 <Route  path="/info" component={ (props)=> <InfoPage { ...props }/> } />
-//                 <Route  exact path="/fangxing" component={ (props)=> <FangxingPage { ...props }/> } />
-//                 <Route  exact path="/total" component={ (props)=> <TotalPage { ...props } /> } />
-//                 <Redirect to="/info" />
-//             </Switch>
-//             </Provider>
-//         </HashRouter>
-//
-// );
 
 export default Routes;

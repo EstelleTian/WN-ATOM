@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 const InfoPage = lazy(() => import('../pages/InfoPage/InfoPage'));
 const FangxingPage = lazy(() => import('../pages/FangxingPage/FangxingPage'));
 const TotalPage = lazy(() => import('../pages/TotalPage/TotalPage'));
-const RestictionPage = lazy(() => import('../pages/RestictionPage/RestictionPage'));
+const RestrictionPage = lazy(() => import('../pages/RestrictionPage/RestrictionPage'));
 
 export default [
     {
@@ -26,7 +26,7 @@ export default [
     },
     {
         path: '/restriction',
-        component: withRouter(RestictionPage),
+        component: withRouter(RestrictionPage),
         exact: true,
         title: '限制流控详情',
     },
