@@ -1,6 +1,8 @@
 
 import React, { Suspense } from  'react'
 import {Form, Input, Button, Checkbox, Spin, Row, Col} from "antd";
+import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail.jsx';
+
 
 import './RestictionPage.scss'
 
@@ -17,7 +19,7 @@ function RestictionPage( props ) {
                     </Row>
                     <Row>
                         <Col>
-
+                            <ATOMDetail></ATOMDetail>
                         </Col>
                     </Row>
                 </Col>
