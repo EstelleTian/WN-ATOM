@@ -2,6 +2,7 @@
 import React, { Suspense } from  'react'
 import {Form, Input, Button, Checkbox, Spin, Row, Col} from "antd";
 import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail.jsx'
+import NTFMDetail  from 'components/RestrictionDetail/NTFMDetail.jsx'
 import './RestrictionPage.scss'
 
 //限制详情
@@ -17,7 +18,8 @@ function RestrictionPage(props ) {
                     </Row>
                     <Row>
                         <Col>
-                            <ATOMDetail></ATOMDetail>
+                            {/*<ATOMDetail></ATOMDetail>*/}
+                            <NTFMDetail></NTFMDetail>
                         </Col>
                     </Row>
                 </Col>
