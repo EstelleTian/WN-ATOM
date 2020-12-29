@@ -100,73 +100,29 @@ const names = {
         "en":"TASK",
         "cn":"优先级"
     },
-    "ADEP":{
-        "en":"ADEP",
-        "cn":"起飞机场"
-    },
-    "ADES":{
-        "en":"ADES",
-        "cn":"降落机场"
-    },
-    "SOBT":{
-        "en":"SOBT",
-        "cn":"SOBT"
-    }
-    ,"EOBT":{
-        "en":"EOBT",
-        "cn":"EOBT"
-    },
-    "CTOT":{
-        "en":"CTOT",
-        "cn":"CTOT"
-    },
-    "ATOT":{
-        "en":"ATOT",
-        "cn":"ATOT"
-    },
     "FFIX":{
         "en":"FFIX",
-        "cn":"FFix"
+        "cn":"基准点"
     },
     "FFIXT":{
         "en":"FFIXT",
-        "cn":"FFixT"
+        "cn":"基准点时间"
     },
     "CTO":{
         "en":"CTO",
-        "cn":"CTO"
+        "cn":"计算基准点"
     },
     "ETO":{
         "en":"ETO",
-        "cn":"ETO"
+        "cn":"预计基准点"
     },
     "EAP":{
         "en":"EAP",
-        "cn":"EAP"
+        "cn":"入区域点"
     },
     "EAPT":{
         "en":"EAPT",
-        "cn":"EAPT"
-    },
-    "OAP":{
-        "en":"OAP",
-        "cn":"OAP"
-    },
-    "OAPT":{
-        "en":"OAPT",
-        "cn":"OAPT"
-    },
-    "FETA":{
-        "en":"FETA",
-        "cn":"FETA"
-    },
-    "TOBT":{
-        "en":"TOBT",
-        "cn":"TOBT"
-    },
-    "COBT":{
-        "en":"COBT",
-        "cn":"COBT"
+        "cn":"入区域点时间"
     },
     "ACTYPE":{
         "en":"ACTYPE",
@@ -175,6 +131,46 @@ const names = {
     "STATUS":{
         "en":"STATUS",
         "cn":"状态"
+    },
+    "DEPAP":{
+        "en":"DEPAP",
+        "cn":"起飞机场"
+    },
+    "ARRAP":{
+        "en":"ARRAP",
+        "cn":"降落机场"
+    },
+    "CTOT":{
+        "en":"CTOT",
+        "cn":"计算起飞"
+    },
+    "ATOT":{
+        "en":"ATOT",
+        "cn":"实际起飞"
+    },
+    "SOBT":{
+        "en":"SOBT",
+        "cn":"计划撤轮档"
+    },
+    "EOBT":{
+        "en":"EOBT",
+        "cn":"预计撤轮档"
+    },
+    "TOBT":{
+        "en":"TOBT",
+        "cn":"目标撤轮档"
+    },
+    "COBT":{
+        "en":"COBT",
+        "cn":"计算撤轮档"
+    },
+    "OAP":{
+        "en":"OAP",
+        "cn":"出区域点"
+    },
+    "OAPT":{
+        "en":"OAPT",
+        "cn":"出区域点时间"
     }
 }
 
@@ -194,12 +190,17 @@ for(let key in names){
     const obj = names[key]
     const en = obj["en"]
     const cn = obj["cn"]
+    const cnLen = cn.length;
+    let colWidth = cnLen*16+22;
+    if( colWidth < 63){
+        colWidth =  63;
+    }
     let tem = {
         title: cn,
         dataIndex: en,
         align: 'center',
         key: en,
-        width: 63,
+        width: colWidth,
         ellipsis: true,
         className: en,
     }
@@ -233,6 +234,7 @@ for(let key in names){
         tem["width"] = 80
     }
     tem["render"] = (text, record, index) => {
+
         const opt = {
             text,
             record,

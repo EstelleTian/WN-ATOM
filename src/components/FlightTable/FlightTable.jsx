@@ -15,6 +15,7 @@ import { columns ,data} from 'components/FlightTable/TableColumns'
 import { getDayTimeFromString, formatTimeString } from 'utils/basic-verify'
 import './FlightTable.scss';
 
+//数据转换，将航班转化为表格格式
 const formatSingleFlight = flight => {
     let { alarmField, taskField, eapField, oapField, tobtField, cobtField, ctotField, fmeToday, ffixField, ctoField, etoField, } = flight;
     alarmField = alarmField || {};
@@ -33,6 +34,9 @@ const formatSingleFlight = flight => {
     if( taskVal === "null" ){
         taskVal = ""
     }
+    let ffixt = ffixField.value;
+    let ffixtKey = ffixt.substring(ffixt.length-1);
+        ffixt = ffixt.substring(0,14);
     let flightObj = {
         key: flight.id,
         id: flight.id,
@@ -45,16 +49,16 @@ const formatSingleFlight = flight => {
         OAPT: getDayTimeFromString(oapField.value),
         ACTYPE: flight.aircrafttype,
         DEPAP:  flight.depap,
-        ADES: flight.arrap,
+        ARRAP: flight.arrap,
         SOBT: getDayTimeFromString(flight.sobt),
         EOBT: getDayTimeFromString(fmeToday.PDeptime),
         TOBT: getDayTimeFromString(tobtField.value),
         COBT: getDayTimeFromString(cobtField.value),
         CTOT: getDayTimeFromString(ctotField.value),
-        ATOT: getDayTimeFromString(fmeToday.RDeptime),
+        ATOT: getDayTimeFromString(flight.atd),
         FETA: getDayTimeFromString(flight.formerArrtime),
         FFIX: ffixField.name,
-        FFIXT:getDayTimeFromString(ffixField.value) ,
+        FFIXT:ffixtKey+getDayTimeFromString(ffixt) ,
         CTO: getDayTimeFromString(ctoField.value),
         ETO: getDayTimeFromString(etoField.value),
         STATUS: flight.status,
@@ -79,7 +83,7 @@ function FlightTable(props){
 
     //转换为表格数据
     const coverFlightTableData = list => {
-        return list.map((flight,index) => formatSingleFlight(flight))
+        return list.map( flight => formatSingleFlight(flight) )
     };
     useEffect(() => {
       const dom = document.getElementsByClassName("flight_canvas")[0];
@@ -92,7 +96,7 @@ function FlightTable(props){
 
   }, [tableWidth, tableHeight])
 
-    //过滤值处理
+    //根据输入框输入值，检索显示航班
     const filterInput = (data) => {
         if( searchVal === "" ){
             return data;

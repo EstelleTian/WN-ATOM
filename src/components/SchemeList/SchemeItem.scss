@@ -1,5 +1,6 @@
 .list_container{
     font-size: 16px;
+    overflow-y: auto;
     .item_container{
         background-color: $bg-35;
         border: 1px solid $bg-35;

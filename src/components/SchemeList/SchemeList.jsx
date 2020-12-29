@@ -143,15 +143,12 @@ function SchemeList (props){
 
     const updateFlightTableData = flightData => {
         let  { flights, generateTime } = flightData;
-        console.log(flights)
         if( flights !== null ){
             props.flightTableData.updateList(flights, generateTime)
         }
     };
     //航班列表数据获取
     const requestFlightTableData = id => {
-        // id = props.schemeId;
-        console.log("航班列表 requestFlightTableData---",  id);
         const opt = {
             url:'http://192.168.194.21:29890/tactic/' + id,
             method:'GET',
@@ -169,7 +166,6 @@ function SchemeList (props){
 
     const schemeListData = props.schemeListData;
     const { list } = schemeListData;
-    console.log( "方案list改变了");
     return (
         <div className="list_container">
             {

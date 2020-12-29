@@ -75,7 +75,7 @@ class SchemeListData{
     @action addMultiScheme( arr ){
         arr.map( opt => {
             const item = new SchemeItem(opt);
-            this.list.unshift( item );
+            this.list.push( item );
         })
     }
     // 删除方案

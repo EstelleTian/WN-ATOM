@@ -20,17 +20,14 @@ const { Header } = Layout
 
 function NavBar(props){
     const stompClient = () => {
-        console.log("建立连接");
         // 建立连接
         let ws = new WebSocket('ws://192.168.210.150:15674/ws');
         let stompClient = Stomp.over(ws)
         stompClient.heartbeat.outgoing = 200;
         stompClient.heartbeat.incoming = 0;
         stompClient.debug = null;
-
         let on_connect = function (x) {
             console.log("WebSocket连接成功:");
-            console.log(x);
             //收到限制消息
             stompClient.subscribe("/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE" , function (d) {
                 //收到消息

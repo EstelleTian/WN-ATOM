@@ -10,6 +10,7 @@ import React, {useEffect, useState} from 'react'
 import { Layout, Button  } from 'antd'
 import { DeleteOutlined, AlertOutlined, WarningOutlined, MailOutlined } from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
+import { Link } from  'react-router-dom'
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { formatTimeString } from 'utils/basic-verify'
 import { sendMsgToClient, openTimeSlotFrame, closeMessageDlg } from 'utils/client'
@@ -38,7 +39,6 @@ function InfoCard(props){
     }
     let { message } = props;
     let {level, sendTime, content, dataType} = message;
-    console.log( message );
     level = getLevel( level );
     return (
         <CSSTransition
@@ -61,7 +61,12 @@ function InfoCard(props){
                                 dataType === "FCDM" ? <Button size="small" onClick={ function(e){ openTimeSlotFrame(message) } }>查看放行监控</Button> : ""
                             }
                             {
-                                (dataType === "OPEI" || dataType === "FTMI") ? <Button size="small" onClick={ function(e){ sendMsgToClient(message) } } >查看容流监控</Button> : ""
+                                (dataType === "OPEI" || dataType === "FTMI") ?
+                                    <div>
+                                        <Button size="small" onClick={ function(e){ sendMsgToClient(message) } } >查看容流监控</Button>
+                                        <Link to="/restriction"  target="_blank"><Button size="small">查看流控详情</Button></Link>
+                                    </div>
+                                    : ""
                             }
                         </div>
                         <div className="close" onClick={ removeCard}>X</div>

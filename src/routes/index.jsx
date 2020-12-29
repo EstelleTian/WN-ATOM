@@ -2,6 +2,7 @@ import React, { lazy } from 'react';
 const InfoPage = lazy(() => import('../pages/InfoPage/InfoPage'));
 const FangxingPage = lazy(() => import('../pages/FangxingPage/FangxingPage'));
 const TotalPage = lazy(() => import('../pages/TotalPage/TotalPage'));
+const RestictionPage = lazy(() => import('../pages/RestictionPage/RestictionPage'));
 
 export default [
     {
@@ -21,5 +22,11 @@ export default [
         component: TotalPage,
         exact: true,
         title: '总体监控',
+    },
+    {
+        path: '/restriction',
+        component: RestictionPage,
+        exact: true,
+        title: '限制流控详情',
     },
 ];
