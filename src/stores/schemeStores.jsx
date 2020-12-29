@@ -75,7 +75,7 @@ class SchemeListData{
     @action addMultiScheme( arr ){
         arr.map( opt => {
             const item = new SchemeItem(opt);
-            this.list.push( item );
+            this.list.unshift( item );
         })
     }
     // 删除方案
@@ -94,7 +94,7 @@ class SchemeListData{
             //没有同id的就添加一条
             if( len === 0 || hasScheme === false ){
                 const itemIns = new SchemeItem(item);
-                this.list.unshift( itemIns );
+                this.list.push( itemIns );
             }else{
                 //有同id的 更新数据
                 item.update(item);

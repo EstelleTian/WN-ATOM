@@ -7,7 +7,7 @@
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
  */
 import React, {useEffect, useState} from 'react'
-import { Layout, Button  } from 'antd'
+import { Layout, Button, Collapse   } from 'antd'
 import { DeleteOutlined, AlertOutlined, WarningOutlined, MailOutlined } from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
 import { Link } from  'react-router-dom'
@@ -16,6 +16,8 @@ import { formatTimeString } from 'utils/basic-verify'
 import { sendMsgToClient, openTimeSlotFrame, closeMessageDlg } from 'utils/client'
 import Stomp from 'stompjs'
 import './InfoPage.scss'
+
+const { Panel } = Collapse;
 
 function getLevel(level){
     let res = "message";
@@ -26,6 +28,8 @@ function getLevel(level){
     }
     return res;
 }
+
+//单个消息模块
 function InfoCard(props){
     let [inProp, setInProp] = useState(true);
 
@@ -81,6 +85,16 @@ function InfoCard(props){
     )
 }
 
+//单个消息模块下详情
+function InfoCardDetail(props){
+    return (
+        <div className="card_detail">
+            <div>
+                <div></div>
+            </div>
+        </div>
+    )
+}
 //消息模块
 function InfoPage(props){
     const stompClient = () => {
@@ -118,14 +132,36 @@ function InfoPage(props){
 
     }
     useEffect(function(){
+        setTimeout(function(){
+            const msgObj = {
+                "message":[
+                    {
+                        "id":2460917,
+                        "timestamp":"Dec 29, 2020 12:58:06 PM",
+                        "generateTime":"20201229125806",
+                        "sendTime":"20201229125806",
+                        "name":"外区流控信息",
+                        "content":"202012291300  过P40往武汉方向15分钟一架   发布单位：ZHHH 202012291600-202012292000",
+                        "data":'{"id":2460917,"sourceId":"557877","source":"ATOM","sourceType":"MIT"}',
+                        "dataCode":"DATACODE_FCAO",
+                        "dataType":"FTMI",
+                        "level":"LEVEL_NOTICE",
+                        "source":"ATOM"
+                    }
+                    ]
+            };
+            const { message } = msgObj;
+            props.newsList.addNews(message);
+        },2000)
         stompClient();
     }, [])
     const emptyNews = () =>{
         props.newsList.emptyNews();
     }
 
+
     const { newsList } = props;
-    console.log( newsList );
+
     const len = newsList.list.length;
     return (
         <Layout className="layout">
@@ -140,13 +176,19 @@ function InfoPage(props){
                     <div className="close" onClick={()=>{ closeMessageDlg()}}>X</div>
                 </div>
                 <TransitionGroup className="todo-list">
-                    <div className="info_content">
+                    <Collapse accordion className="info_content">
                         {
                             newsList.list.map( (newItem,index) => (
-                                <InfoCard key={index}  message={ newItem } newsList={newsList} />
+                                <Panel
+                                    showArrow={false}
+                                    header={<InfoCard message={ newItem } newsList={newsList} />}
+                                    key={index}>
+                                    <InfoCardDetail message={ newItem }/>
+                                </Panel>
+
                             ))
                         }
-                    </div>
+                    </Collapse>
                 </TransitionGroup>
             </div>
         </Layout>

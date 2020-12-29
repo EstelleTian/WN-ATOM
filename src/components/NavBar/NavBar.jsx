@@ -58,6 +58,7 @@ function NavBar(props){
     const { newsList, username, title } = props;
     const { list } = newsList;
     let newsLen = list.length;
+    console.log( "当前url是：",props.location.pathname );
     return (
         <Header className="nav_header">
             <span>{title}</span>

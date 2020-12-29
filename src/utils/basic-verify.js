@@ -218,7 +218,6 @@ const getDayTimeFromString = ( str, nomins ) => {
 const getDateFromString = ( str ) => {
     if( isValidVariable(str) && ( str.length === 12 || str.length === 14 ) ){
         // 解析各个值
-        // 解析各个值
         const year = str.substring(0, 4);
         const month = str.substring(4, 6);
         const day = str.substring(6, 8);
@@ -227,6 +226,23 @@ const getDateFromString = ( str ) => {
     }
     return "";
 };
+/**
+ * 字符串转化为时间+字母
+ *
+ * @param str  yyyyMMddHHmm A/E/C/P 15位字符串
+ * @param addMillis
+ * @returns {String}
+ */
+const getTimeAndStatus = ( str ) => {
+    if( isValidVariable(str) && ( str.length >= 14 ) ){
+        // 解析各个值
+        const time = str.substring(0, 14);
+        const status = str.substring(14);
+
+        return getDayTimeFromString(time ) + ' ' + status
+    }
+    return "";
+};
 
 export { isValidVariable, isValidObject, calculateStringTimeDiff, addStringTime, getFullTime, formatTimeString,
-    getTimeFromString, getDayTimeFromString, getDateFromString };
+    getTimeFromString, getDayTimeFromString, getDateFromString, getTimeAndStatus };

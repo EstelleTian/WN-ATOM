@@ -12,8 +12,9 @@ import { inject, observer } from 'mobx-react'
 import { Table, message, Menu, Dropdown, Input   } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { columns ,data} from 'components/FlightTable/TableColumns'
-import { getDayTimeFromString, formatTimeString } from 'utils/basic-verify'
+import { getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
 import './FlightTable.scss';
+
 
 //数据转换，将航班转化为表格格式
 const formatSingleFlight = flight => {
@@ -34,9 +35,6 @@ const formatSingleFlight = flight => {
     if( taskVal === "null" ){
         taskVal = ""
     }
-    let ffixt = ffixField.value;
-    let ffixtKey = ffixt.substring(ffixt.length-1);
-        ffixt = ffixt.substring(0,14);
     let flightObj = {
         key: flight.id,
         id: flight.id,
@@ -44,9 +42,9 @@ const formatSingleFlight = flight => {
         ALARM: alarmField.value,
         TASK: taskVal,
         EAP: eapField.name,
-        EAPT: getDayTimeFromString(eapField.value),
+        EAPT: getTimeAndStatus(eapField.value),
         OAP: oapField.name,
-        OAPT: getDayTimeFromString(oapField.value),
+        OAPT: getTimeAndStatus(oapField.value),
         ACTYPE: flight.aircrafttype,
         DEPAP:  flight.depap,
         ARRAP: flight.arrap,
@@ -58,10 +56,10 @@ const formatSingleFlight = flight => {
         ATOT: getDayTimeFromString(flight.atd),
         FETA: getDayTimeFromString(flight.formerArrtime),
         FFIX: ffixField.name,
-        FFIXT:ffixtKey+getDayTimeFromString(ffixt) ,
+        FFIXT:getTimeAndStatus(ffixField.value) ,
         CTO: getDayTimeFromString(ctoField.value),
         ETO: getDayTimeFromString(etoField.value),
-        STATUS: flight.status,
+        STATUS: flight.runningStatus,
     }
     return flightObj;
 };
@@ -87,6 +85,9 @@ function FlightTable(props){
     };
     useEffect(() => {
       const dom = document.getElementsByClassName("flight_canvas")[0];
+        dom.oncontextmenu = function(){
+            return false;
+        };
       let width = dom.offsetWidth;
       let height = dom.offsetHeight;
       height -= 40;

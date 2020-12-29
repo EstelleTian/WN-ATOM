@@ -52,8 +52,6 @@
         }
         .info_card{
             @include display_flex();
-            border-bottom: 1px solid grey;
-            margin: 0 10px 15px 0;
             position: relative;
             font-size: 18px;
             transition: left 0.6s;

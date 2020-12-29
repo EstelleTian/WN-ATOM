@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { withRouter } from 'react-router-dom';
 const InfoPage = lazy(() => import('../pages/InfoPage/InfoPage'));
 const FangxingPage = lazy(() => import('../pages/FangxingPage/FangxingPage'));
 const TotalPage = lazy(() => import('../pages/TotalPage/TotalPage'));
@@ -7,25 +8,25 @@ const RestictionPage = lazy(() => import('../pages/RestictionPage/RestictionPage
 export default [
     {
         path: '/',
-        component: InfoPage,
+        component: withRouter(InfoPage),
         exact: true,
         title: '消息中心',
     },
     {
         path: '/fangxing',
-        component: FangxingPage,
+        component: withRouter(FangxingPage),
         exact: true,
         title: '放行监控',
     },
     {
         path: '/total',
-        component: TotalPage,
+        component:withRouter(TotalPage),
         exact: true,
         title: '总体监控',
     },
     {
         path: '/restriction',
-        component: RestictionPage,
+        component: withRouter(RestictionPage),
         exact: true,
         title: '限制流控详情',
     },

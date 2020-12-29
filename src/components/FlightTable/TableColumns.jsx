@@ -65,7 +65,7 @@ const getCell = (opt) => {
             content={getContent(opt)}
             trigger={[`contextMenu`]}
         >
-            <div className="ccc">{text}</div>
+            <div className="ddd">{text}</div>
         </Popover >,
         props: {
             "col-key":col,
@@ -118,11 +118,11 @@ const names = {
     },
     "EAP":{
         "en":"EAP",
-        "cn":"入区域点"
+        "cn":"入点"
     },
     "EAPT":{
         "en":"EAPT",
-        "cn":"入区域点时间"
+        "cn":"入点时间"
     },
     "ACTYPE":{
         "en":"ACTYPE",
@@ -166,11 +166,11 @@ const names = {
     },
     "OAP":{
         "en":"OAP",
-        "cn":"出区域点"
+        "cn":"出点"
     },
     "OAPT":{
         "en":"OAPT",
-        "cn":"出区域点时间"
+        "cn":"出点时间"
     }
 }
 
@@ -204,7 +204,6 @@ for(let key in names){
         ellipsis: true,
         className: en,
     }
-
     //排序
     tem["sorter"] = (a,b) => {
         let data1 = a[en] + "";
@@ -222,6 +221,7 @@ for(let key in names){
             return 0;
         }
     }
+    //默认排序
     if( en === "FFIXT"){
         tem["defaultSortOrder"] ='ascend'
     }
@@ -230,11 +230,10 @@ for(let key in names){
         tem["fixed"] = 'left'
     }
 
-    if( en === "EXIT_POINT" || en === "EXIT_POINT_TIME" || en === "ENTRY_POINT" || en === "ENTRY_POINT_TIME" || en === "GUID"){
+    if( en === "STATUS" ){
         tem["width"] = 80
     }
     tem["render"] = (text, record, index) => {
-
         const opt = {
             text,
             record,
@@ -247,7 +246,6 @@ for(let key in names){
 
     columns.push(tem)
 }
-
 
 //表格数据
 const data = [];

@@ -8,7 +8,6 @@
  */
 import React, { lazy, Suspense} from 'react';
 import { Layout, Spin } from 'antd';
-import { withRouter } from 'react-router-dom';
 import ExecuteKPI  from 'components/ExecuteKPI/ExecuteKPI'
 import FlightSearch  from 'components/FlightSearch/FlightSearch'
 import NavBar  from 'components/NavBar/NavBar.jsx';
@@ -20,7 +19,7 @@ const SchemeList = lazy(() => import('components/SchemeList/SchemeList') );
 
 
 //放行监控布局模块
-function TodoPage(){
+function FangxingPage(props){
     return (
         <Layout className="layout">
             <NavBar className="nav_bar" title="空中交通运行放行监控系统" username="西安流量室" />
@@ -65,7 +64,7 @@ function TodoPage(){
     
 }
 
-export default withRouter(TodoPage);
+export default FangxingPage;
 
 
 
