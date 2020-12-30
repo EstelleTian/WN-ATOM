@@ -2,34 +2,71 @@
     font-size: 16px;
     overflow-y: auto;
     .item_container{
-        background-color: $bg-35;
-        border: 1px solid $bg-35;
-        margin: 5px 8px;
-        .ant-col{
-            border: 1px solid grey;
+        background-color: #343434;
+        border: 1px solid #5d5d5d;
+        border-radius: 3px;
+        margin: 10px 5px;
+        cursor: pointer;
+        .left-column {
+            flex: 1 1 50%;
+            overflow: hidden;
+            white-space: nowrap;
         }
-        &:hover{
-            cursor: pointer;
+        .right-column {
+            flex: 1 1 50%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .border-bottom{
+            border-bottom: 1px solid #5d5d5d;
+        }
+        .border-left{
+            border-left: 1px solid #5d5d5d;
+        }
+        .column-box {
+            @include flex();
+            border-left: 1px solid #5d5d5d;
+            justify-content: center;
+            text-align: center;
+        }
+        .double-column-box  {
+            @include flex(2);
+        }
+
+        .cell {
+            padding: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+        }
+        .options-box {
+            border-left: 1px solid #5d5d5d;
+            padding: 10px;
+            justify-content: flex-end;
         }
         .opt{
-            color: rgb(135, 135, 248);
-            padding-left: 10px;
+            font-size: 14px;
+            color: #36a5da;
+            padding: 0 5px;
             &:hover{
                 cursor: pointer;
             }
         }
-        
+        .tactic-name, .status {
+            color: #36a5da;
+        }
+        .tactic-name {
+            font-weight: 900;
+        }
+        .summary {
+            font-size: 14px;
+        }
+        .status, .calculate {
+            padding-right: 10px;
+        }
         .item_name{
 
-        }
-        .item_check{
-            margin: 0 10px;
-        }
-        .normal_rate{
-            display: inline-block;
-            float: right;
-            color: orange;
-            padding-right: 5px;
         }
     }
     .item_active{
