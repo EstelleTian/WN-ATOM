@@ -18,7 +18,7 @@ function TrafficFlow(props){
     return (
         <Fragment>
             <Card title={`交通流${num}`} size="small" className="" bordered={false} >
-                <Descriptions  bordered column={{ xxl: 4, xl: 4, lg: 4, md: 3, sm: 2, xs: 1 }}>
+                <Descriptions  size="small"  bordered column={4}>
                     <Descriptions.Item label="包含关系">
                         包含
                     </Descriptions.Item>

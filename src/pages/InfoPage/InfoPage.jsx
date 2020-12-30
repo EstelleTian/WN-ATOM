@@ -41,9 +41,20 @@ function InfoCard(props){
         }, 1000)
 
     }
-    let { message } = props;
-    let {level, sendTime, content, dataType} = message;
+    let { message, index } = props;
+    let {level, sendTime, content, dataType, dataCode} = message;
     level = getLevel( level );
+    console.log( index);
+    // if( index%3 === 0 ){
+    //     //原始流控
+    //     message.newType = "org"
+    // }else if( index%3 === 1 ){
+    //     //变更流控
+    //     message.newType = "update"
+    // }else if( index%3 === 2 ){
+    //     //原始流控
+    //     message.newType = "terminate"
+    // }
     return (
         <CSSTransition
             in={ inProp }
@@ -65,14 +76,17 @@ function InfoCard(props){
                                 dataType === "FCDM" ? <Button className="info_btn btn_blue" size="small" onClick={ function(e){ openTimeSlotFrame(message) } }>查看放行监控</Button> : ""
                             }
                             {
-                                (dataType === "OPEI" || dataType === "FTMI") ?
-                                        <span>
-                                            <Button className="info_btn btn_blue" size="small" onClick={ function(e){ sendMsgToClient(message) } } >查看容流监控</Button>
-                                            <Link to="/restriction" target="_blank"><Button size="small" onClick={ (e)=>{
-                                                sessionStorage.setItem("newsid", Math.random() )
-                                            }}>查看流控详情</Button></Link>
-                                        </span>
-                                    : ""
+                                (dataType === "FTMI") ?
+                                    <span>
+                                        <Button className="info_btn btn_blue" size="small" onClick={ function(e){ sendMsgToClient(message) } } >查看容流监控</Button>
+                                        <Link to="/restriction" target="_blank">
+                                            <Button size="small" onClick={ (e)=>{
+                                                sessionStorage.setItem("message", JSON.stringify(message) )
+                                                e.stopPropagation()
+                                            }}>查看流控详情{ dataCode }</Button>
+                                        </Link>
+                                    </span>
+                                : ""
                             }
                         </div>
                         <div className="close" onClick={ removeCard}>X</div>
@@ -125,10 +139,10 @@ function PanelList(props){
                     props.newsList.list.map( (newItem,index) => (
                         <Panel
                             showArrow={false}
-                            header={ <InfoCard message={ newItem } newsList={props.newsList} /> }
+                            header={ <InfoCard message={ newItem } newsList={props.newsList}  index={index} /> }
                             key={ index }
                         >
-                            <InfoCardDetail message={ newItem  }/>
+                            <InfoCardDetail message={ newItem }/>
                         </Panel>
                     ))
                 }

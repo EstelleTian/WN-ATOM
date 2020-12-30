@@ -18,7 +18,7 @@ function MITInfo(props){
     return (
         <Fragment>
             <Card title="总量间隔限制信息" size="small" className="advanced-card" bordered={false} >
-                <Descriptions  bordered column={{ xxl: 4, xl: 4, lg: 4, md: 3, sm: 2, xs: 1 }}>
+                <Descriptions   size="small" bordered column={4}>
                     <Descriptions.Item label="开始时间">
                         29/1200
                     </Descriptions.Item>

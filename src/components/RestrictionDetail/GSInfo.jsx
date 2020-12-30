@@ -18,7 +18,7 @@ function GSInfo(props){
     return (
         <Fragment>
             <Card title="地面停止限制信息" size="small" className="advanced-card" bordered={false} >
-                <Descriptions  bordered column={{ xxl: 4, xl: 4, lg: 4, md: 3, sm: 2, xs: 1 }}>
+                <Descriptions  size="small" bordered column={4}>
                     <Descriptions.Item label="开始时间">
                         29/1200
                     </Descriptions.Item>
@@ -34,7 +34,7 @@ function GSInfo(props){
                     <Descriptions.Item label="优先级">
                         1-3
                     </Descriptions.Item>
-                    <Descriptions.Item label="限制描述" span={4}>
+                    <Descriptions.Item label="限制描述" span={3}>
                         限制描述ZPPP ACC 起飞落地晋江开车申请
                     </Descriptions.Item>
                 </Descriptions>
