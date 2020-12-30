@@ -18,7 +18,7 @@ function GDPInfo(props){
     return (
         <Fragment>
             <Card title="地面延误限制信息" size="small" className="advanced-card" bordered={false} >
-                <Descriptions  bordered column={{ xxl: 4, xl: 4, lg: 4, md: 3, sm: 2, xs: 1 }}>
+                <Descriptions size="small" bordered column={4}>
                     <Descriptions.Item label="开始时间">
                         29/1200
                     </Descriptions.Item>
@@ -34,7 +34,7 @@ function GDPInfo(props){
                     <Descriptions.Item label="优先级">
                         1-3
                     </Descriptions.Item>
-                    <Descriptions.Item label="限制对象容量" span={4}>
+                    <Descriptions.Item label="限制对象容量" span={3}>
                         {/**
                          TODO 对象容量列表绘制
                          */}

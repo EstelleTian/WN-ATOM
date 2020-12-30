@@ -7,13 +7,10 @@
  * @Description: ATOM流控详情
  */
 import React, {useEffect} from 'react'
-import { Tag, Descriptions, Checkbox , Space, Card  } from 'antd'
+import { Tag, Descriptions, Checkbox , Space, Card, Row, Col  } from 'antd'
 import './ATOMDetail.scss'
 
-
-
 //顶部导航模块
-
 function ATOMDetail(props){
 
     const options = [
@@ -23,10 +20,10 @@ function ATOMDetail(props){
     ];
 
     return (
-        <div>
-
-            <Card title="基本信息" size="small" className="advanced-card" bordered={false} >
-                <Descriptions  bordered column={{ xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
+        <Row>
+            <Col span={24}>
+             <Card title="基本信息" size="small" className="advanced-card" bordered={false} >
+                <Descriptions size="small" bordered column={3}>
                     <Descriptions.Item label="流控名称" span={3}>
                         ZPPP ACC起飞落地晋江
                     </Descriptions.Item>
@@ -50,8 +47,10 @@ function ATOMDetail(props){
                     </Descriptions.Item>
                 </Descriptions>
             </Card>
+            </Col>
+            <Col span={24}>
             <Card title="流控内容" size="small" className="advanced-card" bordered={false}  >
-                <Descriptions title="" bordered column={{ xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
+                <Descriptions size="small" title="" bordered column={3}>
                     <Descriptions.Item label="交接点(入点)">
                         LAGEX
                     </Descriptions.Item>
@@ -125,11 +124,8 @@ function ATOMDetail(props){
 
                 </Descriptions>
             </Card>
-
-
-
-
-        </div>
+            </Col>
+        </Row>
     )
 }
 

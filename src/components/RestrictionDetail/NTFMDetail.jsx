@@ -8,12 +8,12 @@
  */
 import React, {useEffect} from 'react'
 import { Tag, Descriptions, Checkbox , Space, Card, Collapse  } from 'antd'
-import BasicsInfo  from 'components/RestrictionDetail/BasicsInfo.jsx'
-import MITInfo  from 'components/RestrictionDetail/MITInfo.jsx'
-import GDPInfo  from 'components/RestrictionDetail/GDPInfo.jsx'
-import AFPInfo  from 'components/RestrictionDetail/AFPInfo.jsx'
-import GSInfo  from 'components/RestrictionDetail/GSInfo.jsx'
-import TrafficFlow  from 'components/RestrictionDetail/TrafficFlow.jsx'
+import BasicsInfo  from './BasicsInfo.jsx'
+import MITInfo  from './MITInfo.jsx'
+import GDPInfo  from './GDPInfo.jsx'
+import AFPInfo  from './AFPInfo.jsx'
+import GSInfo  from './GSInfo.jsx'
+import TrafficFlow  from './TrafficFlow.jsx'
 
 import './NTFMDetail.scss'
 
@@ -33,13 +33,11 @@ function NTFMDetail(props){
 
     return (
         <div>
-            <BasicsInfo></BasicsInfo>
-            <MITInfo></MITInfo>
-            <GDPInfo></GDPInfo>
-            <AFPInfo></AFPInfo>
-            <GSInfo></GSInfo>
-
-
+            <BasicsInfo/>
+            <MITInfo/>
+            {/*<GDPInfo/>*/}
+            {/*<AFPInfo/>*/}
+            {/*<GSInfo/>*/}
             <Card  title="限制交通流" size="small" className="advanced-card" bordered={false} >
                 <TrafficFlow data={{index: 0}}  />
                 <TrafficFlow data={{index: 1}}/>

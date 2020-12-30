@@ -13,14 +13,12 @@ import { Tag, Descriptions, Checkbox , Space, Card  } from 'antd'
 //NTFM流控基础信息模块
 
 function BasicsInfo(props){
-
-
     return (
         <Fragment>
             <Card title="基本信息" size="small" className="advanced-card" bordered={false} >
-                <Descriptions  bordered column={{ xxl: 4, xl: 4, lg: 4, md: 3, sm: 2, xs: 1 }}>
+                <Descriptions  size="small"  bordered column={4}>
                     <Descriptions.Item label="流控名称" span={4}>
-                        ZPPP ACC起飞落地晋江
+                        <span>ZPPP ACC起飞落地晋江</span>
                     </Descriptions.Item>
                     <Descriptions.Item label="流控制定单位">
                         运管中心
@@ -47,10 +45,10 @@ function BasicsInfo(props){
                         军事活动
                     </Descriptions.Item>
                     <Descriptions.Item label="流控原因正文" span={4} >
-                        原因正文原因正文原因正文原因正文原因正文
+                        <span>原因正文原因正文原因正文原因正文原因正文</span>
                     </Descriptions.Item>
                     <Descriptions.Item label="流控原因补充说明" span={4}>
-                        原因补充说明原因补充说明原因补充说明
+                        <span>原因补充说明原因补充说明原因补充说明</span>
                     </Descriptions.Item>
                 </Descriptions>
             </Card>
