@@ -65,29 +65,88 @@ function  sItem(props){
          behindUnits = behindUnits.substring(0, targetUnits.length-1);
      }
      return (
-         <div className={`item_container ${item.active ? 'item_active' : ''}`}  onClick={(e)=>{ onChange(e, id) } }>
-             <Row>
-                 <Col span={14}>{tacticName}</Col>
-                 <Col span={5}>{tacticPublishUnit}</Col>
-                 <Col span={5}>{getTimeFromString(startTime)} - {getTimeFromString(endTime)}</Col>
-             </Row>
-             <Row>
-                 <Col span={8}>{ convertSatus(tacticStatus) } - { startCalculateTime == "" ? "计算中" : "已计算"}</Col>
-                 <Col span={5}>{restrictionMITValue}</Col>
-                 <Col span={5}>{targetUnits}</Col>
-                 <Col span={6}>{behindUnits}</Col>
-             </Row>
-             <Row>
-                 <Col span={18}>
-                     创建时间:<span>{getTimeFromString(publishTime)}</span>
-                     原因:<span>{basicTacticInfoReason}</span>
-                     备注:<span>{basicTacticInfoRemark}</span>
-                 </Col>
-                 <Col span={6}>
-                     {/*<span className="opt detail">详情</span>*/}
-                     <span className="opt effect">影响</span>
-                 </Col>
-             </Row>
+         <div className={`item_container layout-column ${item.active ? 'item_active' : ''}`}  onClick={(e)=>{ onChange(e, id) } }>
+             <div className="layout-row">
+                 <div className="left-column border-bottom layout-column justify-content-center">
+                    <div className="name">
+                        <div className="cell">
+                            <span className="tactic-name">{tacticName}</span>
+                        </div>
+                    </div>
+                     <div className="state">
+                         <div className="cell">
+                             <span className="status">{ convertSatus(tacticStatus) }</span>
+                             <span className="calculate">{ startCalculateTime == "" ? "计算中" : "已计算"}</span>
+                         </div>
+                     </div>
+                 </div>
+                 <div className="right-column border-bottom layout-row">
+                     <div className="layout-column">
+                         <div className="column-box  border-bottom">
+                             <div className="cell">{tacticPublishUnit}</div>
+                         </div>
+
+                         <div className="column-box">
+                             <div className="cell">{restrictionMITValue}</div>
+                         </div>
+                     </div>
+                     <div className="layout-column double-column-box">
+                         <div className="column-box  border-bottom">
+                             <div className="cell">{getTimeFromString(startTime)} - {getTimeFromString(endTime)}</div>
+                         </div>
+                         <div className="layout-row">
+                             <div className="column-box">
+                                 <div className="cell">{targetUnits}</div>
+                             </div>
+                             <div className="column-box">
+                                 <div className="cell">{behindUnits}</div>
+                             </div>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+             <div className="layout-row">
+                 <div className="left-column">
+                     <div className="summary">
+                         <div className="cell">
+                             创建时间:<span>{getTimeFromString(publishTime)}</span>
+                             原因:<span>{basicTacticInfoReason}</span>
+                             备注:<span>{basicTacticInfoRemark}</span>
+                         </div>
+                     </div>
+                 </div>
+                 <div className="right-column">
+                     <div className="options-box layout-row">
+                         <div className=" layout-row">
+                             <div className="opt">影响</div>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+             {/*<Row>*/}
+                 {/*<Col span={14}>{tacticName}</Col>*/}
+                 {/*<Col span={5}>{tacticPublishUnit}</Col>*/}
+                 {/*<Col span={5}>{getTimeFromString(startTime)} - {getTimeFromString(endTime)}</Col>*/}
+             {/*</Row>*/}
+             {/*<Row>*/}
+                 {/*<Col span={8}>{ convertSatus(tacticStatus) } - { startCalculateTime == "" ? "计算中" : "已计算"}</Col>*/}
+                 {/*<Col span={5}>{restrictionMITValue}</Col>*/}
+                 {/*<Col span={5}>{targetUnits}</Col>*/}
+                 {/*<Col span={6}>{behindUnits}</Col>*/}
+             {/*</Row>*/}
+             {/*<Row>*/}
+                 {/*<Col span={18}>*/}
+                     {/*创建时间:<span>{getTimeFromString(publishTime)}</span>*/}
+                     {/*原因:<span>{basicTacticInfoReason}</span>*/}
+                     {/*备注:<span>{basicTacticInfoRemark}</span>*/}
+                 {/*</Col>*/}
+                 {/*<Col span={6}>*/}
+                     {/*/!*<span className="opt detail">详情</span>*!/*/}
+                     {/*<span className="opt effect">影响</span>*/}
+                 {/*</Col>*/}
+             {/*</Row>*/}
          </div>
      )
 }
