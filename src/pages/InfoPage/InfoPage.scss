@@ -1,18 +1,28 @@
 .info_canvas{
-    width: 680px;
+    width: 750px;
     height: 437px;
-    background:  rgb(34,51,51);
+    background:  #313131;
     overflow: hidden;
     @include display_flex(column);
     font-size: 18px;
     
     .info_header{
-        height: 33px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        //height: 33px;
         position: relative;
-        padding: 3px 10px;
-        border-bottom: 2px solid grey;
-        >div{
-            display: inline-block;
+        padding: 10px 10px 10px 20px;
+        //border-bottom: 2px solid grey;
+        background: #2c2c2c;
+        .ant-collapse-header {
+            padding-right: 0;
+            padding-left: 0;
+        }
+        .title {
+            flex: 1;
+            font-size: 16px;
+            color: #eeeeee;
         }
         .scroll{
             position: absolute;
@@ -23,15 +33,13 @@
             right: 40px;
         }
         .radish{
-            position: absolute;
-            right: 30px;
+            padding: 0 5px;
             &:hover{
                 cursor: pointer;
             }
         }
         .close{
-            position: absolute;
-            right: 10px;
+            padding: 0 5px;
             &:hover{
                 cursor: pointer;
             }
@@ -41,8 +49,32 @@
         @include flex();
         overflow-y: auto;
         overflow-x: hidden;
+        .ant-collapse-content {
+            margin-right: 28px;
+            margin-left: 80px;
+            margin-bottom: 12px;
+            background: #2b2b2b;
+        }
+        .ant-collapse > .ant-collapse-item.ant-collapse-no-arrow > .ant-collapse-header {
+            padding-left: 0;
+        }
+        .ant-collapse-content {
+            border: none;
+        }
     }
     .info_content{
+        background:  #313131;
+        border: none;
+        .ant-collapse-header {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .ant-collapse > .ant-collapse-item {
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            border-bottom: 1px solid #383f44;
+        }
 
         >div{
             position: relative;
@@ -56,27 +88,40 @@
             font-size: 18px;
             transition: left 0.6s;
             .level_icon{
-                width: 50px;
+                width: 80px;
                 justify-content: center;
                 align-items: center;
                 @include display_flex();
             }
             .card_cont{
                 @include flex();
+                display: flex;
+                flex-direction: column;
                 position: relative;
-                >div{
-                    display: inline-block;
-                    >div{
-                        display: inline-block;
-                    }
+                .title {
+                    display: flex;
+                    flex-direction: row;
+                    padding-right: 10px;
                 }
+
                 .date{
                     padding-left: 20px;
+                    padding-right: 10px;
                 }
                 .options{
-                    >button{
-                        background: black;
-                        margin-left: 10px;
+                    flex: 1;
+                    button {
+                        margin-right: 10px;
+                        font-size: 12px;
+                    }
+                    //按钮
+                    .info_btn{
+                        background: #5b5b5b;
+                        color: #fff;
+                        border: none;
+                    }
+                    .btn_blue{
+                        background: #1b517e;
                     }
                 }
                 
@@ -89,6 +134,12 @@
                 }
                 .text{
                     display: block;
+                    &:hover{
+                        cursor: pointer;
+                    }
+                }
+                .close{
+                    padding: 0 5px;
                     &:hover{
                         cursor: pointer;
                     }
@@ -107,15 +158,8 @@
                 color: rgb(212, 189, 54);
             }
         }
-        
-        .close{
-            position: absolute;
-            right: 10px;
-            top: 0;
-            &:hover{
-                cursor: pointer;
-            }
-        }
+
+
 
         .item-enter {
             left: 680px;
@@ -133,17 +177,5 @@
           }
 
     }
-    //按钮
-    .info_btn{
-        background: grey;
-        color: #fff;
-        border: none;
-    }
-    .btn_blue{
-        background: #0e4980;
-    }
-    //单个消息详情
-    .card_detail{
-        margin-left: 50px;
-    }
+
 }
