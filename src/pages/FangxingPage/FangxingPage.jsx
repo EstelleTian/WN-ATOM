@@ -27,6 +27,7 @@ function FangxingPage(props){
                     <div className="cont_left">
                         <ModalBox 
                             title="执行KPI"
+                            showDecorator = {true}
                             className="kpi"
                         >
                             <ExecuteKPI />
@@ -36,6 +37,7 @@ function FangxingPage(props){
                             style={{
                                 height: 330
                             }}
+                            showDecorator = {true}
                             className="flight_search"
                         >
                             <FlightSearch />
@@ -50,6 +52,7 @@ function FangxingPage(props){
                     <div className="cont_right">
                         <ModalBox 
                             title="方案列表"
+                            showDecorator = {true}
                         >
                             {/***/} <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
                                 <SchemeList />
