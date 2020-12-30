@@ -35,9 +35,9 @@ function NTFMDetail(props){
         <div>
             <BasicsInfo/>
             <MITInfo/>
-            <GDPInfo/>
-            <AFPInfo/>
-            <GSInfo/>
+            {/*<GDPInfo/>*/}
+            {/*<AFPInfo/>*/}
+            {/*<GSInfo/>*/}
             <Card  title="限制交通流" size="small" className="advanced-card" bordered={false} >
                 <TrafficFlow data={{index: 0}}  />
                 <TrafficFlow data={{index: 1}}/>

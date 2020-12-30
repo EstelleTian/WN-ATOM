@@ -47,7 +47,7 @@ function FlowList(props){
                                     <Form.Item
                                         name={`resStartTime${index+1}`}
                                     >
-                                        <DatePicker showTime format="YYYY-MM-DD HH:mm"/>
+                                        <DatePicker showTime   format="YYYY-MM-DD HH:mm"/>
                                     </Form.Item>
                                 </Descriptions.Item>
                                 <Descriptions.Item label="结束时间" span={2} >

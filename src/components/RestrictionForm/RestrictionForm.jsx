@@ -8,7 +8,7 @@ import './RestrictionForm.scss'
 
 //表单整体
 function RestrictionForm(props){
-    const initialValues = {
+    let initialValues = {
         staticName: "AAA",
         origFlowContent: "BBB",
         publicUnit: "CCC",
@@ -19,19 +19,13 @@ function RestrictionForm(props){
         prevExempt: "DDD",
         nextExempt: "DDD",
         resHigh: "DDD",
-        startTime: moment(),
-        endTime: moment(),
     };
     const [form] = Form.useForm();
-    // useEffect(function(){
-    //     // form.resetFields();//重置，用以表单初始值赋值
-    // initialValues={initialValues}
-    // },[])
     return (
         <Form
             form={form}
             size="small"
-
+            initialValues={initialValues}
             onFinish={(values)=>{
                const newStartTime =  moment(values.startTime).format('YYYYMMDDHHmm');
                 console.log(values);

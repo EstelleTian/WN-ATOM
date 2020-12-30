@@ -39,7 +39,7 @@ function StaticInfoCard(props){
                     <Form.Item
                         name="startTime"
                     >
-                        <Input/>
+                        <DatePicker showTime format="YYYY-MM-DD HH:mm"/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="结束时间" >
@@ -53,7 +53,7 @@ function StaticInfoCard(props){
                     <Form.Item
                         name="unit"
                     >
-                        <DatePicker showTime format="YYYY-MM-DD HH:mm"/>
+                        <Input/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="前序单元">

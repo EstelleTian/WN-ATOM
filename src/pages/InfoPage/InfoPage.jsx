@@ -41,20 +41,9 @@ function InfoCard(props){
         }, 1000)
 
     }
-    let { message, index } = props;
+    let { message, } = props;
     let {level, sendTime, content, dataType, dataCode} = message;
     level = getLevel( level );
-    console.log( index);
-    // if( index%3 === 0 ){
-    //     //原始流控
-    //     message.newType = "org"
-    // }else if( index%3 === 1 ){
-    //     //变更流控
-    //     message.newType = "update"
-    // }else if( index%3 === 2 ){
-    //     //原始流控
-    //     message.newType = "terminate"
-    // }
     return (
         <CSSTransition
             in={ inProp }
@@ -83,14 +72,17 @@ function InfoCard(props){
                                             <Button size="small" onClick={ (e)=>{
                                                 sessionStorage.setItem("message", JSON.stringify(message) )
                                                 e.stopPropagation()
-                                            }}>查看流控详情{ dataCode }</Button>
+                                            }}>查看流控详情</Button>
                                         </Link>
                                     </span>
                                 : ""
                             }
                         </div>
                         <Tooltip title="关闭">
-                            <div className="close" onClick={ removeCard}><CloseOutlined /> </div>
+                            <div className="close" onClick={ (e) =>{
+                                removeCard(message);
+                                e.stopPropagation()
+                            }} ><CloseOutlined /> </div>
                         </Tooltip>
                     </div>
 
@@ -197,10 +189,23 @@ function InfoPage(props){
                         "timestamp":"Dec 29, 2020 12:58:06 PM",
                         "generateTime":"20201229125806",
                         "sendTime":"20201229125806",
-                        "name":"外区流控信息",
-                        "content":"202012291300  过P40往武汉方向15分钟一架   发布单位：ZHHH 202012291600-202012292000",
+                        "name":"更新-外区流控信息",
+                        "content":"更新-外区流控信息（前台推送自测）",
                         "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" }',
-                        "dataCode":"DATACODE_FCAO",
+                        "dataCode":"UFAO",
+                        "dataType":"FTMI",
+                        "level":"LEVEL_NOTICE",
+                        "source":"ATOM"
+                    },
+                    {
+                        "id":2460922,
+                        "timestamp":"Dec 29, 2020 12:58:06 PM",
+                        "generateTime":"20201229125806",
+                        "sendTime":"20201229125806",
+                        "name":"终止-外区流控信息",
+                        "content":"终止-外区流控信息（前台推送自测）",
+                        "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" }',
+                        "dataCode":"TFAO",
                         "dataType":"FTMI",
                         "level":"LEVEL_NOTICE",
                         "source":"ATOM"

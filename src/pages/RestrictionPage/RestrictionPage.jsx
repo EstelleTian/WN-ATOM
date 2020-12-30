@@ -4,6 +4,7 @@ import {Form, Input, Button, Checkbox, Spin, Row, Col} from "antd";
 import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail'
 import NTFMDetail  from 'components/RestrictionDetail/NTFMDetail'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
+import FlowRelation  from 'components/RestrictionForm/FlowRelation'
 import './RestrictionPage.scss'
 
 //限制详情
@@ -26,6 +27,7 @@ function RestrictionPage( props ) {
     }else if( dataCode === "TFAI" ){
         newTypeCn = "终止区内流控信息";
     }
+    source = "NTFM"
     return (
         <Suspense fallback={ <div className="load_spin"><Spin tip="加载中..."/></div> }>
             <div style={{ color: '#eb6650' }}>{ newTypeCn }流控 -> 数据来源--{source}</div>
@@ -46,7 +48,8 @@ function RestrictionPage( props ) {
                         <Col span={12} className="res_right">
                             <Row className="title">
                                 <span>流控导入</span>
-                                <Button onClick={ function(e){  } } >流控关联</Button>
+                                <FlowRelation />
+
                             </Row>
                             <RestrictionForm />
                         </Col>
@@ -58,7 +61,7 @@ function RestrictionPage( props ) {
                     <Row className="res_canvas">
                         <Col span={12} className="res_left">
                             <Row className="title">
-                                <span>源流控详情({source})</span>
+                                <span>原流控详情({source})</span>
                             </Row>
                             <Row>
                                 <Col>
