@@ -7,8 +7,8 @@
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
  */
 import React, {useEffect, useState} from 'react'
-import { Layout, Button, Collapse, Row, Col } from 'antd'
-import { DeleteOutlined, AlertOutlined, WarningOutlined, MailOutlined } from '@ant-design/icons'
+import { Layout, Button, Collapse, Row, Col, Tooltip } from 'antd'
+import { DeleteOutlined, AlertOutlined, WarningOutlined, MailOutlined, CloseOutlined} from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
 import { Link } from  'react-router-dom'
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -68,7 +68,7 @@ function InfoCard(props){
                     { (level === "message") ? <MailOutlined /> : "" }
                 </div>
                 <div className="card_cont">
-                    <div>
+                    <div className="title">
                         <div className={`level_text ${level}`}>{level}</div>
                         <div className="date">{ formatTimeString( sendTime ) }</div>
                         <div className="options">
@@ -89,7 +89,9 @@ function InfoCard(props){
                                 : ""
                             }
                         </div>
-                        <div className="close" onClick={ removeCard}>X</div>
+                        <Tooltip title="关闭">
+                            <div className="close" onClick={ removeCard}><CloseOutlined /> </div>
+                        </Tooltip>
                     </div>
 
                     <div className="text">
@@ -223,12 +225,17 @@ function InfoPage(props){
             <div className="info_canvas">
                 <div className="info_header">
                     <div className="title">消息推送(共{ len }条，最多100条)</div>
-                    <div className="radish">
-                        <DeleteOutlined onClick={ emptyNews } />
-                    </div>
+                    <Tooltip title="清除">
+                        <div className="radish">
+                            <DeleteOutlined onClick={ emptyNews } />
+                        </div>
+                    </Tooltip>
                     {/** <div className="scroll"><Checkbox checked>滚屏</Checkbox></div>
                      <div className="to_top"><Checkbox checked>告警置顶</Checkbox></div>*/}
-                    <div className="close" onClick={()=>{ closeMessageDlg()}}>X</div>
+                    <Tooltip title="关闭">
+                        <div className="close" onClick={()=>{ closeMessageDlg()}}><CloseOutlined /> </div>
+                    </Tooltip>
+
                 </div>
                 <PanelList newsList={newsList}/>
 
