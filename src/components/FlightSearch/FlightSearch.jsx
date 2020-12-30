@@ -7,9 +7,9 @@
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
 import React, {useState, useEffect, useCallback} from 'react'
-import { inject, observer } from 'mobx-react'
 import { isValidVariable } from 'utils/basic-verify'
 import { List, Divider , Icon, Form, Input,  Select, Drawer, Tooltip, Tag  } from 'antd'
+
 import './FlightSearch.scss'
 const { Option } = Select;
 const { Search } = Input;

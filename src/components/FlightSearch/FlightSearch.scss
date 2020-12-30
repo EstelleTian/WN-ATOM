@@ -8,7 +8,7 @@
     .options {
       @include display_flex();
       position: relative;
-      top: -27px;
+      top: -31px;
       padding-left: 86px;
       height: 0px;
       .box {
@@ -41,7 +41,7 @@
         position: sticky;
         position: -webkit-sticky;
         top: 0;
-        background: #232425;
+        background: #202020;
         z-index: 1;
         //box-shadow: 0 6px 16px -8px rgba(0,0,0,.32), 0 9px 28px 0 rgba(0,0,0,.2), 0 12px 48px 16px rgba(0,0,0,.12);
         box-shadow: -6px 0 16px -8px rgba(0,0,0,.5), -9px 0 28px 0 rgba(0,0,0,.5), -12px 0 48px 16px rgba(0,0,0,.5);
