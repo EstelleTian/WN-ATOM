@@ -12,6 +12,7 @@
         line-height: 40px;
         padding-left: 10px;
         font-size: 1rem;
+        display: flex;
     }
     .box_content{
         @include display_flex(column);
