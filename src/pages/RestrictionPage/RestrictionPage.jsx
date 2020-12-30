@@ -37,9 +37,7 @@ function RestrictionPage( props ) {
         }
     }
 
-
     return (
-
         <Suspense fallback={ <div className="load_spin"><Spin tip="加载中..."/></div> }>
             <div style={{ color: '#eb6650' }}>{ newTypeCn }流控 -> 数据来源--{source}</div>
             {

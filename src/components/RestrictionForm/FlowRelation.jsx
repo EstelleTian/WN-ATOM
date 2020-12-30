@@ -74,8 +74,8 @@ function FlowRelation( props ){
         }),
     };
 
-    const { message } = props;
-    let {sendTime, content, name, source } = message;
+    const { message={} } = props;
+    let {sendTime="", content="", name="", source="" } = message;
     return(
         <span>
             <Button onClick={ showModal } >关联前后序</Button>

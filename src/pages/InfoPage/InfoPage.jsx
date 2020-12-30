@@ -73,8 +73,15 @@ function InfoCard(props){
                                         } } >查看容流监控</Button>
                                         {/*<Link to="/restriction" target="_blank">*/}
                                             <Button size="small" onClick={ (e)=>{
-                                                sessionStorage.setItem("message", JSON.stringify(message) )
-                                                openControlDetail(message)
+                                                sessionStorage.setItem("message", JSON.stringify(message) );
+                                                let { data } = message;
+                                                data = JSON.parse( data);
+                                                data = Object.assign({}, data )
+                                               let newMsg =  Object.assign({}, message);
+                                                newMsg.data = data;
+                                                let str = JSON.stringify(newMsg)
+                                                console.log( str )
+                                                openControlDetail( str )
                                                 e.stopPropagation()
                                             }}>查看流控详情</Button>
                                         {/*</Link>*/}
@@ -173,16 +180,16 @@ function InfoPage(props){
                 const msgObj = JSON.parse(body);
                 const { message } = msgObj;
                 // console.log(message);
-                let newMsgArr = [];
-                message.map( (msg)=>{
-                    const { data } = msg;
-                    let newMsg = {...msg};
-                    newMsg.data = JSON.parse(data);
-                    newMsgArr.push(newMsg)
-                })
+                // let newMsgArr = [];
+                // message.map( (msg)=>{
+                //     const { data } = msg;
+                //     let newMsg = {...msg};
+                //     newMsg.data = JSON.parse(data);
+                //     newMsgArr.push(newMsg)
+                // })
                 // console.log(newMsgArr);
 
-                props.newsList.addNews(newMsgArr);
+                props.newsList.addNews(message);
             })
         }
 
@@ -205,7 +212,7 @@ function InfoPage(props){
                         "sendTime":"20201229125806",
                         "name":"更新-外区流控信息",
                         "content":"更新-外区流控信息（前台推送自测）",
-                        "data":{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" },
+                        "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT"}',
                         "dataCode":"UFAO",
                         "dataType":"FTMI",
                         "level":"LEVEL_NOTICE",
@@ -218,7 +225,7 @@ function InfoPage(props){
                         "sendTime":"20201229125806",
                         "name":"终止-外区流控信息",
                         "content":"终止-外区流控信息（前台推送自测）",
-                        "data":{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" },
+                        "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" }',
                         "dataCode":"TFAO",
                         "dataType":"FTMI",
                         "level":"LEVEL_NOTICE",

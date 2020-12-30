@@ -37,7 +37,7 @@ const closeMessageDlg = () => {
 const openControlDetail = (str) => {
     try{
         // 点击 查看流控详情
-        jsEntity.openControlDetail(JSON.stringify(str))
+        jsEntity.openControlDetail(str)
     }catch (e){
         console.error(e);
     }
