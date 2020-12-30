@@ -4,10 +4,10 @@
     @include display_flex(column);
     height: calc(100% - 20px );
     margin: 10px 5px;
-    background: rgba(0,0,0,0.35);
+    background: #404040;
     
     .box_header{
-        background: rgba(0,0,0,0.35);
+        //background: rgba(0,0,0,0.35);
         height: 40px;
         line-height: 40px;
         padding-left: 10px;
