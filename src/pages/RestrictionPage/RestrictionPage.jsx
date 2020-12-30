@@ -1,34 +1,45 @@
 
-import React, { Suspense } from  'react'
+import React, { Suspense, useState } from  'react'
 import {Form, Input, Button, Checkbox, Spin, Row, Col} from "antd";
 import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail'
 import NTFMDetail  from 'components/RestrictionDetail/NTFMDetail'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
 import FlowRelation  from 'components/RestrictionForm/FlowRelation'
 import './RestrictionPage.scss'
+import {NWGlobal} from "../../utils/global";
 
 //限制详情
 function RestrictionPage( props ) {
-    const msgStr =sessionStorage.getItem("message");
-    let message =  JSON.parse(msgStr)
-    let { dataCode, source } = message;
-    console.log(dataCode);
-    let newTypeCn = "";
-    if( dataCode === "AFAO" ){
-        newTypeCn = "新增外区流控信息";
-    }else if( dataCode === "UFAO" ){
-        newTypeCn = "更新外区流控信息";
-    }else if( dataCode === "TFAO" ){
-        newTypeCn = "终止外区流控信息";
-    }else if( dataCode === "AFAI" ){
-        newTypeCn = "新增区内流控信息";
-    }else if( dataCode === "UFAI" ){
-        newTypeCn = "更新区内流控信息";
-    }else if( dataCode === "TFAI" ){
-        newTypeCn = "终止区内流控信息";
+    const [ message, setMessage ] = useState({});
+
+    NWGlobal.setMsg = function(str){
+        setMessage(JSON.parse(str))
     }
-    source = "NTFM"
+    let newTypeCn = "";
+    let dataCode = "";
+    let source = "";
+    if( message.hasOwnProperty("dataCode") ){
+        dataCode = message.dataCode || "";
+        source = message.source || "";
+        console.log(dataCode);
+        if( dataCode === "AFAO" ){
+            newTypeCn = "新增外区流控信息";
+        }else if( dataCode === "UFAO" ){
+            newTypeCn = "更新外区流控信息";
+        }else if( dataCode === "TFAO" ){
+            newTypeCn = "终止外区流控信息";
+        }else if( dataCode === "AFAI" ){
+            newTypeCn = "新增区内流控信息";
+        }else if( dataCode === "UFAI" ){
+            newTypeCn = "更新区内流控信息";
+        }else if( dataCode === "TFAI" ){
+            newTypeCn = "终止区内流控信息";
+        }
+    }
+
+
     return (
+
         <Suspense fallback={ <div className="load_spin"><Spin tip="加载中..."/></div> }>
             <div style={{ color: '#eb6650' }}>{ newTypeCn }流控 -> 数据来源--{source}</div>
             {

@@ -83,26 +83,26 @@ function StaticFlowCard(props){
     const index = props.index || "4";
     return (
         <Card title={props.title} size="small">
-            <Row style={{textAlign: 'center'}}>
-                <Col span={8}>前序</Col>
-                <Col span={8}>
-                    <Form.Item name="radio-group">
-                        <Radio.Group>
-                            <Radio value="and">并且</Radio>
-                            <Radio value="or">或者</Radio>
-                        </Radio.Group>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>后序</Col>
-            </Row>
-            <Row>
-                <Col span={12}>
-                    <XuCard index={index} type="pre"/>
-                </Col>
-                <Col span={12}>
-                    <XuCard index={index} type="next"/>
-                </Col>
-            </Row>
+            {/*<Row style={{textAlign: 'center'}}>*/}
+            {/*    <Col span={8}>前序</Col>*/}
+            {/*    <Col span={8}>*/}
+            {/*        <Form.Item name="radio-group">*/}
+            {/*            <Radio.Group>*/}
+            {/*                <Radio value="and">并且</Radio>*/}
+            {/*                <Radio value="or">或者</Radio>*/}
+            {/*            </Radio.Group>*/}
+            {/*        </Form.Item>*/}
+            {/*    </Col>*/}
+            {/*    <Col span={8}>后序</Col>*/}
+            {/*</Row>*/}
+            {/*<Row>*/}
+            {/*    <Col span={12}>*/}
+            {/*        <XuCard index={index} type="pre"/>*/}
+            {/*    </Col>*/}
+            {/*    <Col span={12}>*/}
+            {/*        <XuCard index={index} type="next"/>*/}
+            {/*    </Col>*/}
+            {/*</Row>*/}
             <Descriptions size="small"  bordered column={1}>
                 <Descriptions.Item label="航班号" >
                     <Form.Item

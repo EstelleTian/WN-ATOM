@@ -4,6 +4,7 @@ import "moment/locale/zh-cn"
 import {Button,  Form} from 'antd'
 import StaticInfoCard from './StaticInfoCard'
 import FlowList from './FlowList'
+import { sendMsgToClient } from 'utils/client'
 import './RestrictionForm.scss'
 
 //表单整体
@@ -29,7 +30,8 @@ function RestrictionForm(props){
             onFinish={(values)=>{
                const newStartTime =  moment(values.startTime).format('YYYYMMDDHHmm');
                 console.log(values);
-                console.log(newStartTime)
+                console.log(newStartTime);
+                sendMsgToClient(message)
 
             }}
             className="destriction_form"

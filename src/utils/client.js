@@ -33,6 +33,15 @@ const closeMessageDlg = () => {
         console.error(e);
     }
 }
+//点击 查看流控详情
+const openControlDetail = (str) => {
+    try{
+        // 点击 查看流控详情
+        jsEntity.openControlDetail(JSON.stringify(str))
+    }catch (e){
+        console.error(e);
+    }
+}
 //点击铃铛
 const openMessageDlg = () => {
     try{
@@ -42,4 +51,4 @@ const openMessageDlg = () => {
         console.error(e);
     }
 }
-export { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg}
+export { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail}

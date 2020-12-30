@@ -13,7 +13,7 @@ import { inject, observer } from 'mobx-react'
 import { Link } from  'react-router-dom'
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { formatTimeString } from 'utils/basic-verify'
-import { sendMsgToClient, openTimeSlotFrame, closeMessageDlg } from 'utils/client'
+import { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openControlDetail } from 'utils/client'
 import Stomp from 'stompjs'
 import './InfoPage.scss'
 
@@ -67,13 +67,17 @@ function InfoCard(props){
                             {
                                 (dataType === "FTMI") ?
                                     <span>
-                                        <Button className="info_btn btn_blue" size="small" onClick={ function(e){ sendMsgToClient(message) } } >查看容流监控</Button>
-                                        <Link to="/restriction" target="_blank">
+                                        <Button className="info_btn btn_blue" size="small" onClick={ function(e){
+                                            sendMsgToClient(message)
+                                            e.stopPropagation()
+                                        } } >查看容流监控</Button>
+                                        {/*<Link to="/restriction" target="_blank">*/}
                                             <Button size="small" onClick={ (e)=>{
                                                 sessionStorage.setItem("message", JSON.stringify(message) )
+                                                openControlDetail(message)
                                                 e.stopPropagation()
                                             }}>查看流控详情</Button>
-                                        </Link>
+                                        {/*</Link>*/}
                                     </span>
                                 : ""
                             }
@@ -163,12 +167,22 @@ function InfoPage(props){
             //收到限制消息
             stompClient.subscribe("/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE" , function (d) {
                 //收到消息
-                // console.log("WebSocket收到消息:");
-                // console.log(d.body);
+                console.log("WebSocket收到消息:");
+                console.log(d.body);
                 const body = d.body;
                 const msgObj = JSON.parse(body);
                 const { message } = msgObj;
-                props.newsList.addNews(message);
+                // console.log(message);
+                let newMsgArr = [];
+                message.map( (msg)=>{
+                    const { data } = msg;
+                    let newMsg = {...msg};
+                    newMsg.data = JSON.parse(data);
+                    newMsgArr.push(newMsg)
+                })
+                // console.log(newMsgArr);
+
+                props.newsList.addNews(newMsgArr);
             })
         }
 
@@ -191,7 +205,7 @@ function InfoPage(props){
                         "sendTime":"20201229125806",
                         "name":"更新-外区流控信息",
                         "content":"更新-外区流控信息（前台推送自测）",
-                        "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" }',
+                        "data":{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" },
                         "dataCode":"UFAO",
                         "dataType":"FTMI",
                         "level":"LEVEL_NOTICE",
@@ -204,7 +218,7 @@ function InfoPage(props){
                         "sendTime":"20201229125806",
                         "name":"终止-外区流控信息",
                         "content":"终止-外区流控信息（前台推送自测）",
-                        "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" }',
+                        "data":{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" },
                         "dataCode":"TFAO",
                         "dataType":"FTMI",
                         "level":"LEVEL_NOTICE",

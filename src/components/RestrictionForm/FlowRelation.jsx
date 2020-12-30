@@ -1,60 +1,45 @@
 //流控关联模块
 import React, {useState} from 'react'
-import {Button, Modal, Table } from "antd";
-
+import {Button, Col, Modal, Row, Table} from "antd";
+import { formatTimeString } from 'utils/basic-verify'
 const columns = [
     {
-        title: '流控id',
-        dataIndex: 'id',
-    },{
-        title: '流控名称',
+        title: '方案名称',
         dataIndex: 'name',
-        render: text => <a>{text}</a>,
+
     },{
-        title: '创建时间',
-        dataIndex: 'generateTime',
-    },
-    {
-        title: '限制间隔',
-        dataIndex: 'resValue',
+        title: '原始方案',
+        dataIndex: 'orgname',
     },
 
 ];
 const data = [
     {
         key: '1001',
-        id: '1001',
-        name: '过IGADA进郑州区域20分钟一架',
-        generateTime: '2020-12-30 15:00',
-        resValue: '20',
+        name: '06/1835-华中-郑州-军事活动',
+        orgname: '06/1800-华中-郑州-军事活动',
     },
     {
         key: '1002',
-        id: '1002',
-        name: '过P40往成都方向15分钟一架 ',
-        generateTime: '2020-12-30 15:01',
-        resValue: '15',
+        name: '06/1835-西南-成都-军事活动',
+        orgname: '06/1555-西南-成都-军事活动',
     },
     {
         key: '1003',
-        id: '1003',
-        name: '过P40往武汉方向15分钟一架',
-        generateTime: '2020-12-30 15:02',
-        resValue: '15',
+        name: '06/1835-西南-成都-军事活动',
+        orgname: '06/1555-西南-成都-军事活动',
     },
     {
         key: '1004',
-        id: '1004',
-        name: '过IGADA进郑州区域20分钟一架',
-        generateTime: '2020-12-30 15:03',
-        resValue: '20',
+        name: '06/1835-西南-成都-军事活动',
+        orgname: '06/1555-西南-成都-军事活动',
     },
 ];
 
 
 
 
-function FlowRelation(  ){
+function FlowRelation( props ){
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedKeys, setSelectedKeys] = useState("");
     const showModal = () => {
@@ -88,6 +73,9 @@ function FlowRelation(  ){
             name: record.name,
         }),
     };
+
+    const { message } = props;
+    let {sendTime, content, name, source } = message;
     return(
         <span>
             <Button onClick={ showModal } >关联前后序</Button>
@@ -105,6 +93,26 @@ function FlowRelation(  ){
                     </div>
                 }
               >
+                 <div className="card_detail">
+                     <div>消息内容</div>
+                    <Row>
+                        <Col span={2} className="name">时间：</Col>
+                        <Col span={8} className="text send_time">{ formatTimeString( sendTime ) }</Col>
+                    </Row>
+                    <Row>
+                        <Col span={2} className="name">名称：</Col>
+                        <Col span={22} className="text send_time">{ name }</Col>
+                    </Row>
+                    <Row>
+                        <Col span={2} className="name">来源：</Col>
+                        <Col span={22} className="text send_time">{ source }</Col>
+                    </Row>
+                    <Row>
+                        <Col span={2} className="name">内容：</Col>
+                        <Col span={22} className="text send_time">{  content  }</Col>
+                    </Row>
+                </div>
+
                 <Table
                     rowSelection={{
                         ...rowSelection,
