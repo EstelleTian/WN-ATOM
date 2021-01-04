@@ -41,7 +41,7 @@ function InfoCard(props){
         // }, 1000)
 
     }
-    let { message, } = props;
+    let { message, index } = props;
     let {level, sendTime, content, dataType, dataCode, id} = message;
     level = getLevel( level );
     return (
@@ -64,7 +64,7 @@ function InfoCard(props){
                     { (level === "message") ? <MailOutlined /> : "" }
                 </div>
                 <div className="card_cont">
-                    { id }
+                    {/*{ id+"-"+index }*/}
                     <div className="title">
                         <div className={`level_text ${level}`}>{level}</div>
                         <div className="date">{ formatTimeString( sendTime ) }</div>
@@ -163,7 +163,7 @@ function PanelList(props) {
                         <Panel
                             showArrow={false}
                             header={ <InfoCard message={ newItem } newsList={props.newsList} index={index}/> }
-                            key={ newItem.id }
+                            key={ newItem.id+"-"+index }
                         >
                             <InfoCardDetail message={ newItem }/>
                         </Panel>
@@ -261,29 +261,28 @@ function InfoPage(props){
         props.newsList.emptyNews();
     }
 
-    const  add =() => {
-        const id = new Date().getTime();
-        const msgObj = {
-            "message":[
-                {
-                    "id": id,
-                    "timestamp":"Dec 29, 2020 12:58:06 PM",
-                    "generateTime":"20201229125806",
-                    "sendTime":"20201229125806",
-                    "name":"更新-外区流控信息",
-                    "content":"更新-外区流控信息（前台推送自测）",
-                    "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT"}',
-                    "dataCode":"UFAO",
-                    "dataType":"FTMI",
-                    "level":"NOTICE",
-                    "source":"ATOM"
-                },
-            ]
-        };
-        const { message } = msgObj;
-        props.newsList.addNews(message);
-    }
-
+    // const  add =() => {
+    //     const id = new Date().getTime();
+    //     const msgObj = {
+    //         "message":[
+    //             {
+    //                 "id": id,
+    //                 "timestamp":"Dec 29, 2020 12:58:06 PM",
+    //                 "generateTime":"20201229125806",
+    //                 "sendTime":"20201229125806",
+    //                 "name":"更新-外区流控信息",
+    //                 "content":"更新-外区流控信息（前台推送自测）",
+    //                 "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT"}',
+    //                 "dataCode":"UFAO",
+    //                 "dataType":"FTMI",
+    //                 "level":"NOTICE",
+    //                 "source":"ATOM"
+    //             },
+    //         ]
+    //     };
+    //     const { message } = msgObj;
+    //     props.newsList.addNews(message);
+    // }
 
     const { newsList } = props;
 
@@ -295,7 +294,7 @@ function InfoPage(props){
                     <div className="title">消息推送(共{ len }条，最多100条)</div>
                     <Tooltip title="清除">
                         <div className="radish">
-                            <DeleteOutlined onClick={ add } />
+                            <DeleteOutlined onClick={ emptyNews } />
                         </div>
                     </Tooltip>
                     {/** <div className="scroll"><Checkbox checked>滚屏</Checkbox></div>
