@@ -10,6 +10,7 @@ import {NWGlobal} from "../../utils/global";
 
 //限制详情
 function RestrictionPage( props ) {
+    // let [ messageStr, setMessageStr ] = useState("");
     let [ message, setMessage ] = useState({});
     let [ disabledForm, setDisabledForm] = useState(true);
 
@@ -19,12 +20,13 @@ function RestrictionPage( props ) {
     // console.log(message)
     //TODO 测试数据，交由客户端后去除---end
     NWGlobal.setMsg = function(str){
+        // setMessageStr(str)
         setMessage(JSON.parse(str))
     }
     let newTypeCn = "";
     let dataCode = "";
     let source = "";
-    if( message.hasOwnProperty("dataCode") ){
+    if( message !== null && message.hasOwnProperty("dataCode") ){
         dataCode = message.dataCode || "";
         source = message.source || "";
         console.log(dataCode);
@@ -44,7 +46,9 @@ function RestrictionPage( props ) {
     }
 
     return (
+
         <Suspense fallback={ <div className="load_spin"><Spin tip="加载中..."/></div> }>
+            {/*<div>messageStr:{messageStr}</div>*/}
             <div style={{ color: '#eb6650' }}>{ newTypeCn }流控 -> 数据来源--{source}</div>
             {
                 ( dataCode === "AFAO" || dataCode === "AFAI") ?

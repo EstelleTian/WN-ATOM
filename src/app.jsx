@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDom from 'react-dom';
 import Routes from './routes/route';
-import './app.less';
 import { ConfigProvider  } from 'antd';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
-import moment from 'moment';
 import 'moment/locale/zh-cn';
+
+import './custom-ant-theme.less'
+import './app.less';
 
 const root = document.createElement("div");
 root.className = "root";
