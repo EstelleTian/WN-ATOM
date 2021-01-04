@@ -48,6 +48,11 @@ class NewsList{
     //插入消息
     @action addNews( newList ){
         newList.map( item => this.list.unshift( item ))
+        let len = this.list.length || 0;
+        //如果大于100条，截取前100条
+        if( len > 100 ){
+            this.list = this.list.splice(0,100)
+        }
     }
     // 清空消息
     @action emptyNews(){

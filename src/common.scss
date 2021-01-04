@@ -27,15 +27,12 @@ $red: #ff0000;
     display: -ms-flex;     
     display: -webkit-flex; 
     -webkit-flex-direction: $dir;
-    -moz-flex-direction: $dir;
     -ms-flex-direction: $dir;
-    -o-flex-direction: $dir;
     flex-direction: $dir;
 }
 /* 子元素-平均分栏 */
 @mixin flex($part: 1) {
     -webkit-flex: $part;
-    -moz-flex: $part;                    
     -webkit-flex: $part;         
     -ms-flex: $part;             
     flex: $part; 

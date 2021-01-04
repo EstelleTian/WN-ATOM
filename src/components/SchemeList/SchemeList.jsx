@@ -155,10 +155,9 @@ let SchemeItem = (observer(sItem))
 
 //方案列表
 function SchemeList (props){
-    const setSchemeId = id  => {
+    NWGlobal.setSchemeId = id  => {
         handleActive( id )
     }
-    NWGlobal.setSchemeId = setSchemeId;
     //更新方案列表数据
     const updateSchemeListData = data => {
         let { tacticProcessInfos, status } = data;

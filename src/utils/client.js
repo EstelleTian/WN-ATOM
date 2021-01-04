@@ -25,10 +25,10 @@ const openTimeSlotFrame = (str) => {
     }
 }
 //点击关闭按钮
-const closeMessageDlg = () => {
+const closeMessageDlg = (str) => {
     try{
         // 关闭消息中心
-        jsEntity.closeMessageDlg();
+        jsEntity.closeMessageDlg(str);
     }catch (e){
         console.error(e);
     }

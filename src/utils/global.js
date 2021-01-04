@@ -7,7 +7,7 @@
  * @FilePath: \WN-CDM\src\utils\global.js
  */
 let NWGlobal = {
-    setSchemeId: "",
+    setSchemeId: function(){},
     setMsg: function(){}
 }
 window.NWGlobal = NWGlobal;

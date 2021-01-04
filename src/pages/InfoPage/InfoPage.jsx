@@ -22,9 +22,9 @@ const { Panel } = Collapse;
 function getLevel(level){
     let res = "message";
     switch(level){
-        case "LEVEL_MESSAGE": res = "message";break;
-        case "LEVEL_NOTICE": res = "notice";break;
-        case "LEVEL_WARNING": res = "warn";break;
+        case "MESSAGE": res = "message";break;
+        case "NOTICE": res = "notice";break;
+        case "WARNING": res = "warn";break;
     }
     return res;
 }
@@ -63,6 +63,14 @@ function InfoCard(props){
                         <div className="options">
                             {
                                 dataType === "FCDM" ? <Button className="info_btn btn_blue" size="small" onClick={ function(e){ openTimeSlotFrame(message) } }>查看放行监控</Button> : ""
+                            }
+                            {
+                                (dataType === "OPEI" || dataType === "PROI") ?
+                                    <Button className="info_btn btn_blue" size="small" onClick={ function(e){
+                                        sendMsgToClient(message)
+                                        e.stopPropagation()
+                                    } } >查看容流监控</Button>
+                                    :""
                             }
                             {
                                 (dataType === "FTMI") ?
@@ -179,16 +187,6 @@ function InfoPage(props){
                 const body = d.body;
                 const msgObj = JSON.parse(body);
                 const { message } = msgObj;
-                // console.log(message);
-                // let newMsgArr = [];
-                // message.map( (msg)=>{
-                //     const { data } = msg;
-                //     let newMsg = {...msg};
-                //     newMsg.data = JSON.parse(data);
-                //     newMsgArr.push(newMsg)
-                // })
-                // console.log(newMsgArr);
-
                 props.newsList.addNews(message);
             })
         }
@@ -215,7 +213,7 @@ function InfoPage(props){
                         "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT"}',
                         "dataCode":"UFAO",
                         "dataType":"FTMI",
-                        "level":"LEVEL_NOTICE",
+                        "level":"NOTICE",
                         "source":"ATOM"
                     },
                     {
@@ -228,7 +226,7 @@ function InfoPage(props){
                         "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" }',
                         "dataCode":"TFAO",
                         "dataType":"FTMI",
-                        "level":"LEVEL_NOTICE",
+                        "level":"NOTICE",
                         "source":"ATOM"
                     }
                 ]
@@ -259,7 +257,7 @@ function InfoPage(props){
                     {/** <div className="scroll"><Checkbox checked>滚屏</Checkbox></div>
                      <div className="to_top"><Checkbox checked>告警置顶</Checkbox></div>*/}
                     <Tooltip title="关闭">
-                        <div className="close" onClick={()=>{ closeMessageDlg()}}><CloseOutlined /> </div>
+                        <div className="close" onClick={()=>{ closeMessageDlg("")}}><CloseOutlined /> </div>
                     </Tooltip>
 
                 </div>

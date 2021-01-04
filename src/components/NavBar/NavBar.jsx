@@ -116,18 +116,18 @@ function NavBar(props){
                         <Button size="large">
                             {
                                 ( newsLen <= 0 )
-                                    ? <BellOutlined className="bell_icon" style={{"fontSize": "20px"}} onClick = {openMsg} />
+                                    ? <span className="bell_icon" onClick = {openMsg}>消息中心</span>
                                     : <Badge count={ newsLen }>
-                                    <BellOutlined className="bell_icon" style={{"fontSize": "20px"}}  onClick = {openMsg}/>
-                                </Badge>
+                                        <span className="bell_icon" onClick = {openMsg}>消息中心</span>
+                                    </Badge>
                             }
-                            消息中心
+
                         </Button>
                     </div>
                     <div className="user">
-                        <Dropdown.Button size="large" overlay={menu} placement="bottomCenter" icon={<UserOutlined />} >
-                            <span className="user_name">{ username }</span>
-                        </Dropdown.Button>
+                        <Dropdown overlay={menu} placement="bottomCenter" arrow>
+                            <span  className="user-name">{ username }</span>
+                        </Dropdown>
                     </div>
 
                 </div>
