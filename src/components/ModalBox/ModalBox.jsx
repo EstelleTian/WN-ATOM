@@ -7,13 +7,14 @@
  * @FilePath: \WN-CDM\src\components\ModalBox\ModalBox.jsx
  */
 import React, {useState, useRef, useEffect} from 'react'
+import Decorator  from 'components/Decorator/Decorator.jsx'
 
 import './ModalBox.scss'
 
 const ModalBox = (props) => {
     let [contentHeight, setContentHeight] = useState(0);
     let modalRef = useRef();
-    const { style={}, className = "", title } = props;
+    const { style={}, className = "", title, showDecorator } = props;
 
 
     useEffect(() => {
@@ -27,6 +28,9 @@ const ModalBox = (props) => {
         { title != "" ? 
             <div className="box_header">
                 <span className="title">{title}</span>
+                {
+                    showDecorator ?  <Decorator></Decorator> : ""
+                }
             </div>
             : ""}
             

@@ -1,0 +1,47 @@
+.decorator {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  padding: 0 10px;
+  -moz-user-select:none; /*火狐*/
+  -webkit-user-select:none; /*webkit浏览器*/
+  -ms-user-select:none; /*IE10*/
+  -khtml-user-select:none; /*早期浏览器*/
+  user-select:none;
+  .slash {
+    transform: rotate(10deg);
+  }
+  .slash[data-opacity="10"]{
+    color: $c-white-100;
+  }
+  .slash[data-opacity="9"]{
+    color: $c-white-90;
+  }
+  .slash[data-opacity="8"]{
+    color: $c-white-80;
+  }
+  .slash[data-opacity="7"]{
+    color: $c-white-70;
+  }
+  .slash[data-opacity="6"]{
+    color: $c-white-60;
+  }
+  .slash[data-opacity="5"]{
+    color: $c-white-50;
+  }
+  .slash[data-opacity="4"]{
+    color: $c-white-40;
+  }
+  .slash[data-opacity="3"]{
+    color: $c-white-30;
+  }
+  .slash[data-opacity="2"]{
+    color: $c-white-20;
+  }
+  .slash[data-opacity="1"]{
+    color: $c-white-10;
+  }
+
+
+}
