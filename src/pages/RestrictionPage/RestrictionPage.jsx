@@ -10,8 +10,14 @@ import {NWGlobal} from "../../utils/global";
 
 //限制详情
 function RestrictionPage( props ) {
-    const [ message, setMessage ] = useState({});
+    let [ message, setMessage ] = useState({});
+    let [ disabledForm, setDisabledForm] = useState(true);
 
+    //TODO 测试数据，交由客户端后去除---start
+    // message = sessionStorage.getItem('message')
+    // message = JSON.parse(message)
+    // console.log(message)
+    //TODO 测试数据，交由客户端后去除---end
     NWGlobal.setMsg = function(str){
         setMessage(JSON.parse(str))
     }
@@ -57,10 +63,9 @@ function RestrictionPage( props ) {
                         <Col span={12} className="res_right">
                             <Row className="title">
                                 <span>流控导入</span>
-                                <FlowRelation />
-
+                                <FlowRelation setDisabledForm = {setDisabledForm}  disabledForm = {disabledForm} message={message}/>
                             </Row>
-                            <RestrictionForm />
+                            <RestrictionForm  disabledForm = {disabledForm} />
                         </Col>
                     </Row>
                     : ""

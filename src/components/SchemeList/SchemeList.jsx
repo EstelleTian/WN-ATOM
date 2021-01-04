@@ -173,7 +173,7 @@ function SchemeList (props){
                 return basicTacticInfo;
             })
             schemeListData.updateList(list)
-            if( schemeListData.activeScheme == "" && list.length > 0 ){
+            if( (schemeListData.activeScheme.id === "" || schemeListData.activeScheme.id === undefined)  && list.length > 0 ){
                 let id = list[0].id + "";
                 handleActive(id)
             }
@@ -187,9 +187,14 @@ function SchemeList (props){
     }
     const getSchemeList = () => {
         const opt = {
-            url:'http://192.168.194.21:58189/schemeFlow/DB/xian',
+            url:'http://192.168.194.21:58189/implementTactics',
             method:'GET',
-            params:{},
+            params:{
+                status: "RUNNING",
+                startTime: "",
+                endTIme: "",
+                userId: "443"
+            },
             resFunc: (data)=> updateSchemeListData(data),
             errFunc: (err)=> requestErr(err, '方案列表数据获取失败' ),
         };

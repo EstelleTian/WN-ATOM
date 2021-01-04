@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {Card, Checkbox, Col, Descriptions, Form, Input, Radio, Row} from "antd";
+import {Card, Checkbox, Col, DatePicker, Descriptions, Form, Input, Radio, Row} from "antd";
 
 // 前序/后序表单
 function XuCard(props){
@@ -10,7 +10,7 @@ function XuCard(props){
                 <Form.Item
                     name={`${type}-airport${index+1}`}
                 >
-                    <Input/>
+                    <Input disabled={ props.disabledForm }/>
                 </Form.Item>
             </Descriptions.Item>
             <Descriptions.Item label="" >
@@ -27,14 +27,14 @@ function XuCard(props){
                 <Form.Item
                     name={`${type}-airline${index+1}`}
                 >
-                    <Input/>
+                    <Input disabled={ props.disabledForm }/>
                 </Form.Item>
             </Descriptions.Item>
             <Descriptions.Item label="区域" >
                 <Form.Item
                     name={`${type}-area${index+1}`}
                 >
-                    <Input/>
+                    <Input disabled={ props.disabledForm }/>
                 </Form.Item>
             </Descriptions.Item>
         </Descriptions>
@@ -108,51 +108,76 @@ function StaticFlowCard(props){
                     <Form.Item
                         name={`callsign${index+1}`}
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="尾流类型" >
-                    <Form.Item name={`weilliuType${index+1}`} >
-                        <Checkbox.Group options={weiliuOptions} />
-                    </Form.Item>
+                        {
+                            props.disabledForm
+                                ? ""
+                                : <Form.Item name={`weilliuType${index+1}`} >
+                                    <Checkbox.Group options={weiliuOptions} />
+                                </Form.Item>
+                        }
                 </Descriptions.Item>
                 <Descriptions.Item label="航班性质" >
-                    <Form.Item name={`hangbanxingzhi${index+1}`} >
-                        <Checkbox.Group options={xingzhiOptions} />
-                    </Form.Item>
+                        {
+                            props.disabledForm
+                                ? ""
+                                : <Form.Item name={`hangbanxingzhi${index+1}`} >
+                                    <Checkbox.Group options={xingzhiOptions} />
+                                </Form.Item>
+                        }
                 </Descriptions.Item>
                 <Descriptions.Item label="客货类型" >
-                    <Form.Item name={`kehuoleixing${index+1}`} >
-                        <Checkbox.Group options={kehuoOptions} />
-                    </Form.Item>
+                        {
+                            props.disabledForm
+                                ? ""
+                                : <Form.Item name={`kehuoleixing${index+1}`} >
+                                    <Checkbox.Group options={kehuoOptions} />
+                            </Form.Item>
+                        }
                 </Descriptions.Item>
                 <Descriptions.Item label="任务类型" >
-                    <Form.Item name={`renwuleixing${index+1}`} >
-                        <Checkbox.Group options={renwuOptions} />
-                    </Form.Item>
+                        {
+                            props.disabledForm
+                                ? ""
+                                : <Form.Item name={`renwuleixing${index+1}`} >
+                                    <Checkbox.Group options={renwuOptions} />
+                                </Form.Item>
+                        }
                 </Descriptions.Item>
                 <Descriptions.Item label="航班属性" >
-                    <Form.Item name={`hangbanshuxing${index+1}`} >
-                        <Checkbox.Group options={shuxingOptions} />
-                    </Form.Item>
+                        {
+                            props.disabledForm
+                                ? ""
+                                :  <Form.Item name={`hangbanshuxing${index+1}`} >
+                                    <Checkbox.Group options={shuxingOptions} />
+                            </Form.Item>
+                        }
                 </Descriptions.Item>
                 <Descriptions.Item label="限制资质" >
-                    <Form.Item name={`xianzhizizhi${index+1}`} >
-                        <Checkbox.Group options={zizhiOptions} />
-                    </Form.Item>
+                    {
+                        props.disabledForm
+                            ? ""
+                            : <Form.Item name={`xianzhizizhi${index+1}`} >
+                                <Checkbox.Group options={zizhiOptions} />
+                            </Form.Item>
+                    }
+
                 </Descriptions.Item>
                 <Descriptions.Item label="受控机型" >
                     <Form.Item
                         name={`rType${index+1}`}
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="受控高度" >
                     <Form.Item
                         name={`rHigh${index+1}`}
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
             </Descriptions>

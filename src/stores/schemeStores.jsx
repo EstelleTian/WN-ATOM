@@ -111,14 +111,14 @@ class SchemeListData{
             return false
         }
     } 
-    //查找激活方案的id
+    //查找激活方案
     @computed get activeScheme(){
-        let id = "";
+        let active = {};
         let activeList = this.list.filter( todo => todo.active );
         if( activeList.length > 0 ){
-            id = activeList[0].id;
+            active = activeList[0];
         }
-        return id;
+        return active;
     }
     //激活选中方案，重置其他方案
     @action toggleSchemeActive( id ){

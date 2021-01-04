@@ -11,84 +11,92 @@ function StaticInfoCard(props){
                     <Form.Item
                         name="staticName"
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="原始流控">
                     <Form.Item
                         name="origFlowContent"
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="发布单位" >
                     <Form.Item
                         name="publicUnit"
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="发布用户" >
                     <Form.Item
                         name="publicUser"
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="开始时间" >
-                    <Form.Item
-                        name="startTime"
-                    >
-                        <DatePicker showTime format="YYYY-MM-DD HH:mm"/>
-                    </Form.Item>
+                        {
+                            props.disabledForm
+                                ? ""
+                                : <Form.Item
+                                    name="startTime"
+                                >
+                                    <DatePicker showTime format="YYYY-MM-DD HH:mm"/>
+                                </Form.Item>
+                        }
                 </Descriptions.Item>
                 <Descriptions.Item label="结束时间" >
-                    <Form.Item
-                        name="endTime"
-                    >
-                        <DatePicker showTime format="YYYY-MM-DD HH:mm"/>
-                    </Form.Item>
+                        {
+                            props.disabledForm
+                                ? ""
+                                : <Form.Item
+                                    name="endTime"
+                                >
+                                    <DatePicker showTime format="YYYY-MM-DD HH:mm"/>
+                                </Form.Item>
+                        }
                 </Descriptions.Item>
                 <Descriptions.Item label="基准单元"  span={2}>
                     <Form.Item
                         name="unit"
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="前序单元">
                     <Form.Item
                         name="prevUnit"
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="后序单元">
                     <Form.Item
                         name="nextUnit"
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="豁免前序">
                     <Form.Item
                         name="prevExempt"
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="豁免后序">
                     <Form.Item
                         name="nextExempt"
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="限制高度" span={2}>
                     <Form.Item
                         name="resHigh"
                     >
-                        <Input/>
+                        <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
             </Descriptions>

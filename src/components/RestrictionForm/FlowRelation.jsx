@@ -1,7 +1,8 @@
 //流控关联模块
 import React, {useState} from 'react'
-import {Button, Col, Modal, Row, Table} from "antd";
+import {Button, Col, Form, Modal, Row, Table} from "antd";
 import { formatTimeString } from 'utils/basic-verify'
+import './FlowRelation.scss'
 const columns = [
     {
         title: '方案名称',
@@ -75,11 +76,21 @@ function FlowRelation( props ){
     };
 
     const { message={} } = props;
+    console.log(message);
     let {sendTime="", content="", name="", source="" } = message;
     return(
-        <span>
-            <Button onClick={ showModal } >关联前后序</Button>
-             <Modal
+        <span  className="nw_header">
+            <Button className="r_btn" type="primary" onClick={ showModal } >关联前后序</Button>
+            {
+                props.disabledForm
+                    ? <Button className="r_btn" type="primary"  onClick={ () => {
+                        props.setDisabledForm( false )
+                    }} >编辑</Button>
+                    : <Button className="r_btn" type="primary"  onClick={ () => {
+                        props.setDisabledForm( true )
+                    }} >取消编辑</Button>
+            }
+            <Modal
                  className="nw_modal"
                  width={700}
                  title="关联流控前后序"

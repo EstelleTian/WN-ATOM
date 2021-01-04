@@ -19,43 +19,51 @@ function FlowList(props){
                                     <Form.Item
                                         name={`resName${index+1}`}
                                     >
-                                        <Input/>
+                                        <Input disabled={ props.disabledForm }/>
                                     </Form.Item>
                                 </Descriptions.Item>
                                 <Descriptions.Item label="流控发布类型">
                                     <Form.Item
                                         name={`resType${index+1}`}
                                     >
-                                        <Input/>
+                                        <Input disabled={ props.disabledForm }/>
                                     </Form.Item>
                                 </Descriptions.Item>
                                 <Descriptions.Item label="流控原因">
                                     <Form.Item
                                         name={`resReason${index+1}`}
                                     >
-                                        <Input/>
+                                        <Input disabled={ props.disabledForm }/>
                                     </Form.Item>
                                 </Descriptions.Item>
                                 <Descriptions.Item label="流控备注">
                                     <Form.Item
                                         name={`resComment${index+1}`}
                                     >
-                                        <Input/>
+                                        <Input disabled={ props.disabledForm }/>
                                     </Form.Item>
                                 </Descriptions.Item>
                                 <Descriptions.Item label="开始时间" span={2} >
-                                    <Form.Item
-                                        name={`resStartTime${index+1}`}
-                                    >
-                                        <DatePicker showTime   format="YYYY-MM-DD HH:mm"/>
-                                    </Form.Item>
+                                        {
+                                            props.disabledForm
+                                                ? ""
+                                                :  <Form.Item
+                                                    name={`resStartTime${index+1}`}
+                                                >
+                                                    <DatePicker showTime format="YYYY-MM-DD HH:mm"/>
+                                                </Form.Item>
+                                        }
                                 </Descriptions.Item>
                                 <Descriptions.Item label="结束时间" span={2} >
-                                    <Form.Item
-                                        name={`resEndTime${index+1}`}
-                                    >
-                                        <DatePicker showTime format="YYYY-MM-DD HH:mm"/>
-                                    </Form.Item>
+                                        {
+                                            props.disabledForm
+                                                ? ""
+                                                :  <Form.Item
+                                                        name={`resEndTime${index+1}`}
+                                                    >
+                                                    <DatePicker showTime format="YYYY-MM-DD HH:mm"/>
+                                                </Form.Item>
+                                        }
                                 </Descriptions.Item>
                             </Descriptions>
                         </Card>
@@ -65,14 +73,14 @@ function FlowList(props){
                                     <Form.Item
                                         name={`resMethod${index+1}`}
                                     >
-                                        <Input/>
+                                        <Input disabled={ props.disabledForm }/>
                                     </Form.Item>
                                 </Descriptions.Item>
                                 <Descriptions.Item label="流控限制值">
                                     <Form.Item
                                         name={`resValue${index+1}`}
                                     >
-                                        <Input/>
+                                        <Input disabled={ props.disabledForm }/>
                                     </Form.Item>
                                 </Descriptions.Item>
                             </Descriptions>
@@ -80,10 +88,10 @@ function FlowList(props){
                         <Card title="流控交通信息" size="small" bordered={false}>
                             <Row>
                                 <Col span={12}>
-                                    <StaticFlowCard title="包含" index={index}/>
+                                    <StaticFlowCard title="包含" index={index} disabledForm={props.disabledForm}/>
                                 </Col>
                                 <Col span={12}>
-                                    <StaticFlowCard title="不包含"  index={index}/>
+                                    <StaticFlowCard title="不包含"  index={index} disabledForm={props.disabledForm}/>
                                 </Col>
                             </Row>
                         </Card>

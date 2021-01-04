@@ -81,7 +81,7 @@ function InfoCard(props){
                                         } } >查看容流监控</Button>
                                         {/*<Link to="/restriction" target="_blank">*/}
                                             <Button size="small" onClick={ (e)=>{
-                                                sessionStorage.setItem("message", JSON.stringify(message) );
+                                                //将data转换为对象再生成字符串对象传递，否则接收后转换不成正确的json
                                                 let { data } = message;
                                                 data = JSON.parse( data);
                                                 data = Object.assign({}, data )
@@ -89,6 +89,7 @@ function InfoCard(props){
                                                 newMsg.data = data;
                                                 let str = JSON.stringify(newMsg)
                                                 console.log( str )
+                                                sessionStorage.setItem("message", str );
                                                 openControlDetail( str )
                                                 e.stopPropagation()
                                             }}>查看流控详情</Button>
@@ -200,40 +201,51 @@ function InfoPage(props){
 
     }
     useEffect(function(){
-        setTimeout(function(){
-            const msgObj = {
-                "message":[
-                    {
-                        "id":2460917,
-                        "timestamp":"Dec 29, 2020 12:58:06 PM",
-                        "generateTime":"20201229125806",
-                        "sendTime":"20201229125806",
-                        "name":"更新-外区流控信息",
-                        "content":"更新-外区流控信息（前台推送自测）",
-                        "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT"}',
-                        "dataCode":"UFAO",
-                        "dataType":"FTMI",
-                        "level":"NOTICE",
-                        "source":"ATOM"
-                    },
-                    {
-                        "id":2460922,
-                        "timestamp":"Dec 29, 2020 12:58:06 PM",
-                        "generateTime":"20201229125806",
-                        "sendTime":"20201229125806",
-                        "name":"终止-外区流控信息",
-                        "content":"终止-外区流控信息（前台推送自测）",
-                        "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" }',
-                        "dataCode":"TFAO",
-                        "dataType":"FTMI",
-                        "level":"NOTICE",
-                        "source":"ATOM"
-                    }
-                ]
-            };
-            const { message } = msgObj;
-            props.newsList.addNews(message);
-        },2000 );
+        // setTimeout(function(){
+        //     const msgObj = {
+        //         "message":[
+        //             {
+        //                 "id":2460915,
+        //                 "sendTime":"20210104095703",
+        //                 "name":"外区流控信息-新增",
+        //                 "content":"新增-外区流控信息（前台推送自测）",
+        //                 "data":"{\"id\":2460915,\"sourceId\":\"125478\",\"source\":\"ATOM\",\"sourceType\":\"MIT\"}",
+        //                 "dataCode":"AFAO",
+        //                 "dataType":"FTMI",
+        //                 "level":"NOTICE",
+        //                 "source":"ATOM"
+        //             },
+        //             {
+        //                 "id":2460917,
+        //                 "timestamp":"Dec 29, 2020 12:58:06 PM",
+        //                 "generateTime":"20201229125806",
+        //                 "sendTime":"20201229125806",
+        //                 "name":"更新-外区流控信息",
+        //                 "content":"更新-外区流控信息（前台推送自测）",
+        //                 "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT"}',
+        //                 "dataCode":"UFAO",
+        //                 "dataType":"FTMI",
+        //                 "level":"NOTICE",
+        //                 "source":"ATOM"
+        //             },
+        //             {
+        //                 "id":2460922,
+        //                 "timestamp":"Dec 29, 2020 12:58:06 PM",
+        //                 "generateTime":"20201229125806",
+        //                 "sendTime":"20201229125806",
+        //                 "name":"终止-外区流控信息",
+        //                 "content":"终止-外区流控信息（前台推送自测）",
+        //                 "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" }',
+        //                 "dataCode":"TFAO",
+        //                 "dataType":"FTMI",
+        //                 "level":"NOTICE",
+        //                 "source":"ATOM"
+        //             }
+        //         ]
+        //     };
+        //     const { message } = msgObj;
+        //     props.newsList.addNews(message);
+        // },2000 );
         stompClient();
     }, [])
     const emptyNews = () =>{

@@ -22,7 +22,16 @@ function RestrictionForm(props){
         resHigh: "DDD",
     };
     const [form] = Form.useForm();
+    const onCheck = async () => {
+        try {
+            const values = await form.validateFields();
+            console.log('Success:', values);
+        } catch (errorInfo) {
+            console.log('Failed:', errorInfo);
+        }
+    };
     return (
+        <div>
         <Form
             form={form}
             size="small"
@@ -36,13 +45,14 @@ function RestrictionForm(props){
             }}
             className="destriction_form"
         >
-            <StaticInfoCard />
-            <FlowList />
-            <Button type="primary" htmlType="submit">
-                导入
-            </Button>
-        </Form>
+            <StaticInfoCard disabledForm={props.disabledForm}/>
+            <FlowList disabledForm={props.disabledForm} />
 
+        </Form>
+        <Button className="r_btn btn_import" type="primary" onClick={onCheck} >
+            导入
+        </Button>
+        </div>
     )
 }
 

@@ -123,7 +123,8 @@ function FlightTable(props){
     return (
         <ModalBox
             className="flight_canvas"
-            title={`航班列表 (数据时间:${ formatTimeString(generateTime) })`}
+            // title={`航班列表 (数据时间:${ formatTimeString(generateTime) })`}
+            title={`航班列表`}
         >
             <div className="total_num">
                 <Input.Search
