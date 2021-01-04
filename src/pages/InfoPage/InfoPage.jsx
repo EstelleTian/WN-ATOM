@@ -6,7 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
  */
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, Fragment} from 'react'
 import { Layout, Button, Collapse, Row, Col, Tooltip } from 'antd'
 import { DeleteOutlined, AlertOutlined, WarningOutlined, MailOutlined, CloseOutlined} from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
@@ -36,19 +36,26 @@ function InfoCard(props){
     const removeCard = (massage) => {
         closeMessageDlg(massage)
         setInProp(false);
-        setTimeout(function(){
-            props.newsList.delNew( props.message );
-        }, 1000)
+        // setTimeout(function(){
+        //     props.newsList.delNew( props.message );
+        // }, 1000)
 
     }
     let { message, } = props;
-    let {level, sendTime, content, dataType, dataCode} = message;
+    let {level, sendTime, content, dataType, dataCode, id} = message;
     level = getLevel( level );
     return (
         <CSSTransition
             in={ inProp }
             timeout={1000}
             classNames="item"
+            key = { id }
+            unmountOnExit={true}
+            onExited={(node) => {
+                //动画出场之后的回调
+                // 移除该项
+                props.newsList.delNew( props.message );
+            }}
         >
             <div className={`info_card `}>
                 <div className={`level_icon ${level}`}>
@@ -57,6 +64,7 @@ function InfoCard(props){
                     { (level === "message") ? <MailOutlined /> : "" }
                 </div>
                 <div className="card_cont">
+                    { id }
                     <div className="title">
                         <div className={`level_text ${level}`}>{level}</div>
                         <div className="date">{ formatTimeString( sendTime ) }</div>
@@ -145,16 +153,17 @@ function InfoCardDetail(props){
 }
 
 //单个消息-panel模块
-function PanelList(props){
+function PanelList(props) {
     return (
         <TransitionGroup className="todo-list">
             <Collapse accordion className="info_content">
                 {
-                    props.newsList.list.map( (newItem,index) => (
+                    props.newsList.list.map((newItem, index) => (
+
                         <Panel
                             showArrow={false}
-                            header={ <InfoCard message={ newItem } newsList={props.newsList}  index={index} /> }
-                            key={ index }
+                            header={ <InfoCard message={ newItem } newsList={props.newsList} index={index}/> }
+                            key={ newItem.id }
                         >
                             <InfoCardDetail message={ newItem }/>
                         </Panel>
@@ -252,6 +261,29 @@ function InfoPage(props){
         props.newsList.emptyNews();
     }
 
+    const  add =() => {
+        const id = new Date().getTime();
+        const msgObj = {
+            "message":[
+                {
+                    "id": id,
+                    "timestamp":"Dec 29, 2020 12:58:06 PM",
+                    "generateTime":"20201229125806",
+                    "sendTime":"20201229125806",
+                    "name":"更新-外区流控信息",
+                    "content":"更新-外区流控信息（前台推送自测）",
+                    "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT"}',
+                    "dataCode":"UFAO",
+                    "dataType":"FTMI",
+                    "level":"NOTICE",
+                    "source":"ATOM"
+                },
+            ]
+        };
+        const { message } = msgObj;
+        props.newsList.addNews(message);
+    }
+
 
     const { newsList } = props;
 
@@ -263,7 +295,7 @@ function InfoPage(props){
                     <div className="title">消息推送(共{ len }条，最多100条)</div>
                     <Tooltip title="清除">
                         <div className="radish">
-                            <DeleteOutlined onClick={ emptyNews } />
+                            <DeleteOutlined onClick={ add } />
                         </div>
                     </Tooltip>
                     {/** <div className="scroll"><Checkbox checked>滚屏</Checkbox></div>
