@@ -47,7 +47,7 @@ function RestrictionPage( props ) {
         });
     }
     const requestATOMData = (id) => {
-        id = "2460915";
+        // id = "2460915";
         const opt = {
             url:'http://192.168.194.21:58189/hydrogen-scheme-flow-server/restrictions/' + id,
             method:'GET',
