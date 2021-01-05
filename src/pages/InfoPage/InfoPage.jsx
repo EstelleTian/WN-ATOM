@@ -163,7 +163,7 @@ function PanelList(props) {
                         <Panel
                             showArrow={false}
                             header={ <InfoCard message={ newItem } newsList={props.newsList} index={index}/> }
-                            key={ newItem.id+"-"+index }
+                            key={ newItem.id }
                         >
                             <InfoCardDetail message={ newItem }/>
                         </Panel>

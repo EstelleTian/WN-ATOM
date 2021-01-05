@@ -117,7 +117,7 @@ function FlightTable(props){
         return newArr
     }
     const flightTableData = props.flightTableData;
-    const { list, generateTime } = flightTableData;
+    const { list, loading } = flightTableData;
     let data = coverFlightTableData(list);
     data = filterInput(data);
     return (
@@ -146,6 +146,7 @@ function FlightTable(props){
             size="small"
             bordered
             pagination={false}
+            loading={ loading }
             scroll={{
                 x: tableWidth,
                 y: tableHeight

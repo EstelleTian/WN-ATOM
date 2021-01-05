@@ -216,14 +216,21 @@ function SchemeList (props){
             url:'http://192.168.194.21:29890/tactic/' + id,
             method:'GET',
             params:{},
-            resFunc: (data)=> updateFlightTableData(data),
-            errFunc: (err)=> requestErr(err, '航班列表数据获取失败'),
+            resFunc: (data)=> {
+                updateFlightTableData(data)
+                props.flightTableData.toggleLoad(false)
+            },
+            errFunc: (err)=> {
+                requestErr(err, '航班列表数据获取失败')
+                props.flightTableData.toggleLoad(false)
+            } ,
         };
         request(opt);
     }
     //高亮方案并获取航班数据
     const handleActive = ( id ) => {
         props.schemeListData.toggleSchemeActive( id+"" );
+        props.flightTableData.toggleLoad(true)
         requestFlightTableData(id+"");
     }
 

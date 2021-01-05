@@ -7,7 +7,7 @@ const SchemeTitle = function(props){
     const generateTime = props.flightTableData.generateTime || "";
     return (
         <div className="left_top">
-            <div>{ activeScheme.tacticName || ""}{ generateTime === "" ? "" : "("+ formatTimeString(generateTime) +")" }</div>
+            <div>{ activeScheme.tacticName || ""}{ generateTime === "" ? "" : "(数据时间:"+ formatTimeString(generateTime) +")" }</div>
         </div>
     )
 }

@@ -8,85 +8,34 @@
  */
 import React from 'react'
 import { isValidVariable } from 'utils/basic-verify'
-import { Input, Button , Popover, Checkbox, DatePicker ,Space, Tooltip     } from 'antd'
+import { Input, Button , Popover, Checkbox, DatePicker ,Space, Tooltip } from 'antd'
+import { FLIGHTIDPopover,FFIXTPopover } from  './CollaboratePopover'
 
 
-
-const getTitle = (opt)  =>{
-    const {text, record, index, col} = opt;
-    return record.FLIGHTID
-}
-const getContent = (opt)  =>{
-    const {text, record, index, col} = opt;
-    return (
-        <div>
-            <div>
-                <Input addonBefore="航班"  defaultValue={ record.FLIGHTID }  disabled />
-            </div>
-            <div>
-                <Input addonBefore="机场"  defaultValue={ record.FLIGHTID } disabled  />
-            </div>
-            <div>
-                <Space size={1}>
-                    <span class="ant-input-group-addon">日期</span>
-                    <DatePicker />
-                </Space>
-            </div>
-            <div>
-                <Input addonBefore="时间"  defaultValue={ record.FLIGHTID } />
-            </div>
-            <div>
-                <Checkbox >禁止系统自动调整</Checkbox>
-            </div>
-            <div>
-                <Input.TextArea showCount maxLength={100} />
-            </div>
-            <div>
-                <Button type="primary">Primary Button</Button>
-                <Button>Default Button</Button>
-            </div>
-
-
-        </div>
-    )
-}
-
-//右键渲染内容
-const getCell = (opt) => {
-
+// 右键渲染模块内容
+const render = (opt)  => {
     const {text, record, index, col, colCN} = opt;
     let color = "";
-
+    let popover = <div col-key= {col} >{text}</div>
+    if( isValidVariable(text) ){
+        if( col === "FLIGHTID" ){
+            popover = <FLIGHTIDPopover opt={opt} />
+        }
+        else if( col === "FFIXT" ){
+            popover = <FFIXTPopover opt={opt} />
+        }
+    }
     let obj  = {
-        children: <Popover
-            destroyTooltipOnHide ={ { keepParent: false  } }
-            placement="rightTop"
-            title={getTitle(opt)}
-            content={getContent(opt)}
-            trigger={[`contextMenu`]}
-        >
-            <div className="ddd">{text}</div>
-        </Popover >,
+        children: popover,
         props: {
-            "col-key":col,
+            "col-key":col, //td会增加这个属性
         },
     };
     return obj;
-
-};
-
-
-const render = (opt)  => {
-    const {text, record, index, col, colCN} = opt;
-    if(isValidVariable(text)){
-        return  getCell(opt);
-    }else {
-        return <div className="ccc">{text}</div>
-    }
 }
 
 
-//表格列配置
+//表格列名称-中英-字典
 const names = {
     "FLIGHTID":{
         "en":"FLIGHTID",
@@ -180,7 +129,7 @@ const names = {
         "cn":"前段降落时间"
     }
 }
-
+//表格列配置-默认-计数列
 const columns = [
     {
         title: "",
@@ -192,7 +141,7 @@ const columns = [
         render: (text, record, index) => `${index+1}`
     }
 ];
-
+//生成表配置-全部
 for(let key in names){
     const obj = names[key]
     const en = obj["en"]
@@ -245,6 +194,31 @@ for(let key in names){
     if( en === "STATUS" ){
         tem["width"] = 80
     }
+    // tem["onCell"] = (record, rowIndex) => {
+    //         return {
+    //             onClick: event => {}, // 点击行
+    //             onDoubleClick: event => {},
+    //             onContextMenu: event => {
+    //                 console.log(record, event )
+    //                 //选中右键列名
+    //                 const colEn = event.target.getAttribute("en")
+    //
+    //                 if( colEn === 'FFIXT' ){
+    //                     event.target.innerHTML =  `<Popover
+    //                         destroyTooltipOnHide ={ { keepParent: false  } }
+    //                         placement="rightTop"
+    //                         title={ record.FLIGHTID || "" }
+    //                         content={ getContent(record) }
+    //                     >
+    //                         <div className="ddd">{console.log(3333) }{ record[colEn] }</div>
+    //                     </Popover >`
+    //                 }
+    //             },
+    //             onMouseEnter: event => {}, // 鼠标移入行
+    //             onMouseLeave: event => {},
+    //         };
+    //
+    // }
     tem["render"] = (text, record, index) => {
         const opt = {
             text,
@@ -259,7 +233,7 @@ for(let key in names){
     columns.push(tem)
 }
 
-//表格数据
+//表格模拟数据
 const data = [];
 for (let i = 0; i < 200; i++) {
     data.push({
@@ -288,4 +262,6 @@ for (let i = 0; i < 200; i++) {
         "STATUS":"已起飞",
     });
 }
+
+
 export { columns, data }

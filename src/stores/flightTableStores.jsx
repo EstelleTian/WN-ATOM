@@ -45,6 +45,8 @@ class FlightTableData{
     @observable list = [];
     //数据时间
     @observable generateTime = "";
+    //数据获取
+    @observable loading = false;
 
     // 增加航班-单条
     @action addFlight( opt ){
@@ -64,16 +66,14 @@ class FlightTableData{
     }
     @action update( opt ){
         const item = new FlightItem(opt);
-
         const list = this.list.filter((flight, index)=> opt.id);
         console.log(list);
         list.map((flight, index) => {
            this.list.splice()
         });
-
         this.list.unshift( item );
     }
-
+    //更新航班数据
     @action updateList( arr, generateTime ){
         this.list = arr;
         this.generateTime = generateTime;
@@ -100,7 +100,10 @@ class FlightTableData{
         //
         // })
     }
-
+    //更新表格loading状态
+    @action toggleLoad( load ){
+        this.loading = load;
+    }
     
 
 }
