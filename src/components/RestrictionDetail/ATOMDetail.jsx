@@ -8,16 +8,40 @@
  */
 import React, {useEffect} from 'react'
 import { Tag, Descriptions, Checkbox , Space, Card, Row, Col  } from 'antd'
+import {getFullTime, getDayTimeFromString, isValidVariable } from '../../utils/basic-verify'
 import './ATOMDetail.scss'
 
 //顶部导航模块
 function ATOMDetail(props){
 
     const options = [
-        { label: '是否同意高度', value: '1' },
-        { label: '起飞申请', value: '2' },
-        { label: '禁航', value: '3' },
+        { label: '是否同意高度', value: 'sameHeight' },
+        { label: '起飞申请', value: 'takeoffApply' },
+        { label: '禁航', value: 'noFly' },
     ];
+
+    console.log(props);
+    const { flowData = {} } = props;
+    const { atomFlowInfo = {} } = flowData;
+
+    let { id, flowId, beginTime, endTime, flowName, forwardingtype,  sendUnit, recvUnit,
+        reason, sendSubUnit, content, arrAirport, arrExempt, depAirport,  inArea, route, depExempt,
+        contlPoint, controltype, dataStatus, delay, effective, flyArea, remark, sameHeight, takeoffApply,  noFly,
+        htype, hvalue,
+    } = atomFlowInfo;
+
+    const checkedVal = [];
+    if(sameHeight == "Y"){
+        checkedVal.push(sameHeight);
+    }
+    if(takeoffApply == "Y"){
+        checkedVal.push(takeoffApply);
+    }
+    if(noFly == "Y"){
+        checkedVal.push(noFly);
+    }
+
+
 
     return (
         <Row>
@@ -25,25 +49,25 @@ function ATOMDetail(props){
              <Card title="基本信息" size="small" className="advanced-card" bordered={false} >
                 <Descriptions size="small" bordered column={3}>
                     <Descriptions.Item label="流控名称" span={3}>
-                        ZPPP ACC起飞落地晋江
+                        {flowName}
                     </Descriptions.Item>
                     <Descriptions.Item label="流控ID">
-                        4543035
+                        {id}
                     </Descriptions.Item>
                     <Descriptions.Item label="流控类型">
-                        原发
+                        { forwardingtype }
                     </Descriptions.Item>
                     <Descriptions.Item label="发布单位">
-                        ZGGG
+                        { sendUnit }
                     </Descriptions.Item>
                     <Descriptions.Item label="受控单位">
-                        ZUUU
+                        { recvUnit }
                     </Descriptions.Item>
                     <Descriptions.Item label="流控原因" >
-                        军事活动
+                        { reason }
                     </Descriptions.Item>
                     <Descriptions.Item label="事发地">
-                        广州
+                        { sendSubUnit }
                     </Descriptions.Item>
                 </Descriptions>
             </Card>
@@ -52,74 +76,71 @@ function ATOMDetail(props){
             <Card title="流控内容" size="small" className="advanced-card" bordered={false}  >
                 <Descriptions size="small" title="" bordered column={3}>
                     <Descriptions.Item label="交接点(入点)">
-                        LAGEX
+                        { contlPoint }
                     </Descriptions.Item>
                     <Descriptions.Item label="开始时间">
-                        29/1137
+                        { getDayTimeFromString( beginTime )}
                     </Descriptions.Item>
                     <Descriptions.Item label="结束时间">
-                        29/2100
+                        { getDayTimeFromString( endTime )}
                     </Descriptions.Item>
                     <Descriptions.Item label="交接点(出点)">
-                        P40
+
                     </Descriptions.Item>
                     <Descriptions.Item label="开始时间">
-                        29/1312
+
                     </Descriptions.Item>
 
                     <Descriptions.Item label="结束时间">
-                        29/1935
+
                     </Descriptions.Item>
                     <Descriptions.Item label="起飞机场">
-                        ZLXY
+                        {depAirport}
                     </Descriptions.Item>
                     <Descriptions.Item label="飞越区域">
-                        {""}
+                        {flyArea}
                     </Descriptions.Item>
 
                     <Descriptions.Item label="起飞机场豁免">
-                        ZLYA
+                        {depExempt}
                     </Descriptions.Item>
                     <Descriptions.Item label="落地机场">
-                        ZLXY
+                        {arrAirport}
                     </Descriptions.Item>
                     <Descriptions.Item label="进...区域">
-                        {""}
+                        {inArea}
                     </Descriptions.Item>
 
                     <Descriptions.Item label="落地机场豁免">
-                        ZLYA
+                        {arrExempt}
                     </Descriptions.Item>
                     <Descriptions.Item label="高度限制" span={3}>
                         <Space size={ 50 }>
                         <span>
-                            {"5600,7200,11300"}
+                            { hvalue }
                         </span>
                             <span>
-                            <Checkbox.Group options={options} defaultValue={['1','3']}  />
+                            <Checkbox.Group options={options} defaultValue={checkedVal} disabled  />
                         </span>
 
                         </Space>
                     </Descriptions.Item>
                     <Descriptions.Item label="航路">
-                        LAGEX
+                        {route}
                     </Descriptions.Item>
                     <Descriptions.Item label="持续时间">
-                        120分钟
+                        { isValidVariable(effective) ? `${effective} 分钟` : ''}
                     </Descriptions.Item>
                     <Descriptions.Item label="迟发时间">
-                        62分钟
+                        { isValidVariable(delay) ? `${delay} 分钟` : ''}
                     </Descriptions.Item>
                     <Descriptions.Item label="自由编辑" span={3}>
-                        过LAGEX落深圳 珠海 澳门 30分钟 2 架且不小于100公里
+                        { content }
                     </Descriptions.Item>
                     <Descriptions.Item label="备注" span={3}>
+                        {remark}
+                    </Descriptions.Item>
 
-                    </Descriptions.Item>
-                    <Descriptions.Item label="CRS流控" span={3}>
-                        <Tag style={{ fontSize: "14px" }}>OMBON 落地5分钟/架 </Tag>
-                        <Tag style={{ fontSize: "14px" }}>P127 限制间隔 5分钟 </Tag>
-                    </Descriptions.Item>
 
 
                 </Descriptions>

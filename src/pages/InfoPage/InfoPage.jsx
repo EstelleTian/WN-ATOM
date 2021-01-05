@@ -42,7 +42,8 @@ function InfoCard(props){
 
     }
     let { message, index } = props;
-    let {level, sendTime, content, dataType, dataCode, id} = message;
+    let {level, sendTime, content, dataType, dataCode, id,  name, data ={}} = message;
+
     level = getLevel( level );
     return (
         <CSSTransition
@@ -112,6 +113,9 @@ function InfoCard(props){
                                 e.stopPropagation()
                             }} ><CloseOutlined /> </div>
                         </Tooltip>
+                    </div>
+                    <div className="text">
+                        { name }
                     </div>
 
                     <div className="text">
