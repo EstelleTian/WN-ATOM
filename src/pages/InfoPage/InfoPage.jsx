@@ -64,9 +64,9 @@ function InfoCard(props){
         >
             <div className={`info_card  ${ active ? "active" : "" }`}>
                 <div className={`level_icon ${level}`}>
-                    { (level === "warn") ? <AlertOutlined /> : "" }
-                    { (level === "notice") ? <WarningOutlined /> : "" }
-                    { (level === "message") ? <MailOutlined /> : "" }
+                    { (level === "warn") ? <div className="message-icon warn"></div> : "" }
+                    { (level === "notice") ? <div className="message-icon notice"></div> : "" }
+                    { (level === "message") ? <div className="message-icon message"></div>  : "" }
                 </div>
                 <div className="card_cont">
                     {/*{ id+"-"+index }*/}

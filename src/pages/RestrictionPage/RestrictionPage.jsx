@@ -108,9 +108,9 @@ function RestrictionPage( props ) {
                         <Col span={12} className="res_right">
                             <Row className="title">
                                 <span>流控导入</span>
-                                <FlowRelation setDisabledForm = {setDisabledForm}  disabledForm = {disabledForm} message={message} />
+                                <FlowRelation setDisabledForm = {setDisabledForm} flowData={ flowData }  disabledForm = {disabledForm} message={message} />
                             </Row>
-                            <RestrictionForm  disabledForm = {disabledForm} />
+                            <RestrictionForm  disabledForm = {disabledForm}  flowData={ flowData }  />
                         </Col>
                     </Row>
                     : ""
