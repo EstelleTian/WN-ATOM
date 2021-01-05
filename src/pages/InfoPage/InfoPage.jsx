@@ -42,7 +42,8 @@ function InfoCard(props){
 
     }
     let { message, index } = props;
-    let {level, sendTime, content, dataType, dataCode, id} = message;
+    let {level, sendTime, content, dataType, dataCode, id,  name, data ={}} = message;
+
     level = getLevel( level );
     return (
         <CSSTransition
@@ -113,6 +114,9 @@ function InfoCard(props){
                             }} ><CloseOutlined /> </div>
                         </Tooltip>
                     </div>
+                    <div className="text">
+                        { name }
+                    </div>
 
                     <div className="text">
                         { content }
@@ -163,7 +167,7 @@ function PanelList(props) {
                         <Panel
                             showArrow={false}
                             header={ <InfoCard message={ newItem } newsList={props.newsList} index={index}/> }
-                            key={ newItem.id+"-"+index }
+                            key={ newItem.id }
                         >
                             <InfoCardDetail message={ newItem }/>
                         </Panel>
