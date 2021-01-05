@@ -89,7 +89,8 @@ class SchemeListData{
         arr.map( item => {
             const id = item.id;
             //检验list有没有同id的方案
-            let hasScheme = this.list.filter( todo => id === todo.id).length === 0 ? false : true;
+            let sameScheme = this.list.filter( todo => id === todo.id);
+            let hasScheme = sameScheme.length === 0 ? false : true;
 
             //没有同id的就添加一条
             if( len === 0 || hasScheme === false ){
@@ -97,7 +98,10 @@ class SchemeListData{
                 this.list.push( itemIns );
             }else{
                 //有同id的 更新数据
-                item.update(item);
+                sameScheme.map( orgScheme => {
+                    orgScheme.update(item);
+                })
+
             }
             
         })

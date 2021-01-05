@@ -68,7 +68,7 @@ module.exports = {
                     {
                         loader: 'sass-resources-loader',
                         options: {
-                            resources: ['./src/common.scss']
+                            resources: ['./src/style/common.scss', './src/style/button.scss']
                         }
                     }
                 ]
@@ -114,7 +114,7 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: 'css/[name][hash:8].css',
-            chunkFilename: "css/[id].css"
+            // chunkFilename: "css/[hash:8].css"
         }),
         // moment 只打包 cn locale
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),

@@ -1,0 +1,100 @@
+$bg-15: rgba(0,0,0,0.15);
+$bg-35: rgba(0,0,0,0.35);
+$bg-100: rgba(0,0,0,1);
+
+$bc-black-100: rgba(0, 0, 0, 1);
+$bc-black-10: rgba(0, 0, 0, 0.1);
+$bc-black-20: rgba(0, 0, 0, 0.2);
+$bc-black-25: rgba(0, 0, 0, 0.25);
+$bc-black-30: rgba(0, 0, 0, 0.3);
+$bc-black-80: rgba(0, 0, 0, 0.8);
+$bc-black-90: rgba(0, 0, 0, 0.9);
+
+
+$c-white-100: rgba(255, 255, 255, 1);
+$c-white-90: rgba(255, 255, 255, 0.9);
+$c-white-80: rgba(255, 255, 255, 0.8);
+$c-white-70: rgba(255, 255, 255, 0.7);
+$c-white-60: rgba(255, 255, 255, 0.6);
+$c-white-40: rgba(255, 255, 255, 0.4);
+$c-white-10: rgba(255, 255, 255, 0.1);
+$c-white-15: rgba(255, 255, 255, 0.15);
+$c-white-20: rgba(255, 255, 255, 0.2);
+$c-white-30: rgba(255, 255, 255, 0.3);
+$c-white-50: rgba(255, 255, 255, 0.5);
+
+$red: #ff0000;
+
+
+@mixin display_flex($dir: row){
+    display: flex;
+    display: -webkit-flex;     
+    display: -moz-flex;        
+    display: -ms-flex;     
+    display: -webkit-flex; 
+    -webkit-flex-direction: $dir;
+    -ms-flex-direction: $dir;
+    flex-direction: $dir;
+}
+/* 子元素-平均分栏 */
+@mixin flex($part: 1) {
+    -webkit-flex: $part;
+    -webkit-flex: $part;         
+    -ms-flex: $part;             
+    flex: $part; 
+    overflow: hidden; //可以避免容器被撑大
+}
+
+@mixin scale( $n: 1 ){
+  transform: scale($n);
+  -webkit-transform: scale($n);
+  -ms-transform: scale($n);
+  -moz-transform: scale($n);
+  -o-transform: scale($n);
+}
+
+.layout-column{
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.layout-row{
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+.justify-content-center {
+  justify-content: center;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+/*滚动条样式*/
+/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar{
+    background-color: #3a3636;
+  }
+  /*定义滚动条的轨道，内阴影及圆角*/
+  ::-webkit-scrollbar-track{
+    //-webkit-box-shadow: inset 0 0 0.5rem $bc-black-30;
+    background-color: #3a3a3a;
+  }
+  /*定义滑块，内阴影及圆角*/
+  ::-webkit-scrollbar-thumb{
+    //-webkit-box-shadow: inset 0 0 0.5rem $bc-black-30;
+    background-color: #232323;
+  }
+  ::-webkit-scrollbar-corner{
+    background-color: transparent;
+  }
+  /*滚动条样式*/
+
+
+
+
+

@@ -1,0 +1,19 @@
+
+//右键协调框-日期
+.clr_date{
+   width: 157px;
+}
+//去掉antd form下边距
+.ant-form-item{
+  margin-bottom: 0;
+}
+
+//航班号右键
+.clr_flightid{
+  button{
+    display: block;
+    margin: 10px 0;
+    width: 130px;
+    font-size: 18px;
+  }
+}

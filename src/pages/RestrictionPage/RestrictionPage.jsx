@@ -24,10 +24,13 @@ function RestrictionPage( props ) {
     //TODO 测试数据，交由客户端后去除---end
     NWGlobal.setMsg = function(str){
         // setMessageStr(str)
-        setMessage(JSON.parse(str))
-        const messageData = JSON.parse(str);
-        const { data= {} } = messageData;
+        alert("收到字符串:"+str);
+        let json = JSON.parse(str);
+        setMessage(json);
+        alert("转json:"+json);
+        const { data= {} } = json;
         const id = data.id;
+        alert("id:"+ id);
         requestATOMData(id);
     };
 

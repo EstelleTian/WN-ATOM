@@ -9,7 +9,7 @@
 import React from 'react'
 import { isValidVariable } from 'utils/basic-verify'
 import { Input, Button , Popover, Checkbox, DatePicker ,Space, Tooltip } from 'antd'
-import { FLIGHTIDPopover,FFIXTPopover } from  './CollaboratePopover'
+import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover } from  './CollaboratePopover'
 
 
 // 右键渲染模块内容
@@ -17,13 +17,17 @@ const render = (opt)  => {
     const {text, record, index, col, colCN} = opt;
     let color = "";
     let popover = <div col-key= {col} >{text}</div>
-    if( isValidVariable(text) ){
-        if( col === "FLIGHTID" ){
-            popover = <FLIGHTIDPopover opt={opt} />
-        }
-        else if( col === "FFIXT" ){
-            popover = <FFIXTPopover opt={opt} />
-        }
+    if( col === "FLIGHTID" ){
+        popover = <FLIGHTIDPopover opt={opt} />
+    }
+    else if( col === "FFIXT" ){
+        popover = <FFIXTPopover opt={opt} />
+    }
+    else if( col === "COBT" ){
+        popover = <COBTPopover opt={opt} />
+    }
+    else if( col === "CTOT" ){
+        popover = <CTOTPopover opt={opt} />
     }
     let obj  = {
         children: popover,
@@ -127,6 +131,10 @@ const names = {
     "FETA":{
         "en":"FETA",
         "cn":"前段降落时间"
+    },
+    "orgdata": {
+        "en":"orgdata",
+        "cn":"原数据"
     }
 }
 //表格列配置-默认-计数列
@@ -136,7 +144,7 @@ const columns = [
         dataIndex: "rowNum",
         align: 'center',
         key: "rowNum",
-        width: 40,
+        width: 50,
         fixed: 'left',
         render: (text, record, index) => `${index+1}`
     }
@@ -151,7 +159,7 @@ for(let key in names){
         dataIndex: en,
         align: 'center',
         key: en,
-        width: 65,
+        width: 80,
         ellipsis: true,
         className: en,
         showSorterTooltip: false ,
@@ -190,41 +198,23 @@ for(let key in names){
         tem["defaultSortOrder"] ='ascend'
     }
     if( en === "FFIXT" || en === "CTO" || en === "ETO"|| en === "EAPT" || en === "OAPT"){
-        tem["width"] = 72
+        tem["width"] = 90
     }
     if( en === "FLIGHTID" ){
-        tem["width"] = 80
+        tem["width"] = 95
         tem["fixed"] = 'left'
     }
 
     if( en === "STATUS" ){
         tem["width"] = 80
     }
-    // tem["onCell"] = (record, rowIndex) => {
-    //         return {
-    //             onClick: event => {}, // 点击行
-    //             onDoubleClick: event => {},
-    //             onContextMenu: event => {
-    //                 console.log(record, event )
-    //                 //选中右键列名
-    //                 const colEn = event.target.getAttribute("en")
-    //
-    //                 if( colEn === 'FFIXT' ){
-    //                     event.target.innerHTML =  `<Popover
-    //                         destroyTooltipOnHide ={ { keepParent: false  } }
-    //                         placement="rightTop"
-    //                         title={ record.FLIGHTID || "" }
-    //                         content={ getContent(record) }
-    //                     >
-    //                         <div className="ddd">{console.log(3333) }{ record[colEn] }</div>
-    //                     </Popover >`
-    //                 }
-    //             },
-    //             onMouseEnter: event => {}, // 鼠标移入行
-    //             onMouseLeave: event => {},
-    //         };
-    //
-    // }
+
+    //隐藏列
+    if( en === "orgdata" ){
+        tem["className"] = "notshow";
+        tem["width"] = 0
+    }
+
     tem["render"] = (text, record, index) => {
         const opt = {
             text,

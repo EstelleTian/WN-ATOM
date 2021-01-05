@@ -14,7 +14,7 @@ import './RestrictionForm.scss'
 //表单整体
 function RestrictionForm(props){
     console.log("RestrictionForm~~ render");
-    const  { flowData } = props;
+    const  { flowData = {} } = props;
     const { restrictionInfo={} } = flowData;
     const { basicTacticInfo={} } = restrictionInfo;
     const { tacticName, tacticPublishUnit, tacticPublishUser, id, tacticTimeInfo={}, sourceFlowcontrol={}, directionList=[] } = basicTacticInfo;
