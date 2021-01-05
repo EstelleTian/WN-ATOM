@@ -76,4 +76,11 @@
     .item_active{
         border: 1px solid #0095eb;
     }
+    //手动刷新按钮
+    .manual_refresh{
+        position: absolute;
+        right: 40px;
+        top: 17px;
+        font-size: 20px;
+    }
 }

@@ -7,6 +7,9 @@
         @include flex();
     }
 }
+.ant-table.ant-table-small {
+    font-size: 18px;
+}
 .flight_canvas{
     position: relative;
     .total_num{
@@ -16,8 +19,8 @@
         font-size: 1rem;
     }
 }
-.odd-row > .ant-table-cell {
-    //background: #262626;
+.notshow{
+    display: none;
 }
 .ant-table-tbody > tr.ant-table-row:hover > td.ant-table-cell {
     background: rgba(89, 89, 89, 0.78);
@@ -29,11 +32,29 @@
     background: #404040;
 }
 .in_range{
-    background: rgba(72,163,247,35%);
+    background: #475461;
     .ant-table-cell-fix-left, .ant-table-cell-fix-right{
-        background: rgba(72,163,247,35%);
+        background: #475461;
     }
     .ant-table-cell.FFIXT{
-        background: rgba(72,163,247,50%);
+        background: #424548;
     }
+}
+//过点时间间隔样式
+.interval{
+    position: relative;
+    left: -6px;
+    >span{
+        padding: 0 5px;
+    }
+}
+.interval_green{
+    background: rgba(49, 128, 68, 0.6);
+}
+.interval_red{
+    background: rgba(142, 0, 0, 0.6);
+}
+//单元格为空，样式占位
+.empty_cell{
+    height: 30px;
 }

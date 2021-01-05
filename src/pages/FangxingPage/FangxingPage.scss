@@ -47,6 +47,7 @@
 
         .cont_right{
              width: 500px;
+            position: relative;
             //@include flex(2);
             @include display_flex(column);
         }

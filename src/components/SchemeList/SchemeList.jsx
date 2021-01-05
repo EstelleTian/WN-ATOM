@@ -6,13 +6,15 @@
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
  */
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Row, Col, message } from 'antd'
 import { requestGet, request } from 'utils/request'
 import { getTimeFromString, getDayTimeFromString } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
+import { SyncOutlined } from '@ant-design/icons';
 import './SchemeItem.scss'
+import {isValidVariable} from "../../utils/basic-verify";
 
 //方案状态转化
 const convertSatus = (status) => {
@@ -56,6 +58,9 @@ function  sItem(props){
      let { restrictionMITValue = ""} = flowControlMeasure;
      let targetUnits = "";
      let behindUnits = "";
+     if( !isValidVariable(directionList) ){
+         directionList = [];
+     }
      directionList.map((item) => {
          targetUnits += item.targetUnit+",";
          behindUnits += item.behindUnit+",";
@@ -157,11 +162,13 @@ let SchemeItem = (observer(sItem))
 
 //方案列表
 function SchemeList (props){
+    let [ manualRefresh, setManualRefresh ] = useState( false );
     NWGlobal.setSchemeId = id  => {
+        alert("收到id:"+id);
         handleActive( id )
     }
     //更新方案列表数据
-    const updateSchemeListData = data => {
+    const updateSchemeListData = useCallback(data => {
         let { tacticProcessInfos, status } = data;
         if( status === 500 ){
             message.error('获取的方案列表数据为空');
@@ -174,20 +181,26 @@ function SchemeList (props){
                 const { basicTacticInfo } = item;
                 return basicTacticInfo;
             })
+            //更新 方案 store
             schemeListData.updateList(list)
             if( (schemeListData.activeScheme.id === "" || schemeListData.activeScheme.id === undefined)  && list.length > 0 ){
                 let id = list[0].id + "";
                 handleActive(id)
             }
         }
-    }
-    const requestErr = (err, content) => {
+        setTimeout(function(){
+            getSchemeList()
+        },30 * 1000)
+    })
+    //请求错误处理
+    const requestErr = useCallback((err, content) => {
         message.error({
             content,
             duration: 4,
         });
-    }
-    const getSchemeList = () => {
+    })
+    //获取方案列表
+    const getSchemeList = useCallback(() => {
         const opt = {
             url:'http://192.168.194.21:58189/implementTactics',
             method: 'GET',
@@ -197,23 +210,32 @@ function SchemeList (props){
                 endTIme: "",
                 userId: "443"
             },
-            resFunc: (data)=> updateSchemeListData(data),
-            errFunc: (err)=> requestErr(err, '方案列表数据获取失败' ),
+            resFunc: (data)=> {
+                updateSchemeListData(data)
+                setManualRefresh(false);
+            },
+            errFunc: (err)=> {
+                requestErr(err, '方案列表数据获取失败' );
+                setManualRefresh(false);},
         };
         requestGet(opt);
-    }
+    });
+    // DidMount 获取一次方案列表
     useEffect(function(){
         getSchemeList();
     }, [])
 
-    const updateFlightTableData = flightData => {
+    //更新航班store数据
+    const updateFlightTableData = useCallback(flightData => {
         let  { flights, generateTime } = flightData;
         if( flights !== null ){
             props.flightTableData.updateList(flights, generateTime)
+        }else{
+            props.flightTableData.updateList([], generateTime)
         }
-    };
+    });
     //航班列表数据获取
-    const requestFlightTableData = id => {
+    const requestFlightTableData = useCallback(id => {
         const opt = {
             url:'http://192.168.194.21:29890/tactic/' + id,
             method:'GET',
@@ -228,18 +250,24 @@ function SchemeList (props){
             } ,
         };
         request(opt);
-    }
+    })
     //高亮方案并获取航班数据
-    const handleActive = ( id ) => {
+    const handleActive = useCallback(( id ) => {
         props.schemeListData.toggleSchemeActive( id+"" );
         props.flightTableData.toggleLoad(true)
         requestFlightTableData(id+"");
-    }
+    })
 
     const schemeListData = props.schemeListData;
     const { list } = schemeListData;
     return (
         <div className="list_container">
+            <div className="manual_refresh">
+                <SyncOutlined spin={manualRefresh}  onClick={()=>{
+                    setManualRefresh(true);
+                    getSchemeList();
+                }}/>
+            </div>
             {
                 list.map( (item, index) => (
                     <SchemeItem

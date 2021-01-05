@@ -52,7 +52,7 @@ const formatSingleFlight = flight => {
         SOBT: getDayTimeFromString(flight.sobt),
         EOBT: getDayTimeFromString(flight.eobt),
         TOBT: getDayTimeFromString(tobtField.value),
-        COBT: getDayTimeFromString(cobtField.value),
+        COBT: cobtField.value,
         CTOT: getDayTimeFromString(ctotField.value),
         ATOT: getDayTimeFromString(flight.atd),
         FETA: getDayTimeFromString(flight.formerArrtime),
@@ -61,6 +61,7 @@ const formatSingleFlight = flight => {
         CTO: getTimeAndStatus(ctoField.value),
         ETO: getTimeAndStatus(etoField.value),
         STATUS: flight.runningStatus,
+        orgdata: JSON.stringify(flight)
     }
     return flightObj;
 };
@@ -78,29 +79,30 @@ function FlightTable(props){
      * @return {string} className 类名
      * */
     const setRowClassName = (record, index) => {
-        let { FFIXT } = record;
+        let { FFIXT, orgdata } = record;
         if( sortKey === "FFIXT" ) {
             const activeScheme = props.schemeListData.activeScheme;
             let {startTime, endTime} = activeScheme.tacticTimeInfo;
             FFIXT = FFIXT.substring(0, 12);
             startTime = startTime.substring(0, 12);
-            endTime = endTime.substring(0, 12);
+
             // console.log("FFIXT",FFIXT,"startTime",startTime,"endTime",endTime);
             if (startTime * 1 < FFIXT * 1) {
                 if (isValidVariable(endTime)) {
+                    endTime = endTime.substring(0, 12);
                     if (FFIXT * 1 < endTime * 1) {
                         return "in_range"
                     } else {
-                        return "";
+                        return "out_range";
                     }
                 } else {
                     return "in_range";
                 }
             } else {
-                return "";
+                return "out_range";
             }
         }
-
+        return "aaa";
     };
 
     //转换为表格数据
