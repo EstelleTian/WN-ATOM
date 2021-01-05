@@ -8,13 +8,14 @@
  */
 import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Row, Col, message } from 'antd'
-import { requestGet, request } from 'utils/request'
-import { getTimeFromString, getDayTimeFromString } from 'utils/basic-verify'
-import { NWGlobal } from  'utils/global'
+import { Row, Col, message, Modal } from 'antd'
 import { SyncOutlined } from '@ant-design/icons';
+import { requestGet, request } from 'utils/request'
+import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
+import { NWGlobal } from  'utils/global'
+import  SchemeModal  from "./SchemeModal";
 import './SchemeItem.scss'
-import {isValidVariable} from "../../utils/basic-verify";
+
 
 //方案状态转化
 const convertSatus = (status) => {
@@ -37,7 +38,7 @@ const convertSatus = (status) => {
     return newStatus;
 }
 //单条方案
-function  sItem(props){
+function sItem(props){
     const onChange = (e, id) => {
         e.preventDefault();
         e.stopPropagation();
@@ -70,6 +71,10 @@ function  sItem(props){
      }
      if( behindUnits !== ""){
          behindUnits = behindUnits.substring(0, targetUnits.length-1);
+     }
+     const showDetail = function(id){
+         props.toggleModalVisible(true, id);
+
      }
      return (
          <div className={`item_container layout-column ${item.active ? 'item_active' : ''}`}  onClick={(e)=>{ onChange(e, id) } }>
@@ -127,6 +132,10 @@ function  sItem(props){
                      <div className="options-box layout-row">
                          <div className=" layout-row">
                              <div className="opt">影响</div>
+                             <div className="opt" onClick={ e =>{
+                                 showDetail(id);
+                                 e.stopPropagation();
+                             } }>详情</div>
                          </div>
                      </div>
 
@@ -162,6 +171,8 @@ let SchemeItem = (observer(sItem))
 
 //方案列表
 function SchemeList (props){
+    const [visible, setVisible] = useState(false);
+    const [modalId, setModalId] = useState("");
     let [ manualRefresh, setManualRefresh ] = useState( false );
     NWGlobal.setSchemeId = id  => {
         alert("收到id:"+id);
@@ -260,6 +271,11 @@ function SchemeList (props){
 
     const schemeListData = props.schemeListData;
     const { list } = schemeListData;
+    const toggleModalVisible = useCallback(( flag, id )=>{
+        setVisible(flag);
+        setModalId(id);
+        console.log("方案id:" , id);
+    })
     return (
         <div className="list_container">
             <div className="manual_refresh">
@@ -273,11 +289,14 @@ function SchemeList (props){
                     <SchemeItem
                         item={item}
                         handleActive={handleActive}
-                        key={index}>
+                        key={index}
+                        toggleModalVisible={toggleModalVisible}
+                    >
                     </SchemeItem>
                     )
                 )
             }
+            <SchemeModal visible={visible} setVisible={setVisible} modalId={modalId} />
         </div>
     )
  }

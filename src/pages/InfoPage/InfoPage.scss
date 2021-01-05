@@ -162,6 +162,21 @@
                     &:hover{
                         cursor: pointer;
                     }
+                    .sourceStatus{
+                        padding: 2px 5px;
+                    }
+                    .publishUnit{
+                        font-size: 16px;
+                    }
+                    .ADD{
+                        background: rgba(85, 251, 162, 0.5);
+                    }
+                    .UPDATE{
+                        background: #3e8fc5;
+                    }
+                    .DELETE{
+                        background: rgba(251, 74, 57, 0.5);
+                    }
                 }
                 .close{
                     padding: 0 5px;

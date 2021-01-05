@@ -28,7 +28,15 @@ function getLevel(level){
     }
     return res;
 }
-
+const convertStatus = ( sourceStatus ) => {
+    let cn = "";
+    switch ( sourceStatus ) {
+        case "ADD" : cn="新增";break;
+        case "UPDATE" : cn="更新";break;
+        case "DELETE" : cn="终止";break;
+    }
+    return cn;
+}
 //单个消息-消息头
 function InfoCard(props){
     let [inProp, setInProp] = useState(true);
@@ -47,7 +55,11 @@ function InfoCard(props){
         },3000)
     },[])
     let { message, index } = props;
-    let {level, sendTime, content, dataType, dataCode, id,  name, data ={}} = message;
+    let {level, sendTime, content, dataType, dataCode, id,  name, data =""} = message;
+    data = JSON.parse(data);
+    let { sourceStatus, startTime, endTime, publishUnit } = data;
+    let dataContent = data.content || "";
+    console.log( message. data);
     level = getLevel( level );
     return (
         <CSSTransition
@@ -62,11 +74,11 @@ function InfoCard(props){
                 props.newsList.delNew( props.message );
             }}
         >
-            <div className={`info_card  ${ active ? "active" : "" }`}>
+            <div className={`info_card  ${ active ? "active" : "" } ${dataType}`}>
                 <div className={`level_icon ${level}`}>
-                    { (level === "warn") ? <div className="message-icon warn"></div> : "" }
-                    { (level === "notice") ? <div className="message-icon notice"></div> : "" }
-                    { (level === "message") ? <div className="message-icon message"></div>  : "" }
+                    { (level === "warn") ? <div className="message-icon warn"/> : "" }
+                    { (level === "notice") ? <div className="message-icon notice"/> : "" }
+                    { (level === "message") ? <div className="message-icon message"/>  : "" }
                 </div>
                 <div className="card_cont">
                     {/*{ id+"-"+index }*/}
@@ -118,13 +130,34 @@ function InfoCard(props){
                             }} ><CloseOutlined /> </div>
                         </Tooltip>
                     </div>
-                    <div className="text">
-                        { name }
-                    </div>
+                    {
+                        (dataType === "FTMI")
+                            ? <div>
+                                <div className="text">
+                                    <span className={`${sourceStatus} sourceStatus`}>{convertStatus(sourceStatus)}</span>-{ name }
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span className="publishUnit">发布单位：{publishUnit}</span>
+                                </div>
+                                <div className="text">
+                                    { dataContent }
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    {formatTimeString(startTime)}- {formatTimeString(endTime)}
+                                    {/*&nbsp;&nbsp;&nbsp;&nbsp;*/}
 
-                    <div className="text">
-                        { content }
-                    </div>
+                                </div>
+                            </div>
+                            : <div>
+                                <div className="text">
+                                    { name }
+                                </div>
+
+                                <div className="text">
+                                    { content }
+                                </div>
+                            </div>
+                    }
+
                 </div>
             </div>
         </CSSTransition>
@@ -273,19 +306,9 @@ function InfoPage(props){
         const id = new Date().getTime();
         const msgObj = {
             "message":[
-                {
-                    "id": id,
-                    "timestamp":"Dec 29, 2020 12:58:06 PM",
-                    "generateTime":"20201229125806",
-                    "sendTime":"20201229125806",
-                    "name":"更新-外区流控信息",
-                    "content":"更新-外区流控信息（前台推送自测）",
-                    "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT"}',
-                    "dataCode":"UFAO",
-                    "dataType":"FTMI",
-                    "level":"NOTICE",
-                    "source":"ATOM"
-                },
+                {"id":1607,"timestamp":"Jan 5, 2021 8:11:14 PM","generateTime":"20210105201114","sendTime":"20210105201119","name":"外区流控信息","content":"过P62进郑州区域20分钟一架 新增 发布单位：ZHHH 2021-01-05 19:00-2021-01-05 23:00","data":"{\"id\":2460918,\"sourceId\":\"547787\",\"source\":\"ATOM\",\"sourceType\":\"MIT\",\"sourceStatus\":\"ADD\",\"content\":\"过P62进郑州区域20分钟一架\",\"publishUnit\":\"ZHCC\",\"publishTime\":\"202101051730\",\"startTime\":\"202101051900\",\"endTime\":\"202101052300\"}","dataCode":"AFAO","dataType":"FTMI","level":"NOTICE","source":"ATOM"},
+                {"id":1618,"timestamp":"Jan 5, 2021 8:22:14 PM","generateTime":"20210105202214","sendTime":"20210105202219","name":"外区流控信息","content":"过P62进郑州区域10分钟一架 修改  发布单位：ZHCC 2021-01-05 19:00-2021-01-05 23:00","data":"{\"id\":2460923,\"formerId\":2460922,\"tacticId\":\"519b4432-a7ba-4915-a934-e39c3dfb6911\",\"sourceId\":\"2554478\",\"source\":\"ATOM\",\"sourceType\":\"MIT\",\"sourceStatus\":\"UPDATE\",\"content\":\"过P62进郑州区域10分钟一架\",\"publishUnit\":\"ZHCC\",\"publishTime\":\"202101051400\",\"startTime\":\"202101051900\",\"endTime\":\"202101052300\"}","dataCode":"UFAO","dataType":"FTMI","level":"NOTICE","source":"ATOM"},
+                {"id":1618,"timestamp":"Jan 5, 2021 8:22:14 PM","generateTime":"20210105202214","sendTime":"20210105202219","name":"外区流控信息","content":"过P62进郑州区域10分钟一架 修改  发布单位：ZHCC 2021-01-05 19:00-2021-01-05 23:00","data":"{\"id\":2460923,\"formerId\":2460922,\"tacticId\":\"519b4432-a7ba-4915-a934-e39c3dfb6911\",\"sourceId\":\"2554478\",\"source\":\"ATOM\",\"sourceType\":\"MIT\",\"sourceStatus\":\"DELETE\",\"content\":\"过P62进郑州区域10分钟一架\",\"publishUnit\":\"ZHCC\",\"publishTime\":\"202101051400\",\"startTime\":\"202101051900\",\"endTime\":\"202101052300\"}","dataCode":"UFAO","dataType":"FTMI","level":"NOTICE","source":"ATOM"},
             ]
         };
         const { message } = msgObj;
