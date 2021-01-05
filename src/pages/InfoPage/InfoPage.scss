@@ -92,6 +92,22 @@
                 justify-content: center;
                 align-items: center;
                 @include display_flex();
+                .message-icon {
+                    width: 50px;
+                    height: 50px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+                .warn {
+                    background-image: url('../../images/warn.png');
+                }
+                .notice {
+                    background-image: url('../../images/notice.png');
+                }
+                .message {
+                    background-image: url('../../images/message.png');
+                }
             }
             .card_cont{
                 @include flex();
