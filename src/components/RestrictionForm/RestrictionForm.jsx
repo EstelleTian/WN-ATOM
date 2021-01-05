@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import  moment  from 'moment'
 import "moment/locale/zh-cn"
 import {Button,  Form} from 'antd'
@@ -9,28 +9,31 @@ import './RestrictionForm.scss'
 
 //表单整体
 function RestrictionForm(props){
+    console.log("RestrictionForm~~ render");
     const  { flowData } = props;
     const { restrictionInfo={} } = flowData;
     const { basicTacticInfo={} } = restrictionInfo;
+    let [ values, setValues ] = useState({});
 
     const { tacticName, tacticPublishUnit, tacticPublishUser } = basicTacticInfo;
 
     let initialValues = {
         staticName: tacticName || '',
-        origFlowContent: "BBB",
+        origFlowContent: "",
         publicUnit: tacticPublishUnit || "",
         publicUser:  tacticPublishUser || "",
-        unit: "DDD",
-        prevUnit: "DDD",
-        nextUnit: "DDD",
-        prevExempt: "DDD",
-        nextExempt: "DDD",
-        resHigh: "DDD",
+        unit: "",
+        prevUnit: "",
+        nextUnit: "",
+        prevExempt: "",
+        nextExempt: "",
+        resHigh: "",
     };
     const [form] = Form.useForm();
     useEffect(function(){
+        console.log("useEffect", initialValues);
         form.resetFields();//重置，用以表单初始值赋值
-    },[])
+    },[tacticName])
     const onCheck = async () => {
         try {
             const values = await form.validateFields();
@@ -45,14 +48,14 @@ function RestrictionForm(props){
         return initialValues
     }
 
-    form.setFieldsValue(setFieldsValue());
+    // form.setFieldsValue(setFieldsValue());
 
     return (
         <div>
         <Form
             form={form}
             size="small"
-            // initialValues={initialValues}
+            initialValues={initialValues}
             onFinish={(values)=>{
                const newStartTime =  moment(values.startTime).format('YYYYMMDDHHmm');
                 console.log(values);
