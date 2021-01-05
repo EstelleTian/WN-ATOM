@@ -9,11 +9,17 @@ import './RestrictionForm.scss'
 
 //表单整体
 function RestrictionForm(props){
+    const  { flowData } = props;
+    const { restrictionInfo={} } = flowData;
+    const { basicTacticInfo={} } = restrictionInfo;
+
+    const { tacticName, tacticPublishUnit, tacticPublishUser } = basicTacticInfo;
+
     let initialValues = {
-        staticName: "AAA",
+        staticName: tacticName || '',
         origFlowContent: "BBB",
-        publicUnit: "CCC",
-        publicUser: "DDD",
+        publicUnit: tacticPublishUnit || "",
+        publicUser:  tacticPublishUser || "",
         unit: "DDD",
         prevUnit: "DDD",
         nextUnit: "DDD",
@@ -30,17 +36,25 @@ function RestrictionForm(props){
             console.log('Failed:', errorInfo);
         }
     };
+
+    const setFieldsValue =(values) => {
+        console.log(values);
+        return initialValues
+    }
+
+    form.setFieldsValue(setFieldsValue());
+
     return (
         <div>
         <Form
             form={form}
             size="small"
-            initialValues={initialValues}
+            // initialValues={initialValues}
             onFinish={(values)=>{
                const newStartTime =  moment(values.startTime).format('YYYYMMDDHHmm');
                 console.log(values);
                 console.log(newStartTime);
-                sendMsgToClient(message)
+                // sendMsgToClient(message)
 
             }}
             className="destriction_form"

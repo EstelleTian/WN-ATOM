@@ -80,7 +80,7 @@ function FlowRelation( props ){
     let {sendTime="", content="", name="", source="" } = message;
     return(
         <span  className="nw_header">
-            <Button className="r_btn" type="primary" onClick={ showModal } >关联前后序</Button>
+            {/*<Button className="r_btn" type="primary" onClick={ showModal } >关联前后序</Button>*/}
             {
                 props.disabledForm
                     ? <Button className="r_btn" type="primary"  onClick={ () => {
