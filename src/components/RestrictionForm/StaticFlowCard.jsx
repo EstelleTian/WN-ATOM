@@ -8,7 +8,7 @@ function XuCard(props){
         <Descriptions size="small"  bordered column={1}>
             <Descriptions.Item label="机场" >
                 <Form.Item
-                    name={`${type}-airport}`}
+                    name={`${type}-airport`}
                 >
                     <Input disabled={ props.disabledForm }/>
                 </Form.Item>
@@ -25,14 +25,14 @@ function XuCard(props){
             </Descriptions.Item>
             <Descriptions.Item label="航路" >
                 <Form.Item
-                    name={`${type}-airline}`}
+                    name={`${type}-airline`}
                 >
                     <Input disabled={ props.disabledForm }/>
                 </Form.Item>
             </Descriptions.Item>
             <Descriptions.Item label="区域" >
                 <Form.Item
-                    name={`${type}-area}`}
+                    name={`${type}-area`}
                 >
                     <Input disabled={ props.disabledForm }/>
                 </Form.Item>
@@ -78,35 +78,17 @@ const zizhiOptions = [
     { label: 'II类', value: 'II类' }
 ];
 
+
 //交通流表单
 function StaticFlowCard(props){
     // const index = props.index || "4";
     return (
         <Card title={props.title} size="small">
-            {/*<Row style={{textAlign: 'center'}}>*/}
-            {/*    <Col span={8}>前序</Col>*/}
-            {/*    <Col span={8}>*/}
-            {/*        <Form.Item name="radio-group">*/}
-            {/*            <Radio.Group>*/}
-            {/*                <Radio value="and">并且</Radio>*/}
-            {/*                <Radio value="or">或者</Radio>*/}
-            {/*            </Radio.Group>*/}
-            {/*        </Form.Item>*/}
-            {/*    </Col>*/}
-            {/*    <Col span={8}>后序</Col>*/}
-            {/*</Row>*/}
-            {/*<Row>*/}
-            {/*    <Col span={12}>*/}
-            {/*        <XuCard index={index} type="pre"/>*/}
-            {/*    </Col>*/}
-            {/*    <Col span={12}>*/}
-            {/*        <XuCard index={index} type="next"/>*/}
-            {/*    </Col>*/}
-            {/*</Row>*/}
+
             <Descriptions size="small"  bordered column={1}>
                 <Descriptions.Item label="航班号" >
                     <Form.Item
-                        name={`callsign}`}
+                        name={`callsign`}
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
@@ -115,7 +97,7 @@ function StaticFlowCard(props){
                         {
                             props.disabledForm
                                 ? ""
-                                : <Form.Item name={`weilliuType}`} >
+                                : <Form.Item name={`weilliuType`} >
                                     <Checkbox.Group options={weiliuOptions} />
                                 </Form.Item>
                         }
@@ -124,7 +106,7 @@ function StaticFlowCard(props){
                         {
                             props.disabledForm
                                 ? ""
-                                : <Form.Item name={`hangbanxingzhi}`} >
+                                : <Form.Item name={`hangbanxingzhi`} >
                                     <Checkbox.Group options={xingzhiOptions} />
                                 </Form.Item>
                         }
@@ -133,7 +115,7 @@ function StaticFlowCard(props){
                         {
                             props.disabledForm
                                 ? ""
-                                : <Form.Item name={`kehuoleixing}`} >
+                                : <Form.Item name={`kehuoleixing`} >
                                     <Checkbox.Group options={kehuoOptions} />
                             </Form.Item>
                         }
@@ -142,7 +124,7 @@ function StaticFlowCard(props){
                         {
                             props.disabledForm
                                 ? ""
-                                : <Form.Item name={`renwuleixing}`} >
+                                : <Form.Item name={`renwuleixing`} >
                                     <Checkbox.Group options={renwuOptions} />
                                 </Form.Item>
                         }
@@ -151,7 +133,7 @@ function StaticFlowCard(props){
                         {
                             props.disabledForm
                                 ? ""
-                                :  <Form.Item name={`hangbanshuxing}`} >
+                                :  <Form.Item name={`hangbanshuxing`} >
                                     <Checkbox.Group options={shuxingOptions} />
                             </Form.Item>
                         }
@@ -160,7 +142,7 @@ function StaticFlowCard(props){
                     {
                         props.disabledForm
                             ? ""
-                            : <Form.Item name={`xianzhizizhi}`} >
+                            : <Form.Item name={`xianzhizizhi`} >
                                 <Checkbox.Group options={zizhiOptions} />
                             </Form.Item>
                     }
@@ -168,14 +150,14 @@ function StaticFlowCard(props){
                 </Descriptions.Item>
                 <Descriptions.Item label="受控机型" >
                     <Form.Item
-                        name={`rType}`}
+                        name={`rType`}
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="受控高度" >
                     <Form.Item
-                        name={`rHigh}`}
+                        name={`rHigh`}
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
