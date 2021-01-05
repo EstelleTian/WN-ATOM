@@ -9,8 +9,8 @@
 import React, { useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Row, Col, message } from 'antd'
-import { request } from 'utils/request'
-import { getTimeFromString } from 'utils/basic-verify'
+import { requestGet, request } from 'utils/request'
+import { getTimeFromString, getDayTimeFromString } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
 import './SchemeItem.scss'
 
@@ -24,7 +24,9 @@ const convertSatus = (status) => {
         case "PRE_TERMINATED":
         case "PRE_UPDATE":
              newStatus = "将要终止";break;
-        case "TERMINATED": newStatus = "人工终止";break;
+        case "TERMINATED":
+        case "TERMINATED_MANUAL":
+            newStatus = "人工终止";break;
         case "STOP": newStatus = "系统终止";break;
         case "FINISHED": newStatus = "正常结束";break;
         case "DISCARD": newStatus = "已废弃";break;
@@ -92,7 +94,7 @@ function  sItem(props){
                      </div>
                      <div className="layout-column double-column-box">
                          <div className="column-box  border-bottom">
-                             <div className="cell">{getTimeFromString(startTime)} - {getTimeFromString(endTime)}</div>
+                             <div className="cell" title={startTime+"-"+ endTime}>{getDayTimeFromString(startTime)} - {getDayTimeFromString(endTime)}</div>
                          </div>
                          <div className="layout-row">
                              <div className="column-box">
@@ -188,9 +190,9 @@ function SchemeList (props){
     const getSchemeList = () => {
         const opt = {
             url:'http://192.168.194.21:58189/implementTactics',
-            method:'GET',
+            method: 'GET',
             params:{
-                status: "RUNNING",
+                status: "RUNNING,FUTURE",
                 startTime: "",
                 endTIme: "",
                 userId: "443"
@@ -198,7 +200,7 @@ function SchemeList (props){
             resFunc: (data)=> updateSchemeListData(data),
             errFunc: (err)=> requestErr(err, '方案列表数据获取失败' ),
         };
-        request(opt);
+        requestGet(opt);
     }
     useEffect(function(){
         getSchemeList();

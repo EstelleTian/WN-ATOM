@@ -1,6 +1,6 @@
 import {Button, Checkbox, DatePicker, Input, Popover, Space} from "antd";
 import React,{useCallback} from "react";
-
+import { getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
 //航班号右键协调框
 const FLIGHTIDPopover = (props) => {
     const getContent = useCallback((record)  =>{
@@ -71,7 +71,7 @@ const FFIXTPopover = (props) => {
             content={getContent(props.opt)}
             trigger={[`contextMenu`]}
         >
-            <div className="ddd">{props.opt.text}</div>
+            <div className="ddd">{getTimeAndStatus(props.opt.text)}</div>
         </Popover >
     )
 }

@@ -20,11 +20,20 @@
     //background: #262626;
 }
 .ant-table-tbody > tr.ant-table-row:hover > td.ant-table-cell {
-    background: #0c5c9cc7;
+    background: rgba(89, 89, 89, 0.78);
 }
 .ant-table-cell.FFIX{
-    background: #0e4980;
+    //background: #0e4980;
 }
 .ant-table-cell.FFIXT{
-    background: #0095eb;
+    background: #404040;
+}
+.in_range{
+    background: rgba(72,163,247,35%);
+    .ant-table-cell-fix-left, .ant-table-cell-fix-right{
+        background: rgba(72,163,247,35%);
+    }
+    .ant-table-cell.FFIXT{
+        background: rgba(72,163,247,50%);
+    }
 }

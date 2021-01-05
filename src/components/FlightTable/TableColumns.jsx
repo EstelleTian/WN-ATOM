@@ -147,7 +147,7 @@ for(let key in names){
     const en = obj["en"]
     const cn = obj["cn"]
     let tem = {
-        title: <span title={cn}>{en}</span>,
+        title: en,
         dataIndex: en,
         align: 'center',
         key: en,
@@ -155,6 +155,12 @@ for(let key in names){
         ellipsis: true,
         className: en,
         showSorterTooltip: false ,
+        onHeaderCell: ( column ) => {
+            //配置表头属性，增加title值
+            return {
+                title: cn
+            }
+        }
     }
     //排序
     tem["sorter"] = (a,b) => {

@@ -14,6 +14,7 @@ import ModalBox from 'components/ModalBox/ModalBox'
 import { columns ,data} from 'components/FlightTable/TableColumns'
 import { getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
 import './FlightTable.scss';
+import {isValidVariable} from "../../utils/basic-verify";
 
 
 //数据转换，将航班转化为表格格式
@@ -56,7 +57,7 @@ const formatSingleFlight = flight => {
         ATOT: getDayTimeFromString(flight.atd),
         FETA: getDayTimeFromString(flight.formerArrtime),
         FFIX: ffixField.name,
-        FFIXT:getTimeAndStatus(ffixField.value) ,
+        FFIXT: ffixField.value,
         CTO: getTimeAndStatus(ctoField.value),
         ETO: getTimeAndStatus(etoField.value),
         STATUS: flight.runningStatus,
@@ -68,6 +69,8 @@ function FlightTable(props){
     let [tableWidth, setWidth] = useState(0);
     let [tableHeight, setHeight] = useState(0);
     let [searchVal, setSearchVal] = useState("");
+    let [sortKey, setSortKey] = useState("FFIXT");
+    let [sortOrder, setSortOrder] = useState("ascend");
     /**
      * @function 设置表格行的 class
      * @param {array} record 当前行数据
@@ -75,8 +78,29 @@ function FlightTable(props){
      * @return {string} className 类名
      * */
     const setRowClassName = (record, index) => {
-        let className = index % 2 === 0 ? 'odd-row' : "even-row";
-        return className;
+        let { FFIXT } = record;
+        if( sortKey === "FFIXT" ) {
+            const activeScheme = props.schemeListData.activeScheme;
+            let {startTime, endTime} = activeScheme.tacticTimeInfo;
+            FFIXT = FFIXT.substring(0, 12);
+            startTime = startTime.substring(0, 12);
+            endTime = endTime.substring(0, 12);
+            // console.log("FFIXT",FFIXT,"startTime",startTime,"endTime",endTime);
+            if (startTime * 1 < FFIXT * 1) {
+                if (isValidVariable(endTime)) {
+                    if (FFIXT * 1 < endTime * 1) {
+                        return "in_range"
+                    } else {
+                        return "";
+                    }
+                } else {
+                    return "in_range";
+                }
+            } else {
+                return "";
+            }
+        }
+
     };
 
     //转换为表格数据
@@ -120,6 +144,11 @@ function FlightTable(props){
     const { list, loading } = flightTableData;
     let data = coverFlightTableData(list);
     data = filterInput(data);
+    function onChange(pagination, filters, sorter, extra) {
+        console.log('params', pagination, filters, sorter, extra);
+        setSortOrder( sorter.order )
+        setSortKey( sorter.columnKey )
+    }
     return (
         <ModalBox
             className="flight_canvas"
@@ -151,6 +180,7 @@ function FlightTable(props){
                 x: tableWidth,
                 y: tableHeight
             }}
+            onChange={onChange}
             rowClassName={(record, index)=>setRowClassName(record, index)}
         />
         </ModalBox>
@@ -158,4 +188,4 @@ function FlightTable(props){
     )
 }
 
-export default inject("flightTableData")(observer(FlightTable))
+export default inject("flightTableData", "schemeListData")(observer(FlightTable))

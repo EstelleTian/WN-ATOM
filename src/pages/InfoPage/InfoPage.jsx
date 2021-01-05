@@ -32,6 +32,7 @@ function getLevel(level){
 //单个消息-消息头
 function InfoCard(props){
     let [inProp, setInProp] = useState(true);
+    let [active, setActive] = useState(true);
 
     const removeCard = (massage) => {
         closeMessageDlg(massage)
@@ -39,26 +40,29 @@ function InfoCard(props){
         // setTimeout(function(){
         //     props.newsList.delNew( props.message );
         // }, 1000)
-
     }
+    useEffect(function(){
+        setTimeout(function(){
+            setActive(false)
+        },3000)
+    },[])
     let { message, index } = props;
     let {level, sendTime, content, dataType, dataCode, id,  name, data ={}} = message;
-
     level = getLevel( level );
     return (
         <CSSTransition
             in={ inProp }
-            timeout={1000}
+            timeout={0}
             classNames="item"
             key = { id }
-            unmountOnExit={true}
+            unmountOnExit={ true }
             onExited={(node) => {
                 //动画出场之后的回调
                 // 移除该项
                 props.newsList.delNew( props.message );
             }}
         >
-            <div className={`info_card `}>
+            <div className={`info_card  ${ active ? "active" : "" }`}>
                 <div className={`level_icon ${level}`}>
                     { (level === "warn") ? <AlertOutlined /> : "" }
                     { (level === "notice") ? <WarningOutlined /> : "" }
@@ -265,28 +269,28 @@ function InfoPage(props){
         props.newsList.emptyNews();
     }
 
-    // const  add =() => {
-    //     const id = new Date().getTime();
-    //     const msgObj = {
-    //         "message":[
-    //             {
-    //                 "id": id,
-    //                 "timestamp":"Dec 29, 2020 12:58:06 PM",
-    //                 "generateTime":"20201229125806",
-    //                 "sendTime":"20201229125806",
-    //                 "name":"更新-外区流控信息",
-    //                 "content":"更新-外区流控信息（前台推送自测）",
-    //                 "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT"}',
-    //                 "dataCode":"UFAO",
-    //                 "dataType":"FTMI",
-    //                 "level":"NOTICE",
-    //                 "source":"ATOM"
-    //             },
-    //         ]
-    //     };
-    //     const { message } = msgObj;
-    //     props.newsList.addNews(message);
-    // }
+    const  add =() => {
+        const id = new Date().getTime();
+        const msgObj = {
+            "message":[
+                {
+                    "id": id,
+                    "timestamp":"Dec 29, 2020 12:58:06 PM",
+                    "generateTime":"20201229125806",
+                    "sendTime":"20201229125806",
+                    "name":"更新-外区流控信息",
+                    "content":"更新-外区流控信息（前台推送自测）",
+                    "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT"}',
+                    "dataCode":"UFAO",
+                    "dataType":"FTMI",
+                    "level":"NOTICE",
+                    "source":"ATOM"
+                },
+            ]
+        };
+        const { message } = msgObj;
+        props.newsList.addNews(message);
+    }
 
     const { newsList } = props;
 

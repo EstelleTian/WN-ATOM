@@ -22,6 +22,9 @@ function RestrictionForm(props){
         resHigh: "DDD",
     };
     const [form] = Form.useForm();
+    useEffect(function(){
+        form.resetFields();//重置，用以表单初始值赋值
+    },[])
     const onCheck = async () => {
         try {
             const values = await form.validateFields();
