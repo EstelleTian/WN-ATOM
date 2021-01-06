@@ -409,11 +409,22 @@ function RestrictionForm(props){
         console.log(id);
         setIsModalVisible(false);
         message.success('流控导入成功');
-        // TODO
-        // sendMsgToClient(id)
-        jsEntity.importControl(id);
+
+
+        handleImportControl(id);
 
     };
+    const handleImportControl =(str) => {
+
+        // TODO
+        try {
+            jsEntity.importControl(str);
+        }catch(error){
+            console.error(error);
+        }
+
+    };
+
     /**
      * 数据提交失败回调
      * */
@@ -498,9 +509,9 @@ function RestrictionForm(props){
                 size="small"
                 initialValues={initialValues}
                 onFinish={(values) => {
-                    const newStartTime = moment(values.startTime).format('YYYYMMDDHHmm');
+                    // const newStartTime = moment(values.startTime).format('YYYYMMDDHHmm');
                     console.log(values);
-                    console.log(newStartTime);
+                    // console.log(newStartTime);
                     // sendMsgToClient(message)
 
                 }}
