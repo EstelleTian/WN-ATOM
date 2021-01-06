@@ -230,6 +230,7 @@ function RestrictionForm(props){
     const  handleCancel = () => {
         // 隐藏模态框显示
         setIsModalVisible(false);
+        setConfirmLoading(false);
     };
 
     // 处理导入表单数据
@@ -238,6 +239,7 @@ function RestrictionForm(props){
             // 触发表单验证取表单数据
             const values = await form.validateFields();
             setImportButtonDisable(true);
+            setConfirmLoading(true);
             console.log(values);
             // 处理导入提交数据
             const submitData = handleSubmitData(values);
@@ -420,6 +422,7 @@ function RestrictionForm(props){
         const { basicTacticInfo={} } = tacticProcessInfo;
         const { id } = basicTacticInfo;
         console.log(id);
+        setConfirmLoading(false);
         setIsModalVisible(false);
         message.success('流控导入成功');
 
@@ -443,6 +446,8 @@ function RestrictionForm(props){
      * */
     const requestErr = (err, content) => {
         setImportButtonDisable(false);
+        setConfirmLoading(false);
+        setIsModalVisible(false);
         message.error({
             content,
             duration: 4,
@@ -563,6 +568,7 @@ function RestrictionForm(props){
                                 style={{ top: 200 }}
                                 onOk ={ handleImportFormData }
                                 onCancel={handleCancel}
+                                confirmLoading = { confirmLoading }
                                 >
                                 <p>确定导入当前流控?</p>
                             </Modal>
