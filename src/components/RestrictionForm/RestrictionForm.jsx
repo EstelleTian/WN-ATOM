@@ -14,7 +14,7 @@ import './RestrictionForm.scss'
 //表单整体
 function RestrictionForm(props){
     console.log("RestrictionForm~~ render");
-    const  { flowData = {} } = props;
+    const  { flowData = {}, showImportBtn } = props;
     // 方案数据对象
     const { restrictionInfo={} } = flowData;
     const { basicTacticInfo={} } = restrictionInfo;
@@ -520,24 +520,32 @@ function RestrictionForm(props){
                 />
 
             </Form>
-            <Button
-                className="r_btn btn_import"
-                type="primary"
-                onClick={handleImportClick}
-                disabled ={ importButtonDisable }
-            >
-                导入
-            </Button>
-            <Modal
-                title="流控导入"
-                visible={isModalVisible}
-                maskClosable={false}
-                style={{ top: 200 }}
-                onOk ={ handleImportFormData }
-                onCancel={handleCancel}
-            >
-                <p>确定导入当前流控?</p>
-            </Modal>
+            {
+                showImportBtn
+                    ?  <div>
+                            <Button
+                                className="r_btn btn_import"
+                                type="primary"
+                                onClick={handleImportClick}
+                                disabled ={ importButtonDisable }
+                            >
+                                导入
+                            </Button>
+                            <Modal
+                                title="流控导入"
+                                visible={isModalVisible}
+                                maskClosable={false}
+                                style={{ top: 200 }}
+                                onOk ={ handleImportFormData }
+                                onCancel={handleCancel}
+                                >
+                                <p>确定导入当前流控?</p>
+                            </Modal>
+                        </div>
+                    : ""
+            }
+
+
         </div>
     )
 }
