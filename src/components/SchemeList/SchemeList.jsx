@@ -57,11 +57,13 @@ function sItem(props){
          flowControlMeasure = {};
      }
      let { restrictionMITValue = "", restrictionAFPValueSequence ="", restrictionMode = ""} = flowControlMeasure;
-     console.log("tacticName",tacticName , "restrictionMITValue",restrictionMITValue, "restrictionAFPValueSequence",restrictionAFPValueSequence)
-     let interVal = restrictionMITValue;
-     if( !isValidVariable(interVal) ){
-         interVal = restrictionAFPValueSequence;
-     }
+     //限制值
+    let interVal = "";
+    if( restrictionMode === "MIT"){
+        interVal = restrictionMITValue;
+    }else if( restrictionMode === "AFP" ){
+        interVal = restrictionAFPValueSequence;
+    }
      let targetUnits = "";
      let behindUnits = "";
      if( !isValidVariable(directionList) ){
