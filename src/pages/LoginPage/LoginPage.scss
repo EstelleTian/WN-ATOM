@@ -1,0 +1,109 @@
+
+.login{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-position: center;
+  background: url('../../images/11.jpg');
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+
+  .head {
+    background: url('../../images/logo.png');
+    height: 9.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-bottom: 1.5rem;
+  }
+  .content{
+    background-color: $c-white-20;
+    padding: 4.5rem;
+    margin-bottom: 8rem;
+    overflow: hidden;
+    //box-shadow: 0 0 5px 5px #262f36;
+    border: 1rem solid $c-white-20;
+  }
+  .copyright {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+}
+.login_form{
+  .ant-form-item{
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .ant-form-item-with-help {
+    margin-bottom: 1.9rem;
+  }
+  .ant-form-item-children, .ant-input, .login_button > span {
+    font-size: 1rem;
+  }
+  .ant-form-item.has-err {
+    margin-bottom: 0;
+  }
+
+  .title{
+    color: $c-white-100;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin: 0 0 0.5rem 0;
+  }
+  .form_input{
+    font-size: 1.5rem;
+    input{
+      height:3.4rem;
+    }
+  }
+  .login-form-by-ip{
+    font-size: 1.5rem;
+    float: right;
+    line-height: 3.75rem;
+    color: #1890ff;
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+  }
+  .ant-alert-message{
+    color: #f5222d;
+    font-size: 1.1675rem;
+    word-break: break-all;
+  }
+  .login_button {
+    width: 36%;
+  }
+  .ant-btn-primary {
+    color: #fff;
+    background-color: #1890ff;
+    border-color: #1890ff;
+  }
+  .ant-input:hover, .ant-input:focus,.ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
+    border-color: #40a9ff;
+  }
+  .ant-btn-primary:hover, .ant-btn-primary:focus {
+    color: #fff;
+    background-color: #40a9ff;
+    border-color: #40a9ff;
+  }
+  .ant-alert-error {
+    background-color: transparent;
+    border: 0;
+    color: #f5222d;
+  }
+  .ant-input-affix-wrapper .ant-input:not(:first-child){
+    padding-left: 1rem;
+    font-size: 1.5rem;
+  }
+  .ant-form-item-control-wrapper .anticon {
+    font-size: 1.525rem;
+  }
+  .ant-form-explain {
+    font-size: 1.1675rem;
+  }
+}
