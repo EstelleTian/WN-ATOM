@@ -153,7 +153,7 @@ const FFIXTPopover = (props) => {
             }
             {
                 meetIntervalValue === "100"
-                    ? <div className="interval" ><span  className="interval_red">{getTimeAndStatus(props.opt.text)}</span></div>
+                    ? <div className="interval" ><span  className="interval_green">{getTimeAndStatus(props.opt.text)}</span></div>
                     : ""
             }
             {
