@@ -66,7 +66,6 @@ function RestrictionPage( props ) {
         request(opt);
     }
 
-
     let newTypeCn = "";
     let dataCode = "";
     let source = "";
@@ -113,7 +112,7 @@ function RestrictionPage( props ) {
                                 <span>流控导入</span>
                                 <FlowRelation setDisabledForm = {setDisabledForm} flowData={ flowData }  disabledForm = {disabledForm} message={message} />
                             </Row>
-                            <RestrictionForm  disabledForm = {disabledForm}  flowData={ flowData }  />
+                            <RestrictionForm  disabledForm = {disabledForm}  flowData={ flowData }  showImportBtn={true} />
                         </Col>
                     </Row>
                     : ""

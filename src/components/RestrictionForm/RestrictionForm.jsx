@@ -14,7 +14,7 @@ import './RestrictionForm.scss'
 //表单整体
 function RestrictionForm(props){
     console.log("RestrictionForm~~ render");
-    const  { flowData = {} } = props;
+    const  { flowData = {}, showImportBtn } = props;
     // 方案数据对象
     const { tacticProcessInfo={} } = flowData;
     const { basicTacticInfo={} } = tacticProcessInfo;
@@ -230,7 +230,6 @@ function RestrictionForm(props){
     const  handleCancel = () => {
         // 隐藏模态框显示
         setIsModalVisible(false);
-        setConfirmLoading(false);
     };
 
     // 处理导入表单数据
@@ -239,7 +238,6 @@ function RestrictionForm(props){
             // 触发表单验证取表单数据
             const values = await form.validateFields();
             setImportButtonDisable(true);
-            setConfirmLoading(true);
             console.log(values);
             // 处理导入提交数据
             const submitData = handleSubmitData(values);
@@ -404,10 +402,8 @@ function RestrictionForm(props){
      * 数据提交
      * */
     const submitFormData = (data) => {
-        const status = "SIM";
         const opt = {
             url:'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/443',
-            // url:'http://192.168.243.120:58189/hydrogen-scheme-flow-server/simulationTactics/443',
             method:'POST',
             params:JSON.stringify(data),
             resFunc: (data)=> requestSuccess(data),
@@ -424,7 +420,6 @@ function RestrictionForm(props){
         const { basicTacticInfo={} } = tacticProcessInfo;
         const { id } = basicTacticInfo;
         console.log(id);
-        setConfirmLoading(false);
         setIsModalVisible(false);
         message.success('流控导入成功');
 
@@ -448,8 +443,6 @@ function RestrictionForm(props){
      * */
     const requestErr = (err, content) => {
         setImportButtonDisable(false);
-        setConfirmLoading(false);
-        setIsModalVisible(false);
         message.error({
             content,
             duration: 4,
@@ -552,25 +545,32 @@ function RestrictionForm(props){
                 />
 
             </Form>
-            <Button
-                className="r_btn btn_import"
-                type="primary"
-                onClick={handleImportClick}
-                disabled ={ importButtonDisable }
-            >
-                导入
-            </Button>
-            <Modal
-                title="流控导入"
-                visible={isModalVisible}
-                maskClosable={false}
-                style={{ top: 200 }}
-                onOk ={ handleImportFormData }
-                onCancel={handleCancel}
-                confirmLoading = { confirmLoading }
-            >
-                <p>确定导入当前流控?</p>
-            </Modal>
+            {
+                showImportBtn
+                    ?  <div>
+                            <Button
+                                className="r_btn btn_import"
+                                type="primary"
+                                onClick={handleImportClick}
+                                disabled ={ importButtonDisable }
+                            >
+                                导入
+                            </Button>
+                            <Modal
+                                title="流控导入"
+                                visible={isModalVisible}
+                                maskClosable={false}
+                                style={{ top: 200 }}
+                                onOk ={ handleImportFormData }
+                                onCancel={handleCancel}
+                                >
+                                <p>确定导入当前流控?</p>
+                            </Modal>
+                        </div>
+                    : ""
+            }
+
+
         </div>
     )
 }
