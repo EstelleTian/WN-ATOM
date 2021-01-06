@@ -35,16 +35,16 @@ function FlowList(props){
 
     const restrictionModeData = [
         {"key":"AFP", "text": "AFP"},
-        {"key":"GDP", "text": "GDP"},
+        // {"key":"GDP", "text": "GDP"},
         {"key":"MIT", "text": "MIT"},
-        {"key":"GS", "text": "地面停止"},
-        {"key":"AS", "text": "指定时隙"},
-        {"key":"BREQ", "text": "上客申请"},
-        {"key":"REQ", "text": "开车申请"},
-        {"key":"TC", "text": "总量控制"},
-        {"key":"AH", "text": "空中等待"},
-        {"key":"CT", "text": "改航"},
-        {"key":"AA", "text": "空域开闭限制"},
+        // {"key":"GS", "text": "地面停止"},
+        // {"key":"AS", "text": "指定时隙"},
+        // {"key":"BREQ", "text": "上客申请"},
+        // {"key":"REQ", "text": "开车申请"},
+        // {"key":"TC", "text": "总量控制"},
+        // {"key":"AH", "text": "空中等待"},
+        // {"key":"CT", "text": "改航"},
+        // {"key":"AA", "text": "空域开闭限制"},
     ]
 
     const publishTypeData = [

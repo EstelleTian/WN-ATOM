@@ -47,13 +47,22 @@ function RestrictionForm(props){
 
     // 依据流控限制方式取流控限制数值方法
     const  getRestrictionModeValue = () => {
-        const { restrictionMode,  restrictionMITValue} = flowControlMeasure;
+        const { restrictionMode,  restrictionMITValue, restrictionAFPValueSequence} = flowControlMeasure;
         if(restrictionMode == "MIT"){
             return restrictionMITValue;
+        }else if(restrictionMode == "AFP"){
+            return restrictionAFPValueSequence;
         }
-
-
     };
+
+    // 依据流控限制方式取流控限制数值方法
+   const restrictionModeData = {
+        "MIT": "restrictionMITValue",
+        "AFP": "restrictionAFPValueSequence",
+    };
+
+
+
     // 流控限制数值
     let restrictionModeValue =getRestrictionModeValue();
 
@@ -189,7 +198,6 @@ function RestrictionForm(props){
         form.resetFields();//重置，用以表单初始值赋值
         // 更新表单各时间数值
         updateDataTime();
-
     },[id])
 
 
@@ -303,7 +311,7 @@ function RestrictionForm(props){
         const { tacticName, tacticPublishUnit, tacticPublishUser,
             targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit,
             flowControlName, flowControlReason, flowControlPublishType, restrictionRemark,
-            restrictionMode,
+            restrictionMode, restrictionModeValue,
             flowControlFlightId, flowControlWakeFlowType, flowControlMissionType, flowControlPassengerCargoType,
             flowControlTaskType, flowControlMilitaryCivilType, flowControlQualification,flowControlAircraftType,
             exemptFlightId, exemptWakeFlowType, exemptMissionType, exemptPassengerCargoType,
@@ -346,6 +354,9 @@ function RestrictionForm(props){
         flowControlTimeInfo.endTime = flowControlEndTimeString;
         // 更新流控限制方式
         flowControlMeasure.restrictionMode = restrictionMode;
+        let modeKey = restrictionModeData[restrictionMode];
+        // 更新流控限制方式相应的字段数值
+        flowControlMeasure[modeKey] = restrictionModeValue;
 
 
         // 更新流控交通流-包含-航班号
