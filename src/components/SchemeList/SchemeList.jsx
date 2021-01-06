@@ -56,7 +56,11 @@ function sItem(props){
      if( flowControlMeasure === null ){
          flowControlMeasure = {};
      }
-     let { restrictionMITValue = ""} = flowControlMeasure;
+     let { restrictionMITValue = "", restrictionAFPValueSequence =""} = flowControlMeasure;
+     let interVal = restrictionMITValue;
+     if( !isValidVariable(interVal) ){
+         interVal = restrictionAFPValueSequence;
+     }
      let targetUnits = "";
      let behindUnits = "";
      if( !isValidVariable(directionList) ){
@@ -82,24 +86,24 @@ function sItem(props){
                  <div className="left-column border-bottom layout-column justify-content-center">
                     <div className="name">
                         <div className="cell">
-                            <span className="tactic-name">{tacticName}</span>
+                            <span className="tactic-name" title={`方案名称: ${tacticName} `}>{tacticName}</span>
                         </div>
                     </div>
                      <div className="state">
-                         <div className="cell">
+                         <div className="cell"  title="方案状态--方案计算状态">
                              <span className="status">{ convertSatus(tacticStatus) }</span>
-                             <span className="calculate">{ startCalculateTime == "" ? "计算中" : "已计算"}</span>
+                             <span className="calculate">{ startCalculateTime === "" ? "计算中" : "已计算"}</span>
                          </div>
                      </div>
                  </div>
                  <div className="right-column border-bottom layout-row">
                      <div className="layout-column">
                          <div className="column-box  border-bottom">
-                             <div className="cell">{tacticPublishUnit}</div>
+                             <div className="cell" title="发布单位">{tacticPublishUnit}</div>
                          </div>
 
                          <div className="column-box">
-                             <div className="cell">{restrictionMITValue}</div>
+                             <div className="cell" title="限制值">{interVal}</div>
                          </div>
                      </div>
                      <div className="layout-column double-column-box">
@@ -108,10 +112,10 @@ function sItem(props){
                          </div>
                          <div className="layout-row">
                              <div className="column-box">
-                                 <div className="cell">{targetUnits}</div>
+                                 <div className="cell" title={`基准单元: ${targetUnits} `}>{targetUnits}</div>
                              </div>
                              <div className="column-box">
-                                 <div className="cell">{behindUnits}</div>
+                                 <div className="cell" title={`后续单元: ${behindUnits} `}>{behindUnits}</div>
                              </div>
                          </div>
                      </div>
@@ -123,7 +127,9 @@ function sItem(props){
                      <div className="summary">
                          <div className="cell">
                              创建时间:<span>{getTimeFromString(publishTime)}</span>
+                             &nbsp;&nbsp;
                              原因:<span>{basicTacticInfoReason}</span>
+                             &nbsp;&nbsp;
                              备注:<span>{basicTacticInfoRemark}</span>
                          </div>
                      </div>
