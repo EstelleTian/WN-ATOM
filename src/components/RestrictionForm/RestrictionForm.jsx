@@ -354,7 +354,7 @@ function RestrictionForm(props){
         flowControlTimeInfo.endTime = flowControlEndTimeString;
         // 更新流控限制方式
         flowControlMeasure.restrictionMode = restrictionMode;
-        let modeKey = restrictionModeData.restrictionMode;
+        let modeKey = restrictionModeData[restrictionMode];
         // 更新流控限制方式相应的字段数值
         flowControlMeasure[modeKey] = restrictionModeValue;
 
