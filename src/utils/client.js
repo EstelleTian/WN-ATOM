@@ -51,4 +51,14 @@ const openMessageDlg = () => {
         console.error(e);
     }
 }
-export { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail}
+//流控详情--点击--导入
+const handleImportControl =(str) => {
+    try {
+        //传递方案id
+        jsEntity.importControl(str);
+    }catch(error){
+        console.error(error);
+    }
+
+};
+export { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl}

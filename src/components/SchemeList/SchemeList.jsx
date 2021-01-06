@@ -56,11 +56,14 @@ function sItem(props){
      if( flowControlMeasure === null ){
          flowControlMeasure = {};
      }
-     let { restrictionMITValue = "", restrictionAFPValueSequence =""} = flowControlMeasure;
-     let interVal = restrictionMITValue;
-     if( !isValidVariable(interVal) ){
-         interVal = restrictionAFPValueSequence;
-     }
+     let { restrictionMITValue = "", restrictionAFPValueSequence ="", restrictionMode = ""} = flowControlMeasure;
+     //限制值
+    let interVal = "";
+    if( restrictionMode === "MIT"){
+        interVal = restrictionMITValue;
+    }else if( restrictionMode === "AFP" ){
+        interVal = restrictionAFPValueSequence;
+    }
      let targetUnits = "";
      let behindUnits = "";
      if( !isValidVariable(directionList) ){
@@ -90,20 +93,20 @@ function sItem(props){
                         </div>
                     </div>
                      <div className="state">
-                         <div className="cell"  title="方案状态--方案计算状态">
-                             <span className="status">{ convertSatus(tacticStatus) }</span>
-                             <span className="calculate">{ startCalculateTime === "" ? "计算中" : "已计算"}</span>
+                         <div className="cell">
+                             <span className="status" title="方案状态">{ convertSatus(tacticStatus) }</span>
+                             <span className="calculate" title="方案计算状态">{ startCalculateTime === "" ? "计算中" : "已计算"}</span>
                          </div>
                      </div>
                  </div>
                  <div className="right-column border-bottom layout-row">
                      <div className="layout-column">
                          <div className="column-box  border-bottom">
-                             <div className="cell" title="发布单位">{tacticPublishUnit}</div>
+                             <div className="cell" title={`发布单位: ${tacticPublishUnit}`}>{tacticPublishUnit}</div>
                          </div>
 
                          <div className="column-box">
-                             <div className="cell" title="限制值">{interVal}</div>
+                             <div className="cell" title={`限制方式: ${restrictionMode}`}>{restrictionMode}</div>
                          </div>
                      </div>
                      <div className="layout-column double-column-box">
@@ -112,11 +115,14 @@ function sItem(props){
                          </div>
                          <div className="layout-row">
                              <div className="column-box">
-                                 <div className="cell" title={`基准单元: ${targetUnits} `}>{targetUnits}</div>
+                                 <div className="cell" title={`限制值: ${interVal}`}>{interVal}</div>
                              </div>
                              <div className="column-box">
-                                 <div className="cell" title={`后续单元: ${behindUnits} `}>{behindUnits}</div>
+                                 <div className="cell" title={`基准单元: ${targetUnits}`}>{targetUnits}</div>
                              </div>
+                             {/*<div className="column-box">*/}
+                             {/*    <div className="cell" title={`后续单元: ${behindUnits} `}>{behindUnits}</div>*/}
+                             {/*</div>*/}
                          </div>
                      </div>
 

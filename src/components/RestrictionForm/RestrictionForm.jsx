@@ -4,7 +4,7 @@ import "moment/locale/zh-cn"
 import {Button, Modal,   Form, message} from 'antd'
 import StaticInfoCard from './StaticInfoCard'
 import FlowList from './FlowList'
-import { sendMsgToClient } from 'utils/client'
+import { handleImportControl } from 'utils/client'
 import { getDayTimeFromString, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { request } from 'utils/request'
 
@@ -412,6 +412,8 @@ function RestrictionForm(props){
             errFunc: (err)=> requestErr(err, '流控导入失败' ),
         };
         request(opt);
+        //发送到客户端
+        // handleImportControl(JSON.stringify(data));
     };
 
     /**
@@ -428,16 +430,6 @@ function RestrictionForm(props){
 
 
         handleImportControl(id);
-
-    };
-    const handleImportControl =(str) => {
-
-        // TODO
-        try {
-            jsEntity.importControl(str);
-        }catch(error){
-            console.error(error);
-        }
 
     };
 
