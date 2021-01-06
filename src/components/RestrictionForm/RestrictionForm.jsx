@@ -16,8 +16,8 @@ function RestrictionForm(props){
     console.log("RestrictionForm~~ render");
     const  { flowData = {} } = props;
     // 方案数据对象
-    const { restrictionInfo={} } = flowData;
-    const { basicTacticInfo={} } = restrictionInfo;
+    const { tacticProcessInfo={} } = flowData;
+    const { basicTacticInfo={} } = tacticProcessInfo;
     const { tacticName, tacticPublishUnit, tacticPublishUser, id, tacticTimeInfo={}, sourceFlowcontrol={}, directionList=[] } = basicTacticInfo;
     // 方案开始时间(12位字符串)
     let basicStartTime = tacticTimeInfo.startTime;
@@ -245,7 +245,7 @@ function RestrictionForm(props){
      * */
     const handleSubmitData =(values) =>{
         // 复制方案数据对象
-        let opt = JSON.parse(JSON.stringify(restrictionInfo));
+        let opt = JSON.parse(JSON.stringify(tacticProcessInfo));
         // 方案基本信息数据对象
         let basicTacticInfo = opt.basicTacticInfo;
         if(!isValidObject(basicTacticInfo)){
@@ -403,14 +403,15 @@ function RestrictionForm(props){
      * 数据提交成功回调
      * */
     const requestSuccess =(data) => {
-        const { restrictionInfo={} } = data;
-        const { basicTacticInfo={} } = restrictionInfo;
+        const { tacticProcessInfo={} } = data;
+        const { basicTacticInfo={} } = tacticProcessInfo;
         const { id } = basicTacticInfo;
         console.log(id);
         setIsModalVisible(false);
         message.success('流控导入成功');
         // TODO
         // sendMsgToClient(id)
+        jsEntity.importControl(id);
 
     };
     /**

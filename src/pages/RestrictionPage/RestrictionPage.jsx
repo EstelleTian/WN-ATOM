@@ -1,6 +1,6 @@
 
 import React, { Suspense, useState } from  'react'
-import {Form, Input, Button, Checkbox, Spin, Row, Col} from "antd";
+import {Form, Input, Button, Checkbox, Spin, Row, Col,   message as antdMessage} from "antd";
 import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail'
 import NTFMDetail  from 'components/RestrictionDetail/NTFMDetail'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
@@ -38,13 +38,13 @@ function RestrictionPage( props ) {
     const updateData = data => {
         let {  status } = data;
         if( status === 500 ){
-            message.error('获取的流控数据为空');
+            antdMessage.error('获取的流控数据为空');
         }else{
             setFlowData(data);
         }
     }
     const requestErr = (err, content) => {
-        message.error({
+        antdMessage.error({
             content,
             duration: 4,
         });
