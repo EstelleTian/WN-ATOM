@@ -182,6 +182,8 @@ function RestrictionForm(props){
     let [ isModalVisible, setIsModalVisible] = useState(false);
     // 导入按钮禁用变量
     let [ importButtonDisable, setImportButtonDisable] = useState(false);
+    // 模态框确定按钮loading变量
+    let [ confirmLoading, setConfirmLoading] = useState(false);
 
     // 方案开始时间(12位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
     let [ basicStartTimeString, setBasicStartTimeString] = useState(basicStartTime);
@@ -228,6 +230,7 @@ function RestrictionForm(props){
     const  handleCancel = () => {
         // 隐藏模态框显示
         setIsModalVisible(false);
+        setConfirmLoading(false);
     };
 
     // 处理导入表单数据
@@ -236,6 +239,7 @@ function RestrictionForm(props){
             // 触发表单验证取表单数据
             const values = await form.validateFields();
             setImportButtonDisable(true);
+            setConfirmLoading(true);
             console.log(values);
             // 处理导入提交数据
             const submitData = handleSubmitData(values);
@@ -400,8 +404,10 @@ function RestrictionForm(props){
      * 数据提交
      * */
     const submitFormData = (data) => {
+        const status = "SIM";
         const opt = {
             url:'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/443',
+            // url:'http://192.168.243.120:58189/hydrogen-scheme-flow-server/simulationTactics/443',
             method:'POST',
             params:JSON.stringify(data),
             resFunc: (data)=> requestSuccess(data),
@@ -418,6 +424,7 @@ function RestrictionForm(props){
         const { basicTacticInfo={} } = tacticProcessInfo;
         const { id } = basicTacticInfo;
         console.log(id);
+        setConfirmLoading(false);
         setIsModalVisible(false);
         message.success('流控导入成功');
 
@@ -441,6 +448,8 @@ function RestrictionForm(props){
      * */
     const requestErr = (err, content) => {
         setImportButtonDisable(false);
+        setConfirmLoading(false);
+        setIsModalVisible(false);
         message.error({
             content,
             duration: 4,
@@ -558,6 +567,7 @@ function RestrictionForm(props){
                 style={{ top: 200 }}
                 onOk ={ handleImportFormData }
                 onCancel={handleCancel}
+                confirmLoading = { confirmLoading }
             >
                 <p>确定导入当前流控?</p>
             </Modal>
