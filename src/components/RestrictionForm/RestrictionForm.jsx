@@ -405,7 +405,7 @@ function RestrictionForm(props){
      * */
     const submitFormData = (data) => {
         const opt = {
-            url:'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/443',
+            url:'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/443',
             method:'POST',
             params:JSON.stringify(data),
             resFunc: (data)=> requestSuccess(data),
