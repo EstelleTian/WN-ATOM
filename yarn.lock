@@ -4538,6 +4538,11 @@ detect-port-alt@1.1.6:
     address "^1.0.1"
     debug "^2.6.0"
 
+dhx-suite@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.npm.taobao.org/dhx-suite/download/dhx-suite-7.0.2.tgz#ec5fd4d3a9388f28581e69e4f5f470f0171218dd"
+  integrity sha1-7F/U06k4jyhYHmnk9fRw8BcSGN0=
+
 diff-sequences@^24.9.0:
   version "24.9.0"
   resolved "https://registry.npm.taobao.org/diff-sequences/download/diff-sequences-24.9.0.tgz#5715d6244e2aa65f48bba0bc972db0b0b11e95b5"

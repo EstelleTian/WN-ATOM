@@ -62,6 +62,10 @@ class NewsList{
     @action delNew( item ){
         this.list.remove( item );
     }
+    //删除消息
+    @computed get newsLength( ){
+        return this.list.length || 0;
+    }
     
 }
 

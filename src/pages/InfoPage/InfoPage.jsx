@@ -13,7 +13,7 @@ import { inject, observer } from 'mobx-react'
 import { Link } from  'react-router-dom'
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { formatTimeString } from 'utils/basic-verify'
-import { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openControlDetail } from 'utils/client'
+import { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openControlDetail, openMessageDlg } from 'utils/client'
 import Stomp from 'stompjs'
 import './InfoPage.scss'
 
@@ -237,6 +237,7 @@ function InfoPage(props){
                 const msgObj = JSON.parse(body);
                 const { message } = msgObj;
                 props.newsList.addNews(message);
+                openMessageDlg()
             })
         }
 
