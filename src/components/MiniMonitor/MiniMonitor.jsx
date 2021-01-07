@@ -13,7 +13,7 @@ import "./MiniMonitor.scss"
 
 function MiniMonitor(props){
     return (
-            <ModalBox title={props.title} style={{width: '180px', height: '140px', margin: '10px 5px 0 5px'}}  className={props.className}>
+            <ModalBox title={props.title} style={{width: '100%', height: '140px', margin: '0px'}}  className={props.className}>
                 <ReactEcharts
                 option={props.option}
                 className='react_for_echarts' />
