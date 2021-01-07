@@ -6,7 +6,7 @@
  * @Description: ATOM流控详情
  */
 import React, {useEffect} from 'react'
-import {Tag, Descriptions, Checkbox, Space, Card, Row, Col, Divider} from 'antd'
+import {Tag, Descriptions, Checkbox, Space, Card, Row, Col, Divider, Tooltip} from 'antd'
 import {getFullTime, getDayTimeFromString, isValidVariable, isValidObject} from '../../utils/basic-verify'
 import FlowcontrolDetailCard  from 'components/SchemeList/FlowcontrolDetailCard'
 
@@ -56,16 +56,28 @@ function SchemeDetail(props) {
                             { tacticPublishUnit }
                         </Descriptions.Item>
                         <Descriptions.Item label="开始时间">
-                            { getDayTimeFromString(startTime) }
+                            <Tooltip title={startTime}>
+                                <div>{ getDayTimeFromString(startTime) }</div>
+                            </Tooltip>
+
                         </Descriptions.Item>
                         <Descriptions.Item label="结束时间">
-                            { getDayTimeFromString(endTime) }
+                            <Tooltip title={endTime}>
+                                <div>{ getDayTimeFromString(endTime) }</div>
+                            </Tooltip>
+
                         </Descriptions.Item>
                         <Descriptions.Item label="开始计算时间">
-                            { getDayTimeFromString(startCalculateTime) }
+                            <Tooltip title={startCalculateTime}>
+                                <div>{ getDayTimeFromString(startCalculateTime) }</div>
+                            </Tooltip>
+
                         </Descriptions.Item>
                         <Descriptions.Item label="结束计算时间">
-                            { getDayTimeFromString(endCalculateTime) }
+                            <Tooltip title={endCalculateTime}>
+                                <div>{ getDayTimeFromString(endCalculateTime) }</div>
+                            </Tooltip>
+
                         </Descriptions.Item>
                         <Descriptions.Item label="基准单元">
                             <div className="cell">{ targetUnit }</div>
