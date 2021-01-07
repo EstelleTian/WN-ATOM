@@ -11,7 +11,7 @@ import { inject, observer } from 'mobx-react'
 import { Row, Col, message, Modal , Empty} from 'antd'
 import { SyncOutlined } from '@ant-design/icons';
 import { requestGet, request } from 'utils/request'
-import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
+import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
 import  SchemeModal  from "./SchemeModal";
 import './SchemeItem.scss'
@@ -279,6 +279,14 @@ function SchemeList (props){
             props.flightTableData.updateList([], generateTime)
         }
     });
+    //更新执行KPIstore数据
+    const updateExecuteKPIData = useCallback(executeKPIData => {
+        if( isValidObject(executeKPIData) ){
+            props.flightTableData.updateExecuteKPIData(executeKPIData)
+        }else{
+            props.flightTableData.updateList({})
+        }
+    });
     //航班列表数据获取
     const requestFlightTableData = useCallback(id => {
         const opt = {
@@ -296,11 +304,32 @@ function SchemeList (props){
         };
         request(opt);
     })
+    //方案执行KPI数据获取
+    const requestExecuteKPIData = useCallback(id => {
+        const opt = {
+            // url:'http://192.168.194.21:29890/performkpi/' + id,
+            url:'http://192.168.243.8:29890/performkpi/' + id,
+            method:'GET',
+            params:{},
+            resFunc: (data)=> {
+                updateExecuteKPIData(data)
+                props.executeKPIData.toggleLoad(false)
+            },
+            errFunc: (err)=> {
+                requestErr(err, 'KPI数据获取失败')
+                props.executeKPIData.toggleLoad(false)
+            } ,
+        };
+        request(opt);
+    })
     //高亮方案并获取航班数据
     const handleActive = useCallback(( id ) => {
         props.schemeListData.toggleSchemeActive( id+"" );
         props.flightTableData.toggleLoad(true)
         requestFlightTableData(id+"");
+        debugger
+        requestExecuteKPIData(id+"");
+
     })
 
     const schemeListData = props.schemeListData;
