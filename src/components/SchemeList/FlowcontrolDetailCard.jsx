@@ -6,7 +6,7 @@
  * @Description: ATOM流控详情
  */
 import React, {useEffect} from 'react'
-import {Tag, Descriptions, Checkbox, Space, Card, Row, Col, Badge} from 'antd'
+import {Tag, Descriptions, Checkbox, Space, Card, Row, Col, Badge, Tooltip } from 'antd'
 import { getDayTimeFromString, isValidVariable, isValidObject} from '../../utils/basic-verify'
 
 //方案详情页面流控模块
@@ -68,10 +68,16 @@ function FlowcontrolDetailCard(props) {
                         {flowControlName}
                     </Descriptions.Item>
                     <Descriptions.Item label="开始时间">
-                        { getDayTimeFromString( flowControlStartTime )}
+                        <Tooltip title={flowControlStartTime}>
+                            <div>{ getDayTimeFromString( flowControlStartTime )}</div>
+                        </Tooltip>
+
                     </Descriptions.Item>
                     <Descriptions.Item label="结束时间">
-                        { getDayTimeFromString( flowControlEndTime )}
+                        <Tooltip title={flowControlEndTime}>
+                            <div>{ getDayTimeFromString( flowControlEndTime )}</div>
+                        </Tooltip>
+
                     </Descriptions.Item>
                     <Descriptions.Item label="限制方式">
                         { restrictionModeLable }
