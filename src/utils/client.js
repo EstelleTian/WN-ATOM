@@ -46,6 +46,7 @@ const openControlDetail = (str) => {
 const openMessageDlg = () => {
     try{
         // 打开消息中心
+        // alert("发送请求：打开消息中心")
         jsEntity.openMessageDlg();
     }catch (e){
         console.error(e);

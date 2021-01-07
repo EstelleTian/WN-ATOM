@@ -172,7 +172,6 @@ for(let key in names){
     }
     //排序
     tem["sorter"] = (a,b) => {
-
         let data1 = a[en] + "";
         if( data1.length >= 12 ){
             data1 = data1.substring(0,12)
@@ -184,17 +183,13 @@ for(let key in names){
         if (isValidVariable(data1) && isValidVariable(data2)) {
             let res = data1.localeCompare(data2);
             if (0 !== res) {
-                console.log(data1,data2, "res:"+res);
                 return res;
             }
         } else if (isValidVariable(data1)) {
-            console.log(data1,data2, -1);
             return -1;
         } else if (isValidVariable(data2)) {
-            console.log(data1,data2, 1);
             return 1;
         }
-        console.log(data1,data2, 0);
         return 0;
     }
     //默认排序

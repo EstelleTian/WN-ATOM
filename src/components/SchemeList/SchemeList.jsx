@@ -46,7 +46,7 @@ function sItem(props){
     };
      let { item } = props;
      let { id, tacticName , tacticStatus, tacticPublishUnit, basicTacticInfoReason, basicTacticInfoRemark,
-         tacticTimeInfo: { startTime, endTime, publishTime, startCalculateTime =""},
+         tacticTimeInfo: { startTime, endTime, publishTime, createTime, startCalculateTime =""},
          sourceFlowcontrol = {}, directionList = []
      } = item;
      if( sourceFlowcontrol === null ){
@@ -132,7 +132,9 @@ function sItem(props){
                  <div className="left-column">
                      <div className="summary">
                          <div className="cell">
-                             创建时间:<span>{getTimeFromString(publishTime)}</span>
+                             发布时间:<span>{getTimeFromString(publishTime)}</span>
+                             &nbsp;&nbsp;
+                             创建时间:<span>{getTimeFromString(createTime)}</span>
                              &nbsp;&nbsp;
                              原因:<span>{basicTacticInfoReason}</span>
                              &nbsp;&nbsp;

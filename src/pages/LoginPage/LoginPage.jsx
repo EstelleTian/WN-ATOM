@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
-import {Form, Icon, Input, Button, Alert,Row, Col} from 'antd'
+import {Form, Icon, Input, Button, Alert, Row, Col, message} from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-// import { Base64 } from 'js-base64';
+import md5 from 'js-md5'
 import { requestGet, request } from 'utils/request';
 import './LoginPage.scss'
 
@@ -13,12 +13,36 @@ function LoginPage(props){
             .then(values => {
                 const username = values.username.trim();
                 // 对密码 base64编码 处理
-                const password =  values.password.trim();
+                const password =  md5(values.password.trim());
                 const params = {
                     "username":username,
-                    "password":password
+                    "cipher":password,
+                    "macaddress":"4C-CC-6A-C9-BA-15",
+                    "clientVersion":"1.5.6",
                 };
                 console.log(params);
+                const opt = {
+                    // url: 'http://192.168.194.21:18380/uuma-server/client/login',
+                    url: 'http://192.168.243.6:18380/uuma-server/client/login',
+                    params,
+                    resFunc: (data)=> {
+                        // updateUserInfoData(data)
+                        console.log(data)
+                        message.success({
+                            content: "登录成功",
+                            duration: 4,
+                        });
+                        // setManualRefresh(false);
+                    },
+                    errFunc: (err)=> {
+                        message.error({
+                            content: "登录失败",
+                            duration: 4,
+                        });
+                        // setManualRefresh(false);
+                    }
+                };
+                requestGet( opt )
             })
             .catch(errorInfo => {
                 console.error(errorInfo);
