@@ -60,70 +60,70 @@ function FlowList(props){
 
     return (
         <div>
-            <Card title="流控基本信息" size="small" bordered={false}>
-                <Descriptions size="small" bordered   span={4}>
-                    <Descriptions.Item label="流控名称" >
-                        <Form.Item
-                            name={`flowControlName`}
-                        >
-                            <Input disabled={ props.disabledForm }/>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="流控发布类型" >
-                        <Form.Item
-                            name={`flowControlPublishType`}
-                        >
-                            <Select style={{ width: 120 }} onChange={handlePublishTypeChange} disabled={ props.disabledForm } >
-                                {publishTypeData.map(type => (
-                                    <Option key={type.key}>{type.text}</Option>
-                                ))}
-                            </Select>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="流控原因">
-                        <Form.Item
-                            name={`flowControlReason`}
-                        >
-                            <Input disabled={ props.disabledForm }/>
-                        </Form.Item>
-                    </Descriptions.Item>
+            {/*<Card title="流控基本信息" size="small" bordered={false}>*/}
+            {/*    <Descriptions size="small" bordered   span={4}>*/}
+            {/*        <Descriptions.Item label="流控名称" >*/}
+            {/*            <Form.Item*/}
+            {/*                name={`flowControlName`}*/}
+            {/*            >*/}
+            {/*                <Input disabled={ props.disabledForm }/>*/}
+            {/*            </Form.Item>*/}
+            {/*        </Descriptions.Item>*/}
+            {/*        <Descriptions.Item label="流控发布类型" >*/}
+            {/*            <Form.Item*/}
+            {/*                name={`flowControlPublishType`}*/}
+            {/*            >*/}
+            {/*                <Select style={{ width: 120 }} onChange={handlePublishTypeChange} disabled={ props.disabledForm } >*/}
+            {/*                    {publishTypeData.map(type => (*/}
+            {/*                        <Option key={type.key}>{type.text}</Option>*/}
+            {/*                    ))}*/}
+            {/*                </Select>*/}
+            {/*            </Form.Item>*/}
+            {/*        </Descriptions.Item>*/}
+            {/*        <Descriptions.Item label="流控原因">*/}
+            {/*            <Form.Item*/}
+            {/*                name={`flowControlReason`}*/}
+            {/*            >*/}
+            {/*                <Input disabled={ props.disabledForm }/>*/}
+            {/*            </Form.Item>*/}
+            {/*        </Descriptions.Item>*/}
 
-                    <Descriptions.Item label="开始时间" >
-                        <Form.Item
-                            name={`flowControlStartTimeEdit`}
-                        >
-                            <DatePicker
-                                showTime
-                                onChange={ updateStartTimeDisplay }
-                                format={dateFormat}
-                                disabled={ props.disabledForm }
-                            />
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="结束时间" >
-                        <Form.Item
-                            name={`flowControlEndTimeEdit`}
-                        >
-                            <DatePicker
-                                showTime
-                                onChange={ updateEndTimeDisplay }
-                                format={dateFormat}
-                                disabled={ props.disabledForm }
-                            />
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="流控备注">
-                        <Form.Item
-                            name={`restrictionRemark`}
-                        >
-                            <Input disabled={ props.disabledForm }/>
-                        </Form.Item>
-                    </Descriptions.Item>
-                </Descriptions>
-            </Card>
-            <Card title="流控措施信息" size="small" bordered={false}>
+            {/*        <Descriptions.Item label="开始时间" >*/}
+            {/*            <Form.Item*/}
+            {/*                name={`flowControlStartTimeEdit`}*/}
+            {/*            >*/}
+            {/*                <DatePicker*/}
+            {/*                    showTime*/}
+            {/*                    onChange={ updateStartTimeDisplay }*/}
+            {/*                    format={dateFormat}*/}
+            {/*                    disabled={ props.disabledForm }*/}
+            {/*                />*/}
+            {/*            </Form.Item>*/}
+            {/*        </Descriptions.Item>*/}
+            {/*        <Descriptions.Item label="结束时间" >*/}
+            {/*            <Form.Item*/}
+            {/*                name={`flowControlEndTimeEdit`}*/}
+            {/*            >*/}
+            {/*                <DatePicker*/}
+            {/*                    showTime*/}
+            {/*                    onChange={ updateEndTimeDisplay }*/}
+            {/*                    format={dateFormat}*/}
+            {/*                    disabled={ props.disabledForm }*/}
+            {/*                />*/}
+            {/*            </Form.Item>*/}
+            {/*        </Descriptions.Item>*/}
+            {/*        <Descriptions.Item label="流控备注">*/}
+            {/*            <Form.Item*/}
+            {/*                name={`restrictionRemark`}*/}
+            {/*            >*/}
+            {/*                <Input disabled={ props.disabledForm }/>*/}
+            {/*            </Form.Item>*/}
+            {/*        </Descriptions.Item>*/}
+            {/*    </Descriptions>*/}
+            {/*</Card>*/}
+            <Card title="措施信息" size="small" bordered={false}>
                 <Descriptions size="small"  bordered >
-                    <Descriptions.Item label="流控限制方式">
+                    <Descriptions.Item label="限制方式">
                         <Form.Item
                             name={`restrictionMode`}
                         >
@@ -135,7 +135,7 @@ function FlowList(props){
                         </Form.Item>
 
                     </Descriptions.Item>
-                    <Descriptions.Item label="流控限制值">
+                    <Descriptions.Item label="限制值">
                         <Form.Item
                             name={`restrictionModeValue`}
                         >
@@ -144,7 +144,7 @@ function FlowList(props){
                     </Descriptions.Item>
                 </Descriptions>
             </Card>
-            <Card title="流控交通信息" size="small" bordered={false}>
+            <Card title="交通流信息" size="small" bordered={false}>
                 <Row>
                     <Col span={12}>
                         <LimitedCard title="包含"  disabledForm={props.disabledForm}   />

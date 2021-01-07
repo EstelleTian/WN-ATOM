@@ -28,20 +28,20 @@ function StaticInfoCard(props){
     return (
         <Card title="方案信息" size="small">
             <Descriptions size="small"  bordered column={2}>
-                <Descriptions.Item label="方案名称">
+                <Descriptions.Item label="方案名称" span={2}>
                     <Form.Item
                         name="tacticName"
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Descriptions.Item>
-                <Descriptions.Item label="原始流控">
-                    <Form.Item
-                        name="basicFlowControlName"
-                    >
-                        <Input disabled={ true }/>
-                    </Form.Item>
-                </Descriptions.Item>
+                {/*<Descriptions.Item label="">*/}
+                {/*    <Form.Item*/}
+                {/*        name="basicFlowControlName"*/}
+                {/*    >*/}
+                {/*        <Input disabled={ true }/>*/}
+                {/*    </Form.Item>*/}
+                {/*</Descriptions.Item>*/}
                 <Descriptions.Item label="发布单位" >
                     <Form.Item
                         name="tacticPublishUnit"
