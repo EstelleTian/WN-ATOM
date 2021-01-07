@@ -19,8 +19,14 @@ html,body{
 }
 
 // Modal
-
-.ant-modal-body {
+.ant-modal-content .ant-modal-header .ant-modal-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
+  padding-right: 16px;
+}
+.ant-modal-content .ant-modal-body {
   max-height: 800px;
   overflow-y: auto;
 }
