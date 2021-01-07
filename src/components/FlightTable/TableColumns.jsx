@@ -172,26 +172,30 @@ for(let key in names){
     }
     //排序
     tem["sorter"] = (a,b) => {
+
         let data1 = a[en] + "";
-        if( data1.length > 14 ){
-            data1 = data1.substring(0,14)
+        if( data1.length >= 12 ){
+            data1 = data1.substring(0,12)
         }
         let data2 = b[en] + "";
-        if( data2.length > 14 ){
-            data2 = data1.substring(0,14)
+        if( data2.length >= 12 ){
+            data2 = data2.substring(0,12)
         }
         if (isValidVariable(data1) && isValidVariable(data2)) {
             let res = data1.localeCompare(data2);
-            if (0 != res) {
+            if (0 !== res) {
+                console.log(data1,data2, "res:"+res);
                 return res;
             }
         } else if (isValidVariable(data1)) {
+            console.log(data1,data2, -1);
             return -1;
         } else if (isValidVariable(data2)) {
+            console.log(data1,data2, 1);
             return 1;
-        } else {
-            return 0;
         }
+        console.log(data1,data2, 0);
+        return 0;
     }
     //默认排序
     if( en === "FFIXT" ){

@@ -117,6 +117,88 @@
                 .message {
                     background-image: url('../../images/message.png');
                 }
+
+                //航班协调
+                .FCDM.message{
+                    background-image: url('../../images/FCDM_message.png');
+                }
+                .FCDM.notice{
+                    background-image: url('../../images/FCDM_notice.png');
+                }
+                .FCDM.warn{
+                    background-image: url('../../images/FCDM_warn.png');
+                }
+                //运行信息
+                .OPEI.message{
+                    background-image: url('../../images/OPEI_message.png');
+                }
+                .OPEI.notice{
+                    background-image: url('../../images/OPEI_notice.png');
+                }
+                .OPEI.warn{
+                    background-image: url('../../images/OPEI_warn.png');
+                }
+                //气象告警
+                .WTAI.message{
+                    background-image: url('../../images/WTAI_message.png');
+                }
+                .WTAI.notice{
+                    background-image: url('../../images/WTAI_notice.png');
+                }
+                .WTAI.warn{
+                    background-image: url('../../images/WTAI_warn.png');
+                }
+                //数据更新
+                .DATA.message{
+                    background-image: url('../../images/DATA_message.png');
+                }
+                .DATA.notice{
+                    background-image: url('../../images/DATA_notice.png');
+                }
+                .DATA.warn{
+                    background-image: url('../../images/DATA_warn.png');
+                }
+                //扇区开合信息
+                .SECI.message{
+                    background-image: url('../../images/SECI_message.png');
+                }
+                .SECI.notice{
+                    background-image: url('../../images/SECI_notice.png');
+                }
+                .SECI.warn{
+                    background-image: url('../../images/SECI_warn.png');
+                }
+                //流控信息
+                .FTMI.message{
+                    background-image: url('../../images/FTMI_message.png');
+                }
+                .FTMI.notice{
+                    background-image: url('../../images/FTMI_notice.png');
+                }
+                .FTMI.warn{
+                    background-image: url('../../images/FTMI_warn.png');
+                }
+                //航班异常告警信息
+                .FLAI.message{
+                    background-image: url('../../images/FLAI_message.png');
+                }
+                .FLAI.notice{
+                    background-image: url('../../images/FLAI_notice.png');
+                }
+                .FLAI.warn{
+                    background-image: url('../../images/FLAI_warn.png');
+                }
+                //放行方案
+                .PROI.message{
+                    background-image: url('../../images/PROI_message.png');
+                }
+                .PROI.notice{
+                    background-image: url('../../images/PROI_notice.png');
+                }
+                .PROI.warn{
+                    background-image: url('../../images/PROI_warn.png');
+                }
+
             }
             .card_cont{
                 @include flex();

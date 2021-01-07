@@ -4,10 +4,17 @@ const InfoPage = lazy(() => import('../pages/InfoPage/InfoPage'));
 const FangxingPage = lazy(() => import('../pages/FangxingPage/FangxingPage'));
 const TotalPage = lazy(() => import('../pages/TotalPage/TotalPage'));
 const RestrictionPage = lazy(() => import('../pages/RestrictionPage/RestrictionPage'));
+const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
 
 export default [
     {
         path: '/',
+        component: withRouter(LoginPage),
+        exact: true,
+        title: '登录页面',
+    },
+    {
+        path: '/news',
         component: withRouter(InfoPage),
         exact: true,
         title: '消息中心',
