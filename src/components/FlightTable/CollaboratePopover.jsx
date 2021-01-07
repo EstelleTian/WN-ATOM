@@ -135,6 +135,7 @@ const FFIXTPopover = (props) => {
         orgdata = JSON.parse(orgdata);
     }
     let { ffixField : { meetIntervalValue } } = orgdata;
+    let ftime = getTimeAndStatus(text)
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
@@ -148,17 +149,17 @@ const FFIXTPopover = (props) => {
             {/*200不满足间隔*/}
             {
                 meetIntervalValue === "200"
-                    ? <div className="interval" ><span  className="interval_red">{getTimeAndStatus(props.opt.text)}</span></div>
+                    ? <div className="interval" title={text}><span  className="interval_red">{ftime}</span></div>
                     : ""
             }
             {
                 meetIntervalValue === "100"
-                    ? <div className="interval" ><span  className="interval_green">{getTimeAndStatus(props.opt.text)}</span></div>
+                    ? <div className="interval" title={text} ><span  className="interval_green">{ftime}</span></div>
                     : ""
             }
             {
                 meetIntervalValue === null || meetIntervalValue === "null"
-                    ? <div className="interval" ><span  className="">{getTimeAndStatus(props.opt.text)}</span></div>
+                    ? <div className="interval" title={text} ><span  className="">{ftime}</span></div>
                     : ""
             }
 

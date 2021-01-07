@@ -25,7 +25,6 @@ function NavBellNews(props){
                 const msgObj = JSON.parse(body);
                 const { message } = msgObj;
                 props.newsList.addNews(message);
-                openMessageDlg()
             })
         }
 

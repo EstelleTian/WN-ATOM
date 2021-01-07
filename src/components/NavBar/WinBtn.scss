@@ -1,0 +1,20 @@
+
+$bg-363636: #363636;
+$bg363636: #363636;
+$c-white-100: rgba(255, 255, 255, 1);
+.bg-black{
+  background: $bg363636;
+  color: $c-white-100;
+   .dhx_layout,  .dhx_layout-cell,  .dhx_toolbar {
+     background: $bg-363636;
+     color: $c-white-100;
+  }
+  .dhx_navbar-title{
+    color: $c-white-100;
+  }
+   .dhx_button__icon{
+    color: $c-white-100!important;
+  }
+
+  
+}

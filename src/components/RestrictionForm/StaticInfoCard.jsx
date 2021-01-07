@@ -10,13 +10,19 @@ function StaticInfoCard(props){
     const dateFormat = 'YYYYMMDD HHmm';
 
     const updateStartTimeDisplay =(date) => {
-        let dateString = moment(date).format("YYYYMMDDHHmm");
-        props.updateBasicStartTimeDisplay(dateString);
+        if( props.hasOwnProperty("updateBasicStartTimeDisplay") ){
+            let dateString = moment(date).format("YYYYMMDDHHmm");
+            props.updateBasicStartTimeDisplay(dateString);
+        }
+
     };
 
     const updateEndTimeDisplay =(date) => {
-        let dateString = moment(date).format("YYYYMMDDHHmm");
-        props.updateBasicEndTimeDisplay(dateString);
+        if( props.hasOwnProperty("updateBasicStartTimeDisplay") ){
+            let dateString = moment(date).format("YYYYMMDDHHmm");
+            props.updateBasicEndTimeDisplay(dateString);
+        }
+
     };
 
     return (
@@ -71,7 +77,8 @@ function StaticInfoCard(props){
                         <DatePicker
                             allowClear={ false }
                             onChange={ updateEndTimeDisplay }
-                            showTime format={dateFormat}
+                            showTime
+                            format={dateFormat}
                             disabled={ props.disabledForm }
                         />
                     </Form.Item>

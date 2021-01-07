@@ -87,10 +87,10 @@ function FlightTable(props){
             startTime = startTime.substring(0, 12);
 
             // console.log("FFIXT",FFIXT,"startTime",startTime,"endTime",endTime);
-            if (startTime * 1 < FFIXT * 1) {
+            if (startTime * 1 <= FFIXT * 1) {
                 if (isValidVariable(endTime)) {
                     endTime = endTime.substring(0, 12);
-                    if (FFIXT * 1 < endTime * 1) {
+                    if (FFIXT * 1 <= endTime * 1) {
                         return "in_range"
                     } else {
                         return "out_range";

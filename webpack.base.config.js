@@ -17,7 +17,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, '/build'),
         filename: '[name].[hash:5].js',
-        chunkFilename: "js/[name].chunk.js" //给每个分片产生一个文件
+        chunkFilename: "js/[name].[hash:5].chunk.js" //给每个分片产生一个文件
     },
     module: {
         rules: [
@@ -74,7 +74,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(eot|woff|eot|ttf|svg)$/,
+                test: /\.(eot|woff|woff2|ttf|svg)$/,
                 use: {
                     loader: 'url-loader',
                     options: {

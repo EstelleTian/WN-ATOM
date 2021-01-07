@@ -66,8 +66,6 @@ function RestrictionForm(props){
     // 流控限制数值
     let restrictionModeValue =getRestrictionModeValue();
 
-
-
     // 日期组件格式化方式
     const dateFormat = 'YYYYMMDD HHmm';
     // 表单初始数值对象集合
@@ -95,21 +93,21 @@ function RestrictionForm(props){
         // 限制高度
         highLimit: highLimit,
         // 方案开始时间(非编辑状态下显示)
-        basicStartTimeDisplay: getDayTimeFromString(basicStartTime) || "",
+        basicStartTimeDisplay: isValidVariable(basicStartTime) ? getDayTimeFromString(basicStartTime) : "",
         // 方案开始时间(编辑状态下DatePicker组件使用)
-        basicStartTimeEdit: moment(basicStartTime, dateFormat) || "",
+        basicStartTimeEdit: isValidVariable(basicStartTime) ? moment(basicStartTime, dateFormat) : "",
         // 方案结束时间(非编辑状态下显示)
-        basicEndTimeDisplay: getDayTimeFromString(basicEndTime) || "",
+        basicEndTimeDisplay: isValidVariable(basicEndTime) ? getDayTimeFromString(basicEndTime) : "",
         // 方案结束时间(编辑状态下DatePicker组件使用)
-        basicEndTimeEdit: moment(basicEndTime, dateFormat) || "",
+        basicEndTimeEdit: isValidVariable(basicEndTime) ? moment(basicEndTime, dateFormat) : "",
         // 流控开始时间(非编辑状态下显示)
-        flowControlStartTimeDisplay: getDayTimeFromString(flowControlStartTime) || "",
+        flowControlStartTimeDisplay:  isValidVariable(flowControlStartTime) ? getDayTimeFromString(flowControlStartTime) : "",
         // 流控开始时间(编辑状态下DatePicker组件使用)
-        flowControlStartTimeEdit: moment(flowControlStartTime, dateFormat) || "",
+        flowControlStartTimeEdit: isValidVariable(flowControlStartTime) ? moment(flowControlStartTime, dateFormat) : "",
         // 流控开始时间(非编辑状态下显示)
-        flowControlEndTimeDisplay: getDayTimeFromString(flowControlEndTime) || "",
+        flowControlEndTimeDisplay: isValidVariable(flowControlEndTime) ? getDayTimeFromString(flowControlEndTime) : "",
         // 流控结束时间(编辑状态下DatePicker组件使用)
-        flowControlEndTimeEdit: moment(flowControlEndTime, dateFormat) || "",
+        flowControlEndTimeEdit: isValidVariable(flowControlEndTime) ? moment(flowControlEndTime, dateFormat) : "",
         // 流控发布类型
         flowControlPublishType: flowControlPublishType || "",
         // 流控限制原因
@@ -217,7 +215,10 @@ function RestrictionForm(props){
             // 触发表单验证取表单数据
             const values = await form.validateFields();
             setImportButtonDisable(true);
-            props.setDisabledForm(true);
+            if( props.hasOwnProperty("setDisabledForm")){
+                props.setDisabledForm(true);
+            }
+
             setConfirmLoading(true);
             console.log(values);
             // 处理导入提交数据
@@ -537,7 +538,7 @@ function RestrictionForm(props){
                                 onClick={handleImportClick}
                                 disabled ={ importButtonDisable }
                             >
-                                导入
+                                { props.btnName || "导入" }
                             </Button>
                             <Modal
                                 title="流控导入"

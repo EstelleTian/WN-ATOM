@@ -119,9 +119,13 @@ function LoginPage(props){
                             >
                                 <Input   className="form_input" prefix={<LockOutlined />} placeholder="密码"/>
                             </Form.Item>
-                            <Button loading={loading} type="primary" htmlType="submit" size={'large'} className="login_button">
-                                登录
-                            </Button>
+                            <div className="login_btn  justify-content-center">
+                                <Button loading={loading} type="primary" htmlType="submit" size={'large'}
+                                        className="login_button">
+                                    登录
+                                </Button>
+                            </div>
+
                         </Form>
 
                     </div>

@@ -3,7 +3,9 @@ import {Badge, Button, Dropdown, Menu, Radio} from "antd";
 import { PoweroffOutlined, SettingOutlined} from "@ant-design/icons";
 import { Window as WindowDHX } from "dhx-suite";
 import NavBellNews from "./NavBellNews";
-// import "dhx-suite/codebase/suite.min.css";
+import WinBtn from "./WinBtn";
+import "dhx-suite/codebase/suite.css";
+import './RightNav.scss'
 
 const menu = (
     <Menu >
@@ -20,25 +22,14 @@ const menu = (
 );
 function RightNav(props){
     const { username } = props;
-    let [ window, setWindow ] = useState();
-    // eslint-disable-next-line no-undef
-    useEffect(function () {
-        const windowHtml = `<p>Here is a neat and flexible JavaScript window system with a fast and simple initialization.</p><p>Inspect all the DHTMLX window samples to discover each and every feature.</p><img style='display: block; width: 200px; height: 200px; margin-top: 20px; margin-left: auto; margin-right: auto' src='${process.env.PUBLIC_URL}/static/developer.svg'>`;
-        setWindow( new WindowDHX({
-            width: 440,
-            height: 520,
-            title: "Window",
-            html: windowHtml,
-            closable: true,
-        }) );
-    }, []);
+
 
     return (
         <div className="layout-nav-right layout-row nav_right">
             <div className="radio-area">
                 <Radio.Group defaultValue="" buttonStyle="solid" size="large" >
-                    <Radio.Button value="a" onClick={() => window.show()} >豁免航班</Radio.Button>
-                    <Radio.Button value="b">等待池</Radio.Button>
+                    <WinBtn btnTitle="豁免航班" type="exempt" />
+                    <WinBtn btnTitle="等待池" type="pool" />
                     <Radio.Button value="c">特殊航班</Radio.Button>
                     <Radio.Button value="d">失败航班</Radio.Button>
                     <Radio.Button value="e">待办事项</Radio.Button>

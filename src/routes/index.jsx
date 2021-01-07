@@ -5,6 +5,7 @@ const FangxingPage = lazy(() => import('../pages/FangxingPage/FangxingPage'));
 const TotalPage = lazy(() => import('../pages/TotalPage/TotalPage'));
 const RestrictionPage = lazy(() => import('../pages/RestrictionPage/RestrictionPage'));
 const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
+const CreateFlowPage = lazy(() => import('../pages/CreateFlowPage/CreateFlowPage'));
 
 export default [
     {
@@ -36,5 +37,11 @@ export default [
         component: withRouter(RestrictionPage),
         exact: true,
         title: '限制流控详情',
+    },
+    {
+        path: '/create_flow',
+        component: withRouter(CreateFlowPage),
+        exact: true,
+        title: '方案创建',
     },
 ];

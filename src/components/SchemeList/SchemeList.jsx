@@ -81,10 +81,14 @@ function sItem(props){
      }
      const showDetail = function(id){
          props.toggleModalVisible(true, id);
-
      }
      return (
-         <div className={`item_container layout-column ${item.active ? 'item_active' : ''}`}  onClick={(e)=>{ onChange(e, id) } }>
+         <div className={`item_container layout-column ${item.active ? 'item_active' : ''}`}
+              // onClick={(e)=>{
+              //     onChange(e, id);
+              //     e.stopPropagation();
+              // } }
+         >
              <div className="layout-row">
                  <div className="left-column border-bottom layout-column justify-content-center">
                     <div className="name">
@@ -145,11 +149,24 @@ function sItem(props){
                  <div className="right-column">
                      <div className="options-box layout-row">
                          <div className=" layout-row">
-                             <div className="opt">影响</div>
+                             <div className="opt"
+                                  onClick={(e)=>{
+                                      onChange(e, id);
+                                      e.stopPropagation();
+                                  } }
+                             >影响航班</div>
                              <div className="opt" onClick={ e =>{
                                  showDetail(id);
                                  e.stopPropagation();
                              } }>详情</div>
+                             <div className="opt" onClick={ e =>{
+                                 showDetail(id);
+                                 e.stopPropagation();
+                             } }>调整</div>
+                             <div className="opt" onClick={ e =>{
+                                 showDetail(id);
+                                 e.stopPropagation();
+                             } }>决策依据</div>
                          </div>
                      </div>
 
@@ -189,7 +206,7 @@ function SchemeList (props){
     const [modalId, setModalId] = useState("");
     let [ manualRefresh, setManualRefresh ] = useState( false );
     NWGlobal.setSchemeId = id  => {
-        alert("收到id:"+id);
+        // alert("收到id:"+id);
         handleActive( id )
     }
     //更新方案列表数据
@@ -213,9 +230,9 @@ function SchemeList (props){
                 handleActive(id)
             }
         }
-        setTimeout(function(){
-            getSchemeList()
-        },30 * 1000)
+        // setTimeout(function(){
+        //     getSchemeList()
+        // },30 * 1000)
     })
     //请求错误处理
     const requestErr = useCallback((err, content) => {
@@ -247,8 +264,11 @@ function SchemeList (props){
     });
     // DidMount 获取一次方案列表
     useEffect(function(){
-        getSchemeList();
-    }, [])
+        if( props.schemeListData.activeScheme !== modalId ){
+            getSchemeList();
+        }
+
+    }, [] )
 
     //更新航班store数据
     const updateFlightTableData = useCallback(flightData => {
@@ -284,13 +304,13 @@ function SchemeList (props){
     })
 
     const schemeListData = props.schemeListData;
-    const { list } = schemeListData;
+
+    const { sortedList } = schemeListData;
     const toggleModalVisible = useCallback(( flag, id )=>{
         setVisible(flag);
         setModalId(id);
-        console.log("方案id:" , id);
     })
-    const  length = list.length;
+    const  length = sortedList.length;
     return (
         <div className="list_container">
             <div className="manual_refresh">
@@ -301,7 +321,7 @@ function SchemeList (props){
             </div>
             {
                 (length > 0) ?
-                list.map( (item, index) => (
+                    sortedList.map( (item, index) => (
                     <SchemeItem
                         item={item}
                         handleActive={handleActive}

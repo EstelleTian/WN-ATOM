@@ -8,6 +8,7 @@
  */
 
 import { makeObservable, observable, action, computed } from 'mobx'
+import { isValidVariable } from 'utils/basic-verify'
 
 // 单条方案对象
 class SchemeItem{
@@ -139,6 +140,30 @@ class SchemeListData{
     @action setActiveSchemeId( id ){
         console.log("setActiveSchemeId:", id);
         this.schemeId = id;
+    }
+
+    @computed get sortedList(){
+        if( this.list.length > 0 ){
+            let newList = this.list.slice() .sort( (a,b) => {
+                const data1 = a.tacticTimeInfo.publishTime;
+                const data2 = b.tacticTimeInfo.publishTime;
+                if (isValidVariable(data1) && isValidVariable(data2)) {
+                    let res = data1.localeCompare(data2);
+                    if (0 !== res) {
+                        return res*(-1);
+                    }
+                } else if (isValidVariable(data1)) {
+                    return -1;
+                } else if (isValidVariable(data2)) {
+                    return 1;
+                }
+                return 0;
+            })
+            return newList
+        }else{
+            return this.list;
+        }
+
     }
 }
 

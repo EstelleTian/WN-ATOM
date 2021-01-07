@@ -14,15 +14,20 @@ function FlowList(props){
     const { defaultValue={} } = props;
 
     const updateStartTimeDisplay =(date) => {
-        let dateString = moment(date).format("YYYYMMDDHHmm");
-        props.updateFlowControlStartTimeDisplay(dateString);
+        debugger
+        if( props.hasOwnProperty("updateFlowControlStartTimeDisplay") ){
+            let dateString = moment(date).format("YYYYMMDDHHmm");
+            props.updateFlowControlStartTimeDisplay(dateString);
+        }
+
     };
 
-
-
     const updateEndTimeDisplay =(date) => {
-        let dateString = moment(date).format("YYYYMMDDHHmm");
-        props.updateFlowControlEndTimeDisplay(dateString);
+        if( props.hasOwnProperty("updateFlowControlEndTimeDisplay") ){
+            let dateString = moment(date).format("YYYYMMDDHHmm");
+            props.updateFlowControlEndTimeDisplay(dateString);
+        }
+
     };
 
     const handleRestrictionModeChange =(mode) => {
@@ -67,8 +72,6 @@ function FlowList(props){
                     <Descriptions.Item label="流控发布类型" >
                         <Form.Item
                             name={`flowControlPublishType`}
-
-
                         >
                             <Select style={{ width: 120 }} onChange={handlePublishTypeChange} disabled={ props.disabledForm } >
                                 {publishTypeData.map(type => (
