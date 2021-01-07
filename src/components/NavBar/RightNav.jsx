@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Badge, Button, Dropdown, Menu, Radio} from "antd";
 import { PoweroffOutlined, SettingOutlined} from "@ant-design/icons";
-import { Window as WindowDHX } from "dhx-suite";
+// import { Window as WindowDHX } from "dhx-suite";
+// import WinBtn from "./WinBtn";
 import NavBellNews from "./NavBellNews";
-import WinBtn from "./WinBtn";
+
 import "dhx-suite/codebase/suite.css";
 import './RightNav.scss'
+import {observer, inject} from "mobx-react";
 
 const menu = (
     <Menu >
@@ -23,16 +25,24 @@ const menu = (
 function RightNav(props){
     const { username } = props;
 
-
+    const groupRightChange = (e) => {
+        const value = e.target.value;
+        props.systemPage.setLeftActiveName(value);
+        console.log(e.target.value)
+    }
     return (
         <div className="layout-nav-right layout-row nav_right">
             <div className="radio-area">
-                <Radio.Group defaultValue="" buttonStyle="solid" size="large" >
-                    <WinBtn btnTitle="豁免航班" type="exempt" />
-                    <WinBtn btnTitle="等待池" type="pool" />
-                    <Radio.Button value="c">特殊航班</Radio.Button>
-                    <Radio.Button value="d">失败航班</Radio.Button>
-                    <Radio.Button value="e">待办事项</Radio.Button>
+                <Radio.Group defaultValue="kpi" buttonStyle="solid" size="large" onChange={ groupRightChange } >
+                    <Radio.Button value="kpi">执行KPI</Radio.Button>
+                    <Radio.Button value="exempt">豁免航班</Radio.Button>
+                    <Radio.Button value="pool">等待池</Radio.Button>
+                    <Radio.Button value="special">特殊航班</Radio.Button>
+                    <Radio.Button value="expired">失效航班</Radio.Button>
+                    <Radio.Button value="todo">待办事项</Radio.Button>
+
+                    {/*<WinBtn btnTitle="豁免航班" type="exempt" />*/}
+                    {/*<WinBtn btnTitle="等待池" type="pool" />*/}
                 </Radio.Group>
             </div>
             <div className="">
@@ -60,4 +70,4 @@ function RightNav(props){
     )
 }
 
-export  default  RightNav
+export  default  inject("systemPage")( observer(RightNav))

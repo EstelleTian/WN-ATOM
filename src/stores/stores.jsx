@@ -9,9 +9,14 @@
 import { schemeListData } from './schemeStores'
 import { newsList } from './newsStores'
 import { flightTableData } from './flightTableStores'
+import { systemPage } from './pageStores'
+import { kpiData } from './kpiStores'
 
 export { 
     schemeListData,
-    newsList, flightTableData
+    newsList,
+    flightTableData,
+    systemPage,
+    kpiData
  };
 
