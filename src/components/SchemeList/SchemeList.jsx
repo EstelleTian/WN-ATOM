@@ -8,7 +8,7 @@
  */
 import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Row, Col, message, Modal } from 'antd'
+import { Row, Col, message, Modal , Empty} from 'antd'
 import { SyncOutlined } from '@ant-design/icons';
 import { requestGet, request } from 'utils/request'
 import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
@@ -288,6 +288,7 @@ function SchemeList (props){
         setModalId(id);
         console.log("方案id:" , id);
     })
+    const  length = list.length;
     return (
         <div className="list_container">
             <div className="manual_refresh">
@@ -297,6 +298,7 @@ function SchemeList (props){
                 }}/>
             </div>
             {
+                (length > 0) ?
                 list.map( (item, index) => (
                     <SchemeItem
                         item={item}
@@ -306,7 +308,8 @@ function SchemeList (props){
                     >
                     </SchemeItem>
                     )
-                )
+                ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color:"#fff"}} />
+
             }
             <SchemeModal visible={visible} setVisible={setVisible} modalId={modalId} />
         </div>
