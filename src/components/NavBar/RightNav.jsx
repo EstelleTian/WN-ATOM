@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Badge, Button, Dropdown, Menu, Radio} from "antd";
 import { PoweroffOutlined, SettingOutlined} from "@ant-design/icons";
-// import { Window as WindowDHX } from "dhx-suite";
-// import WinBtn from "./WinBtn";
+import WinBtn from "./WinBtn";
 import NavBellNews from "./NavBellNews";
 
-import "dhx-suite/codebase/suite.css";
 import './RightNav.scss'
 import {observer, inject} from "mobx-react";
 
@@ -46,10 +44,20 @@ function RightNav(props){
                 </Radio.Group>
             </div>
             <div className="">
-                <Button size="large">
+                <Button size="large"
+                        type={`${ props.systemPage.rightActiveName === "scheme" ? "primary" : "default"}`}
+                        onClick={ (e) => {
+                            props.systemPage.setRightActiveName("scheme");
+                        } }
+                >
                     方案列表
                 </Button>
-                <Button size="large">
+                <Button size="large"
+                        type={`${ props.systemPage.rightActiveName === "outer_scheme" ? "primary" : "default"}`}
+                        onClick={ (e) => {
+                            props.systemPage.setRightActiveName("outer_scheme");
+                        } }
+                >
                     外部流控
                 </Button>
                 <Button size="large">

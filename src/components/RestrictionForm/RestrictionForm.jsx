@@ -414,7 +414,10 @@ function RestrictionForm(props){
      * 数据提交失败回调
      * */
     const requestErr = (err, text) => {
-        props.setDisabledForm(false);
+        if( props.hasOwnProperty("setDisabledForm") ){
+            props.setDisabledForm(false);
+        }
+
         setImportButtonDisable(false);
         setConfirmLoading(false);
         setIsModalVisible(false);

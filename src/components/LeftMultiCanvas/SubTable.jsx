@@ -51,7 +51,7 @@ function SubTable(props){
 
 }
 
-export default inject("kpiData")(observer(SubTable))
+export default inject("executeKPIData")(observer(SubTable))
 
 
 

@@ -59,6 +59,15 @@ const handleImportControl =(str) => {
     }catch(error){
         console.error(error);
     }
-
 };
-export { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl}
+//发送用户名-密码
+const saveUserInfo =(username, password) => {
+    try {
+        alert("用户名："+username+"  密码："+password)
+        //传递方案id
+        jsEntity.saveUserInfo(username, password);
+    }catch(error){
+        console.error(error);
+    }
+};
+export { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo}

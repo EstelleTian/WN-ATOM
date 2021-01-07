@@ -13,10 +13,10 @@ import SchemeTitle  from 'components/SchemeList/SchemeActiveTitle'
 import NavBar  from 'components/NavBar/NavBar.jsx';
 import ModalBox from 'components/ModalBox/ModalBox'
 import LeftMultiCanvas  from 'components/LeftMultiCanvas/LeftMultiCanvas'
+import RightMultiCanvas  from 'components/RightMultiCanvas/RightMultiCanvas'
 import './FangxingPage.scss'
 
 const FlightTable = lazy(() => import('components/FlightTable/FlightTable') );
-const SchemeList = lazy(() => import('components/SchemeList/SchemeList') );
 
 //放行监控布局模块
 function FangxingPage(props){
@@ -50,17 +50,7 @@ function FangxingPage(props){
 
                     </div>
 
-                    <div className="cont_right">
-                        <ModalBox 
-                            title="方案列表"
-                            showDecorator = {true}
-                        >
-                            {/***/} <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
-                                <SchemeList />
-                                </Suspense>
-                            
-                        </ModalBox>
-                    </div>
+                    <RightMultiCanvas />
                 </div>
         
         </Layout>

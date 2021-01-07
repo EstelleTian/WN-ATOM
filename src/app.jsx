@@ -4,7 +4,7 @@ import Routes from './routes/route';
 import { ConfigProvider  } from 'antd';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
-
+import "dhx-suite/codebase/suite.min.css";
 import './custom-ant-theme.less'
 import './app.less';
 

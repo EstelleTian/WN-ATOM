@@ -3,6 +3,7 @@ import {Form, Icon, Input, Button, Alert, Row, Col, message} from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import md5 from 'js-md5'
 import { requestGet, request } from 'utils/request';
+import { saveUserInfo } from 'utils/client';
 import './LoginPage.scss'
 const msgStyle = {
     top: '200px',
@@ -19,10 +20,11 @@ function LoginPage(props){
             .then(values => {
                 const username = values.username.trim();
                 // 对密码 base64编码 处理
-                const password =  md5(values.password.trim());
+                const password =  values.password.trim();
+                const cipher =  md5(password);
                 const params = {
                     "username":username,
-                    "cipher":password,
+                    "cipher":cipher,
                     "macaddress":"4C-CC-6A-C9-BA-15",
                     "clientVersion":"1.5.6",
                 };
@@ -41,6 +43,7 @@ function LoginPage(props){
                                 duration: 4,
                                 style: msgStyle
                             });
+                            saveUserInfo(username, password)
                         }else{
                             const err = data.error;
                             const msg = err.message;
