@@ -8,16 +8,15 @@
  */
 import React, { lazy, Suspense} from 'react';
 import { Layout, Spin } from 'antd';
-import ExecuteKPI  from 'components/ExecuteKPI/ExecuteKPI'
 import FlightSearch  from 'components/FlightSearch/FlightSearch'
 import SchemeTitle  from 'components/SchemeList/SchemeActiveTitle'
 import NavBar  from 'components/NavBar/NavBar.jsx';
 import ModalBox from 'components/ModalBox/ModalBox'
+import LeftMultiCanvas  from 'components/LeftMultiCanvas/LeftMultiCanvas'
 import './FangxingPage.scss'
 
 const FlightTable = lazy(() => import('components/FlightTable/FlightTable') );
 const SchemeList = lazy(() => import('components/SchemeList/SchemeList') );
-
 
 //放行监控布局模块
 function FangxingPage(props){
@@ -29,13 +28,7 @@ function FangxingPage(props){
                         <SchemeTitle />
                         <div className="left_cont">
                             <div className="left_left">
-                                <ModalBox
-                                    title="执行KPI"
-                                    showDecorator = {true}
-                                    className="kpi"
-                                >
-                                    <ExecuteKPI />
-                                </ModalBox>
+                                <LeftMultiCanvas/>
                                 <ModalBox
                                     title="航班查询"
                                     style={{

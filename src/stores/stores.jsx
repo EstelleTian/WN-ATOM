@@ -10,10 +10,12 @@ import { schemeListData } from './schemeStores'
 import { newsList } from './newsStores'
 import { flightTableData } from './flightTableStores'
 import { executeKPIData } from './executeKPIStores'
+import { systemPage } from './pageStores'
 
 export { 
     schemeListData,
     newsList, flightTableData,
-    executeKPIData
+    executeKPIData,
+    systemPage,
  };
 

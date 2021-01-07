@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-12-24 18:47:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \WN-CDM\src\components\ExecuteKPI\ExecuteKPI.jsx
+ * @FilePath: \WN-CDM\src\components\ExecuteKPI\SubTable.jsx
  */
 import React from 'react'
 import {Row, Col, Spin, Progress} from 'antd'

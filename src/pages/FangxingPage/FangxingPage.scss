@@ -21,6 +21,10 @@
                 @include flex();
                 .left_left{
                     @include display_flex(column);
+                    .left_left_top{
+                        @include display_flex();
+                        @include flex();
+                    }
                     width: 500px;
                 }
                 .left_right{
@@ -28,8 +32,6 @@
                     @include flex(5);
                 }
             }
-
-
             .timeline_dom{
                 height: 100%;
                 >div{
