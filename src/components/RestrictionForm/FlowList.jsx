@@ -53,9 +53,6 @@ function FlowList(props){
     ]
 
 
-
-
-
     return (
         <div>
             <Card title="流控基本信息" size="small" bordered={false}>
@@ -89,30 +86,28 @@ function FlowList(props){
                     </Descriptions.Item>
 
                     <Descriptions.Item label="开始时间" >
-                        {
-                            props.disabledForm
-                                ? <Form.Item name="flowControlStartTimeDisplay">
-                                    <Input disabled={ props.disabledForm }/>
-                                </Form.Item>
-                                :  <Form.Item
-                                    name={`flowControlStartTimeEdit`}
-                                >
-                                    <DatePicker showTime onChange={ updateStartTimeDisplay } format={dateFormat}/>
-                                </Form.Item>
-                        }
+                        <Form.Item
+                            name={`flowControlStartTimeEdit`}
+                        >
+                            <DatePicker
+                                showTime
+                                onChange={ updateStartTimeDisplay }
+                                format={dateFormat}
+                                disabled={ props.disabledForm }
+                            />
+                        </Form.Item>
                     </Descriptions.Item>
                     <Descriptions.Item label="结束时间" >
-                        {
-                            props.disabledForm
-                                ? <Form.Item name="flowControlEndTimeDisplay">
-                                    <Input disabled={ props.disabledForm }/>
-                                </Form.Item>
-                                :  <Form.Item
-                                    name={`flowControlEndTimeEdit`}
-                                >
-                                    <DatePicker showTime  onChange={ updateEndTimeDisplay } format={dateFormat}/>
-                                </Form.Item>
-                        }
+                        <Form.Item
+                            name={`flowControlEndTimeEdit`}
+                        >
+                            <DatePicker
+                                showTime
+                                onChange={ updateEndTimeDisplay }
+                                format={dateFormat}
+                                disabled={ props.disabledForm }
+                            />
+                        </Form.Item>
                     </Descriptions.Item>
                     <Descriptions.Item label="流控备注">
                         <Form.Item

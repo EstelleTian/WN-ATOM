@@ -14,7 +14,7 @@ import {NWGlobal} from "../../utils/global";
 function RestrictionPage( props ) {
     // let [ messageStr, setMessageStr ] = useState("");
     let [ message, setMessage ] = useState({});
-    let [ disabledForm, setDisabledForm] = useState(true);
+    let [ disabledForm, setDisabledForm] = useState(false);
     let [flowData, setFlowData] = useState({})
 
     //TODO 测试数据，交由客户端后去除---start
@@ -112,7 +112,7 @@ function RestrictionPage( props ) {
                                 <span>流控导入</span>
                                 <FlowRelation setDisabledForm = {setDisabledForm} flowData={ flowData }  disabledForm = {disabledForm} message={message} />
                             </Row>
-                            <RestrictionForm  disabledForm = {disabledForm}  flowData={ flowData }  showImportBtn={true} />
+                            <RestrictionForm  disabledForm = {disabledForm} setDisabledForm = {setDisabledForm} flowData={ flowData }  showImportBtn={true} />
                         </Col>
                     </Row>
                     : ""

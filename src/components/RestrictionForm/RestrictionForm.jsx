@@ -66,29 +66,7 @@ function RestrictionForm(props){
     // 流控限制数值
     let restrictionModeValue =getRestrictionModeValue();
 
-    // function getDirectionListData (directionList)  {
-    //
-    //     let info = {
-    //         targetUnit: [], // 基准单元
-    //         preorderUnit: [], // 前序单元
-    //         behindUnit: [], // 后续单元
-    //         exemptPreUnit: [],  // 豁免前序单元
-    //         exemptbehindUnit: [],  // 豁免后续单元
-    //         highLimit: [],  // 高限
-    //
-    //     };
-    //     let  directionInfo =  directionList.reduce(reducer, info);
-    //     return directionInfo
-    // };
-    //
-    // function reducer (accumulator, direction)  {
-    //
-    //     for(var key in accumulator){
-    //         let pro = direction[key] || "";
-    //         accumulator[key] =  accumulator[key].concat(pro)
-    //     }
-    //     return accumulator;
-    // }
+
 
     // 日期组件格式化方式
     const dateFormat = 'YYYYMMDD HHmm';
@@ -239,6 +217,7 @@ function RestrictionForm(props){
             // 触发表单验证取表单数据
             const values = await form.validateFields();
             setImportButtonDisable(true);
+            props.setDisabledForm(true);
             setConfirmLoading(true);
             console.log(values);
             // 处理导入提交数据
@@ -427,21 +406,28 @@ function RestrictionForm(props){
         setConfirmLoading(false);
         setIsModalVisible(false);
         message.success('流控导入成功');
-
-
         handleImportControl(id);
-
     };
 
     /**
      * 数据提交失败回调
      * */
-    const requestErr = (err, content) => {
+    const requestErr = (err, text) => {
+        props.setDisabledForm(false);
         setImportButtonDisable(false);
         setConfirmLoading(false);
         setIsModalVisible(false);
+        const errMsg = err.message || "";
+
         message.error({
-            content,
+            content:  (
+                <span>
+                    <span>{text}</span>
+                    <br/>
+                    <span>{errMsg}</span>
+
+                </span>
+            ),
             duration: 4,
         });
     };
@@ -451,9 +437,9 @@ function RestrictionForm(props){
      *
      * */
     const  updateBasicStartTimeDisplay =(dateString) => {
-        const date = getDayTimeFromString(dateString);
+        // const date = getDayTimeFromString(dateString);
         // 设置表单非编辑状态下更新方案开始时间
-        form.setFieldsValue({basicStartTimeDisplay: date});
+        // form.setFieldsValue({basicStartTimeDisplay: date});
         // 更新方案开始时间
         setBasicStartTimeString(dateString);
     };
@@ -463,9 +449,9 @@ function RestrictionForm(props){
      *
      * */
     const  updateBasicEndTimeDisplay =(dateString) => {
-        const date = getDayTimeFromString(dateString);
+        // const date = getDayTimeFromString(dateString);
         // 设置表单非编辑状态下更新方案结束时间
-        form.setFieldsValue({basicEndTimeDisplay: date});
+        // form.setFieldsValue({basicEndTimeDisplay: date});
         // 更新方案结束时间
         setBasicEndTimeString(dateString)
     };
@@ -475,9 +461,9 @@ function RestrictionForm(props){
      *
      * */
     const  updateFlowControlStartTimeDisplay =(dateString) => {
-        const date = getDayTimeFromString(dateString);
+        // const date = getDayTimeFromString(dateString);
         // 设置表单非编辑状态下更新流控开始时间
-        form.setFieldsValue({flowControlStartTimeDisplay: date});
+        // form.setFieldsValue({flowControlStartTimeDisplay: date});
         // 更新流控开始时间
         setFlowControlStartTimeString(dateString);
 
@@ -488,9 +474,9 @@ function RestrictionForm(props){
      *
      * */
     const  updateFlowControlEndTimeDisplay =(dateString) => {
-        const date = getDayTimeFromString(dateString);
+        // const date = getDayTimeFromString(dateString);
         // 设置表单非编辑状态下更新流控结束时间
-        form.setFieldsValue({flowControlEndTimeDisplay: date});
+        // form.setFieldsValue({flowControlEndTimeDisplay: date});
         // 更新流控结束时间
         setFlowControlEndTimeString(dateString);
     };

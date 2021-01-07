@@ -51,30 +51,30 @@ function StaticInfoCard(props){
                     </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="开始时间" >
-                        {
-                            props.disabledForm
-                                ? <Form.Item name="basicStartTimeDisplay">
-                                    <Input disabled={ props.disabledForm }/>
-                                </Form.Item>
-                                : <Form.Item
-                                    name="basicStartTimeEdit"
-                                >
-                                    <DatePicker allowClear={ false } onChange={ updateStartTimeDisplay } showTime format={dateFormat}/>
-                                </Form.Item>
-                        }
+
+                    <Form.Item
+                        name="basicStartTimeEdit"
+                    >
+                        <DatePicker
+                            allowClear={ false }
+                            onChange={ updateStartTimeDisplay }
+                            showTime
+                            format={dateFormat}
+                            disabled={ props.disabledForm }
+                        />
+                    </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="结束时间" >
-                        {
-                            props.disabledForm
-                                ? <Form.Item name="basicEndTimeDisplay">
-                                    <Input disabled={ props.disabledForm }/>
-                                </Form.Item>
-                                : <Form.Item
-                                    name="basicEndTimeEdit"
-                                >
-                                    <DatePicker  allowClear={ false }  onChange={ updateEndTimeDisplay } showTime format={dateFormat} />
-                                </Form.Item>
-                        }
+                    <Form.Item
+                        name="basicEndTimeEdit"
+                    >
+                        <DatePicker
+                            allowClear={ false }
+                            onChange={ updateEndTimeDisplay }
+                            showTime format={dateFormat}
+                            disabled={ props.disabledForm }
+                        />
+                    </Form.Item>
                 </Descriptions.Item>
                 <Descriptions.Item label="基准单元"  span={2}>
                     <Form.Item
