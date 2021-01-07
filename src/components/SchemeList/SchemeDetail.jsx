@@ -16,25 +16,25 @@ import './SchemeDetail.scss'
 function SchemeDetail(props) {
 
 
-    const {flowData = {}, showImportBtn} = props;
+    const {flowData = {}, } = props;
     // 方案数据对象
-    const {tacticProcessInfo = {}} = flowData;
-    const {basicTacticInfo = {}, } = tacticProcessInfo;
+    let tacticProcessInfo = isValidObject(flowData.tacticProcessInfo) ? flowData.tacticProcessInfo : {};
+    // 方案基本信息数据对象
+    let basicTacticInfo = isValidObject(tacticProcessInfo.basicTacticInfo) ? tacticProcessInfo.basicTacticInfo : {};
+    // 方案时间信息对象
+    let tacticTimeInfo = isValidObject(basicTacticInfo.tacticTimeInfo) ? basicTacticInfo.tacticTimeInfo :{};
+    // 方案原始流控
+    let sourceFlowcontrol = isValidObject(basicTacticInfo.sourceFlowcontrol) ? basicTacticInfo.sourceFlowcontrol :{};
+    // 方案方向信息
+    let directionList = isValidVariable(basicTacticInfo.directionList) ? basicTacticInfo.directionList : [];
 
-    const {tacticName, tacticPublishUnit, tacticPublishUser, id, tacticTimeInfo = {}, sourceFlowcontrol = {}, directionList = []} = basicTacticInfo;
+    const {tacticName, tacticPublishUnit, tacticPublishUser, id,   } = basicTacticInfo;
     let flowcontrolList = [];
     if(isValidVariable(tacticProcessInfo.flowcontrolList)){
         flowcontrolList = tacticProcessInfo.flowcontrolList
     }
 
     const {startTime = "", endTime = "", startCalculateTime = "", endCalculateTime = ""} = tacticTimeInfo;
-
-
-    const {flowControlName, flowControlTimeInfo = {}, flowControlMeasure = {}, TrafficFlowDomainMap = {}, flowControlPublishType, flowControlReason,} = sourceFlowcontrol; // 流控信息对象
-    // 流控开始时间(12位字符串)
-    let flowControlStartTime = flowControlTimeInfo.startTime || "";
-    // 流控开始时间(12位字符串)
-    let flowControlEndTime = flowControlTimeInfo.endTime || "";
 
     // 流控方向领域对象
     const directionListData = directionList[0] || {};
