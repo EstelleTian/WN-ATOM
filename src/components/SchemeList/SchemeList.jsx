@@ -95,7 +95,7 @@ function sItem(props){
                      <div className="state">
                          <div className="cell">
                              <span className="status" title="方案状态">{ convertSatus(tacticStatus) }</span>
-                             <span className="calculate" title="方案计算状态">{ startCalculateTime === "" ? "计算中" : "已计算"}</span>
+                             <span className="calculate" title="方案计算状态">{ isValidVariable(startCalculateTime) ? "已计算" : "计算中" }</span>
                          </div>
                      </div>
                  </div>
