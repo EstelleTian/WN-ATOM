@@ -20,16 +20,19 @@ import './ExecuteKPI.scss'
 const ExecuteKPI = (props) => {
     const executeKPIData = props.executeKPIData;
     const { loading } = executeKPIData;
+
+
+
+
     return (
         <Spin spinning={loading} >
             <div className="kpi_canvas">
-                <ImpactFlights />
-                <ImpactLevel />
+                <ImpactFlights executeKPIData={ executeKPIData } />
+                <ImpactLevel executeKPIData={ executeKPIData }  />
                 <Row className="ant-row-no-wrap">
-                    <CTOTRate />
-                    <PreDelay />
+                    <CTOTRate executeKPIData={ executeKPIData }  />
+                    <PreDelay executeKPIData={ executeKPIData }  />
                 </Row>
-
             </div>
         </Spin>
     )

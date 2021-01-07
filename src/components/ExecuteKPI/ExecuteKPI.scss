@@ -49,14 +49,24 @@
         @include flex()
     }
 
-    .warn{
-        font-size: 28px;
+    .impact-level {
+        font-size: 3rem;
+    }
+    .level-high{
         color: red;
     }
+    .level-middle{
+        color: #f9a601;
+    }
+    .level-Low{
+        color: #30ca98;
+    }
+
     .dance {
-        background: $bc-black-80;
+        background: $bc-black-30;
         padding: 0px 20px;
         border-radius: 6px;
+        margin-top: 15px;
     }
 
     .total-rate{
@@ -81,6 +91,7 @@
         .row_model {
             margin: 5px;
             flex-shrink: 1;
+            flex-basis: 40%;
         }
     }
     .text-center {
