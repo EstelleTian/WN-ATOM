@@ -9,7 +9,7 @@
         .cont_left{
             @include display_flex(column);
             @include flex();
-            width: 500px;
+            //width: 500px;
             .left_top{
                 height: 40px;
                 background: #404040;
@@ -21,6 +21,7 @@
                 @include flex();
                 .left_left{
                     @include display_flex(column);
+                    width: 500px;
                 }
                 .left_right{
                     @include display_flex(column);
