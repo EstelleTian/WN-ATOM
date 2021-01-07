@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import {Modal, message, Button} from "antd";
 import { requestGet,  } from 'utils/request'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
+import SchemeDetail  from 'components/SchemeList/SchemeDetail'
 
 const SchemeModal = (props) => {
     const [ loading, setLoading ] = useState(false);
@@ -50,15 +51,22 @@ const SchemeModal = (props) => {
     const closeModal = useCallback(()=>{
         setVisible(false)
     });
+
+    // 方案数据对象
+    const {tacticProcessInfo = {}} = flowData;
+    const {basicTacticInfo = {}, } = tacticProcessInfo;
+    const {tacticName="", } = basicTacticInfo;
+
     return (
         <Modal
-            title="方案详情"
+            title={`方案详情 - ${tacticName} `}
             centered
             visible={ visible }
             onOk={() => setVisible(false)}
             onCancel={() => setVisible(false)}
-            width={1300}
+            width={1000}
             maskClosable={false}
+            destroyOnClose = { true }
             footer = {
                 <div>
                     <Button type="primary" onClick={ closeModal }>确认</Button>
@@ -66,7 +74,7 @@ const SchemeModal = (props) => {
                 </div>
             }
         >
-            <RestrictionForm disabledForm={true} flowData={ flowData } showImportBtn={false} />
+            <SchemeDetail flowData={ flowData }  />
         </Modal>
     )
 }
