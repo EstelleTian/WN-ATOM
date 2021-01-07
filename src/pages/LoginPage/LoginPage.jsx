@@ -1,14 +1,20 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Form, Icon, Input, Button, Alert, Row, Col, message} from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import md5 from 'js-md5'
 import { requestGet, request } from 'utils/request';
 import './LoginPage.scss'
-
+const msgStyle = {
+    top: '200px',
+    position: 'relative',
+    fontSize: '1.2rem',
+}
 function LoginPage(props){
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false)
     // 点击登录按钮登录
     const handleSubmit = useCallback( () => {
+        setLoading(true);
         form.validateFields()
             .then(values => {
                 const username = values.username.trim();
@@ -21,44 +27,46 @@ function LoginPage(props){
                     "clientVersion":"1.5.6",
                 };
                 console.log(params);
+                message.destroy()
                 const opt = {
-                    // url: 'http://192.168.194.21:18380/uuma-server/client/login',
-                    url: 'http://192.168.243.6:18380/uuma-server/client/login',
+                    url: 'http://192.168.194.21:18380/uuma-server/client/login',
                     params,
                     resFunc: (data)=> {
                         // updateUserInfoData(data)
                         console.log(data)
-                        message.success({
-                            content: "登录成功",
-                            duration: 4,
-                        });
-                        // setManualRefresh(false);
+                        const { status } = data;
+                        if( status*1 === 200){
+                            message.success({
+                                content: "登录成功",
+                                duration: 4,
+                                style: msgStyle
+                            });
+                        }else{
+                            const err = data.error;
+                            const msg = err.message;
+                            message.error({
+                                content: msg || "登录失败",
+                                duration: 10,
+                                style: msgStyle
+                            });
+                        }
+                        setLoading(false);
                     },
                     errFunc: (err)=> {
                         message.error({
                             content: "登录失败",
-                            duration: 4,
+                            duration: 10,
+                            style: msgStyle
                         });
-                        // setManualRefresh(false);
+                        setLoading(false);
                     }
                 };
                 requestGet( opt )
             })
             .catch(errorInfo => {
                 console.error(errorInfo);
+                setLoading(false);
             });
-    })
-
-    const notEmpty = useCallback((rule, value, callback) => {
-        if( value === undefined || null === value || value.trim() === "" ){
-            const name = rule.field;
-            switch(name){
-                case "username" : callback("用户名不能为空！");
-                case "password" : callback("密码不能为空！");
-            }
-        }else{
-            callback();
-        }
     })
 
     // 更新用户信息
@@ -83,7 +91,6 @@ function LoginPage(props){
             updateUserInfo(params);
         }
     })
-
 
     return (
         <div className="login bc-image-11">
@@ -112,7 +119,7 @@ function LoginPage(props){
                             >
                                 <Input   className="form_input" prefix={<LockOutlined />} placeholder="密码"/>
                             </Form.Item>
-                            <Button type="primary" htmlType="submit" size={'large'} className="login_button">
+                            <Button loading={loading} type="primary" htmlType="submit" size={'large'} className="login_button">
                                 登录
                             </Button>
                         </Form>
