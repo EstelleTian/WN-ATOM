@@ -230,9 +230,8 @@ function SchemeList (props){
                 handleActive(id)
             }
         }
-        // setTimeout(function(){
-        //     getSchemeList()
-        // },30 * 1000)
+
+
     })
     //请求错误处理
     const requestErr = useCallback((err, content) => {
@@ -242,12 +241,13 @@ function SchemeList (props){
         });
     })
     //获取方案列表
-    const getSchemeList = useCallback(() => {
+    const getSchemeList = useCallback((refresh) => {
         const opt = {
             url:'http://192.168.194.21:58189/implementTactics',
             method: 'GET',
             params:{
-                status: "RUNNING,FUTURE",
+                // status: "RUNNING,FUTURE",
+                status: "",
                 startTime: "",
                 endTIme: "",
                 userId: "443"
@@ -255,6 +255,11 @@ function SchemeList (props){
             resFunc: (data)=> {
                 updateSchemeListData(data)
                 setManualRefresh(false);
+                if( refresh ){
+                    setTimeout(function(){
+                        getSchemeList(true)
+                    },30 * 1000)
+                }
             },
             errFunc: (err)=> {
                 requestErr(err, '方案列表数据获取失败' );
@@ -344,7 +349,7 @@ function SchemeList (props){
             <div className="manual_refresh">
                 <SyncOutlined spin={manualRefresh}  onClick={()=>{
                     setManualRefresh(true);
-                    getSchemeList();
+                    getSchemeList(false);
                 }}/>
             </div>
             {
