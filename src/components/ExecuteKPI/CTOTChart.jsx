@@ -77,6 +77,9 @@ const CTOTPieChart = (props) => {
             { type: 'pie-statistic-active' },
         ],
         statistic: configData.statistic,
+        theme: {
+            // colors10: ['#FF0000', '#FF6B3B', '#FFC100',  '#9FB40F', '#FFC100',  '#FF6B3B', '#FF0000', ]
+        }
     };
     return <Pie {...config} />;
 }
