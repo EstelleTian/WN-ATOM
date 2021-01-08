@@ -224,8 +224,11 @@ function SchemeList (props){
             //更新 方案 store
             schemeListData.updateList(list)
             if( (schemeListData.activeScheme.id === "" || schemeListData.activeScheme.id === undefined)  && list.length > 0 ){
+
                 let id = list[0].id + "";
-                handleActive(id)
+                console.log("未获取到id，选定第一个:",id)
+
+                handleActive(id);
             }
         }
 
@@ -336,11 +339,15 @@ function SchemeList (props){
     })
     //高亮方案并获取航班数据
     const handleActive = useCallback(( id ) => {
-        props.schemeListData.toggleSchemeActive( id+"" );
-        props.flightTableData.toggleLoad(true)
-        props.executeKPIData.toggleLoad(true)
-        requestFlightTableData(id+"");
-        requestExecuteKPIData(id+"");
+        if( props.schemeListData.schemeId != id ){
+            props.schemeListData.setActiveSchemeId(id)
+            props.schemeListData.toggleSchemeActive( id+"" );
+            props.flightTableData.toggleLoad(true)
+            props.executeKPIData.toggleLoad(true)
+            requestFlightTableData(id+"");
+            requestExecuteKPIData(id+"");
+        }
+
     })
 
     const schemeListData = props.schemeListData;
