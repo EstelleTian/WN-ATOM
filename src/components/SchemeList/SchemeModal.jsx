@@ -8,12 +8,12 @@ const SchemeModal = (props) => {
     const [ loading, setLoading ] = useState(false);
     let [ flowData, setFlowData ] = useState({})
     const { visible, modalId, setVisible } = props;
-    console.log(11111, visible, modalId );
+    // console.log(11111, visible, modalId );
 
     //更新方案列表数据
     const updateDetailData = useCallback( data => {
         //TODO 更新表单数据
-        console.log( data );
+        // console.log( data );
         setFlowData(data);
     })
     //请求错误处理
@@ -45,7 +45,7 @@ const SchemeModal = (props) => {
             //根据modalId获取方案详情
             requestSchemeDetail( modalId );
         }
-        console.log("useEffect", modalId);
+        // console.log("useEffect", modalId);
     },[ visible, modalId ])
 
     const closeModal = useCallback(()=>{

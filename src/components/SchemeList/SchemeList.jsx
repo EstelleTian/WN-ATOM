@@ -84,10 +84,10 @@ function sItem(props){
      }
      return (
          <div className={`item_container layout-column ${item.active ? 'item_active' : ''}`}
-              // onClick={(e)=>{
-              //     onChange(e, id);
-              //     e.stopPropagation();
-              // } }
+              onClick={(e)=>{
+                  onChange(e, id);
+                  e.stopPropagation();
+              } }
          >
              <div className="layout-row">
                  <div className="left-column border-bottom layout-column justify-content-center">
@@ -150,10 +150,6 @@ function sItem(props){
                      <div className="options-box layout-row">
                          <div className=" layout-row">
                              <div className="opt"
-                                  onClick={(e)=>{
-                                      onChange(e, id);
-                                      e.stopPropagation();
-                                  } }
                              >影响航班</div>
                              <div className="opt" onClick={ e =>{
                                  showDetail(id);
@@ -258,10 +254,10 @@ function SchemeList (props){
                 updateSchemeListData(data)
                 setManualRefresh(false);
                 if( schemeListRefresh === false ){
-                    console.log("定时开始")
+                    // console.log("定时开始")
                     setSchemeListRefresh(true)
                     setTimeout(function(){
-                        console.log("定时开始执行")
+                        // console.log("定时开始执行")
                         setSchemeListRefresh(false)
                         getSchemeList()
                     },30 * 1000)
