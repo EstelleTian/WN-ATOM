@@ -14,7 +14,7 @@ import {NWGlobal} from "../../utils/global";
 function RestrictionPage( props ) {
     // let [ messageStr, setMessageStr ] = useState("");
     let [ message, setMessage ] = useState({});
-    let [ disabledForm, setDisabledForm] = useState(false);
+    let [ disabledForm, setDisabledForm] = useState(true);
     let [flowData, setFlowData] = useState({})
 
     //TODO 测试数据，交由客户端后去除---start

@@ -82,13 +82,13 @@ function FlowRelation( props ){
         <span  className="nw_header">
             {/*<Button className="r_btn" type="primary" onClick={ showModal } >关联前后序</Button>*/}
             {
-                // props.disabledForm
-                //     ? <Button className="r_btn" type="primary"  onClick={ () => {
-                //         props.setDisabledForm( false )
-                //     }} >编辑</Button>
-                //     : <Button className="r_btn" type="primary"  onClick={ () => {
-                //         props.setDisabledForm( true )
-                //     }} >取消编辑</Button>
+                props.disabledForm
+                    ? <Button className="r_btn" type="primary"  onClick={ () => {
+                        props.setDisabledForm( false )
+                    }} >编辑</Button>
+                    : <Button className="r_btn" type="primary"  onClick={ () => {
+                        props.setDisabledForm( true )
+                    }} >保存编辑</Button>
             }
             <Modal
                  className="nw_modal"
