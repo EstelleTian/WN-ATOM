@@ -51,7 +51,7 @@ function PreDelay(props){
                     <Progress
                         strokeLinecap="square"
                         type="dashboard"
-                        percent={entiretyNormalRate}
+                        percent={entiretyNormalRate*100}
                         // strokeWidth={8}
                         gapDegree={1}
                         trailColor="#64737a"
@@ -62,10 +62,10 @@ function PreDelay(props){
                     {
                         list.map((item, index) => (
                                 <Col span={12} className="block row_model flex" key={ item.key }>
-                                    <div className="block-title percent text-center">{(item.value*1) < 0 ? "N/A" : item.value}%</div>
+                                    <div className="block-title percent text-center">{(item.value*1) < 0 ? "N/A" : (item.value*100)}%</div>
                                     <div className="flex justify-content-center layout-column">
                                         <Progress
-                                            percent={(item.value*1) < 0 ? "N/A" : item.value}
+                                            percent={(item.value*1) < 0 ? 0 : (item.value *100)}
                                             showInfo={false}
                                             trailColor="#64737a"
                                         />
