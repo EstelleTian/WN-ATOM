@@ -14,7 +14,15 @@ function CTOTRate(props){
     // 跳变次数集合
     ctotMatchRate = isValidObject(ctotMatchRate) ? ctotMatchRate : {};
 
-
+    const orderData = {
+        "大于20": 100,
+        "10到20": 200,
+        "5到10": 300,
+        "-5到5": 400,
+        "-10到-5": 500,
+        "-20到-10": 600,
+        "小于-20": 700,
+    }
 
     /**
      * 获取各机场跳变次数集合
@@ -49,6 +57,7 @@ function CTOTRate(props){
                 key: rate,
                 type: rate,
                 value: val,
+                order: orderData[rate],
             };
             arr.push(obj);
         }
@@ -57,6 +66,18 @@ function CTOTRate(props){
     // 总计
     let totalRate = ctotMatchRate['TOTAL'] || {};
     let totalRateData =  getRateList(totalRate);
+    totalRateData.sort((item1,item2)=>{
+        let nameA = item1.order; // ignore upper and lowercase
+        let nameB = item2.order; // ignore upper and lowercase
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+        // names must be equal
+        return 0;
+    })
 
     let apRateList = getApRateList(ctotMatchRate);
     apRateList = apRateList.sort((item1,item2)=>{
