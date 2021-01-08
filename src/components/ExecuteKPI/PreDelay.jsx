@@ -65,7 +65,7 @@ function PreDelay(props){
                                     <div className="block-title percent text-center">{(item.value*1) < 0 ? "N/A" : item.value}%</div>
                                     <div className="flex justify-content-center layout-column">
                                         <Progress
-                                            percent={(item.value*1) < 0 ? "N/A" : item.value}
+                                            percent={(item.value*1) < 0 ? 0 : item.value}
                                             showInfo={false}
                                             trailColor="#64737a"
                                         />
