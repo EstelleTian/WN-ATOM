@@ -147,7 +147,7 @@ function FlightTable(props){
     let data = coverFlightTableData(list);
     data = filterInput(data);
     function onChange(pagination, filters, sorter, extra) {
-        console.log('params', pagination, filters, sorter, extra);
+        // console.log('params', pagination, filters, sorter, extra);
         setSortOrder( sorter.order )
         setSortKey( sorter.columnKey )
     }

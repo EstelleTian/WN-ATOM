@@ -83,9 +83,21 @@ class SchemeListData{
     @action delScheme( schemeItem ){
         this.list.remove( schemeItem );
     }
+    // 更新方案-全部
+    @action updateList( arr ){
+        this.list = [];
+        arr.map( item => {
+            const itemIns = new SchemeItem(item);
+            if( item.id === this.schemeId){
+                itemIns.active = true;
+            }
+            this.list.push( itemIns );
+
+        })
+    }
 
     // 更新方案-多条
-    @action updateList( arr ){
+    @action updateList2( arr ){
         const len = this.list.length;
         arr.map( item => {
             const id = item.id;
@@ -127,6 +139,7 @@ class SchemeListData{
     }
     //激活选中方案，重置其他方案
     @action toggleSchemeActive( id ){
+        console.log(id)
         this.list.map( todo => {
             const todoid = todo.id;
             if( id === todoid ){

@@ -67,7 +67,7 @@ class FlightTableData{
     @action update( opt ){
         const item = new FlightItem(opt);
         const list = this.list.filter((flight, index)=> opt.id);
-        console.log(list);
+        // console.log(list);
         list.map((flight, index) => {
            this.list.splice()
         });
