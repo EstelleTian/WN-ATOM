@@ -368,4 +368,4 @@ function SchemeList (props){
  }
 
 
-export default inject("schemeListData","flightTableData")(observer(SchemeList))
+export default inject("schemeListData","executeKPIData","flightTableData")(observer(SchemeList))
