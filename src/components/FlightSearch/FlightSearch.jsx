@@ -317,7 +317,7 @@ const FlightSearch = (props) => {
 
                     <Tooltip title="请输入航班号" color="volcano" visible={searchTootipVisible}>
                         <Search className="flight-search"
-                                placeholder="请输入航班号"
+                                placeholder="航班号"
                                 size="small"
                                 allowClear={true}
                                 loading={searchLoadingVisible}
@@ -326,7 +326,7 @@ const FlightSearch = (props) => {
                                 onChange={changeValue}
                                 onMouseLeave={ hideTooltip }
                                 onBlur ={ hideTooltip }
-                                style={{marginRight: '2%', width: '45%'}}
+                                style={{marginRight: '2%', width: '30%'}}
                         />
                     </Tooltip>
                     <Select
