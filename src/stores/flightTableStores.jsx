@@ -75,30 +75,16 @@ class FlightTableData{
     }
     //更新航班数据
     @action updateList( arr, generateTime ){
-        this.list = arr;
+        this.list = [];
         this.generateTime = generateTime;
         // const len = this.list.length;
-        // arr.map( item => {
-        //     const id = item.id;
-        //     //检验list有没有同id的航班
-        //     let hasFlight = this.list.filter( todo => id === todo.id).length === 0 ? false : true;
-        //
-        //     //没有同id的就添加一条
-        //     if( len === 0 || hasFlight === false ){
-        //         const itemIns = new FlightItem(item);
-        //         this.list.unshift( itemIns );
-        //     }else{
-        //         //有同id的 更新数据
-        //         this.list.filter( (flight, index)=> {
-        //             if(flight.id == item.id){
-        //                 const itemIns = new FlightItem(item);
-        //                 this.list.splice(index, 1, itemIns);
-        //             }
-        //         });
-        //
-        //     }
-        //
-        // })
+        let newArr = [];
+        arr.map( item => {
+            const itemIns = new FlightItem(item);
+            newArr.push( itemIns );
+        })
+        this.list = newArr;
+
     }
     //更新表格loading状态
     @action toggleLoad( load ){

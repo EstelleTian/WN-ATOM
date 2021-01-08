@@ -7,7 +7,7 @@
  * @FilePath: \WN-CDM\src\components\ExecuteKPI\ExecuteKPI.jsx
  */
 import React from 'react'
-import {Row, Spin, } from 'antd'
+import {Empty, Row, Spin,} from 'antd'
 import { inject, observer } from 'mobx-react'
 import ImpactFlights from './ImpactFlights'
 import ImpactLevel from './ImpactLevel'
@@ -21,11 +21,9 @@ const ExecuteKPI = (props) => {
     const executeKPIData = props.executeKPIData;
     const { loading } = executeKPIData;
 
-
-
-
     return (
         <Spin spinning={loading} >
+
             <div className="kpi_canvas">
                 <ImpactFlights executeKPIData={ executeKPIData } />
                 <ImpactLevel executeKPIData={ executeKPIData }  />
@@ -34,6 +32,7 @@ const ExecuteKPI = (props) => {
                     <PreDelay executeKPIData={ executeKPIData }  />
                 </Row>
             </div>
+
         </Spin>
     )
 }

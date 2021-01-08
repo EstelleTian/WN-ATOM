@@ -40,7 +40,59 @@ function LeftMultiCanvas(props){
                         <ModalBox
                             title="豁免航班列表"
                             showDecorator = {true}
-                            className="kpi"
+                            className="exempt"
+                        >
+                            <SubTable name={leftActiveName}/>
+                        </ModalBox>
+                    </Suspense>
+                    : ""
+            }
+            {
+                leftActiveName === "pool"
+                    ? <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+                        <ModalBox
+                            title="等待池列表"
+                            showDecorator = {true}
+                            className="pool"
+                        >
+                            <SubTable name={leftActiveName}/>
+                        </ModalBox>
+                    </Suspense>
+                    : ""
+            }
+            {
+                leftActiveName === "special"
+                    ? <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+                        <ModalBox
+                            title="特殊航班列表"
+                            showDecorator = {true}
+                            className="special"
+                        >
+                            <SubTable name={leftActiveName}/>
+                        </ModalBox>
+                    </Suspense>
+                    : ""
+            }
+            {
+                leftActiveName === "expired"
+                    ? <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+                        <ModalBox
+                            title="失效航班列表"
+                            showDecorator = {true}
+                            className="expired"
+                        >
+                            <SubTable name={leftActiveName}/>
+                        </ModalBox>
+                    </Suspense>
+                    : ""
+            }
+            {
+                leftActiveName === "todo"
+                    ? <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+                        <ModalBox
+                            title="待办航班列表"
+                            showDecorator = {true}
+                            className="todo"
                         >
                             <SubTable name={leftActiveName}/>
                         </ModalBox>

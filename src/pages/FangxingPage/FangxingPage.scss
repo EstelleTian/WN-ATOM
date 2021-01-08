@@ -21,11 +21,14 @@
                 @include flex();
                 .left_left{
                     @include display_flex(column);
+                    width: 500px;
                     .left_left_top{
                         @include display_flex();
                         @include flex();
+                        >.modal_box{
+                            @include flex();
+                        }
                     }
-                    width: 500px;
                 }
                 .left_right{
                     @include display_flex(column);

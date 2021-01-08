@@ -15,6 +15,7 @@ const FLIGHTIDPopover = (props) => {
             </div>
         )
     })
+    const {text, record, index, col} = props.opt;
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
@@ -29,7 +30,7 @@ const FLIGHTIDPopover = (props) => {
             //     }
             // }}
         >
-            <div className="ddd">{props.opt.text}</div>
+            <div className="ddd" title={text}>{text}</div>
         </Popover >
     )
 }
@@ -255,11 +256,14 @@ const COBTPopover = (props) => {
                 </Descriptions>
 
             </Form>
-
-
         )
     })
-
+    const {text, record, index, col} = props.opt;
+    let { orgdata } = record;
+    if( isValidVariable(orgdata) ){
+        orgdata = JSON.parse(orgdata);
+    }
+    let { cobtField : { source } } = orgdata;
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
@@ -270,7 +274,7 @@ const COBTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className="empty_cell"><span className="">{getDayTimeFromString(props.opt.text)}</span></div>
+            <div className="empty_cell" title={`${text}-${source}`}><span className="">{ getDayTimeFromString(text) }</span></div>
         </Popover >
     )
 }
@@ -283,7 +287,7 @@ const CTOTPopover = (props) => {
         let { FLIGHTID, DEPAP, ARRAP } = record;
         let time = "";
         let date = "";
-        if( text.length >= 12 ){
+        if( isValidVariable(text) && text.length >= 12 ){
             time = text.substring(8,12);
             date = moment( text.substring(0,8), "YYYY-MM-DD");
         }
@@ -367,6 +371,12 @@ const CTOTPopover = (props) => {
 
         )
     })
+    const {text, record, index, col} = props.opt;
+    let { orgdata } = record;
+    if( isValidVariable(orgdata) ){
+        orgdata = JSON.parse(orgdata);
+    }
+    let { ctotField : { source } } = orgdata;
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
@@ -377,9 +387,35 @@ const CTOTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className="empty_cell"><span className="">{getDayTimeFromString(props.opt.text)}</span></div>
+            <div className="empty_cell" title={`${text}-${source}`}><span className="">{getDayTimeFromString(text)}</span></div>
 
         </Popover >
     )
 }
-export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover }
+
+//CTO右键协调框
+const CTOPopover = (props) => {
+    const {text, record, index, col} = props.opt;
+    let { orgdata } = record;
+    if( isValidVariable(orgdata) ){
+        orgdata = JSON.parse(orgdata);
+    }
+    let { ctoField : { source } } = orgdata;
+    return(
+        <div className="empty_cell" title={`${text}-${source}`}><span className="">{getDayTimeFromString(text)}</span></div>
+    )
+}
+
+//EAPT右键协调框
+const EAPTPopover = (props) => {
+    const {text, record, index, col} = props.opt;
+    let { orgdata } = record;
+    if( isValidVariable(orgdata) ){
+        orgdata = JSON.parse(orgdata);
+    }
+    let { eaptField : { source } } = orgdata;
+    return(
+        <div className="empty_cell" title={`${text}-${source}`}><span className="">{getDayTimeFromString(text)}</span></div>
+    )
+}
+export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover }

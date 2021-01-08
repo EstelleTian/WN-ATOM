@@ -139,7 +139,7 @@ class SchemeListData{
     }
     //激活选中方案，重置其他方案
     @action toggleSchemeActive( id ){
-        console.log(id)
+        // console.log(id)
         this.list.map( todo => {
             const todoid = todo.id;
             if( id === todoid ){
@@ -151,7 +151,7 @@ class SchemeListData{
     }
     // 增加航班-单条
     @action setActiveSchemeId( id ){
-        console.log("setActiveSchemeId:", id);
+        // console.log("setActiveSchemeId:", id);
         this.schemeId = id;
     }
 

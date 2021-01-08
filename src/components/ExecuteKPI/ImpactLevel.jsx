@@ -1,11 +1,11 @@
 import React from 'react'
-import {Col, Row} from "antd";
+import {Col, Empty, Row, Spin} from "antd";
 import {AlertOutlined, WarningOutlined, BulbOutlined} from "@ant-design/icons";
-import AirportMonitor from "../MiniMonitor/AirportMonitor";
+import ReactEcharts from "echarts-for-react";
+import {isValidVariable} from "../../utils/basic-verify";
 
 //影响程度
 function ImpactLevel(props){
-
     const levelData = {
         "H":{
             "label": "高",
@@ -24,9 +24,6 @@ function ImpactLevel(props){
             "icon": (<BulbOutlined />)
         },
     };
-
-
-
     const executeKPIData = props.executeKPIData || {};
     const KPIData = executeKPIData.KPIData || {};
     let { impactDegree, dcb={}} = KPIData;
@@ -34,9 +31,6 @@ function ImpactLevel(props){
     const label = level.label || "";
     const levelClassName = level.levelClassName || "";
     const icon = level.icon || "";
-
-
-
 
     return <Row className="row_model">
         <Col span={10} className="block">
@@ -50,11 +44,116 @@ function ImpactLevel(props){
         <Col span={14} className="block">
             <div className="block-title">DCB</div>
             <div className="warn flex justify-content-center layout-column">
-                <AirportMonitor title=""/>
+                <DCBLineChart dcb={dcb}/>
             </div>
 
         </Col>
     </Row>
+}
+
+//DCB
+function DCBLineChart(props){
+    let { dcb } = props;
+    let dcbkeys = [];
+    if( !isValidVariable(dcb) ){
+        dcb = {};
+    }
+    dcbkeys = Object.keys( dcb ).sort();
+    console.log( "dcb", dcb );
+    const getOption = function(){
+        let dcbKeyArr = [];
+        let dcbValArr = [];
+        for(let i = 0; i < dcbkeys.length; i++ ){
+            const key = dcbkeys[i] || "";
+            const val = dcb[key] || null;
+            let xKey = key;
+            if( key.length > 13 ){
+                xKey = key.substring(0,12);
+                xKey = xKey.substring(8,12);
+            }
+            dcbKeyArr.push(xKey);
+            dcbValArr.push(val);
+
+        }
+        const option = {
+            color: ["#0076F7"],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data: ['DCB'],
+                show: false
+            },
+            grid: {
+                top: '10px',
+                // left: '5px',
+                // right: '5px',
+                bottom: '10px',
+                height: '140px'
+                // containLabel: false
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: dcbKeyArr,
+                    axisLine:{
+                        lineStyle:{
+                            color: "#8F959E"
+                        }
+                    },
+                    axisTick: {
+                        // show: false
+                    },
+                    axisLabel:{
+                        // show: false
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    axisLine:{
+                        lineStyle:{
+                            color: "#8F959E"
+                        }
+                    },
+                    axisTick: {
+                        // show: false
+                    },
+                    splitLine:{
+                        // show: false
+                    },
+                }
+            ],
+            series: [
+                {
+                    name: 'DCB',
+                    type: 'bar',
+                    // stack: '1',
+                    data: dcbValArr
+                }
+            ]
+        };
+
+        return option;
+    }
+
+    return (
+        <div style={{height: '170px'}}>
+            {
+                Object.keys( dcb ).length === 0
+                    ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color:"#fff"}} />
+                    : <ReactEcharts
+                        option={getOption()}
+                        className='react_for_echarts' />
+
+            }
+        </div>
+
+        )
 }
 
 export default ImpactLevel;

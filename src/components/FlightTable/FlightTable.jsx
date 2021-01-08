@@ -32,6 +32,11 @@ const formatSingleFlight = flight => {
     ffixField = ffixField || {};
     ctoField = ctoField || {};
     etoField = etoField || {};
+    // if( flight.flightid === "CES9658"){
+    //     debugger
+    //     console.log("cobtField", cobtField.value, getDayTimeFromString(cobtField.value))
+    //     console.log("ctotField", ctotField.value, getDayTimeFromString(ctotField.value))
+    // }
     let taskVal = taskField.value || "";
     if( taskVal === "null" ){
         taskVal = ""
@@ -43,7 +48,7 @@ const formatSingleFlight = flight => {
         ALARM: alarmField.value,
         TASK: taskVal,
         EAP: eapField.name,
-        EAPT: getTimeAndStatus(eapField.value),
+        EAPT: eapField.value,
         OAP: oapField.name,
         OAPT: getTimeAndStatus(oapField.value),
         ACTYPE: flight.aircrafttype,
@@ -53,12 +58,12 @@ const formatSingleFlight = flight => {
         EOBT: getDayTimeFromString(flight.eobt),
         TOBT: getDayTimeFromString(tobtField.value),
         COBT: cobtField.value,
-        CTOT: getDayTimeFromString(ctotField.value),
+        CTOT: ctotField.value,
         ATOT: getDayTimeFromString(flight.atd),
         FETA: getDayTimeFromString(flight.formerArrtime),
         FFIX: ffixField.name,
         FFIXT: ffixField.value,
-        CTO: getTimeAndStatus(ctoField.value),
+        CTO: ctoField.value,
         ETO: getTimeAndStatus(etoField.value),
         STATUS: flight.runningStatus,
         orgdata: JSON.stringify(flight)

@@ -339,14 +339,14 @@ function SchemeList (props){
     })
     //高亮方案并获取航班数据
     const handleActive = useCallback(( id ) => {
-        if( props.schemeListData.schemeId != id ){
+        // if( props.schemeListData.schemeId != id ){
             props.schemeListData.setActiveSchemeId(id)
             props.schemeListData.toggleSchemeActive( id+"" );
             props.flightTableData.toggleLoad(true)
             props.executeKPIData.toggleLoad(true)
             requestFlightTableData(id+"");
             requestExecuteKPIData(id+"");
-        }
+        // }
 
     })
 

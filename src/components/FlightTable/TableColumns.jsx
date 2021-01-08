@@ -8,15 +8,14 @@
  */
 import React from 'react'
 import { isValidVariable } from 'utils/basic-verify'
-import { Input, Button , Popover, Checkbox, DatePicker ,Space, Tooltip } from 'antd'
-import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover } from  './CollaboratePopover'
+import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover } from  './CollaboratePopover'
 
 
 // 右键渲染模块内容
 const render = (opt)  => {
     const {text, record, index, col, colCN} = opt;
     let color = "";
-    let popover = <div col-key= {col} >{text}</div>
+    let popover = <div col-key= {col} title={text}>{text}</div>
     if( col === "FLIGHTID" ){
         popover = <FLIGHTIDPopover opt={opt} />
     }
@@ -28,6 +27,12 @@ const render = (opt)  => {
     }
     else if( col === "CTOT" ){
         popover = <CTOTPopover opt={opt} />
+    }
+    else if( col === "CTO" ){
+        popover = <CTOPopover opt={opt} />
+    }
+    else if( col === "EAPT" ){
+        popover = <EAPTPopover opt={opt} />
     }
     let obj  = {
         children: popover,
