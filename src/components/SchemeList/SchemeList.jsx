@@ -282,9 +282,9 @@ function SchemeList (props){
     //更新执行KPIstore数据
     const updateExecuteKPIData = useCallback(executeKPIData => {
         if( isValidObject(executeKPIData) ){
-            props.flightTableData.updateExecuteKPIData(executeKPIData)
+            props.executeKPIData.updateExecuteKPIData(executeKPIData)
         }else{
-            props.flightTableData.updateList({})
+            props.executeKPIData.updateList({})
         }
     });
     //航班列表数据获取
@@ -326,10 +326,9 @@ function SchemeList (props){
     const handleActive = useCallback(( id ) => {
         props.schemeListData.toggleSchemeActive( id+"" );
         props.flightTableData.toggleLoad(true)
+        props.executeKPIData.toggleLoad(true)
         requestFlightTableData(id+"");
-        // debugger
         requestExecuteKPIData(id+"");
-
     })
 
     const schemeListData = props.schemeListData;
