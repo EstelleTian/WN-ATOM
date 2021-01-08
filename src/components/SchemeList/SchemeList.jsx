@@ -289,7 +289,7 @@ function SchemeList (props){
         if( isValidObject(executeKPIData) ){
             props.executeKPIData.updateExecuteKPIData(executeKPIData)
         }else{
-            props.executeKPIData.updateList({})
+            props.executeKPIData.updateExecuteKPIData({})
         }
     });
     //航班列表数据获取
