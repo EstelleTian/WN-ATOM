@@ -12,7 +12,10 @@ import {Empty, Spin} from "antd";
 import ModalBox from 'components/ModalBox/ModalBox'
 import './RightMultiCanvas.scss'
 
+//TODO 真实数据，用于公司环境
 const SchemeList = lazy(() => import('components/SchemeList/SchemeList') );
+//TODO 本地模拟数据，用于无接口调试样式
+// const SchemeList = lazy(() => import('components/SchemeList/SchemeListMock') );
 
 function RightMultiCanvas(props){
     const { systemPage } = props;
