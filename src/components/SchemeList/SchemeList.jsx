@@ -34,7 +34,6 @@ const convertSatus = (status) => {
         case "FINISHED": newStatus = "正常结束";break;
         case "DISCARD": newStatus = "已废弃";break;
     }
-
     return newStatus;
 }
 //单条方案
@@ -98,7 +97,7 @@ function sItem(props){
                     </div>
                      <div className="state">
                          <div className="cell">
-                             <span className="status" title="方案状态">{ convertSatus(tacticStatus) }</span>
+                             <span className={`${tacticStatus} status`} title="方案状态">{ convertSatus(tacticStatus) }</span>
                              <span className="calculate" title="方案计算状态">{ isValidVariable(startCalculateTime) ? "已计算" : "计算中" }</span>
                          </div>
                      </div>

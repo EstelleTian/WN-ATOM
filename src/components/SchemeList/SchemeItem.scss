@@ -56,6 +56,12 @@
         .tactic-name, .status {
             color: #36a5da;
         }
+        .FUTURE{}
+        .RUNNING, .PRE_PUBLISH, .PRE_TERMINATED, .PRE_UPDATE{}
+        .TERMINATED, .TERMINATED_MANUAL, .STOP, .FINISHED, .DISCARD{
+
+        }
+
         .tactic-name {
             font-weight: 900;
         }

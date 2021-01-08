@@ -413,9 +413,9 @@ const EAPTPopover = (props) => {
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
     }
-    let { eaptField : { source } } = orgdata;
+    let { eapField : { source , value } } = orgdata;
     return(
-        <div className="empty_cell" title={`${text}-${source}`}><span className="">{getDayTimeFromString(text)}</span></div>
+        <div className="empty_cell" title={`${text}-${source}`}><span className="">{getTimeAndStatus(value)}</span></div>
     )
 }
 export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover }

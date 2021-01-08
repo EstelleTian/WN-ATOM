@@ -8,8 +8,18 @@
  */
 import React, { lazy, Suspense} from 'react';
 import { Table, Spin } from 'antd';
-import './LeftMultiCanvas.scss'
 import {inject, observer} from "mobx-react";
+import ModalBox from 'components/ModalBox/ModalBox'
+import './LeftMultiCanvas.scss'
+
+const subNames = {
+    "exempt": "豁免航班列表",
+    "pool": "等待池列表",
+    "special": "特殊航班列表",
+    "expired": "失效航班列表",
+    "todo": "待办航班列表",
+}
+
 const columns = [
     {
         title: 'Name',
@@ -45,8 +55,18 @@ const data = [
     },
 ];
 function SubTable(props){
+    const { leftActiveName } = props;
     return (
-        <Table columns={columns} dataSource={data} size="small" />
+        <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+            <ModalBox
+                title={subNames[leftActiveName]}
+                showDecorator = {true}
+                className={leftActiveName}
+            >
+                <Table columns={columns} dataSource={data} size="small" />
+            </ModalBox>
+        </Suspense>
+
     )
 
 }
