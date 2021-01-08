@@ -28,9 +28,9 @@ function PreDelay(props){
     }
 
     let list = getApNormalRateList(insideApNormalRate);
-    list = list.sort((item1,itme2)=>{
+    list = list.sort((item1,item2)=>{
         let nameA = item1.key.toUpperCase(); // ignore upper and lowercase
-        let nameB = itme2.key.toUpperCase(); // ignore upper and lowercase
+        let nameB = item2.key.toUpperCase(); // ignore upper and lowercase
         if (nameA < nameB) {
             return -1;
         }
@@ -40,9 +40,6 @@ function PreDelay(props){
         // names must be equal
         return 0;
     })
-
-
-    console.log(list);
 
 
 
