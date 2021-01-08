@@ -322,8 +322,8 @@ function SchemeList (props){
     //方案执行KPI数据获取
     const requestExecuteKPIData = useCallback(id => {
         const opt = {
-            // url:'http://192.168.194.21:29890/performkpi/' + id,
-            url:'http://192.168.243.8:29890/performkpi/' + id,
+            url:'http://192.168.194.21:29890/performkpi/' + id,
+            // url:'http://192.168.243.8:29890/performkpi/' + id,
             method:'GET',
             params:{},
             resFunc: (data)=> {
