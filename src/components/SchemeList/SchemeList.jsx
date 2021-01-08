@@ -327,7 +327,7 @@ function SchemeList (props){
         props.schemeListData.toggleSchemeActive( id+"" );
         props.flightTableData.toggleLoad(true)
         requestFlightTableData(id+"");
-        debugger
+        // debugger
         requestExecuteKPIData(id+"");
 
     })
