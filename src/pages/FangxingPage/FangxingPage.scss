@@ -9,22 +9,32 @@
         .cont_left{
             @include display_flex(column);
             @include flex();
-            //width: 500px;
+            margin: 0 11px;
+            width: 31.25rem;
             .left_top{
                 height: 40px;
-                background: #404040;
-                line-height: 40px;
-                padding-left: 15px;
+                background: rgba(64, 64, 64, 0.8);
+                border: 1px solid #5D5D5D;
+                margin: 0 0 8px;
+                >div{
+                    height: 40px;
+                    font-size: 1.125rem;
+                    line-height: 40px;
+                    padding-left: 1rem;
+                }
             }
             .left_cont{
                 @include display_flex();
                 @include flex();
+                margin-bottom: 10px;
                 .left_left{
                     @include display_flex(column);
-                    width: 500px;
+                    width: 31.25rem;
+                    margin-right: 10px;
                     .left_left_top{
                         @include display_flex();
                         @include flex();
+                        margin-bottom: 10px;
                         >.modal_box{
                             @include flex();
                         }
@@ -52,8 +62,9 @@
         }
 
         .cont_right{
-             width: 500px;
+            width: 31.25rem;
             position: relative;
+            margin-bottom: 10px;
             //@include flex(2);
             @include display_flex(column);
         }

@@ -2,10 +2,10 @@
 
 .modal_box{
     @include display_flex(column);
-    height: calc(100% - 20px );
-    margin: 10px 5px;
-    background: #404040;
-    
+    height: calc(100%);
+    //margin: 10px 5px;
+    background: #434343;
+    border: 1px solid #5D5D5D;
     .box_header{
         //background: rgba(0,0,0,0.35);
         height: 40px;

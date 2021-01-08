@@ -33,7 +33,7 @@ function ImpactLevel(props){
     const icon = level.icon || "";
 
     return <Row className="row_model">
-        <Col span={10} className="block">
+        <Col span={8} className="block">
             <div className="block-title">影响程度</div>
             <div className={`${levelClassName} impact-level flex justify-content-center layout-column`}>
                 <AlertOutlined />
@@ -41,7 +41,7 @@ function ImpactLevel(props){
                 <div className={ `text-center`}>{label}</div>
             </div>
         </Col>
-        <Col span={14} className="block">
+        <Col span={16} className="block">
             <div className="block-title">DCB</div>
             <div className="warn flex justify-content-center layout-column">
                 <DCBLineChart dcb={dcb}/>

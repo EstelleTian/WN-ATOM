@@ -23,7 +23,7 @@
     display: none;
 }
 .ant-table-tbody > tr.ant-table-row:hover > td.ant-table-cell {
-    background: rgba(89, 89, 89, 0.78);
+    //background: rgba(89, 89, 89, 0.78);
 }
 .ant-table-cell.FFIX{
     //background: #0e4980;
@@ -32,9 +32,9 @@
     background: #404040;
 }
 .in_range{
-    background: #475461;
+    //background: #475461;
     .ant-table-cell-fix-left, .ant-table-cell-fix-right{
-        background: #475461;
+        //background: #475461;
     }
     .ant-table-cell.FFIXT{
         background: #424548;
@@ -49,12 +49,23 @@
     }
 }
 .interval_green{
-    background: rgba(49, 128, 68, 0.6);
+    background: rgba(54, 159, 135,0.4);
+    color: #3AE1B0;
 }
 .interval_red{
-    background: rgba(142, 0, 0, 0.6);
+    background: rgba(141 ,73, 65, .4);
+    color: #FF6161;
 }
 //单元格为空，样式占位
 .empty_cell{
     height: 30px;
+}
+//表格 单元格 padding
+.ant-table.ant-table-small .ant-table-title,
+.ant-table.ant-table-small .ant-table-footer,
+.ant-table.ant-table-small .ant-table-thead > tr > th,
+.ant-table.ant-table-small .ant-table-tbody > tr > td,
+.ant-table.ant-table-small tfoot > tr > th,
+.ant-table.ant-table-small tfoot > tr > td {
+    padding: 0.35rem 0.5rem;
 }

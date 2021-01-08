@@ -387,7 +387,7 @@ const CTOTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className="empty_cell" title={`${text}-${source}`}><span className="">{getDayTimeFromString(text)}</span></div>
+            <div className="empty_cell" title={`${text}-${source}`}><span className="">{getTimeAndStatus(text)}</span></div>
 
         </Popover >
     )
@@ -402,7 +402,7 @@ const CTOPopover = (props) => {
     }
     let { ctoField : { source } } = orgdata;
     return(
-        <div className="empty_cell" title={`${text}-${source}`}><span className="">{getDayTimeFromString(text)}</span></div>
+        <div className="empty_cell" title={`${text}-${source}`}><span className="">{getTimeAndStatus(text)}</span></div>
     )
 }
 
