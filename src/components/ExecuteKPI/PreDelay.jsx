@@ -10,7 +10,7 @@ function PreDelay(props){
     let { entiretyNormalRate, insideApNormalRate ={ }} = KPIData;
 
     if(isValidVariable(entiretyNormalRate)){
-        entiretyNormalRate = entiretyNormalRate*1;
+        entiretyNormalRate = (entiretyNormalRate*1) < 0 ? "N/A" : entiretyNormalRate;
     }else{
         entiretyNormalRate = "N/A";
     }
@@ -65,10 +65,10 @@ function PreDelay(props){
                     {
                         list.map((item, index) => (
                                 <Col span={12} className="block row_model flex" key={ item.key }>
-                                    <div className="block-title percent text-center">{item.value}%</div>
+                                    <div className="block-title percent text-center">{(item.value*1) < 0 ? "N/A" : item.value}%</div>
                                     <div className="flex justify-content-center layout-column">
                                         <Progress
-                                            percent={item.value}
+                                            percent={(item.value*1) < 0 ? "N/A" : item.value}
                                             showInfo={false}
                                             trailColor="#64737a"
                                         />

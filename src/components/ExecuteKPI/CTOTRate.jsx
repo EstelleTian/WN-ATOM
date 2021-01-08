@@ -9,7 +9,7 @@ function CTOTRate(props){
     const executeKPIData = props.executeKPIData || {};
     const KPIData = executeKPIData.KPIData || {};
     let { ctotChangeCountAverage, } = KPIData;
-    const average = isValidVariable(ctotChangeCountAverage) ? ctotChangeCountAverage: "N/A";
+    const average = isValidVariable(ctotChangeCountAverage) ? (((ctotChangeCountAverage*1) < 0 ) ? "N/A" : ctotChangeCountAverage): "N/A";
     return  <Col span={10} className="row_model ctot-rate">
         <Col span={24} className="block">
             <div className="block-title">CTOT符合率</div>

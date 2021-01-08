@@ -44,7 +44,7 @@ function SchemeDetail(props) {
     return (
         <Row>
             <Col span={24}>
-                <Card title="基本信息" size="small" className="advanced-card" bordered={false}>
+                <Card title="方案基本信息" size="small" className="advanced-card" bordered={false}>
                     <Descriptions size="small" bordered column={4}>
                         <Descriptions.Item label="方案名称" span={4}>
                             {tacticName}
@@ -101,7 +101,7 @@ function SchemeDetail(props) {
                     </Descriptions>
                 </Card>
             </Col>
-            <FlowcontrolDetailCard flowcontrolData={ sourceFlowcontrol } title="原始流控信息" > </FlowcontrolDetailCard>
+            <FlowcontrolDetailCard flowcontrolData={ sourceFlowcontrol } title="基础流控信息" > </FlowcontrolDetailCard>
             <Divider orientation="left"> {`流控信息`}</Divider>
 
             {

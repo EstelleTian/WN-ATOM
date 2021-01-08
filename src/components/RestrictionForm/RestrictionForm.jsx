@@ -67,7 +67,7 @@ function RestrictionForm(props){
     let restrictionModeValue =getRestrictionModeValue();
 
     // 日期组件格式化方式
-    const dateFormat = 'YYYYMMDD HHmm';
+    const dateFormat = 'YYYY-MM-DD HHmm';
     // 表单初始数值对象集合
     let initialValues = {
         // 方案名称

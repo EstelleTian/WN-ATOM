@@ -7,7 +7,7 @@ import  moment  from 'moment'
 //方案信息
 function StaticInfoCard(props){
 
-    const dateFormat = 'YYYYMMDD HHmm';
+    const dateFormat = 'YYYY-MM-DD HHmm';
 
     const updateStartTimeDisplay =(date) => {
         if( props.hasOwnProperty("updateBasicStartTimeDisplay") ){

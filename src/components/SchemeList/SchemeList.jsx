@@ -295,7 +295,12 @@ function SchemeList (props){
         if( isValidObject(executeKPIData) ){
             props.executeKPIData.updateExecuteKPIData(executeKPIData)
         }else{
-            props.executeKPIData.updateExecuteKPIData({})
+            props.executeKPIData.updateExecuteKPIData({});
+            message.error({
+                content:"获取的KPI数据为空",
+                duration: 4,
+            });
+
         }
     });
     //航班列表数据获取

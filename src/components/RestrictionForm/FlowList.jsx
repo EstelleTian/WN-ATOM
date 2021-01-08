@@ -9,7 +9,7 @@ const { Option } = Select;
 const { Panel } = Collapse;
 //流控信息
 function FlowList(props){
-    const dateFormat = 'YYYYMMDD HHmm';
+    const dateFormat = 'YYYY-MM-DD HHmm';
 
     const { defaultValue={} } = props;
 
