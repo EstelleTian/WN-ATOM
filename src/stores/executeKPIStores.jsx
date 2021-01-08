@@ -16,17 +16,25 @@ class ExecuteKPIData {
         makeObservable(this)
     }
     // 列表
-    @observable list = [];
+    @observable KPIData = {};
     //数据时间
     @observable generateTime = "";
     //数据获取
     @observable loading = false;
+    // //
+    // @observable impactFlights = [];
+    // @observable criticalFlights = [];
+    // @observable coordinationFlights = [];
+    // @observable inPoolFlights = [];
+    // @observable closeWaitFlights = [];
 
+
+
+ct
 
     //更新航班数据
-    @action updateList( arr, generateTime ){
-        this.list = arr;
-        this.generateTime = generateTime;
+    @action updateExecuteKPIData( KPIData ){
+        this.KPIData = KPIData;
     }
     //更新loading状态
     @action toggleLoad( load ){
