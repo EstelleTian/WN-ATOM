@@ -3,12 +3,12 @@
  * @Date: 2020-12-10 11:08:04
  * @LastEditTime: 2020-12-24 19:19:24
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
  */
 import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Row, Col, message, Modal , Empty} from 'antd'
+import { Row, Col, message, Checkbox , Empty} from 'antd'
 import { SyncOutlined } from '@ant-design/icons';
 import { requestGet, request } from 'utils/request'
 import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
@@ -204,7 +204,9 @@ let SchemeItem = (observer(sItem))
 function SchemeList (props){
     const [visible, setVisible] = useState(false);
     const [modalId, setModalId] = useState("");
-    let [ manualRefresh, setManualRefresh ] = useState( false );
+    const [ manualRefresh, setManualRefresh ] = useState( false );
+    const [ statusValues, setStatusValues ] = useState( ['FUTURE','RUNNING'] );
+    const [ schemeListRefresh, setSchemeListRefresh ] = useState( false );
     NWGlobal.setSchemeId = id  => {
         // alert("收到id:"+id);
         handleActive( id )
@@ -241,13 +243,13 @@ function SchemeList (props){
         });
     })
     //获取方案列表
-    const getSchemeList = useCallback((refresh) => {
+    const getSchemeList = useCallback(() => {
         const opt = {
             url:'http://192.168.194.21:58189/implementTactics',
             method: 'GET',
             params:{
                 // status: "RUNNING,FUTURE",
-                status: "",
+                status: statusValues.join(','),
                 startTime: "",
                 endTIme: "",
                 userId: "443"
@@ -255,9 +257,13 @@ function SchemeList (props){
             resFunc: (data)=> {
                 updateSchemeListData(data)
                 setManualRefresh(false);
-                if( refresh ){
+                if( schemeListRefresh === false ){
+                    console.log("定时开始")
+                    setSchemeListRefresh(true)
                     setTimeout(function(){
-                        getSchemeList(true)
+                        console.log("定时开始执行")
+                        setSchemeListRefresh(false)
+                        getSchemeList()
                     },30 * 1000)
                 }
             },
@@ -273,7 +279,7 @@ function SchemeList (props){
             getSchemeList();
         }
 
-    }, [] )
+    }, [ statusValues ] );
 
     //更新航班store数据
     const updateFlightTableData = useCallback(flightData => {
@@ -344,14 +350,27 @@ function SchemeList (props){
         setModalId(id);
     })
     const  length = sortedList.length;
+    const plainOptions = [
+        { label: '正在执行', value: 'RUNNING' },
+        { label: '将要执行', value: 'FUTURE' },
+        { label: '正常结束', value: 'FINISHED' },
+        { label: '人工终止', value: 'TERMINATED_MANUAL' },
+        { label: '自动终止', value: 'TERMINATED_AUTO' },
+    ];
+    function onChange(checkedValues) {
+        console.log('checked = ', checkedValues);
+        setStatusValues( checkedValues );
+    }
+
     return (
         <div className="list_container">
             <div className="manual_refresh">
                 <SyncOutlined spin={manualRefresh}  onClick={()=>{
                     setManualRefresh(true);
-                    getSchemeList(false);
+                    getSchemeList();
                 }}/>
             </div>
+            <Checkbox.Group options={plainOptions} defaultValue={statusValues} onChange={onChange} />
             {
                 (length > 0) ?
                     sortedList.map( (item, index) => (

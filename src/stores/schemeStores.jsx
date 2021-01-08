@@ -83,9 +83,18 @@ class SchemeListData{
     @action delScheme( schemeItem ){
         this.list.remove( schemeItem );
     }
+    // 更新方案-全部
+    @action updateList( arr ){
+        this.list = [];
+        arr.map( item => {
+            const itemIns = new SchemeItem(item);
+            this.list.push( itemIns );
+
+        })
+    }
 
     // 更新方案-多条
-    @action updateList( arr ){
+    @action updateList2( arr ){
         const len = this.list.length;
         arr.map( item => {
             const id = item.id;
