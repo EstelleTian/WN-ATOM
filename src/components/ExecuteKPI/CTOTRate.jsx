@@ -52,6 +52,8 @@ function CTOTRate(props){
             let val = rateData[rate];
             if(!isValidVariable(val)){
                 val = "N/A";
+            } else if(val === -1 || val ==="-1"){
+                val = "N/A";
             }
             let obj = {
                 key: rate,
