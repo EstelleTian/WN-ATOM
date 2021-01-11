@@ -121,8 +121,8 @@ function FlightTable(props){
         };
       let width = dom.offsetWidth;
       let height = dom.offsetHeight;
-      height -= 40;
-      height -= 39;
+      height -= 40;//标题高度“航班列表”
+      height -= 45;//表头高度
       setWidth( width );
       setHeight( height );
 

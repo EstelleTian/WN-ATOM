@@ -67,13 +67,18 @@ function RightNav(props){
                 <Button size="large">
                     <NavBellNews />
                 </Button>
+                <Button size="large"  className="user">
+                    <Dropdown overlay={menu} placement="bottomCenter" arrow>
+                        <span  className="user-name">{ username }</span>
+                    </Dropdown>
+                </Button>
 
             </div>
-            <div className="user">
-                <Dropdown overlay={menu} placement="bottomCenter" arrow>
-                    <span  className="user-name">{ username }</span>
-                </Dropdown>
-            </div>
+            {/*<div className="user">*/}
+            {/*    <Dropdown overlay={menu} placement="bottomCenter" arrow>*/}
+            {/*        <span  className="user-name">{ username }</span>*/}
+            {/*    </Dropdown>*/}
+            {/*</div>*/}
         </div>
     )
 }

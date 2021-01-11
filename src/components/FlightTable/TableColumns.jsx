@@ -201,7 +201,7 @@ for(let key in names){
     if( en === "FFIXT" ){
         tem["defaultSortOrder"] ='ascend'
     }
-    if( en === "FFIXT" || en === "CTO" || en === "ETO"|| en === "EAPT" || en === "OAPT"){
+    if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAPT" || en === "OAPT"){
         tem["width"] = 90
     }
     if( en === "FLIGHTID" ){
