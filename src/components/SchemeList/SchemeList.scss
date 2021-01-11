@@ -8,8 +8,8 @@
             font-size: 0.75rem;
             margin-right: 0.35rem;
             .ant-checkbox + span {
-                padding-right: .5rem;
-                padding-left: .5rem;
+                padding-right: .3rem;
+                padding-left: .3rem;
             }
         }
     }
@@ -69,10 +69,12 @@
         .tactic-name, .status {
             color: #36a5da;
         }
-        .FUTURE{}
+        .FUTURE{
+            color: #10e99a;
+        }
         .RUNNING, .PRE_PUBLISH, .PRE_TERMINATED, .PRE_UPDATE{}
         .TERMINATED, .TERMINATED_MANUAL, .STOP, .FINISHED, .DISCARD{
-
+            color: #e95354;
         }
 
         .tactic-name {

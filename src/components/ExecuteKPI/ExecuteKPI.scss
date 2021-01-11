@@ -22,7 +22,7 @@
     }
 
     .num{
-        color: #0095eb;
+        color: #35A5DA;
         font-size:3rem;
         line-height: 1;
     }
@@ -36,7 +36,7 @@
             font-size: 0.75rem;
         }
         .num{
-            color: #0095eb;
+            color: #35A5DA;
             font-size: 2rem;
         }
         .unit{
@@ -50,7 +50,13 @@
     }
 
     .impact-level {
-        font-size: 3rem;
+        .level_icon{
+            font-size: 1.625rem;
+        }
+        .text-center{
+            font-size: 3rem;
+        }
+
     }
     .level-high{
         color: red;

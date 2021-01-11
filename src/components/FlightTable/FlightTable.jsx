@@ -88,9 +88,12 @@ function FlightTable(props){
         if( sortKey === "FFIXT" ) {
             const activeScheme = props.schemeListData.activeScheme;
             let {startTime, endTime} = activeScheme.tacticTimeInfo;
-            FFIXT = FFIXT.substring(0, 12);
-            startTime = startTime.substring(0, 12);
-
+            if( isValidVariable(FFIXT) && FFIXT.length > 12 ){
+                FFIXT = FFIXT.substring(0, 12);
+            }
+            if( isValidVariable(startTime) && startTime.length > 12 ){
+                startTime = startTime.substring(0, 12);
+            }
             // console.log("FFIXT",FFIXT,"startTime",startTime,"endTime",endTime);
             if (startTime * 1 <= FFIXT * 1) {
                 if (isValidVariable(endTime)) {
@@ -126,7 +129,7 @@ function FlightTable(props){
       setWidth( width );
       setHeight( height );
 
-  }, [tableWidth, tableHeight])
+  }, [tableWidth, tableHeight]);
 
     //根据输入框输入值，检索显示航班
     const filterInput = (data) => {
@@ -157,13 +160,14 @@ function FlightTable(props){
         setSortKey( sorter.columnKey )
     }
     let columns = getColumns();
+
     return (
         <ModalBox
             className="flight_canvas"
             // title={`航班列表 (数据时间:${ formatTimeString(generateTime) })`}
             title={`航班列表`}
         >
-            <div className="total_num">
+            <div className="statistics">
                 <Input.Search
                 allowClear
                 style={{ width: '180px', marginRight: '15px' }}
@@ -175,7 +179,7 @@ function FlightTable(props){
                     setSearchVal( value )
                 }}
             />
-                <span>总计{data.length}条</span>
+                <span  className="total_num">总计{data.length}条</span>
             </div>
         <Table
             columns={columns}

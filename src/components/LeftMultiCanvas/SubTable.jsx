@@ -10,9 +10,9 @@ import React, { lazy, Suspense} from 'react';
 import { Table, Spin } from 'antd';
 import {inject, observer} from "mobx-react";
 import ModalBox from 'components/ModalBox/ModalBox'
-import { getColumns} from 'components/FlightTable/TableColumns'
+import { setNames, getColumns } from 'components/FlightTable/TableColumns'
 import './LeftMultiCanvas.scss'
-
+//根据key识别列表名称
 const subKeys = {
     "exempt": "豁免航班列表",
     "pool": "等待池列表",
@@ -21,52 +21,119 @@ const subKeys = {
     "todo": "待办航班列表",
 }
 
-const columns = [
-    {
-        title: 'Name',
-        dataIndex: 'name',
+const commonSubNames = {
+    "FLIGHTID":{
+        "en":"FLIGHTID",
+        "cn":"航班号",
     },
-    {
-        title: 'Age',
-        dataIndex: 'age',
+    "DEPAP":{
+        "en":"DEPAP",
+        "cn":"起飞机场"
     },
-    {
-        title: 'Address',
-        dataIndex: 'address',
+    "ARRAP":{
+        "en":"ARRAP",
+        "cn":"降落机场"
     },
-];
-const data = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
+    "SOBT":{
+        "en":"SOBT",
+        "cn":"计划撤轮档"
     },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
+    "EOBT":{
+        "en":"EOBT",
+        "cn":"预计撤轮档时间"
     },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
+    "COMMENT":{
+        "en":"COMMENT",
+        "cn":"备注"
     },
-];
+}
+//根据key识别列表列配置columns
+const SubNames = {
+    "exempt": "",
+    "pool":{
+        "FLIGHTID":{
+            "en":"FLIGHTID",
+            "cn":"航班号",
+        },
+        "DEPAP":{
+            "en":"DEPAP",
+            "cn":"起飞机场"
+        },
+        "ARRAP":{
+            "en":"ARRAP",
+            "cn":"降落机场"
+        },
+        "SOBT":{
+            "en":"SOBT",
+            "cn":"计划撤轮档"
+        },
+        "EOBT":{
+            "en":"EOBT",
+            "cn":"预计撤轮档时间"
+        },
+        "TOBT":{
+            "en":"TOBT",
+            "cn":"目标撤轮档"
+        },
+        "AGCT":{
+            "en":"AGCT",
+            "cn":"实际关门时间"
+        },
+    },
+    "special": commonSubNames,
+    "expired": commonSubNames,
+    "todo": {
+        "FLIGHTID":{
+            "en":"FLIGHTID",
+            "cn":"航班号",
+        },
+        "TYPE":{
+            "en":"TYPE",
+            "cn":"协调类型"
+        },
+        "VALUE":{
+            "en":"VALUE",
+            "cn":"协调值"
+        },
+        "USER":{
+            "en":"USER",
+            "cn":"申请人"
+        },
+        "TIMESTAMP":{
+            "en":"TIMESTAMP",
+            "cn":"申请时间"
+        },
+        "COMMENT":{
+            "en":"COMMENT",
+            "cn":"备注"
+        },
+    },
+}
+
 function SubTable(props){
-    const { leftActiveName } = props;
+    const { leftActiveName, flightTableData } = props;
+    let tableData = [];
+    switch (leftActiveName) {
+        case "exempt": tableData = flightTableData.getExemptFlights; break;
+        case "pool": tableData = flightTableData.getPoolFlights;break;
+        case "special": tableData = flightTableData.getSpecialFlights;break;
+        case "expired": tableData = flightTableData.getExpiredFlights;break;
+        case "todo": tableData = flightTableData.getTodoFlights;break;
+    }
+    setNames( SubNames[leftActiveName] );
+    const columns = getColumns();
+    console.log(leftActiveName, columns, tableData);
+
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <ModalBox
                 title={subKeys[leftActiveName]}
                 showDecorator = {true}
-                className={leftActiveName}
+                className={`sub_table_modal ${leftActiveName}`}
             >
                 <Table
-                    columns={columns}
-                    dataSource={data}
+                    columns={ columns }
+                    dataSource={ tableData }
                     size="small" />
             </ModalBox>
         </Suspense>
@@ -75,7 +142,7 @@ function SubTable(props){
 
 }
 
-export default inject("executeKPIData")(observer(SubTable))
+export default inject("flightTableData")(observer(SubTable))
 
 
 
