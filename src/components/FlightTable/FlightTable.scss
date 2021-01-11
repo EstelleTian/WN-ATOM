@@ -22,6 +22,10 @@
             top: 6px;
         }
     }
+    .auto_scroll{
+        display: inline-block;
+        margin-right: 0.3rem;
+    }
 }
 .notshow{
     display: none;
@@ -40,11 +44,11 @@
 }
 .in_range{
     .ant-table-cell{
-        background: #475461;
+        background: #303942;
     }
 
     .ant-table-cell-fix-left, .ant-table-cell-fix-right{
-        background: #475461;
+        background: #303942;
     }
     .ant-table-cell.FFIXT{
         background: #424548;

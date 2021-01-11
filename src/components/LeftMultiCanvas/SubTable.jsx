@@ -120,8 +120,7 @@ function SubTable(props){
         case "expired": tableData = flightTableData.getExpiredFlights;break;
         case "todo": tableData = flightTableData.getTodoFlights;break;
     }
-    setNames( SubNames[leftActiveName] );
-    const columns = getColumns();
+    const columns = getColumns( SubNames[leftActiveName] );
     console.log(leftActiveName, columns, tableData);
 
     return (

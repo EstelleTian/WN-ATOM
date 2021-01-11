@@ -21,3 +21,28 @@
 .empty_cell{
   height: 26px;
 }
+//表格
+.ant-table-body{
+  //单元格内容左对齐
+  .ant-table-cell.CTO, .ant-table-cell.CTOT,.ant-table-cell.EAP{
+    text-align: left!important;
+  }
+  //起飞  #CCCCCC
+  .ATOM{
+    background: #9a7c4d;
+  }
+  .NTFM{
+    background: #654d12;
+  }
+  .MANUAL{
+    background: #FF9900;
+  }
+  .LOCK{
+    background: #FF99FF;
+  }
+  .AUTO{
+    background: #00CC00;
+  }
+}
+
+

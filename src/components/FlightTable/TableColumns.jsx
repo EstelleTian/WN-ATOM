@@ -8,10 +8,10 @@
  */
 import React from 'react'
 import { isValidVariable } from 'utils/basic-verify'
-import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover } from  './CollaboratePopover'
+import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover, OAPTPopover } from  './CollaboratePopover'
 
 //表格列名称-中英-字典
-let names = {
+let defaultNames = {
     "FLIGHTID":{
         "en":"FLIGHTID",
         "cn":"航班号",
@@ -101,18 +101,14 @@ let names = {
         "en":"FETA",
         "cn":"前段降落时间"
     },
+    "AGCT":{
+        "en":"AGCT",
+        "cn":"关舱门时间"
+    },
     "orgdata": {
         "en":"orgdata",
         "cn":"原数据"
     }
-}
-
-//配置names
-const setNames = ( newNames ) => {
-    if( isValidVariable(newNames) ){
-        names = newNames;
-    }
-
 }
 
 // 右键渲染模块内容
@@ -138,6 +134,9 @@ let render = (opt)  => {
     else if( col === "EAPT" ){
         popover = <EAPTPopover opt={opt} />
     }
+    else if( col === "OAPT" ){
+        popover = <OAPTPopover opt={opt} />
+    }
     let obj  = {
         children: popover,
         props: {
@@ -148,7 +147,10 @@ let render = (opt)  => {
 }
 
 //生成表配置
-const getColumns = () => {
+const getColumns = ( names = defaultNames ) => {
+    if( !isValidVariable( names )){
+        names = defaultNames
+    }
     //获取屏幕宽度，适配 2k
     let screenWidth = document.getElementsByTagName("body")[0].offsetWidth
     //表格列配置-默认-计数列
@@ -213,6 +215,9 @@ const getColumns = () => {
         if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAPT" || en === "OAPT"){
             tem["width"] = (screenWidth > 1920) ? 90 : 72
         }
+        // if( en === "CTO" || en === "CTOT" || en === "COBT" ){
+        //     tem["align"] = "left"
+        // }
         if( en === "FLIGHTID" ){
             tem["width"] = (screenWidth > 1920) ? 95 : 78
             tem["fixed"] = 'left'
@@ -245,5 +250,4 @@ const getColumns = () => {
 }
 
 
-
-export {  setNames, getColumns }
+export {  getColumns }

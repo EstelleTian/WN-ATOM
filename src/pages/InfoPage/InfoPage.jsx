@@ -110,10 +110,10 @@ function InfoCard(props){
                                                 data = Object.assign({}, data )
                                                let newMsg =  Object.assign({}, message);
                                                 newMsg.data = data;
-                                                let str = JSON.stringify(newMsg)
+
                                                 // console.log( str )
                                                 // sessionStorage.setItem("message", str );
-                                                openControlDetail( str )
+                                                openControlDetail( newMsg )
                                                 e.stopPropagation()
                                             }}>查看流控详情</Button>
                                         {/*</Link>*/}
