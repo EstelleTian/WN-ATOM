@@ -451,7 +451,7 @@ function RestrictionForm(props){
         const startDate = dateString.substring(0,4) +'-'+ dateString.substring(4,6) +'-' + dateString.substring(6,8);
         form.setFieldsValue({basicStartTimeDisplay: `${startDate} ${startTime}`});
         // 更新方案开始日期
-        setStartDateString(dateString);
+        setStartDateString(dateString.substring(0,8));
     };
 
 
@@ -467,7 +467,7 @@ function RestrictionForm(props){
     };
 
     /**
-     * 更新方案结束时间
+     * 更新方案结束日期
      *
      * */
     const  updateEndDateString =(dateString) => {
@@ -475,13 +475,13 @@ function RestrictionForm(props){
         const endDate = dateString.substring(0,4) +'-'+ dateString.substring(4,6) +'-' + dateString.substring(6,8);
         form.setFieldsValue({basicEndTimeDisplay: `${endDate} ${endTime}`});
         // 更新方案结束日期
-        setEndDateString(dateString)
+        setEndDateString(dateString.substring(0,8))
 
     };
 
 
     /**
-     * 更新方案开始时间
+     * 更新方案结束时间
      *
      * */
     const  updateEndTimeString =(timeString) => {
