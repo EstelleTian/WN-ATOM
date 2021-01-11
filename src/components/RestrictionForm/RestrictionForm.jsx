@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import  moment  from 'moment'
 import "moment/locale/zh-cn"
-import {Button, Modal,   Form, message} from 'antd'
+import {Button, Modal,   Form,  message as antdMessage} from 'antd'
 import StaticInfoCard from './StaticInfoCard'
 import FlowList from './FlowList'
 import { handleImportControl } from 'utils/client'
@@ -14,7 +14,7 @@ import './RestrictionForm.scss'
 //表单整体
 function RestrictionForm(props){
     console.log("RestrictionForm~~ render");
-    const  { flowData = {}, showImportBtn } = props;
+    const  { flowData = {}, showImportBtn,  } = props;
     // 方案数据对象
     const { tacticProcessInfo={} } = flowData;
     const { basicTacticInfo={} } = tacticProcessInfo;
@@ -418,8 +418,8 @@ function RestrictionForm(props){
         console.log(id);
         setConfirmLoading(false);
         setIsModalVisible(false);
-        message.success('流控导入成功');
-        handleImportControl(id);
+        antdMessage.success('流控导入成功');
+        handleImportControl(id, props.message.id);
     };
 
     /**
@@ -435,7 +435,7 @@ function RestrictionForm(props){
         setIsModalVisible(false);
         const errMsg = err.message || "";
 
-        message.error({
+        antdMessage.error({
             content:  (
                 <span>
                     <span>{text}</span>

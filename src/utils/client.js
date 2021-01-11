@@ -52,10 +52,10 @@ const openMessageDlg = () => {
     }
 }
 //流控详情--点击--导入
-const handleImportControl =(str) => {
+const handleImportControl =(str, massageId) => {
     try {
-        //传递方案id
-        jsEntity.importControl(str);
+        //传递方案id和消息id
+        jsEntity.importControl(str, massageId);
     }catch(error){
         console.error(error);
     }
