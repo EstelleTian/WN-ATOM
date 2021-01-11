@@ -82,60 +82,83 @@ const flowControlQualification = [
 //交通流表单
 function LimitedCard(props){
     // const index = props.index || "4";
+
+    const handleChange = (value, option)=> {
+        console.log(value, option)
+    }
+
     return (
-        <Card title={props.title} size="small">
-
-            <Descriptions size="small"  bordered column={1}>
-                <Descriptions.Item label="航班号" >
+        <Card title={props.title} size="">
+            <Row gutter={24}>
+                <Col span={24}>
                     <Form.Item
-                        name={`flowControlFlightId`}
+                        name="flowControlFlightId"
+                        label="航班号"
                     >
-
                         <Select
                             disabled={ props.disabledForm }
                             mode="tags"
                             style={{ width: '100%' }}
                             placeholder=""
                             open={ false }
+                            onChange={ (val)=> (console.log(val))}
+                            onInputKeyDown={ handleChange}
                         >
-
                         </Select>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="尾流类型" >
-                    <Form.Item name={`flowControlWakeFlowType`} >
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="flowControlWakeFlowType"
+                        label="尾流类型"
+                    >
                         <Checkbox.Group options={flowControlWakeFlowType} disabled={ props.disabledForm } />
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="航班性质" >
-                    <Form.Item name={`flowControlMissionType`} >
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="flowControlMissionType"
+                        label="航班性质"
+                    >
                         <Checkbox.Group options={flowControlMissionType} disabled={ props.disabledForm } />
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="客货类型" >
-                    <Form.Item name={`flowControlPassengerCargoType`} >
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="flowControlPassengerCargoType"
+                        label="客货类型"
+                    >
                         <Checkbox.Group options={flowControlPassengerCargoType} disabled={ props.disabledForm } />
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="任务类型" >
-                    <Form.Item name={`flowControlTaskType`} >
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="flowControlTaskType"
+                        label="任务类型"
+                    >
                         <Checkbox.Group options={flowControlTaskType} disabled={ props.disabledForm } />
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="航班属性" >
-                    <Form.Item name={`flowControlMilitaryCivilType`} >
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="flowControlMilitaryCivilType"
+                        label="航班属性"
+                    >
                         <Checkbox.Group options={flowControlMilitaryCivilType} disabled={ props.disabledForm } />
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="限制资质" >
-                    <Form.Item name={`flowControlQualification`} >
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="flowControlQualification"
+                        label="限制资质"
+                    >
                         <Checkbox.Group options={flowControlQualification} disabled={ props.disabledForm } />
                     </Form.Item>
-
-                </Descriptions.Item>
-                <Descriptions.Item label="受控机型" >
+                </Col>
+                <Col span={24}>
                     <Form.Item
-                        name={`flowControlAircraftType`}
+                        name="flowControlAircraftType"
+                        label="受控机型"
                     >
                         <Select
                             disabled={ props.disabledForm }
@@ -147,15 +170,17 @@ function LimitedCard(props){
 
                         </Select>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="受控高度" >
+                </Col>
+                <Col span={24}>
                     <Form.Item
-                        name={`rHigh`}
+                        label="受控高度"
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
-                </Descriptions.Item>
-            </Descriptions>
+                </Col>
+
+            </Row>
+
         </Card>
     )
 }

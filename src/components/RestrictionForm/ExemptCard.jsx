@@ -77,18 +77,20 @@ const exemptMilitaryCivilType = [
 const exemptQualification = [
     { label: 'II类', value: 'TYPE_QUALIFICATION' }
 ];
-
+const handleChange = (value, option)=> {
+    console.log(value, option)
+}
 
 //豁免交通流表单
 function ExemptCard(props){
     // const index = props.index || "4";
     return (
-        <Card title={props.title} size="small">
-
-            <Descriptions size="small"  bordered column={1}>
-                <Descriptions.Item label="航班号" >
+        <Card title={props.title} size="">
+            <Row gutter={24}>
+                <Col span={24}>
                     <Form.Item
-                        name={`exemptFlightId`}
+                        name="exemptFlightId"
+                        label="航班号"
                     >
                         <Select
                             disabled={ props.disabledForm }
@@ -96,45 +98,64 @@ function ExemptCard(props){
                             style={{ width: '100%' }}
                             placeholder=""
                             open={ false }
+                            onChange={ (val)=> (console.log(val))}
+                            onInputKeyDown={ handleChange}
                         >
-
                         </Select>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="尾流类型" >
-                    <Form.Item name={`exemptWakeFlowType`} >
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="exemptWakeFlowType"
+                        label="尾流类型"
+                    >
                         <Checkbox.Group options={exemptWakeFlowType} disabled={ props.disabledForm } />
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="航班性质" >
-                    <Form.Item name={`exemptMissionType`} >
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="exemptMissionType"
+                        label="航班性质"
+                    >
                         <Checkbox.Group options={exemptMissionType} disabled={ props.disabledForm } />
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="客货类型" >
-                    <Form.Item name={`exemptPassengerCargoType`} >
-                        <Checkbox.Group options={exemptPassengerCargoType}  disabled={ props.disabledForm }/>
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="exemptPassengerCargoType"
+                        label="客货类型"
+                    >
+                        <Checkbox.Group options={exemptPassengerCargoType} disabled={ props.disabledForm } />
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="任务类型" >
-                    <Form.Item name={`exemptTaskType`} >
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="exemptTaskType"
+                        label="任务类型"
+                    >
                         <Checkbox.Group options={exemptTaskType} disabled={ props.disabledForm } />
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="航班属性" >
-                    <Form.Item name={`exemptMilitaryCivilType`} >
-                        <Checkbox.Group options={exemptMilitaryCivilType}  disabled={ props.disabledForm }/>
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="exemptMilitaryCivilType"
+                        label="航班属性"
+                    >
+                        <Checkbox.Group options={exemptMilitaryCivilType} disabled={ props.disabledForm } />
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="限制资质" >
-                    <Form.Item name={`exemptQualification`} >
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="exemptQualification"
+                        label="限制资质"
+                    >
                         <Checkbox.Group options={exemptQualification} disabled={ props.disabledForm } />
                     </Form.Item>
-
-                </Descriptions.Item>
-                <Descriptions.Item label="受控机型" >
+                </Col>
+                <Col span={24}>
                     <Form.Item
-                        name={`exemptAircraftType`}
+                        name="exemptAircraftType"
+                        label="受控机型"
                     >
                         <Select
                             disabled={ props.disabledForm }
@@ -146,16 +167,24 @@ function ExemptCard(props){
 
                         </Select>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="受控高度" >
+                </Col>
+                <Col span={24}>
                     <Form.Item
-                        name={`rHigh`}
+                        name="rHigh"
+                        label="受控高度"
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
-                </Descriptions.Item>
-            </Descriptions>
+                </Col>
+                <Col span={24}>
+            </Col>
+
+
+
+
+            </Row>
         </Card>
+
     )
 }
 

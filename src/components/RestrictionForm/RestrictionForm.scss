@@ -1,14 +1,58 @@
 .destriction_form{
   .ant-form-item{
-    margin-bottom: 0;
+    //margin-bottom: 0;
+  }
+  .ant-card {
+    background: #363636;
+    color: #e0e0e0;
+  }
+  .ant-card-bordered {
+    border-color: #7e7e7e;
+    &:not(:last-child) {
+      border-bottom: none;
+    }
+  }
+  .ant-card-head {
+    border-color: #424242;
+    .ant-card-head-title{
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+  .ant-card-body {
+    padding-bottom: 12px;
+    padding-top: 12px;
+  }
+  .ant-col.ant-form-item-label{
+     min-width: 120px;
   }
   .ant-input-disabled{
-    border: none;
-    background: transparent;
+    //border: none;
+    //background: $c-white-50;
   }
   .ant-input-group-addon {
     border: none;
     background: transparent;
+  }
+  .ant-form-item.date-time-form-compact {
+    margin-bottom: 0;
+    .ant-form-item-control {
+      .ant-form-item-control-input-content{
+        display: flex;
+        .date-picker-form{
+          flex: 2;
+        }
+        .time-form {
+          flex: 1;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+  .flow-control-flight {
+    .ant-card-head {
+      border-color: #424242;
+    }
   }
 
 }

@@ -505,8 +505,9 @@ function RestrictionForm(props){
     return (
         <div>
             <Form
+                colon = { false }
                 form={form}
-                size="small"
+                // size="small"
                 initialValues={initialValues}
                 onFinish={(values) => {
                     // const newStartTime = moment(values.startTime).format('YYYYMMDDHHmm');
@@ -521,15 +522,17 @@ function RestrictionForm(props){
                     disabledForm={props.disabledForm}
                     updateBasicStartTimeDisplay={updateBasicStartTimeDisplay }
                     updateBasicEndTimeDisplay={updateBasicEndTimeDisplay }
-                />
-                <FlowList
-                    disabledForm={props.disabledForm}
+                    updateRestrictionMode={updateRestrictionMode }
 
-                    updateFlowControlStartTimeDisplay={updateFlowControlStartTimeDisplay }
-                    updateFlowControlEndTimeDisplay={updateFlowControlEndTimeDisplay }
-                    updateRestrictionMode={ updateRestrictionMode }
-                    updatePublishType={ updatePublishType }
                 />
+                {/*<FlowList*/}
+                    {/*disabledForm={props.disabledForm}*/}
+
+                    {/*updateFlowControlStartTimeDisplay={updateFlowControlStartTimeDisplay }*/}
+                    {/*updateFlowControlEndTimeDisplay={updateFlowControlEndTimeDisplay }*/}
+                    {/*updateRestrictionMode={ updateRestrictionMode }*/}
+                    {/*updatePublishType={ updatePublishType }*/}
+                {/*/>*/}
 
             </Form>
             {
