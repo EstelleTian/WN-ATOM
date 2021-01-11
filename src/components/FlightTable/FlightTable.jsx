@@ -11,7 +11,7 @@ import React, {useState, useEffect} from 'react'
 import { inject, observer } from 'mobx-react'
 import { Table, message, Menu, Dropdown, Input   } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
-import { columns ,data} from 'components/FlightTable/TableColumns'
+import { getColumns} from 'components/FlightTable/TableColumns'
 import { getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
 import './FlightTable.scss';
 import {isValidVariable} from "../../utils/basic-verify";
@@ -156,6 +156,7 @@ function FlightTable(props){
         setSortOrder( sorter.order )
         setSortKey( sorter.columnKey )
     }
+    let columns = getColumns();
     return (
         <ModalBox
             className="flight_canvas"

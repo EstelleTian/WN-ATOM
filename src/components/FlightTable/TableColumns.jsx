@@ -10,49 +10,16 @@ import React from 'react'
 import { isValidVariable } from 'utils/basic-verify'
 import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover } from  './CollaboratePopover'
 
-
-// 右键渲染模块内容
-const render = (opt)  => {
-    const {text, record, index, col, colCN} = opt;
-    let color = "";
-    let popover = <div col-key= {col} title={text}>{text}</div>
-    if( col === "FLIGHTID" ){
-        popover = <FLIGHTIDPopover opt={opt} />
-    }
-    else if( col === "FFIXT" ){
-        popover = <FFIXTPopover opt={opt} />
-    }
-    else if( col === "COBT" ){
-        popover = <COBTPopover opt={opt} />
-    }
-    else if( col === "CTOT" ){
-        popover = <CTOTPopover opt={opt} />
-    }
-    else if( col === "CTO" ){
-        popover = <CTOPopover opt={opt} />
-    }
-    else if( col === "EAPT" ){
-        popover = <EAPTPopover opt={opt} />
-    }
-    let obj  = {
-        children: popover,
-        props: {
-            "col-key":col, //td会增加这个属性
-        },
-    };
-    return obj;
-}
-
-
 //表格列名称-中英-字典
-const names = {
+let names = {
     "FLIGHTID":{
         "en":"FLIGHTID",
-        "cn":"航班号"
+        "cn":"航班号",
     },
     "ALARM":{
         "en":"ALARM",
-        "cn":"告警"
+        "cn":"告警",
+
     },
     "TASK":{
         "en":"TASK",
@@ -142,126 +109,142 @@ const names = {
         "cn":"原数据"
     }
 }
-//表格列配置-默认-计数列
-const columns = [
-    {
-        title: "",
-        dataIndex: "rowNum",
-        align: 'center',
-        key: "rowNum",
-        width: 50,
-        fixed: 'left',
-        render: (text, record, index) => `${index+1}`
-    }
-];
-//生成表配置-全部
-for(let key in names){
-    const obj = names[key]
-    const en = obj["en"]
-    const cn = obj["cn"]
-    let tem = {
-        title: en,
-        dataIndex: en,
-        align: 'center',
-        key: en,
-        width: 80,
-        ellipsis: true,
-        className: en,
-        showSorterTooltip: false ,
-        onHeaderCell: ( column ) => {
-            //配置表头属性，增加title值
-            return {
-                title: cn
-            }
-        }
-    }
-    //排序
-    tem["sorter"] = (a,b) => {
-        let data1 = a[en] + "";
-        if( data1.length >= 12 ){
-            data1 = data1.substring(0,12)
-        }
-        let data2 = b[en] + "";
-        if( data2.length >= 12 ){
-            data2 = data2.substring(0,12)
-        }
-        if (isValidVariable(data1) && isValidVariable(data2)) {
-            let res = data1.localeCompare(data2);
-            if (0 !== res) {
-                return res;
-            }
-        } else if (isValidVariable(data1)) {
-            return -1;
-        } else if (isValidVariable(data2)) {
-            return 1;
-        }
-        return 0;
-    }
-    //默认排序
-    if( en === "FFIXT" ){
-        tem["defaultSortOrder"] ='ascend'
-    }
-    if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAPT" || en === "OAPT"){
-        tem["width"] = 90
-    }
-    if( en === "FLIGHTID" ){
-        tem["width"] = 95
-        tem["fixed"] = 'left'
-    }
 
-    if( en === "STATUS" ){
-        tem["width"] = 80
-    }
-
-    //隐藏列
-    if( en === "orgdata" ){
-        tem["className"] = "notshow";
-        tem["width"] = 0
-    }
-
-    tem["render"] = (text, record, index) => {
-        const opt = {
-            text,
-            record,
-            index,
-            col: en,
-            colCN: cn,
-        };
-        return render(opt);
-    }
-
-    columns.push(tem)
+//配置names
+const setNames = ( newNames ) => {
+    names = newNames;
 }
 
-//表格模拟数据
-const data = [];
-for (let i = 0; i < 200; i++) {
-    data.push({
-        "key": i,
-        "FLIGHTID":"CCA3345",
-        "ALARM":"",
-        "TASK":"",
-        "EAP":"OMBON",
-        "EAPT":"15/1312",
-        "OAP":"VISIN",
-        "OAPT":"15/1345",
-        "ACTYPE":"B737",
-        "ADEP":"ZLXY",
-        "ARRAP":"ZBAA",
-        "SOBT":"15/1200",
-        "EOBT":"15/1200",
-        "TOBT":"15/1200",
-        "COBT":"15/1200",
-        "CTOT":"15/1200",
-        "ATOT":"15/1200",
-        "FETA":"15/1007",
-        "FFIX":"ENH",
-        "FFIXT":"15/"+ (1250-i),
-        "CTO":"15/1200",
-        "ETO":"15/1200",
-        "STATUS":"已起飞",
-    });
+// 右键渲染模块内容
+let render = (opt)  => {
+    const {text, record, index, col, colCN} = opt;
+    let color = "";
+    let popover = <div col-key= {col} title={text}>{text}</div>
+    if( col === "FLIGHTID" ){
+        popover = <FLIGHTIDPopover opt={opt} />
+    }
+    else if( col === "FFIXT" ){
+        popover = <FFIXTPopover opt={opt} />
+    }
+    else if( col === "COBT" ){
+        popover = <COBTPopover opt={opt} />
+    }
+    else if( col === "CTOT" ){
+        popover = <CTOTPopover opt={opt} />
+    }
+    else if( col === "CTO" ){
+        popover = <CTOPopover opt={opt} />
+    }
+    else if( col === "EAPT" ){
+        popover = <EAPTPopover opt={opt} />
+    }
+    let obj  = {
+        children: popover,
+        props: {
+            "col-key":col, //td会增加这个属性
+        },
+    };
+    return obj;
+}
+
+//生成表配置
+const getColumns = () => {
+    //获取屏幕宽度，适配 2k
+    let screenWidth = document.getElementsByTagName("body")[0].offsetWidth
+    console.log(screenWidth)
+    //表格列配置-默认-计数列
+    let columns = [
+        {
+            title: "",
+            dataIndex: "rowNum",
+            align: 'center',
+            key: "rowNum",
+            width: (screenWidth > 1920) ? 50 : 35,
+            fixed: 'left',
+            render: (text, record, index) => `${index+1}`
+        }
+    ];
+    //生成表配置-全部
+    for(let key in names){
+        const obj = names[key]
+        const en = obj["en"]
+        const cn = obj["cn"]
+        let tem = {
+            title: en,
+            dataIndex: en,
+            align: 'center',
+            key: en,
+            width: (screenWidth > 1920) ? 80 : 65,
+            ellipsis: true,
+            className: en,
+            showSorterTooltip: false ,
+            onHeaderCell: ( column ) => {
+                //配置表头属性，增加title值
+                return {
+                    title: cn
+                }
+            }
+        }
+        //排序
+        tem["sorter"] = (a,b) => {
+            let data1 = a[en] + "";
+            if( data1.length >= 12 ){
+                data1 = data1.substring(0,12)
+            }
+            let data2 = b[en] + "";
+            if( data2.length >= 12 ){
+                data2 = data2.substring(0,12)
+            }
+            if (isValidVariable(data1) && isValidVariable(data2)) {
+                let res = data1.localeCompare(data2);
+                if (0 !== res) {
+                    return res;
+                }
+            } else if (isValidVariable(data1)) {
+                return -1;
+            } else if (isValidVariable(data2)) {
+                return 1;
+            }
+            return 0;
+        }
+        //默认排序
+        if( en === "FFIXT" ){
+            tem["defaultSortOrder"] ='ascend'
+        }
+        if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAPT" || en === "OAPT"){
+            tem["width"] = (screenWidth > 1920) ? 90 : 72
+        }
+        if( en === "FLIGHTID" ){
+            tem["width"] = (screenWidth > 1920) ? 95 : 78
+            tem["fixed"] = 'left'
+        }
+
+        if( en === "STATUS" ){
+            tem["width"] = (screenWidth > 1920) ? 80 : 65
+        }
+
+        //隐藏列
+        if( en === "orgdata" ){
+            tem["className"] = "notshow";
+            tem["width"] = 0
+        }
+
+        tem["render"] = (text, record, index) => {
+            const opt = {
+                text,
+                record,
+                index,
+                col: en,
+                colCN: cn,
+            };
+            return render(opt);
+        }
+
+        columns.push(tem)
+    }
+    return columns;
 }
 
 
-export { columns, data }
+
+export {  setNames, getColumns }

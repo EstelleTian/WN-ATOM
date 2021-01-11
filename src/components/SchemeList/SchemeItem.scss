@@ -1,6 +1,19 @@
 .list_container{
     font-size: 16px;
     overflow-y: auto;
+    //状态过滤按钮组
+    .ant-checkbox-group{
+        margin: .5rem .5rem 0;
+        .ant-checkbox-group-item{
+            font-size: 0.75rem;
+            margin-right: 0.35rem;
+            .ant-checkbox + span {
+                padding-right: .5rem;
+                padding-left: .5rem;
+            }
+        }
+    }
+    //方案列表-单个方案模块
     .item_container{
         background-color: #343434;
         border: 1px solid #5d5d5d;
@@ -85,8 +98,8 @@
     //手动刷新按钮
     .manual_refresh{
         position: absolute;
-        right: 40px;
-        top: 17px;
-        font-size: 20px;
+        right: 2rem;
+        top: .5rem;
+        font-size: 1.35rem;
     }
 }

@@ -76,7 +76,7 @@ function DCBLineChart(props){
 
         }
         const option = {
-            color: ["#0076F7"],
+            color: ["#35A5DA"],
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效

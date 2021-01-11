@@ -10,9 +10,10 @@ import React, { lazy, Suspense} from 'react';
 import { Table, Spin } from 'antd';
 import {inject, observer} from "mobx-react";
 import ModalBox from 'components/ModalBox/ModalBox'
+import { getColumns} from 'components/FlightTable/TableColumns'
 import './LeftMultiCanvas.scss'
 
-const subNames = {
+const subKeys = {
     "exempt": "豁免航班列表",
     "pool": "等待池列表",
     "special": "特殊航班列表",
@@ -59,11 +60,14 @@ function SubTable(props){
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <ModalBox
-                title={subNames[leftActiveName]}
+                title={subKeys[leftActiveName]}
                 showDecorator = {true}
                 className={leftActiveName}
             >
-                <Table columns={columns} dataSource={data} size="small" />
+                <Table
+                    columns={columns}
+                    dataSource={data}
+                    size="small" />
             </ModalBox>
         </Suspense>
 

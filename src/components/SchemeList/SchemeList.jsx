@@ -377,7 +377,10 @@ function SchemeList (props){
                     getSchemeList();
                 }}/>
             </div>
-            <Checkbox.Group options={plainOptions} defaultValue={statusValues} onChange={onChange} />
+            <div  className="scheme-filter-items">
+                <Checkbox.Group options={plainOptions} defaultValue={statusValues} onChange={onChange} />
+            </div>
+
             {
                 (length > 0) ?
                     sortedList.map( (item, index) => (
