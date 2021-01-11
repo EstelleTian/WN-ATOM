@@ -95,7 +95,7 @@ function RestrictionPage( props ) {
             <div style={{ color: '#eb6650' }}>{ newTypeCn }流控 -> 数据来源--{source}</div>
             {
                 ( dataCode === "AFAO" || dataCode === "AFAI") ?
-                    <Row className="res_canvas">
+                    <Row gutter={12} className="res_canvas">
                         <Col span={12} className="res_left">
                             <Row className="title">
                                 <span>流控详情({source})</span>
@@ -119,7 +119,7 @@ function RestrictionPage( props ) {
             }
             {
                 ( dataCode === "UFAO" || dataCode === "UFAI") ?
-                    <Row className="res_canvas">
+                    <Row gutter={12} className="res_canvas">
                         <Col span={12} className="res_left">
                             <Row className="title">
                                 <span>原流控详情({source})</span>
@@ -155,7 +155,7 @@ function RestrictionPage( props ) {
             }
             {
                 ( dataCode === "TFAO" || dataCode === "TFAI") ?
-                    <Row className="res_canvas">
+                    <Row gutter={12} className="res_canvas">
                         <Col span={12} className="res_left">
                             <Row className="title">
                                 <span>流控详情({source})</span>

@@ -1,13 +1,17 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, Fragment} from 'react'
 import "moment/locale/zh-cn"
-import { Descriptions, Collapse, DatePicker, Card, Form, Input,} from 'antd'
+import { Descriptions, Collapse, DatePicker, Card, Form, Input, Row, Col, Select} from 'antd'
+import ExemptCard from './ExemptCard'
+import LimitedCard from './LimitedCard'
 import  moment  from 'moment'
+const { Option } = Select;
 
 
 //方案信息
 function StaticInfoCard(props){
 
-    const dateFormat = 'YYYY-MM-DD HHmm';
+    const dateFormat = 'YYYY-MM-DD';
+    const timeFormat = 'HHmm';
 
     const updateStartTimeDisplay =(date) => {
         if( props.hasOwnProperty("updateBasicStartTimeDisplay") ){
@@ -25,108 +29,217 @@ function StaticInfoCard(props){
 
     };
 
+    const handleRestrictionModeChange =(mode) => {
+        props.updateRestrictionMode(mode);
+    };
+    const restrictionModeData = [
+        {"key":"AFP", "text": "AFP"},
+        // {"key":"GDP", "text": "GDP"},
+        {"key":"MIT", "text": "MIT"},
+        // {"key":"GS", "text": "地面停止"},
+        // {"key":"AS", "text": "指定时隙"},
+        // {"key":"BREQ", "text": "上客申请"},
+        // {"key":"REQ", "text": "开车申请"},
+        // {"key":"TC", "text": "总量控制"},
+        // {"key":"AH", "text": "空中等待"},
+        // {"key":"CT", "text": "改航"},
+        // {"key":"AA", "text": "空域开闭限制"},
+    ]
+
     return (
-        <Card title="方案信息" size="small">
-            <Descriptions size="small"  bordered column={2}>
-                <Descriptions.Item label="方案名称" span={2}>
+    <Fragment>
+
+        <Card title="方案信息" size="">
+            <Row gutter={24}>
+                <Col span={8}>
                     <Form.Item
                         name="tacticName"
+                        label="方案名称"
+                        required={true}
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
-                </Descriptions.Item>
-                {/*<Descriptions.Item label="">*/}
-                {/*    <Form.Item*/}
-                {/*        name="basicFlowControlName"*/}
-                {/*    >*/}
-                {/*        <Input disabled={ true }/>*/}
-                {/*    </Form.Item>*/}
-                {/*</Descriptions.Item>*/}
-                <Descriptions.Item label="发布单位" >
+                </Col>
+                <Col span={8}>
                     <Form.Item
                         name="tacticPublishUnit"
+                        label="发布单位"
+                        required={true}
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="发布用户" >
+                </Col>
+                <Col span={8}>
                     <Form.Item
                         name="tacticPublishUser"
+                        label="发布用户"
+
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="开始时间" >
-
+                </Col>
+                <Col span={8}>
                     <Form.Item
-                        name="basicStartTimeEdit"
+                        label="开始时间"
+                        required={true}
+                        className="date-time-form-compact"
                     >
+                        <Form.Item
+                            name="year"
+                            // rules={[{ required: true }]}
+                            className="date-picker-form"
+                        >
                         <DatePicker
                             allowClear={ false }
                             onChange={ updateStartTimeDisplay }
-                            showTime
                             format={dateFormat}
                             disabled={ props.disabledForm }
+                            placeholder={ dateFormat }
                         />
+                        </Form.Item>
+                        <Form.Item
+                            name="basicStartTime"
+                            label=""
+                            className="time-form"
+                            // rules={[{ required: true }]}
+                        >
+                            <Input
+                                placeholder={ timeFormat }
+
+                                disabled={ props.disabledForm }
+
+                            />
+                        </Form.Item>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="结束时间" >
+
+                </Col>
+                <Col span={8}>
                     <Form.Item
-                        name="basicEndTimeEdit"
+                        label="结束时间"
+                        className="date-time-form-compact"
                     >
+                        <Form.Item
+                            name="year2"
+                            rules={[{ required: true }]}
+                            className="date-picker-form"
+                        >
                         <DatePicker
                             allowClear={ false }
                             onChange={ updateEndTimeDisplay }
-                            showTime
                             format={dateFormat}
                             disabled={ props.disabledForm }
+                            placeholder={ dateFormat }
                         />
+                        </Form.Item>
+                        <Form.Item
+                            name="basicEndTime"
+                            label=""
+                            className="time-form"
+                            rules={[{ required: true }]}
+                        >
+                            <Input
+                                placeholder={ timeFormat }
+                                className="time-form"
+                                disabled={ props.disabledForm }
+                            />
+                        </Form.Item>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="基准单元"  span={2}>
+                </Col>
+                <Col span={8}>
                     <Form.Item
                         name="targetUnit"
+                        label="基准单元"
+                        required={true}
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="前序单元">
+                </Col>
+                <Col span={8}>
                     <Form.Item
                         name="preorderUnit"
+                        label="前序单元"
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="后序单元">
+                </Col>
+                <Col span={8}>
                     <Form.Item
                         name="behindUnit"
+                        label="后序单元"
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="豁免前序">
+                </Col>
+                <Col span={8}>
                     <Form.Item
                         name="exemptPreUnit"
+                        label="豁免前序"
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="豁免后序">
+                </Col>
+                <Col span={8}>
                     <Form.Item
                         name="exemptbehindUnit"
+                        label="豁免后序"
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
-                </Descriptions.Item>
-                <Descriptions.Item label="限制高度" span={2}>
-                    <Form.Item
-                        name="highLimit"
-                    >
-                        <Input disabled={ props.disabledForm }/>
-                    </Form.Item>
-                </Descriptions.Item>
-            </Descriptions>
+                </Col><Col span={8}>
+                <Form.Item
+                    name="highLimit"
+                    label="限制高度"
+                >
+                    <Input disabled={ props.disabledForm }/>
+                </Form.Item>
+            </Col>
+
+            </Row>
         </Card>
+
+        <Card title="措施信息" size="">
+            <Row gutter={24}>
+                <Col span={8}>
+                    <Form.Item
+                        // name="restrictionMode"
+                        label="限制方式"
+                        required={true}
+                    >
+                        <Select style={{ width: 120 }} onChange={handleRestrictionModeChange} disabled={ props.disabledForm } >
+                            {restrictionModeData.map(mode => (
+                                <Option key={mode.key}>{mode.text}</Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name="restrictionModeValue"
+                        label="限制值"
+                        rules={[{ required: true }]}
+                    >
+                        <Input
+                            disabled={ props.disabledForm }
+                            addonAfter="分钟"
+                        />
+                    </Form.Item>
+                </Col>
+            </Row>
+        </Card>
+
+
+        <Card title="交通流信息" className="flow-control-flight">
+            <Row gutter={12}>
+                <Col span={12}>
+                    <LimitedCard title="包含"  disabledForm={props.disabledForm}   />
+                </Col>
+                <Col span={12}>
+                    <ExemptCard title="不包含"  disabledForm={props.disabledForm} />
+                </Col>
+            </Row>
+        </Card>
+
+    </Fragment>
     )
 }
 
