@@ -54,7 +54,19 @@
       border-color: #424242;
     }
   }
+  .ant-input-disabled, .ant-picker-disabled, .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border: none;
+    background: none;
+    //color: inherit;
+  }
+  .ant-picker-input > input[disabled] {
+    //color: inherit;
+  }
 
+  .ant-input-disabled .ant-picker-suffix,
+  .ant-select-disabled .ant-select-arrow {
+    visibility: hidden;
+  }
 }
 .btn_import{
   position: absolute;

@@ -42,40 +42,42 @@ function XuCard(props){
 }
 //尾流类型选项
 const exemptWakeFlowType = [
-    { label: 'J', value: 'TYPE_J' },
-    { label: 'H', value: 'TYPE_H' },
-    { label: 'B', value: 'TYPE_B' },
-    { label: 'C', value: 'TYPE_C' },
-    { label: 'M', value: 'TYPE_M' },
-    { label: 'L', value: 'TYPE_L' },
-    { label: '其他', value: 'TYPE_OTHER' },
+    { label: 'J', value: 'J' },
+    { label: 'H', value: 'H' },
+    { label: 'B', value: 'B' },
+    { label: 'C', value: 'C' },
+    { label: 'M', value: 'M' },
+    { label: 'L', value: 'L' },
+    { label: '其他', value: 'OTHER' },
 ];
 //航班性质选项
 const exemptMissionType = [
-    { label: '内地', value: 'TYPE_DOMESTIC' },
-    { label: '港澳台', value: 'TYPE_GAT' },
-    { label: '国际', value: 'TYPE_INTERNATIONAL' }
+    { label: '内地', value: 'D' },
+    { label: '港澳台', value: 'GA' },
+    { label: '国际', value: 'I' },
+    { label: '飞越', value: 'O' },
+    { label: '后续国际', value: 'NI' },
 ];
 //客货类型选项
 const exemptPassengerCargoType = [
-    { label: '客班', value: 'TYPE_PASSENGER' },
-    { label: '货班', value: 'TYPE_CARGO' }
+    { label: '客班', value: 'PASSENGER' },
+    { label: '货班', value: 'CARGO' }
 ];
 //任务类型选项
 const exemptTaskType = [
-    { label: '专机', value: 'TYPE_PRIVATE' },
-    { label: '特殊', value: 'TYPE_SPECIAL' },
-    { label: '临时', value: 'TYPE_PATCH' },
-    { label: '正班', value: 'TYPE_REGULAR' },
+    { label: '专机', value: 'PRIVATE' },
+    { label: '特殊', value: 'SPECIAL' },
+    { label: '临时', value: 'PATCH' },
+    { label: '正班', value: 'REGULAR' },
 ];
 //航班属性选项
 const exemptMilitaryCivilType = [
-    { label: '军航', value: 'TYPE_MILITARY' },
-    { label: '民航', value: 'TYPE_CIVIL' }
+    { label: '军航', value: 'MILITARY' },
+    { label: '民航', value: 'CIVIL' }
 ];
 //限制资质选项
 const exemptQualification = [
-    { label: 'II类', value: 'TYPE_QUALIFICATION' }
+    { label: 'II类', value: 'CAT2' }
 ];
 const handleChange = (value, option)=> {
     console.log(value, option)

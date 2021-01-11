@@ -13,18 +13,32 @@ function StaticInfoCard(props){
     const dateFormat = 'YYYY-MM-DD';
     const timeFormat = 'HHmm';
 
-    const updateStartTimeDisplay =(date) => {
-        if( props.hasOwnProperty("updateBasicStartTimeDisplay") ){
+    const updateStartDateString =(date) => {
+        if( props.hasOwnProperty("updateStartDateString") ){
             let dateString = moment(date).format("YYYYMMDDHHmm");
-            props.updateBasicStartTimeDisplay(dateString);
+            props.updateStartDateString(dateString);
+        }
+
+    };
+    const updateStartTimeString =( { target: { value } } ) => {
+        if( props.hasOwnProperty("updateStartTimeString") ){
+            props.updateStartTimeString(value);
         }
 
     };
 
     const updateEndTimeDisplay =(date) => {
-        if( props.hasOwnProperty("updateBasicStartTimeDisplay") ){
+        if( props.hasOwnProperty("updateEndDateString") ){
             let dateString = moment(date).format("YYYYMMDDHHmm");
-            props.updateBasicEndTimeDisplay(dateString);
+            props.updateEndDateString(dateString);
+        }
+
+    };
+
+
+    const updateEndTimeString =( { target: { value } } ) => {
+        if( props.hasOwnProperty("updateEndTimeString") ){
+            props.updateEndTimeString(value);
         }
 
     };
@@ -79,71 +93,107 @@ function StaticInfoCard(props){
                     </Form.Item>
                 </Col>
                 <Col span={8}>
-                    <Form.Item
-                        label="开始时间"
-                        required={true}
-                        className="date-time-form-compact"
-                    >
-                        <Form.Item
-                            name="year"
-                            // rules={[{ required: true }]}
-                            className="date-picker-form"
-                        >
-                        <DatePicker
-                            allowClear={ false }
-                            onChange={ updateStartTimeDisplay }
-                            format={dateFormat}
-                            disabled={ props.disabledForm }
-                            placeholder={ dateFormat }
-                        />
-                        </Form.Item>
-                        <Form.Item
-                            name="basicStartTime"
-                            label=""
-                            className="time-form"
-                            // rules={[{ required: true }]}
-                        >
-                            <Input
-                                placeholder={ timeFormat }
 
-                                disabled={ props.disabledForm }
+                    {
+                        props.disabledForm ? (
+                            <Form.Item
+                                label="开始时间"
+                                required={true}
+                                // className="date-time-form-compact"
+                                name="basicStartTimeDisplay"
+                            >
 
-                            />
-                        </Form.Item>
-                    </Form.Item>
+
+                                <Input disabled={ props.disabledForm }/>
+                            </Form.Item>
+                        ) : (
+                            <Form.Item
+                                label="开始时间"
+                                required={true}
+                                className="date-time-form-compact"
+                            >
+
+
+                                <Form.Item
+                                    name="startDate"
+                                    // rules={[{ required: true }]}
+                                    className="date-picker-form"
+                                >
+                                    <DatePicker
+                                        allowClear={ false }
+                                        onChange={ updateStartDateString }
+                                        format={dateFormat}
+                                        disabled={ props.disabledForm }
+                                        placeholder={ dateFormat }
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    name="startTime"
+                                    label=""
+                                    className="time-form"
+                                    // rules={[{ required: true }]}
+                                >
+                                    <Input
+                                        placeholder={ timeFormat }
+                                        onChange={ updateStartTimeString }
+
+                                        disabled={ props.disabledForm }
+
+                                    />
+                                </Form.Item>
+                            </Form.Item>
+                        )
+                    }
+
+
+
 
                 </Col>
                 <Col span={8}>
-                    <Form.Item
-                        label="结束时间"
-                        className="date-time-form-compact"
-                    >
-                        <Form.Item
-                            name="year2"
-                            rules={[{ required: true }]}
-                            className="date-picker-form"
-                        >
-                        <DatePicker
-                            allowClear={ false }
-                            onChange={ updateEndTimeDisplay }
-                            format={dateFormat}
-                            disabled={ props.disabledForm }
-                            placeholder={ dateFormat }
-                        />
-                        </Form.Item>
-                        <Form.Item
-                            name="basicEndTime"
-                            label=""
-                            className="time-form"
-                            rules={[{ required: true }]}
-                        >
-                            <Input
-                                placeholder={ timeFormat }
-                                className="time-form"
-                                disabled={ props.disabledForm }
-                            />
-                        </Form.Item>
-                    </Form.Item>
+
+                    {
+                        props.disabledForm ? (
+                            <Form.Item
+                                label="结束时间"
+                                name="basicEndTimeDisplay"
+                            >
+                                <Input disabled={ props.disabledForm }/>
+                            </Form.Item>
+                        ) : (
+                            <Form.Item
+                                label="结束时间"
+                                className="date-time-form-compact"
+                            >
+                                <Form.Item
+                                    name="endDate"
+                                    className="date-picker-form"
+                                >
+                                    <DatePicker
+                                        allowClear={ false }
+                                        onChange={ updateEndTimeDisplay }
+                                        format={dateFormat}
+                                        disabled={ props.disabledForm }
+                                        placeholder={ dateFormat }
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    name="endTime"
+                                    label=""
+                                    className="time-form"
+                                    rules={[{ required: true }]}
+                                >
+                                    <Input
+                                        placeholder={ timeFormat }
+                                        className="time-form"
+                                        onChange={ updateEndTimeString }
+                                        disabled={ props.disabledForm }
+                                    />
+                                </Form.Item>
+                            </Form.Item>
+                        )
+                    }
+
+
                 </Col>
                 <Col span={8}>
                     <Form.Item

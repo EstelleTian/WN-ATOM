@@ -5,7 +5,7 @@ import {Button, Modal,   Form, message} from 'antd'
 import StaticInfoCard from './StaticInfoCard'
 import FlowList from './FlowList'
 import { handleImportControl } from 'utils/client'
-import { getDayTimeFromString, isValidObject, isValidVariable } from '../../utils/basic-verify'
+import { formatTimeString, getDateFromString, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { request } from 'utils/request'
 
 
@@ -19,10 +19,27 @@ function RestrictionForm(props){
     const { tacticProcessInfo={} } = flowData;
     const { basicTacticInfo={} } = tacticProcessInfo;
     const { tacticName, tacticPublishUnit, tacticPublishUser, id, tacticTimeInfo={}, sourceFlowcontrol={}, directionList=[] } = basicTacticInfo;
+
     // 方案开始时间(12位字符串)
     let basicStartTime = tacticTimeInfo.startTime;
     // 方案结束时间(12位字符串)
     let basicEndTime = tacticTimeInfo.endTime;
+
+    let startTimeString = "" ;
+    let startDate ="";
+    let endTimeString = "" ;
+    let endDate ="";
+    if(isValidVariable(basicStartTime)){
+        startTimeString = basicStartTime.substring(8,12);
+        startDate = startDate.substring(0,8);
+    }
+    if(isValidVariable(basicEndTime)){
+        endTimeString = basicEndTime.substring(8,12);
+        endDate = endDate.substring(0,8);
+    }
+
+
+
     const { flowControlName, flowControlTimeInfo={}, flowControlMeasure={}, TrafficFlowDomainMap={},  flowControlPublishType, flowControlReason,} = sourceFlowcontrol; // 流控信息对象
     // 流控开始时间(12位字符串)
     let flowControlStartTime = flowControlTimeInfo.startTime;
@@ -92,22 +109,21 @@ function RestrictionForm(props){
         exemptbehindUnit: exemptbehindUnit,
         // 限制高度
         highLimit: highLimit,
+
+        // 方案开始日期(DatePicker组件使用)
+        startDate: isValidVariable(basicStartTime) ? moment(basicStartTime, dateFormat) : "",
+        // 方案开始时间
+        startTime: startTimeString,
+        // 方案结束日期(DatePicker组件使用)
+        endDate: isValidVariable(basicEndTime) ? moment(basicEndTime, dateFormat) : "",
+        // 方案结束时间
+        endTime: endTimeString,
+
         // 方案开始时间(非编辑状态下显示)
-        basicStartTimeDisplay: isValidVariable(basicStartTime) ? getDayTimeFromString(basicStartTime) : "",
-        // 方案开始时间(编辑状态下DatePicker组件使用)
-        basicStartTimeEdit: isValidVariable(basicStartTime) ? moment(basicStartTime, dateFormat) : "",
+        basicStartTimeDisplay: isValidVariable(basicStartTime) ?  formatTimeString(basicStartTime) : "",
         // 方案结束时间(非编辑状态下显示)
-        basicEndTimeDisplay: isValidVariable(basicEndTime) ? getDayTimeFromString(basicEndTime) : "",
-        // 方案结束时间(编辑状态下DatePicker组件使用)
-        basicEndTimeEdit: isValidVariable(basicEndTime) ? moment(basicEndTime, dateFormat) : "",
-        // 流控开始时间(非编辑状态下显示)
-        flowControlStartTimeDisplay:  isValidVariable(flowControlStartTime) ? getDayTimeFromString(flowControlStartTime) : "",
-        // 流控开始时间(编辑状态下DatePicker组件使用)
-        flowControlStartTimeEdit: isValidVariable(flowControlStartTime) ? moment(flowControlStartTime, dateFormat) : "",
-        // 流控开始时间(非编辑状态下显示)
-        flowControlEndTimeDisplay: isValidVariable(flowControlEndTime) ? getDayTimeFromString(flowControlEndTime) : "",
-        // 流控结束时间(编辑状态下DatePicker组件使用)
-        flowControlEndTimeEdit: isValidVariable(flowControlEndTime) ? moment(flowControlEndTime, dateFormat) : "",
+        basicEndTimeDisplay: isValidVariable(basicEndTime) ? formatTimeString(basicEndTime) : "",
+
         // 流控发布类型
         flowControlPublishType: flowControlPublishType || "",
         // 流控限制原因
@@ -161,14 +177,10 @@ function RestrictionForm(props){
     // 模态框确定按钮loading变量
     let [ confirmLoading, setConfirmLoading] = useState(false);
 
-    // 方案开始时间(12位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [ basicStartTimeString, setBasicStartTimeString] = useState(basicStartTime);
-    // 方案结束时间(12位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [ basicEndTimeString, setBasicEndTimeString] = useState(basicEndTime);
-    // 流控开始时间(12位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [ flowControlStartTimeString, setFlowControlStartTimeString] = useState(flowControlStartTime);
-    // 流控结束时间(12位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [ flowControlEndTimeString, setFlowControlEndTimeString] = useState(flowControlEndTime);
+    // 方案开始日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
+    let [ startDateString, setStartDateString] = useState(startDate);
+    // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
+    let [ endDateString, setEndDateString] = useState(endDate);
 
     const [form] = Form.useForm();
     useEffect(function(){
@@ -180,14 +192,10 @@ function RestrictionForm(props){
 
 
     const updateDataTime =() => {
-        // 更新方案开始时间
-        setBasicStartTimeString(basicStartTime);
-        // 更新方案结束时间
-        setBasicEndTimeString(basicEndTime);
-        // 更新流控开始时间
-        setFlowControlStartTimeString(flowControlStartTime);
-        // 更新流控结束时间
-        setFlowControlEndTimeString(flowControlEndTime);
+        // 更新方案开始日期
+        setStartDateString(startDate);
+        // 更新方案结束日期
+        setEndDateString(endDate);
     };
 
 
@@ -293,6 +301,7 @@ function RestrictionForm(props){
 
         // 表单字段数据
         const { tacticName, tacticPublishUnit, tacticPublishUser,
+            startTime, endTime,
             targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit,
             flowControlName, flowControlReason, flowControlPublishType, restrictionRemark,
             restrictionMode, restrictionModeValue,
@@ -308,9 +317,9 @@ function RestrictionForm(props){
         // 更新方案发布用户
         basicTacticInfo.tacticPublishUser = tacticPublishUser;
         // 更新方案开始时间
-        tacticTimeInfo.startTime = basicStartTimeString;
+        tacticTimeInfo.startTime = startDateString+ startTime;
         // 更新方案结束时间
-        tacticTimeInfo.endTime = basicEndTimeString;
+        tacticTimeInfo.endTime = endDateString + endTime;
         // 更新基准单元
         directionListData.targetUnit = targetUnit;
         // 更新前序单元
@@ -332,10 +341,7 @@ function RestrictionForm(props){
         sourceFlowcontrol.flowControlPublishType = flowControlPublishType;
         // 更新流控备注
         flowControlMeasure.restrictionRemark = restrictionRemark;
-        // 更新流控开始时间
-        flowControlTimeInfo.startTime = flowControlStartTimeString;
-        // 更新流控结束时间
-        flowControlTimeInfo.endTime = flowControlEndTimeString;
+
         // 更新流控限制方式
         flowControlMeasure.restrictionMode = restrictionMode;
         let modeKey = restrictionModeData[restrictionMode];
@@ -437,53 +443,54 @@ function RestrictionForm(props){
     };
 
     /**
+     * 更新方案开始日期
+     *
+     * */
+    const  updateStartDateString =(dateString) => {
+        const startTime = form.getFieldsValue()['startTime'];
+        const startDate = dateString.substring(0,4) +'-'+ dateString.substring(4,6) +'-' + dateString.substring(6,8);
+        form.setFieldsValue({basicStartTimeDisplay: `${startDate} ${startTime}`});
+        // 更新方案开始日期
+        setStartDateString(dateString);
+    };
+
+
+    /**
      * 更新方案开始时间
      *
      * */
-    const  updateBasicStartTimeDisplay =(dateString) => {
-        // const date = getDayTimeFromString(dateString);
-        // 设置表单非编辑状态下更新方案开始时间
-        // form.setFieldsValue({basicStartTimeDisplay: date});
-        // 更新方案开始时间
-        setBasicStartTimeString(dateString);
+    const  updateStartTimeString =(timeString) => {
+        const startDate =  form.getFieldsValue()['startDate'];
+        const startDateString = moment(startDate).format("YYYYMMDDHHmm").substring(0,8);
+        const date = startDateString.substring(0,4) +'-'+ startDateString.substring(4,6) +'-' + startDateString.substring(6,8);
+        form.setFieldsValue({basicStartTimeDisplay: `${date} ${timeString}`});
     };
 
     /**
      * 更新方案结束时间
      *
      * */
-    const  updateBasicEndTimeDisplay =(dateString) => {
-        // const date = getDayTimeFromString(dateString);
-        // 设置表单非编辑状态下更新方案结束时间
-        // form.setFieldsValue({basicEndTimeDisplay: date});
-        // 更新方案结束时间
-        setBasicEndTimeString(dateString)
+    const  updateEndDateString =(dateString) => {
+        const endTime = form.getFieldsValue()['endTime'];
+        const endDate = dateString.substring(0,4) +'-'+ dateString.substring(4,6) +'-' + dateString.substring(6,8);
+        form.setFieldsValue({basicEndTimeDisplay: `${endDate} ${endTime}`});
+        // 更新方案结束日期
+        setEndDateString(dateString)
+
     };
+
 
     /**
-     * 更新流控开始时间
+     * 更新方案开始时间
      *
      * */
-    const  updateFlowControlStartTimeDisplay =(dateString) => {
-        // const date = getDayTimeFromString(dateString);
-        // 设置表单非编辑状态下更新流控开始时间
-        // form.setFieldsValue({flowControlStartTimeDisplay: date});
-        // 更新流控开始时间
-        setFlowControlStartTimeString(dateString);
-
-
+    const  updateEndTimeString =(timeString) => {
+        const endDate =  form.getFieldsValue()['endDate'];
+        const endDateString = moment(endDate).format("YYYYMMDDHHmm").substring(0,8);
+        const date = endDateString.substring(0,4) +'-'+ endDateString.substring(4,6) +'-' + endDateString.substring(6,8);
+        form.setFieldsValue({basicEndTimeDisplay: `${date} ${timeString}`});
     };
-    /**
-     * 更新流控结束时间
-     *
-     * */
-    const  updateFlowControlEndTimeDisplay =(dateString) => {
-        // const date = getDayTimeFromString(dateString);
-        // 设置表单非编辑状态下更新流控结束时间
-        // form.setFieldsValue({flowControlEndTimeDisplay: date});
-        // 更新流控结束时间
-        setFlowControlEndTimeString(dateString);
-    };
+
     /**
      * 更新流控限制方式
      *
@@ -505,7 +512,7 @@ function RestrictionForm(props){
     return (
         <div>
             <Form
-                colon = { false }
+                // colon = { false }
                 form={form}
                 // size="small"
                 initialValues={initialValues}
@@ -520,8 +527,10 @@ function RestrictionForm(props){
             >
                 <StaticInfoCard
                     disabledForm={props.disabledForm}
-                    updateBasicStartTimeDisplay={updateBasicStartTimeDisplay }
-                    updateBasicEndTimeDisplay={updateBasicEndTimeDisplay }
+                    updateStartDateString={updateStartDateString }
+                    updateStartTimeString={updateStartTimeString }
+                    updateEndDateString={updateEndDateString }
+                    updateEndTimeString ={ updateEndTimeString }
                     updateRestrictionMode={updateRestrictionMode }
 
                 />
