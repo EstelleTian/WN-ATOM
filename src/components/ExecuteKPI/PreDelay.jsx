@@ -10,9 +10,9 @@ function PreDelay(props){
     let { entiretyNormalRate, insideApNormalRate ={ }} = KPIData;
 
     if(isValidVariable(entiretyNormalRate)){
-        entiretyNormalRate = (entiretyNormalRate*1) < 0 ? "N/A" : entiretyNormalRate*100;
+        entiretyNormalRate = (entiretyNormalRate*1) < 0 ? 0 : entiretyNormalRate*100;
     }else{
-        entiretyNormalRate = "N/A";
+        entiretyNormalRate = 0;
     }
 
     let getApNormalRateList = (insideApNormalRate) => {
@@ -34,7 +34,7 @@ function PreDelay(props){
      * */
     const formatPercent =(percent) => {
         if(percent ==="N/A"){
-            return `N/A%`
+            return `N/A`
         }else if(percent === '100' ){
             // 处理100%数值显示(原组件会显示成对号)
             return `100%`
@@ -113,8 +113,10 @@ function PreDelay(props){
                         percent={entiretyNormalRate}
                         // strokeWidth={8}
                         format={formatPercent}
+                        strokeColor="#35A5DA"
+                        strokeWidth="10"
                         gapDegree={1}
-                        trailColor="#64737a"
+                        trailColor="#65737a"
                     />
 
                 </Row>
@@ -127,7 +129,8 @@ function PreDelay(props){
                                         <Progress
                                             percent={ converPercent(item.value) }
                                             showInfo={false}
-                                            trailColor="#64737a"
+                                            strokeColor="#35A5DA"
+                                            trailColor="#65737a"
                                         />
                                         <div className="text-center point">{item.key}</div>
                                     </div>

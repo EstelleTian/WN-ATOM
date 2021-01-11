@@ -36,8 +36,7 @@ function ImpactLevel(props){
         <Col span={8} className="block">
             <div className="block-title">影响程度</div>
             <div className={`${levelClassName} impact-level flex justify-content-center layout-column`}>
-                <AlertOutlined />
-                {/*{ icon }*/}
+                <AlertOutlined className={ `level_icon`}/>
                 <div className={ `text-center`}>{label}</div>
             </div>
         </Col>
@@ -59,7 +58,6 @@ function DCBLineChart(props){
         dcb = {};
     }
     dcbkeys = Object.keys( dcb ).sort();
-    console.log( "dcb", dcb );
     const getOption = function(){
         let dcbKeyArr = [];
         let dcbValArr = [];
@@ -67,13 +65,12 @@ function DCBLineChart(props){
             const key = dcbkeys[i] || "";
             const val = dcb[key] || null;
             let xKey = key;
-            if( key.length > 13 ){
+            if( key.length >= 12 ){
                 xKey = key.substring(0,12);
                 xKey = xKey.substring(8,12);
             }
             dcbKeyArr.push(xKey);
             dcbValArr.push(val);
-
         }
         const option = {
             color: ["#35A5DA"],

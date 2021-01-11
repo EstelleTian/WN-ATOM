@@ -48,15 +48,19 @@ const FFIXTPopover = (props) => {
         // const [form] = Form.useForm();
         const {text, record, index, col} = opt;
         let { FFIXT, FLIGHTID, DEPAP, ARRAP } = record;
-        FFIXT = FFIXT.substring(0,12);
+        let date;
+        if( isValidVariable(FFIXT) && FFIXT.length > 12 ){
+            FFIXT = FFIXT.substring(0, 12);
+            date = moment( FFIXT.substring(0,8), "YYYY-MM-DD")
+        }
 
         let initialValues = {
             flightid: FLIGHTID || '',
             airport: DEPAP + "-" + ARRAP,
             unit: "",
             locked: "",
-            time: FFIXT.substring(8,12),
-            date: moment( FFIXT.substring(0,8), "YYYY-MM-DD"),
+            time: FFIXT,
+            date,
             comment: ""
         };
         // useEffect(function(){
@@ -136,7 +140,10 @@ const FFIXTPopover = (props) => {
         orgdata = JSON.parse(orgdata);
     }
     let { ffixField : { meetIntervalValue } } = orgdata;
-    let ftime = getTimeAndStatus(text)
+    let ftime = "";
+    if( isValidVariable(text) && text.length > 12 ){
+        ftime = getTimeAndStatus(text)
+    }
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
@@ -149,17 +156,17 @@ const FFIXTPopover = (props) => {
         >
             {/*200不满足间隔*/}
             {
-                meetIntervalValue === "200"
+                meetIntervalValue === "200" && ftime !== ""
                     ? <div className="interval" title={text}><span  className="interval_red">{ftime}</span></div>
                     : ""
             }
             {
-                meetIntervalValue === "100"
+                meetIntervalValue === "100"&& ftime !== ""
                     ? <div className="interval" title={text} ><span  className="interval_green">{ftime}</span></div>
                     : ""
             }
             {
-                meetIntervalValue === null || meetIntervalValue === "null"
+                ( meetIntervalValue === null || meetIntervalValue === "null" ) && ftime !== ""
                     ? <div className="interval" title={text} ><span  className="">{ftime}</span></div>
                     : ""
             }
@@ -274,7 +281,7 @@ const COBTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className="empty_cell" title={`${text}-${source}`}><span className="">{ getDayTimeFromString(text) }</span></div>
+            <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${source}`}><span className="">{ getDayTimeFromString(text) }</span></div>
         </Popover >
     )
 }
@@ -387,7 +394,7 @@ const CTOTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className="empty_cell" title={`${text}-${source}`}><span className="">{getTimeAndStatus(text)}</span></div>
+            <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${source}`}><span className="">{getTimeAndStatus(text)}</span></div>
 
         </Popover >
     )
@@ -402,7 +409,7 @@ const CTOPopover = (props) => {
     }
     let { ctoField : { source } } = orgdata;
     return(
-        <div className="empty_cell" title={`${text}-${source}`}><span className="">{getTimeAndStatus(text)}</span></div>
+        <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${source}`}><span className="">{getTimeAndStatus(text)}</span></div>
     )
 }
 
@@ -415,7 +422,7 @@ const EAPTPopover = (props) => {
     }
     let { eapField : { source , value } } = orgdata;
     return(
-        <div className="empty_cell" title={`${text}-${source}`}><span className="">{getTimeAndStatus(value)}</span></div>
+        <div className={`${ isValidVariable(value) ? "" : "empty_cell" }`} title={`${text}-${source}`}><span className="">{getTimeAndStatus(value)}</span></div>
     )
 }
 export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover }

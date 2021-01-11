@@ -77,7 +77,6 @@ let names = {
         "en":"CTOT",
         "cn":"计算起飞时间"
     },
-
     "ATOT":{
         "en":"ATOT",
         "cn":"实际起飞时间"
@@ -86,12 +85,10 @@ let names = {
         "en":"SOBT",
         "cn":"计划撤轮档"
     },
-
     "TOBT":{
         "en":"TOBT",
         "cn":"目标撤轮档"
     },
-
     "OAP":{
         "en":"OAP",
         "cn":"出区域点"
@@ -112,7 +109,10 @@ let names = {
 
 //配置names
 const setNames = ( newNames ) => {
-    names = newNames;
+    if( isValidVariable(newNames) ){
+        names = newNames;
+    }
+
 }
 
 // 右键渲染模块内容
@@ -151,7 +151,6 @@ let render = (opt)  => {
 const getColumns = () => {
     //获取屏幕宽度，适配 2k
     let screenWidth = document.getElementsByTagName("body")[0].offsetWidth
-    console.log(screenWidth)
     //表格列配置-默认-计数列
     let columns = [
         {

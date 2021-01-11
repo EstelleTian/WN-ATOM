@@ -17,7 +17,7 @@ import  SchemeModal  from "./SchemeModal";
 import schemeData from '../../mockdata/implementTactics'
 import flightsData from '../../mockdata/flights'
 import kpiData from '../../mockdata/kpi'
-import './SchemeItem.scss'
+import './SchemeList.scss'
 
 
 //方案状态转化

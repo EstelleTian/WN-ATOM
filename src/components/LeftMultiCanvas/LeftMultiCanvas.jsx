@@ -14,8 +14,6 @@ import ModalBox from 'components/ModalBox/ModalBox'
 import SubTable  from './SubTable'
 import './LeftMultiCanvas.scss'
 
-
-
 function LeftMultiCanvas(props){
     const { systemPage } = props;
     const { leftActiveName } = systemPage;
