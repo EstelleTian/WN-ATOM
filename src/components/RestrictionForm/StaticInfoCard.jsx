@@ -251,7 +251,7 @@ function StaticInfoCard(props){
             <Row gutter={24}>
                 <Col span={8}>
                     <Form.Item
-                        // name="restrictionMode"
+                        name="restrictionMode"
                         label="限制方式"
                         required={true}
                     >
