@@ -65,6 +65,8 @@ class SchemeListData{
     }
     // 方案列表
     @observable list = [];
+    //数据时间
+    @observable generateTime = "";
     //方案id
     @observable schemeId = "";
     // 增加方案-单条
@@ -84,7 +86,7 @@ class SchemeListData{
         this.list.remove( schemeItem );
     }
     // 更新方案-全部
-    @action updateList( arr ){
+    @action updateList( arr, generateTime){
         this.list = [];
         arr.map( item => {
             const itemIns = new SchemeItem(item);
@@ -93,7 +95,8 @@ class SchemeListData{
             }
             this.list.push( itemIns );
 
-        })
+        });
+        this.generateTime = generateTime;
     }
 
     // 更新方案-多条

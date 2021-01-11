@@ -10,6 +10,7 @@ import React, { lazy, Suspense} from 'react';
 import {inject, observer} from "mobx-react";
 import {Empty, Spin} from "antd";
 import ModalBox from 'components/ModalBox/ModalBox'
+import { formatTimeString } from 'utils/basic-verify'
 import './RightMultiCanvas.scss'
 
 //TODO 真实数据，用于公司环境
@@ -25,7 +26,8 @@ function RightMultiCanvas(props){
             {
                 rightActiveName === "scheme"
                 ? <ModalBox
-                        title="方案列表"
+                        // title="方案列表"
+                        title={`方案列表 (数据时间:${ formatTimeString(props.schemeListData.generateTime) })`}
                         showDecorator = {true}
                     >
                     <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
@@ -52,7 +54,7 @@ function RightMultiCanvas(props){
 
 }
 
-export default inject("systemPage")(observer(RightMultiCanvas))
+export default inject("systemPage", "schemeListData")(observer(RightMultiCanvas))
 
 
 

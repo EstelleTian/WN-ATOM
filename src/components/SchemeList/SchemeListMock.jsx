@@ -223,13 +223,13 @@ function SchemeList (props){
                 const { basicTacticInfo } = item;
                 return basicTacticInfo;
             })
-            //更新 方案 store
-            schemeListData.updateList(list)
-            if( (schemeListData.activeScheme.id === "" || schemeListData.activeScheme.id === undefined)  && list.length > 0 ){
-
+            //获取 激活方案 对象
+            const activeScheme = schemeListData.activeScheme || {};
+            const id = activeScheme.id || "";
+            //检测 没有选中方案 则默认选中第一个方案
+            if( isValidVariable(id)  && list.length > 0 ){
                 let id = list[0].id + "";
-                console.log("未获取到id，选定第一个:",id)
-
+                console.log("未获取到id，选定第一个:",id);
                 handleActive(id);
             }
         }
@@ -249,9 +249,7 @@ function SchemeList (props){
     });
     // DidMount 获取一次方案列表
     useEffect(function(){
-        if( props.schemeListData.activeScheme !== modalId ){
-            getSchemeList();
-        }
+        getSchemeList();
 
     }, [ statusValues ] );
 

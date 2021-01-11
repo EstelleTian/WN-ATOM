@@ -11,6 +11,7 @@ import {inject, observer} from "mobx-react";
 import {Spin} from "antd";
 import ExecuteKPI  from 'components/ExecuteKPI/ExecuteKPI'
 import ModalBox from 'components/ModalBox/ModalBox'
+import { formatTimeString } from 'utils/basic-verify'
 import SubTable  from './SubTable'
 import './LeftMultiCanvas.scss'
 
@@ -23,6 +24,7 @@ function LeftMultiCanvas(props){
                 leftActiveName === "kpi"
                     ? <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
                         <ModalBox
+                            // title={`执行KPI (数据时间:${ formatTimeString(props.executeKPIData.generateTime) })`}
                             title="执行KPI"
                             showDecorator = {true}
                             className="kpi"
@@ -37,6 +39,7 @@ function LeftMultiCanvas(props){
 
 }
 
+// export default inject("systemPage", "executeKPIData")(observer(LeftMultiCanvas))
 export default inject("systemPage")(observer(LeftMultiCanvas))
 
 

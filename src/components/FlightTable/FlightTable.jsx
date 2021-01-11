@@ -7,7 +7,7 @@
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
  */
 
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import { inject, observer } from 'mobx-react'
 import { Table, message, Menu, Dropdown, Input   } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
@@ -74,16 +74,11 @@ const formatSingleFlight = flight => {
 function FlightTable(props){
     let [tableWidth, setWidth] = useState(0);
     let [tableHeight, setHeight] = useState(0);
-    let [searchVal, setSearchVal] = useState("");
-    let [sortKey, setSortKey] = useState("FFIXT");
-    let [sortOrder, setSortOrder] = useState("ascend");
-    /**
-     * @function 设置表格行的 class
-     * @param {array} record 当前行数据
-     * @param {number} index 当前行索引
-     * @return {string} className 类名
-     * */
-    const setRowClassName = (record, index) => {
+    let [searchVal, setSearchVal] = useState(""); //输入框过滤 输入内容
+    let [sortKey, setSortKey] = useState("FFIXT"); //表格排序字段
+    let [sortOrder, setSortOrder] = useState("ascend"); //表格排序 顺序  升序ascend/降序
+    //设置表格行的 class
+    const setRowClassName = useCallback((record, index) => {
         let { FFIXT, orgdata } = record;
         if( sortKey === "FFIXT" ) {
             const activeScheme = props.schemeListData.activeScheme;
@@ -111,12 +106,12 @@ function FlightTable(props){
             }
         }
         return "aaa";
-    };
+    });
 
     //转换为表格数据
-    const coverFlightTableData = list => {
+    const coverFlightTableData = useCallback( list => {
         return list.map( flight => formatSingleFlight(flight) )
-    };
+    });
     useEffect(() => {
       const dom = document.getElementsByClassName("flight_canvas")[0];
         dom.oncontextmenu = function(){
@@ -130,9 +125,22 @@ function FlightTable(props){
       setHeight( height );
 
   }, [tableWidth, tableHeight]);
-
+    useEffect(() => {
+        const { id, flightid } = props.flightTableData.getTargetFlight;
+      // console.log("目标定位航班是：",props.flightTableData.getTargetFlight.id, props.flightTableData.getTargetFlight.flightid );
+        if( isValidVariable(id) ){
+            const flightCanvas = document.getElementsByClassName("flight_canvas");
+            const contentH = flightCanvas[0].getElementsByClassName("box_content")[0].clientHeight;
+            console.log("目标定位航班[contentH]是：",contentH, "tableHeight:", tableHeight );
+        }
+  }, [ props.flightTableData.getTargetFlight.id ]);
+    const onChange = useCallback((pagination, filters, sorter, extra) => {
+        // console.log('params', pagination, filters, sorter, extra);
+        setSortOrder( sorter.order );
+        setSortKey( sorter.columnKey )
+    })
     //根据输入框输入值，检索显示航班
-    const filterInput = (data) => {
+    const filterInput = useCallback((data) => {
         if( searchVal === "" ){
             return data;
         }
@@ -149,18 +157,12 @@ function FlightTable(props){
             return false
         } )
         return newArr
-    }
+    });
     const flightTableData = props.flightTableData;
-    const { list, loading } = flightTableData;
+    const { list, loading, generateTime } = flightTableData;
     let data = coverFlightTableData(list);
     data = filterInput(data);
-    function onChange(pagination, filters, sorter, extra) {
-        // console.log('params', pagination, filters, sorter, extra);
-        setSortOrder( sorter.order )
-        setSortKey( sorter.columnKey )
-    }
     let columns = getColumns();
-
     return (
         <ModalBox
             className="flight_canvas"

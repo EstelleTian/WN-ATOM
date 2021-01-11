@@ -21,16 +21,8 @@ class ExecuteKPIData {
     @observable generateTime = "";
     //数据获取
     @observable loading = false;
-    // //
-    // @observable impactFlights = [];
-    // @observable criticalFlights = [];
-    // @observable coordinationFlights = [];
-    // @observable inPoolFlights = [];
-    // @observable closeWaitFlights = [];
-
-
-
-ct
+    //定时器
+    @observable timeoutId = "";
 
     //更新航班数据
     @action updateExecuteKPIData( KPIData ){
