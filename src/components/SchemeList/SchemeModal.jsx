@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import {Modal, message, Button} from "antd";
 import { requestGet,  } from 'utils/request'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
+import {getFullTime, getDayTimeFromString, isValidVariable, isValidObject} from '../../utils/basic-verify'
+
 import SchemeDetail  from 'components/SchemeList/SchemeDetail'
 
 const SchemeModal = (props) => {
@@ -53,8 +55,11 @@ const SchemeModal = (props) => {
     });
 
     // 方案数据对象
-    const {tacticProcessInfo = {}} = flowData;
-    const {basicTacticInfo = {}, } = tacticProcessInfo;
+    // 方案数据对象
+    let tacticProcessInfo = isValidObject(flowData.tacticProcessInfo) ? flowData.tacticProcessInfo : {};
+    // 方案基本信息数据对象
+    let basicTacticInfo = isValidObject(tacticProcessInfo.basicTacticInfo) ? tacticProcessInfo.basicTacticInfo : {};
+
     const {tacticName="", } = basicTacticInfo;
 
     return (
