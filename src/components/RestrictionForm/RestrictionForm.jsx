@@ -31,11 +31,11 @@ function RestrictionForm(props){
     let endDate ="";
     if(isValidVariable(basicStartTime)){
         startTimeString = basicStartTime.substring(8,12);
-        startDate = startDate.substring(0,8);
+        startDate = basicStartTime.substring(0,8);
     }
     if(isValidVariable(basicEndTime)){
         endTimeString = basicEndTime.substring(8,12);
-        endDate = endDate.substring(0,8);
+        endDate = basicEndTime.substring(0,8);
     }
 
 
@@ -182,6 +182,11 @@ function RestrictionForm(props){
     // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
     let [ endDateString, setEndDateString] = useState(endDate);
 
+    // 方案开始日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
+    let [ startTime, setStartTime] = useState(startDate);
+    // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
+    let [ endTime, setEndTime] = useState(endDate);
+
     const [form] = Form.useForm();
     useEffect(function(){
         console.log("useEffect", initialValues);
@@ -196,6 +201,8 @@ function RestrictionForm(props){
         setStartDateString(startDate);
         // 更新方案结束日期
         setEndDateString(endDate);
+        setStartTime(startTimeString);
+        setEndTime(endTimeString);
     };
 
 
@@ -301,7 +308,6 @@ function RestrictionForm(props){
 
         // 表单字段数据
         const { tacticName, tacticPublishUnit, tacticPublishUser,
-            startTime, endTime,
             targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit,
             flowControlName, flowControlReason, flowControlPublishType, restrictionRemark,
             restrictionMode, restrictionModeValue,
@@ -464,6 +470,7 @@ function RestrictionForm(props){
         const startDateString = moment(startDate).format("YYYYMMDDHHmm").substring(0,8);
         const date = startDateString.substring(0,4) +'-'+ startDateString.substring(4,6) +'-' + startDateString.substring(6,8);
         form.setFieldsValue({basicStartTimeDisplay: `${date} ${timeString}`});
+        setStartTime(timeString);
     };
 
     /**
@@ -489,6 +496,7 @@ function RestrictionForm(props){
         const endDateString = moment(endDate).format("YYYYMMDDHHmm").substring(0,8);
         const date = endDateString.substring(0,4) +'-'+ endDateString.substring(4,6) +'-' + endDateString.substring(6,8);
         form.setFieldsValue({basicEndTimeDisplay: `${date} ${timeString}`});
+        setEndTime(timeString)
     };
 
     /**
