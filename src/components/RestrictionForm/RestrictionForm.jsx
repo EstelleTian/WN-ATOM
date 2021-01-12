@@ -540,6 +540,7 @@ function RestrictionForm(props){
                     updateEndDateString={updateEndDateString }
                     updateEndTimeString ={ updateEndTimeString }
                     updateRestrictionMode={updateRestrictionMode }
+                    form = { form}
 
                 />
                 {/*<FlowList*/}

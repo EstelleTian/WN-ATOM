@@ -10,7 +10,7 @@ function PreDelay(props){
     let { entiretyNormalRate, insideApNormalRate ={ }} = KPIData;
 
     if(isValidVariable(entiretyNormalRate)){
-        entiretyNormalRate = (entiretyNormalRate*1) < 0 ? 0 : entiretyNormalRate*100;
+        entiretyNormalRate = (entiretyNormalRate*1) < 0 ? 0 : (entiretyNormalRate*100).toFixed(0);
     }else{
         entiretyNormalRate = 0;
     }
@@ -56,7 +56,7 @@ function PreDelay(props){
                 return  0
             }else {
                 // 小于0的返回0, 其他情况返回原值*100
-                return (percent*1) < 0 ? 0 : (percent *100)
+                return (percent*1) < 0 ? 0 : (percent *100).toFixed(0)
             }
 
         }else {
@@ -77,7 +77,7 @@ function PreDelay(props){
                 return  'N/A'
             }else {
                 // 小于0的返回0, 其他情况返回原值*100
-                return (percent*1) < 0 ? 'N/A'  : (percent *100)
+                return (percent*1) < 0 ? 'N/A'  : (percent *100).toFixed(0)
             }
 
         }else {
@@ -102,7 +102,7 @@ function PreDelay(props){
 
 
 
-    return <Col span={14} className="row_model delay-rate">
+    return <Col span={24} className="row_model delay-rate">
         <Col span={24} className="block ">
             <div className="block-title">正常率</div>
             <div className="flex justify-content-center layout-column">

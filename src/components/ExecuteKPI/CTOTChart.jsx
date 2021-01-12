@@ -16,36 +16,6 @@ const CTOTPieChart = (props) => {
 
     const { data, configData } = props;
 
-    // let data = [
-    //     {
-    //         type: '小于-20',
-    //         value: 27,
-    //     },
-    //     {
-    //         type: '-20到-10',
-    //         value: 25,
-    //     },
-    //     {
-    //         type: '-10到-5',
-    //         value: 18,
-    //     },
-    //     {
-    //         type: '-5到5',
-    //         value: 15,
-    //     },
-    //     {
-    //         type: '5到10',
-    //         value: 10,
-    //     },
-    //     {
-    //         type: '10到20',
-    //         value: 10,
-    //     },
-    //     {
-    //         type: '大于20',
-    //         value: 5,
-    //     },
-    // ];
     let config = {
         legend: false, // 关闭图例
         appendPadding: 2,

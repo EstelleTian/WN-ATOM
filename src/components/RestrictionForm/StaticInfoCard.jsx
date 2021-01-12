@@ -1,9 +1,11 @@
-import React, {useEffect, Fragment} from 'react'
+import React, {useEffect, useState, Fragment} from 'react'
 import "moment/locale/zh-cn"
 import { Descriptions, Collapse, DatePicker, Card, Form, Input, Row, Col, Select} from 'antd'
 import ExemptCard from './ExemptCard'
 import LimitedCard from './LimitedCard'
 import  moment  from 'moment'
+import { formatTimeString, getDateFromString, isValidObject, isValidVariable } from '../../utils/basic-verify'
+
 const { Option } = Select;
 
 
@@ -12,6 +14,29 @@ function StaticInfoCard(props){
 
     const dateFormat = 'YYYY-MM-DD';
     const timeFormat = 'HHmm';
+
+    const form = props.form;
+
+    // 限制数值单位集合
+    const restrictionModeUnit = {
+        "MIT":"分钟",
+        "AFP":"架",
+    }
+
+    // 限制方式
+    let restrictionMode="";
+    // 限制数值单位
+    let unit = "";
+    if(isValidObject(form)){
+        restrictionMode = form.getFieldsValue()['restrictionMode']
+        unit = restrictionModeUnit[restrictionMode] || "";
+    }
+
+    // 更新限制数值单位
+    let [ modeUnit, setModeUnit] = useState(unit);
+    useEffect(function(){
+        setModeUnit(unit);
+    },[restrictionMode])
 
     const updateStartDateString =(date) => {
         if( props.hasOwnProperty("updateStartDateString") ){
@@ -44,7 +69,13 @@ function StaticInfoCard(props){
     };
 
     const handleRestrictionModeChange =(mode) => {
+        // 更新表单限制方式字段数值
         props.updateRestrictionMode(mode);
+        // 限制数值单位
+        const unit = restrictionModeUnit[mode];
+        // 更新限制数值单位
+        setModeUnit(unit);
+
     };
     const restrictionModeData = [
         {"key":"AFP", "text": "AFP"},
@@ -270,7 +301,7 @@ function StaticInfoCard(props){
                     >
                         <Input
                             disabled={ props.disabledForm }
-                            addonAfter="分钟"
+                            addonAfter={ modeUnit }
                         />
                     </Form.Item>
                 </Col>

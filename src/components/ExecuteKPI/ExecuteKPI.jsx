@@ -28,9 +28,11 @@ const ExecuteKPI = (props) => {
                 <ImpactFlights executeKPIData={ executeKPIData } />
                 <ImpactLevel executeKPIData={ executeKPIData }  />
                 <Row className="ant-row-no-wrap">
-                    <CTOTRate executeKPIData={ executeKPIData }  />
-                    <PreDelay executeKPIData={ executeKPIData }  />
+
+
                 </Row>
+                <CTOTRate executeKPIData={ executeKPIData }  />
+                <PreDelay executeKPIData={ executeKPIData }  />
             </div>
 
         </Spin>
