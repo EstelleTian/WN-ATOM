@@ -21,6 +21,8 @@ class SystemPage{
     @observable xiwei = "";
     //左侧导航-时间范围
     @observable dateRange = "";
+    //用户对象信息
+    @observable user = {};
     //左上切换模块名称 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
     @action setLeftActiveName( name ){
         if( name === "" ){

@@ -13,16 +13,21 @@ import { Layout,  Avatar, Radio, Tag } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import RightNav from "./RightNav";
 import NavBellNews from "./NavBellNews";
+import { NWGlobal } from "utils/global.js";
 import './NavBar.scss'
+import {inject, observer} from "mobx-react";
 
 const { Header } = Layout
 
 //顶部导航模块
 function NavBar(props){
     const getHeader =() => {
-        const { username, title } = props;
-        const pathname = props.location.pathname;
+        const { location, title, systemPage } = props;
+        const user = systemPage.user || {};
+        const username = user.name || "";
+        const pathname = location.pathname || "";
         console.log( "当前url是：",props.location.pathname );
+        //放行监控页面
         if( pathname === "/fangxing" ){
             return <div className="layout-row space-between">
                 <div className="layout-nav-left layout-row">
@@ -56,6 +61,10 @@ function NavBar(props){
             </div>
         }
     }
+    NWGlobal.setUserInfo = userInfo =>{
+        alert("接收到客户端传来用户信息："+ userInfo);
+        props.systemPage.user = JSON.parse(userInfo)
+    }
     return (
         <Header className="nav_header">
             { getHeader() }
@@ -63,6 +72,6 @@ function NavBar(props){
     )
 }
 
-export default withRouter( NavBar );
+export default withRouter( inject("systemPage")( observer(NavBar)) );
 
 

@@ -7,9 +7,11 @@
  * @FilePath: \WN-CDM\src\utils\global.js
  */
 let NWGlobal = {
-    setSchemeId: function(){},
-    setMsg: function(){}
+    setSchemeId: function(){}, //定位方案id
+    setMsg: function(){}, //回传消息对象
+    setUserInfo: function(){}, //回传用户对象
 }
 window.NWGlobal = NWGlobal;
 
 export { NWGlobal }
+

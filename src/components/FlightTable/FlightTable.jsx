@@ -116,14 +116,19 @@ function FlightTable(props){
         return list.map( flight => formatSingleFlight(flight) )
     });
     useEffect(() => {
-      const dom = document.getElementsByClassName("flight_canvas")[0];
-        dom.oncontextmenu = function(){
+      const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
+        flightCanvas.oncontextmenu = function(){
             return false;
         };
-      let width = dom.offsetWidth;
-      let height = dom.offsetHeight;
-      height -= 40;//标题高度“航班列表”
-      height -= 45;//表头高度
+      const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
+      const tableHeader = flightCanvas.getElementsByClassName("ant-table-header")[0];
+
+      let width = boxContent.offsetWidth;
+      let height = boxContent.offsetHeight;
+        // console.log("表格高度："+height );
+      // height -= 40;//标题高度“航班列表”
+      // height -= 45;//表头高度
+      height -= tableHeader.offsetHeight;//表头高度
       setWidth( width );
       setHeight( height );
 

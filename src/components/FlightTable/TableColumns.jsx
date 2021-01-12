@@ -160,7 +160,7 @@ const getColumns = ( names = defaultNames ) => {
             dataIndex: "rowNum",
             align: 'center',
             key: "rowNum",
-            width: (screenWidth > 1920) ? 50 : 35,
+            width: (screenWidth > 1920) ? 50 : 40,
             fixed: 'left',
             render: (text, record, index) => `${index+1}`
         }

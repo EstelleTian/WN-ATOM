@@ -59,7 +59,6 @@ function FangxingPage(props){
 
                     <RightMultiCanvas />
                 </div>
-        
         </Layout>
     )
     
