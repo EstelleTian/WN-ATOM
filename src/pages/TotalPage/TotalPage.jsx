@@ -15,7 +15,7 @@ import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import SectorMonitor from 'components/MiniMonitor/SectorMonitor'
 import AddMonitorCard from 'components/MiniMonitor/AddMonitorCard'
 import FlightPerformance from 'components/FlightPerformance/FlightPerformance'
-import DHXWindow from 'components/SimpleMap/DHXWindow'
+// import DHXWindow from 'components/SimpleMap/DHXWindow'
 
 import './TotalPage.scss'
 //总体监控布局模块
