@@ -222,7 +222,7 @@ function SchemeList (props){
                 // console.log("航班列表 定时开始执行， 获取数据，id是："+ id);
                 // setSchemeListRefresh(false);
                 requestFlightTableData(id)
-            },30 * 1000);
+            },60 * 1000);
             // console.log("航班列表 配置定时器:"+timeoutid);
             props.flightTableData.timeoutId = timeoutid;
         }
@@ -240,8 +240,10 @@ function SchemeList (props){
             const timeoutid = setInterval(function(){
                 // console.log("航班列表 定时开始执行， 获取数据，id是："+ id);
                 // setSchemeListRefresh(false);
-                requestExecuteKPIData(id)
-            },30 * 1000);
+                if( props.systemPage.leftActiveName === "kpi"){
+                    requestExecuteKPIData(id)
+                }
+            },60 * 1000);
             // console.log("航班列表 配置定时器:"+timeoutid);
             props.executeKPIData.timeoutId = timeoutid;
         }
@@ -288,4 +290,4 @@ function SchemeList (props){
     )
  }
 
-export default inject("schemeListData","executeKPIData","flightTableData")(observer(SchemeList))
+export default inject("schemeListData","executeKPIData","flightTableData","systemPage")(observer(SchemeList))

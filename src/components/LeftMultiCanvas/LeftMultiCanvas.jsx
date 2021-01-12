@@ -11,15 +11,19 @@ import {inject, observer} from "mobx-react";
 import {Spin} from "antd";
 import ExecuteKPI  from 'components/ExecuteKPI/ExecuteKPI'
 import ModalBox from 'components/ModalBox/ModalBox'
-import { formatTimeString } from 'utils/basic-verify'
+import { DoubleLeftOutlined } from '@ant-design/icons';
 import SubTable  from './SubTable'
 import './LeftMultiCanvas.scss'
 
 function LeftMultiCanvas(props){
     const { systemPage } = props;
-    const { leftActiveName } = systemPage;
+    const { leftActiveName, setLeftActiveName } = systemPage;
     return (
         <div className="left_left_top">
+            <div className='unfold_icon'
+                 onClick={()=>{
+                     props.systemPage.setLeftActiveName("")
+            }}><DoubleLeftOutlined/></div>
             {
                 leftActiveName === "kpi"
                     ? <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>

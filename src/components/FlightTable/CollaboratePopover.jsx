@@ -2,7 +2,7 @@ import {Button, Checkbox, DatePicker, Descriptions, Form, Input, message as antd
 import React,{useCallback} from "react";
 import { getDayTimeFromString, formatTimeString, getTimeAndStatus, isValidVariable } from 'utils/basic-verify'
 import { FlightCoordination } from 'utils/flightcoordination.js'
-import { request } from 'utils/request'
+import { request, requestGet } from 'utils/request'
 import "./CollaboratePopover.scss"
 import moment from "moment";
 
@@ -14,6 +14,7 @@ const converSource = (source) => {
         case 'MANUAL': sourceCN = "人工";break;
         case 'LOCK': sourceCN = "锁定";break;
         case 'AUTO': sourceCN = "自动";break;
+        default: sourceCN = source;
     }
     return sourceCN;
 }
@@ -36,16 +37,20 @@ const FLIGHTIDPopover = (props) => {
     });
 
     //标记豁免 取消标记豁免
-    const handleExempty = useCallback(( urlKey, id, title )  =>{
+    const handleExempty = useCallback(( urlKey, record, title )  =>{
+        const orgdata = record.orgdata || {};
+        let id = record.id || "";
         const data = {
             userId: "42",
-            id,
+            id: id,
             comment: "",
         };
+
         const opt = {
-            url:'http://192.168.243.126:29891/'+urlKey,
+            url:'http://192.168.243.162:29891/'+urlKey,
             method:'POST',
-            params: JSON.stringify( data ),
+            // params: JSON.stringify( data ),
+            params: data,
             resFunc: (data)=> requestSuccess(data, title),
             errFunc: (err)=> requestErr(err, title+'失败' ),
         };
@@ -54,14 +59,14 @@ const FLIGHTIDPopover = (props) => {
     const getContent = useCallback((orgdata)  =>{
         let record = orgdata.record || {};
         let priority = record.priority || "";
-        let id = record.id || "";
+
         return (
             <div className="clr_flightid">
                 <button className="c-btn c-btn-blue">查看航班详情</button>
                 {
                     priority === FlightCoordination.PRIORITY_EXEMPT
-                    ? <button className="c-btn c-btn-red" onClick={ () => { handleExempty("flightExemptCancelRest", id, "取消豁免") } }>取消豁免</button>
-                    : <button className="c-btn c-btn-green" onClick={ () => { handleExempty("flightExemptRest", id, "标记豁免") } }>标记豁免</button>
+                    ? <button className="c-btn c-btn-red" onClick={ () => { handleExempty("flightExemptCancelRest", record, "取消豁免") } }>取消豁免</button>
+                    : <button className="c-btn c-btn-green" onClick={ () => { handleExempty("flightExemptRest", record, "标记豁免") } }>标记豁免</button>
                 }
             </div>
         )
@@ -71,7 +76,7 @@ const FLIGHTIDPopover = (props) => {
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
             placement="rightTop"
-            title=""
+            title={record.FLIGHTID}
             content={getContent(props.opt)}
             trigger={[`contextMenu`]}
             // visible={visible}
@@ -491,7 +496,7 @@ const EAPTPopover = (props) => {
     let sourceCN = converSource( source );
     return(
         <div className={`full-cell ${source}`}>
-            <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+            <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${value}-${sourceCN}`}>
                 <span className="">{getTimeAndStatus(value)}</span>
             </div>
         </div>
@@ -505,11 +510,11 @@ const OAPTPopover = (props) => {
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
     }
-    let { eapField : { source , value } } = orgdata;
+    let { oapField : { source , value } } = orgdata;
     let sourceCN = converSource( source );
     return(
         <div className={`full-cell ${source}`}>
-            <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+            <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${value}-${sourceCN}`}>
                 <span className="">{getTimeAndStatus(value)}</span>
             </div>
         </div>
