@@ -17,9 +17,11 @@
         right: 12px;
         top: 3px;
         font-size: 1rem;
+        align-items: center;
+        @include display_flex();
+        @include flex();
         .total_num{
             position: relative;
-            top: 6px;
         }
     }
     .auto_scroll{

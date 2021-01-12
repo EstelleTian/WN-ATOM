@@ -31,7 +31,7 @@ function RightNav(props){
     return (
         <div className="layout-nav-right layout-row nav_right">
             <div className="radio-area">
-                <Radio.Group defaultValue="kpi" buttonStyle="solid" size="large" onChange={ groupRightChange } >
+                <Radio.Group value={props.systemPage.leftActiveName} buttonStyle="solid" size="large" onChange={ groupRightChange } >
                     <Radio.Button value="kpi">执行KPI</Radio.Button>
                     <Radio.Button value="exempt">豁免航班</Radio.Button>
                     <Radio.Button value="pool">等待池</Radio.Button>

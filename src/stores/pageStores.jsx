@@ -23,7 +23,9 @@ class SystemPage{
     @observable dateRange = "";
     //左上切换模块名称 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
     @action setLeftActiveName( name ){
-        if( isValidVariable(name) ){
+        if( name === "" ){
+            this.leftActiveName = name;
+        }else if( isValidVariable(name) ){
             this.leftActiveName = name;
         }
     }

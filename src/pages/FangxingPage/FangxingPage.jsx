@@ -15,11 +15,14 @@ import ModalBox from 'components/ModalBox/ModalBox'
 import LeftMultiCanvas  from 'components/LeftMultiCanvas/LeftMultiCanvas'
 import RightMultiCanvas  from 'components/RightMultiCanvas/RightMultiCanvas'
 import './FangxingPage.scss'
+import {inject, observer} from "mobx-react";
 
 const FlightTable = lazy(() => import('components/FlightTable/FlightTable') );
 
 //放行监控布局模块
 function FangxingPage(props){
+    const { systemPage } = props;
+    const { leftActiveName } = systemPage;
     return (
         <Layout className="layout">
             <NavBar className="nav_bar" title="空中交通运行放行监控系统" username="西安流量室" />
@@ -27,19 +30,23 @@ function FangxingPage(props){
                     <div className="cont_left">
                         <SchemeTitle />
                         <div className="left_cont">
-                            <div className="left_left">
-                                <LeftMultiCanvas/>
-                                <ModalBox
-                                    title="航班查询"
-                                    style={{
-                                        height: 330
-                                    }}
-                                    showDecorator = {true}
-                                    className="flight_search"
-                                >
-                                    <FlightSearch />
-                                </ModalBox>
-                            </div>
+                            {
+                                leftActiveName === "" ? ""
+                                    :<div className="left_left">
+                                        <LeftMultiCanvas/>
+                                        <ModalBox
+                                            title="航班查询"
+                                            style={{
+                                                height: 330
+                                            }}
+                                            showDecorator = {true}
+                                            className="flight_search"
+                                        >
+                                            <FlightSearch />
+                                        </ModalBox>
+                                    </div>
+                            }
+
                             <div className="left_right">
                                 {/***/}
                                 <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
@@ -58,7 +65,7 @@ function FangxingPage(props){
     
 }
 
-export default FangxingPage;
+export default inject("systemPage")( observer(FangxingPage));
 
 
 
