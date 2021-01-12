@@ -396,12 +396,13 @@ function RestrictionForm(props){
      * 数据提交
      * */
     const submitFormData = (data) => {
+
         const opt = {
             url:'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/443',
             method:'POST',
             params:JSON.stringify(data),
             resFunc: (data)=> requestSuccess(data),
-            errFunc: (err)=> requestErr(err, '流控导入失败' ),
+            errFunc: (err)=> requestErr(err ),
         };
         request(opt);
         //发送到客户端
@@ -412,20 +413,32 @@ function RestrictionForm(props){
      * 数据提交成功回调
      * */
     const requestSuccess =(data) => {
+
+        let operateName = props.btnName || "流控导入";
+        const { pageType } = props;
+
         const { tacticProcessInfo={} } = data;
         const { basicTacticInfo={} } = tacticProcessInfo;
         const { id } = basicTacticInfo;
         console.log(id);
         setConfirmLoading(false);
         setIsModalVisible(false);
-        antdMessage.success('流控导入成功');
-        handleImportControl(id, props.message.id);
+        // antdMessage.success( `${operateName}成功`);
+        Modal.success({
+            content: `${operateName}成功`,
+        });
+        if(pageType ==='CREATE'){
+            handleImportControl(id);
+        }else if(pageType === 'IMPORT'){
+            handleImportControl(id, props.message.id);
+        }
     };
 
     /**
      * 数据提交失败回调
      * */
-    const requestErr = (err, text) => {
+    const requestErr = (err) => {
+        let operateame = props.btnName || "流控导入";
         if( props.hasOwnProperty("setDisabledForm") ){
             props.setDisabledForm(false);
         }
@@ -435,16 +448,26 @@ function RestrictionForm(props){
         setIsModalVisible(false);
         const errMsg = err.message || "";
 
-        antdMessage.error({
-            content:  (
+        // antdMessage.error({
+        //     content:  (
+        //         <span>
+        //             <span>{ `${operateame}失败`}</span>
+        //             <br/>
+        //             <span>{errMsg}</span>
+        //
+        //         </span>
+        //     ),
+        //     duration: 4,
+        // });
+        Modal.error({
+            content: (
                 <span>
-                    <span>{text}</span>
+                    <span>{ `${operateame}失败`}</span>
                     <br/>
                     <span>{errMsg}</span>
 
                 </span>
             ),
-            duration: 4,
         });
     };
 

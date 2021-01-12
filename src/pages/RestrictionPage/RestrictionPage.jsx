@@ -110,9 +110,9 @@ function RestrictionPage( props ) {
                         <Col span={12} className="res_right">
                             <Row className="title">
                                 <span>流控导入</span>
-                                <FlowRelation setDisabledForm = {setDisabledForm} flowData={ flowData }  disabledForm = {disabledForm} message={message} />
+                                <FlowRelation  setDisabledForm = {setDisabledForm} flowData={ flowData }  disabledForm = {disabledForm} message={message} />
                             </Row>
-                            <RestrictionForm  disabledForm = {disabledForm} setDisabledForm = {setDisabledForm} flowData={ flowData } message={message}  showImportBtn={true} />
+                            <RestrictionForm  pageType="IMPORT" disabledForm = {disabledForm} setDisabledForm = {setDisabledForm} flowData={ flowData } message={message}  showImportBtn={true} />
                         </Col>
                     </Row>
                     : ""
