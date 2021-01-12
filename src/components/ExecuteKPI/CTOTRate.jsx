@@ -95,6 +95,13 @@ function CTOTRate(props){
         return 0;
     });
 
+    let apRate = apRateList.map((item,index)=>{
+        return getRateList(item);
+    })
+
+    console.log(apRate)
+
+
     const totalChartConfig={
         statistic: {
             title: true,
@@ -110,13 +117,63 @@ function CTOTRate(props){
         },
     }
 
+    const apChartConfig={
+        statistic: {
+            title: true,
+            content: {
+                style: {
+                    whiteSpace: 'pre-wrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    fontSize:14,
+                    color:'#fff'
+                },
+            },
+        },
+    }
 
-    return  <Col span={10} className="row_model ctot-rate">
+
+    const getApRateChart = (data)=> {
+
+        const { key , value} = data[0];
+
+        const rateData = getRateList(value);
+
+
+        return (
+            <Col span={12} className="block row_model flex" key={ key }>
+                <div className="block-title percent text-center"></div>
+                <div className="flex justify-content-center layout-column">
+                    <div className="flex justify-content-center layout-column" style={{ height: '100px'}}>
+                        <CTOTPieChart style={{fontSize: 8}} data={ rateData } configData ={ apChartConfig } />
+                    </div>
+                    <div className="text-center point">{key}</div>
+                </div>
+            </Col>
+        )
+
+    }
+
+
+    return  <Col span={24} className="row_model ctot-rate">
         <Col span={24} className="block">
             <div className="block-title">CTOT符合率</div>
-            <div className="flex justify-content-center layout-column" style={{ height: '150px'}}>
-                <CTOTPieChart style={{fontSize: 12}} data={ totalRateData } configData ={ totalChartConfig } />
+
+            <div className="flex justify-content-center layout-column" >
+                <Row className="total text-center justify-content-center" style={{ height: '150px'}}>
+                    <CTOTPieChart style={{fontSize: 12}} data={ totalRateData } configData ={ totalChartConfig } />
+                </Row>
+                <Row className="part">
+                    {
+                        apRate.map((item, index)=>(
+
+                            getApRateChart(item)
+
+                        ))
+                    }
+                </Row>
             </div>
+
         </Col>
         <Col span={24} className="block">
             <div className="block-title">平均跳变次数</div>
