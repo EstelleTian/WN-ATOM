@@ -27,21 +27,37 @@
   .ant-table-cell.CTO, .ant-table-cell.CTOT,.ant-table-cell.EAP{
     text-align: left!important;
   }
+  .full-cell{
+    position: absolute;
+    top: 0.55rem;
+    left: 0.278rem;
+    right: 0.278rem;
+    bottom: 0.44rem;
+    @include display_flex();
+    @include flex();
+    >div{
+      @include display_flex();
+      @include flex();
+      align-items: center;
+      padding-left: 0.167rem;
+      text-align: left;
+    }
+  }
   //起飞  #CCCCCC
   .ATOM{
-    background: #9a7c4d;
+    background: #AB8E30FF;
   }
   .NTFM{
-    background: #654d12;
+    background: #726250;
   }
   .MANUAL{
-    background: #FF9900;
+    background: #bb5535;
   }
   .LOCK{
-    background: #FF99FF;
+    background: #CD7ACAFF;
   }
   .AUTO{
-    background: #00CC00;
+    background: #3D8424FF;
   }
 }
 

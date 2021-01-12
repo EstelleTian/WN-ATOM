@@ -203,7 +203,6 @@ const FFIXTPopover = (props) => {
             content={getContent(props.opt)}
             trigger={[`contextMenu`]}
             getContainer={false}
-
         >
             {/*200不满足间隔*/}
             {
@@ -333,7 +332,11 @@ const COBTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className={`${ isValidVariable(text) ? "" : "empty_cell"} ${source}`} title={`${text}-${sourceCN}`}><span className="">{ getDayTimeFromString(text) }</span></div>
+            <div className={`full-cell ${source}`}>
+                <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+                    <span className="">{getTimeAndStatus(text)}</span>
+                </div>
+            </div>
         </Popover >
     )
 }
@@ -436,6 +439,7 @@ const CTOTPopover = (props) => {
         orgdata = JSON.parse(orgdata);
     }
     let { ctotField : { source } } = orgdata;
+    let sourceCN = converSource( source );
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
@@ -446,24 +450,32 @@ const CTOTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${source}`}><span className="">{getTimeAndStatus(text)}</span></div>
-
+            <div className={`full-cell ${source}`}>
+                <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+                    <span className="">{getTimeAndStatus(text)}</span>
+                </div>
+            </div>
         </Popover >
     )
 }
 
 //CTO右键协调框
 const CTOPopover = (props) => {
-    const {text, record, index, col} = props.opt;
+    let {text, record, index, col} = props.opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
     }
+    if( !isValidVariable(text) ){
+        text = "";
+    }
     let { ctoField : { source } } = orgdata;
     let sourceCN = converSource( source );
     return(
-        <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
-            <span className="">{getTimeAndStatus(text)}</span>
+        <div className={`full-cell ${source}`}>
+            <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+                <span className="">{getTimeAndStatus(text)}</span>
+            </div>
         </div>
     )
 }
@@ -478,8 +490,10 @@ const EAPTPopover = (props) => {
     let { eapField : { source , value } } = orgdata;
     let sourceCN = converSource( source );
     return(
-        <div className={`${ isValidVariable(value) ? "" : "empty_cell" }  ${source}`} title={`${text}-${sourceCN}`}>
-            <span className="">{getTimeAndStatus(value)}</span>
+        <div className={`full-cell ${source}`}>
+            <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+                <span className="">{getTimeAndStatus(value)}</span>
+            </div>
         </div>
     )
 }
@@ -494,8 +508,10 @@ const OAPTPopover = (props) => {
     let { eapField : { source , value } } = orgdata;
     let sourceCN = converSource( source );
     return(
-        <div className={`${ isValidVariable(value) ? "" : "empty_cell" }  ${source}`} title={`${text}-${sourceCN}`}>
-            <span className="">{getTimeAndStatus(value)}</span>
+        <div className={`full-cell ${source}`}>
+            <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+                <span className="">{getTimeAndStatus(value)}</span>
+            </div>
         </div>
     )
 }

@@ -39,7 +39,7 @@ function PreDelay(props){
             // 处理100%数值显示(原组件会显示成对号)
             return `100%`
         } else {
-            return `${percent}%`
+            return `${ Math.round(percent) }%`
         }
 
     }

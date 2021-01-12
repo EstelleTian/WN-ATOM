@@ -115,7 +115,7 @@ let defaultNames = {
 let render = (opt)  => {
     const {text, record, index, col, colCN} = opt;
     let color = "";
-    let popover = <div col-key= {col} title={text}>{text}</div>
+    let popover = <div title={text}>{text}</div>
     if( col === "FLIGHTID" ){
         popover = <FLIGHTIDPopover opt={opt} />
     }
@@ -167,15 +167,15 @@ const getColumns = ( names = defaultNames ) => {
     ];
     //生成表配置-全部
     for(let key in names){
-        const obj = names[key]
-        const en = obj["en"]
-        const cn = obj["cn"]
+        const obj = names[key];
+        const en = obj["en"];
+        const cn = obj["cn"];
         let tem = {
             title: en,
             dataIndex: en,
             align: 'center',
             key: en,
-            width: (screenWidth > 1920) ? 80 : 65,
+            width: (screenWidth > 1920) ? 75 : 65,
             ellipsis: true,
             className: en,
             showSorterTooltip: false ,

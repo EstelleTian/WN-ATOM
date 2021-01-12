@@ -191,6 +191,7 @@ function FlightTable(props){
             className="flight_canvas"
             // title={`航班列表 (数据时间:${ formatTimeString(generateTime) })`}
             title={`航班列表`}
+            showDecorator = {true}
         >
             <div className="statistics">
                 <div className="auto_scroll">
