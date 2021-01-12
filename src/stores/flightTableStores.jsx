@@ -72,7 +72,7 @@ class FlightTableData{
 
     //获取和generatetime时间比最近的航班对象，用以自动滚动
     @computed get getTargetFlight(){
-        console.log("list长度:" + this.list.length);
+        // console.log("list长度:" + this.list.length);
         let resFlight = {};
         let time_interval = -1;
         this.list.map( flight => {

@@ -37,7 +37,7 @@ const closeMessageDlg = (str) => {
 const openControlDetail = (str) => {
     try{
         // 点击 查看流控详情
-        jsEntity.openControlDetail(str)
+        jsEntity.openControlDetail(JSON.stringify(str), str.id)
     }catch (e){
         console.error(e);
     }
@@ -54,6 +54,7 @@ const openMessageDlg = () => {
 //流控详情--点击--导入
 const handleImportControl =(str, massageId) => {
     try {
+        // alert("传入的id是："+massageId);
         //传递方案id和消息id
         jsEntity.importControl(str, massageId);
     }catch(error){
@@ -63,7 +64,7 @@ const handleImportControl =(str, massageId) => {
 //发送用户名-密码
 const saveUserInfo =(username, password) => {
     try {
-        alert("用户名："+username+"  密码："+password)
+        // alert("用户名："+username+"  密码："+password)
         //传递方案id
         jsEntity.saveUserInfo(username, password);
     }catch(error){

@@ -1,17 +1,68 @@
-import {Button, Checkbox, DatePicker, Descriptions, Form, Input, Popover, Space} from "antd";
-import React,{useCallback, useState, useEffect} from "react";
+import {Button, Checkbox, DatePicker, Descriptions, Form, Input, message as antdMessage, message, Popover} from "antd";
+import React,{useCallback} from "react";
 import { getDayTimeFromString, formatTimeString, getTimeAndStatus, isValidVariable } from 'utils/basic-verify'
+import { FlightCoordination } from 'utils/flightcoordination.js'
+import { request } from 'utils/request'
 import "./CollaboratePopover.scss"
 import moment from "moment";
+
+const converSource = (source) => {
+    let sourceCN = ""
+    switch (source) {
+        case 'ATOM': sourceCN = "引接ATOM";break;
+        case 'NTFM': sourceCN = "引接NTFM";break;
+        case 'MANUAL': sourceCN = "人工";break;
+        case 'LOCK': sourceCN = "锁定";break;
+        case 'AUTO': sourceCN = "自动";break;
+    }
+    return sourceCN;
+}
+
 //航班号右键协调框
 const FLIGHTIDPopover = (props) => {
-    // let [ visible, setVisible ] = useState(false);
-    const getContent = useCallback((record)  =>{
+    //数据提交失败回调
+    const requestErr =useCallback( (err, content) => {
+        antdMessage.error({
+            content,
+            duration: 4,
+        });
+    })
+    //数据提交成功回调
+    const requestSuccess = useCallback( ( data, title ) => {
+        console.log(title + '成功:',data);
+        const { flightCoordination } = data;
+        // this.flight
+        message.success(title + '成功');
+    });
+
+    //标记豁免 取消标记豁免
+    const handleExempty = useCallback(( urlKey, id, title )  =>{
+        const data = {
+            userId: "42",
+            id,
+            comment: "",
+        };
+        const opt = {
+            url:'http://192.168.243.126:29891/'+urlKey,
+            method:'POST',
+            params: JSON.stringify( data ),
+            resFunc: (data)=> requestSuccess(data, title),
+            errFunc: (err)=> requestErr(err, title+'失败' ),
+        };
+        request(opt);
+    })
+    const getContent = useCallback((orgdata)  =>{
+        let record = orgdata.record || {};
+        let priority = record.priority || "";
+        let id = record.id || "";
         return (
             <div className="clr_flightid">
                 <button className="c-btn c-btn-blue">查看航班详情</button>
-                <button className="c-btn c-btn-green" >标记豁免</button>
-                <button className="c-btn c-btn-red ">取消豁免</button>
+                {
+                    priority === FlightCoordination.PRIORITY_EXEMPT
+                    ? <button className="c-btn c-btn-red" onClick={ () => { handleExempty("flightExemptCancelRest", id, "取消豁免") } }>取消豁免</button>
+                    : <button className="c-btn c-btn-green" onClick={ () => { handleExempty("flightExemptRest", id, "标记豁免") } }>标记豁免</button>
+                }
             </div>
         )
     })
@@ -152,7 +203,6 @@ const FFIXTPopover = (props) => {
             content={getContent(props.opt)}
             trigger={[`contextMenu`]}
             getContainer={false}
-
         >
             {/*200不满足间隔*/}
             {
@@ -271,6 +321,7 @@ const COBTPopover = (props) => {
         orgdata = JSON.parse(orgdata);
     }
     let { cobtField : { source } } = orgdata;
+    let sourceCN = converSource( source );
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
@@ -281,7 +332,11 @@ const COBTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${source}`}><span className="">{ getDayTimeFromString(text) }</span></div>
+            <div className={`full-cell ${source}`}>
+                <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+                    <span className="">{getTimeAndStatus(text)}</span>
+                </div>
+            </div>
         </Popover >
     )
 }
@@ -384,6 +439,7 @@ const CTOTPopover = (props) => {
         orgdata = JSON.parse(orgdata);
     }
     let { ctotField : { source } } = orgdata;
+    let sourceCN = converSource( source );
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
@@ -394,22 +450,33 @@ const CTOTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${source}`}><span className="">{getTimeAndStatus(text)}</span></div>
-
+            <div className={`full-cell ${source}`}>
+                <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+                    <span className="">{getTimeAndStatus(text)}</span>
+                </div>
+            </div>
         </Popover >
     )
 }
 
 //CTO右键协调框
 const CTOPopover = (props) => {
-    const {text, record, index, col} = props.opt;
+    let {text, record, index, col} = props.opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
     }
+    if( !isValidVariable(text) ){
+        text = "";
+    }
     let { ctoField : { source } } = orgdata;
+    let sourceCN = converSource( source );
     return(
-        <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${source}`}><span className="">{getTimeAndStatus(text)}</span></div>
+        <div className={`full-cell ${source}`}>
+            <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+                <span className="">{getTimeAndStatus(text)}</span>
+            </div>
+        </div>
     )
 }
 
@@ -421,8 +488,31 @@ const EAPTPopover = (props) => {
         orgdata = JSON.parse(orgdata);
     }
     let { eapField : { source , value } } = orgdata;
+    let sourceCN = converSource( source );
     return(
-        <div className={`${ isValidVariable(value) ? "" : "empty_cell" }`} title={`${text}-${source}`}><span className="">{getTimeAndStatus(value)}</span></div>
+        <div className={`full-cell ${source}`}>
+            <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+                <span className="">{getTimeAndStatus(value)}</span>
+            </div>
+        </div>
     )
 }
-export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover }
+
+//OAPT右键协调框
+const OAPTPopover = (props) => {
+    const {text, record, index, col} = props.opt;
+    let { orgdata } = record;
+    if( isValidVariable(orgdata) ){
+        orgdata = JSON.parse(orgdata);
+    }
+    let { eapField : { source , value } } = orgdata;
+    let sourceCN = converSource( source );
+    return(
+        <div className={`full-cell ${source}`}>
+            <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+                <span className="">{getTimeAndStatus(value)}</span>
+            </div>
+        </div>
+    )
+}
+export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover, OAPTPopover }

@@ -21,3 +21,44 @@
 .empty_cell{
   height: 26px;
 }
+//表格
+.ant-table-body{
+  //单元格内容左对齐
+  .ant-table-cell.CTO, .ant-table-cell.CTOT,.ant-table-cell.EAP{
+    text-align: left!important;
+  }
+  .full-cell{
+    position: absolute;
+    top: 0.55rem;
+    left: 0.278rem;
+    right: 0.278rem;
+    bottom: 0.44rem;
+    @include display_flex();
+    @include flex();
+    >div{
+      @include display_flex();
+      @include flex();
+      align-items: center;
+      padding-left: 0.167rem;
+      text-align: left;
+    }
+  }
+  //起飞  #CCCCCC
+  .ATOM{
+    background: #AB8E30FF;
+  }
+  .NTFM{
+    background: #726250;
+  }
+  .MANUAL{
+    background: #bb5535;
+  }
+  .LOCK{
+    background: #CD7ACAFF;
+  }
+  .AUTO{
+    background: #3D8424FF;
+  }
+}
+
+

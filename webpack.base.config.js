@@ -17,7 +17,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, '/build'),
         filename: '[name].[hash:5].js',
-        chunkFilename: "js/[name].[hash:5].chunk.js" //给每个分片产生一个文件
+        chunkFilename: "js/[name].chunk.js" //给每个分片产生一个文件
     },
     module: {
         rules: [
