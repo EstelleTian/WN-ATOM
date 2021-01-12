@@ -15,6 +15,8 @@ import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import SectorMonitor from 'components/MiniMonitor/SectorMonitor'
 import AddMonitorCard from 'components/MiniMonitor/AddMonitorCard'
 import FlightPerformance from 'components/FlightPerformance/FlightPerformance'
+import DHXWindow from 'components/SimpleMap/DHXWindow'
+
 import './TotalPage.scss'
 //总体监控布局模块
 function TodoPage (props){
@@ -25,8 +27,17 @@ function TodoPage (props){
                 <div className="cont_top">
                     <div className="cont_top_left">
                         <ModalBox title="缩略地图"  >
-                            2222
-                            {/*<SimpleMap/>*/}
+
+
+                            <iframe
+                                id="simpleMap"
+                                width="100%"
+                                height="100%"
+                                frameBorder={0}
+                                scrolling="no"
+                                src="http://192.168.210.84:8080/#/map"
+                            ></iframe>
+
                         </ModalBox>
                     </div>
                     <div className="cont_top_right">
