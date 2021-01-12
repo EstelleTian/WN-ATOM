@@ -1,0 +1,18 @@
+.create-flow-container {
+   display: flex;
+   justify-content: center;
+  .content {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    flex: 0 1 auto;
+    width: 1280px;
+  }
+  .footer {
+    display: flex;
+    height: 52px;
+    border-top: 1px solid #424242;
+    justify-content: flex-end;
+    background: #363636;
+    padding: 10px 20px;
+  }
+}

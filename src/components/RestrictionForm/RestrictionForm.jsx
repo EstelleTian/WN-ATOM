@@ -555,7 +555,7 @@ function RestrictionForm(props){
             </Form>
             {
                 showImportBtn
-                    ?  <div>
+                    ?  <div className="footer" style={{width:props.width}}>
                             <Button
                                 className="r_btn btn_import"
                                 type="primary"
@@ -565,7 +565,7 @@ function RestrictionForm(props){
                                 { props.btnName || "导入" }
                             </Button>
                             <Modal
-                                title="流控导入"
+                                title={ props.btnName || "导入" }
                                 visible={isModalVisible}
                                 maskClosable={false}
                                 style={{ top: 200 }}
@@ -573,7 +573,13 @@ function RestrictionForm(props){
                                 onCancel={handleCancel}
                                 confirmLoading = { confirmLoading }
                                 >
-                                <p>确定导入当前流控?</p>
+
+                                {
+                                    props.btnName ? <p>{`确定${props.btnName}?`}</p> : <p>确定导入当前流控?</p>
+                                }
+
+
+
                             </Modal>
                         </div>
                     : ""

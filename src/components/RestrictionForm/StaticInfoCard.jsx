@@ -94,13 +94,14 @@ function StaticInfoCard(props){
     return (
     <Fragment>
 
-        <Card title="方案信息" size="">
+        <Card title="方案信息"  bordered={ false } size="">
             <Row gutter={24}>
                 <Col span={8}>
                     <Form.Item
                         name="tacticName"
                         label="方案名称"
                         required={true}
+                        rules={[{ required: true }]}
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
@@ -110,6 +111,7 @@ function StaticInfoCard(props){
                         name="tacticPublishUnit"
                         label="发布单位"
                         required={true}
+                        rules={[{ required: true }]}
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
@@ -149,6 +151,7 @@ function StaticInfoCard(props){
                                     name="startDate"
                                     // rules={[{ required: true }]}
                                     className="date-picker-form"
+                                    rules={[{ required: true, message:'请选择开始日期' }]}
                                 >
                                     <DatePicker
                                         allowClear={ false }
@@ -162,6 +165,7 @@ function StaticInfoCard(props){
                                     name="startTime"
                                     label=""
                                     className="time-form"
+                                    rules={[{ required: true, message:'请输入开始时间' }]}
                                     // rules={[{ required: true }]}
                                 >
                                     <Input
@@ -211,7 +215,7 @@ function StaticInfoCard(props){
                                     name="endTime"
                                     label=""
                                     className="time-form"
-                                    rules={[{ required: true }]}
+
                                 >
                                     <Input
                                         placeholder={ timeFormat }
@@ -231,6 +235,7 @@ function StaticInfoCard(props){
                         name="targetUnit"
                         label="基准单元"
                         required={true}
+                        rules={[{ required: true }]}
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
@@ -278,13 +283,14 @@ function StaticInfoCard(props){
             </Row>
         </Card>
 
-        <Card title="措施信息" size="">
+        <Card title="措施信息" bordered={ false } size="">
             <Row gutter={24}>
                 <Col span={8}>
                     <Form.Item
                         name="restrictionMode"
                         label="限制方式"
                         required={true}
+                        rules={[{ required: true,  message: '请选择限制方式'  }]}
                     >
                         <Select style={{ width: 120 }} onChange={handleRestrictionModeChange} disabled={ props.disabledForm } >
                             {restrictionModeData.map(mode => (
@@ -297,7 +303,7 @@ function StaticInfoCard(props){
                     <Form.Item
                         name="restrictionModeValue"
                         label="限制值"
-                        rules={[{ required: true }]}
+                        rules={[{ required: true, message: '请输入限制值' }]}
                     >
                         <Input
                             disabled={ props.disabledForm }
@@ -309,7 +315,7 @@ function StaticInfoCard(props){
         </Card>
 
 
-        <Card title="交通流信息" className="flow-control-flight">
+        <Card title="交通流信息" bordered={ false } className="flow-control-flight">
             <Row gutter={12}>
                 <Col span={12}>
                     <LimitedCard title="包含"  disabledForm={props.disabledForm}   />

@@ -7,7 +7,7 @@
     color: #e0e0e0;
   }
   .ant-card-bordered {
-    border-color: #7e7e7e;
+    border-color: #424242;
     &:not(:last-child) {
       border-bottom: none;
     }
@@ -79,8 +79,8 @@
     visibility: hidden;
   }
 }
-.btn_import{
-  position: absolute;
-  top: 0;
-  left: 190px;
-}
+//.btn_import{
+//  position: absolute;
+//  top: 0;
+//  left: 190px;
+//}
