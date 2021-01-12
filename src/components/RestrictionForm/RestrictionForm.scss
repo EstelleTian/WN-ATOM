@@ -78,6 +78,16 @@
   .ant-select-disabled .ant-select-arrow {
     visibility: hidden;
   }
+
+
+}
+.footer {
+  display: flex;
+  height: 52px;
+  border-top: 1px solid #424242;
+  justify-content: flex-end;
+  background: #363636;
+  padding: 10px 20px;
 }
 //.btn_import{
 //  position: absolute;
