@@ -96,7 +96,7 @@ function StaticInfoCard(props){
 
         <Card title="方案信息"  bordered={ false } size="">
             <Row gutter={24}>
-                <Col span={24}>
+                <Col span={16}>
                     <Form.Item
                         name="tacticName"
                         label="方案名称"
@@ -116,15 +116,7 @@ function StaticInfoCard(props){
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
-                <Col span={8}>
-                    <Form.Item
-                        name="tacticPublishUser"
-                        label="发布用户"
 
-                    >
-                        <Input disabled={ props.disabledForm }/>
-                    </Form.Item>
-                </Col>
                 <Col span={8}>
 
                     {
@@ -229,6 +221,15 @@ function StaticInfoCard(props){
                     }
 
 
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name="tacticPublishUser"
+                        label="发布用户"
+
+                    >
+                        <Input disabled={ props.disabledForm }/>
+                    </Form.Item>
                 </Col>
                 <Col span={8}>
                     <Form.Item
