@@ -44,6 +44,17 @@ const FlightCoordination = {
     STATUS_ARR_ALN: 24, // 备降降落
     STATUS_INN: 25, // 推入
 
+
+    ALARM_TYPE_DELAY: 100, // 延误
+    ALARM_TYPE_CRITICAL: 200, // 临界
+    ALARM_TYPE_EXEMPTION: 300, // 豁免
+    ALARM_TYPE_HALF : 400, // 半数
+    ALARM_TYPE_INPOOL:500, // 入池
+    ALARM_TYPE_EXCHANGE: 600, // 时隙交换
+    ALARM_TYPE_DEXIT_SLOT: 700, // 退出时隙分配
+
+
+
     /**
      * 优先级
      */
@@ -192,8 +203,66 @@ const FlightCoordination = {
     SLOT_STATUS_PRELOCK: 3, //预锁
     SLOT_STATUS_MANUAL: 4, //人工
     SLOT_STATUS_NOSLOT: 5, //不参加
-    
-    
+
+
+
+    getAlarmValueZh: function(alarm){
+        if (!isValidVariable(alarm)) {
+            return "";
+        }
+        let zh = "";
+        let color="";
+        let descriptions="";
+        let s = parseInt(alarm, 10);
+        switch (s) {
+            case FlightCoordination.ALARM_TYPE_DELAY:
+                zh = '延';
+                color="orange";
+                descriptions="延误";
+                break;
+            case FlightCoordination.ALARM_TYPE_CRITICAL:
+                zh = '临';
+                color="orange";
+                descriptions="临界";
+
+                break;
+            case FlightCoordination.ALARM_TYPE_EXEMPTION:
+                zh = '豁';
+                color="orange";
+                descriptions="豁免";
+                break;
+            case FlightCoordination.ALARM_TYPE_HALF:
+                zh = '半';
+                color="orange";
+                descriptions="半数";
+                break;
+            case FlightCoordination.ALARM_TYPE_INPOOL:
+                zh = '池';
+                color="orange";
+                descriptions="入池";
+                break;
+            case FlightCoordination.ALARM_TYPE_EXCHANGE:
+                zh = '换';
+                color="orange";
+                descriptions="时隙交换";
+                break;
+            case FlightCoordination.ALARM_TYPE_DEXIT_SLOT:
+                zh = '退';
+                color="orange";
+                descriptions="退出时隙分配";
+                break;
+            default:
+                break;
+        }
+        return {
+            key: s,
+            zh,
+            color,
+            descriptions
+        };
+    },
+
+
     /**
      * 获取优先级中文
      *
@@ -1455,4 +1524,4 @@ const FmeStatusList = {
 };
 
 
-export { FlightCoordination, AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList };
+export { FlightCoordination, AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList, };

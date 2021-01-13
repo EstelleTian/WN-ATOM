@@ -80,8 +80,8 @@ const FLIGHTIDPopover = (props) => {
                 <button className="c-btn c-btn-blue">查看航班详情</button>
                 {
                     priority === FlightCoordination.PRIORITY_EXEMPT
-                    ? <button className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "取消豁免") } }>取消豁免</button>
-                    : <button className="c-btn c-btn-green" onClick={ () => { handleExempty( "exempt", record, "标记豁免") } }>标记豁免</button>
+                        ? <button className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "取消豁免") } }>取消豁免</button>
+                        : <button className="c-btn c-btn-green" onClick={ () => { handleExempty( "exempt", record, "标记豁免") } }>标记豁免</button>
                 }
             </div>
         )
@@ -500,8 +500,8 @@ const CTOPopover = (props) => {
     )
 }
 
-//EAPT右键协调框
-const EAPTPopover = (props) => {
+//EAWT右键协调框
+const EAWTPopover = (props) => {
     const {text, record, index, col} = props.opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
@@ -518,8 +518,8 @@ const EAPTPopover = (props) => {
     )
 }
 
-//OAPT右键协调框
-const OAPTPopover = (props) => {
+//OAWT右键协调框
+const OAWTPopover = (props) => {
     const {text, record, index, col} = props.opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
@@ -554,4 +554,5 @@ const ALARMPopover = (props) => {
     return ""
 
 }
-export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover, OAPTPopover, ALARMPopover }
+export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, ALARMPopover, EAWTPopover, OAWTPopover }
+

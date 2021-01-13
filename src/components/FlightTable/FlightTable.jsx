@@ -9,15 +9,11 @@
 
 import React, {useState, useEffect, useCallback} from 'react'
 import { inject, observer } from 'mobx-react'
-import {Table, message, Menu, Dropdown, Input, Checkbox} from 'antd'
+import {Table, Input, Checkbox } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { getColumns, formatSingleFlight} from 'components/FlightTable/TableColumns'
-
+import { isValidVariable } from 'utils/basic-verify'
 import './FlightTable.scss';
-import {isValidVariable} from "../../utils/basic-verify";
-
-
-
 
 function FlightTable(props){
     let [tableWidth, setWidth] = useState(0);
@@ -62,23 +58,23 @@ function FlightTable(props){
         return list.map( flight => formatSingleFlight(flight) )
     });
     useEffect(() => {
-      const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
+        const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
         flightCanvas.oncontextmenu = function(){
             return false;
         };
-      const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
-      const tableHeader = flightCanvas.getElementsByClassName("ant-table-header")[0];
+        const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
+        const tableHeader = flightCanvas.getElementsByClassName("ant-table-header")[0];
 
-      let width = boxContent.offsetWidth;
-      let height = boxContent.offsetHeight;
+        let width = boxContent.offsetWidth;
+        let height = boxContent.offsetHeight;
         // console.log("表格高度："+height );
-      // height -= 40;//标题高度“航班列表”
-      // height -= 45;//表头高度
-      height -= tableHeader.offsetHeight;//表头高度
-      setWidth( width );
-      setHeight( height );
+        // height -= 40;//标题高度“航班列表”
+        // height -= 45;//表头高度
+        height -= tableHeader.offsetHeight;//表头高度
+        setWidth( width );
+        setHeight( height );
 
-  }, [tableWidth, tableHeight]);
+    }, [tableWidth, tableHeight]);
     useEffect(() => {
         if( autoScroll ){
             const { id, flightid } = props.flightTableData.getTargetFlight;
@@ -107,7 +103,7 @@ function FlightTable(props){
             }
         }
 
-  }, [ props.flightTableData.getTargetFlight.id ]);
+    }, [ props.flightTableData.getTargetFlight.id ]);
     const onChange = useCallback((pagination, filters, sorter, extra) => {
         // console.log('params', pagination, filters, sorter, extra);
         setSortOrder( sorter.order );
@@ -147,14 +143,14 @@ function FlightTable(props){
             <div className="statistics">
                 <div className="auto_scroll">
                     <Checkbox.Group options={[{ label: '自动滚动', value: 'auto_scroll' }]} defaultValue={ 'auto_scroll' }
-                        onChange={(checkedValues)=>{
-                            console.log(checkedValues)
-                            if( checkedValues.indexOf("auto_scroll") === -1 ){
-                                setAutoScroll( false );
-                            }else{
-                                setAutoScroll( true );
-                            }
-                        }}
+                                    onChange={(checkedValues)=>{
+                                        console.log(checkedValues)
+                                        if( checkedValues.indexOf("auto_scroll") === -1 ){
+                                            setAutoScroll( false );
+                                        }else{
+                                            setAutoScroll( true );
+                                        }
+                                    }}
                     />
                 </div>
                 <Input.Search
@@ -170,20 +166,20 @@ function FlightTable(props){
                 />
                 <span  className="total_num">总计{data.length}条</span>
             </div>
-        <Table
-            columns={columns}
-            dataSource={ data }
-            size="small"
-            bordered
-            pagination={false}
-            loading={ loading }
-            scroll={{
-                x: tableWidth,
-                y: tableHeight
-            }}
-            onChange={onChange}
-            rowClassName={(record, index)=>setRowClassName(record, index)}
-        />
+            <Table
+                columns={columns}
+                dataSource={ data }
+                size="small"
+                bordered
+                pagination={false}
+                loading={ loading }
+                scroll={{
+                    x: tableWidth,
+                    y: tableHeight
+                }}
+                onChange={onChange}
+                rowClassName={(record, index)=>setRowClassName(record, index)}
+            />
         </ModalBox>
 
     )
