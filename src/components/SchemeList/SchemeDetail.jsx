@@ -6,8 +6,8 @@
  * @Description: ATOM流控详情
  */
 import React, {useEffect} from 'react'
-import {Tag, Descriptions, Checkbox, Space, Card, Row, Col, Divider, Tooltip} from 'antd'
-import {getFullTime, getDayTimeFromString, isValidVariable, isValidObject} from '../../utils/basic-verify'
+import {Tag, Descriptions, Checkbox, Space, Card, Row, Col, Divider, Tooltip, Form,  Input,} from 'antd'
+import {getFullTime, formatTimeString, isValidVariable, isValidObject} from '../../utils/basic-verify'
 import FlowcontrolDetailCard  from 'components/SchemeList/FlowcontrolDetailCard'
 
 import './SchemeDetail.scss'
@@ -41,78 +41,214 @@ function SchemeDetail(props) {
     const {targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit} = directionListData;
 
 
+    let sourceFlowcontrolList = [];
+    sourceFlowcontrolList.push(sourceFlowcontrol)
+
+
     return (
-        <Row>
+        <Row className="scheme-detail">
             <Col span={24}>
-                <Card title="方案基本信息" size="small" className="advanced-card" bordered={false}>
-                    <Descriptions size="small" bordered column={4}>
-                        <Descriptions.Item label="方案名称" span={4}>
-                            {tacticName}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="发布单位">
-                            {tacticPublishUnit}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="发布用户">
-                            { tacticPublishUnit }
-                        </Descriptions.Item>
-                        <Descriptions.Item label="开始时间">
-                            <Tooltip title={startTime}>
-                                <div>{ getDayTimeFromString(startTime) }</div>
-                            </Tooltip>
+            <Form
+                className="destriction_form"
+                colon={false}
+                labelAlign="left"
+            >
+            <Card title="方案基本信息" size="small" className="advanced-card" bordered={false}>
+                <div className="info-content">
+                    <Row className="info-row">
+                        <Col span={24}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="方案名称">方案名称</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{tacticName}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className="info-row">
+                        <Col span={8}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="发布单位">发布单位</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{tacticPublishUnit}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={8}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="发布用户">发布用户</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{tacticPublishUser}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={8}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="开始时间">开始时间</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{formatTimeString(startTime)}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className="info-row">
+                        <Col span={8}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="结束时间">结束时间</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{formatTimeString(endTime)}</div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        </Descriptions.Item>
-                        <Descriptions.Item label="结束时间">
-                            <Tooltip title={endTime}>
-                                <div>{ getDayTimeFromString(endTime) }</div>
-                            </Tooltip>
+                        </Col>
+                        <Col span={8}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="开始计算时间">开始计算时间</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{formatTimeString(startCalculateTime)}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={8}>
 
-                        </Descriptions.Item>
-                        <Descriptions.Item label="开始计算时间">
-                            <Tooltip title={startCalculateTime}>
-                                <div>{ getDayTimeFromString(startCalculateTime) }</div>
-                            </Tooltip>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="结束计算时间">结束计算时间</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{formatTimeString(endCalculateTime)}</div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        </Descriptions.Item>
-                        <Descriptions.Item label="结束计算时间">
-                            <Tooltip title={endCalculateTime}>
-                                <div>{ getDayTimeFromString(endCalculateTime) }</div>
-                            </Tooltip>
+                        </Col>
+                    </Row>
+                    <Row className="info-row">
+                        <Col span={8}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="基准单元">基准单元</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">
+                                            {targetUnit}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={8}>
 
-                        </Descriptions.Item>
-                        <Descriptions.Item label="基准单元">
-                            <div className="cell">{ targetUnit }</div>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="前序单元">前序单元</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{preorderUnit}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={8}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="后序单元">后序单元</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{behindUnit}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className="info-row">
+                        <Col span={8}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="豁免前序">豁免前序</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{exemptPreUnit}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={8}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="豁免后序">豁免后序</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{exemptbehindUnit}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={8}>
 
-                        </Descriptions.Item>
-                        <Descriptions.Item label="前序单元">
-                            <div className="cell">{ preorderUnit }</div>
-                        </Descriptions.Item>
-                        <Descriptions.Item label="后续单元">
-                            <div className="cell">{ behindUnit }</div>
-                        </Descriptions.Item>
-                        <Descriptions.Item label="豁免前序">
-                            <div className="cell">{ exemptPreUnit }</div>
-                        </Descriptions.Item>
-                        <Descriptions.Item label="豁免后续">
-                            <div className="cell">{ exemptbehindUnit }</div>
-                        </Descriptions.Item>
-                        <Descriptions.Item label="限制高度">
-                            <div className="cell">{ highLimit }</div>
-                        </Descriptions.Item>
-                    </Descriptions>
-                </Card>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="限制高度">限制高度</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{highLimit}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+
+                    </Row>
+                </div>
+
+            </Card>
+
+
+
+            <FlowcontrolDetailCard flowcontrolDataList={ sourceFlowcontrolList } title="基础流控信息" > </FlowcontrolDetailCard>
+            <FlowcontrolDetailCard  flowcontrolDataList={ flowcontrolList } title="流控信息"  showBadge={ true }  ></FlowcontrolDetailCard>
+            {/*<Divider orientation="left"> {`流控信息`}</Divider>*/}
+
+            {/*{*/}
+                {/*flowcontrolList.map( (item, index) => (*/}
+                    {/*<FlowcontrolDetailCard key={index} flowcontrolData={ item }  showBadge={ true } index={ index +1 } ></FlowcontrolDetailCard>*/}
+                    {/*)*/}
+                {/*)*/}
+
+            {/*}*/}
+
+            </Form>
             </Col>
-            <FlowcontrolDetailCard flowcontrolData={ sourceFlowcontrol } title="基础流控信息" > </FlowcontrolDetailCard>
-            <Divider orientation="left"> {`流控信息`}</Divider>
-
-            {
-                flowcontrolList.map( (item, index) => (
-                    <FlowcontrolDetailCard key={index} flowcontrolData={ item }  showBadge={ true } index={ index +1 } ></FlowcontrolDetailCard>
-                    )
-                )
-
-            }
-
-
         </Row>
     )
 }
