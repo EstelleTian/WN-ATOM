@@ -48,8 +48,8 @@ const FlightCoordination = {
     ALARM_TYPE_DELAY: 100, // 延误
     ALARM_TYPE_CRITICAL: 200, // 临界
     ALARM_TYPE_EXEMPTION: 300, // 豁免
-    ALARM_TYPE_HALF : 400, // 半数
     ALARM_TYPE_INPOOL:500, // 入池
+    ALARM_TYPE_HALF : 400, // 半数
     ALARM_TYPE_EXCHANGE: 600, // 时隙交换
     ALARM_TYPE_DEXIT_SLOT: 700, // 退出时隙分配
 

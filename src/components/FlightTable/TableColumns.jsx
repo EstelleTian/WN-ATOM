@@ -8,8 +8,9 @@
  */
 import React from 'react'
 import { isValidVariable, getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
-import { FlightCoordination, } from 'utils/flightcoordination'
-import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAWTPopover, OAWTPopover, ALARMPopover } from  './CollaboratePopover'
+import { FlightCoordination, PriorityList } from 'utils/flightcoordination'
+import { FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAWTPopover, OAWTPopover, ALARMPopover } from  './CollaboratePopover'
+import FLIGHTIDPopover from  './FLIGHTIDPopover'
 import {Tag, Tooltip} from "antd";
 /**
  * 告警列单元格渲染格式化
@@ -276,36 +277,34 @@ const formatAlarmValue = (values)=>{
 //数据转换，将航班转化为表格格式
 const formatSingleFlight = flight => {
     let { alarmField, taskField, eapField, oapField, tobtField, cobtField, ctotField, fmeToday, ffixField, ctoField, etoField, agctField } = flight;
-    alarmField = alarmField || {};
+    alarmField = isValidVariable(alarmField) || {};
     taskField = taskField || {};
     eapField = eapField || {};
     oapField = oapField || {};
     tobtField = tobtField || {};
     tobtField = tobtField || {};
     cobtField = cobtField || {};
-    cobtField = cobtField || {};
+    ctotField = ctotField || {};
     agctField = agctField || {};
     fmeToday = fmeToday || {};
     ffixField = ffixField || {};
     ctoField = ctoField || {};
     etoField = etoField || {};
-    // if( flight.flightid === "CES9658"){
-    //     debugger
-    //     console.log("cobtField", cobtField.value, getDayTimeFromString(cobtField.value))
-    //     console.log("ctotField", ctotField.value, getDayTimeFromString(ctotField.value))
-    // }
     let taskVal = taskField.value || "";
-    if( taskVal === "null" ){
-        taskVal = ""
+    if( !isValidVariable(taskVal) ){
+        taskVal = "";
     }
     let alarmFieldValue = Array.isArray(alarmField.value) ? alarmField.value : [];
+
     let flightObj = {
         key: flight.id,
         id: flight.id,
         FLIGHTID: flight.flightid,
-        ALARM: formatAlarmValue(alarmFieldValue).map((item)=>(<Tooltip key={item.key} title={item.descriptions}><Tag className="alarm-tag"  key={item.key} color={item.color}>{item.zh}</Tag></Tooltip>)),
-        // ALARM: formatAlarmValue([100,300, 500, 700]).map((item)=>(<Tooltip key={item.key} title={item.descriptions}><Tag className="alarm-tag" key={item.key} color={item.color}>{item.zh}</Tag></Tooltip>)),
+        ALARM: formatAlarmValue(alarmFieldValue).map((item)=>(
+            <Tooltip key={item.key} title={item.descriptions}><Tag className="alarm-tag"  key={item.key} color={item.color}>{item.zh}</Tag></Tooltip>
+        )),
         TASK: taskVal,
+        // TASK: PriorityList[flight.priority],
         EAW: eapField.name,
         EAWT: eapField.value,
         OAW: oapField.name,
