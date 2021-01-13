@@ -96,7 +96,7 @@ function StaticInfoCard(props){
 
         <Card title="方案信息"  bordered={ false } size="">
             <Row gutter={24}>
-                <Col span={8}>
+                <Col span={24}>
                     <Form.Item
                         name="tacticName"
                         label="方案名称"
