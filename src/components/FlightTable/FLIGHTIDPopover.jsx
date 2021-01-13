@@ -70,10 +70,13 @@ let FLIGHTIDPopover = (props) => {
         }
 
     })
-    const getContent = useCallback((orgdata)  =>{
-        let record = orgdata.record || {};
-        let priority = record.priority || "";
-
+    const {text, record, index, col} = props.opt;
+    let { orgdata } = record;
+    if( isValidVariable(orgdata) ){
+        orgdata = JSON.parse(orgdata);
+    }
+    let { priority } = orgdata;
+    const getContent = useCallback((opt)  =>{
         return (
             <div className="clr_flightid">
                 <button className="c-btn c-btn-blue">查看航班详情</button>
@@ -85,12 +88,7 @@ let FLIGHTIDPopover = (props) => {
             </div>
         )
     })
-    const {text, record, index, col} = props.opt;
-    let { orgdata } = record;
-    if( isValidVariable(orgdata) ){
-        orgdata = JSON.parse(orgdata);
-    }
-    let { priority } = orgdata;
+
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }

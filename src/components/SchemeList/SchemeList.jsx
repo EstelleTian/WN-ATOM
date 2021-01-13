@@ -231,7 +231,7 @@ function SchemeList (props){
         const timeoutid = setInterval(function(){
             // console.log("方案列表开始请求:"+statusValues);
             getSchemeList();
-        },6 * 1000);
+        },30*1000);
 
         props.schemeListData.timeoutId = timeoutid;
 
