@@ -36,20 +36,17 @@ class FlightItem{
     }
     //单条--航班更新--对比updateTimeStamp 时间戳
     @action updateFlight( newFlight ){
-        console.log("单条--航班更新");
-        for( let key in newFlight ){
-            this[key] = newFlight[key];
+        // console.log("单条--航班更新");
+        const newUpdateTimeStamp = newFlight.updateTimeStamp;
+        //当前航班数据时间 无效 或者新的早于当前的，更新数据
+        if( !isValidVariable(this.updateTimeStamp) || ( newUpdateTimeStamp*1 >= this.updateTimeStamp*1 ) ){
+            // console.log("传入新对象时间更新");
+            //更新为传入对象
+            for( let key in newFlight ){
+                this[key] = newFlight[key];
+            }
+            // console.log("更新后对象:", this);
         }
-
-        // const newupdateTimeStamp = newFlight.updateTimeStamp;
-        // if( newupdateTimeStamp*1 >= this.updateTimeStamp*1 ){
-        //     console.log("传入新对象时间更新");
-        //     //更新为传入对象
-        //     for( let key in newFlight ){
-        //         this[key] = newFlight[key];
-        //     }
-        //     console.log("更新后对象:", this);
-        // }
     }
 
 }
@@ -77,7 +74,6 @@ class FlightTableData{
         //上次获取航班的方案id和本次的id不一样，直接替换
         if( this.lastSchemeId !== id ){
             this.list = [];
-            this.generateTime = generateTime;
             // const len = this.list.length;
             let newFlightList = [];
             newList.map( item => {
@@ -105,26 +101,20 @@ class FlightTableData{
                     if( index > -1 ){
                         //获取已存在航班实例
                         const oldItem = this.list[index];
-                        const curUpdateTimeStampe = oldItem.updateTimeStamp || -1;
-                        const newUpdateTimeStamp = newItem.updateTimeStamp || -1;
-                        if( newUpdateTimeStamp*1 >= curUpdateTimeStampe*1 ){
-                            newResList.push( newItem );
-                        }else{
-                            newResList.push( oldItem );
-                        }
+                        oldItem.updateFlight( newItem );
                     }else{
                         const itemIns = new FlightItem(newItem);
                         newResList.push( itemIns );
                     }
                 });
             }
-
-
         }
+
+        this.generateTime = generateTime;
 
     }
     //单条--航班更新
-    @action updateSingleFlight( fObj, generateTime ){
+    @action updateSingleFlight( fObj ){
         const newFId = fObj.id;
         this.list.map( item => {
             const oldFId = item.id;

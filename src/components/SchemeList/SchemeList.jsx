@@ -34,11 +34,7 @@ function SchemeList (props){
     const [ statusValues, setStatusValues ] = useState( ['FUTURE','RUNNING'] ); //方案列表 多选-状态-按钮组
     const [ schemeListRefresh, setSchemeListRefresh ] = useState( false ); //方案列表 是否是更新中 状态 true为更新中 false为更新完毕
     const [ firstLoadScheme, setFirstLoadScheme ] = useState( true ); //方案列表是否是第一次更新
-    //接收客户端传来方案id，用以自动切换到选中方案
-    NWGlobal.setSchemeId = id  => {
-        // alert("收到id:"+id);
-        handleActive( id )
-    };
+
     //状态-多选按钮组-切换事件
     const onChange = (checkedValues)=>{
         // console.log('checked = ', checkedValues);
@@ -167,14 +163,23 @@ function SchemeList (props){
     });
 
     //高亮方案并获取航班数据和KPI数据
-    const handleActive = useCallback(( id ) => {
+    const handleActive = useCallback(( id, title ) => {
         // if( props.schemeListData.schemeId != id ){
-        props.schemeListData.setActiveSchemeId(id);
-        props.schemeListData.toggleSchemeActive( id+"" );
-        props.flightTableData.toggleLoad(true);
-        props.executeKPIData.toggleLoad(true);
-        requestFlightTableData(id+"");
-        requestExecuteKPIData(id+"");
+        const res = props.schemeListData.toggleSchemeActive( id+"" );
+        if( res ){
+            props.flightTableData.toggleLoad(true);
+            props.executeKPIData.toggleLoad(true);
+            requestFlightTableData(id+"");
+            requestExecuteKPIData(id+"");
+        }else{
+            if( isValidVariable(title) ){
+                message.error({
+                    content: "暂未获取到对应方案" + title ,
+                    duration: 4,
+                });
+            }
+        }
+
         // }
 
     });
@@ -198,23 +203,23 @@ function SchemeList (props){
         }
     }, [ props.schemeListData.activeScheme.id ] );
 
-    // DidMount 激活方案列表id变化后，重新处理航班定时器
+    // DidMount 激活方案列表id变化后，重新处理执行KPI定时器
     useEffect(function(){
         const id = props.schemeListData.activeScheme.id || "";
-        // console.log("航班列表 useEffect id变了:"+id);
+        // console.log("执行KPI useEffect id变了:"+id);
         if( isValidVariable( props.schemeListData.activeScheme.id ) ){
-            // console.log("航班列表 清空定时器:"+props.flightTableData.timeoutId);
+            // console.log("执行KPI 清空定时器:"+props.flightTableData.timeoutId);
             clearInterval(props.executeKPIData.timeoutId);
             props.executeKPIData.timeoutId = "";
             //生成新定时器--轮询
             const timeoutid = setInterval(function(){
-                // console.log("航班列表 定时开始执行， 获取数据，id是："+ id);
+                // console.log("执行KPI 定时开始执行， 获取数据，id是："+ id);
                 // setSchemeListRefresh(false);
                 if( props.systemPage.leftActiveName === "kpi"){
                     requestExecuteKPIData(id)
                 }
             },60 * 1000);
-            // console.log("航班列表 配置定时器:"+timeoutid);
+            // console.log("执行KPI 配置定时器:"+timeoutid);
             props.executeKPIData.timeoutId = timeoutid;
         }
     }, [ props.schemeListData.activeScheme.id ] );
@@ -222,7 +227,7 @@ function SchemeList (props){
     // DidMount 重新处理方案列表定时器
     useEffect(function(){
         if( !firstLoadScheme ){
-            console.log("方案列表 定时器激活了:"+statusValues);
+            // console.log("方案列表 定时器激活了:"+statusValues);
             // console.log("方案列表 清空定时器:"+props.schemeListData.timeoutId);
             clearInterval(props.schemeListData.timeoutId);
             props.schemeListData.timeoutId = "";
@@ -250,13 +255,13 @@ function SchemeList (props){
     },[])
 
     useEffect(function(){
-        console.log("statusValues变了 getSchemeList：", statusValues, firstLoadScheme);
+        // console.log("statusValues变了 getSchemeList：", statusValues, firstLoadScheme);
         if( !firstLoadScheme ){
             getSchemeList();
         }
     },[statusValues]);
     useEffect(function(){
-        console.log("user.id变了 getSchemeList(true)：", statusValues, firstLoadScheme);
+        // console.log("user.id变了 getSchemeList(true)：", statusValues, firstLoadScheme);
         const id = props.systemPage.user.id;
         if( firstLoadScheme && isValidVariable(id) ){
             // alert( "user.id变为:"+ id );
@@ -285,6 +290,12 @@ function SchemeList (props){
             setManualRefresh(false);
         }
     })
+    //接收客户端传来方案id，用以自动切换到选中方案
+    NWGlobal.setSchemeId = ( schemeId, title )  => {
+        alert("收到id:"+schemeId+"  title:"+title);
+        getSchemeList();
+        handleActive( schemeId, title );
+    };
 
     const schemeListData = props.schemeListData;
     const { sortedList } = schemeListData; //获取排序后的方案列表

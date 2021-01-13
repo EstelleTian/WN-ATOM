@@ -145,19 +145,18 @@ class SchemeListData{
     //激活选中方案，重置其他方案
     @action toggleSchemeActive( id ){
         // console.log(id)
+        let res = false;
         this.list.map( todo => {
             const todoid = todo.id;
             if( id === todoid ){
                 todo.toggleActive( true );
+                this.schemeId = id;
+                res = true;
             }else{
                 todo.toggleActive( false );
             }
         } );
-    }
-    // 增加航班-单条
-    @action setActiveSchemeId( id ){
-        // console.log("setActiveSchemeId:", id);
-        this.schemeId = id;
+        return res;
     }
 
     @computed get sortedList(){

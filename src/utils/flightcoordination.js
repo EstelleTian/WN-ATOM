@@ -217,38 +217,37 @@ const FlightCoordination = {
         switch (s) {
             case FlightCoordination.ALARM_TYPE_DELAY:
                 zh = '延';
-                color="orange";
+                color="#9a7c4d";
                 descriptions="延误";
                 break;
             case FlightCoordination.ALARM_TYPE_CRITICAL:
                 zh = '临';
-                color="orange";
+                color="#C0A2C7";
                 descriptions="临界";
-
                 break;
             case FlightCoordination.ALARM_TYPE_EXEMPTION:
                 zh = '豁';
-                color="orange";
+                color="rgba(139, 68, 88, 0.76)";
                 descriptions="豁免";
                 break;
             case FlightCoordination.ALARM_TYPE_HALF:
                 zh = '半';
-                color="orange";
+                color="#007bbb";
                 descriptions="半数";
                 break;
             case FlightCoordination.ALARM_TYPE_INPOOL:
                 zh = '池';
-                color="orange";
+                color="#ff6600";
                 descriptions="入池";
                 break;
             case FlightCoordination.ALARM_TYPE_EXCHANGE:
                 zh = '换';
-                color="orange";
+                color="#02794f";
                 descriptions="时隙交换";
                 break;
             case FlightCoordination.ALARM_TYPE_DEXIT_SLOT:
                 zh = '退';
-                color="orange";
+                color="#769e28";
                 descriptions="退出时隙分配";
                 break;
             default:
@@ -260,6 +259,26 @@ const FlightCoordination = {
             color,
             descriptions
         };
+    },
+
+
+    /**
+     * 获取数据来源中文
+     *
+     * @param priority
+     * @returns
+     */
+    getSourceZh : (source) => {
+        let sourceCN = ""
+        switch (source) {
+            case 'ATOM': sourceCN = "引接ATOM";break;
+            case 'NTFM': sourceCN = "引接NTFM";break;
+            case 'MANUAL': sourceCN = "人工";break;
+            case 'LOCK': sourceCN = "锁定";break;
+            case 'AUTO': sourceCN = "自动";break;
+            default: sourceCN = source;
+        }
+        return sourceCN;
     },
 
 

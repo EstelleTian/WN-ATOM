@@ -7,37 +7,18 @@
  * @FilePath: CollaboratePopover.jsx
  */
 import {Button, Checkbox, DatePicker, Descriptions, Form, Input, message as antdMessage, message, Popover} from "antd";
-import React,{useCallback} from "react";
+import React,{ useCallback, useState } from "react";
 import { getDayTimeFromString, formatTimeString, getTimeAndStatus, isValidVariable } from 'utils/basic-verify'
 import { FlightCoordination } from 'utils/flightcoordination.js'
 import { request, requestGet } from 'utils/request'
 import "./CollaboratePopover.scss"
 import moment from "moment";
 import {observer, inject} from "mobx-react";
+import FmeToday from "../../utils/fmetoday";
 
-const converSource = (source) => {
-    let sourceCN = ""
-    switch (source) {
-        case 'ATOM': sourceCN = "引接ATOM";break;
-        case 'NTFM': sourceCN = "引接NTFM";break;
-        case 'MANUAL': sourceCN = "人工";break;
-        case 'LOCK': sourceCN = "锁定";break;
-        case 'AUTO': sourceCN = "自动";break;
-        default: sourceCN = source;
-    }
-    return sourceCN;
-}
-
-//禁止系统自动调整 表单
-const changeOptions = [
-    { label: '禁止系统自动调整', value: '1' }
-];
 //过点时间右键协调框
 const FFIXTPopover = (props) => {
-    // const getTitle = useCallback((opt)  =>{
-    //     const {text, record, index, col} = opt;
-    //     return record.FLIGHTID+"过点时间修改"
-    // })
+    const [autoChecked, setAutoChecked] = useState(true);
     const getContent = useCallback((opt)  =>{
         // const [form] = Form.useForm();
         const {text, record, index, col} = opt;
@@ -106,7 +87,14 @@ const FFIXTPopover = (props) => {
                         <Form.Item
                             name="locked"
                         >
-                            <Checkbox.Group options={changeOptions} />
+                            <Checkbox
+                                checked={ autoChecked }
+                                onChange={e => {
+                                    setAutoChecked(e.target.checked)
+                                }}
+                            >
+                                禁止系统自动调整
+                            </Checkbox>
                         </Form.Item>
                     </Descriptions.Item>
                     <Descriptions.Item label="备注">
@@ -168,242 +156,6 @@ const FFIXTPopover = (props) => {
     )
 }
 
-//COBT右键协调框
-const COBTPopover = (props) => {
-    const getContent = useCallback((opt)  =>{
-        // const [form] = Form.useForm();
-        const {text, record, index, col} = opt;
-        let { FLIGHTID, DEPAP, ARRAP } = record;
-        let time = "";
-        let date = "";
-        if( isValidVariable(text) && text.length >= 12 ){
-            time = text.substring(8,12);
-            date = moment( text.substring(0,8), "YYYY-MM-DD");
-        }
-
-        let initialValues = {
-            flightid: FLIGHTID || '',
-            airport: DEPAP + "-" + ARRAP,
-            unit: "",
-            locked: "",
-            time,
-            date,
-            comment: ""
-        };
-        // useEffect(function(){
-        //     form.resetFields();//重置，用以表单初始值赋值
-        // },[]);
-        return (
-            <Form
-                // form={form}
-                size="small"
-                onFinish={(values)=>{
-                    const newStartTime =  moment(values.startTime).format('YYYYMMDD');
-                    console.log(values);
-                    console.log(newStartTime);
-                }}
-                initialValues={initialValues}
-                className="ffixt_form"
-            >
-                <Descriptions size="small" bordered column={1}>
-                    <Descriptions.Item label="航班">
-                        <Form.Item
-                            name="flightid"
-                        >
-                            <Input disabled/>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="机场">
-                        <Form.Item
-                            name="airport"
-                        >
-                            <Input disabled/>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="日期" >
-                        <Form.Item
-                            name="date"
-                        >
-                            <DatePicker className="clr_date"  format="YYYY-MM-DD"/>
-                        </Form.Item>
-
-                    </Descriptions.Item>
-                    <Descriptions.Item label="时间">
-                        <Form.Item
-                            name="time"
-                        >
-                            <Input/>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="">
-                        <Form.Item
-                            name="locked"
-                        >
-                            <Checkbox.Group options={changeOptions} />
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="备注">
-                        <Form.Item
-                            name="comment"
-                        >
-                            <Input.TextArea maxLength={100} />
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <div>
-                        <Button size="small"  type="primary" htmlType="submit">修改</Button>
-                        <Button style={{marginLeft: '8px'}}  size="small">重置</Button>
-                    </div>
-                </Descriptions>
-
-            </Form>
-        )
-    })
-    const {text, record, index, col} = props.opt;
-    let { orgdata } = record;
-    if( isValidVariable(orgdata) ){
-        orgdata = JSON.parse(orgdata);
-    }
-    let cobtField = orgdata.cobtField || {};
-    let source = cobtField.source || "";
-    let sourceCN = converSource( source );
-    return(
-        <Popover
-            destroyTooltipOnHide ={ { keepParent: false  } }
-            placement="rightTop"
-            // title={getTitle(props.opt)}
-            title="预撤时间修改"
-            content={getContent(props.opt)}
-            trigger={[`contextMenu`]}
-            getContainer={false}
-        >
-            <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
-                <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
-                    <span className="">{getTimeAndStatus(text)}</span>
-                </div>
-            </div>
-        </Popover >
-    )
-}
-
-//CTOT右键协调框
-const CTOTPopover = (props) => {
-    const getContent = useCallback((opt)  =>{
-        // const [form] = Form.useForm();
-        let { text, record } = opt;
-        let { FLIGHTID, DEPAP, ARRAP } = record;
-        let time = "";
-        let date = "";
-        if( isValidVariable(text) && text.length >= 12 ){
-            time = text.substring(8,12);
-            date = moment( text.substring(0,8), "YYYY-MM-DD");
-        }
-
-        let initialValues = {
-            flightid: FLIGHTID || '',
-            airport: DEPAP + "-" + ARRAP,
-            unit: "",
-            locked: "",
-            time,
-            date,
-            comment: ""
-        };
-        // useEffect(function(){
-        //     form.resetFields();//重置，用以表单初始值赋值
-        // },[]);
-        return (
-            <Form
-                // form={form}
-                size="small"
-                onFinish={(values)=>{
-                    const newStartTime =  moment(values.startTime).format('YYYYMMDD');
-                    console.log(values);
-                    console.log(newStartTime);
-                }}
-                initialValues={initialValues}
-                className="ffixt_form"
-            >
-                <Descriptions size="small" bordered column={1}>
-                    <Descriptions.Item label="航班">
-                        <Form.Item
-                            name="flightid"
-                        >
-                            <Input disabled/>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="机场">
-                        <Form.Item
-                            name="airport"
-                        >
-                            <Input disabled/>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="日期" >
-                        <Form.Item
-                            name="date"
-                        >
-                            <DatePicker className="clr_date"  format="YYYY-MM-DD"/>
-                        </Form.Item>
-
-                    </Descriptions.Item>
-                    <Descriptions.Item label="时间">
-                        <Form.Item
-                            name="time"
-                        >
-                            <Input/>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="">
-                        <Form.Item
-                            name="locked"
-                        >
-                            <Checkbox.Group options={changeOptions} />
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="备注">
-                        <Form.Item
-                            name="comment"
-                        >
-                            <Input.TextArea maxLength={100} />
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <div>
-                        <Button size="small"  type="primary" htmlType="submit">修改</Button>
-                        <Button style={{marginLeft: '8px'}}  size="small">重置</Button>
-                    </div>
-                </Descriptions>
-
-            </Form>
-
-
-        )
-    })
-    const {text, record, index, col} = props.opt;
-    let { orgdata } = record;
-    if( isValidVariable(orgdata) ){
-        orgdata = JSON.parse(orgdata);
-    }
-    let ctotField = orgdata.ctotField || {};
-    let source = ctotField.source || "";
-    let sourceCN = converSource( source );
-    return(
-        <Popover
-            destroyTooltipOnHide ={ { keepParent: false  } }
-            placement="rightTop"
-            // title={getTitle(props.opt)}
-            title="预起时间修改"
-            content={getContent(props.opt)}
-            trigger={[`contextMenu`]}
-            getContainer={false}
-        >
-            <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
-                <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
-                    <span className="">{getTimeAndStatus(text)}</span>
-                </div>
-            </div>
-        </Popover >
-    )
-}
-
 //CTO右键协调框
 const CTOPopover = (props) => {
     let {text, record, index, col} = props.opt;
@@ -416,11 +168,32 @@ const CTOPopover = (props) => {
     }
     let ctoField = orgdata.ctoField || {};
     let source = ctoField.source || "";
-    let sourceCN = converSource( source );
+    let sourceCN = FlightCoordination.getSourceZh( source );
     return(
         <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
             <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
                 <span className="">{getTimeAndStatus(text)}</span>
+            </div>
+        </div>
+    )
+}
+
+//ATOT右键协调框
+const ATOTPopover = (props) => {
+    let {text, record, index, col} = props.opt;
+    let { orgdata } = record;
+    if( isValidVariable(orgdata) ){
+        orgdata = JSON.parse(orgdata);
+    }
+    const fmeToday = orgdata.fmeToday;
+    let bgStatus = "";
+    if ( FmeToday.hadDEP(fmeToday) && isValidVariable(text) ) {
+        bgStatus = "DEP";
+    }
+    return(
+        <div className={`full-cell ATOT`}>
+            <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${bgStatus}`} title={`${text}`}>
+                <span className="">{ getDayTimeFromString(text) }</span>
             </div>
         </div>
     )
@@ -436,7 +209,7 @@ const EAWTPopover = (props) => {
     let eapField = orgdata.eapField || {};
     let source = eapField.source || "";
     let value = eapField.value || "";
-    let sourceCN = converSource( source );
+    let sourceCN = FlightCoordination.getSourceZh( source );
     return(
         <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
             <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${value}-${sourceCN}`}>
@@ -457,7 +230,7 @@ const OAWTPopover = (props) => {
     let oapField = orgdata.oapField || {};
     let source = oapField.source || "";
     let value = oapField.value || "";
-    let sourceCN = converSource( source );
+    let sourceCN = FlightCoordination.getSourceZh( source );
 
     return(
         <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
@@ -468,24 +241,5 @@ const OAWTPopover = (props) => {
     )
 }
 
-//ALARM 右键协调框
-const ALARMPopover = (props) => {
-    const {text, record} = props.opt;
-    if( isValidVariable(record) ){
-        let { orgdata } = record;
-        if( isValidVariable(orgdata) ){
-            orgdata = JSON.parse(orgdata);
-        }
-        let { priority } = orgdata;
-        return(
-            <div className={`full-cell`}>
-
-            </div>
-        )
-    }
-    return ""
-
-}
-
-export { FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, ALARMPopover, EAWTPopover, OAWTPopover }
+export { FFIXTPopover, CTOPopover,  EAWTPopover, OAWTPopover, ATOTPopover }
 

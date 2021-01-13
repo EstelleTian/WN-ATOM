@@ -128,7 +128,7 @@ function DCBLineChart(props){
             series: [
                 {
                     name: 'DCB',
-                    type: 'bar',
+                    type: 'line',
                     // stack: '1',
                     data: dcbValArr
                 }

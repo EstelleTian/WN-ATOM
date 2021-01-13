@@ -22,20 +22,26 @@ const FlightTable = lazy(() => import('components/FlightTable/FlightTable') );
 
 //放行监控布局模块
 function FangxingPage(props){
-    const { systemPage, user = {} } = props;
-    const { leftActiveName } = systemPage;
+    const { systemPage } = props;
+    const { leftActiveName, user = {} } = systemPage;
     const [ login, setLogin ] = useState(false);
     useEffect(function(){
         const id = user.id;
         if( isValidVariable(id) ){
-            // alert( "user.id变为:"+ id );
             setLogin(true);
-        }else{
-            props.systemPage.setUserData({
-                id: 14,
-                descriptionCN: "兰州流量室(假)"
-            });
-            setLogin(true);
+        }
+        else{
+            //TODO 测试用，正式去掉该else
+            setTimeout(function(){
+                if( !isValidVariable(user.id) ){
+                    // alert("未登录成功，点击确认 中后将注入假用户数据");
+                    props.systemPage.setUserData({
+                        id: 14,
+                        descriptionCN: "兰州流量室(假)"
+                    });
+                    setLogin(true);
+                }
+            },1000)
         }
     },[ user.id ]);
     return (

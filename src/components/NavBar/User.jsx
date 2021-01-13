@@ -24,10 +24,11 @@ function User(props){
     const username = user.name || "";
     const descriptionCN = user.descriptionCN || "";
     const pathname = location.pathname || "";
-    console.log( "当前url是：",props.location.pathname );
+    // console.log( "当前url是：",props.location.pathname );
     NWGlobal.setUserInfo = userStr =>{
-        alert("接收到客户端传来用户信息："+ userStr);
+        // alert("接收到客户端传来用户信息："+ userStr);
         const userInfo = JSON.parse(userStr);
+        // alert("接收到客户端传来用户信息："+ userInfo.id);
         props.systemPage.setUserData(userInfo);
     }
     //放行监控页面
