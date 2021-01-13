@@ -96,7 +96,7 @@ function StaticInfoCard(props){
 
         <Card title="方案信息"  bordered={ false } size="">
             <Row gutter={24}>
-                <Col span={16}>
+                <Col span={24}>
                     <Form.Item
                         name="tacticName"
                         label="方案名称"
@@ -106,7 +106,7 @@ function StaticInfoCard(props){
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
-                <Col span={8}>
+                <Col span={12}>
                     <Form.Item
                         name="tacticPublishUnit"
                         label="发布单位"
@@ -116,8 +116,16 @@ function StaticInfoCard(props){
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
+                <Col span={12}>
+                    <Form.Item
+                        name="tacticPublishUser"
+                        label="发布用户"
+                    >
+                        <Input disabled={ props.disabledForm }/>
+                    </Form.Item>
+                </Col>
 
-                <Col span={8}>
+                <Col span={12}>
 
                     {
                         props.disabledForm ? (
@@ -151,6 +159,7 @@ function StaticInfoCard(props){
                                         format={dateFormat}
                                         disabled={ props.disabledForm }
                                         placeholder={ dateFormat }
+                                        className="date-picker-form"
                                     />
                                 </Form.Item>
                                 <Form.Item
@@ -172,11 +181,8 @@ function StaticInfoCard(props){
                         )
                     }
 
-
-
-
                 </Col>
-                <Col span={8}>
+                <Col span={12}>
 
                     {
                         props.disabledForm ? (
@@ -201,6 +207,7 @@ function StaticInfoCard(props){
                                         format={dateFormat}
                                         disabled={ props.disabledForm }
                                         placeholder={ dateFormat }
+                                        className="date-picker-form"
                                     />
                                 </Form.Item>
                                 <Form.Item
@@ -211,7 +218,6 @@ function StaticInfoCard(props){
                                 >
                                     <Input
                                         placeholder={ timeFormat }
-                                        className="time-form"
                                         onChange={ updateEndTimeString }
                                         disabled={ props.disabledForm }
                                     />
@@ -222,11 +228,48 @@ function StaticInfoCard(props){
 
 
                 </Col>
+            </Row>
+        </Card>
+
+        <Card title="措施信息" bordered={ false } size="">
+            <Row gutter={24}>
+                <Col span={12}>
+                    <Form.Item
+                        name="restrictionMode"
+                        label="限制方式"
+                        required={true}
+                        rules={[{ required: true,  message: '请选择限制方式'  }]}
+                    >
+                        <Select style={{ width: 120 }} onChange={handleRestrictionModeChange} disabled={ props.disabledForm } >
+                            {restrictionModeData.map(mode => (
+                                <Option key={mode.key}>{mode.text}</Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item
+                        name="restrictionModeValue"
+                        label="限制值"
+                        rules={[{ required: true, message: '请输入限制值' }]}
+                    >
+                        <Input
+                            style={{ width: 120 }}
+                            disabled={ props.disabledForm }
+                            addonAfter={ modeUnit }
+                        />
+                    </Form.Item>
+                </Col>
+            </Row>
+        </Card>
+
+
+        <Card title="交通流信息" bordered={ false } className="flow-control-flight">
+            <Row gutter={24}>
                 <Col span={8}>
                     <Form.Item
-                        name="tacticPublishUser"
-                        label="发布用户"
-
+                        name="preorderUnit"
+                        label="前序单元"
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
@@ -237,14 +280,6 @@ function StaticInfoCard(props){
                         label="基准单元"
                         required={true}
                         rules={[{ required: true }]}
-                    >
-                        <Input disabled={ props.disabledForm }/>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item
-                        name="preorderUnit"
-                        label="前序单元"
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
@@ -265,6 +300,9 @@ function StaticInfoCard(props){
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
+                <Col span={8} className="">
+
+                </Col>
                 <Col span={8}>
                     <Form.Item
                         name="exemptbehindUnit"
@@ -272,51 +310,8 @@ function StaticInfoCard(props){
                     >
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
-                </Col><Col span={8}>
-                <Form.Item
-                    name="highLimit"
-                    label="限制高度"
-                >
-                    <Input disabled={ props.disabledForm }/>
-                </Form.Item>
-            </Col>
-
-            </Row>
-        </Card>
-
-        <Card title="措施信息" bordered={ false } size="">
-            <Row gutter={24}>
-                <Col span={8}>
-                    <Form.Item
-                        name="restrictionMode"
-                        label="限制方式"
-                        required={true}
-                        rules={[{ required: true,  message: '请选择限制方式'  }]}
-                    >
-                        <Select style={{ width: 120 }} onChange={handleRestrictionModeChange} disabled={ props.disabledForm } >
-                            {restrictionModeData.map(mode => (
-                                <Option key={mode.key}>{mode.text}</Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item
-                        name="restrictionModeValue"
-                        label="限制值"
-                        rules={[{ required: true, message: '请输入限制值' }]}
-                    >
-                        <Input
-                            disabled={ props.disabledForm }
-                            addonAfter={ modeUnit }
-                        />
-                    </Form.Item>
                 </Col>
             </Row>
-        </Card>
-
-
-        <Card title="交通流信息" bordered={ false } className="flow-control-flight">
             <Row gutter={12}>
                 <Col span={12}>
                     <LimitedCard title="包含"  disabledForm={props.disabledForm}   />

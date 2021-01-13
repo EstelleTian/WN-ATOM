@@ -90,7 +90,7 @@ function LimitedCard(props){
     }
 
     return (
-        <Card title={props.title} size="">
+        <Card className="inner-card" title={props.title} size="">
             <Row gutter={24}>
                 <Col span={24}>
                     <Form.Item
@@ -173,14 +173,6 @@ function LimitedCard(props){
                         </Select>
                     </Form.Item>
                 </Col>
-                <Col span={24}>
-                    <Form.Item
-                        label="受控高度"
-                    >
-                        <Input disabled={ props.disabledForm }/>
-                    </Form.Item>
-                </Col>
-
             </Row>
 
         </Card>

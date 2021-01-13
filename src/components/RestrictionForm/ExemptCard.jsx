@@ -87,7 +87,7 @@ const handleChange = (value, option)=> {
 function ExemptCard(props){
     // const index = props.index || "4";
     return (
-        <Card title={props.title} size="">
+        <Card className="inner-card" title={props.title} size="">
             <Row gutter={24}>
                 <Col span={24}>
                     <Form.Item
@@ -170,18 +170,6 @@ function ExemptCard(props){
                         </Select>
                     </Form.Item>
                 </Col>
-                <Col span={24}>
-                    <Form.Item
-                        name="rHigh"
-                        label="受控高度"
-                    >
-                        <Input disabled={ props.disabledForm }/>
-                    </Form.Item>
-                </Col>
-                <Col span={24}>
-            </Col>
-
-
 
 
             </Row>
