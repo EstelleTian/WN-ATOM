@@ -11,6 +11,14 @@ import { isValidVariable, getDayTimeFromString, formatTimeString, getTimeAndStat
 import { FlightCoordination, } from 'utils/flightcoordination'
 import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAWTPopover, OAWTPopover, ALARMPopover } from  './CollaboratePopover'
 import {Tag, Tooltip} from "antd";
+/**
+ * 告警列单元格渲染格式化
+ * */
+const randerAlarmCellChildren =(opt)=> {
+    const {text, record, index, col, colCN} = opt;
+    // 置空title属性,解决title显示[object,object]问题
+    return <div className="alarm" title="">{text}</div>
+}
 
 
 //表格列名称-中英-字典
@@ -142,7 +150,7 @@ let render = (opt)  => {
         popover = <OAWTPopover opt={opt} />
     }
     else if( col === "ALARM" ){
-        popover = <ALARMPopover opt={opt} />
+        popover = randerAlarmCellChildren(opt)
     }
     let obj  = {
         children: popover,
