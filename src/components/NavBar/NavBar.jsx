@@ -12,19 +12,17 @@ import { withRouter } from 'react-router-dom';
 import { Layout,  Avatar, Radio, Tag } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import RightNav from "./RightNav";
+import User from "./User";
 import NavBellNews from "./NavBellNews";
 import { NWGlobal } from "utils/global.js";
 import './NavBar.scss'
-import {inject, observer} from "mobx-react";
 
-const { Header } = Layout
+const { Header } = Layout;
 
 //顶部导航模块
 function NavBar(props){
     const getHeader =() => {
-        const { location, title, systemPage } = props;
-        const user = systemPage.user || {};
-        const username = user.name || "";
+        const { location, title } = props;
         const pathname = location.pathname || "";
         console.log( "当前url是：",props.location.pathname );
         //放行监控页面
@@ -47,7 +45,7 @@ function NavBar(props){
                     </div>
 
                 </div>
-                <RightNav username={username}/>
+                <RightNav/>
             </div>
         }else {
             return <div>
@@ -56,7 +54,7 @@ function NavBar(props){
                     {/*消息*/}
                     <NavBellNews />
                     <Avatar className="user_icon" icon={<UserOutlined />} />
-                    <span className="user_name">{ username }</span>
+                    <User />
                 </div>
             </div>
         }
@@ -72,6 +70,6 @@ function NavBar(props){
     )
 }
 
-export default withRouter( inject("systemPage")( observer(NavBar)) );
+export default withRouter( NavBar );
 
 

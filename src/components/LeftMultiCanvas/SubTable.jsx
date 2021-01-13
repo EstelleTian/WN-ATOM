@@ -6,12 +6,13 @@
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
-import React, { lazy, Suspense} from 'react';
+import React, {  Suspense, useCallback, useState, useEffect} from 'react';
 import { Table, Spin } from 'antd';
 import {inject, observer} from "mobx-react";
-import ModalBox from 'components/ModalBox/ModalBox'
-import { setNames, getColumns } from 'components/FlightTable/TableColumns'
-import './LeftMultiCanvas.scss'
+import ModalBox from 'components/ModalBox/ModalBox';
+import { getColumns, formatSingleFlight} from 'components/FlightTable/TableColumns';
+import './LeftMultiCanvas.scss';
+import {isValidVariable} from "../../utils/basic-verify";
 //根据key识别列表名称
 const subKeys = {
     "exempt": "豁免航班列表",
@@ -111,29 +112,99 @@ const SubNames = {
 }
 
 function SubTable(props){
+    let [tableWidth, setWidth] = useState(0);
+    let [tableHeight, setHeight] = useState(0);
+    let [sortKey, setSortKey] = useState("FFIXT"); //表格排序字段
+
     const { leftActiveName, flightTableData } = props;
-    let tableData = [];
+    let subTableData = [];
     switch (leftActiveName) {
-        case "exempt": tableData = flightTableData.getExemptFlights; break;
-        case "pool": tableData = flightTableData.getPoolFlights;break;
-        case "special": tableData = flightTableData.getSpecialFlights;break;
-        case "expired": tableData = flightTableData.getExpiredFlights;break;
-        case "todo": tableData = flightTableData.getTodoFlights;break;
+        case "exempt": subTableData = flightTableData.getExemptFlights; break;
+        case "pool": subTableData = flightTableData.getPoolFlights;break;
+        case "special": subTableData = flightTableData.getSpecialFlights;break;
+        case "expired": subTableData = flightTableData.getExpiredFlights;break;
+        case "todo": subTableData = flightTableData.getTodoFlights;break;
     }
     const columns = getColumns( SubNames[leftActiveName] );
-    console.log(leftActiveName, columns, tableData);
+    console.log(leftActiveName, columns, subTableData);
 
+
+    useEffect(() => {
+        const flightCanvas = document.getElementsByClassName(leftActiveName+"_canvas")[0];
+        flightCanvas.oncontextmenu = function(){
+            return false;
+        };
+        const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
+        const tableHeader = flightCanvas.getElementsByClassName("ant-table-header")[0];
+
+        let width = boxContent.offsetWidth;
+        let height = boxContent.offsetHeight;
+        // console.log("表格高度："+height );
+        // height -= 40;//标题高度“航班列表”
+        // height -= 45;//表头高度
+        height -= tableHeader.offsetHeight;//表头高度
+        setWidth( width );
+        setHeight( height );
+
+    }, [tableWidth, tableHeight]);
+
+
+    //转换为表格数据
+    const coverFlightTableData = useCallback( subTableData => {
+        return subTableData.map( flight => formatSingleFlight(flight) )
+    });
+    //设置表格行的 class
+    const setRowClassName = useCallback((record, index) => {
+        let { FFIXT, orgdata, id } = record;
+        if( sortKey === "FFIXT" ) {
+            const activeScheme = props.schemeListData.activeScheme;
+            let {startTime, endTime} = activeScheme.tacticTimeInfo;
+            if( isValidVariable(FFIXT) && FFIXT.length > 12 ){
+                FFIXT = FFIXT.substring(0, 12);
+            }
+            if( isValidVariable(startTime) && startTime.length > 12 ){
+                startTime = startTime.substring(0, 12);
+            }
+            // console.log("FFIXT",FFIXT,"startTime",startTime,"endTime",endTime);
+            if (startTime * 1 <= FFIXT * 1) {
+                if (isValidVariable(endTime)) {
+                    endTime = endTime.substring(0, 12);
+                    if (FFIXT * 1 <= endTime * 1) {
+                        return id + " in_range"
+                    } else {
+                        return id + " out_range";
+                    }
+                } else {
+                    return id + " in_range";
+                }
+            } else {
+                return id + " out_range";
+            }
+        }
+        return id;
+    });
+    const tableData = coverFlightTableData( subTableData );
+    console.log(tableData);
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <ModalBox
                 title={subKeys[leftActiveName]}
                 showDecorator = {true}
-                className={`sub_table_modal ${leftActiveName}`}
+                className={`sub_table_modal ${leftActiveName}_canvas ${leftActiveName}`}
             >
                 <Table
                     columns={ columns }
                     dataSource={ tableData }
-                    size="small" />
+                    size="small"
+                    bordered
+                    pagination={false}
+                    // loading={ loading }
+                    scroll={{
+                        x: tableWidth,
+                        y: tableHeight
+                    }}
+                    // onChange={onChange}
+                    rowClassName={(record, index)=>setRowClassName(record, index)}/>
             </ModalBox>
         </Suspense>
 
@@ -141,7 +212,7 @@ function SubTable(props){
 
 }
 
-export default inject("flightTableData")(observer(SubTable))
+export default inject("flightTableData", "schemeListData")(observer(SubTable))
 
 
 

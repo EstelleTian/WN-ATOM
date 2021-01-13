@@ -3,12 +3,12 @@
  * @Date: 2020-12-15 10:52:07
  * @LastEditTime: 2020-12-23 11:18:24
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
  */
 import React from 'react'
-import { isValidVariable } from 'utils/basic-verify'
-import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover, OAPTPopover } from  './CollaboratePopover'
+import { isValidVariable, getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
+import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover, OAPTPopover, ALARMPopover } from  './CollaboratePopover'
 
 //表格列名称-中英-字典
 let defaultNames = {
@@ -137,6 +137,9 @@ let render = (opt)  => {
     else if( col === "OAPT" ){
         popover = <OAPTPopover opt={opt} />
     }
+    else if( col === "ALARM" ){
+        popover = <ALARMPopover opt={opt} />
+    }
     let obj  = {
         children: popover,
         props: {
@@ -154,8 +157,7 @@ const getColumns = ( names = defaultNames ) => {
     //获取屏幕宽度，适配 2k
     let screenWidth = document.getElementsByTagName("body")[0].offsetWidth
     //表格列配置-默认-计数列
-    let columns = [
-        {
+    let columns = [{
             title: "",
             dataIndex: "rowNum",
             align: 'center',
@@ -163,8 +165,7 @@ const getColumns = ( names = defaultNames ) => {
             width: (screenWidth > 1920) ? 50 : 40,
             fixed: 'left',
             render: (text, record, index) => `${index+1}`
-        }
-    ];
+        }];
     //生成表配置-全部
     for(let key in names){
         const obj = names[key];
@@ -250,4 +251,60 @@ const getColumns = ( names = defaultNames ) => {
 }
 
 
-export {  getColumns }
+//数据转换，将航班转化为表格格式
+const formatSingleFlight = flight => {
+    let { alarmField, taskField, eapField, oapField, tobtField, cobtField, ctotField, fmeToday, ffixField, ctoField, etoField, agctField } = flight;
+    alarmField = alarmField || {};
+    taskField = taskField || {};
+    eapField = eapField || {};
+    oapField = oapField || {};
+    tobtField = tobtField || {};
+    tobtField = tobtField || {};
+    cobtField = cobtField || {};
+    cobtField = cobtField || {};
+    agctField = agctField || {};
+    fmeToday = fmeToday || {};
+    ffixField = ffixField || {};
+    ctoField = ctoField || {};
+    etoField = etoField || {};
+    // if( flight.flightid === "CES9658"){
+    //     debugger
+    //     console.log("cobtField", cobtField.value, getDayTimeFromString(cobtField.value))
+    //     console.log("ctotField", ctotField.value, getDayTimeFromString(ctotField.value))
+    // }
+    let taskVal = taskField.value || "";
+    if( taskVal === "null" ){
+        taskVal = ""
+    }
+    let flightObj = {
+        key: flight.id,
+        id: flight.id,
+        FLIGHTID: flight.flightid,
+        ALARM: alarmField.value,
+        TASK: taskVal,
+        EAP: eapField.name,
+        EAPT: eapField.value,
+        OAP: oapField.name,
+        OAPT: oapField.value,
+        ACTYPE: flight.aircrafttype,
+        DEPAP:  flight.depap,
+        ARRAP: flight.arrap,
+        SOBT: getDayTimeFromString(flight.sobt),
+        EOBT: getDayTimeFromString(flight.eobt),
+        TOBT: getDayTimeFromString(tobtField.value),
+        COBT: cobtField.value,
+        CTOT: ctotField.value,
+        AGCT: getDayTimeFromString( agctField.value ),
+        ATOT: getDayTimeFromString(flight.atd),
+        FETA: getDayTimeFromString(flight.formerArrtime),
+        FFIX: ffixField.name,
+        FFIXT: ffixField.value,
+        CTO: ctoField.value,
+        ETO: getTimeAndStatus(etoField.value),
+        STATUS: flight.runningStatus,
+        orgdata: JSON.stringify(flight)
+    }
+    return flightObj;
+};
+
+export {  getColumns, formatSingleFlight }

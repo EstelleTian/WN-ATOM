@@ -69,6 +69,8 @@ class SchemeListData{
     @observable generateTime = "";
     //方案id
     @observable schemeId = "";
+    //定时器
+    @observable timeoutId = "";
     // 增加方案-单条
     @action addScheme( opt ){
         const item = new SchemeItem(opt);

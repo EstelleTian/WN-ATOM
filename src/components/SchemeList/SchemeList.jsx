@@ -8,14 +8,14 @@
  */
 import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Row, Col, message, Checkbox , Empty} from 'antd'
-import { SyncOutlined } from '@ant-design/icons';
+import {  message, Checkbox , Empty} from 'antd'
 import { requestGet, request } from 'utils/request'
 import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
 import  SchemeModal  from "./SchemeModal";
 import  SchemeItem  from "./SchemeItem";
 import './SchemeList.scss'
+import {SyncOutlined} from "@ant-design/icons";
 
 //方案多选按钮组
 const plainOptions = [
@@ -33,22 +33,18 @@ function SchemeList (props){
     const [ manualRefresh, setManualRefresh ] = useState( false ); //方案手动更新按钮loading状态
     const [ statusValues, setStatusValues ] = useState( ['FUTURE','RUNNING'] ); //方案列表 多选-状态-按钮组
     const [ schemeListRefresh, setSchemeListRefresh ] = useState( false ); //方案列表 是否是更新中 状态 true为更新中 false为更新完毕
-    const [ flightsRefresh, setFlightsRefresh ] = useState( false ); //航班列表是否是更新中 状态 true为更新中 false为更新完毕
+    const [ firstLoadScheme, setFirstLoadScheme ] = useState( true ); //方案列表是否是第一次更新
     //接收客户端传来方案id，用以自动切换到选中方案
     NWGlobal.setSchemeId = id  => {
         // alert("收到id:"+id);
         handleActive( id )
     };
     //状态-多选按钮组-切换事件
-    const onChange = useCallback((checkedValues)=>{
+    const onChange = (checkedValues)=>{
         // console.log('checked = ', checkedValues);
         setStatusValues( checkedValues );
-        getSchemeList();// 状态按钮切换后，主动获取方案列表
-    });
-    // DidMount 第一次获取方案列表
-    useEffect(function(){
-        getSchemeList(true);
-    }, [] );
+    };
+
     //方案详情显隐
     const toggleModalVisible = useCallback(( flag, id )=>{
         setVisible(flag);
@@ -80,26 +76,16 @@ function SchemeList (props){
             });
             //更新 方案列表 store
             schemeListData.updateList(list, generateTime);
-            //获取 激活方案 对象
-            const activeScheme = schemeListData.activeScheme || {};
-            const id = activeScheme.id || "";
-            //检测 没有选中方案 则默认选中第一个方案
-            if( !isValidVariable(id)  && list.length > 0 ){
-                let id = list[0].id + "";
-                console.log("未获取到id，选定第一个:",id);
-                handleActive(id);
-            }
         }
-
 
     });
     //更新--航班列表 store数据
-    const updateFlightTableData = useCallback(flightData => {
+    const updateFlightTableData = useCallback( ( flightData, id )  => {
         let  { flights, generateTime } = flightData;
         if( flights !== null ){
-            props.flightTableData.updateList(flights, generateTime)
+            props.flightTableData.updateFlightsList(flights, generateTime, id);
         }else{
-            props.flightTableData.updateList([], generateTime)
+            props.flightTableData.updateFlightsList([], generateTime, id);
         }
     });
     //更新--执行KPI store数据
@@ -117,7 +103,8 @@ function SchemeList (props){
     });
 
     //获取--方案列表
-    const getSchemeList = useCallback(( startNextRefresh = false ) => {
+    const getSchemeList = useCallback(( startNextRefresh = false  ) => {
+        // console.log("获取--方案列表，statusValues是:"+statusValues);
         const opt = {
             url:'http://192.168.194.21:58189/implementTactics',
             method: 'GET',
@@ -130,28 +117,12 @@ function SchemeList (props){
             resFunc: (data)=> {
                 //更新方案数据
                 updateSchemeListData(data);
-                //手动更新方案按钮loading状态，如果是true，置为false，标志完成数据获取
-                if( manualRefresh ){
-                    setManualRefresh(false);
-                }
 
-                //用以阻止正在更新方案列表时候又发起更新请求
-                if( startNextRefresh ){
-                    // console.log(" 方案列表定 定时开始")
-                    //获取--方案列表定时器---30s
-                    const schemeTimer = setTimeout(function(){
-                        // console.log("定时开始执行")
-                        if( schemeListRefresh === false ){
-                            setSchemeListRefresh(true);
-                            // console.log(" 方案列表 定时开始 获取--方案列表")
-                            getSchemeList(true);//获取--方案列表
-                        }
-                    },30 * 1000)
-                }
             },
             errFunc: (err)=> {
                 requestErr(err, '方案列表数据获取失败' );
-                setManualRefresh(false);},
+                setManualRefresh(false);
+            },
         };
         requestGet(opt);
     });
@@ -163,7 +134,7 @@ function SchemeList (props){
                 method:'GET',
                 params:{},
                 resFunc: (data)=> {
-                    updateFlightTableData(data);
+                    updateFlightTableData(data, id);
                     if( props.flightTableData.loading !== false){
                         props.flightTableData.toggleLoad(false);
                     }
@@ -249,13 +220,61 @@ function SchemeList (props){
         }
     }, [ props.schemeListData.activeScheme.id ] );
 
+    // DidMount 重新处理方案列表定时器
     useEffect(function(){
+        // console.log("方案列表 定时器激活了:"+statusValues);
+
+        // console.log("方案列表 清空定时器:"+props.schemeListData.timeoutId);
+        clearInterval(props.schemeListData.timeoutId);
+        props.schemeListData.timeoutId = "";
+        //生成新定时器--轮询
+        const timeoutid = setInterval(function(){
+            // console.log("方案列表开始请求:"+statusValues);
+            getSchemeList();
+        },6 * 1000);
+
+        props.schemeListData.timeoutId = timeoutid;
+
+    }, [firstLoadScheme, statusValues] );
+    // DidMount 第一次获取方案列表
+    useEffect(function(){
+        getSchemeList(true);
+        setFirstLoadScheme(false)
         return function(){
             console.log("方案列表卸载");
+            clearInterval(props.flightTableData.timeoutId);
             props.flightTableData.timeoutId = "";
+            clearInterval(props.executeKPIData.timeoutId);
             props.executeKPIData.timeoutId = "";
+            clearInterval(props.schemeListData.timeoutId);
+            props.schemeListData.timeoutId = "";
         }
     },[])
+
+    useEffect(function(){
+        // console.log("statusValues变了：", statusValues);
+        getSchemeList();
+    },[statusValues]);
+    useEffect(function(){
+        // console.log("statusValues",statusValues);
+        const schemeListData = props.schemeListData;
+        const { sortedList } = schemeListData; //获取排序后的方案列表
+        if( sortedList.length > 0 ){
+            //获取 激活方案 对象
+            const activeScheme = schemeListData.activeScheme || {};
+            const id = activeScheme.id || "";
+            //检测 没有选中方案 则默认选中第一个方案
+            if( !isValidVariable(id)  && sortedList.length > 0 ){
+                let id = sortedList[0].id + "";
+                console.log("未获取到id，选定第一个:",id);
+                handleActive(id);
+            }
+        }
+        //手动更新方案按钮loading状态，如果是true，置为false，标志完成数据获取
+        if( manualRefresh ){
+            setManualRefresh(false);
+        }
+    })
 
     const schemeListData = props.schemeListData;
     const { sortedList } = schemeListData; //获取排序后的方案列表
@@ -263,7 +282,7 @@ function SchemeList (props){
     return (
         <div className="list_container">
             <div className="manual_refresh">
-                <SyncOutlined spin={manualRefresh}  onClick={()=>{
+                <SyncOutlined spin={ manualRefresh }  onClick={()=>{
                     setManualRefresh(true);
                     getSchemeList();
                 }}/>

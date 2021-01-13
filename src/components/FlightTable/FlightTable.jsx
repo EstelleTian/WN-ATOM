@@ -11,67 +11,13 @@ import React, {useState, useEffect, useCallback} from 'react'
 import { inject, observer } from 'mobx-react'
 import {Table, message, Menu, Dropdown, Input, Checkbox} from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
-import { getColumns} from 'components/FlightTable/TableColumns'
-import { getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
+import { getColumns, formatSingleFlight} from 'components/FlightTable/TableColumns'
+
 import './FlightTable.scss';
 import {isValidVariable} from "../../utils/basic-verify";
 
 
-//数据转换，将航班转化为表格格式
-const formatSingleFlight = flight => {
-    let { alarmField, taskField, eapField, oapField, tobtField, cobtField, ctotField, fmeToday, ffixField, ctoField, etoField, agctField } = flight;
-    alarmField = alarmField || {};
-    taskField = taskField || {};
-    eapField = eapField || {};
-    oapField = oapField || {};
-    tobtField = tobtField || {};
-    tobtField = tobtField || {};
-    cobtField = cobtField || {};
-    cobtField = cobtField || {};
-    agctField = agctField || {};
-    fmeToday = fmeToday || {};
-    ffixField = ffixField || {};
-    ctoField = ctoField || {};
-    etoField = etoField || {};
-    // if( flight.flightid === "CES9658"){
-    //     debugger
-    //     console.log("cobtField", cobtField.value, getDayTimeFromString(cobtField.value))
-    //     console.log("ctotField", ctotField.value, getDayTimeFromString(ctotField.value))
-    // }
-    let taskVal = taskField.value || "";
-    if( taskVal === "null" ){
-        taskVal = ""
-    }
-    let flightObj = {
-        key: flight.id,
-        id: flight.id,
-        FLIGHTID: flight.flightid,
-        ALARM: alarmField.value,
-        TASK: taskVal,
-        EAP: eapField.name,
-        EAPT: eapField.value,
-        OAP: oapField.name,
-        OAPT: oapField.value,
-        ACTYPE: flight.aircrafttype,
-        DEPAP:  flight.depap,
-        ARRAP: flight.arrap,
-        SOBT: getDayTimeFromString(flight.sobt),
-        EOBT: getDayTimeFromString(flight.eobt),
-        TOBT: getDayTimeFromString(tobtField.value),
-        COBT: cobtField.value,
-        CTOT: ctotField.value,
-        AGCT: getDayTimeFromString( agctField.value ),
-        ATOT: getDayTimeFromString(flight.atd),
-        FETA: getDayTimeFromString(flight.formerArrtime),
-        FFIX: ffixField.name,
-        FFIXT: ffixField.value,
-        CTO: ctoField.value,
-        ETO: getTimeAndStatus(etoField.value),
-        STATUS: flight.runningStatus,
-        orgdata: JSON.stringify(flight)
-    }
-    return flightObj;
-};
+
 
 function FlightTable(props){
     let [tableWidth, setWidth] = useState(0);

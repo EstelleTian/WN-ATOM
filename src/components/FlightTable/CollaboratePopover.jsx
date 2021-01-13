@@ -37,24 +37,39 @@ const FLIGHTIDPopover = (props) => {
     });
 
     //标记豁免 取消标记豁免
-    const handleExempty = useCallback(( urlKey, record, title )  =>{
+    const handleExempty = useCallback(( type, record, title )  =>{
         const orgdata = record.orgdata || {};
-        let id = record.id || "";
-        const data = {
-            userId: "42",
-            id: id,
-            comment: "",
-        };
+        let orgFlight = JSON.parse(orgdata) || {};
+        let urlKey = "";
+        if( type === "exempt"){
+            urlKey = "flightExempt";
+            orgFlight.priority =FlightCoordination.PRIORITY_EXEMPT; //48
+        }else if( type === "unexempt"){
+            urlKey = "flightExemptCancel";
+            orgFlight.priority =FlightCoordination.PRIORITY_NORMAL; //0
+        }
+        if( isValidVariable(urlKey) ){
+            // console.log(JSON.stringify(orgFlight));
+            let id = record.id || "";
+            const data = {
+                userId: "443",
+                // flightCoordination: JSON.stringify(orgFlight),
+                flightCoordination: orgFlight,
+                comment: "",
 
-        const opt = {
-            url:'http://192.168.243.162:29891/'+urlKey,
-            method:'POST',
-            // params: JSON.stringify( data ),
-            params: data,
-            resFunc: (data)=> requestSuccess(data, title),
-            errFunc: (err)=> requestErr(err, title+'失败' ),
-        };
-        request(opt);
+            };
+
+            const opt = {
+                // url:'http://192.168.243.162:29891/'+urlKey ,
+                url:'http://192.168.243.162:29891/'+urlKey + '/443/11',
+                method:'POST',
+                params: data,
+                resFunc: (data)=> requestSuccess(data, title),
+                errFunc: (err)=> requestErr(err, title+'失败' ),
+            };
+            request(opt);
+        }
+
     })
     const getContent = useCallback((orgdata)  =>{
         let record = orgdata.record || {};
@@ -65,8 +80,8 @@ const FLIGHTIDPopover = (props) => {
                 <button className="c-btn c-btn-blue">查看航班详情</button>
                 {
                     priority === FlightCoordination.PRIORITY_EXEMPT
-                    ? <button className="c-btn c-btn-red" onClick={ () => { handleExempty("flightExemptCancelRest", record, "取消豁免") } }>取消豁免</button>
-                    : <button className="c-btn c-btn-green" onClick={ () => { handleExempty("flightExemptRest", record, "标记豁免") } }>标记豁免</button>
+                    ? <button className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "取消豁免") } }>取消豁免</button>
+                    : <button className="c-btn c-btn-green" onClick={ () => { handleExempty( "exempt", record, "标记豁免") } }>标记豁免</button>
                 }
             </div>
         )
@@ -337,7 +352,7 @@ const COBTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className={`full-cell ${source}`}>
+            <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
                 <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
                     <span className="">{getTimeAndStatus(text)}</span>
                 </div>
@@ -455,7 +470,7 @@ const CTOTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className={`full-cell ${source}`}>
+            <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
                 <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
                     <span className="">{getTimeAndStatus(text)}</span>
                 </div>
@@ -477,7 +492,7 @@ const CTOPopover = (props) => {
     let { ctoField : { source } } = orgdata;
     let sourceCN = converSource( source );
     return(
-        <div className={`full-cell ${source}`}>
+        <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
             <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
                 <span className="">{getTimeAndStatus(text)}</span>
             </div>
@@ -495,7 +510,7 @@ const EAPTPopover = (props) => {
     let { eapField : { source , value } } = orgdata;
     let sourceCN = converSource( source );
     return(
-        <div className={`full-cell ${source}`}>
+        <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
             <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${value}-${sourceCN}`}>
                 <span className="">{getTimeAndStatus(value)}</span>
             </div>
@@ -513,11 +528,30 @@ const OAPTPopover = (props) => {
     let { oapField : { source , value } } = orgdata;
     let sourceCN = converSource( source );
     return(
-        <div className={`full-cell ${source}`}>
+        <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
             <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${value}-${sourceCN}`}>
                 <span className="">{getTimeAndStatus(value)}</span>
             </div>
         </div>
     )
 }
-export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover, OAPTPopover }
+
+//ALARM 右键协调框
+const ALARMPopover = (props) => {
+    const {text, record, index, col} = props.opt;
+    if( isValidVariable(record) ){
+        let { orgdata } = record;
+        if( isValidVariable(orgdata) ){
+            orgdata = JSON.parse(orgdata);
+        }
+        let { priority } = orgdata;
+        return(
+            <div className={`full-cell`}>
+
+            </div>
+        )
+    }
+    return ""
+
+}
+export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover, OAPTPopover, ALARMPopover }

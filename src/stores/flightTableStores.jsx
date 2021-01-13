@@ -15,9 +15,11 @@ import  FmeToday  from 'utils/fmetoday.js'
 // 单条航班对象
 class FlightItem{
     // 航班id
-    @observable id = ""
-     // 航班选中状态
-     @observable selected = false
+    @observable id = "";
+    // 更新时间戳
+    @observable updateTimeStamp = "";
+    // 航班选中状态
+    @observable selected = false
     constructor( opt ){
         makeObservable(this)
         for( let key in opt ){
@@ -25,17 +27,21 @@ class FlightItem{
         }
         this.selected = false
     }
-    // 航班数据更新
-    @action update( opt ){
-        for( let key in opt ){
-            if( this.hasOwnProperty(key) ){
-                this[key] = opt[key]
-            }
-        }
-    }
-    // 航班状态切换
+    // 航班 选中状态切换
     @action toggleSelected( ){
         this.selected = !this.selected;
+    }
+    //单条--航班更新--对比updateTimeStamp 时间戳
+    @action updateFlight( newFlight ){
+        const newupdateTimeStamp = newFlight.updateTimeStamp;
+        if( newupdateTimeStamp*1 >= this.updateTimeStamp*1 ){
+            console.log("传入新对象时间更新");
+            //更新为传入对象
+            for( let key in newFlight ){
+                this[key] = newFlight[key];
+            }
+            console.log("更新后对象:", this);
+        }
     }
 
 }
@@ -52,24 +58,73 @@ class FlightTableData{
     @observable loading = false;
     //定时器
     @observable timeoutId = "";
+    //上一次请求的方案id
+    @observable lastSchemeId = "";
     //更新表格loading状态
     @action toggleLoad( load ){
         this.loading = load;
     }
-    //更新航班数据--强制更新-不对比版本号
-    @action updateList( arr, generateTime ){
-        this.list = [];
-        this.generateTime = generateTime;
-        // const len = this.list.length;
-        let newArr = [];
-        arr.map( item => {
-            const itemIns = new FlightItem(item);
-            newArr.push( itemIns );
-        })
-        this.list = newArr;
+    //更新航班数据-
+    @action updateFlightsList( newList, generateTime, id ){
+        //上次获取航班的方案id和本次的id不一样，直接替换
+        if( this.lastSchemeId !== id ){
+            this.list = [];
+            this.generateTime = generateTime;
+            // const len = this.list.length;
+            let newFlightList = [];
+            newList.map( item => {
+                const itemIns = new FlightItem(item);
+                newFlightList.push( itemIns );
+            })
+            this.list = newFlightList;
+            this.lastSchemeId = id; //更新为本次方案id
+        }else{//上次获取航班的方案id和本次的id一样，航班逐一对比时间戳
+            if( this.lastSchemeId !== "" && id !=="" ){
+                //获取当前所有航班ids集合
+                let idsList = [];
+                this.list.map( item => {
+                    const id = item.id;
+                    if( idsList.indexOf(id) === -1 ){
+                        idsList.push( id );
+                    }
+                });
+                //遍历新航班集合
+                let newResList = [];
+                newList.map( newItem => {
+                    const nid = newItem.id;
+                    //该航班已存在
+                    const index = idsList.indexOf(nid);
+                    if( index > -1 ){
+                        //获取已存在航班实例
+                        const oldItem = this.list[index];
+                        const curUpdateTimeStampe = oldItem.updateTimeStamp;
+                        const newUpdateTimeStamp = newItem.updateTimeStamp;
+                        if( newUpdateTimeStamp*1 >= curUpdateTimeStampe*1 ){
+                            newResList.push( newItem );
+                        }else{
+                            newResList.push( oldItem );
+                        }
+                    }else{
+                        const itemIns = new FlightItem(newItem);
+                        newResList.push( itemIns );
+                    }
+                });
+            }
+
+
+        }
 
     }
-
+    //单条--航班更新
+    @action updateSingleFlight( fObj, generateTime ){
+        const newFId = fObj.id;
+        this.list.map( item => {
+            const oldFId = item.id;
+            if( oldFId === newFId ){
+                item.updateFlight( fObj );
+            }
+        });
+    }
     //获取和generatetime时间比最近的航班对象，用以自动滚动
     @computed get getTargetFlight(){
         // console.log("list长度:" + this.list.length);
@@ -103,6 +158,7 @@ class FlightTableData{
             }
         })
         return filterFlights;
+        // return this.list;
     }
     //获取等待池航班
     @computed get getPoolFlights(){

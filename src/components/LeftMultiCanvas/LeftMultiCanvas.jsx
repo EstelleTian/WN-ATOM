@@ -36,7 +36,7 @@ function LeftMultiCanvas(props){
                             <ExecuteKPI />
                         </ModalBox>
                     </Suspense>
-                    : <SubTable name={leftActiveName} leftActiveName={leftActiveName} />
+                    : <SubTable name={leftActiveName} key={leftActiveName} leftActiveName={leftActiveName} />
             }
         </div>
     )

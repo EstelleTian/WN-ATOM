@@ -120,7 +120,7 @@ function LoginPage(props){
                                 name="password"
                                 rules={[{ required: true, message: '密码不能为空' }]}
                             >
-                                <Input   className="form_input" prefix={<LockOutlined />} placeholder="密码"/>
+                                <Input type="password" className="form_input" prefix={<LockOutlined />} placeholder="密码"/>
                             </Form.Item>
                             <div className="login_btn  justify-content-center">
                                 <Button loading={loading} type="primary" htmlType="submit" size={'large'}

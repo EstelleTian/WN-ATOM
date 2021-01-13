@@ -1,28 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {Badge, Button, Dropdown, Menu, Radio} from "antd";
-import { PoweroffOutlined, SettingOutlined} from "@ant-design/icons";
-import WinBtn from "./WinBtn";
-import NavBellNews from "./NavBellNews";
-
-import './RightNav.scss'
+import React from "react";
+import { Button, Radio} from "antd";
 import {observer, inject} from "mobx-react";
+import User from "./User";
+// import WinBtn from "./WinBtn";
+import NavBellNews from "./NavBellNews";
+import './RightNav.scss'
 
-const menu = (
-    <Menu >
-        <Menu.Item key="1">
-            <SettingOutlined />修改密码
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="2">
-            <PoweroffOutlined />
-            退出登录
-        </Menu.Item>
 
-    </Menu>
-);
 function RightNav(props){
-    const { username } = props;
-
     const groupRightChange = (e) => {
         const value = e.target.value;
         props.systemPage.setLeftActiveName(value);
@@ -67,18 +52,9 @@ function RightNav(props){
                 <Button size="large">
                     <NavBellNews />
                 </Button>
-                <Button size="large"  className="user">
-                    <Dropdown overlay={menu} placement="bottomCenter" arrow>
-                        <span  className="user-name">{ username }</span>
-                    </Dropdown>
-                </Button>
-
+                <User />
             </div>
-            {/*<div className="user">*/}
-            {/*    <Dropdown overlay={menu} placement="bottomCenter" arrow>*/}
-            {/*        <span  className="user-name">{ username }</span>*/}
-            {/*    </Dropdown>*/}
-            {/*</div>*/}
+
         </div>
     )
 }
