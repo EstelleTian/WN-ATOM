@@ -9,6 +9,17 @@
 import { observable, action, computed, makeObservable } from 'mobx'
 import { isValidVariable } from 'utils/basic-verify'
 
+class UserInfo {
+    constructor(opt) {
+        makeObservable(this);
+        for( let key in opt ){
+            this[key] = opt[key];
+        }
+    }
+    @observable id = "";
+
+}
+
 class SystemPage{
     constructor(){
         makeObservable(this)
@@ -48,6 +59,11 @@ class SystemPage{
         if( isValidVariable(name) ){
             this.dateRange = name;
         }
+    }
+    //用户信息-赋值
+    @action setUserData( user ){
+        const userinfo = new UserInfo(user);
+        this.user = userinfo;
     }
 }
 

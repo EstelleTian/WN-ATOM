@@ -14,7 +14,7 @@ import { UserOutlined } from '@ant-design/icons'
 import RightNav from "./RightNav";
 import User from "./User";
 import NavBellNews from "./NavBellNews";
-import { NWGlobal } from "utils/global.js";
+// import { NWGlobal } from "utils/global.js";
 import './NavBar.scss'
 
 const { Header } = Layout;
@@ -59,10 +59,7 @@ function NavBar(props){
             </div>
         }
     }
-    NWGlobal.setUserInfo = userInfo =>{
-        alert("接收到客户端传来用户信息："+ userInfo);
-        props.systemPage.user = JSON.parse(userInfo)
-    }
+
     return (
         <Header className="nav_header">
             { getHeader() }

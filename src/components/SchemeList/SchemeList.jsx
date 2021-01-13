@@ -112,7 +112,7 @@ function SchemeList (props){
                 status: statusValues.join(','),
                 startTime: "",
                 endTIme: "",
-                userId: "443"
+                userId: props.systemPage.user.id
             },
             resFunc: (data)=> {
                 //更新方案数据
@@ -129,22 +129,22 @@ function SchemeList (props){
     //获取--航班列表数据
     const requestFlightTableData = useCallback(id => {
         // if( isValidVariable(id) ){
-            const opt = {
-                url:'http://192.168.194.21:29890/tactic/' + id,
-                method:'GET',
-                params:{},
-                resFunc: (data)=> {
-                    updateFlightTableData(data, id);
-                    if( props.flightTableData.loading !== false){
-                        props.flightTableData.toggleLoad(false);
-                    }
-                },
-                errFunc: (err)=> {
-                    requestErr(err, '航班列表数据获取失败')
-                    props.flightTableData.toggleLoad(false)
-                } ,
-            };
-            request(opt);
+        const opt = {
+            url:'http://192.168.194.21:29890/tactic/' + id,
+            method:'GET',
+            params:{},
+            resFunc: (data)=> {
+                updateFlightTableData(data, id);
+                if( props.flightTableData.loading !== false){
+                    props.flightTableData.toggleLoad(false);
+                }
+            },
+            errFunc: (err)=> {
+                requestErr(err, '航班列表数据获取失败')
+                props.flightTableData.toggleLoad(false)
+            } ,
+        };
+        request(opt);
         // }
 
     });
@@ -152,7 +152,6 @@ function SchemeList (props){
     const requestExecuteKPIData = useCallback(id => {
         const opt = {
             url:'http://192.168.194.21:29890/performkpi/' + id,
-            // url:'http://192.168.243.8:29890/performkpi/' + id,
             method:'GET',
             params:{},
             resFunc: (data)=> {
@@ -222,24 +221,23 @@ function SchemeList (props){
 
     // DidMount 重新处理方案列表定时器
     useEffect(function(){
-        // console.log("方案列表 定时器激活了:"+statusValues);
+        if( !firstLoadScheme ){
+            console.log("方案列表 定时器激活了:"+statusValues);
+            // console.log("方案列表 清空定时器:"+props.schemeListData.timeoutId);
+            clearInterval(props.schemeListData.timeoutId);
+            props.schemeListData.timeoutId = "";
+            //生成新定时器--轮询
+            const timeoutid = setInterval(function(){
+                // console.log("方案列表开始请求:"+statusValues);
+                getSchemeList();
+            },30*1000);
 
-        // console.log("方案列表 清空定时器:"+props.schemeListData.timeoutId);
-        clearInterval(props.schemeListData.timeoutId);
-        props.schemeListData.timeoutId = "";
-        //生成新定时器--轮询
-        const timeoutid = setInterval(function(){
-            // console.log("方案列表开始请求:"+statusValues);
-            getSchemeList();
-        },30*1000);
-
-        props.schemeListData.timeoutId = timeoutid;
-
-    }, [firstLoadScheme, statusValues] );
+            props.schemeListData.timeoutId = timeoutid;
+        }
+    }, [firstLoadScheme] );
     // DidMount 第一次获取方案列表
     useEffect(function(){
-        getSchemeList(true);
-        setFirstLoadScheme(false)
+
         return function(){
             console.log("方案列表卸载");
             clearInterval(props.flightTableData.timeoutId);
@@ -252,9 +250,21 @@ function SchemeList (props){
     },[])
 
     useEffect(function(){
-        // console.log("statusValues变了：", statusValues);
-        getSchemeList();
+        console.log("statusValues变了 getSchemeList：", statusValues, firstLoadScheme);
+        if( !firstLoadScheme ){
+            getSchemeList();
+        }
     },[statusValues]);
+    useEffect(function(){
+        console.log("user.id变了 getSchemeList(true)：", statusValues, firstLoadScheme);
+        const id = props.systemPage.user.id;
+        if( firstLoadScheme && isValidVariable(id) ){
+            // alert( "user.id变为:"+ id );
+            getSchemeList(true);
+            setFirstLoadScheme(false);
+        }
+    },[props.systemPage.user.id]);
+
     useEffect(function(){
         // console.log("statusValues",statusValues);
         const schemeListData = props.schemeListData;
@@ -279,6 +289,7 @@ function SchemeList (props){
     const schemeListData = props.schemeListData;
     const { sortedList } = schemeListData; //获取排序后的方案列表
     const  length = sortedList.length;
+
     return (
         <div className="list_container">
             <div className="manual_refresh">
@@ -293,20 +304,20 @@ function SchemeList (props){
             {
                 (length > 0) ?
                     sortedList.map( (item, index) => (
-                    <SchemeItem
-                        item={item}
-                        handleActive={handleActive}
-                        key={index}
-                        toggleModalVisible={toggleModalVisible}
-                    >
-                    </SchemeItem>
-                    )
-                ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color:"#fff"}} />
+                            <SchemeItem
+                                item={item}
+                                handleActive={handleActive}
+                                key={index}
+                                toggleModalVisible={toggleModalVisible}
+                            >
+                            </SchemeItem>
+                        )
+                    ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color:"#fff"}} />
 
             }
             <SchemeModal visible={visible} setVisible={setVisible} modalId={modalId} />
         </div>
     )
- }
+}
 
 export default inject("schemeListData","executeKPIData","flightTableData","systemPage")(observer(SchemeList))

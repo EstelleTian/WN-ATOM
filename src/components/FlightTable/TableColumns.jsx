@@ -324,7 +324,8 @@ const formatSingleFlight = flight => {
         FFIXT: ffixField.value,
         CTO: ctoField.value,
         ETO: getTimeAndStatus(etoField.value),
-        STATUS: flight.runningStatus,
+        // STATUS: flight.runningStatus,
+        STATUS: flight.flightStatus,
         orgdata: JSON.stringify(flight)
     }
     return flightObj;

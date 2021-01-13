@@ -1,6 +1,7 @@
 import React  from "react";
-import { Button, Dropdown, Menu, } from "antd";
+import {  Dropdown, Menu, } from "antd";
 import { PoweroffOutlined, SettingOutlined} from "@ant-design/icons";
+import { NWGlobal } from "utils/global.js";
 import {observer, inject} from "mobx-react";
 import {withRouter} from "react-router-dom";
 
@@ -24,6 +25,11 @@ function User(props){
     const descriptionCN = user.descriptionCN || "";
     const pathname = location.pathname || "";
     console.log( "当前url是：",props.location.pathname );
+    NWGlobal.setUserInfo = userStr =>{
+        alert("接收到客户端传来用户信息："+ userStr);
+        const userInfo = JSON.parse(userStr);
+        props.systemPage.setUserData(userInfo);
+    }
     //放行监控页面
     if( pathname === "/fangxing" ){
         return (
