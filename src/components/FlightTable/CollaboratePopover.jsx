@@ -485,8 +485,8 @@ const CTOPopover = (props) => {
     )
 }
 
-//EAPT右键协调框
-const EAPTPopover = (props) => {
+//EAWT右键协调框
+const EAWTPopover = (props) => {
     const {text, record, index, col} = props.opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
@@ -503,8 +503,8 @@ const EAPTPopover = (props) => {
     )
 }
 
-//OAPT右键协调框
-const OAPTPopover = (props) => {
+//OAWT右键协调框
+const OAWTPopover = (props) => {
     const {text, record, index, col} = props.opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
@@ -520,4 +520,4 @@ const OAPTPopover = (props) => {
         </div>
     )
 }
-export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover, OAPTPopover }
+export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAWTPopover, OAWTPopover }

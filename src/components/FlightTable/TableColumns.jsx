@@ -8,7 +8,7 @@
  */
 import React from 'react'
 import { isValidVariable } from 'utils/basic-verify'
-import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAPTPopover, OAPTPopover } from  './CollaboratePopover'
+import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAWTPopover, OAWTPopover } from  './CollaboratePopover'
 
 //表格列名称-中英-字典
 let defaultNames = {
@@ -19,7 +19,6 @@ let defaultNames = {
     "ALARM":{
         "en":"ALARM",
         "cn":"告警",
-
     },
     "TASK":{
         "en":"TASK",
@@ -41,13 +40,13 @@ let defaultNames = {
         "en":"ETO",
         "cn":"预计基准点"
     },
-    "EAP":{
-        "en":"EAP",
-        "cn":"入区域点"
+    "COBT":{
+        "en":"COBT",
+        "cn":"计算预撤时间"
     },
-    "EAPT":{
-        "en":"EAPT",
-        "cn":"入区域点时间"
+    "CTOT":{
+        "en":"CTOT",
+        "cn":"计算起飞时间"
     },
     "ACTYPE":{
         "en":"ACTYPE",
@@ -63,48 +62,50 @@ let defaultNames = {
     },
     "ARRAP":{
         "en":"ARRAP",
-        "cn":"降落机场"
+        "cn":"降落机场",
     },
     "EOBT":{
         "en":"EOBT",
         "cn":"预计撤轮档时间"
     },
-    "COBT":{
-        "en":"COBT",
-        "cn":"计算预撤时间"
-    },
-     "CTOT":{
-        "en":"CTOT",
-        "cn":"计算起飞时间"
-    },
-    "ATOT":{
-        "en":"ATOT",
-        "cn":"实际起飞时间"
-    },
-    "SOBT":{
-        "en":"SOBT",
-        "cn":"计划撤轮档"
-    },
     "TOBT":{
         "en":"TOBT",
         "cn":"目标撤轮档"
-    },
-    "OAP":{
-        "en":"OAP",
-        "cn":"出区域点"
-    },
-    "OAPT":{
-        "en":"OAPT",
-        "cn":"出区域点时间"
-    },
-    "FETA":{
-        "en":"FETA",
-        "cn":"前段降落时间"
     },
     "AGCT":{
         "en":"AGCT",
         "cn":"关舱门时间"
     },
+    "ATOT":{
+        "en":"ATOT",
+        "cn":"实际起飞时间"
+    },
+    "EAW":{
+        "en":"EAW",
+        "cn":"入区域点"
+    },
+    "EAWT":{
+        "en":"EAWT",
+        "cn":"入区域点时间"
+    },
+
+    "OAW":{
+        "en":"OAW",
+        "cn":"出区域点"
+    },
+    "OAWT":{
+        "en":"OAWT",
+        "cn":"出区域点时间"
+    },
+    "SOBT":{
+        "en":"SOBT",
+        "cn":"计划撤轮档"
+    },
+    "FETA":{
+        "en":"FETA",
+        "cn":"前段降落时间"
+    },
+
     "orgdata": {
         "en":"orgdata",
         "cn":"原数据"
@@ -131,11 +132,11 @@ let render = (opt)  => {
     else if( col === "CTO" ){
         popover = <CTOPopover opt={opt} />
     }
-    else if( col === "EAPT" ){
-        popover = <EAPTPopover opt={opt} />
+    else if( col === "EAWT" ){
+        popover = <EAWTPopover opt={opt} />
     }
-    else if( col === "OAPT" ){
-        popover = <OAPTPopover opt={opt} />
+    else if( col === "OAWT" ){
+        popover = <OAWTPopover opt={opt} />
     }
     let obj  = {
         children: popover,
@@ -212,8 +213,11 @@ const getColumns = ( names = defaultNames ) => {
         if( en === "FFIXT" ){
             tem["defaultSortOrder"] ='ascend'
         }
-        if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAPT" || en === "OAPT"){
+        if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAWT" || en === "OAWT"){
             tem["width"] = (screenWidth > 1920) ? 90 : 72
+        }
+        if(en === "ALARM" ){
+            tem["width"] = (screenWidth > 1920) ? 120 : 90
         }
         // if( en === "CTO" || en === "CTOT" || en === "COBT" ){
         //     tem["align"] = "left"

@@ -9,12 +9,27 @@
 
 import React, {useState, useEffect, useCallback} from 'react'
 import { inject, observer } from 'mobx-react'
-import {Table, message, Menu, Dropdown, Input, Checkbox} from 'antd'
+import {Table, message, Menu, Dropdown, Input, Checkbox, Tag, Tooltip } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { getColumns} from 'components/FlightTable/TableColumns'
 import { getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
+import { FlightCoordination, } from 'utils/flightcoordination'
 import './FlightTable.scss';
 import {isValidVariable} from "../../utils/basic-verify";
+
+const { getAlarmValueZh } = FlightCoordination
+
+
+const formatAlarmValue = (values)=>{
+    let arr = values.map((item)=> {
+        return getAlarmValueZh(item);
+    })
+    return arr;
+}
+
+
+
+
 
 
 //数据转换，将航班转化为表格格式
@@ -46,12 +61,13 @@ const formatSingleFlight = flight => {
         key: flight.id,
         id: flight.id,
         FLIGHTID: flight.flightid,
-        ALARM: alarmField.value,
+        // ALARM: formatAlarmValue(alarmField.value).map((item)=>(<Tooltip key={item.key} title={item.descriptions}><Tag key={item.key} color={item.color}>{item.zh}</Tag></Tooltip>)),
+        ALARM: formatAlarmValue([100,200,300, 400, 500, 600, 700]).map((item)=>(<Tooltip key={item.key} title={item.descriptions}><Tag key={item.key} color={item.color}>{item.zh}</Tag></Tooltip>)),
         TASK: taskVal,
-        EAP: eapField.name,
-        EAPT: eapField.value,
-        OAP: oapField.name,
-        OAPT: oapField.value,
+        EAW: eapField.name,
+        EAWT: eapField.value,
+        OAW: oapField.name,
+        OAWT: oapField.value,
         ACTYPE: flight.aircrafttype,
         DEPAP:  flight.depap,
         ARRAP: flight.arrap,
