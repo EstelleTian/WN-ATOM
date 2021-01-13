@@ -10,6 +10,7 @@ import { schemeListData } from './schemeStores'
 import { newsList } from './newsStores'
 import { flightTableData } from './flightTableStores'
 import { executeKPIData } from './executeKPIStores'
+import { flightPerformanceData } from './flightPerformanceStores'
 import { systemPage } from './pageStores'
 
 export { 
@@ -17,5 +18,6 @@ export {
     newsList, flightTableData,
     executeKPIData,
     systemPage,
+    flightPerformanceData
  };
 

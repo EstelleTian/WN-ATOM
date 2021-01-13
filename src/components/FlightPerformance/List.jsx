@@ -17,7 +17,7 @@ const List =(props) => {
         return listData.map((item, index) => {
             const  { color="", des="", value="", unit="",} = item;
             return (
-                <li className="list-item">
+                <li key={item.id} className="list-item">
                     <Badge className="list-item-dot" size="" color={ color } text={ des } />
                     <div className="ant-divider-vertical"></div>
                     <span className="value">{ value }</span>
