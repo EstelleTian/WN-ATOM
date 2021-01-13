@@ -298,12 +298,13 @@ const formatSingleFlight = flight => {
     if( taskVal === "null" ){
         taskVal = ""
     }
+    let alarmFieldValue = Array.isArray(alarmField.value) ? alarmField.value : [];
     let flightObj = {
         key: flight.id,
         id: flight.id,
         FLIGHTID: flight.flightid,
-        // ALARM: formatAlarmValue(alarmField.value).map((item)=>(<Tooltip key={item.key} title={item.descriptions}><Tag key={item.key} color={item.color}>{item.zh}</Tag></Tooltip>)),
-        ALARM: formatAlarmValue([100,200,300, 400, 500, 600, 700]).map((item)=>(<Tooltip key={item.key} title={item.descriptions}><Tag key={item.key} color={item.color}>{item.zh}</Tag></Tooltip>)),
+        ALARM: formatAlarmValue(alarmFieldValue).map((item)=>(<Tooltip key={item.key} title={item.descriptions}><Tag className="alarm-tag"  key={item.key} color={item.color}>{item.zh}</Tag></Tooltip>)),
+        // ALARM: formatAlarmValue([100,300, 500, 700]).map((item)=>(<Tooltip key={item.key} title={item.descriptions}><Tag className="alarm-tag" key={item.key} color={item.color}>{item.zh}</Tag></Tooltip>)),
         TASK: taskVal,
         EAW: eapField.name,
         EAWT: eapField.value,
