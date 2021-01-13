@@ -33,15 +33,20 @@ class FlightItem{
     }
     //单条--航班更新--对比updateTimeStamp 时间戳
     @action updateFlight( newFlight ){
-        const newupdateTimeStamp = newFlight.updateTimeStamp;
-        if( newupdateTimeStamp*1 >= this.updateTimeStamp*1 ){
-            console.log("传入新对象时间更新");
-            //更新为传入对象
-            for( let key in newFlight ){
-                this[key] = newFlight[key];
-            }
-            console.log("更新后对象:", this);
+        console.log("单条--航班更新");
+        for( let key in newFlight ){
+            this[key] = newFlight[key];
         }
+
+        // const newupdateTimeStamp = newFlight.updateTimeStamp;
+        // if( newupdateTimeStamp*1 >= this.updateTimeStamp*1 ){
+        //     console.log("传入新对象时间更新");
+        //     //更新为传入对象
+        //     for( let key in newFlight ){
+        //         this[key] = newFlight[key];
+        //     }
+        //     console.log("更新后对象:", this);
+        // }
     }
 
 }
@@ -97,8 +102,8 @@ class FlightTableData{
                     if( index > -1 ){
                         //获取已存在航班实例
                         const oldItem = this.list[index];
-                        const curUpdateTimeStampe = oldItem.updateTimeStamp;
-                        const newUpdateTimeStamp = newItem.updateTimeStamp;
+                        const curUpdateTimeStampe = oldItem.updateTimeStamp || -1;
+                        const newUpdateTimeStamp = newItem.updateTimeStamp || -1;
                         if( newUpdateTimeStamp*1 >= curUpdateTimeStampe*1 ){
                             newResList.push( newItem );
                         }else{

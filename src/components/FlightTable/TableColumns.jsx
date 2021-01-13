@@ -8,8 +8,9 @@
  */
 import React from 'react'
 import { isValidVariable, getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
-import { FlightCoordination, } from 'utils/flightcoordination'
-import { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAWTPopover, OAWTPopover, ALARMPopover } from  './CollaboratePopover'
+import { FlightCoordination, PriorityList } from 'utils/flightcoordination'
+import { FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAWTPopover, OAWTPopover, ALARMPopover } from  './CollaboratePopover'
+import FLIGHTIDPopover from  './FLIGHTIDPopover'
 import {Tag, Tooltip} from "antd";
 
 
@@ -288,8 +289,9 @@ const formatSingleFlight = flight => {
     // }
     let taskVal = taskField.value || "";
     if( taskVal === "null" ){
-        taskVal = ""
+        taskVal = PriorityList[taskVal+""];
     }
+
     let flightObj = {
         key: flight.id,
         id: flight.id,

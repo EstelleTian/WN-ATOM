@@ -40,7 +40,7 @@ function NavBar(props){
                     </div>
                     <div className="time-range">
                         <Radio.Group defaultValue="a" buttonStyle="solid" size="large" >
-                            <Radio.Button value="a">计划范围 <Tag color="#87d068">29/00-29/23</Tag></Radio.Button>
+                            <Radio.Button value="a">计划范围 <Tag color="#3d8424">29/00-29/23</Tag></Radio.Button>
                         </Radio.Group>
                     </div>
 

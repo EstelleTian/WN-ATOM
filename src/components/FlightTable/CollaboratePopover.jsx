@@ -1,3 +1,11 @@
+/*
+ * @Author: liutianjiao
+ * @Date:
+ * @LastEditTime: 2021-01-13 10:00:18
+ * @LastEditors: Please set LastEditors
+ * @Description:
+ * @FilePath: CollaboratePopover.jsx
+ */
 import {Button, Checkbox, DatePicker, Descriptions, Form, Input, message as antdMessage, message, Popover} from "antd";
 import React,{useCallback} from "react";
 import { getDayTimeFromString, formatTimeString, getTimeAndStatus, isValidVariable } from 'utils/basic-verify'
@@ -5,6 +13,7 @@ import { FlightCoordination } from 'utils/flightcoordination.js'
 import { request, requestGet } from 'utils/request'
 import "./CollaboratePopover.scss"
 import moment from "moment";
+import {observer, inject} from "mobx-react";
 
 const converSource = (source) => {
     let sourceCN = ""
@@ -20,7 +29,7 @@ const converSource = (source) => {
 }
 
 //航班号右键协调框
-const FLIGHTIDPopover = (props) => {
+let FLIGHTIDPopover = (props) => {
     //数据提交失败回调
     const requestErr =useCallback( (err, content) => {
         antdMessage.error({
@@ -32,6 +41,7 @@ const FLIGHTIDPopover = (props) => {
     const requestSuccess = useCallback( ( data, title ) => {
         console.log(title + '成功:',data);
         const { flightCoordination } = data;
+        // props.ta
         // this.flight
         message.success(title + '成功');
     });
@@ -51,19 +61,14 @@ const FLIGHTIDPopover = (props) => {
         if( isValidVariable(urlKey) ){
             // console.log(JSON.stringify(orgFlight));
             let id = record.id || "";
-            const data = {
-                userId: "443",
-                // flightCoordination: JSON.stringify(orgFlight),
-                flightCoordination: orgFlight,
-                comment: "",
-
-            };
-
             const opt = {
-                // url:'http://192.168.243.162:29891/'+urlKey ,
-                url:'http://192.168.243.162:29891/'+urlKey + '/443/11',
-                method:'POST',
-                params: data,
+                url:'http://192.168.243.162:29891/'+urlKey,
+                method: 'POST',
+                params: {
+                    userId: "13",
+                    flightCoordination: orgFlight,
+                    comment: "",
+                },
                 resFunc: (data)=> requestSuccess(data, title),
                 errFunc: (err)=> requestErr(err, title+'失败' ),
             };
@@ -105,6 +110,7 @@ const FLIGHTIDPopover = (props) => {
         </Popover >
     )
 }
+
 //禁止系统自动调整 表单
 const changeOptions = [
     { label: '禁止系统自动调整', value: '1' }
@@ -554,5 +560,6 @@ const ALARMPopover = (props) => {
     return ""
 
 }
+inject("flightTableData")(observer(FLIGHTIDPopover))
 export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, ALARMPopover, EAWTPopover, OAWTPopover }
 

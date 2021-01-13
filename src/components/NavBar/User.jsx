@@ -21,20 +21,19 @@ function User(props){
     const { location, systemPage } = props;
     const user = systemPage.user || {};
     const username = user.name || "";
+    const descriptionCN = user.descriptionCN || "";
     const pathname = location.pathname || "";
     console.log( "当前url是：",props.location.pathname );
     //放行监控页面
     if( pathname === "/fangxing" ){
         return (
-            <Button size="large"  className="user">
-                <Dropdown overlay={menu} placement="bottomCenter" arrow>
-                    <span  className="user-name">{ username }</span>
-                </Dropdown>
-            </Button>
+            <Dropdown overlay={menu} placement="bottomCenter" arrow>
+                <span  className="user-name">{ descriptionCN }</span>
+            </Dropdown>
         )
     }else{
         return (
-            <span className="user_name">{ username }</span>
+            <span className="user_name">{ descriptionCN }</span>
         )
     }
 
