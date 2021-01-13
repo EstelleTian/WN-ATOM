@@ -28,89 +28,6 @@ const converSource = (source) => {
     return sourceCN;
 }
 
-//航班号右键协调框
-let FLIGHTIDPopover = (props) => {
-    //数据提交失败回调
-    const requestErr =useCallback( (err, content) => {
-        antdMessage.error({
-            content,
-            duration: 4,
-        });
-    })
-    //数据提交成功回调
-    const requestSuccess = useCallback( ( data, title ) => {
-        console.log(title + '成功:',data);
-        const { flightCoordination } = data;
-        // props.ta
-        // this.flight
-        message.success(title + '成功');
-    });
-
-    //标记豁免 取消标记豁免
-    const handleExempty = useCallback(( type, record, title )  =>{
-        const orgdata = record.orgdata || {};
-        let orgFlight = JSON.parse(orgdata) || {};
-        let urlKey = "";
-        if( type === "exempt"){
-            urlKey = "flightExempt";
-            orgFlight.priority =FlightCoordination.PRIORITY_EXEMPT; //48
-        }else if( type === "unexempt"){
-            urlKey = "flightExemptCancel";
-            orgFlight.priority =FlightCoordination.PRIORITY_NORMAL; //0
-        }
-        if( isValidVariable(urlKey) ){
-            // console.log(JSON.stringify(orgFlight));
-            let id = record.id || "";
-            const opt = {
-                url:'http://192.168.243.162:29891/'+urlKey,
-                method: 'POST',
-                params: {
-                    userId: "13",
-                    flightCoordination: orgFlight,
-                    comment: "",
-                },
-                resFunc: (data)=> requestSuccess(data, title),
-                errFunc: (err)=> requestErr(err, title+'失败' ),
-            };
-            request(opt);
-        }
-
-    })
-    const getContent = useCallback((orgdata)  =>{
-        let record = orgdata.record || {};
-        let priority = record.priority || "";
-
-        return (
-            <div className="clr_flightid">
-                <button className="c-btn c-btn-blue">查看航班详情</button>
-                {
-                    priority === FlightCoordination.PRIORITY_EXEMPT
-                        ? <button className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "取消豁免") } }>取消豁免</button>
-                        : <button className="c-btn c-btn-green" onClick={ () => { handleExempty( "exempt", record, "标记豁免") } }>标记豁免</button>
-                }
-            </div>
-        )
-    })
-    const {text, record, index, col} = props.opt;
-    return(
-        <Popover
-            destroyTooltipOnHide ={ { keepParent: false  } }
-            placement="rightTop"
-            title={record.FLIGHTID}
-            content={getContent(props.opt)}
-            trigger={[`contextMenu`]}
-            // visible={visible}
-            // onVisibleChange={ (curVisible) => {
-            //     if( curVisible === true && visible === false){
-            //         setVisible(true)
-            //     }
-            // }}
-        >
-            <div className="ddd" title={text}>{text}</div>
-        </Popover >
-    )
-}
-
 //禁止系统自动调整 表单
 const changeOptions = [
     { label: '禁止系统自动调整', value: '1' }
@@ -346,7 +263,8 @@ const COBTPopover = (props) => {
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
     }
-    let { cobtField : { source } } = orgdata;
+    let cobtField = orgdata.cobtField || {};
+    let source = cobtField.source || "";
     let sourceCN = converSource( source );
     return(
         <Popover
@@ -464,7 +382,8 @@ const CTOTPopover = (props) => {
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
     }
-    let { ctotField : { source } } = orgdata;
+    let ctotField = orgdata.ctotField || {};
+    let source = ctotField.source || "";
     let sourceCN = converSource( source );
     return(
         <Popover
@@ -495,7 +414,8 @@ const CTOPopover = (props) => {
     if( !isValidVariable(text) ){
         text = "";
     }
-    let { ctoField : { source } } = orgdata;
+    let ctoField = orgdata.ctoField || {};
+    let source = ctoField.source || "";
     let sourceCN = converSource( source );
     return(
         <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
@@ -513,7 +433,9 @@ const EAWTPopover = (props) => {
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
     }
-    let { eapField : { source , value } } = orgdata;
+    let eapField = orgdata.eapField || {};
+    let source = eapField.source || "";
+    let value = eapField.value || "";
     let sourceCN = converSource( source );
     return(
         <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
@@ -531,8 +453,12 @@ const OAWTPopover = (props) => {
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
     }
-    let { oapField : { source , value } } = orgdata;
+
+    let oapField = orgdata.oapField || {};
+    let source = oapField.source || "";
+    let value = oapField.value || "";
     let sourceCN = converSource( source );
+
     return(
         <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
             <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${value}-${sourceCN}`}>
@@ -544,7 +470,7 @@ const OAWTPopover = (props) => {
 
 //ALARM 右键协调框
 const ALARMPopover = (props) => {
-    const {text, record, index, col} = props.opt;
+    const {text, record} = props.opt;
     if( isValidVariable(record) ){
         let { orgdata } = record;
         if( isValidVariable(orgdata) ){
@@ -560,6 +486,6 @@ const ALARMPopover = (props) => {
     return ""
 
 }
-inject("flightTableData")(observer(FLIGHTIDPopover))
-export { FLIGHTIDPopover, FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, ALARMPopover, EAWTPopover, OAWTPopover }
+
+export { FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, ALARMPopover, EAWTPopover, OAWTPopover }
 

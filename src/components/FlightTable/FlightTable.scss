@@ -82,3 +82,8 @@
 .ant-table.ant-table-small tfoot > tr > td {
     padding: 0.35rem 0.5rem;
 }
+.alarm-tag.ant-tag {
+    padding: 0 4px;
+    margin-right: 4px;
+    cursor: pointer;
+}

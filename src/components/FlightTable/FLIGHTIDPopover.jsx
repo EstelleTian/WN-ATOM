@@ -9,7 +9,7 @@
 import { message as antdMessage, message, Popover} from "antd";
 import React,{useCallback} from "react";
 import {  isValidVariable } from 'utils/basic-verify'
-import { FlightCoordination } from 'utils/flightcoordination.js'
+import { FlightCoordination, PriorityList } from 'utils/flightcoordination.js'
 import { request, requestGet } from 'utils/request'
 
 import {observer, inject} from "mobx-react";
@@ -50,24 +50,24 @@ let FLIGHTIDPopover = (props) => {
         }
 
         //TODO测试
-        props.flightTableData.updateSingleFlight( orgFlight );
+        // props.flightTableData.updateSingleFlight( orgFlight );
 
-        // if( isValidVariable(urlKey) ){
-        //     // console.log(JSON.stringify(orgFlight));
-        //     let id = record.id || "";
-        //     const opt = {
-        //         url:'http://192.168.243.162:29891/'+urlKey,
-        //         method: 'POST',
-        //         params: {
-        //             userId: "13",
-        //             flightCoordination: orgFlight,
-        //             comment: "",
-        //         },
-        //         resFunc: (data)=> requestSuccess(data, title),
-        //         errFunc: (err)=> requestErr(err, title+'失败' ),
-        //     };
-        //     request(opt);
-        // }
+        if( isValidVariable(urlKey) ){
+            // console.log(JSON.stringify(orgFlight));
+            let id = record.id || "";
+            const opt = {
+                url:'http://192.168.243.162:29891/'+urlKey,
+                method: 'POST',
+                params: {
+                    userId: "13",
+                    flightCoordination: orgFlight,
+                    comment: "",
+                },
+                resFunc: (data)=> requestSuccess(data, title),
+                errFunc: (err)=> requestErr(err, title+'失败' ),
+            };
+            request(opt);
+        }
 
     })
     const getContent = useCallback((orgdata)  =>{
@@ -86,21 +86,25 @@ let FLIGHTIDPopover = (props) => {
         )
     })
     const {text, record, index, col} = props.opt;
+    let { orgdata } = record;
+    if( isValidVariable(orgdata) ){
+        orgdata = JSON.parse(orgdata);
+    }
+    let { priority } = orgdata;
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
             placement="rightTop"
-            title={record.FLIGHTID}
+            title={ text }
             content={getContent(props.opt)}
             trigger={[`contextMenu`]}
-            // visible={visible}
-            // onVisibleChange={ (curVisible) => {
-            //     if( curVisible === true && visible === false){
-            //         setVisible(true)
-            //     }
-            // }}
+
         >
-            <div className="ddd" title={text}>{text}</div>
+            <div className={`full-cell ${ isValidVariable(priority) > 0 ? "priority_"+priority : "" }`}>
+                <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${ PriorityList[priority] }`}>
+                    <span className="">{ text }</span>
+                </div>
+            </div>
         </Popover >
     )
 }

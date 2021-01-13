@@ -34,7 +34,7 @@ function RightNav(props){
                                 <Badge
                                     className="site-badge-count-109"
                                     count={ props.flightTableData.getExemptFlights.length }
-                                    style={{ backgroundColor: '#52c41a' }}
+                                    style={{ backgroundColor: 'rgb(61, 132, 36)' }}
                                 />
                                 : ""
                         }

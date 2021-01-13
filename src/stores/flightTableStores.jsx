@@ -16,10 +16,13 @@ import  FmeToday  from 'utils/fmetoday.js'
 class FlightItem{
     // 航班id
     @observable id = "";
+    // 优先级
+    @observable priority = "";
     // 更新时间戳
     @observable updateTimeStamp = "";
     // 航班选中状态
-    @observable selected = false
+    @observable selected = false;
+
     constructor( opt ){
         makeObservable(this)
         for( let key in opt ){
