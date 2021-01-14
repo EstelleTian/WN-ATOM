@@ -40,14 +40,27 @@
     //bottom: 0;
     @include display_flex();
     @include flex();
+    &:hover{
+      cursor: pointer;
+    }
     >div{
       @include display_flex();
       @include flex();
       align-items: center;
-      justify-content: center;
-      //padding-left: 0.378rem;
-      padding-left: 0.1rem;
+      //justify-content: center;
+      padding-left: 0.378rem;
+      //padding-left: 0.1rem;
       //text-align: left;
+    }
+  }
+  .FFIXT{
+    //background: #404040;
+    border-left: 2px solid #868a8b!important;
+    border-right: 2px solid #868a8b!important;
+    .full-cell{
+      >div{
+        padding-left: 0!important;
+      }
     }
   }
   .ATOT{

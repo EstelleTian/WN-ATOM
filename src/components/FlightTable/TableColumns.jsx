@@ -232,11 +232,12 @@ const getColumns = ( names = defaultNames ) => {
         }
         //默认排序
         if( en === "FFIXT" ){
-            tem["defaultSortOrder"] ='ascend'
+            tem["defaultSortOrder"] ='ascend';
+            tem["width"] = (screenWidth > 1920) ? 70 : 58
         }
-        if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAWT" || en === "OAWT"){
-            // tem["width"] = (screenWidth > 1920) ? 70 : 58
-        }
+        // if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAWT" || en === "OAWT"){
+        //     tem["width"] = (screenWidth > 1920) ? 70 : 58
+        // }
         if(en === "ALARM" ){
             tem["width"] = (screenWidth > 1920) ? 105 : 90
         }

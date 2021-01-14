@@ -6,8 +6,8 @@
  * @Description:
  * @FilePath: CollaboratePopover.jsx
  */
-import { message as antdMessage, message, Popover, Button} from "antd";
-import React,{ useCallback, useState } from "react";
+import { message as antdMessage, message, Popover, Button, Tooltip} from "antd";
+import React,{ useCallback, useState, useEffect } from "react";
 import {  isValidVariable } from 'utils/basic-verify'
 import { FlightCoordination, PriorityList } from 'utils/flightcoordination.js'
 import { request, requestGet } from 'utils/request'
@@ -18,28 +18,44 @@ import FmeToday from "../../utils/fmetoday";
 //航班号右键协调框
 let FLIGHTIDPopover = (props) => {
     const [ exemptLoad, setExemptLoad ] = useState(false);
+    const [ tipObj, setTipObj] = useState({
+        visible: false,
+        title: "",
+        color: ""
+    });
     //数据提交失败回调
     const requestErr =useCallback( (err, content) => {
-        antdMessage.error({
-            content,
-            duration: 4,
+        setTipObj({
+            visible: true,
+            title: content,
+            color: "rgba(151,59,52,0.9)"
         });
         setExemptLoad(false);
+
     })
     //数据提交成功回调
     const requestSuccess = useCallback( ( data, title ) => {
+
         console.log(title + '成功:',data);
         console.log( props.flightTableData.updateSingleFlight );
         const { flightCoordination } = data;
+        //更新单条航班数据
         props.flightTableData.updateSingleFlight( flightCoordination );
-        message.success(title + '成功');
-        setExemptLoad(false);
+        // message.success(title + '成功');
+
         // 创建事件
         const evt = document.createEvent("MouseEvents");
         // 初始化 事件名称必须是mousedown
         evt.initEvent("mousedown", true, true);
         // 触发, 即弹出文字
         document.dispatchEvent(evt);
+
+        setTipObj({
+            visible: true,
+            title: title + '成功',
+            color: "rgba(52,119,56,0.98)"
+        });
+        setExemptLoad(false);
     });
 
     //标记豁免 取消标记豁免
@@ -63,6 +79,7 @@ let FLIGHTIDPopover = (props) => {
         if( isValidVariable(urlKey) ){
             // console.log(JSON.stringify(orgFlight));
             const userId = props.systemPage.user.id || '14';
+            const fid = orgFlight.flightid;
 
             const opt = {
                 // url:'http://192.168.243.162:29891/'+urlKey,
@@ -73,14 +90,14 @@ let FLIGHTIDPopover = (props) => {
                     flightCoordination: orgFlight,
                     comment: "",
                 },
-                resFunc: (data)=> requestSuccess(data, title),
-                errFunc: (err)=> requestErr(err, title+'失败' ),
+                resFunc: (data)=> requestSuccess(data, fid+title),
+                errFunc: (err)=> requestErr(err, fid+title+'失败' ),
             };
             request(opt);
         }
 
     })
-    const {text, record, index, col} = props.opt;
+    const {text, record } = props.opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
@@ -110,6 +127,18 @@ let FLIGHTIDPopover = (props) => {
         )
     });
 
+    useEffect(function(){
+        if( tipObj.visible ){
+            setTimeout(function(){
+                setTipObj({
+                    ...tipObj,
+                    visible: false
+                });
+            }, 2500)
+        }
+
+    }, [tipObj.visible] )
+
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
@@ -117,13 +146,16 @@ let FLIGHTIDPopover = (props) => {
             title={ text }
             content={getContent(props.opt)}
             trigger={[`contextMenu`]}
-
         >
-            <div className={`full-cell ${ isValidVariable(priority) > 0 ? "priority_"+priority : "" }`}>
-                <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${ PriorityList[priority] }`}>
-                    <span className="">{ text }</span>
+            <Tooltip title={ tipObj.title } visible={ tipObj.visible } color={ tipObj.color }>
+                {/*<div className={`full-cell ${ isValidVariable(priority) > 0 ? "priority_"+priority : "" }`}>*/}
+                <div className={` ${ isValidVariable(priority) > 0 ? "priority_"+priority : "" }`}>
+                    <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${ PriorityList[priority] }`}>
+                        <span className="">{ text }</span>
+                    </div>
                 </div>
-            </div>
+            </Tooltip>
+
         </Popover >
     )
 }
