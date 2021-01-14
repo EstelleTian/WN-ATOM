@@ -13,6 +13,7 @@ import { FlightCoordination, PriorityList } from 'utils/flightcoordination.js'
 import { request, requestGet } from 'utils/request'
 
 import {observer, inject} from "mobx-react";
+import FmeToday from "../../utils/fmetoday";
 
 //航班号右键协调框
 let FLIGHTIDPopover = (props) => {
@@ -64,7 +65,8 @@ let FLIGHTIDPopover = (props) => {
             const userId = props.systemPage.user.id || '14';
 
             const opt = {
-                url:'http://192.168.243.162:29891/'+urlKey,
+                // url:'http://192.168.243.162:29891/'+urlKey,
+                url:'http://192.168.243.162:28089/'+urlKey,
                 method: 'POST',
                 params: {
                     userId: userId,
@@ -84,18 +86,29 @@ let FLIGHTIDPopover = (props) => {
         orgdata = JSON.parse(orgdata);
     }
     let { priority } = orgdata;
+    const fmeToday = orgdata.fmeToday;
+    let hasAuth = false;
+    //航班未起飞 且 在本区域内--
+    if ( !FmeToday.hadDEP(fmeToday) && FmeToday.isInAreaFlight(orgdata) ) {
+        hasAuth = true;
+    }
     const getContent = useCallback((opt)  =>{
         return (
             <div className="clr_flightid">
                 <button className="c-btn c-btn-blue">查看航班详情</button>
                 {
-                    priority === FlightCoordination.PRIORITY_EXEMPT
+                    ( priority === FlightCoordination.PRIORITY_NORMAL && hasAuth )
+                        ? <Button loading={exemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "exempt", record, "标记豁免") } }>标记豁免</Button>
+                        : ""
+                }
+                {
+                    ( priority === FlightCoordination.PRIORITY_EXEMPT && hasAuth )
                         ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "取消豁免") } }>取消豁免</Button>
-                        : <Button loading={exemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "exempt", record, "标记豁免") } }>标记豁免</Button>
+                        : ""
                 }
             </div>
         )
-    })
+    });
 
     return(
         <Popover

@@ -235,7 +235,7 @@ const getColumns = ( names = defaultNames ) => {
             tem["defaultSortOrder"] ='ascend'
         }
         if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAWT" || en === "OAWT"){
-            tem["width"] = (screenWidth > 1920) ? 70 : 58
+            // tem["width"] = (screenWidth > 1920) ? 70 : 58
         }
         if(en === "ALARM" ){
             tem["width"] = (screenWidth > 1920) ? 105 : 90

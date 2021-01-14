@@ -135,22 +135,25 @@ const FFIXTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            {/*200不满足间隔*/}
-            {
-                meetIntervalValue === "200" && ftime !== ""
-                    ? <div className="interval" title={text}><span  className="interval_red">{ftime}</span></div>
-                    : ""
-            }
-            {
-                meetIntervalValue === "100"&& ftime !== ""
-                    ? <div className="interval" title={text} ><span  className="interval_green">{ftime}</span></div>
-                    : ""
-            }
-            {
-                ( meetIntervalValue === null || meetIntervalValue === "null" ) && ftime !== ""
-                    ? <div className="interval" title={text} ><span  className="">{ftime}</span></div>
-                    : ""
-            }
+            <div className={`full-cell  `}>
+                {/*200不满足间隔*/}
+                {
+                    meetIntervalValue === "200" && ftime !== ""
+                        ? <div className="interval" title={text}><span  className="interval_red">{ftime}</span></div>
+                        : ""
+                }
+                {
+                    meetIntervalValue === "100"&& ftime !== ""
+                        ? <div className="interval" title={text} ><span  className="interval_green">{ftime}</span></div>
+                        : ""
+                }
+                {
+                    ( meetIntervalValue === null || meetIntervalValue === "null" ) && ftime !== ""
+                        ? <div className="interval" title={text} ><span  className="">{ftime}</span></div>
+                        : ""
+                }
+            </div>
+
 
         </Popover >
     )
@@ -169,9 +172,20 @@ const CTOPopover = (props) => {
     let ctoField = orgdata.ctoField || {};
     let source = ctoField.source || "";
     let sourceCN = FlightCoordination.getSourceZh( source );
+    // let title = "";
+    const fmeToday = orgdata.fmeToday;
+    let bgStatus = "";
+    // let content = "";
+    if ( FmeToday.hadDEP(fmeToday) && isValidVariable(text) ) {
+        bgStatus = "DEP";
+        // content = "";
+        // title = "航班已起飞"
+    }else{
+        // content = getContent(props.opt);
+    }
     return(
-        <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
-            <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`} title={`${text}-${sourceCN}`}>
+        <div className={`full-cell ${ isValidVariable(text) ? source : "" }  ${col}_${bgStatus}` }>
+            <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${sourceCN}`}>
                 <span className="">{getTimeAndStatus(text)}</span>
             </div>
         </div>

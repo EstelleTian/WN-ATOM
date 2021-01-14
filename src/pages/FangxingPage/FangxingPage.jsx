@@ -28,20 +28,21 @@ function FangxingPage(props){
     useEffect(function(){
         const id = user.id;
         if( isValidVariable(id) ){
+            // alert("登录成功:" + props.systemPage.user.id);
             setLogin(true);
         }
         else{
             //TODO 测试用，正式去掉该else
             setTimeout(function(){
-                if( !isValidVariable(user.id) ){
-                    // alert("未登录成功，点击确认 中后将注入假用户数据");
+                if( !isValidVariable( props.systemPage.user.id ) ){
+                    // alert("未登录成功:" + props.systemPage.user.id);
                     props.systemPage.setUserData({
                         id: 14,
                         descriptionCN: "兰州流量室(假)"
                     });
                     setLogin(true);
                 }
-            },1000)
+            },3000)
         }
     },[ user.id ]);
     return (

@@ -1,6 +1,106 @@
-.list_container{
-    font-size: 16px;
-    overflow-y: auto;
+.scheme_list_canvas{
+    @include display_flex(column);
+    @include flex();
+    .ant-spin-nested-loading, .ant-spin-container{
+        @include display_flex(column);
+        @include flex();
+    }
+    .list_container{
+        font-size: 1rem;
+        overflow-y: auto;
+        //height: calc( 100% - 32px );
+        //方案列表-单个方案模块
+        .item_container{
+            background-color: #343434;
+            border: 1px solid #5d5d5d;
+            border-radius: 3px;
+            margin: 10px 5px;
+            cursor: pointer;
+            .left-column {
+                flex: 1 1 50%;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+            .right-column {
+                flex: 1 1 50%;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+            .border-bottom{
+                border-bottom: 1px solid #5d5d5d;
+            }
+            .border-left{
+                border-left: 1px solid #5d5d5d;
+            }
+            .column-box {
+                @include flex();
+                border-left: 1px solid #5d5d5d;
+                justify-content: center;
+                text-align: center;
+            }
+            .double-column-box  {
+                @include flex(2);
+            }
+
+            .cell {
+                padding: 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+            }
+            .options-box {
+                border-left: 1px solid #5d5d5d;
+                padding: 10px;
+                justify-content: flex-end;
+            }
+            .opt{
+                font-size: 14px;
+                color: #36a5da;
+                padding: 0 5px;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+            .tactic-name, .status {
+                color: #36a5da;
+            }
+            .FUTURE{
+                color: #10e99a;
+            }
+            .RUNNING, .PRE_PUBLISH, .PRE_TERMINATED, .PRE_UPDATE{}
+            .TERMINATED, .TERMINATED_MANUAL, .STOP, .FINISHED, .DISCARD{
+                color: #e95354;
+            }
+
+            .tactic-name {
+                font-weight: 900;
+            }
+            .summary {
+                font-size: 14px;
+            }
+            .status, .calculate {
+                padding-right: 10px;
+            }
+            .item_name{
+
+            }
+            &:hover{
+                -webkit-filter: brightness(1.2);
+                filter: brightness(1.2);
+            }
+        }
+        .item_active{
+            border: 2px solid #ff8c1f;
+        }
+        //手动刷新按钮
+        .manual_refresh{
+            position: absolute;
+            right: 2rem;
+            top: .5rem;
+            font-size: 1.35rem;
+        }
+    }
     //状态过滤按钮组
     .ant-checkbox-group{
         margin: .5rem .5rem 0;
@@ -13,95 +113,5 @@
             }
         }
     }
-    //方案列表-单个方案模块
-    .item_container{
-        background-color: #343434;
-        border: 1px solid #5d5d5d;
-        border-radius: 3px;
-        margin: 10px 5px;
-        cursor: pointer;
-        .left-column {
-            flex: 1 1 50%;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        .right-column {
-            flex: 1 1 50%;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        .border-bottom{
-            border-bottom: 1px solid #5d5d5d;
-        }
-        .border-left{
-            border-left: 1px solid #5d5d5d;
-        }
-        .column-box {
-            @include flex();
-            border-left: 1px solid #5d5d5d;
-            justify-content: center;
-            text-align: center;
-        }
-        .double-column-box  {
-            @include flex(2);
-        }
-
-        .cell {
-            padding: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-
-        }
-        .options-box {
-            border-left: 1px solid #5d5d5d;
-            padding: 10px;
-            justify-content: flex-end;
-        }
-        .opt{
-            font-size: 14px;
-            color: #36a5da;
-            padding: 0 5px;
-            &:hover{
-                cursor: pointer;
-            }
-        }
-        .tactic-name, .status {
-            color: #36a5da;
-        }
-        .FUTURE{
-            color: #10e99a;
-        }
-        .RUNNING, .PRE_PUBLISH, .PRE_TERMINATED, .PRE_UPDATE{}
-        .TERMINATED, .TERMINATED_MANUAL, .STOP, .FINISHED, .DISCARD{
-            color: #e95354;
-        }
-
-        .tactic-name {
-            font-weight: 900;
-        }
-        .summary {
-            font-size: 14px;
-        }
-        .status, .calculate {
-            padding-right: 10px;
-        }
-        .item_name{
-
-        }
-        &:hover{
-          -webkit-filter: brightness(1.2);
-          filter: brightness(1.2);
-        }
-    }
-    .item_active{
-        border: 2px solid #ff8c1f;
-    }
-    //手动刷新按钮
-    .manual_refresh{
-        position: absolute;
-        right: 2rem;
-        top: .5rem;
-        font-size: 1.35rem;
-    }
 }
+

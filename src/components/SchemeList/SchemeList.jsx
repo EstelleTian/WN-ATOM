@@ -8,7 +8,7 @@
  */
 import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
-import {  message, Checkbox , Empty} from 'antd'
+import {message, Checkbox, Empty, Spin} from 'antd'
 import { requestGet, request } from 'utils/request'
 import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
@@ -31,14 +31,13 @@ function SchemeList (props){
     const [ visible, setVisible ] = useState(false); //详情模态框显隐
     const [ modalId, setModalId ] = useState(""); //当前选中方案详情的id，不一定和激活方案id一样
     const [ manualRefresh, setManualRefresh ] = useState( false ); //方案手动更新按钮loading状态
-    const [ statusValues, setStatusValues ] = useState( ['FUTURE','RUNNING'] ); //方案列表 多选-状态-按钮组
     const [ schemeListRefresh, setSchemeListRefresh ] = useState( false ); //方案列表 是否是更新中 状态 true为更新中 false为更新完毕
     const [ firstLoadScheme, setFirstLoadScheme ] = useState( true ); //方案列表是否是第一次更新
 
     //状态-多选按钮组-切换事件
     const onChange = (checkedValues)=>{
         // console.log('checked = ', checkedValues);
-        setStatusValues( checkedValues );
+        props.schemeListData.setStatusValues( checkedValues );
     };
 
     //方案详情显隐
@@ -105,7 +104,7 @@ function SchemeList (props){
             url:'http://192.168.194.21:58189/implementTactics',
             method: 'GET',
             params:{
-                status: statusValues.join(','),
+                status: props.schemeListData.statusValues.join(','),
                 startTime: "",
                 endTIme: "",
                 userId: props.systemPage.user.id
@@ -113,6 +112,9 @@ function SchemeList (props){
             resFunc: (data)=> {
                 //更新方案数据
                 updateSchemeListData(data);
+                if( props.schemeListData.loading !== false){
+                    props.schemeListData.toggleLoad(false);
+                }
 
             },
             errFunc: (err)=> {
@@ -123,7 +125,7 @@ function SchemeList (props){
         requestGet(opt);
     });
     //获取--航班列表数据
-    const requestFlightTableData = useCallback(id => {
+    const requestFlightTableData = useCallback( ( id, resolve, reject ) => {
         // if( isValidVariable(id) ){
         const opt = {
             url:'http://192.168.194.21:29890/tactic/' + id,
@@ -134,10 +136,18 @@ function SchemeList (props){
                 if( props.flightTableData.loading !== false){
                     props.flightTableData.toggleLoad(false);
                 }
+                if( isValidVariable(resolve) ){
+                    resolve("success");
+                }
+
             },
             errFunc: (err)=> {
-                requestErr(err, '航班列表数据获取失败')
-                props.flightTableData.toggleLoad(false)
+                requestErr(err, '航班列表数据获取失败');
+                props.flightTableData.toggleLoad(false);
+                if( isValidVariable(resolve) ){
+                    resolve("error")
+                }
+
             } ,
         };
         request(opt);
@@ -145,25 +155,33 @@ function SchemeList (props){
 
     });
     //获取--执行KPI数据
-    const requestExecuteKPIData = useCallback(id => {
+    const requestExecuteKPIData = useCallback( ( id, resolve, reject ) => {
         const opt = {
             url:'http://192.168.194.21:29890/performkpi/' + id,
             method:'GET',
             params:{},
             resFunc: (data)=> {
                 updateExecuteKPIData(data)
-                props.executeKPIData.toggleLoad(false)
+                props.executeKPIData.toggleLoad(false);
+                if( isValidVariable(resolve) ){
+                    resolve("success");
+                }
             },
             errFunc: (err)=> {
                 requestErr(err, 'KPI数据获取失败')
-                props.executeKPIData.toggleLoad(false)
+                props.executeKPIData.toggleLoad(false);
+                if( isValidVariable(resolve) ){
+                    resolve("error")
+                }
             } ,
         };
         request(opt);
     });
 
+
+
     //高亮方案并获取航班数据和KPI数据
-    const handleActive = useCallback(( id, title ) => {
+    const handleActive = useCallback(( id, title, from ) => {
         // if( props.schemeListData.schemeId != id ){
         const res = props.schemeListData.toggleSchemeActive( id+"" );
         if( res ){
@@ -171,11 +189,18 @@ function SchemeList (props){
             props.executeKPIData.toggleLoad(true);
             requestFlightTableData(id+"");
             requestExecuteKPIData(id+"");
+            //来自客户端定位，滚动到对应位置
+            if( from === "client" ){
+                // 滚动条滚动到顶部
+                const canvas = document.getElementsByClassName("scheme_list_canvas")[0];
+                const boxContent = canvas.getElementsByClassName("list_container")[0];
+                boxContent.scrollTop = 0;
+            }
         }else{
             if( isValidVariable(title) ){
-                message.error({
-                    content: "暂未获取到对应方案" + title ,
-                    duration: 4,
+                message.warning({
+                    content: "暂未获取到方案，方案名称是：" + title ,
+                    duration: 15,
                 });
             }
         }
@@ -252,23 +277,63 @@ function SchemeList (props){
             clearInterval(props.schemeListData.timeoutId);
             props.schemeListData.timeoutId = "";
         }
-    },[])
+    },[]);
 
     useEffect(function(){
         // console.log("statusValues变了 getSchemeList：", statusValues, firstLoadScheme);
         if( !firstLoadScheme ){
+            props.schemeListData.toggleLoad(true);
             getSchemeList();
         }
-    },[statusValues]);
+    },[ props.schemeListData.statusValues ]);
     useEffect(function(){
         // console.log("user.id变了 getSchemeList(true)：", statusValues, firstLoadScheme);
         const id = props.systemPage.user.id;
         if( firstLoadScheme && isValidVariable(id) ){
             // alert( "user.id变为:"+ id );
+            props.schemeListData.toggleLoad(true);
             getSchemeList(true);
             setFirstLoadScheme(false);
         }
     },[props.systemPage.user.id]);
+
+    //监听全局刷新
+    useEffect(function(){
+        const id = props.systemPage.user.id;
+        if( props.systemPage.pageRefresh && isValidVariable(id) ){
+            console.time("全局");
+            let p1 = new Promise(function(resolve, reject) {
+                // 异步处理
+                // 处理结束后、调用resolve 或 reject
+                props.schemeListData.toggleLoad(true);
+                getSchemeList();
+                resolve("方案列表")
+            } );
+            const id = props.schemeListData.activeScheme.id || "";
+            let p2;
+            let p3;
+            if( isValidVariable( id ) ){
+                p2 = new Promise( function(resolve, reject) {
+                    // 异步处理
+                    // 处理结束后、调用resolve 或 reject
+                    props.flightTableData.toggleLoad(true);
+                    requestFlightTableData(id, resolve, reject)
+                } );
+                p3 = new Promise(function(resolve, reject) {
+                    // 异步处理
+                    props.executeKPIData.toggleLoad(true);
+                    // 处理结束后、调用resolve 或 reject
+                    requestExecuteKPIData(id, resolve, reject);
+                } );
+            }
+            Promise.all([p1, p2, p3]).then((values) => {
+                console.timeEnd("全局");
+                console.log(values);
+                props.systemPage.pageRefresh = false;
+            });
+
+        }
+    },[ props.systemPage.pageRefresh ]);
 
     useEffect(function(){
         // console.log("statusValues",statusValues);
@@ -290,44 +355,44 @@ function SchemeList (props){
             setManualRefresh(false);
         }
     })
+
     //接收客户端传来方案id，用以自动切换到选中方案
     NWGlobal.setSchemeId = ( schemeId, title )  => {
-        alert("收到id:"+schemeId+"  title:"+title);
-        getSchemeList();
-        handleActive( schemeId, title );
+        // alert("收到id:"+schemeId+"  title:"+title);
+        getSchemeList(); //主动获取一次
+        handleActive( schemeId, title, 'client' );
     };
 
     const schemeListData = props.schemeListData;
-    const { sortedList } = schemeListData; //获取排序后的方案列表
+    const { sortedList, statusValues } = schemeListData; //获取排序后的方案列表
     const  length = sortedList.length;
 
     return (
-        <div className="list_container">
-            <div className="manual_refresh">
-                <SyncOutlined spin={ manualRefresh }  onClick={()=>{
-                    setManualRefresh(true);
-                    getSchemeList();
-                }}/>
-            </div>
-            <div  className="scheme-filter-items">
+        <div className="scheme_list_canvas">
+            <div className="scheme-filter-items">
                 <Checkbox.Group options={plainOptions} defaultValue={statusValues} onChange={onChange} />
             </div>
-            {
-                (length > 0) ?
-                    sortedList.map( (item, index) => (
-                            <SchemeItem
-                                item={item}
-                                handleActive={handleActive}
-                                key={index}
-                                toggleModalVisible={toggleModalVisible}
-                            >
-                            </SchemeItem>
-                        )
-                    ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color:"#fff"}} />
+            <Spin spinning={ props.schemeListData.loading } >
+                <div className="list_container">
+                    {
+                        (length > 0) ?
+                            sortedList.map( (item, index) => (
+                                    <SchemeItem
+                                        item={item}
+                                        handleActive={handleActive}
+                                        key={index}
+                                        toggleModalVisible={toggleModalVisible}
+                                    >
+                                    </SchemeItem>
+                                )
+                            ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color:"#fff"}} />
 
-            }
-            <SchemeModal visible={visible} setVisible={setVisible} modalId={modalId} />
+                    }
+                    <SchemeModal visible={visible} setVisible={setVisible} modalId={modalId} />
+                </div>
+            </Spin>
         </div>
+
     )
 }
 

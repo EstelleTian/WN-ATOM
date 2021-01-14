@@ -42,6 +42,11 @@
     .ant-radio-button-wrapper:first-child {
         border-radius: 0;
     }
+    .ant-btn:hover, .ant-btn:focus, .ant-btn:active{
+        color: rgba(255, 255, 255, 0.7);
+        background: #535252;
+        border-color: rgba(255, 255, 255, 0.3);
+    }
     /*
     *  ===========================================
     *   end----导航样式调整-覆盖antd
@@ -60,7 +65,6 @@
     .user_icon{
         margin: -1px 10px 0 30px;
     }
-
 }
 
 .info-drawer{

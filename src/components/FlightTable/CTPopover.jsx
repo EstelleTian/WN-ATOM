@@ -90,11 +90,7 @@ const CTPopover = (props) => {
             const opt = {
                 url:'http://192.168.243.162:28089/flight/'+urlKey,
                 method: 'POST',
-                params: {
-                    userId: userId,
-                    flightCoordination: orgFlight,
-                    comment: "",
-                },
+                params: params,
                 resFunc: (data)=> requestSuccess(data, title),
                 errFunc: (err)=> requestErr(err, title+'失败' ),
             };
@@ -190,10 +186,17 @@ const CTPopover = (props) => {
     const fmeToday = orgdata.fmeToday;
     let bgStatus = "";
     let content = "";
-    if ( FmeToday.hadDEP(fmeToday) && isValidVariable(text) ) {
-        bgStatus = "DEP";
+    //航班已起飞或者不在本区域内--不显示
+    if ( FmeToday.hadDEP(fmeToday) ) {
+        if (  isValidVariable(text) ) {
+            bgStatus = "DEP";
+        }
         content = "";
         title = "航班已起飞"
+    }if ( !FmeToday.isInAreaFlight(orgdata) ) {
+        bgStatus = "notArea";
+        content = "";
+        title = "非本区域航班"
     }else{
         content = getContent(props.opt);
     }
@@ -207,8 +210,9 @@ const CTPopover = (props) => {
             getContainer={false}
         >
             <div className={`full-cell ${ isValidVariable(text) ? source : "" } ${col}_${bgStatus}`}>
-                <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${source}`}
-                     title={`${text}-${sourceCN}-${ bgStatus === "DEP" ? "已起飞" : "" }`}>
+                <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`}
+                     title={`${isValidVariable(text) ? text : ""}-${sourceCN}-${ bgStatus === "DEP" ? "已起飞" : "" }${ bgStatus === "notArea" ? "非本区域航班" : "" }`}
+                >
                     <span className="">{getTimeAndStatus(text)}</span>
                 </div>
             </div>

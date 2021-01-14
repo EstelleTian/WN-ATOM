@@ -9,12 +9,13 @@
  */
 import React  from 'react'
 import { withRouter } from 'react-router-dom';
-import { Layout,  Avatar, Radio, Tag } from 'antd'
+import { Layout,  Avatar, Radio, Tag, Button } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import RightNav from "./RightNav";
 import User from "./User";
 import NavBellNews from "./NavBellNews";
-// import { NWGlobal } from "utils/global.js";
+import RefreshBtn from "components/SchemeList/RefreshBtn";
+
 import './NavBar.scss'
 
 const { Header } = Layout;
@@ -38,11 +39,16 @@ function NavBar(props){
                             <Radio.Button value="e">席位4</Radio.Button>
                         </Radio.Group>
                     </div>
-                    <div className="time-range">
+                    {/*<div className="time-range">*/}
                         <Radio.Group defaultValue="a" buttonStyle="solid" size="large" >
                             <Radio.Button value="a">计划范围 <Tag color="#3d8424">29/00-29/23</Tag></Radio.Button>
                         </Radio.Group>
-                    </div>
+                    {/*</div>*/}
+                    {/*<div className="">*/}
+                        <Radio.Group  buttonStyle="solid" size="large" >
+                            <RefreshBtn />
+                        </Radio.Group>
+                    {/*</div>*/}
 
                 </div>
                 <RightNav/>

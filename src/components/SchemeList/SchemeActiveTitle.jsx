@@ -8,6 +8,7 @@ const SchemeTitle = function(props){
     return (
         <div className="left_top">
             <div>{ activeScheme.tacticName || ""}&nbsp;&nbsp;{ generateTime === "" ? "" : "（ 数据时间:"+ formatTimeString(generateTime) +" ）" }</div>
+
         </div>
     )
 }

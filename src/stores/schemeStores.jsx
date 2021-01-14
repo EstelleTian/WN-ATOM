@@ -71,6 +71,18 @@ class SchemeListData{
     @observable schemeId = "";
     //定时器
     @observable timeoutId = "";
+    //方案状态
+    @observable statusValues = ['FUTURE','RUNNING'];
+    //数据获取
+    @observable loading = false;
+    //更新表格loading状态
+    @action toggleLoad( load ){
+        this.loading = load;
+    }
+    //更新表格loading状态
+    @action setStatusValues( values ){
+        this.statusValues = values;
+    }
     // 增加方案-单条
     @action addScheme( opt ){
         const item = new SchemeItem(opt);

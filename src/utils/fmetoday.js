@@ -704,6 +704,24 @@ const FmeToday = {
 		}
 		return false;
 	},
+	/**
+	 * 判断是否为本区域内航班
+	 *
+	 * @param flight 航班对象
+	 * @returns {Boolean}
+	 */
+	isInAreaFlight: function(flight){
+		let depap = flight.depap || "";
+		if( isValidVariable(depap) && depap.length >= 2 ){
+			depap = depap.toUpperCase();
+			if( "ZBAL,ZBAR,ZBEN,ZBUH".indexOf(depap) > -1 ){
+				return true;
+			}else if( depap.substring(0,2).indexOf("ZL") > -1 ){
+				return true;
+			}
+		}
+		return false;
+	},
 
 };
 
