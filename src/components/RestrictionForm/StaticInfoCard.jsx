@@ -313,7 +313,7 @@ function StaticInfoCard(props){
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name=""
+                        name="a"
                         label="起飞机场"
                     >
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
@@ -321,7 +321,7 @@ function StaticInfoCard(props){
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name=""
+                        name="b"
                         label="高度"
                     >
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
@@ -329,7 +329,7 @@ function StaticInfoCard(props){
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name=""
+                        name="c"
                         label="降落机场"
                     >
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
@@ -337,7 +337,7 @@ function StaticInfoCard(props){
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name=""
+                        name="d"
                         label="豁免起飞机场"
                     >
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
@@ -345,7 +345,7 @@ function StaticInfoCard(props){
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name=""
+                        name="e"
                         label="豁免高度"
                     >
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
@@ -353,7 +353,7 @@ function StaticInfoCard(props){
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name=""
+                        name="f"
                         label="豁免降落机场"
                     >
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
