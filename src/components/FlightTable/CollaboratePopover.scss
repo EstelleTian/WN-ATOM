@@ -27,44 +27,63 @@
   .ant-table-cell.CTO, .ant-table-cell.CTOT,.ant-table-cell.EAP{
     text-align: left!important;
   }
+  //占满表格样式
   .full-cell{
     position: absolute;
-    //top: 0.55rem;
-    //left: 0.278rem;
-    //right: 0.278rem;
-    //bottom: 0.44rem;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0.55rem;
+    left: 0.278rem;
+    right: 0.278rem;
+    bottom: 0.44rem;
+    //top: 0;
+    //left: 0;
+    //right: 0;
+    //bottom: 0;
     @include display_flex();
     @include flex();
     >div{
       @include display_flex();
       @include flex();
       align-items: center;
-      padding-left: 0.378rem;
-      text-align: left;
+      justify-content: center;
+      //padding-left: 0.378rem;
+      padding-left: 0.1rem;
+      //text-align: left;
     }
   }
+  .ATOT{
+    .DEP{
+      background: #1e6083;
+    }
+  }
+  .CTOT_DEP,.CTO_DEP,.COBT_DEP{
+    background: #595959;
+    color: #999797;
+  }
+
   //起飞  #CCCCCC
   .ATOM{
-    background: #AB8E30FF;
+    //background: #736432
   }
   .NTFM{
-    background: #726250;
+    //background: #726250;
   }
   .MANUAL{
     background: #bb5535;
   }
   .LOCK{
-    background: #CD7ACAFF;
+    background: #835082;
   }
   .AUTO{
-    background: #3D8424FF;
+    background: #3D8424;
   }
 }
 
+//时间类 --协调表单
+.time_form{
+  .comment_width{
+    width: 64px;
+  }
+}
 /*
 *  ===========================================
 *   start---优先级底色
@@ -74,9 +93,12 @@
   background: rgba(139, 68, 88, 0.76);
 }
 /*
-    *  ===========================================
-    *   end----优先级
-    *  ==============================================
-    */
+  *  ===========================================
+  *   end----优先级
+  *  ==============================================
+  */
+//.alarm_200{
+//  color: rebeccapurple;
+//}
 
 

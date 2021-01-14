@@ -143,13 +143,13 @@ const FmeToday = {
 	 * 
 	 * @return 起飞机场四字码
 	 */
-	getRPSDepAP : function(fme) {
-		if (isValidVariable(fme.RDepap)) {
-			return fme.RDepap;
-		} else if (isValidVariable(fme.PDepap)) {
-			return fme.PDepap;
-		} else if (isValidVariable(fme.SDepap)) {
-			return fme.SDepap;
+	getRPsdepap : function(fme) {
+		if (isValidVariable(fme.rdepap)) {
+			return fme.rdepap;
+		} else if (isValidVariable(fme.pdepap)) {
+			return fme.pdepap;
+		} else if (isValidVariable(fme.sdepap)) {
+			return fme.sdepap;
 		}
 		return "";
 	},
@@ -159,20 +159,20 @@ const FmeToday = {
 	 * 
 	 * @return 降落机场四字码
 	 */
-	getRPSArrAP : function(fme) {
-		if (isValidVariable(fme.RArrtime)) {
-			if (isValidVariable(fme.RArrap)) {
-				return fme.RArrap;
-			} else if (isValidVariable(fme.PArrap)) {
-				return fme.PArrap;
-			} else if (isValidVariable(fme.SArrap)) {
-				return fme.SArrap;
+	getRPsarrap : function(fme) {
+		if (isValidVariable(fme.rarrtime)) {
+			if (isValidVariable(fme.rarrap)) {
+				return fme.rarrap;
+			} else if (isValidVariable(fme.parrap)) {
+				return fme.parrap;
+			} else if (isValidVariable(fme.sarrap)) {
+				return fme.sarrap;
 			}
 		} else {
-			if (isValidVariable(fme.PArrap)) {
-				return fme.PArrap;
-			} else if (isValidVariable(fme.SArrap)) {
-				return fme.SArrap;
+			if (isValidVariable(fme.parrap)) {
+				return fme.parrap;
+			} else if (isValidVariable(fme.sarrap)) {
+				return fme.sarrap;
 			}
 		}
 		
@@ -184,13 +184,13 @@ const FmeToday = {
 	 * 
 	 * @return 起飞机场四字码
 	 */
-	getSPRDepAP : function(fme) {
-		if (isValidVariable(fme.SDepap)) {
-			return fme.SDepap;
-		} else if (isValidVariable(fme.PDepap)) {
-			return fme.PDepap;
-		} else if (isValidVariable(fme.RDepap)) {
-			return fme.RDepap;
+	getSPrdepap : function(fme) {
+		if (isValidVariable(fme.sdepap)) {
+			return fme.sdepap;
+		} else if (isValidVariable(fme.pdepap)) {
+			return fme.pdepap;
+		} else if (isValidVariable(fme.rdepap)) {
+			return fme.rdepap;
 		}
 		return "";
 	},
@@ -200,13 +200,13 @@ const FmeToday = {
 	 * 
 	 * @return 降落机场四字码
 	 */
-	getSPRArrAP : function(fme) {
-		if (isValidVariable(fme.SArrap)) {
-			return fme.SArrap;
-		} else if (isValidVariable(fme.PArrap)) {
-			return fme.PArrap;
-		} else if (isValidVariable(fme.RArrap)) {
-			return fme.RArrap;
+	getSPrarrap : function(fme) {
+		if (isValidVariable(fme.sarrap)) {
+			return fme.sarrap;
+		} else if (isValidVariable(fme.parrap)) {
+			return fme.parrap;
+		} else if (isValidVariable(fme.rarrap)) {
+			return fme.rarrap;
 		}
 		return "";
 	},
@@ -217,10 +217,10 @@ const FmeToday = {
 	 * @return 起飞时间 格式：yyyyMMddHHmm
 	 */
 	getRPSDepTime : function(fme) {
-		if (isValidVariable(fme.RDeptime)) {
-			return fme.RDeptime;
-		} else if (isValidVariable(fme.PDeptime)) {
-			return fme.PDeptime;
+		if (isValidVariable(fme.rdeptime)) {
+			return fme.rdeptime;
+		} else if (isValidVariable(fme.pdeptime)) {
+			return fme.pdeptime;
 		} else if (isValidVariable(fme.SDeptime)) {
 			return fme.SDeptime;
 		}
@@ -233,8 +233,8 @@ const FmeToday = {
 	 * @return 降落时间 格式：yyyyMMddHHmm
 	 */
 	getRPSArrTime : function(fme) {
-		if (isValidVariable(fme.RArrtime)) {
-			return fme.RArrtime;
+		if (isValidVariable(fme.rarrtime)) {
+			return fme.rarrtime;
 		} else if (isValidVariable(fme.PArrtime)) {
 			return fme.PArrtime;
 		} else if (isValidVariable(fme.SArrtime)) {
@@ -248,13 +248,13 @@ const FmeToday = {
 	 * 
 	 * @return 起飞时间 格式：yyyyMMddHHmm
 	 */
-	getSPRDepTime : function(fme) {
+	getSPrdeptime : function(fme) {
 		if (isValidVariable(fme.SDeptime)) {
 			return fme.SDeptime;
-		} else if (isValidVariable(fme.PDeptime)) {
-			return fme.PDeptime;
-		} else if (isValidVariable(fme.RDeptime)) {
-			return fme.RDeptime;
+		} else if (isValidVariable(fme.pdeptime)) {
+			return fme.pdeptime;
+		} else if (isValidVariable(fme.rdeptime)) {
+			return fme.rdeptime;
 		}
 		return "";
 	},
@@ -264,13 +264,13 @@ const FmeToday = {
 	 * 
 	 * @return 降落时间 格式：yyyyMMddHHmm
 	 */
-	getSPRArrTime : function(fme) {
+	getSPrarrtime : function(fme) {
 		if (isValidVariable(fme.SArrtime)) {
 			return fme.SArrtime;
 		} else if (isValidVariable(fme.PArrtime)) {
 			return fme.PArrtime;
-		} else if (isValidVariable(fme.RArrtime)) {
-			return fme.RArrtime;
+		} else if (isValidVariable(fme.rarrtime)) {
+			return fme.rarrtime;
 		}
 		return "";
 	},
@@ -295,10 +295,10 @@ const FmeToday = {
 	 * @return 起飞时间 格式：yyyyMMddHHmm
 	 */
 	getRPASDepTime : function(fme) {
-		if (isValidVariable(fme.RDeptime)) {
-			return fme.RDeptime;
-		} else if (isValidVariable(fme.PDeptime)) {
-			return fme.PDeptime;
+		if (isValidVariable(fme.rdeptime)) {
+			return fme.rdeptime;
+		} else if (isValidVariable(fme.pdeptime)) {
+			return fme.pdeptime;
 		} else if (isValidVariable(fme.alDeptime)) {
 			return fme.alDeptime;
 		} else if (isValidVariable(fme.SDeptime)) {
@@ -313,8 +313,8 @@ const FmeToday = {
 	 * @return 降落时间 格式：yyyyMMddHHmm
 	 */
 	getRPASArrTime : function(fme) {
-		if (isValidVariable(fme.RArrtime)) {
-			return fme.RArrtime;
+		if (isValidVariable(fme.rarrtime)) {
+			return fme.rarrtime;
 		} else if (isValidVariable(fme.PArrtime)) {
 			return fme.PArrtime;
 		} else if (isValidVariable(fme.alArrtime)) {
@@ -330,15 +330,15 @@ const FmeToday = {
 	 * 
 	 * @return 起飞时间 格式：yyyyMMddHHmm
 	 */
-	getSAPRDepTime : function(fme) {
+	getSAPrdeptime : function(fme) {
 		if (isValidVariable(fme.SDeptime)) {
 			return fme.SDeptime;
 		} else if (isValidVariable(fme.alDeptime)) {
 			return fme.alDeptime;
-		} else if (isValidVariable(fme.PDeptime)) {
-			return fme.PDeptime;
-		} else if (isValidVariable(fme.RDeptime)) {
-			return fme.RDeptime;
+		} else if (isValidVariable(fme.pdeptime)) {
+			return fme.pdeptime;
+		} else if (isValidVariable(fme.rdeptime)) {
+			return fme.rdeptime;
 		}
 		return "";
 	},
@@ -348,15 +348,15 @@ const FmeToday = {
 	 * 
 	 * @return 降落时间 格式：yyyyMMddHHmm
 	 */
-	getSAPRArrTime : function(fme) {
+	getSAPrarrtime : function(fme) {
 		if (isValidVariable(fme.SArrtime)) {
 			return fme.SArrtime;
 		} else if (isValidVariable(fme.alArrtime)) {
 			return fme.alArrtime;
 		} else if (isValidVariable(fme.PArrtime)) {
 			return fme.PArrtime;
-		} else if (isValidVariable(fme.RArrtime)) {
-			return fme.RArrtime;
+		} else if (isValidVariable(fme.rarrtime)) {
+			return fme.rarrtime;
 		}
 
 		return "";
@@ -430,8 +430,7 @@ const FmeToday = {
 	 * @return true / false
 	 */
 	hadDEP : function(fme) {
-		if (this.hadTele(fme, "DEP") && (isValidVariable(fme.RDeptime)
-				|| isValidVariable(fme.RArrtime))) {
+		if (this.hadTele(fme, "DEP") && (isValidVariable(fme.rdeptime) || isValidVariable(fme.rarrtime))) {
 			return true;
 		}
 		return false;
@@ -449,7 +448,7 @@ const FmeToday = {
 	 * @return true / false
 	 */
 	hadARR : function(fme) {
-		if (this.hadTele(fme, "ARR") && isValidVariable(fme.RArrtime)) {
+		if (this.hadTele(fme, "ARR") && isValidVariable(fme.rarrtime)) {
 			return true;
 		}
 		return false;

@@ -9,8 +9,10 @@
 import React from 'react'
 import { isValidVariable, getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
 import { FlightCoordination, PriorityList } from 'utils/flightcoordination'
-import { FFIXTPopover, COBTPopover, CTOTPopover, CTOPopover, EAWTPopover, OAWTPopover, ALARMPopover } from  './CollaboratePopover'
+import { FFIXTPopover, EAWTPopover, OAWTPopover, CTOPopover, ATOTPopover } from  './CollaboratePopover'
 import FLIGHTIDPopover from  './FLIGHTIDPopover'
+import TOBTPopover from  './TOBTPopover'
+import CTPopover from  './CTPopover'
 import {Tag, Tooltip} from "antd";
 /**
  * 告警列单元格渲染格式化
@@ -64,9 +66,9 @@ let defaultNames = {
         "en":"ACTYPE",
         "cn":"机型"
     },
-    "STATUS":{
-        "en":"STATUS",
-        "cn":"航班状态"
+    "ATOT":{
+        "en":"ATOT",
+        "cn":"实际起飞时间"
     },
     "DEPAP":{
         "en":"DEPAP",
@@ -88,9 +90,9 @@ let defaultNames = {
         "en":"AGCT",
         "cn":"关舱门时间"
     },
-    "ATOT":{
-        "en":"ATOT",
-        "cn":"实际起飞时间"
+    "STATUS":{
+        "en":"STATUS",
+        "cn":"航班状态"
     },
     "EAW":{
         "en":"EAW",
@@ -128,7 +130,7 @@ let defaultNames = {
 let render = (opt)  => {
     const {text, record, index, col, colCN} = opt;
     let color = "";
-    let popover = <div title={text}>{text}</div>
+    let popover = <div title={text}>{text}</div>;
     if( col === "FLIGHTID" ){
         popover = <FLIGHTIDPopover opt={opt} />
     }
@@ -136,13 +138,13 @@ let render = (opt)  => {
         popover = <FFIXTPopover opt={opt} />
     }
     else if( col === "COBT" ){
-        popover = <COBTPopover opt={opt} />
+        popover = <CTPopover opt={opt} />
     }
     else if( col === "CTOT" ){
-        popover = <CTOTPopover opt={opt} />
+        popover = <CTPopover opt={opt}/>
     }
     else if( col === "CTO" ){
-        popover = <CTOPopover opt={opt} />
+        popover = <CTOPopover opt={opt}/>
     }
     else if( col === "EAWT" ){
         popover = <EAWTPopover opt={opt} />
@@ -152,6 +154,12 @@ let render = (opt)  => {
     }
     else if( col === "ALARM" ){
         popover = randerAlarmCellChildren(opt)
+    }
+    else if( col === "TOBT" ){
+        popover = <TOBTPopover opt={opt} />
+    }
+    else if( col === "ATOT" ){
+        popover = <ATOTPopover opt={opt} />
     }
     let obj  = {
         children: popover,
@@ -189,7 +197,7 @@ const getColumns = ( names = defaultNames ) => {
             dataIndex: en,
             align: 'center',
             key: en,
-            width: (screenWidth > 1920) ? 75 : 65,
+            width: (screenWidth > 1920) ? 60 : 60,
             ellipsis: true,
             className: en,
             showSorterTooltip: false ,
@@ -227,21 +235,21 @@ const getColumns = ( names = defaultNames ) => {
             tem["defaultSortOrder"] ='ascend'
         }
         if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAWT" || en === "OAWT"){
-            tem["width"] = (screenWidth > 1920) ? 90 : 72
+            tem["width"] = (screenWidth > 1920) ? 70 : 58
         }
         if(en === "ALARM" ){
-            tem["width"] = (screenWidth > 1920) ? 120 : 90
+            tem["width"] = (screenWidth > 1920) ? 105 : 90
         }
         // if( en === "CTO" || en === "CTOT" || en === "COBT" ){
         //     tem["align"] = "left"
         // }
         if( en === "FLIGHTID" ){
-            tem["width"] = (screenWidth > 1920) ? 95 : 78
+            tem["width"] = (screenWidth > 1920) ? 95 : 63
             tem["fixed"] = 'left'
         }
 
         if( en === "STATUS" ){
-            tem["width"] = (screenWidth > 1920) ? 80 : 65
+            tem["width"] = (screenWidth > 1920) ? 75 : 65
         }
 
         //隐藏列
@@ -291,17 +299,19 @@ const formatSingleFlight = flight => {
     ctoField = ctoField || {};
     etoField = etoField || {};
     let taskVal = taskField.value || "";
-    if( !isValidVariable(taskVal) ){
+    if( !isValidVariable(taskVal) || taskVal === "普通" ){
         taskVal = "";
     }
-    let alarmFieldValue = Array.isArray(alarmField.value) ? alarmField.value : [];
+    let alarms = flight.alarms || [];
 
     let flightObj = {
         key: flight.id,
         id: flight.id,
         FLIGHTID: flight.flightid,
-        ALARM: formatAlarmValue(alarmFieldValue).map((item)=>(
-            <Tooltip key={item.key} title={item.descriptions}><Tag className="alarm-tag"  key={item.key} color={item.color}>{item.zh}</Tag></Tooltip>
+        ALARM: formatAlarmValue(alarms).map((item)=>(
+            <Tooltip key={item.key} title={item.descriptions}>
+                <Tag className={`alarm-tag alarm_${item.key} `}  key={item.key} color={item.color}>{item.zh}</Tag>
+            </Tooltip>
         )),
         TASK: taskVal,
         // TASK: PriorityList[flight.priority],
@@ -314,17 +324,18 @@ const formatSingleFlight = flight => {
         ARRAP: flight.arrap,
         SOBT: getDayTimeFromString(flight.sobt),
         EOBT: getDayTimeFromString(flight.eobt),
-        TOBT: getDayTimeFromString(tobtField.value),
+        TOBT: tobtField.value,
         COBT: cobtField.value,
         CTOT: ctotField.value,
         AGCT: getDayTimeFromString( agctField.value ),
-        ATOT: getDayTimeFromString(flight.atd),
+        ATOT: flight.atd,
         FETA: getDayTimeFromString(flight.formerArrtime),
         FFIX: ffixField.name,
         FFIXT: ffixField.value,
         CTO: ctoField.value,
         ETO: getTimeAndStatus(etoField.value),
-        STATUS: flight.runningStatus,
+        // STATUS: flight.runningStatus,
+        STATUS: flight.flightStatus,
         orgdata: JSON.stringify(flight)
     }
     return flightObj;

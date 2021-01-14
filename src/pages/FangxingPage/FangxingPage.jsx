@@ -6,27 +6,49 @@
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
-import React, { lazy, Suspense} from 'react';
+import React, { lazy, Suspense, useState, useEffect} from 'react';
 import { Layout, Spin } from 'antd';
+import {inject, observer} from "mobx-react";
 import FlightSearch  from 'components/FlightSearch/FlightSearch'
 import SchemeTitle  from 'components/SchemeList/SchemeActiveTitle'
 import NavBar  from 'components/NavBar/NavBar.jsx';
 import ModalBox from 'components/ModalBox/ModalBox'
 import LeftMultiCanvas  from 'components/LeftMultiCanvas/LeftMultiCanvas'
 import RightMultiCanvas  from 'components/RightMultiCanvas/RightMultiCanvas'
+import {  isValidVariable,  } from 'utils/basic-verify'
 import './FangxingPage.scss'
-import {inject, observer} from "mobx-react";
 
 const FlightTable = lazy(() => import('components/FlightTable/FlightTable') );
 
 //放行监控布局模块
 function FangxingPage(props){
     const { systemPage } = props;
-    const { leftActiveName } = systemPage;
+    const { leftActiveName, user = {} } = systemPage;
+    const [ login, setLogin ] = useState(false);
+    useEffect(function(){
+        const id = user.id;
+        if( isValidVariable(id) ){
+            setLogin(true);
+        }
+        else{
+            //TODO 测试用，正式去掉该else
+            setTimeout(function(){
+                if( !isValidVariable(user.id) ){
+                    // alert("未登录成功，点击确认 中后将注入假用户数据");
+                    props.systemPage.setUserData({
+                        id: 14,
+                        descriptionCN: "兰州流量室(假)"
+                    });
+                    setLogin(true);
+                }
+            },1000)
+        }
+    },[ user.id ]);
     return (
         <Layout className="layout">
-            <NavBar className="nav_bar" title="空中交通运行放行监控系统" username="西安流量室" />
-            <div className="nav_body">
+            <NavBar className="nav_bar" title="空中交通运行放行监控系统" username="" />
+            {
+                login ?  <div className="nav_body">
                     <div className="cont_left">
                         <SchemeTitle />
                         <div className="left_cont">
@@ -58,7 +80,9 @@ function FangxingPage(props){
                     </div>
 
                     <RightMultiCanvas />
-                </div>
+                </div> : ""
+            }
+
         </Layout>
     )
     

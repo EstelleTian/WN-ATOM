@@ -6,8 +6,8 @@
  * @Description:
  * @FilePath: CollaboratePopover.jsx
  */
-import { message as antdMessage, message, Popover} from "antd";
-import React,{useCallback} from "react";
+import { message as antdMessage, message, Popover, Button} from "antd";
+import React,{ useCallback, useState } from "react";
 import {  isValidVariable } from 'utils/basic-verify'
 import { FlightCoordination, PriorityList } from 'utils/flightcoordination.js'
 import { request, requestGet } from 'utils/request'
@@ -16,28 +16,35 @@ import {observer, inject} from "mobx-react";
 
 //航班号右键协调框
 let FLIGHTIDPopover = (props) => {
+    const [ exemptLoad, setExemptLoad ] = useState(false);
     //数据提交失败回调
     const requestErr =useCallback( (err, content) => {
         antdMessage.error({
             content,
             duration: 4,
         });
+        setExemptLoad(false);
     })
     //数据提交成功回调
     const requestSuccess = useCallback( ( data, title ) => {
         console.log(title + '成功:',data);
         console.log( props.flightTableData.updateSingleFlight );
         const { flightCoordination } = data;
-        props.flightTableData.updateSingleFlight( flightCoordination )
-        // props.ta
-        // this.flight
+        props.flightTableData.updateSingleFlight( flightCoordination );
         message.success(title + '成功');
+        setExemptLoad(false);
+        // 创建事件
+        const evt = document.createEvent("MouseEvents");
+        // 初始化 事件名称必须是mousedown
+        evt.initEvent("mousedown", true, true);
+        // 触发, 即弹出文字
+        document.dispatchEvent(evt);
     });
 
     //标记豁免 取消标记豁免
     const handleExempty = useCallback(( type, record, title )  =>{
         console.log( props );
-
+        setExemptLoad(true);
         const orgdata = record.orgdata || {};
         let orgFlight = JSON.parse(orgdata) || {};
         let urlKey = "";
@@ -54,12 +61,13 @@ let FLIGHTIDPopover = (props) => {
 
         if( isValidVariable(urlKey) ){
             // console.log(JSON.stringify(orgFlight));
-            let id = record.id || "";
+            const userId = props.systemPage.user.id || '14';
+
             const opt = {
                 url:'http://192.168.243.162:29891/'+urlKey,
                 method: 'POST',
                 params: {
-                    userId: "13",
+                    userId: userId,
                     flightCoordination: orgFlight,
                     comment: "",
                 },
@@ -82,8 +90,8 @@ let FLIGHTIDPopover = (props) => {
                 <button className="c-btn c-btn-blue">查看航班详情</button>
                 {
                     priority === FlightCoordination.PRIORITY_EXEMPT
-                        ? <button className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "取消豁免") } }>取消豁免</button>
-                        : <button className="c-btn c-btn-green" onClick={ () => { handleExempty( "exempt", record, "标记豁免") } }>标记豁免</button>
+                        ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "取消豁免") } }>取消豁免</Button>
+                        : <Button loading={exemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "exempt", record, "标记豁免") } }>标记豁免</Button>
                 }
             </div>
         )
@@ -106,5 +114,5 @@ let FLIGHTIDPopover = (props) => {
         </Popover >
     )
 }
-export default inject("flightTableData")(observer(FLIGHTIDPopover))
+export default inject("flightTableData", "systemPage")(observer(FLIGHTIDPopover))
 

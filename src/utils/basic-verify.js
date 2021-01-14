@@ -197,13 +197,16 @@ const getDayTimeFromString = ( str, nomins ) => {
         const day = str.substring(6, 8);
         const hour = str.substring(8, 10);
         const mins = str.substring(10, 12);
+        // if( nomins ){
+        //     return day + "/" + hour  +  "00";
+        // }else{
+        //     return day + "/" + hour  +  mins;
+        // }
         if( nomins ){
-            return day + "/" + hour  +  "00";
+            return  hour  +  "00";
         }else{
-            return day + "/" + hour  +  mins;
+            return  hour  +  mins;
         }
-
-        
     }
     return "";
 };
