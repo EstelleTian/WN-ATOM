@@ -113,9 +113,9 @@ function RestrictionForm(props){
         // 流控信息中的流控名称
         flowControlName: flowControlName || "",
         // 方案发布单位
-        tacticPublishUnit: tacticPublishUnit || "西安流量室",
+        tacticPublishUnit: tacticPublishUnit || "",
         // 方案发布用户
-        tacticPublishUser:  tacticPublishUser || "西安流量室主任席",
+        tacticPublishUser:  tacticPublishUser || userDescriptionCN,
         // 基准单元
         targetUnit: targetUnit,
         // 前序单元
@@ -212,7 +212,7 @@ function RestrictionForm(props){
         form.resetFields();//重置，用以表单初始值赋值
         // 更新表单各时间数值
         updateDataTime();
-    },[id])
+    },[id, user.id])
 
 
     const updateDataTime =() => {
