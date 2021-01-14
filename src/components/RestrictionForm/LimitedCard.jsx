@@ -105,6 +105,8 @@ function LimitedCard(props){
                             open={ false }
                             onChange={ (val)=> (console.log(val))}
                             onInputKeyDown={ handleChange}
+                            className="text-uppercase"
+                            allowClear={ true }
                         >
                         </Select>
                     </Form.Item>
@@ -168,6 +170,8 @@ function LimitedCard(props){
                             style={{ width: '100%' }}
                             placeholder=""
                             open={ false }
+                            className="text-uppercase"
+                            allowClear={ true }
                         >
 
                         </Select>

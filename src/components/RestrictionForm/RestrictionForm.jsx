@@ -5,7 +5,7 @@ import {Button, Modal,   Form,  message as antdMessage} from 'antd'
 import StaticInfoCard from './StaticInfoCard'
 import FlowList from './FlowList'
 import { handleImportControl } from 'utils/client'
-import { formatTimeString, getDateFromString, isValidObject, isValidVariable } from '../../utils/basic-verify'
+import { getFullTime, formatTimeString, getDateFromString, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { request } from 'utils/request'
 
 
@@ -24,9 +24,11 @@ function RestrictionForm(props){
     let basicStartTime = tacticTimeInfo.startTime;
     // 方案结束时间(12位字符串)
     let basicEndTime = tacticTimeInfo.endTime;
+    // 当前终端时间
+    let now = getFullTime( new Date());
 
-    let startTimeString = "" ;
-    let startDate ="";
+    let startTimeString = now.substring(8,12) ;
+    let startDate = now.substring(0,8);
     let endTimeString = "" ;
     let endDate ="";
     if(isValidVariable(basicStartTime)){
@@ -78,6 +80,21 @@ function RestrictionForm(props){
         "AFP": "restrictionAFPValueSequence",
     };
 
+    // 需要将数值转换为大写的字段
+    const upperFields=[
+        "tacticPublishUser",
+        "targetUnit",
+        "preorderUnit",
+        "behindUnit",
+        "exemptPreUnit",
+        "exemptbehindUnit",
+        "flowControlFlightId",
+        "flowControlAircraftType",
+        "exemptFlightId",
+        "exemptAircraftType",
+    ];
+
+
 
 
     // 流控限制数值
@@ -94,9 +111,9 @@ function RestrictionForm(props){
         // 流控信息中的流控名称
         flowControlName: flowControlName || "",
         // 方案发布单位
-        tacticPublishUnit: tacticPublishUnit || "",
+        tacticPublishUnit: tacticPublishUnit || "西安流量室",
         // 方案发布用户
-        tacticPublishUser:  tacticPublishUser || "",
+        tacticPublishUser:  tacticPublishUser || "西安流量室主任席",
         // 基准单元
         targetUnit: targetUnit,
         // 前序单元
@@ -111,7 +128,7 @@ function RestrictionForm(props){
         highLimit: highLimit,
 
         // 方案开始日期(DatePicker组件使用)
-        startDate: isValidVariable(basicStartTime) ? moment(basicStartTime, dateFormat) : "",
+        startDate: isValidVariable(basicStartTime) ? moment(basicStartTime, dateFormat) :  moment(now, dateFormat) ,
         // 方案开始时间
         startTime: startTimeString,
         // 方案结束日期(DatePicker组件使用)
@@ -233,9 +250,7 @@ function RestrictionForm(props){
             if( props.hasOwnProperty("setDisabledForm")){
                 props.setDisabledForm(true);
             }
-
             setConfirmLoading(true);
-            console.log(values);
             // 处理导入提交数据
             const submitData = handleSubmitData(values);
             // 数据提交
@@ -245,12 +260,36 @@ function RestrictionForm(props){
         }
     };
 
+
+    // 将数值批量转换为大写
+    const  toUpperCaseValues =(values) =>{
+        for( var v in values){
+            if(upperFields.includes(v)){
+                values[v] = upperCaseValue(values[v]);
+            }
+        }
+        return values;
+    };
+
+    // 转换为大写
+    const  upperCaseValue = (values) => {
+        if(typeof values == 'string'){
+            return values.toUpperCase();
+        }else if(Array.isArray(values)){
+            return values.join(',').toUpperCase().split(',')
+        }
+    }
+
     /**
      * handleSubmitData() 返回接口原数据与表单数据融合后的数据对象
      * @param {Object} 表单数据对象
      * @return {Object}  融合后的数据对象
      * */
     const handleSubmitData =(values) =>{
+
+        values = toUpperCaseValues(values);
+
+
         // 复制方案数据对象
         let opt = JSON.parse(JSON.stringify(tacticProcessInfo));
         // 方案基本信息数据对象
@@ -388,6 +427,8 @@ function RestrictionForm(props){
         flowControlFlight.exemptQualification = exemptQualification.join(';');
         // 更新流控交通流-不包含-受控机型
         flowControlFlight.exemptAircraftType = exemptAircraftType.join(';');
+
+
 
         return opt;
     };

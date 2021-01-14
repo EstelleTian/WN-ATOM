@@ -102,6 +102,8 @@ function ExemptCard(props){
                             open={ false }
                             onChange={ (val)=> (console.log(val))}
                             onInputKeyDown={ handleChange}
+                            className="text-uppercase"
+                            allowClear={ true }
                         >
                         </Select>
                     </Form.Item>
@@ -165,6 +167,8 @@ function ExemptCard(props){
                             style={{ width: '100%' }}
                             placeholder=""
                             open={ false }
+                            className="text-uppercase"
+                            allowClear={ true }
                         >
 
                         </Select>

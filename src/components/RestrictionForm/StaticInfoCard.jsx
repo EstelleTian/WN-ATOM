@@ -113,7 +113,7 @@ function StaticInfoCard(props){
                         required={true}
                         rules={[{ required: true }]}
                     >
-                        <Input disabled={ props.disabledForm }/>
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
                 <Col span={12}>
@@ -121,7 +121,7 @@ function StaticInfoCard(props){
                         name="tacticPublishUser"
                         label="发布用户"
                     >
-                        <Input disabled={ props.disabledForm }/>
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
 
@@ -271,7 +271,7 @@ function StaticInfoCard(props){
                         name="preorderUnit"
                         label="前序单元"
                     >
-                        <Input disabled={ props.disabledForm }/>
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -281,7 +281,7 @@ function StaticInfoCard(props){
                         required={true}
                         rules={[{ required: true }]}
                     >
-                        <Input disabled={ props.disabledForm }/>
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -289,7 +289,7 @@ function StaticInfoCard(props){
                         name="behindUnit"
                         label="后序单元"
                     >
-                        <Input disabled={ props.disabledForm }/>
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -297,7 +297,7 @@ function StaticInfoCard(props){
                         name="exemptPreUnit"
                         label="豁免前序"
                     >
-                        <Input disabled={ props.disabledForm }/>
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
                 <Col span={8} className="">
@@ -308,7 +308,7 @@ function StaticInfoCard(props){
                         name="exemptbehindUnit"
                         label="豁免后序"
                     >
-                        <Input disabled={ props.disabledForm }/>
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
             </Row>
