@@ -14,7 +14,9 @@ import './RestrictionForm.scss'
 //表单整体
 function RestrictionForm(props){
     console.log("RestrictionForm~~ render");
-    const  { flowData = {}, showImportBtn,  } = props;
+    const  { flowData = {}, showImportBtn, user={} } = props;
+    let userDescriptionCN = user.descriptionCN ||　"";
+
     // 方案数据对象
     const { tacticProcessInfo={} } = flowData;
     const { basicTacticInfo={} } = tacticProcessInfo;
@@ -147,7 +149,7 @@ function RestrictionForm(props){
         flowControlReason: flowControlReason || "",
         // TODO 限制方式及限制数值待处理
         // 流控限制方式
-        restrictionMode: restrictionMode,
+        restrictionMode: restrictionMode || "MIT",
         // 流控限制数值
         restrictionModeValue: restrictionModeValue,
 
@@ -569,7 +571,7 @@ function RestrictionForm(props){
      * */
     const updateRestrictionMode =(mode) => {
         // 更新表单中流控限制方式
-        form.setFieldsValue({restrictionMode: mode});
+        // form.setFieldsValue({restrictionMode: mode});
     };
     /**
      * 更新流控发布类型

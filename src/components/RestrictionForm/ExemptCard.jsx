@@ -52,10 +52,11 @@ const exemptWakeFlowType = [
 ];
 //航班性质选项
 const exemptMissionType = [
-    { label: '内地', value: 'D' },
-    { label: '港澳台', value: 'GA' },
+    { label: '国内', value: 'D' },
     { label: '国际', value: 'I' },
     { label: '飞越', value: 'O' },
+    { label: '台湾', value: 'TW' },
+    { label: '港澳', value: 'GA' },
     { label: '后续国际', value: 'NI' },
 ];
 //客货类型选项

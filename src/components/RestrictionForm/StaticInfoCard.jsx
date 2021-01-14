@@ -311,6 +311,54 @@ function StaticInfoCard(props){
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name=""
+                        label="起飞机场"
+                    >
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name=""
+                        label="高度"
+                    >
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name=""
+                        label="降落机场"
+                    >
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name=""
+                        label="豁免起飞机场"
+                    >
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name=""
+                        label="豁免高度"
+                    >
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name=""
+                        label="豁免降落机场"
+                    >
+                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
+                    </Form.Item>
+                </Col>
             </Row>
             <Row gutter={12}>
                 <Col span={12}>
