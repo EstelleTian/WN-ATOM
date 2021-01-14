@@ -245,7 +245,7 @@ const getColumns = ( names = defaultNames ) => {
         //     tem["align"] = "left"
         // }
         if( en === "FLIGHTID" ){
-            tem["width"] = (screenWidth > 1920) ? 95 : 63
+            tem["width"] = (screenWidth > 1920) ? 95 : 70
             tem["fixed"] = 'left'
         }
 

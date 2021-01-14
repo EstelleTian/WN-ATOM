@@ -47,9 +47,9 @@
       @include display_flex();
       @include flex();
       align-items: center;
-      //justify-content: center;
-      padding-left: 0.378rem;
-      //padding-left: 0.1rem;
+      justify-content: center;
+      //padding-left: 0.378rem;
+      padding-left: 0.1rem;
       //text-align: left;
     }
   }
@@ -63,11 +63,11 @@
       }
     }
   }
-  .ATOT{
+  .ATOT{  }
     .DEP{
       background: #1e6083;
     }
-  }
+
   .CTOT_DEP,.CTO_DEP,.COBT_DEP{
     background: #595959!important;
     color: #999797;
