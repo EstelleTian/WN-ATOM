@@ -104,13 +104,19 @@ function CTOTRate(props){
 
     const totalChartConfig={
         statistic: {
-            title: true,
+            title: {
+                show: true,
+                style: {
+                    fontSize:20,
+                    color:'#fff'
+                },
+            },
             content: {
                 style: {
                     whiteSpace: 'pre-wrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
-                    fontSize:24,
+                    fontSize:20,
                     color:'#fff'
                 },
             },
@@ -119,7 +125,13 @@ function CTOTRate(props){
 
     const apChartConfig={
         statistic: {
-            title: true,
+            title: {
+                show: true,
+                style: {
+                    fontSize:14,
+                    color:'#fff'
+                },
+            },
             content: {
                 style: {
                     whiteSpace: 'pre-wrap',
@@ -129,6 +141,12 @@ function CTOTRate(props){
                     color:'#fff'
                 },
             },
+            StatisticText: {
+                style: {
+                    fontSize:14,
+                    color:'#fff'
+                },
+            }
         },
     }
 

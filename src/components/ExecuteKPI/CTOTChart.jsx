@@ -23,7 +23,7 @@ const CTOTPieChart = (props) => {
         angleField: 'value',
         colorField: 'type',
         radius: 1,
-        innerRadius: 0.64,
+        innerRadius: 0.7,
         meta: {
             value: {
                 formatter: function formatter(v) {
