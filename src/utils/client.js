@@ -71,4 +71,13 @@ const saveUserInfo =(username, password) => {
         console.error(error);
     }
 };
-export { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo}
+//发送关闭窗口
+const closeCreateDlg =() => {
+    try {
+
+        jsEntity.closeCreateDlg();
+    }catch(error){
+        console.error(error);
+    }
+};
+export { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo, closeCreateDlg}
