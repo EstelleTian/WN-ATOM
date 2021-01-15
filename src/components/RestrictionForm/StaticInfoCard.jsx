@@ -90,6 +90,21 @@ function StaticInfoCard(props){
         // {"key":"CT", "text": "改航"},
         // {"key":"AA", "text": "空域开闭限制"},
     ]
+    const reasonData = [
+        {"key":"AIRPORT", "text": "机场"},
+        {"key":"MILITARY", "text": "军事活动"},
+        {"key":"CONTROL", "text": "流量"},
+        {"key":"WEATHER", "text": "天气"},
+        {"key":"AIRLINE", "text": "航空公司"},
+        {"key":"SCHEDULE", "text": "航班时刻"},
+        {"key":"JOINT_INSPECTION", "text": "联检"},
+        {"key":"OIL", "text": "油料"},
+        {"key":"DEPART_SYSTEM", "text": "离港系统"},
+        {"key":"PASSENGER", "text": "旅客"},
+        {"key":"PUBLIC_SECURITY", "text": "公共安全"},
+        {"key":"MAJOR_SECURITY_ACTIVITIES", "text": "重大保障活动"},
+        {"key":"OTHER", "text": "其它"},
+    ]
 
     return (
     <Fragment>
@@ -106,7 +121,7 @@ function StaticInfoCard(props){
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
-                <Col span={12}>
+                <Col span={8}>
                     <Form.Item
                         name="tacticPublishUnit"
                         label="发布单位"
@@ -116,7 +131,7 @@ function StaticInfoCard(props){
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
-                <Col span={12}>
+                <Col span={8}>
                     <Form.Item
                         name="tacticPublishUser"
                         label="发布用户"
@@ -124,8 +139,20 @@ function StaticInfoCard(props){
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name="flowControlReason"
+                        label="原因"
+                    >
+                        <Select style={{ width: 120 }}  disabled={ props.disabledForm } >
+                            {reasonData.map(mode => (
+                                <Option key={mode.key}>{mode.text}</Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                </Col>
 
-                <Col span={12}>
+                <Col span={8}>
 
                     {
                         props.disabledForm ? (
@@ -182,7 +209,7 @@ function StaticInfoCard(props){
                     }
 
                 </Col>
-                <Col span={12}>
+                <Col span={8}>
 
                     {
                         props.disabledForm ? (
@@ -233,7 +260,7 @@ function StaticInfoCard(props){
 
         <Card title="措施信息" bordered={ false } size="">
             <Row gutter={24}>
-                <Col span={12}>
+                <Col span={8}>
                     <Form.Item
                         name="restrictionMode"
                         label="限制方式"
@@ -247,14 +274,14 @@ function StaticInfoCard(props){
                         </Select>
                     </Form.Item>
                 </Col>
-                <Col span={12}>
+                <Col span={8}>
                     <Form.Item
                         name="restrictionModeValue"
                         label="限制值"
                         rules={[{ required: true, message: '请输入限制值' }]}
                     >
                         <Input
-                            style={{ width: 120 }}
+                            style={{ width: 150 }}
                             disabled={ props.disabledForm }
                             addonAfter={ modeUnit }
                         />

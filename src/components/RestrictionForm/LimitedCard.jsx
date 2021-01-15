@@ -42,36 +42,44 @@ function XuCard(props){
 }
 //尾流类型选项
 const flowControlWakeFlowType = [
-    { label: 'J', value: 'J' },
+    { label: 'G', value: 'G' },
     { label: 'H', value: 'H' },
-    { label: 'B', value: 'B' },
-    { label: 'C', value: 'C' },
     { label: 'M', value: 'M' },
     { label: 'L', value: 'L' },
-    { label: '其他', value: 'OTHER' },
 ];
-//航班性质选项
+//运营人
+const flowControlAuType = [
+    { label: '内机', value: 'DOMESTIC_AU' },
+    { label: '外机', value: 'FOREIGN_AU' },
+    { label: '台湾机', value: 'TAIWAN_AU' },
+    { label: '港澳机', value: 'HKANDMC_AU' },
+]
+
+//航班类型选项
 const flowControlMissionType = [
-    { label: '国内', value: 'D' },
-    { label: '国际', value: 'I' },
-    { label: '飞越', value: 'O' },
-    { label: '台湾', value: 'TW' },
-    { label: '港澳', value: 'GA' },
-    { label: '后续国际', value: 'NI' },
+    { label: '国内', value: 'DOMESTIC' },
+    { label: '国际', value: 'INTERNATIONAL' },
+    { label: '台湾地区', value: 'TAIWAN' },
+    { label: '港澳特区', value: 'HKANDMC' },
+    { label: '飞越', value: 'OVERFLY' },
 ];
 //客货类型选项
 const flowControlPassengerCargoType = [
-    { label: '客班', value: 'PASSENGER' },
+    { label: '客班', value: 'AIRLINE' },
     { label: '货班', value: 'CARGO' }
 ];
 //任务类型选项
 const flowControlTaskType = [
-    { label: '专机', value: 'PRIVATE' },
-    { label: '特殊', value: 'SPECIAL' },
-    { label: '临时', value: 'PATCH' },
     { label: '正班', value: 'REGULAR' },
+    { label: '补班', value: 'PATCH' },
+    { label: '加班包机', value: 'PAXADD' },
+    { label: '调机', value: 'FERRY' },
+    { label: '校验', value: 'CHECK' },
+    { label: '急救', value: 'AMBULANCE' },
+    { label: '公务机', value: 'BUSINESS' },
+    { label: '其他', value: '33' },
 ];
-//航班属性选项
+//军民航选项
 const flowControlMilitaryCivilType = [
     { label: '军航', value: 'MILITARY' },
     { label: '民航', value: 'CIVIL' }
@@ -86,9 +94,6 @@ const flowControlQualification = [
 function LimitedCard(props){
     // const index = props.index || "4";
 
-    const handleChange = (value, option)=> {
-        console.log(value, option)
-    }
 
     return (
         <Card className="inner-card" title={props.title} size="">
@@ -105,7 +110,6 @@ function LimitedCard(props){
                             placeholder=""
                             open={ false }
                             onChange={ (val)=> (console.log(val))}
-                            onInputKeyDown={ handleChange}
                             className="text-uppercase"
                             allowClear={ true }
                         >
@@ -122,8 +126,16 @@ function LimitedCard(props){
                 </Col>
                 <Col span={24}>
                     <Form.Item
+                        name="flowControlAuType"
+                        label="运营人"
+                    >
+                        <Checkbox.Group options={flowControlAuType} disabled={ props.disabledForm } />
+                    </Form.Item>
+                </Col>
+                <Col span={24}>
+                    <Form.Item
                         name="flowControlMissionType"
-                        label="航班性质"
+                        label="航班类型"
                     >
                         <Checkbox.Group options={flowControlMissionType} disabled={ props.disabledForm } />
                     </Form.Item>
@@ -147,7 +159,7 @@ function LimitedCard(props){
                 <Col span={24}>
                     <Form.Item
                         name="flowControlMilitaryCivilType"
-                        label="航班属性"
+                        label="军民航"
                     >
                         <Checkbox.Group options={flowControlMilitaryCivilType} disabled={ props.disabledForm } />
                     </Form.Item>
@@ -164,6 +176,24 @@ function LimitedCard(props){
                     <Form.Item
                         name="flowControlAircraftType"
                         label="受控机型"
+                    >
+                        <Select
+                            disabled={ props.disabledForm }
+                            mode="tags"
+                            style={{ width: '100%' }}
+                            placeholder=""
+                            open={ false }
+                            className="text-uppercase"
+                            allowClear={ true }
+                        >
+
+                        </Select>
+                    </Form.Item>
+                </Col>
+                <Col span={24}>
+                    <Form.Item
+                        name="g"
+                        label="受控高度"
                     >
                         <Select
                             disabled={ props.disabledForm }

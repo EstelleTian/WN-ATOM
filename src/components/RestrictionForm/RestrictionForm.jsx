@@ -4,7 +4,7 @@ import "moment/locale/zh-cn"
 import {Button, Modal,   Form,  message as antdMessage} from 'antd'
 import StaticInfoCard from './StaticInfoCard'
 import FlowList from './FlowList'
-import { handleImportControl } from 'utils/client'
+import { handleImportControl, closeCreateDlg } from 'utils/client'
 import { getFullTime, formatTimeString, getDateFromString, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { request } from 'utils/request'
 
@@ -146,7 +146,7 @@ function RestrictionForm(props){
         // 流控发布类型
         flowControlPublishType: flowControlPublishType || "",
         // 流控限制原因
-        flowControlReason: flowControlReason || "",
+        flowControlReason: flowControlReason || "WEATHER",
         // TODO 限制方式及限制数值待处理
         // 流控限制方式
         restrictionMode: restrictionMode || "MIT",
@@ -470,11 +470,14 @@ function RestrictionForm(props){
         Modal.success({
             content: `${operateName}成功`,
         });
+        //发送到客户端
         if(pageType ==='CREATE'){
             handleImportControl(id);
         }else if(pageType === 'IMPORT'){
             handleImportControl(id, props.message.id);
         }
+        // 关闭窗口
+        closeCreateDlg();
     };
 
     /**
