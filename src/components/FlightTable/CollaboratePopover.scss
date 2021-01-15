@@ -40,6 +40,9 @@
     //bottom: 0;
     @include display_flex();
     @include flex();
+    &:hover{
+      cursor: pointer;
+    }
     >div{
       @include display_flex();
       @include flex();
@@ -50,11 +53,21 @@
       //text-align: left;
     }
   }
-  .ATOT{
+  .FFIXT{
+    //background: #404040;
+    border-left: 2px solid #868a8b!important;
+    border-right: 2px solid #868a8b!important;
+    .full-cell{
+      >div{
+        padding-left: 0!important;
+      }
+    }
+  }
+  .ATOT{  }
     .DEP{
       background: #1e6083;
     }
-  }
+
   .CTOT_DEP,.CTO_DEP,.COBT_DEP{
     background: #595959!important;
     color: #999797;

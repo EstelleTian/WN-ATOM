@@ -121,10 +121,16 @@ const FFIXTPopover = (props) => {
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
     }
-    let { ffixField : { meetIntervalValue } } = orgdata;
+    let field = orgdata.ffixField || {};
+    let meetIntervalValue = field.meetIntervalValue || "";
+    let source = field.source;
+    let sourceCN = FlightCoordination.getSourceZh( source );
     let ftime = "";
     if( isValidVariable(text) && text.length > 12 ){
         ftime = getTimeAndStatus(text)
+    }
+    if( ftime.indexOf("A") > -1 ){
+        source = "DEP";
     }
     return(
         <Popover
@@ -135,23 +141,23 @@ const FFIXTPopover = (props) => {
             trigger={[`contextMenu`]}
             getContainer={false}
         >
-            <div className={`full-cell  `}>
+            <div className={`full-cell time_${ftime} ${ (ftime !== "") ? source : "" }`}>
                 {/*200不满足间隔*/}
                 {
                     meetIntervalValue === "200" && ftime !== ""
-                        ? <div className="interval" title={text}><span  className="interval_red">{ftime}</span></div>
-                        : ""
+                        ? <div className="interval" title={`${text}-${sourceCN}`}><span  className="interval_red">{ftime}</span></div>
+                        : <div className="interval" title={`${text}-${sourceCN}`} ><span  className="">{ftime}</span></div>
                 }
-                {
-                    meetIntervalValue === "100"&& ftime !== ""
-                        ? <div className="interval" title={text} ><span  className="interval_green">{ftime}</span></div>
-                        : ""
-                }
-                {
-                    ( meetIntervalValue === null || meetIntervalValue === "null" ) && ftime !== ""
-                        ? <div className="interval" title={text} ><span  className="">{ftime}</span></div>
-                        : ""
-                }
+                {/*{*/}
+                {/*    meetIntervalValue === "100"&& ftime !== ""*/}
+                {/*        ? <div className="interval" title={`${text}-${sourceCN}`} ><span  className="interval_green">{ftime}</span></div>*/}
+                {/*        : ""*/}
+                {/*}*/}
+                {/*{*/}
+                {/*    ( meetIntervalValue === null || meetIntervalValue === "null" ) && ftime !== ""*/}
+                {/*        ? <div className="interval" title={`${text}-${sourceCN}`} ><span  className="">{ftime}</span></div>*/}
+                {/*        : ""*/}
+                {/*}*/}
             </div>
 
 
