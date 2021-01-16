@@ -54,12 +54,6 @@ class SchemeListData{
     @observable statusValues = ['FUTURE','RUNNING'];
     //数据获取
     @observable loading = false;
-    //方案详情-显隐状态和id
-    @observable detailObj = {
-        visible: false,
-        modalId: ""
-    };
-
     //更新表格loading状态
     @action toggleLoad( load ){
         this.loading = load;

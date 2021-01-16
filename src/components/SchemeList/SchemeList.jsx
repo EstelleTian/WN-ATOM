@@ -13,6 +13,7 @@ import { requestGet, request } from 'utils/request'
 import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
 import  SchemeModal  from "./SchemeModal";
+import  WorkFlowModal  from "./WorkFlowModal";
 import  SchemeItem  from "./SchemeItem";
 import './SchemeList.scss'
 import {SyncOutlined} from "@ant-design/icons";
@@ -34,6 +35,9 @@ function SchemeList (props){
     const [ schemeListRefresh, setSchemeListRefresh ] = useState( false ); //方案列表 是否是更新中 状态 true为更新中 false为更新完毕
     const [ firstLoadScheme, setFirstLoadScheme ] = useState( true ); //方案列表是否是第一次更新
 
+    const [ workFlowvisible, setWorkFlowvisible ] = useState(false); //工作流模态框显隐
+    const [ workFlowModalId, setWorkFlowModalId ] = useState(""); //当前选中方案工作流的id，不一定和激活方案id一样
+
     //状态-多选按钮组-切换事件
     const onChange = (checkedValues)=>{
         // console.log('checked = ', checkedValues);
@@ -45,6 +49,13 @@ function SchemeList (props){
         setVisible(flag);
         //选中方案id
         setModalId(id);
+    });
+
+    //方案-工作流 显隐
+    const toggleWorkFlowModalVisible = useCallback(( flag, id )=>{
+        setWorkFlowvisible(flag);
+        //选中方案id
+        setWorkFlowModalId(id);
     });
     //请求错误处理
     const requestErr = useCallback((err, content) => {
@@ -177,8 +188,6 @@ function SchemeList (props){
         };
         request(opt);
     });
-
-
 
     //高亮方案并获取航班数据和KPI数据
     const handleActive = useCallback(( id, title, from ) => {
@@ -382,13 +391,20 @@ function SchemeList (props){
                                         handleActive={handleActive}
                                         key={index}
                                         toggleModalVisible={toggleModalVisible}
+                                        toggleWorkFlowModalVisible={toggleWorkFlowModalVisible}
                                     >
                                     </SchemeItem>
                                 )
                             ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color:"#fff"}} />
 
                     }
-                    <SchemeModal visible={visible} setVisible={setVisible} modalId={modalId} />
+                    {
+                        visible ? <SchemeModal visible={visible} setVisible={setVisible} modalId={modalId} /> : ""
+                    }
+                    {
+                        workFlowvisible ? <WorkFlowModal visible={workFlowvisible} setVisible={setWorkFlowvisible} modalId={workFlowModalId} /> : ""
+                    }
+
                 </div>
             </Spin>
         </div>
