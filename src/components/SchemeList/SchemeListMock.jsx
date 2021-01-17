@@ -13,7 +13,7 @@ import { requestGet, request } from 'utils/request'
 import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
 import  SchemeModal  from "./SchemeModal";
-import  WorkFlowModal  from "./WorkFlowModal";
+import  WorkFlowModal  from "components/WorkFlow/WorkFlowModal";
 import  SchemeItem  from "./SchemeItem";
 import schemeData from '../../mockdata/implementTactics'
 import flightsData from '../../mockdata/flights'

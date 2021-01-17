@@ -1,7 +1,10 @@
 
-import React, { useEffect, useCallback,useState } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import {  observer } from 'mobx-react'
+import {Modal, message, Button, Table} from "antd";
 import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
+import { Window as WindowDHX } from "dhx-suite";
+
 
 //方案状态转化
 const convertSatus = (status) => {
@@ -71,6 +74,7 @@ function SchemeItem(props){
     const showWorkFlowDetail = function(id){
         props.toggleWorkFlowModalVisible(true, id);
     }
+
 
     return (
         <div className={`item_container layout-column ${item.active ? 'item_active' : ''}`}
