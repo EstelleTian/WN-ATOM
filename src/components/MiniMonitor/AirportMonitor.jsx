@@ -18,8 +18,10 @@ function AirportMonitor(props) {
     const data = props.data || {};
 
     const flowMap = data.flowMap || {};
-
+    // 天气
     const weather = data.weather || "";
+    // 起飞正常率
+    const depRatio = data.depRatio || 0;
 
     const getTimeAxis = function () {
         let arr = [];
@@ -172,14 +174,14 @@ function AirportMonitor(props) {
                 <div className="normal-rate">
                     <div className="rate-progress">
                         <Progress
-                            percent={ 0 }
+                            percent={ depRatio }
                             showInfo={false}
                             strokeColor="#35A5DA"
                             trailColor="#65737a"
                         />
                     </div>
                     <div className="rate-text">
-                        {`正常率 ${0}%`}
+                        {`正常率 ${depRatio}%`}
                     </div>
                 </div>
                 <div className="weather">{weather}</div>
