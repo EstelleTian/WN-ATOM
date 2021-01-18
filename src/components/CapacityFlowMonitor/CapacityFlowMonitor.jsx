@@ -19,6 +19,12 @@ import './CapacityFlowMonitor.scss'
 //容流略图模块
 const CapacityFlowMonitor =(props) => {
 
+    const capacityFlowMonitorData = props.capacityFlowMonitorData || {};
+    const monitorData = capacityFlowMonitorData.monitorData || {};
+    const flow = monitorData.flow || {}
+    console.log(flow);
+
+
     const AirportMonitorData = [
         {
             title: '西安机场',
@@ -50,79 +56,75 @@ const CapacityFlowMonitor =(props) => {
 
     ];
 
-    //更新--执行KPI store数据
-    // const updateFlightPerformanceData = useCallback(flightPerformanceData => {
-    //     if( isValidObject(flightPerformanceData) ){
-    //         props.flightPerformanceData.updateFlightPerformanceData(flightPerformanceData)
-    //     }else{
-    //         props.flightPerformanceData.updateFlightPerformanceData({});
-    //         message.error({
-    //             content:"获取的航班执行数据为空",
-    //             duration: 4,
-    //         });
-    //
-    //     }
-    // });
+    // 更新--执行KPI store数据
+    const updateCapacityFlowMonitorData = useCallback(capacityFlowMonitorData => {
+        if( isValidObject(capacityFlowMonitorData) ){
+            console.log(capacityFlowMonitorData)
+            props.capacityFlowMonitorData.updateCapacityFlowMonitorData(capacityFlowMonitorData)
+        }else{
+            props.capacityFlowMonitorData.updateCapacityFlowMonitorData({});
+            message.error({
+                content:"获取的航班执行数据为空",
+                duration: 4,
+            });
 
-    //请求错误处理
-    // const requestErr = useCallback((err, content) => {
-    //     const errMsg = err.message || "";
-    //     message.error({
-    //         content:(
-    //             <span>
-    //                 <span>{ content }</span>
-    //                 <br/>
-    //                 <span>{errMsg}</span>
-    //             </span>
-    //         ),
-    //         duration: 4,
-    //     });
-    // });
+        }
+    });
 
-
-    // useEffect(function(){
-    //     // 初次获取数据启用loading
-    //     props.flightPerformanceData.toggleLoad(true);
-    //     // 获取数据
-    //     requestFlightPerformanceData();
-    //     // 清除定时
-    //     clearInterval(props.flightPerformanceData.timeoutId);
-    //     // 开启定时获取数据
-    //     props.flightPerformanceData.timeoutId = setInterval(requestFlightPerformanceData, 60*1000);
-    //     return function(){
-    //         clearInterval(props.flightPerformanceData.timeoutId);
-    //         props.flightPerformanceData.timeoutId = "";
-    //     }
-    // },[])
+    // 请求错误处理
+    const requestErr = useCallback((err, content) => {
+        const errMsg = err.message || "";
+        message.error({
+            content:(
+                <span>
+                    <span>{ content }</span>
+                    <br/>
+                    <span>{errMsg}</span>
+                </span>
+            ),
+            duration: 4,
+        });
+    });
 
 
+    useEffect(function(){
+        // 初次获取数据启用loading
+        props.capacityFlowMonitorData.toggleLoad(true);
+        // 获取数据
+        requestCapacityFlowMonitorData();
+        // 清除定时
+        clearInterval(props.capacityFlowMonitorData.timeoutId);
+        // 开启定时获取数据
+        props.capacityFlowMonitorData.timeoutId = setInterval(requestCapacityFlowMonitorData, 60*1000);
+        return function(){
+            clearInterval(props.capacityFlowMonitorData.timeoutId);
+            props.capacityFlowMonitorData.timeoutId = "";
+        }
+    },[])
 
 
-    //获取--执行KPI数据
-    // const requestFlightPerformanceData = useCallback(() => {
-    //
-    //     const nowDate = getFullTime(new Date()).substring(0.8);
-    //     const start = nowDate+'000000';
-    //     const end = nowDate+'235900';
-    //
-    //
-    //     const opt = {
-    //         // url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flight/',
-    //         // url:'http://192.168.243.191:28001/atc-monitor-server/monitor/v1/flight?targets=ZLXYACC,ZLLLACC&starttime=202101130000&endtime=202101132359',
-    //         url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flight?targets=ZLXYACC,ZLLLACC&starttime='+ start+'&endtime='+end,
-    //         method:'GET',
-    //         params:{},
-    //         resFunc: (data)=> {
-    //             updateFlightPerformanceData(data)
-    //             props.flightPerformanceData.toggleLoad(false)
-    //         },
-    //         errFunc: (err)=> {
-    //             requestErr(err, '航班执行数据获取失败')
-    //             props.flightPerformanceData.toggleLoad(false)
-    //         } ,
-    //     };
-    //     request(opt);
-    // });
+
+
+    // 获取容流数据
+    const requestCapacityFlowMonitorData = useCallback(() => {
+        const nowDate = getFullTime(new Date()).substring(0,8);
+        const start = nowDate+'000000';
+        const end = nowDate+'235900';
+        const opt = {
+            url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flow?targets=ZLXYACC,ZLLLACC,ZLXYAR01,ZLLLAR01&starttime='+ start+'&endtime='+end,
+            method:'GET',
+            params:{},
+            resFunc: (data)=> {
+                updateCapacityFlowMonitorData(data)
+                props.capacityFlowMonitorData.toggleLoad(false)
+            },
+            errFunc: (err)=> {
+                requestErr(err, '容流数据获取失败')
+                props.capacityFlowMonitorData.toggleLoad(false)
+            } ,
+        };
+        request(opt);
+    });
 
 
 
@@ -154,4 +156,4 @@ const CapacityFlowMonitor =(props) => {
     )
 }
 
-export default inject("flightPerformanceData","systemPage")(observer(CapacityFlowMonitor))
+export default inject("capacityFlowMonitorData","systemPage")(observer(CapacityFlowMonitor))

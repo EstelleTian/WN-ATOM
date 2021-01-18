@@ -177,7 +177,7 @@ const FlightPerformance =(props) => {
     //获取--执行KPI数据
     const requestFlightPerformanceData = useCallback(() => {
 
-        const nowDate = getFullTime(new Date()).substring(0.8);
+        const nowDate = getFullTime(new Date()).substring(0,8);
         const start = nowDate+'000000';
         const end = nowDate+'235900';
 

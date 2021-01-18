@@ -11,6 +11,7 @@ import { newsList } from './newsStores'
 import { flightTableData } from './flightTableStores'
 import { executeKPIData } from './executeKPIStores'
 import { flightPerformanceData } from './flightPerformanceStores'
+import { capacityFlowMonitorData } from './capacityFlowMonitorStores'
 import { systemPage } from './pageStores'
 
 export { 
@@ -18,6 +19,7 @@ export {
     newsList, flightTableData,
     executeKPIData,
     systemPage,
-    flightPerformanceData
+    flightPerformanceData,
+    capacityFlowMonitorData
  };
 

@@ -12,7 +12,7 @@ import ReactEcharts from 'echarts-for-react'
 // 环形饼图
 const PieChart = (props) => {
 
-    const  restrictMap = props.restrictMap || {};
+    const  restrictMap = props.data || {};;
 
 
 

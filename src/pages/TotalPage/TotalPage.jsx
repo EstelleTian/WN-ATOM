@@ -62,40 +62,6 @@ function TodoPage (props){
                         <CapacityFlowMonitor/>
                     </ModalBox>
 
-
-
-
-                    <AirportMonitor title="西安机场" />
-
-                    <AirportMonitor title="甘肃机场" />
-
-                    <AirportMonitor title="兰州机场" />
-                    <AirportMonitor title="青海机场" />
-                    <SectorMonitor title="西安01扇区" />
-                    <SectorMonitor title="西安02扇区" />
-                    <SectorMonitor title="西安03扇区" />
-                    <SectorMonitor title="西安04扇区" />
-                    <SectorMonitor title="西安05扇区" />
-                    <SectorMonitor title="西安06扇区" />
-                    <SectorMonitor title="西安07扇区" />
-                    <SectorMonitor title="西安08扇区" />
-                    <SectorMonitor title="西安01扇区" />
-                    <SectorMonitor title="西安02扇区" />
-                    <SectorMonitor title="西安03扇区" />
-                    <SectorMonitor title="西安04扇区" />
-                    <SectorMonitor title="西安05扇区" />
-                    <SectorMonitor title="西安06扇区" />
-                    <SectorMonitor title="西安07扇区" />
-                    <SectorMonitor title="西安08扇区" />
-                    <SectorMonitor title="西安01扇区" />
-                    <SectorMonitor title="西安02扇区" />
-                    <SectorMonitor title="西安03扇区" />
-                    <SectorMonitor title="西安04扇区" />
-                    <SectorMonitor title="西安05扇区" />
-                    <SectorMonitor title="西安06扇区" />
-                    <SectorMonitor title="西安07扇区" />
-                    <SectorMonitor title="西安08扇区" />
-                    <SectorMonitor title="西安01扇区" />
                     <AddMonitorCard/>
 
 
