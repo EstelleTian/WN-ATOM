@@ -8,210 +8,68 @@
  */
 import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Row, Col, message, Checkbox , Empty} from 'antd'
-import { SyncOutlined } from '@ant-design/icons';
+import {message, Checkbox, Empty, Spin} from 'antd'
 import { requestGet, request } from 'utils/request'
 import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
 import  SchemeModal  from "./SchemeModal";
+import  WorkFlowModal  from "components/WorkFlow/WorkFlowModal";
+import  SchemeItem  from "./SchemeItem";
 import schemeData from '../../mockdata/implementTactics'
 import flightsData from '../../mockdata/flights'
 import kpiData from '../../mockdata/kpi'
 import './SchemeList.scss'
+import {SyncOutlined} from "@ant-design/icons";
 
-
-//方案状态转化
-const convertSatus = (status) => {
-    let newStatus = status;
-    switch(status){
-        case "FUTURE": newStatus = "将要执行";break;
-        case "RUNNING": newStatus = "正在执行";break;
-        case "PRE_PUBLISH": newStatus = "将要发布";break;
-        case "PRE_TERMINATED":
-        case "PRE_UPDATE":
-             newStatus = "将要终止";break;
-        case "TERMINATED":
-        case "TERMINATED_MANUAL":
-            newStatus = "人工终止";break;
-        case "STOP": newStatus = "系统终止";break;
-        case "FINISHED": newStatus = "正常结束";break;
-        case "DISCARD": newStatus = "已废弃";break;
-    }
-    return newStatus;
-}
-//单条方案
-function sItem(props){
-    const onChange = (e, id) => {
-        e.preventDefault();
-        e.stopPropagation();
-        props.handleActive( id );
-    };
-     let { item } = props;
-     let { id, tacticName , tacticStatus, tacticPublishUnit, basicTacticInfoReason, basicTacticInfoRemark,
-         tacticTimeInfo: { startTime, endTime, publishTime, createTime, startCalculateTime =""},
-         sourceFlowcontrol = {}, directionList = []
-     } = item;
-     if( sourceFlowcontrol === null ){
-         sourceFlowcontrol = {};
-     }
-     let { flowControlMeasure = {} } = sourceFlowcontrol;
-     if( flowControlMeasure === null ){
-         flowControlMeasure = {};
-     }
-     let { restrictionMITValue = "", restrictionAFPValueSequence ="", restrictionMode = ""} = flowControlMeasure;
-     //限制值
-    let interVal = "";
-    if( restrictionMode === "MIT"){
-        interVal = restrictionMITValue;
-    }else if( restrictionMode === "AFP" ){
-        interVal = restrictionAFPValueSequence;
-    }
-     let targetUnits = "";
-     let behindUnits = "";
-     if( !isValidVariable(directionList) ){
-         directionList = [];
-     }
-     directionList.map((item) => {
-         targetUnits += item.targetUnit+",";
-         behindUnits += item.behindUnit+",";
-     })
-     if( targetUnits !== ""){
-         targetUnits = targetUnits.substring(0, targetUnits.length-1);
-     }
-     if( behindUnits !== ""){
-         behindUnits = behindUnits.substring(0, targetUnits.length-1);
-     }
-     const showDetail = function(id){
-         props.toggleModalVisible(true, id);
-     }
-     return (
-         <div className={`item_container layout-column ${item.active ? 'item_active' : ''}`}
-              onClick={(e)=>{
-                  onChange(e, id);
-                  e.stopPropagation();
-              } }
-         >
-             <div className="layout-row">
-                 <div className="left-column border-bottom layout-column justify-content-center">
-                    <div className="name">
-                        <div className="cell">
-                            <span className="tactic-name" title={`方案名称: ${tacticName} `}>{tacticName}</span>
-                        </div>
-                    </div>
-                     <div className="state">
-                         <div className="cell">
-                             <span className={`${tacticStatus} status`} title="方案状态">{ convertSatus(tacticStatus) }</span>
-                             <span className="calculate" title="方案计算状态">{ isValidVariable(startCalculateTime) ? "已计算" : "计算中" }</span>
-                         </div>
-                     </div>
-                 </div>
-                 <div className="right-column border-bottom layout-row">
-                     <div className="layout-column">
-                         <div className="column-box  border-bottom">
-                             <div className="cell" title={`发布单位: ${tacticPublishUnit}`}>{tacticPublishUnit}</div>
-                         </div>
-
-                         <div className="column-box">
-                             <div className="cell" title={`限制方式: ${restrictionMode}`}>{restrictionMode}</div>
-                         </div>
-                     </div>
-                     <div className="layout-column double-column-box">
-                         <div className="column-box  border-bottom">
-                             <div className="cell" title={startTime+"-"+ endTime}>{getDayTimeFromString(startTime)} - {getDayTimeFromString(endTime)}</div>
-                         </div>
-                         <div className="layout-row">
-                             <div className="column-box">
-                                 <div className="cell" title={`限制值: ${interVal}`}>{interVal}</div>
-                             </div>
-                             <div className="column-box">
-                                 <div className="cell" title={`基准单元: ${targetUnits}`}>{targetUnits}</div>
-                             </div>
-                             {/*<div className="column-box">*/}
-                             {/*    <div className="cell" title={`后续单元: ${behindUnits} `}>{behindUnits}</div>*/}
-                             {/*</div>*/}
-                         </div>
-                     </div>
-
-                 </div>
-             </div>
-             <div className="layout-row">
-                 <div className="left-column">
-                     <div className="summary">
-                         <div className="cell">
-                             发布时间:<span>{getTimeFromString(publishTime)}</span>
-                             &nbsp;&nbsp;
-                             创建时间:<span>{getTimeFromString(createTime)}</span>
-                             &nbsp;&nbsp;
-                             原因:<span>{basicTacticInfoReason}</span>
-                             &nbsp;&nbsp;
-                             备注:<span>{basicTacticInfoRemark}</span>
-                         </div>
-                     </div>
-                 </div>
-                 <div className="right-column">
-                     <div className="options-box layout-row">
-                         <div className=" layout-row">
-                             <div className="opt"
-                             >影响航班</div>
-                             <div className="opt" onClick={ e =>{
-                                 showDetail(id);
-                                 e.stopPropagation();
-                             } }>详情</div>
-                             <div className="opt" onClick={ e =>{
-                                 showDetail(id);
-                                 e.stopPropagation();
-                             } }>调整</div>
-                             <div className="opt" onClick={ e =>{
-                                 showDetail(id);
-                                 e.stopPropagation();
-                             } }>决策依据</div>
-                         </div>
-                     </div>
-
-                 </div>
-             </div>
-             {/*<Row>*/}
-                 {/*<Col span={14}>{tacticName}</Col>*/}
-                 {/*<Col span={5}>{tacticPublishUnit}</Col>*/}
-                 {/*<Col span={5}>{getTimeFromString(startTime)} - {getTimeFromString(endTime)}</Col>*/}
-             {/*</Row>*/}
-             {/*<Row>*/}
-                 {/*<Col span={8}>{ convertSatus(tacticStatus) } - { startCalculateTime == "" ? "计算中" : "已计算"}</Col>*/}
-                 {/*<Col span={5}>{restrictionMITValue}</Col>*/}
-                 {/*<Col span={5}>{targetUnits}</Col>*/}
-                 {/*<Col span={6}>{behindUnits}</Col>*/}
-             {/*</Row>*/}
-             {/*<Row>*/}
-                 {/*<Col span={18}>*/}
-                     {/*创建时间:<span>{getTimeFromString(publishTime)}</span>*/}
-                     {/*原因:<span>{basicTacticInfoReason}</span>*/}
-                     {/*备注:<span>{basicTacticInfoRemark}</span>*/}
-                 {/*</Col>*/}
-                 {/*<Col span={6}>*/}
-                     {/*/!*<span className="opt detail">详情</span>*!/*/}
-                     {/*<span className="opt effect">影响</span>*/}
-                 {/*</Col>*/}
-             {/*</Row>*/}
-         </div>
-     )
-}
-
-let SchemeItem = (observer(sItem))
+//方案多选按钮组
+const plainOptions = [
+    { label: '正在执行', value: 'RUNNING' },
+    { label: '将要执行', value: 'FUTURE' },
+    { label: '正常结束', value: 'FINISHED' },
+    { label: '人工终止', value: 'TERMINATED_MANUAL' },
+    { label: '自动终止', value: 'TERMINATED_AUTO' },
+];
 
 //方案列表
 function SchemeList (props){
-    const [visible, setVisible] = useState(false);
-    const [modalId, setModalId] = useState("");
-    const [ manualRefresh, setManualRefresh ] = useState( false );
-    const [ statusValues, setStatusValues ] = useState( ['FUTURE','RUNNING'] );
-    const [ schemeListRefresh, setSchemeListRefresh ] = useState( false );
-    NWGlobal.setSchemeId = id  => {
-        // alert("收到id:"+id);
-        handleActive( id )
-    }
-    //更新方案列表数据
+    const [ visible, setVisible ] = useState(false); //详情模态框显隐
+    const [ modalId, setModalId ] = useState(""); //当前选中方案详情的id，不一定和激活方案id一样
+    const [ manualRefresh, setManualRefresh ] = useState( false ); //方案手动更新按钮loading状态
+    const [ schemeListRefresh, setSchemeListRefresh ] = useState( false ); //方案列表 是否是更新中 状态 true为更新中 false为更新完毕
+    const [ firstLoadScheme, setFirstLoadScheme ] = useState( true ); //方案列表是否是第一次更新
+
+    const [ workFlowvisible, setWorkFlowvisible ] = useState(false); //工作流模态框显隐
+    const [ workFlowModalId, setWorkFlowModalId ] = useState(""); //当前选中方案工作流的id，不一定和激活方案id一样
+    //状态-多选按钮组-切换事件
+    const onChange = (checkedValues)=>{
+        // console.log('checked = ', checkedValues);
+        props.schemeListData.setStatusValues( checkedValues );
+    };
+
+    //方案详情显隐
+    const toggleModalVisible = useCallback(( flag, id )=>{
+        setVisible(flag);
+        //选中方案id
+        setModalId(id);
+    });
+    //方案-工作流 显隐
+    const toggleWorkFlowModalVisible = useCallback(( flag, id )=>{
+        setWorkFlowvisible(flag);
+        //选中方案id
+        setWorkFlowModalId(id);
+    });
+    //请求错误处理
+    const requestErr = useCallback((err, content) => {
+        message.error({
+            content,
+            duration: 4,
+        });
+    });
+
+    //更新--方案列表 store数据
     const updateSchemeListData = useCallback(data => {
-        let { tacticProcessInfos, status } = data;
+        setSchemeListRefresh(false);
+        let { tacticProcessInfos, status, generateTime } = data;
         if( status === 500 ){
             message.error('获取的方案列表数据为空');
         }else{
@@ -222,47 +80,22 @@ function SchemeList (props){
             const list = tacticProcessInfos.map((item) => {
                 const { basicTacticInfo } = item;
                 return basicTacticInfo;
-            })
-            //获取 激活方案 对象
-            const activeScheme = schemeListData.activeScheme || {};
-            const id = activeScheme.id || "";
-            //检测 没有选中方案 则默认选中第一个方案
-            if( isValidVariable(id)  && list.length > 0 ){
-                let id = list[0].id + "";
-                console.log("未获取到id，选定第一个:",id);
-                handleActive(id);
-            }
+            });
+            //更新 方案列表 store
+            schemeListData.updateList(list, generateTime);
         }
 
-
-    })
-    //请求错误处理
-    const requestErr = useCallback((err, content) => {
-        message.error({
-            content,
-            duration: 4,
-        });
-    })
-    //获取方案列表
-    const getSchemeList = useCallback(() => {
-        updateSchemeListData( schemeData )
     });
-    // DidMount 获取一次方案列表
-    useEffect(function(){
-        getSchemeList();
-
-    }, [ statusValues ] );
-
-    //更新航班store数据
-    const updateFlightTableData = useCallback(flightData => {
+    //更新--航班列表 store数据
+    const updateFlightTableData = useCallback( ( flightData, id )  => {
         let  { flights, generateTime } = flightData;
         if( flights !== null ){
-            props.flightTableData.updateList(flights, generateTime)
+            props.flightTableData.updateFlightsList(flights, generateTime, id);
         }else{
-            props.flightTableData.updateList([], generateTime)
+            props.flightTableData.updateFlightsList([], generateTime, id);
         }
     });
-    //更新执行KPIstore数据
+    //更新--执行KPI store数据
     const updateExecuteKPIData = useCallback(executeKPIData => {
         if( isValidObject(executeKPIData) ){
             props.executeKPIData.updateExecuteKPIData(executeKPIData)
@@ -275,77 +108,259 @@ function SchemeList (props){
 
         }
     });
-    //航班列表数据获取
-    const requestFlightTableData = useCallback(id => {
-        updateFlightTableData(flightsData)
-        props.flightTableData.toggleLoad(false)
 
-    })
-    //方案执行KPI数据获取
-    const requestExecuteKPIData = useCallback(id => {
+    //获取--方案列表
+    const getSchemeList = useCallback(( startNextRefresh = false  ) => {
+        //更新方案数据
+        updateSchemeListData(schemeData);
+        if( props.schemeListData.loading !== false){
+            props.schemeListData.toggleLoad(false);
+        }
+    });
+    //获取--航班列表数据
+    const requestFlightTableData = useCallback( ( id, resolve, reject ) => {
+        updateFlightTableData(flightsData, id);
+        if( props.flightTableData.loading !== false){
+            props.flightTableData.toggleLoad(false);
+        }
+        if( isValidVariable(resolve) ){
+            resolve("success");
+        }
+
+    });
+    //获取--执行KPI数据
+    const requestExecuteKPIData = useCallback( ( id, resolve, reject ) => {
         updateExecuteKPIData(kpiData)
-        props.executeKPIData.toggleLoad(false)
-    })
-    //高亮方案并获取航班数据
-    const handleActive = useCallback(( id ) => {
+        props.executeKPIData.toggleLoad(false);
+        if( isValidVariable(resolve) ){
+            resolve("success");
+        }
+    });
+
+
+
+    //高亮方案并获取航班数据和KPI数据
+    const handleActive = useCallback(( id, title, from ) => {
         // if( props.schemeListData.schemeId != id ){
-            props.schemeListData.setActiveSchemeId(id)
-            props.schemeListData.toggleSchemeActive( id+"" );
-            props.flightTableData.toggleLoad(true)
-            props.executeKPIData.toggleLoad(true)
+        const res = props.schemeListData.toggleSchemeActive( id+"" );
+        if( res ){
+            props.flightTableData.toggleLoad(true);
+            props.executeKPIData.toggleLoad(true);
             requestFlightTableData(id+"");
             requestExecuteKPIData(id+"");
+            //来自客户端定位，滚动到对应位置
+            if( from === "client" ){
+                // 滚动条滚动到顶部
+                const canvas = document.getElementsByClassName("scheme_list_canvas")[0];
+                const boxContent = canvas.getElementsByClassName("list_container")[0];
+                boxContent.scrollTop = 0;
+            }
+        }else{
+            if( isValidVariable(title) ){
+                message.warning({
+                    content: "暂未获取到方案，方案名称是：" + title ,
+                    duration: 15,
+                });
+            }
+        }
+
         // }
 
+    });
+
+    // DidMount 激活方案列表id变化后，重新处理航班定时器
+    useEffect(function(){
+        const id = props.schemeListData.activeScheme.id || "";
+        // console.log("航班列表 useEffect id变了:"+id);
+        if( isValidVariable( props.schemeListData.activeScheme.id ) ){
+            // console.log("航班列表 清空定时器:"+props.flightTableData.timeoutId);
+            clearInterval(props.flightTableData.timeoutId);
+            props.flightTableData.timeoutId = "";
+            //生成新定时器--轮询
+            const timeoutid = setInterval(function(){
+                // console.log("航班列表 定时开始执行， 获取数据，id是："+ id);
+                // setSchemeListRefresh(false);
+                requestFlightTableData(id)
+            },60 * 1000);
+            // console.log("航班列表 配置定时器:"+timeoutid);
+            props.flightTableData.timeoutId = timeoutid;
+        }
+    }, [ props.schemeListData.activeScheme.id ] );
+
+    // DidMount 激活方案列表id变化后，重新处理执行KPI定时器
+    useEffect(function(){
+        const id = props.schemeListData.activeScheme.id || "";
+        // console.log("执行KPI useEffect id变了:"+id);
+        if( isValidVariable( props.schemeListData.activeScheme.id ) ){
+            // console.log("执行KPI 清空定时器:"+props.flightTableData.timeoutId);
+            clearInterval(props.executeKPIData.timeoutId);
+            props.executeKPIData.timeoutId = "";
+            //生成新定时器--轮询
+            const timeoutid = setInterval(function(){
+                // console.log("执行KPI 定时开始执行， 获取数据，id是："+ id);
+                // setSchemeListRefresh(false);
+                if( props.systemPage.leftActiveName === "kpi"){
+                    requestExecuteKPIData(id)
+                }
+            },60 * 1000);
+            // console.log("执行KPI 配置定时器:"+timeoutid);
+            props.executeKPIData.timeoutId = timeoutid;
+        }
+    }, [ props.schemeListData.activeScheme.id ] );
+
+    // DidMount 重新处理方案列表定时器
+    useEffect(function(){
+        if( !firstLoadScheme ){
+            // console.log("方案列表 定时器激活了:"+statusValues);
+            // console.log("方案列表 清空定时器:"+props.schemeListData.timeoutId);
+            clearInterval(props.schemeListData.timeoutId);
+            props.schemeListData.timeoutId = "";
+            //生成新定时器--轮询
+            const timeoutid = setInterval(function(){
+                // console.log("方案列表开始请求:"+statusValues);
+                getSchemeList();
+            },30*1000);
+
+            props.schemeListData.timeoutId = timeoutid;
+        }
+    }, [firstLoadScheme] );
+    // DidMount 第一次获取方案列表
+    useEffect(function(){
+
+        return function(){
+            console.log("方案列表卸载");
+            clearInterval(props.flightTableData.timeoutId);
+            props.flightTableData.timeoutId = "";
+            clearInterval(props.executeKPIData.timeoutId);
+            props.executeKPIData.timeoutId = "";
+            clearInterval(props.schemeListData.timeoutId);
+            props.schemeListData.timeoutId = "";
+        }
+    },[]);
+
+    useEffect(function(){
+        // console.log("statusValues变了 getSchemeList：", statusValues, firstLoadScheme);
+        if( !firstLoadScheme ){
+            props.schemeListData.toggleLoad(true);
+            getSchemeList();
+        }
+    },[ props.schemeListData.statusValues ]);
+    useEffect(function(){
+        // console.log("user.id变了 getSchemeList(true)：", statusValues, firstLoadScheme);
+        const id = props.systemPage.user.id;
+        if( firstLoadScheme && isValidVariable(id) ){
+            // alert( "user.id变为:"+ id );
+            props.schemeListData.toggleLoad(true);
+            getSchemeList(true);
+            setFirstLoadScheme(false);
+        }
+    },[props.systemPage.user.id]);
+
+    //监听全局刷新
+    useEffect(function(){
+        const id = props.systemPage.user.id;
+        if( props.systemPage.pageRefresh && isValidVariable(id) ){
+            console.time("全局");
+            let p1 = new Promise(function(resolve, reject) {
+                // 异步处理
+                // 处理结束后、调用resolve 或 reject
+                props.schemeListData.toggleLoad(true);
+                getSchemeList();
+                resolve("方案列表")
+            } );
+            const id = props.schemeListData.activeScheme.id || "";
+            let p2;
+            let p3;
+            if( isValidVariable( id ) ){
+                p2 = new Promise( function(resolve, reject) {
+                    // 异步处理
+                    // 处理结束后、调用resolve 或 reject
+                    props.flightTableData.toggleLoad(true);
+                    requestFlightTableData(id, resolve, reject)
+                } );
+                p3 = new Promise(function(resolve, reject) {
+                    // 异步处理
+                    props.executeKPIData.toggleLoad(true);
+                    // 处理结束后、调用resolve 或 reject
+                    requestExecuteKPIData(id, resolve, reject);
+                } );
+            }
+            Promise.all([p1, p2, p3]).then((values) => {
+                console.timeEnd("全局");
+                console.log(values);
+                props.systemPage.pageRefresh = false;
+            });
+
+        }
+    },[ props.systemPage.pageRefresh ]);
+
+    useEffect(function(){
+        // console.log("statusValues",statusValues);
+        const schemeListData = props.schemeListData;
+        const { sortedList } = schemeListData; //获取排序后的方案列表
+        if( sortedList.length > 0 ){
+            //获取 激活方案 对象
+            const activeScheme = schemeListData.activeScheme || {};
+            const id = activeScheme.id || "";
+            //检测 没有选中方案 则默认选中第一个方案
+            if( !isValidVariable(id)  && sortedList.length > 0 ){
+                let id = sortedList[0].id + "";
+                console.log("未获取到id，选定第一个:",id);
+                handleActive(id);
+            }
+        }
+        //手动更新方案按钮loading状态，如果是true，置为false，标志完成数据获取
+        if( manualRefresh ){
+            setManualRefresh(false);
+        }
     })
+
+    //接收客户端传来方案id，用以自动切换到选中方案
+    NWGlobal.setSchemeId = ( schemeId, title )  => {
+        // alert("收到id:"+schemeId+"  title:"+title);
+        getSchemeList(); //主动获取一次
+        handleActive( schemeId, title, 'client' );
+    };
 
     const schemeListData = props.schemeListData;
-
-    const { sortedList } = schemeListData;
-    const toggleModalVisible = useCallback(( flag, id )=>{
-        setVisible(flag);
-        setModalId(id);
-    })
+    const { sortedList, statusValues } = schemeListData; //获取排序后的方案列表
     const  length = sortedList.length;
-    const plainOptions = [
-        { label: '正在执行', value: 'RUNNING' },
-        { label: '将要执行', value: 'FUTURE' },
-        { label: '正常结束', value: 'FINISHED' },
-        { label: '人工终止', value: 'TERMINATED_MANUAL' },
-        { label: '自动终止', value: 'TERMINATED_AUTO' },
-    ];
-    function onChange(checkedValues) {
-        console.log('checked = ', checkedValues);
-        setStatusValues( checkedValues );
-    }
 
     return (
-        <div className="list_container">
-            <div className="manual_refresh">
-                <SyncOutlined spin={manualRefresh}  onClick={()=>{
-                    setManualRefresh(true);
-                    getSchemeList();
-                }}/>
+        <div className="scheme_list_canvas">
+            <div className="scheme-filter-items">
+                <Checkbox.Group options={plainOptions} defaultValue={statusValues} onChange={onChange} />
             </div>
-            <Checkbox.Group options={plainOptions} defaultValue={statusValues} onChange={onChange} />
-            {
-                (length > 0) ?
-                    sortedList.map( (item, index) => (
-                    <SchemeItem
-                        item={item}
-                        handleActive={handleActive}
-                        key={index}
-                        toggleModalVisible={toggleModalVisible}
-                    >
-                    </SchemeItem>
-                    )
-                ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color:"#fff"}} />
+            <Spin spinning={ props.schemeListData.loading } >
+                <div className="list_container">
+                    {
+                        (length > 0) ?
+                            sortedList.map( (item, index) => (
+                                    <SchemeItem
+                                        item={item}
+                                        handleActive={handleActive}
+                                        key={index}
+                                        toggleModalVisible={toggleModalVisible}
+                                        toggleWorkFlowModalVisible={toggleWorkFlowModalVisible}
+                                    >
+                                    </SchemeItem>
+                                )
+                            ) : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color:"#fff"}} />
 
-            }
-            <SchemeModal visible={visible} setVisible={setVisible} modalId={modalId} />
+                    }
+                    {/*<SchemeModal visible={visible} setVisible={setVisible} modalId={modalId} />*/}
+                    {
+                        visible ? <SchemeModal visible={visible} setVisible={setVisible} modalId={modalId} /> : ""
+                    }
+                    {
+                        workFlowvisible ? <WorkFlowModal visible={workFlowvisible} setVisible={setWorkFlowvisible} modalId={workFlowModalId} /> : ""
+                    }
+
+                </div>
+            </Spin>
         </div>
+
     )
- }
+}
 
-
-export default inject("schemeListData","executeKPIData","flightTableData")(observer(SchemeList))
+export default inject("schemeListData","executeKPIData","flightTableData","systemPage")(observer(SchemeList))

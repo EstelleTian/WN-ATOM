@@ -6,6 +6,7 @@ const TotalPage = lazy(() => import('../pages/TotalPage/TotalPage'));
 const RestrictionPage = lazy(() => import('../pages/RestrictionPage/RestrictionPage'));
 const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
 const CreateFlowPage = lazy(() => import('../pages/CreateFlowPage/CreateFlowPage'));
+const WorkFlowPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowPage'));
 
 export default [
     {
@@ -43,5 +44,11 @@ export default [
         component: withRouter(CreateFlowPage),
         exact: true,
         title: '方案创建',
+    },
+    {
+        path: '/workflow',
+        component: withRouter(WorkFlowPage),
+        exact: true,
+        title: '工作流',
     },
 ];

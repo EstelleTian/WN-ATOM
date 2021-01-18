@@ -1,7 +1,10 @@
 
-import React, { useEffect, useCallback,useState } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import {  observer } from 'mobx-react'
+import {Modal, message, Button, Table} from "antd";
 import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
+import { Window as WindowDHX } from "dhx-suite";
+
 
 //方案状态转化
 const convertSatus = (status) => {
@@ -67,6 +70,12 @@ function SchemeItem(props){
     const showDetail = function(id){
         props.toggleModalVisible(true, id);
     }
+    //工作流详情
+    const showWorkFlowDetail = function(id){
+        props.toggleWorkFlowModalVisible(true, id);
+    }
+
+
     return (
         <div className={`item_container layout-column ${item.active ? 'item_active' : ''}`}
              onClick={(e)=>{
@@ -148,6 +157,10 @@ function SchemeItem(props){
                                 showDetail(id);
                                 e.stopPropagation();
                             } }>决策依据</div>
+                            <div className="opt" onClick={ e =>{
+                                showWorkFlowDetail(id);
+                                e.stopPropagation();
+                            } }>工作流</div>
                         </div>
                     </div>
 

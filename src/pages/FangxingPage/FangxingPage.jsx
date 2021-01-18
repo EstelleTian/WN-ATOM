@@ -42,7 +42,7 @@ function FangxingPage(props){
                     });
                     setLogin(true);
                 }
-            },3000)
+            },1)
         }
     },[ user.id ]);
     return (

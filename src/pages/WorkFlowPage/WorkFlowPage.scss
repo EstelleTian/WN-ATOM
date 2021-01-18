@@ -1,0 +1,45 @@
+
+//工作流--导航样式
+.work_menu{
+  background: rgba(64, 64, 64, 0.8);
+  margin: 0.5rem 1rem;
+  border: 1px solid #5d5d5d;
+  line-height: 3rem;
+
+}
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected{
+  color: #73bfe2;
+  border-bottom: 2px solid #7db2cc;
+}
+
+.work_cont{
+  background: rgba(64, 64, 64, 0.8);
+  margin: 0.5rem 1rem;
+  border: 1px solid #5d5d5d;
+  .ant-pagination{
+    position: absolute;
+    top: -42px;
+    right: 10px;
+  }
+}
+.work_search{
+  margin: 0.5rem auto;
+  text-align: center;
+
+}
+.opt_btns{
+  a{
+    padding: 0 5px;
+    color: #73bfe2;
+    &:hover{
+      cursor: pointer;
+      color: #0079c7;
+    }
+  }
+}
+.work_btns{
+  margin: 0.5rem auto;
+  button{
+    margin: 0 5px 0 5px ;
+  }
+}
