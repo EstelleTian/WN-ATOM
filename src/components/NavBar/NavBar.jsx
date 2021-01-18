@@ -54,14 +54,15 @@ function NavBar(props){
                 <RightNav/>
             </div>
         }else {
-            return <div>
-                <span>{title}</span>
-                <div className="nav_right">
-                    {/*消息*/}
-                    <NavBellNews />
-                    <Avatar className="user_icon" icon={<UserOutlined />} />
-                    <User />
-                </div>
+            return <div className="layout-row space-between">
+                        <div className="layout-nav-left layout-row">
+                            <span>{title}</span>
+                        </div>
+                        <div className="layout-nav-right layout-row">
+                            <NavBellNews />
+                            <Avatar className="user_icon" icon={<UserOutlined />} />
+                            <User />
+                        </div>
             </div>
         }
     }
