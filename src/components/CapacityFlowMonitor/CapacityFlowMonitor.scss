@@ -1,11 +1,36 @@
-.capacity-flow-monitor-module.modal_box {
-  .box_content {
-    overflow-y: auto !important;
-  }
-}
 .capacity_flow_monitor_container {
-
   position: relative;
-
-  margin: 5px;
+  margin-top: 15px;
+  .monitor-box {
+    .box_content {
+      overflow: visible;
+    }
+  }
+  .monitor-content {
+    padding: 15px;
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -webkit-flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    position: relative;
+    top: -31px;
+    padding-left: 86px;
+    padding-right: 16px;
+    height: 0px;
+    color: $c-white-30;
+    .remove{
+      cursor: pointer;
+      font-size: 20px;
+      &:hover{
+        color: $c-white-100;
+      }
+    }
+  }
 }

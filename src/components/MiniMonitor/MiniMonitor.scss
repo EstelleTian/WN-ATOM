@@ -1,4 +1,7 @@
 .monitor {
+    padding: 5px;
+    background: #343434;
+    border-radius: 6px;
     .options {
         display: flex;
         flex-direction: row;
@@ -23,7 +26,15 @@
 }
 
 .airport_monitor, .airport_sector{
-    
     display: inline-block;
-    
+    overflow: hidden;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: calc(100%);
+    padding: 5px;
 }

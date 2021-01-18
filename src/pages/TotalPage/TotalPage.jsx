@@ -54,13 +54,16 @@ function TodoPage (props){
                     </div>
                 </div>
                 <div className="cont_bottom">
-                    <ModalBox
-                        title="容流略图"
-                        showDecorator = {true}
-                        className="capacity-flow-monitor-module"
-                    >
+                    {/*<ModalBox*/}
+                        {/*title="容流略图"*/}
+                        {/*showDecorator = {true}*/}
+                        {/*className="capacity-flow-monitor-module"*/}
+                    {/*>*/}
+                        {/*<CapacityFlowMonitor/>*/}
+                    {/*</ModalBox>*/}
+                    <div className="capacity-flow-monitor-module">
                         <CapacityFlowMonitor/>
-                    </ModalBox>
+                    </div>
 
                     <AddMonitorCard/>
 
