@@ -9,7 +9,8 @@
 import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
 import { requestGet, request } from 'utils/request'
-import {  message, Checkbox , Empty, Spin, List, Card} from 'antd'
+import {  message, Checkbox , Empty, Spin, List, } from 'antd'
+import { CloseOutlined } from '@ant-design/icons';
 import { getFullTime,  getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import SectorMonitor from 'components/MiniMonitor/SectorMonitor'
@@ -30,6 +31,7 @@ const CapacityFlowMonitor =(props) => {
         let arr = [];
         for( let d in monitorData){
             let obj = {
+                id: d,
                 title: d,
                 data: monitorData[d],
             };
@@ -138,16 +140,19 @@ const CapacityFlowMonitor =(props) => {
                 grid={{ gutter: 16, column: 5 }}
                 dataSource={AirportMonitorData}
                 renderItem={item => (
-                    <List.Item>
-                        <ModalBox showDecorator = {true} title={item.title} className={props.className}>
+                    <List.Item key={item.key}>
+                        <ModalBox showDecorator = {true} title={item.title} className="monitor-box">
+                            <div className="actions">
+                                <div className="remove">
+                                    <CloseOutlined />
+                                </div>
+                            </div>
                             <div className="monitor-content">
                                 <AirportMonitor data={ item.data }  />
+
                             </div>
 
                         </ModalBox>
-                        {/*<Card size="small" title={item.title}>*/}
-                            {/*<AirportMonitor data={ item.data }  />*/}
-                        {/*</Card>*/}
                     </List.Item>
                 )}
             />

@@ -81,9 +81,9 @@ function AirportMonitor(props) {
                 show: false
             },
             grid: {
-                top: '10px',
-                left: '15px',
-                right: '15px',
+                top: '0px',
+                left: '0px',
+                right: '5px',
                 bottom: '20px',
                 containLabel: false
             },
