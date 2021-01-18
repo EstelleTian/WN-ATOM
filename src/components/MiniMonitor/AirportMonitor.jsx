@@ -174,14 +174,14 @@ function AirportMonitor(props) {
                 <div className="normal-rate">
                     <div className="rate-progress">
                         <Progress
-                            percent={ depRatio }
+                            percent={ (depRatio*100).toFixed(0) }
                             showInfo={false}
                             strokeColor="#35A5DA"
                             trailColor="#65737a"
                         />
                     </div>
                     <div className="rate-text">
-                        {`正常率 ${depRatio}%`}
+                        {`正常率 ${(depRatio*100).toFixed(0)}%`}
                     </div>
                 </div>
                 <div className="weather">{weather}</div>
