@@ -7,13 +7,14 @@
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
  */
 import React, {useEffect, useState, Fragment} from 'react'
-import { Layout, Button, Menu, Row, Col, Input,Table } from 'antd'
+import ReactDom from 'react-dom';
+import {Layout, Button, Menu, Row, Col, Input, Table, ConfigProvider} from 'antd'
 import { Window as WindowDHX } from "dhx-suite";
 import { ClockCircleOutlined, CheckOutlined, StarOutlined, PauseCircleOutlined, ExpandAltOutlined, FontColorsOutlined } from '@ant-design/icons'
 import { formatTimeString } from 'utils/basic-verify'
-import { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openControlDetail, openMessageDlg } from 'utils/client'
 // import Stomp from 'stompjs'
 import WorkFlowModal from './WorkFlowModal'
+import WorkFlowContent from "./WorkFlowContent";
 const { Search } = Input;
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
@@ -27,6 +28,7 @@ function WorkFlowList(props){
     const [ selectedRowKeys, setSelectedRowKeys ] = useState(false);
     const [ workFlowvisible, setWorkFlowvisible ] = useState(false); //工作流模态框显隐
     const [ workFlowModalId, setWorkFlowModalId ] = useState(""); //当前选中方案工作流的id，不一定和激活方案id一样
+    let [ window, setWindow ] = useState();
 
 
     const onSearch = value => console.log(value);
@@ -131,7 +133,27 @@ function WorkFlowList(props){
                 return (
                     <span className='opt_btns'>
                     <a onClick={ e =>{
-                        showWorkFlowDetail(true, "");
+                        // showWorkFlowDetail(true, "");
+                        let window = new WindowDHX({
+                            width: 1000,
+                            height: 665,
+                            title: "工作流详情",
+                            html: `<div class="win_cont"></div>`,
+                            css: "bg-black",
+                            closable: true,
+                            movable: true,
+                            resizable: true
+                        })
+
+                        setTimeout(function(){
+                            window.show();
+                            const winDom = document.getElementsByClassName("win_cont")[0];
+                            ReactDom.render(
+                                <WorkFlowContent modalId={""} />,
+                                winDom);
+                        }, 500)
+
+
                         e.stopPropagation();
                     } }>详情</a>
                     <a>收回</a>
@@ -202,6 +224,21 @@ function WorkFlowList(props){
             opt: "",
         }]
 
+    useEffect(function () {
+        const windowHtml = `
+            <div class="win_cont">Here is a neat and flexible JavaScript window system with a fast and simple initialization.</div>
+            `;
+        setWindow( new WindowDHX({
+            width: 1000,
+            height: 665,
+            title: "工作流详情",
+            html: windowHtml,
+            css: "bg-black",
+            closable: true,
+            movable: true,
+            resizable: true
+        }) );
+    }, []);
     return (
         <div className="work_cont">
             <div className="work_search">

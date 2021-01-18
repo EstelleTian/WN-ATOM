@@ -6,23 +6,50 @@
  * @Description:
  * @FilePath: CollaboratePopover.jsx
  */
-import {message as antdMessage, message, Popover, Button, Form, Descriptions, Input, DatePicker, Checkbox} from "antd";
-import React,{ useCallback, useState } from "react";
+import {
+    message as antdMessage,
+    message,
+    Popover,
+    Button,
+    Form,
+    Descriptions,
+    Input,
+    DatePicker,
+    Checkbox,
+    Tooltip
+} from "antd";
+import React,{ useCallback, useState, useEffect } from "react";
 import {  isValidVariable, getDayTimeFromString, getTimeAndStatus } from 'utils/basic-verify'
 import { FlightCoordination, PriorityList } from 'utils/flightcoordination.js'
+import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
 import { request, requestGet } from 'utils/request'
 import moment from "moment";
 import {observer, inject} from "mobx-react";
-import FmeToday from "../../utils/fmetoday";
-
-
-//CTOT COBT 右键协调框 通过 opt.col 列名 区分
-const CTPopover = (props) => {
+import CellTip from "./CellTip";
+import FmeToday from "utils/fmetoday";
+//popover和tip组合协调窗口
+const PopoverTip = ( props ) => {
     const [autoChecked, setAutoChecked] = useState(true);
+    const [ tipObj, setTipObj] = useState({
+        visible: false,
+        title: "",
+        color: ""
+    });
+    useEffect(function(){
+        if( tipObj.visible ){
+            setTimeout(function(){
+                setTipObj({
+                    ...tipObj,
+                    visible: false
+                });
+            }, 1000)
+        }
+
+    }, [tipObj.visible, props.visible] );
     // 内容渲染
     const getContent = useCallback((opt)  =>{
         // const [form] = Form.useForm();
-        let { text, record } = opt;
+        let { text, record, col, title } = opt;
         let { FLIGHTID, DEPAP, ARRAP } = record;
         let time = "";
         let date = "";
@@ -42,9 +69,10 @@ const CTPopover = (props) => {
 
         //数据提交失败回调
         const requestErr =useCallback( (err, content) => {
-            antdMessage.error({
-                content,
-                duration: 4,
+            setTipObj({
+                visible: true,
+                title: content,
+                color: cred
             });
         })
         //数据提交成功回调
@@ -54,47 +82,49 @@ const CTPopover = (props) => {
             const { flightCoordination } = data;
             props.flightTableData.updateSingleFlight( flightCoordination );
             message.success(title + '成功');
-            // 创建事件
-            const evt = document.createEvent("MouseEvents");
-            // 初始化 事件名称必须是mousedown
-            evt.initEvent("mousedown", true, true);
-            // 触发, 即弹出文字
-            document.dispatchEvent(evt);
+            //关闭协调窗口popover
+            closePopover();
         });
         //表单提交
         const formSubmit = ( values ) =>{
-            const newStartTime =  moment(values.startTime).format('YYYYMMDD'); //日期转化
-            const { record } = props.opt;
-            const orgdata = record.orgdata || {};
-            let orgFlight = JSON.parse(orgdata) || {}; //航班fc
-            const userId = props.systemPage.user.id || '14';
-            const timestr = newStartTime + "" + values.time;
-
-            orgFlight.locked = autoChecked ? 1 : "";
-
-            let urlKey = "";
-            if( col === "COBT"){
-                orgFlight.cobtField.value = timestr;
-                urlKey = "updateCobt";
-            }else if( col === "CTOT"){
-                orgFlight.ctotField.value = timestr;
-                urlKey = "updateCtot";
-            }
-            //传参
-            const params = {
-                userId: userId,
-                flightCoordination: orgFlight, //航班原fc
-                comment: values.comment,  //备注
-            }
-            console.log(params);
-            const opt = {
-                url:'http://192.168.243.162:28089/flight/'+urlKey,
-                method: 'POST',
-                params: params,
-                resFunc: (data)=> requestSuccess(data, title),
-                errFunc: (err)=> requestErr(err, title+'失败' ),
-            };
-            request(opt);
+            setTipObj({
+                visible: true,
+                title: props.title+"成功",
+                color: cgreen
+            });
+            // const newStartTime =  moment(values.startTime).format('YYYYMMDD'); //日期转化
+            // const { record } = props.opt;
+            // const orgdata = record.orgdata || {};
+            // let orgFlight = JSON.parse(orgdata) || {}; //航班fc
+            // const userId = props.systemPage.user.id || '14';
+            // const timestr = newStartTime + "" + values.time;
+            //
+            //
+            // orgFlight.locked = autoChecked ? 1 : "";
+            //
+            // let urlKey = "";
+            // if( col === "COBT"){
+            //     orgFlight.cobtField.value = timestr;
+            //     urlKey = "updateCobt";
+            // }else if( col === "CTOT"){
+            //     orgFlight.ctotField.value = timestr;
+            //     urlKey = "updateCtot";
+            // }
+            // //传参
+            // const params = {
+            //     userId: userId,
+            //     flightCoordination: orgFlight, //航班原fc
+            //     comment: values.comment,  //备注
+            // }
+            // console.log(params);
+            // const opt = {
+            //     url:'http://192.168.243.162:28089/flight/'+urlKey,
+            //     method: 'POST',
+            //     params: params,
+            //     resFunc: (data)=> requestSuccess(data, title),
+            //     errFunc: (err)=> requestErr(err, title+'失败' ),
+            // };
+            // request(opt);
         }
 
         return (
@@ -165,7 +195,28 @@ const CTPopover = (props) => {
             </Form>
         )
     });
-    const {opt} = props;
+    const content = getContent(props.opt);
+    return (
+        <Popover
+            destroyTooltipOnHide ={ { keepParent: false  } }
+            placement="rightTop"
+            title={ props.title }
+            content={  content  }
+            trigger={[`contextMenu`]}
+            getContainer={false}
+        >
+            <Tooltip  title={ tipObj.title } visible={ tipObj.visible } color={ tipObj.color } >
+                { props.textDom }
+            </Tooltip>
+        </Popover >
+    )
+
+
+}
+
+//CTOT COBT 右键协调框 通过 opt.col 列名 区分
+const CTPopover = (props) => {
+    const { opt } = props;
     const {text, record, col} = opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
@@ -185,40 +236,59 @@ const CTPopover = (props) => {
 
     const fmeToday = orgdata.fmeToday;
     let bgStatus = "";
-    let content = "";
+    let subTitle = "";
+    //航班状态验证
+    let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
+    let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
+    let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
+    let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
+
     //航班已起飞或者不在本区域内--不显示
-    if ( FmeToday.hadDEP(fmeToday) ) {
+    if ( hadDEP ) {
         if (  isValidVariable(text) ) {
             bgStatus = "DEP";
         }
-        content = "";
-        title = "航班已起飞"
-    }if ( !FmeToday.isInAreaFlight(orgdata) ) {
-        bgStatus = "notArea";
-        content = "";
-        title = "非本区域航班"
-    }else{
-        content = getContent(props.opt);
+        title = "航班已起飞";
+        subTitle = "已起飞";
+    }else if ( hadARR ) {
+        if (  isValidVariable(text) ) {
+            bgStatus = "ARR";
+        }
+        title = "航班已落地";
+        subTitle = "已落地";
+    }else if ( hadFPL ) {
+        if (  isValidVariable(text) ) {
+            bgStatus = "FPL";
+        }
+        title = "航班尚未拍发FPL报";
+        subTitle = "未拍发FPL报";
+    }else if ( !isInAreaFlight ) {
+        if (  isValidVariable(text) ) {
+            bgStatus = "notArea";
+        }
+        title = "非本区域航班";
+        subTitle = "非本区域";
     }
-    return(
-        <Popover
-            destroyTooltipOnHide ={ { keepParent: false  } }
-            placement="rightTop"
-            title={title}
-            content={  content  }
-            trigger={[`contextMenu`]}
-            getContainer={false}
+    let textDom = <div className={`full-cell ${ isValidVariable(text) ? source : "" } ${col}_${bgStatus}`} >
+        <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`}
+             title={`${isValidVariable(text) ? text : ""}-${sourceCN}-${ subTitle }`}
         >
-            <div className={`full-cell ${ isValidVariable(text) ? source : "" } ${col}_${bgStatus}`}>
-                <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`}
-                     title={`${isValidVariable(text) ? text : ""}-${sourceCN}-${ bgStatus === "DEP" ? "已起飞" : "" }${ bgStatus === "notArea" ? "非本区域航班" : "" }`}
-                >
-                    <span className="">{getTimeAndStatus(text)}</span>
-                </div>
-            </div>
-        </Popover >
+            <span className="">{getTimeAndStatus(text)}</span>
+        </div>
+    </div>;
+    //航班已起飞或者不在本区域内--不显示
+    if ( hadDEP || hadARR || hadFPL || !isInAreaFlight ) {
+        return (
+            <CellTip title={title}>
+                {textDom}
+            </CellTip>
+        )
+    }else{
+        return(
+            <PopoverTip title={ title } textDom={textDom} opt={opt}/>
+        )
+    }
 
-    )
 }
 
 

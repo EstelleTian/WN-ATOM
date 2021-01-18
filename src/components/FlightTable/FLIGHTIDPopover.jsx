@@ -11,13 +11,14 @@ import React,{ useCallback, useState, useEffect } from "react";
 import {  isValidVariable } from 'utils/basic-verify'
 import { FlightCoordination, PriorityList } from 'utils/flightcoordination.js'
 import { request, requestGet } from 'utils/request'
-
+import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
 import {observer, inject} from "mobx-react";
 import FmeToday from "../../utils/fmetoday";
 
 //航班号右键协调框
 let FLIGHTIDPopover = (props) => {
     const [ exemptLoad, setExemptLoad ] = useState(false);
+    const [ poolLoad, setPoolLoad ] = useState(false);
     const [ tipObj, setTipObj] = useState({
         visible: false,
         title: "",
@@ -32,7 +33,7 @@ let FLIGHTIDPopover = (props) => {
         });
         setExemptLoad(false);
 
-    })
+    });
     //数据提交成功回调
     const requestSuccess = useCallback( ( data, title ) => {
 
@@ -42,18 +43,13 @@ let FLIGHTIDPopover = (props) => {
         //更新单条航班数据
         props.flightTableData.updateSingleFlight( flightCoordination );
         // message.success(title + '成功');
-
-        // 创建事件
-        const evt = document.createEvent("MouseEvents");
-        // 初始化 事件名称必须是mousedown
-        evt.initEvent("mousedown", true, true);
-        // 触发, 即弹出文字
-        document.dispatchEvent(evt);
+        //关闭协调窗口popover
+        closePopover();
 
         setTipObj({
             visible: true,
             title: title + '成功',
-            color: "rgba(52,119,56,0.98)"
+            color: cgreen
         });
         setExemptLoad(false);
     });
@@ -96,7 +92,50 @@ let FLIGHTIDPopover = (props) => {
             request(opt);
         }
 
-    })
+    });
+
+    //等待池
+    const handlePool = useCallback(( type, record, title )  =>{
+        console.log( props );
+        setPoolLoad(true);
+        const orgdata = record.orgdata || {};
+        let orgFlight = JSON.parse(orgdata) || {};
+        let urlKey = "";
+        if( type === "direct-in-pool"){
+            urlKey = "flightInPoolRest";
+            orgFlight.poolStatus = FlightCoordination.IN_POOL; //1
+        }
+        // else if( type === "unexempt"){
+        //     urlKey = "flightExemptCancel";
+        //     orgFlight.priority =FlightCoordination.PRIORITY_NORMAL; //0
+        // }
+
+        //TODO测试
+        // props.flightTableData.updateSingleFlight( orgFlight );
+
+        if( isValidVariable(urlKey) ){
+            // console.log(JSON.stringify(orgFlight));
+            const userId = props.systemPage.user.id || '14';
+            const fid = orgFlight.flightid;
+
+            const opt = {
+                url:'http://192.168.243.162:28089/'+urlKey,
+                method: 'POST',
+                params: {
+                    userId: userId,
+                    flightCoordination: orgFlight,
+                    comment: "",
+                },
+                resFunc: (data)=> requestSuccess(data, fid+title),
+                errFunc: (err)=> requestErr(err, fid+title+'失败' ),
+            };
+            request(opt);
+        }
+
+    });
+
+
+
     const {text, record } = props.opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
@@ -105,8 +144,15 @@ let FLIGHTIDPopover = (props) => {
     let { priority } = orgdata;
     const fmeToday = orgdata.fmeToday;
     let hasAuth = false;
+    //航班状态验证
+    let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
+    let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
+    let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
+    let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
+    let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
+
     //航班未起飞 且 在本区域内--
-    if ( !FmeToday.hadDEP(fmeToday) && FmeToday.isInAreaFlight(orgdata) ) {
+    if ( !hadDEP && isInAreaFlight && hadFPL ) {
         hasAuth = true;
     }
     const getContent = useCallback((opt)  =>{
@@ -121,6 +167,11 @@ let FLIGHTIDPopover = (props) => {
                 {
                     ( priority === FlightCoordination.PRIORITY_EXEMPT && hasAuth )
                         ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "取消豁免") } }>取消豁免</Button>
+                        : ""
+                }
+                {
+                    ( !isInPoolFlight && hasAuth )
+                        ? <Button loading={poolLoad} className="c-btn c-btn-red" onClick={ () => { handlePool("direct-in-pool", record, "移入等待池") } }>移入等待池</Button>
                         : ""
                 }
             </div>
@@ -144,7 +195,7 @@ let FLIGHTIDPopover = (props) => {
             destroyTooltipOnHide ={ { keepParent: false  } }
             placement="rightTop"
             title={ text }
-            content={getContent(props.opt)}
+            content={ getContent(props.opt) }
             trigger={[`contextMenu`]}
         >
             <Tooltip title={ tipObj.title } visible={ tipObj.visible } color={ tipObj.color }>

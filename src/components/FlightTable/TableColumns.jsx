@@ -7,13 +7,48 @@
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
  */
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { isValidVariable, getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
 import { FlightCoordination, PriorityList } from 'utils/flightcoordination'
 import { FFIXTPopover, EAWTPopover, OAWTPopover, CTOPopover, ATOTPopover } from  './CollaboratePopover'
 import FLIGHTIDPopover from  './FLIGHTIDPopover'
 import TOBTPopover from  './TOBTPopover'
 import CTPopover from  './CTPopover'
-import {Tag, Tooltip} from "antd";
+import {Popover, Tag, Tooltip, Button } from "antd";
+import FmeToday from "../../utils/fmetoday";
+
+
+class App extends React.Component {
+    state = {
+        visible: true,
+    };
+
+    hide = () => {
+        this.setState({
+            visible: false,
+        });
+    };
+
+    handleVisibleChange = visible => {
+        this.setState({ visible });
+    };
+
+    render() {
+        return (
+            <Popover
+                content={<a onClick={this.hide}>Close</a>}
+                title="Title"
+                trigger="click"
+                visible={this.state.visible}
+                onVisibleChange={this.handleVisibleChange}
+            >
+                111
+            </Popover>
+        );
+    }
+}
+
+
 /**
  * 告警列单元格渲染格式化
  * */
@@ -250,8 +285,19 @@ const getColumns = ( names = defaultNames ) => {
         }
 
         if( en === "STATUS" ){
-            tem["width"] = (screenWidth > 1920) ? 75 : 65
+            tem["width"] = (screenWidth > 1920) ? 75 : 65;
         }
+        // if( en === "FLIGHTID" ){
+        //     tem["onCell"] = function(record, rowIndex){
+        //         return {
+        //             onContextMenu: event => {
+        //                 console.log(event, record, rowIndex);
+        //                 const cellDom = event.target;
+        //                 ReactDOM.render( <FLIGHTIDPopover2 opt={record} /> ,cellDom)
+        //             },
+        //         };
+        //     };
+        // }
 
         //隐藏列
         if( en === "orgdata" ){
