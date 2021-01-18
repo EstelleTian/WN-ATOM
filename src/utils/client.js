@@ -33,11 +33,11 @@ const closeMessageDlg = (str) => {
         console.error(e);
     }
 }
-//点击 查看流控详情
-const openControlDetail = (str) => {
+//点击 查看流控详情 str->web支持的json结构 message->原消息结构
+const openControlDetail = (str, message) => {
     try{
         // 点击 查看流控详情
-        jsEntity.openControlDetail(JSON.stringify(str), str.id)
+        jsEntity.openControlDetail( JSON.stringify(str), str.id, JSON.stringify(message))
     }catch (e){
         console.error(e);
     }
