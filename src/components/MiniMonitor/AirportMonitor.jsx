@@ -7,6 +7,8 @@
  * @FilePath: \WN-CDM\src\components\MiniMonitor\AirportMonitor.jsx
  */
 import React from 'react'
+import {Col, Progress, Row} from "antd";
+
 import {getFullTime, addStringTime, isValidVariable} from 'utils/basic-verify'
 
 import MiniMonitor from './MiniMonitor'
@@ -16,6 +18,8 @@ function AirportMonitor(props) {
     const data = props.data || {};
 
     const flowMap = data.flowMap || {};
+
+    const weather = data.weather || "";
 
     const getTimeAxis = function () {
         let arr = [];
@@ -159,10 +163,31 @@ function AirportMonitor(props) {
     // getOption();
 
 
+    return (
+        <div className="monitor">
+            <div className="chart-container">
+                <MiniMonitor {...props} className="airport_monitor" option={getOption()}/>
+            </div>
+            <div className="options">
+                <div className="normal-rate">
+                    <div className="rate-progress">
+                        <Progress
+                            percent={ 0 }
+                            showInfo={false}
+                            strokeColor="#35A5DA"
+                            trailColor="#65737a"
+                        />
+                    </div>
+                    <div className="rate-text">
+                        {`正常率 ${0}%`}
+                    </div>
+                </div>
+                <div className="weather">{weather}</div>
+            </div>
 
-return (
-    <MiniMonitor {...props} className="airport_monitor" option={getOption()}/>
-)
+        </div>
+
+    )
 
 }
 

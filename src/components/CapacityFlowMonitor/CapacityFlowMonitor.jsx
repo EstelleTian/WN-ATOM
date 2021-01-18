@@ -110,7 +110,7 @@ const CapacityFlowMonitor =(props) => {
         const start = nowDate+'000000';
         const end = nowDate+'235900';
         const opt = {
-            url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flow?targets=ZLXYACC,ZLLLACC,ZLXYAR01,ZLLLAR01&starttime='+ start+'&endtime='+end,
+            url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flow?targets=ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLLLAR01&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> {
@@ -137,7 +137,9 @@ const CapacityFlowMonitor =(props) => {
                 dataSource={AirportMonitorData}
                 renderItem={item => (
                     <List.Item>
-                        <Card size="small" title={item.title}><AirportMonitor data={ item.data }  /></Card>
+                        <Card size="small" title={item.title}>
+                            <AirportMonitor data={ item.data }  />
+                        </Card>
                     </List.Item>
                 )}
             />
