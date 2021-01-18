@@ -1,6 +1,8 @@
-
+.bell-news {
+    width: 32px;
+}
 .total_body{
-    margin: 10px;
+    margin: 0 10px 10px;
     @include display-flex(column);
     @include flex();
     .cont_top{
