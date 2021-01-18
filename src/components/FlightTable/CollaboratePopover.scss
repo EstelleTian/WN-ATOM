@@ -53,10 +53,14 @@
       //text-align: left;
     }
   }
+  .FFIX{
+    border-left: 2px solid #868a8b!important;
+    //border-right: 2px solid #868a8b!important;
+  }
   .FFIXT{
-    //background: #404040;
     border-left: 2px solid #868a8b!important;
     border-right: 2px solid #868a8b!important;
+
     .full-cell{
       top: 0.1rem;
       left: 0.2rem;

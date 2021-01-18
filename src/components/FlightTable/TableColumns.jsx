@@ -7,47 +7,13 @@
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
  */
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { isValidVariable, getDayTimeFromString, formatTimeString, getTimeAndStatus } from 'utils/basic-verify'
-import { FlightCoordination, PriorityList } from 'utils/flightcoordination'
-import { FFIXTPopover, EAWTPopover, OAWTPopover, CTOPopover, ATOTPopover } from  './CollaboratePopover'
+import { isValidVariable, getDayTimeFromString, getTimeAndStatus } from 'utils/basic-verify'
+import { FlightCoordination } from 'utils/flightcoordination'
+import { ColorPopover } from  './CollaboratePopover'
 import FLIGHTIDPopover from  './FLIGHTIDPopover'
 import TOBTPopover from  './TOBTPopover'
 import CTPopover from  './CTPopover'
-import {Popover, Tag, Tooltip, Button } from "antd";
-import FmeToday from "../../utils/fmetoday";
-
-
-class App extends React.Component {
-    state = {
-        visible: true,
-    };
-
-    hide = () => {
-        this.setState({
-            visible: false,
-        });
-    };
-
-    handleVisibleChange = visible => {
-        this.setState({ visible });
-    };
-
-    render() {
-        return (
-            <Popover
-                content={<a onClick={this.hide}>Close</a>}
-                title="Title"
-                trigger="click"
-                visible={this.state.visible}
-                onVisibleChange={this.handleVisibleChange}
-            >
-                111
-            </Popover>
-        );
-    }
-}
-
+import { Tag, Tooltip } from "antd";
 
 /**
  * 告警列单元格渲染格式化
@@ -170,7 +136,7 @@ let render = (opt)  => {
         popover = <FLIGHTIDPopover opt={opt} />
     }
     else if( col === "FFIXT" ){
-        popover = <FFIXTPopover opt={opt} />
+        popover = <CTPopover opt={opt} />
     }
     else if( col === "COBT" ){
         popover = <CTPopover opt={opt} />
@@ -179,13 +145,13 @@ let render = (opt)  => {
         popover = <CTPopover opt={opt}/>
     }
     else if( col === "CTO" ){
-        popover = <CTOPopover opt={opt}/>
+        popover = <ColorPopover opt={opt}/>
     }
     else if( col === "EAWT" ){
-        popover = <EAWTPopover opt={opt} />
+        popover = <ColorPopover opt={opt} />
     }
     else if( col === "OAWT" ){
-        popover = <OAWTPopover opt={opt} />
+        popover = <ColorPopover opt={opt} />
     }
     else if( col === "ALARM" ){
         popover = randerAlarmCellChildren(opt)
@@ -194,7 +160,7 @@ let render = (opt)  => {
         popover = <TOBTPopover opt={opt} />
     }
     else if( col === "ATOT" ){
-        popover = <ATOTPopover opt={opt} />
+        popover = <ColorPopover opt={opt} />
     }
     let obj  = {
         children: popover,

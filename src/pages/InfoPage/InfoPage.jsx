@@ -113,7 +113,7 @@ function InfoCard(props){
 
                                                 // console.log( str )
                                                 // sessionStorage.setItem("message", str );
-                                                openControlDetail( newMsg, message )
+                                                openControlDetail( newMsg )
                                                 e.stopPropagation()
                                             }}>查看流控详情</Button>
                                         {/*</Link>*/}

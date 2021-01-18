@@ -230,6 +230,9 @@ const CTPopover = (props) => {
     }else if( col === "CTOT"){
         field = orgdata.ctotField || {};
         title = "预起时间修改";
+    }else if( col === "FFIXT"){
+        field = orgdata.ffixField || {};
+        title = "过点时间修改";
     }
     let source = field.source || "";
     let sourceCN = FlightCoordination.getSourceZh( source );
@@ -256,7 +259,7 @@ const CTPopover = (props) => {
         }
         title = "航班已落地";
         subTitle = "已落地";
-    }else if ( hadFPL ) {
+    }else if ( !hadFPL ) {
         if (  isValidVariable(text) ) {
             bgStatus = "FPL";
         }
@@ -269,15 +272,33 @@ const CTPopover = (props) => {
         title = "非本区域航班";
         subTitle = "非本区域";
     }
-    let textDom = <div className={`full-cell ${ isValidVariable(text) ? source : "" } ${col}_${bgStatus}`} >
-        <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`}
-             title={`${isValidVariable(text) ? text : ""}-${sourceCN}-${ subTitle }`}
-        >
-            <span className="">{getTimeAndStatus(text)}</span>
+    let textDom = '';
+    if( col === "FFIXT"){
+        let meetIntervalValue = field.meetIntervalValue || "";
+        let ftime = "";
+        if( isValidVariable(text) && text.length > 12 ){
+            ftime = getTimeAndStatus(text)
+        }
+        if( ftime.indexOf("A") > -1 ){
+            source = "DEP";
+        }
+        textDom =  <div className={`full-cell time_${ftime} ${ (ftime !== "") ? source : "" }`}>
+            <div className="interval" title={`${text}-${sourceCN}-${ subTitle }`}>
+                <span  className={ `${(meetIntervalValue === "200" && ftime !== "") ? "interval_red" : "" }`}>{ftime}</span>
+            </div>
         </div>
-    </div>;
+    }
+    else{
+        textDom = <div className={`full-cell ${ isValidVariable(text) ? source : "" } ${col}_${bgStatus}`} >
+            <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`}
+                 title={`${isValidVariable(text) ? text : ""}-${sourceCN}-${ subTitle }`}
+            >
+                <span className="">{getTimeAndStatus(text)}</span>
+            </div>
+        </div>;
+    }
     //航班已起飞或者不在本区域内--不显示
-    if ( hadDEP || hadARR || hadFPL || !isInAreaFlight ) {
+    if ( hadDEP || hadARR || !hadFPL || !isInAreaFlight ) {
         return (
             <CellTip title={title}>
                 {textDom}
