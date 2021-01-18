@@ -38,7 +38,7 @@ function FangxingPage(props){
                     // alert("未登录成功:" + props.systemPage.user.id);
                     props.systemPage.setUserData({
                         id: 14,
-                        descriptionCN: "兰州流量室(假)"
+                        descriptionCN: "--"
                     });
                     setLogin(true);
                 }

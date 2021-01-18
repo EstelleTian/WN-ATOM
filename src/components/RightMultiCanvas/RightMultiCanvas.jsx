@@ -14,9 +14,9 @@ import { formatTimeString } from 'utils/basic-verify'
 import './RightMultiCanvas.scss'
 
 //TODO 真实数据，用于公司环境
-// const SchemeList = lazy(() => import('components/SchemeList/SchemeList') );
+const SchemeList = lazy(() => import('components/SchemeList/SchemeList') );
 //TODO 本地模拟数据，用于无接口调试样式
-const SchemeList = lazy(() => import('components/SchemeList/SchemeListMock') );
+// const SchemeList = lazy(() => import('components/SchemeList/SchemeListMock') );
 
 function RightMultiCanvas(props){
     const { systemPage } = props;

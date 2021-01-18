@@ -10,8 +10,8 @@
 import { makeObservable, observable, action, computed } from 'mobx'
 import { isValidVariable } from 'utils/basic-verify'
 
-// 单条方案对象
-class SchemeItem{
+// 单条工作流对象
+class WorkFlowItem{
     // 方案id
     @observable id = ""
     // 方案选中状态
@@ -37,8 +37,8 @@ class SchemeItem{
     }
 
 }
- // 方案列表数据
-class SchemeListData{
+ // 工作流列表数据
+class WorkFlowData{
     constructor(){
         makeObservable(this)
     }
@@ -64,13 +64,13 @@ class SchemeListData{
     }
     // 增加方案-单条
     @action addScheme( opt ){
-        const item = new SchemeItem(opt);
+        const item = new WorkFlowItem(opt);
         this.list.unshift( item );
     }
     // 增加方案-多条
     @action addMultiScheme( arr ){
         arr.map( opt => {
-            const item = new SchemeItem(opt);
+            const item = new WorkFlowItem(opt);
             this.list.unshift( item );
         })
     }
@@ -82,7 +82,7 @@ class SchemeListData{
     @action updateList( arr, generateTime){
         this.list = [];
         arr.map( item => {
-            const itemIns = new SchemeItem(item);
+            const itemIns = new WorkFlowItem(item);
             if( item.id === this.schemeId){
                 itemIns.active = true;
             }
@@ -175,6 +175,6 @@ class SchemeListData{
     }
 }
 
-let schemeListData = new SchemeListData();
+let workFlowData = new WorkFlowData();
 
-export { schemeListData }
+export { workFlowData }

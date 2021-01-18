@@ -6,167 +6,15 @@
  * @Description:
  * @FilePath: CollaboratePopover.jsx
  */
-import {Button, Checkbox, DatePicker, Descriptions, Form, Input, message as antdMessage, message, Popover} from "antd";
-import React,{ useCallback, useState } from "react";
-import { getDayTimeFromString, formatTimeString, getTimeAndStatus, isValidVariable } from 'utils/basic-verify'
+
+import React from "react";
+import { getDayTimeFromString, getTimeAndStatus, isValidVariable } from 'utils/basic-verify'
 import { FlightCoordination } from 'utils/flightcoordination.js'
-import { request, requestGet } from 'utils/request'
+
 import "./CollaboratePopover.scss"
-import moment from "moment";
-import {observer, inject} from "mobx-react";
 import FmeToday from "../../utils/fmetoday";
 
-//过点时间右键协调框
-const FFIXTPopover = (props) => {
-    const [autoChecked, setAutoChecked] = useState(true);
-    const getContent = useCallback((opt)  =>{
-        // const [form] = Form.useForm();
-        const {text, record, index, col} = opt;
-        let { FFIXT, FLIGHTID, DEPAP, ARRAP } = record;
-        let date;
-        if( isValidVariable(FFIXT) && FFIXT.length > 12 ){
-            FFIXT = FFIXT.substring(0, 12);
-            date = moment( FFIXT.substring(0,8), "YYYY-MM-DD")
-        }
-
-        let initialValues = {
-            flightid: FLIGHTID || '',
-            airport: DEPAP + "-" + ARRAP,
-            unit: "",
-            locked: "",
-            time: FFIXT,
-            date,
-            comment: ""
-        };
-        // useEffect(function(){
-        //     form.resetFields();//重置，用以表单初始值赋值
-        // },[]);
-        return (
-            <Form
-                // form={form}
-                size="small"
-                onFinish={(values)=>{
-                    const newStartTime =  moment(values.startTime).format('YYYYMMDD');
-                    console.log(values);
-                    console.log(newStartTime);
-                }}
-                initialValues={initialValues}
-                className="ffixt_form"
-            >
-                <Descriptions size="small" bordered column={1}>
-                    <Descriptions.Item label="航班">
-                        <Form.Item
-                            name="flightid"
-                        >
-                            <Input disabled/>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="机场">
-                        <Form.Item
-                            name="airport"
-                        >
-                            <Input disabled/>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="日期" >
-                        <Form.Item
-                            name="date"
-                        >
-                            <DatePicker className="clr_date"  format="YYYY-MM-DD"/>
-                        </Form.Item>
-
-                    </Descriptions.Item>
-                    <Descriptions.Item label="时间">
-                        <Form.Item
-                            name="time"
-                        >
-                            <Input/>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="">
-                        <Form.Item
-                            name="locked"
-                        >
-                            <Checkbox
-                                checked={ autoChecked }
-                                onChange={e => {
-                                    setAutoChecked(e.target.checked)
-                                }}
-                            >
-                                禁止系统自动调整
-                            </Checkbox>
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <Descriptions.Item label="备注">
-                        <Form.Item
-                            name="comment"
-                        >
-                            <Input.TextArea maxLength={100} />
-                        </Form.Item>
-                    </Descriptions.Item>
-                    <div>
-                        <Button size="small" type="primary"  htmlType="submit">修改</Button>
-                        <Button style={{marginLeft: '8px'}}  size="small">重置</Button>
-                    </div>
-                </Descriptions>
-
-            </Form>
-
-
-        )
-    })
-
-    const {text, record, index, col} = props.opt;
-    let { orgdata } = record;
-    if( isValidVariable(orgdata) ){
-        orgdata = JSON.parse(orgdata);
-    }
-    let field = orgdata.ffixField || {};
-    let meetIntervalValue = field.meetIntervalValue || "";
-    let source = field.source;
-    let sourceCN = FlightCoordination.getSourceZh( source );
-    let ftime = "";
-    if( isValidVariable(text) && text.length > 12 ){
-        ftime = getTimeAndStatus(text)
-    }
-    if( ftime.indexOf("A") > -1 ){
-        source = "DEP";
-    }
-    return(
-        <Popover
-            destroyTooltipOnHide ={ { keepParent: false  } }
-            placement="rightTop"
-            title="过点时间修改"
-            content={getContent(props.opt)}
-            trigger={[`contextMenu`]}
-            getContainer={false}
-        >
-            <div className={`full-cell time_${ftime} ${ (ftime !== "") ? source : "" }`}>
-                {/*200不满足间隔*/}
-                {
-                    meetIntervalValue === "200" && ftime !== ""
-                        ? <div className="interval" title={`${text}-${sourceCN}`}><span  className="interval_red">{ftime}</span></div>
-                        : <div className="interval" title={`${text}-${sourceCN}`} ><span  className="">{ftime}</span></div>
-                }
-                {/*{*/}
-                {/*    meetIntervalValue === "100"&& ftime !== ""*/}
-                {/*        ? <div className="interval" title={`${text}-${sourceCN}`} ><span  className="interval_green">{ftime}</span></div>*/}
-                {/*        : ""*/}
-                {/*}*/}
-                {/*{*/}
-                {/*    ( meetIntervalValue === null || meetIntervalValue === "null" ) && ftime !== ""*/}
-                {/*        ? <div className="interval" title={`${text}-${sourceCN}`} ><span  className="">{ftime}</span></div>*/}
-                {/*        : ""*/}
-                {/*}*/}
-            </div>
-
-
-        </Popover >
-    )
-}
-
-//CTO右键协调框
-const CTOPopover = (props) => {
+const ColorPopover = (props) => {
     let {text, record, index, col} = props.opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
@@ -175,91 +23,61 @@ const CTOPopover = (props) => {
     if( !isValidVariable(text) ){
         text = "";
     }
-    let ctoField = orgdata.ctoField || {};
-    let source = ctoField.source || "";
+    let showVal = "";
+    let field = {};
+    if( col === "CTO" ){
+        field = orgdata.ctoField || {};
+        showVal = getTimeAndStatus(text);
+    }else if( col === "ATOT" ){
+        field = orgdata.ctoField || {};
+        showVal = getDayTimeFromString(text);
+    }else if( col === "EAWT" ){
+        field = orgdata.eapField || {};
+        showVal = getTimeAndStatus(text);
+    }else if( col === "OAWT" ){
+        field = orgdata.oapField || {};
+        showVal = getTimeAndStatus(text);
+    }
+    let source = field.source || "";
     let sourceCN = FlightCoordination.getSourceZh( source );
-    // let title = "";
     const fmeToday = orgdata.fmeToday;
     let bgStatus = "";
-    // let content = "";
-    if ( FmeToday.hadDEP(fmeToday) && isValidVariable(text) ) {
-        bgStatus = "DEP";
-        // content = "";
-        // title = "航班已起飞"
-    }else{
-        // content = getContent(props.opt);
+    let subTitle = "";
+    //航班状态验证
+    let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
+    let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
+    let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
+    let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
+
+    //航班已起飞或者不在本区域内--不显示
+    if ( hadDEP ) {
+        if (  isValidVariable(text) ) {
+            bgStatus = "DEP";
+        }
+        subTitle = "已起飞";
+    }else if ( hadARR ) {
+        if (  isValidVariable(text) ) {
+            bgStatus = "ARR";
+        }
+        subTitle = "已落地";
+    }else if ( !hadFPL ) {
+        if (  isValidVariable(text) ) {
+            bgStatus = "FPL";
+        }
+        subTitle = "未拍发FPL报";
+    }else if ( !isInAreaFlight ) {
+        if (  isValidVariable(text) ) {
+            bgStatus = "notArea";
+        }
+        subTitle = "非本区域";
     }
     return(
-        <div className={`full-cell ${ isValidVariable(text) ? source : "" }  ${col}_${bgStatus}` }>
-            <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${sourceCN}`}>
-                <span className="">{getTimeAndStatus(text)}</span>
+        <div className={`full-cell ${col} ${ isValidVariable(text) ? source : "" }  ${col}_${bgStatus}` }>
+            <div className={`${ isValidVariable(text) ? "" : "empty_cell" }  ${bgStatus}`} title={`${text}-${sourceCN}-${ subTitle }`}>
+                <span className="">{showVal}</span>
             </div>
         </div>
     )
 }
-
-//ATOT右键协调框
-const ATOTPopover = (props) => {
-    let {text, record, index, col} = props.opt;
-    let { orgdata } = record;
-    if( isValidVariable(orgdata) ){
-        orgdata = JSON.parse(orgdata);
-    }
-    const fmeToday = orgdata.fmeToday;
-    let bgStatus = "";
-    if ( FmeToday.hadDEP(fmeToday) && isValidVariable(text) ) {
-        bgStatus = "DEP";
-    }
-    return(
-        <div className={`full-cell ATOT`}>
-            <div className={`${ isValidVariable(text) ? "" : "empty_cell" } ${bgStatus}`} title={`${text}`}>
-                <span className="">{ getDayTimeFromString(text) }</span>
-            </div>
-        </div>
-    )
-}
-
-//EAWT右键协调框
-const EAWTPopover = (props) => {
-    const {text, record, index, col} = props.opt;
-    let { orgdata } = record;
-    if( isValidVariable(orgdata) ){
-        orgdata = JSON.parse(orgdata);
-    }
-    let eapField = orgdata.eapField || {};
-    let source = eapField.source || "";
-    let value = eapField.value || "";
-    let sourceCN = FlightCoordination.getSourceZh( source );
-    return(
-        <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
-            <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${value}-${sourceCN}`}>
-                <span className="">{getTimeAndStatus(value)}</span>
-            </div>
-        </div>
-    )
-}
-
-//OAWT右键协调框
-const OAWTPopover = (props) => {
-    const {text, record, index, col} = props.opt;
-    let { orgdata } = record;
-    if( isValidVariable(orgdata) ){
-        orgdata = JSON.parse(orgdata);
-    }
-
-    let oapField = orgdata.oapField || {};
-    let source = oapField.source || "";
-    let value = oapField.value || "";
-    let sourceCN = FlightCoordination.getSourceZh( source );
-
-    return(
-        <div className={`full-cell ${ isValidVariable(text) ? source : "" }`}>
-            <div className={`${ isValidVariable(value) ? "" : "empty_cell" } ${source}`} title={`${value}-${sourceCN}`}>
-                <span className="">{getTimeAndStatus(value)}</span>
-            </div>
-        </div>
-    )
-}
-
-export { FFIXTPopover, CTOPopover,  EAWTPopover, OAWTPopover, ATOTPopover }
+export {  ColorPopover }
 
