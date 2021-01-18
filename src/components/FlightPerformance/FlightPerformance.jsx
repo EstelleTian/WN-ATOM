@@ -215,7 +215,7 @@ const FlightPerformance =(props) => {
                         </div>
                     </div>
                     <div className="performance_item module">
-                        <PerformanceItemHeader style={ {background:"#2d93bb", color:"#FFFFFF"}}  title="执行"  value={executeRatio}  unit="%"  />
+                        <PerformanceItemHeader style={ {background:"#2d93bb", color:"#FFFFFF"}}  title="执行"  value={ (executeRatio*100).toFixed(0)}  unit="%"  />
                         <div className="content">
                             <LineChart executeData={executeData}   />
                         </div>
