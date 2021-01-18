@@ -11,8 +11,7 @@ function WinBtn(props){
     useEffect(function () {
         const windowHtml = `
             <p>Here is a neat and flexible JavaScript window system with a fast and simple initialization.</p>
-            <p>Inspect all the DHTMLX window samples to discover each and every feature.</p>
-`;
+            <p>Inspect all the DHTMLX window samples to discover each and every feature.</p>`;
         setWindow( new WindowDHX({
             width: 440,
             height: 520,
