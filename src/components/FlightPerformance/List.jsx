@@ -18,20 +18,26 @@ const List =(props) => {
             const  { color="", des="", value="", unit="",} = item;
             return (
                 <li key={item.id} className="list-item">
-                    <Badge className="list-item-dot" size="" color={ color } text={ des } />
-                    <div className="ant-divider-vertical"></div>
-                    <span className="value">{ value }</span>
-                    <span className="value">{ unit}</span>
+                    <div className="item">
+                        <div className="icon">
+                            <Badge className="list-item-dot" size="" color={ color }  />
+                        </div>
+                        <div className="destriction">
+                            { des }
+                        </div>
+                        <div className="value">
+                            { value }{ unit}
+                        </div>
+                    </div>
+
                 </li>
             )
         })
     };
     return(
-        <div>
-            <ul className="ant-list-items">
-                { getListData() }
-            </ul>
-        </div>
+        <ul className="ant-list-items">
+            { getListData() }
+        </ul>
     )
 }
 
