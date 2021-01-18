@@ -24,22 +24,21 @@ const CapacityFlowMonitor =(props) => {
     const flow = monitorData.flow || {}
     console.log(flow);
 
+    const getAirportMonitorData = (monitorData) => {
+        let arr = [];
+        for( let d in monitorData){
+            let obj = {
+                title: d,
+                data: monitorData[d],
+            };
+            arr.push(obj);
+        }
+        return arr;
+    };
 
-    const AirportMonitorData = [
-        {
-            title: '西安机场',
-        },
-        {
-            title: '西安机场',
-        },
-        {
-            title: '西安机场',
-        },
-        {
-            title: '西安机场',
-        },
 
-    ];
+
+    const AirportMonitorData = getAirportMonitorData(flow);
     const SectorMonitorData = [
         {
             title: '西安01扇区',
@@ -138,19 +137,19 @@ const CapacityFlowMonitor =(props) => {
                 dataSource={AirportMonitorData}
                 renderItem={item => (
                     <List.Item>
-                        <Card size="small" title={item.title}><AirportMonitor/></Card>
+                        <Card size="small" title={item.title}><AirportMonitor data={ item.data }  /></Card>
                     </List.Item>
                 )}
             />
-            <List
-                grid={{ gutter: 16, column: 8 }}
-                dataSource={SectorMonitorData}
-                renderItem={item => (
-                    <List.Item>
-                        <Card size="small" title={item.title}><SectorMonitor/></Card>
-                    </List.Item>
-                )}
-            />
+            {/*<List*/}
+                {/*grid={{ gutter: 16, column: 8 }}*/}
+                {/*dataSource={SectorMonitorData}*/}
+                {/*renderItem={item => (*/}
+                    {/*<List.Item>*/}
+                        {/*<Card size="small" title={item.title}><SectorMonitor/></Card>*/}
+                    {/*</List.Item>*/}
+                {/*)}*/}
+            {/*/>*/}
         </div>
         </Spin>
     )
