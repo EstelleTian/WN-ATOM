@@ -8,6 +8,7 @@
  */
 import React, {useEffect, useState, Fragment} from 'react'
 import { Layout, Button, Menu, Row, Col, Input,Table } from 'antd'
+import { Window as WindowDHX } from "dhx-suite";
 import { ClockCircleOutlined, CheckOutlined, StarOutlined, PauseCircleOutlined, ExpandAltOutlined, FontColorsOutlined } from '@ant-design/icons'
 import { formatTimeString } from 'utils/basic-verify'
 import { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openControlDetail, openMessageDlg } from 'utils/client'
@@ -126,7 +127,6 @@ function WorkFlowList(props){
             align: 'center',
             key: "opt",
             width: (screenWidth > 1920) ? 120 :100,
-            fixed: 'left',
             render: (text, record, index) => {
                 return (
                     <span className='opt_btns'>

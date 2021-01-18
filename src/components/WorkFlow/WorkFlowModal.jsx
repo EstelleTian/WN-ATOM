@@ -91,18 +91,19 @@ const data = [
         handleRes: "修改内容",
     },
     {
+        key: '3',
         handleStep: "发起人",
         handler: "兰州流量室",
         handleRes: "同意",
     },
     {
-        key: '3',
+        key: '4',
         handleStep: "主任席",
         handler: "西安主任席",
         handleRes: "同意",
     },
     {
-        key: '4',
+        key: '5',
         handleStep: "发起人办结",
         handler: "兰州流量室",
         handleRes: "办结",
