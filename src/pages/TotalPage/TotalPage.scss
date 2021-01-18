@@ -15,6 +15,7 @@
     }
     .cont_bottom{
         @include flex();
+        overflow-y: auto;
         
     }
     .map-module{

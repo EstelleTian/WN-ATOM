@@ -82,9 +82,9 @@ function AirportMonitor(props) {
             },
             grid: {
                 top: '10px',
-                left: '5px',
-                right: '5px',
-                bottom: '10px',
+                left: '15px',
+                right: '15px',
+                bottom: '20px',
                 containLabel: false
             },
             xAxis: [
@@ -100,7 +100,12 @@ function AirportMonitor(props) {
                         show: false
                     },
                     axisLabel: {
-                        show: false
+                        show: true,
+                        formatter: function (value, index) {
+                            let hh = value.substring(8,10);
+
+                            return hh;
+                        }
                     }
                 }
             ],
@@ -108,9 +113,9 @@ function AirportMonitor(props) {
                 {
                     type: 'value',
                     axisLine: {
-                        lineStyle: {
-                            color: "#8F959E"
-                        }
+                        // lineStyle: {
+                        //     color: "#8F959E"
+                        // }
                     },
                     axisTick: {
                         show: false

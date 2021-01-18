@@ -13,7 +13,9 @@ import {  message, Checkbox , Empty, Spin, List, Card} from 'antd'
 import { getFullTime,  getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import SectorMonitor from 'components/MiniMonitor/SectorMonitor'
-import './CapacityFlowMonitor.scss'
+import ModalBox from 'components/ModalBox/ModalBox'
+import 'components/ModalBox/ModalBox.scss'
+import "./CapacityFlowMonitor.scss"
 
 
 //容流略图模块
@@ -133,13 +135,19 @@ const CapacityFlowMonitor =(props) => {
         <Spin spinning={false} >
         <div className="capacity_flow_monitor_container">
             <List
-                grid={{ gutter: 16, column: 8 }}
+                grid={{ gutter: 16, column: 5 }}
                 dataSource={AirportMonitorData}
                 renderItem={item => (
                     <List.Item>
-                        <Card size="small" title={item.title}>
-                            <AirportMonitor data={ item.data }  />
-                        </Card>
+                        <ModalBox showDecorator = {true} title={item.title} className={props.className}>
+                            <div className="monitor-content">
+                                <AirportMonitor data={ item.data }  />
+                            </div>
+
+                        </ModalBox>
+                        {/*<Card size="small" title={item.title}>*/}
+                            {/*<AirportMonitor data={ item.data }  />*/}
+                        {/*</Card>*/}
                     </List.Item>
                 )}
             />

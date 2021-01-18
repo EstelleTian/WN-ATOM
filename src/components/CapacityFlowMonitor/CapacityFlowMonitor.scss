@@ -1,11 +1,7 @@
-.capacity-flow-monitor-module.modal_box {
-  .box_content {
-    overflow-y: auto !important;
-  }
-}
 .capacity_flow_monitor_container {
-
   position: relative;
-
-  margin: 5px;
+  margin-top: 15px;
+  .monitor-content {
+    padding: 15px;
+  }
 }
