@@ -24,11 +24,12 @@
     padding-left: 86px;
     padding-right: 16px;
     height: 0px;
+    color: $c-white-30;
     .remove{
       cursor: pointer;
       font-size: 20px;
       &:hover{
-        background: $c-white-15;
+        color: $c-white-100;
       }
     }
   }

@@ -10,7 +10,7 @@ import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
 import { requestGet, request } from 'utils/request'
 import {  message, Checkbox , Empty, Spin, List, } from 'antd'
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseCircleOutlined } from '@ant-design/icons';
 import { getFullTime,  getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import SectorMonitor from 'components/MiniMonitor/SectorMonitor'
@@ -143,8 +143,8 @@ const CapacityFlowMonitor =(props) => {
                     <List.Item key={item.key}>
                         <ModalBox showDecorator = {true} title={item.title} className="monitor-box">
                             <div className="actions">
-                                <div className="remove">
-                                    <CloseOutlined />
+                                <div onClick={()=>{console.log("sss")}} className="remove">
+                                    <CloseCircleOutlined />
                                 </div>
                             </div>
                             <div className="monitor-content">
