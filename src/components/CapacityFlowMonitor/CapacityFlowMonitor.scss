@@ -13,7 +13,7 @@
     }
   }
   .monitor-content {
-    padding: 15px;
+    padding: 5px 15px 15px;
   }
   .actions {
     display: flex;
@@ -28,7 +28,7 @@
     position: relative;
     top: -31px;
     padding-left: 86px;
-    padding-right: 16px;
+    padding-right: 10px;
     height: 0px;
     color: $c-white-30;
     .remove{
