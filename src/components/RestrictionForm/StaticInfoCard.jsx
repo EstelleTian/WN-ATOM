@@ -181,7 +181,6 @@ function StaticInfoCard(props){
                                     rules={[{ required: true, message:'请选择开始日期' }]}
                                 >
                                     <DatePicker
-                                        allowClear={ false }
                                         onChange={ updateStartDateString }
                                         format={dateFormat}
                                         disabled={ props.disabledForm }
@@ -229,7 +228,6 @@ function StaticInfoCard(props){
                                     className="date-picker-form"
                                 >
                                     <DatePicker
-                                        allowClear={ false }
                                         onChange={ updateEndTimeDisplay }
                                         format={dateFormat}
                                         disabled={ props.disabledForm }

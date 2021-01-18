@@ -9,8 +9,8 @@
 import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
 import { requestGet, request } from 'utils/request'
-import {  message, Checkbox , Empty, Spin} from 'antd'
-import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
+import {  message, Col, Row, Empty, Spin} from 'antd'
+import { getFullTime,  getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 
 
 
@@ -51,13 +51,26 @@ const FlightPerformance =(props) => {
     const cplNum = flight.cplNum || 0;
     // 限制总数
     const restrictTotal = flight.restrictTotal || 0;
-
     // 限制原因分类数据
     const restrictMap = isValidObject(flight.restrictMap) ? flight.restrictMap : {};
 
 
+    // 执行起降
+    const executeDAMap = isValidObject(flight.executeDAMap) ? flight.executeDAMap : {};
+    // 执行区域飞越
+    const executeAOvfMap = isValidObject(flight.executeAOvfMap) ? flight.executeAOvfMap : {};
+    // 执行国际飞越
+    const executeOvfMap = isValidObject(flight.executeOvfMap) ? flight.executeOvfMap : {};
 
-
+    console.log(executeDAMap)
+    // 执行率
+    const executeRatio = flight.executeRatio || 0;
+    // 执行数据
+    const executeData = {
+        executeDAMap,
+        executeAOvfMap,
+        executeOvfMap,
+    }
 
     const planData = [
         {
@@ -143,7 +156,6 @@ const FlightPerformance =(props) => {
         });
     });
 
-
     useEffect(function(){
         // 初次获取数据启用loading
         props.flightPerformanceData.toggleLoad(true);
@@ -165,11 +177,14 @@ const FlightPerformance =(props) => {
     //获取--执行KPI数据
     const requestFlightPerformanceData = useCallback(() => {
 
+        const nowDate = getFullTime(new Date()).substring(0,8);
+        const start = nowDate+'000000';
+        const end = nowDate+'235900';
 
         const opt = {
             // url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flight/',
             // url:'http://192.168.243.191:28001/atc-monitor-server/monitor/v1/flight?targets=ZLXYACC,ZLLLACC&starttime=202101130000&endtime=202101132359',
-            url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flight?targets=ZLXYACC,ZLLLACC&starttime=202101130000&endtime=202101132359',
+            url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flight?targets=ZLXYACC,ZLLLACC&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> {
@@ -191,58 +206,43 @@ const FlightPerformance =(props) => {
     return(
         <Spin spinning={loading} >
         <div className="flight_performance_list_container">
+            <Row style={{marginBottom: 10}}>
+                <Col span={24} className="layout-row" >
+                    <div className="performance_item module">
+                        <PerformanceItemHeader style={ {background:"#866216", color:"#FFFFFF"}}  title="计划"  value={sDANum}  unit="架次"  />
+                        <div className="content">
+                            <List listData={planData} />
+                        </div>
+                    </div>
+                    <div className="performance_item module">
+                        <PerformanceItemHeader style={ {background:"#2d93bb", color:"#FFFFFF"}}  title="执行"  value={ (executeRatio*100).toFixed(0)}  unit="%"  />
+                        <div className="content">
+                            <LineChart executeData={executeData}   />
+                        </div>
+                    </div>
+                    <div className="performance_item module">
+                        <PerformanceItemHeader style={ {background:"#158f9c", color:"#FFFFFF"}}  title="限制"  value={restrictTotal}  unit="条"  />
+                        <div className="content">
+                            <PieChart data={restrictMap}/>
+                        </div>
+                    </div>
+                    <div className="performance_item module">
+                        <PerformanceItemHeader style={ {background:"#2d6b92", color:"#FFFFFF"}} title="绩效"  value={situation}  />
+                        <div className="content">
+                            <List listData={performance}  />
+                        </div>
+                    </div>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24} className="layout-column" >
+                    <div className="performance_item module">
+                        <div>其他待定数据项...</div>
+                    </div>
 
-            <div className="performance_item">
-                <PerformanceItemHeader style={ {background:"#0c6277", color:"#09f"}}  title="计划"  value={sDANum}  unit="架次"  />
-                <div className="content">
-                    <List listData={planData} />
-                </div>
-            </div>
-            <div className="performance_item">
-                <PerformanceItemHeader style={ {background:"#595654", color:"#FFCC00"}}  title="执行"  value="88"  unit="%"  />
-                <div className="content">
-                    <LineChart/>
-                </div>
-            </div>
-            <div className="performance_item">
-                <PerformanceItemHeader style={ {background:"#c9b5d8", color:"#9966FF"}}  title="限制"  value={restrictTotal}  unit="条"  />
-                <div className="content">
-                    <PieChart data={restrictMap}/>
-                </div>
-            </div>
-            <div className="performance_item">
-                <PerformanceItemHeader style={ {background:"#ff99994c", color:"#CC3366"}} title="绩效"  value={situation}  />
-                <div className="content">
-                    <List listData={performance}  />
-                </div>
-            </div>
-            <div className="performance_item">
-            <PerformanceItemHeader style={ {background:"#ff99994c", color:"#CC3366"}} title="XX"  value="XX"  />
-            <div className="content">
-                <List listData={[
-                    {
-                        id:211,
-                        color:"#2fc25b",
-                        des:"起飞正常",
-                        value:93,
-                        unit: "%"
-                    },{
-                        id:212,
-                        color:"#facc14",
-                        des:"地面延误",
-                        value:14,
-                        unit: "架次"
-                    },
-                    {
-                        id:213,
-                        color:"#f04864",
-                        des:"返航备降",
-                        value:7,
-                        unit: "架次"
-                    },
-                ]}  />
-            </div>
-        </div>
+                </Col>
+            </Row>
+
         </div>
         </Spin>
     )

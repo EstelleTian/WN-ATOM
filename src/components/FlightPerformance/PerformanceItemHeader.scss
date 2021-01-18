@@ -1,15 +1,16 @@
 .performance_item {
   @include display_flex(column);
   @include flex();
-  margin: 5px;
-  //border-color: transparent;
-  //-webkit-box-shadow: 0 1px 2px -2px $c-white-20, 0 3px 6px 0 $c-white-20, 0 5px 12px 4px $c-white-20;
-  //box-shadow: 0 1px 2px -2px $c-white-20, 0 3px 6px 0 $c-white-20, 0 5px 12px 4px $c-white-20;
+  margin-right: 10px;
   .header {
+    padding: 15px;
     @include display_flex(column);
     justify-content: center;
+
     .title {
-      font-size: 28px;
+      border-radius: 4px;
+      font-size: 24px;
+      padding: 6px;
       text-align: center;
       width: 100%;
       background: rgba(0, 204, 255, 0.419607843137255);
@@ -18,12 +19,14 @@
       text-align: center;
       font-weight: 500;
       .value {
-        font-size: 48px;
+        color: #35a5da;
+        font-size: 32px;
         display: inline-block;
         margin-right: 10px;
+        font-weight: 600;
       }
       .unit {
-        font-size: 30px;
+        font-size: 18px;
       }
     }
   }
@@ -31,16 +34,50 @@
     @include flex();
     justify-content: center;
     margin: 0 1%;
-    //padding-top: 20px;
-    //text-align: center;
+    padding: 15px;
+    .ant-list-items {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+    }
+
     .list-item {
-      font-size: 24px;
+      background: $bc-black-30;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 500;
       margin: 10px 0;
       overflow: hidden;
       white-space: nowrap;
       -o-text-overflow: ellipsis;
       text-overflow: ellipsis;
-      color: $c-white-50;
+      flex: 1 1 0%;
+      display: flex;
+      flex-direction: row;
+      width: 65%;
+      align-items: center;
+      .item {
+        display: flex;
+        flex: 1 1 0%;
+        justify-content: center;
+        align-items: center;
+        padding: 5px 20px;
+        .icon {
+          //flex-grow: 1;
+          flex-shrink: 1;
+        }
+        .destriction {
+          flex-grow: 3;
+          flex-shrink: 1;
+        }
+        .value {
+          color: #35a5da;
+          text-align: right;
+          flex-grow: 1;
+          flex-shrink: 1;
+        }
+      }
+
     }
     .ant-badge-status-dot {
       position: relative;
@@ -52,7 +89,8 @@
       border-radius: 16px;
     }
     .ant-badge-status-text {
-      font-size: 24px;
+      font-size: 18px;
+      font-weight: 500;
     }
   }
 }

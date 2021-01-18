@@ -1,4 +1,28 @@
-.airport_monitor,.airport_sector{
+.monitor {
+    .options {
+        display: flex;
+        flex-direction: row;
+        .normal-rate {
+            display: flex;
+            flex: 1;
+            .rate-progress, .rate-text {
+                flex: 1;
+
+            }
+            .rate-text {
+                flex: 1;
+                margin-left: 15px;
+            }
+        }
+        .weather {
+            //flex: 1 1  auto;
+            width: 50px;
+            text-align: right;
+        }
+    }
+}
+
+.airport_monitor, .airport_sector{
     
     display: inline-block;
     

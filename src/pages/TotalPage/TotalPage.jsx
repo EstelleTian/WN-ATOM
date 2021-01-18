@@ -15,6 +15,7 @@ import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import SectorMonitor from 'components/MiniMonitor/SectorMonitor'
 import AddMonitorCard from 'components/MiniMonitor/AddMonitorCard'
 import FlightPerformance from 'components/FlightPerformance/FlightPerformance'
+import CapacityFlowMonitor from 'components/CapacityFlowMonitor/CapacityFlowMonitor'
 // import DHXWindow from 'components/SimpleMap/DHXWindow'
 
 import './TotalPage.scss'
@@ -26,23 +27,26 @@ function TodoPage (props){
             <div className="total_body">
                 <div className="cont_top">
                     <div className="cont_top_left">
-                        <ModalBox title="缩略地图"  >
+                        <ModalBox title="缩略地图" showDecorator = {true}  className="map-module" >
+                            <div className="map-container">
+                                <iframe
+                                    className="map-frame"
+                                    id="simpleMap"
+                                    width="100%"
+                                    height="100%"
+                                    frameBorder={0}
+                                    scrolling="no"
+                                    src="http://192.168.210.84:8080/#/map"
+                                ></iframe>
+                            </div>
 
-
-                            <iframe
-                                id="simpleMap"
-                                width="100%"
-                                height="100%"
-                                frameBorder={0}
-                                scrolling="no"
-                                src="http://192.168.210.84:8080/#/map"
-                            ></iframe>
 
                         </ModalBox>
                     </div>
                     <div className="cont_top_right">
                         <ModalBox
                             title="航班执行情况"
+                            showDecorator = {true}
                         >
                             <FlightPerformance/>
                         </ModalBox>
@@ -50,38 +54,14 @@ function TodoPage (props){
                     </div>
                 </div>
                 <div className="cont_bottom">
+                    <ModalBox
+                        title="容流略图"
+                        showDecorator = {true}
+                        className="capacity-flow-monitor-module"
+                    >
+                        <CapacityFlowMonitor/>
+                    </ModalBox>
 
-                    <AirportMonitor title="西安机场" />
-
-                    <AirportMonitor title="甘肃机场" />
-
-                    <AirportMonitor title="兰州机场" />
-                    <AirportMonitor title="青海机场" />
-                    <SectorMonitor title="西安01扇区" />
-                    <SectorMonitor title="西安02扇区" />
-                    <SectorMonitor title="西安03扇区" />
-                    <SectorMonitor title="西安04扇区" />
-                    <SectorMonitor title="西安05扇区" />
-                    <SectorMonitor title="西安06扇区" />
-                    <SectorMonitor title="西安07扇区" />
-                    <SectorMonitor title="西安08扇区" />
-                    <SectorMonitor title="西安01扇区" />
-                    <SectorMonitor title="西安02扇区" />
-                    <SectorMonitor title="西安03扇区" />
-                    <SectorMonitor title="西安04扇区" />
-                    <SectorMonitor title="西安05扇区" />
-                    <SectorMonitor title="西安06扇区" />
-                    <SectorMonitor title="西安07扇区" />
-                    <SectorMonitor title="西安08扇区" />
-                    <SectorMonitor title="西安01扇区" />
-                    <SectorMonitor title="西安02扇区" />
-                    <SectorMonitor title="西安03扇区" />
-                    <SectorMonitor title="西安04扇区" />
-                    <SectorMonitor title="西安05扇区" />
-                    <SectorMonitor title="西安06扇区" />
-                    <SectorMonitor title="西安07扇区" />
-                    <SectorMonitor title="西安08扇区" />
-                    <SectorMonitor title="西安01扇区" />
                     <AddMonitorCard/>
 
 

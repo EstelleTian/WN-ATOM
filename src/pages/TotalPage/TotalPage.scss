@@ -1,5 +1,6 @@
 
 .total_body{
+    margin: 10px;
     @include display-flex(column);
     @include flex();
     .cont_top{
@@ -16,4 +17,24 @@
         @include flex();
         
     }
+    .map-module{
+        margin-right: 5px;
+        .map-container {
+            display: flex;
+            flex: 1;
+            margin: 0 5px 5px;
+            .map-frame {
+                border-radius: 8px;
+                border: 1px solid #6c6c6c;
+                padding-bottom: 1px;
+            }
+        }
+    }
+    .module {
+        padding: 5px;
+        background: #343434;
+        border-radius: 6px;
+    }
+
+
 }

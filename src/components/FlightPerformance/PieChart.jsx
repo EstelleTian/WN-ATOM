@@ -11,7 +11,57 @@ import ReactEcharts from 'echarts-for-react'
 
 // 环形饼图
 const PieChart = (props) => {
+
+    const  restrictMap = props.data || {};;
+
+
+
+    const reasonData = [
+        {"key":"AIRPORT", "text": "机场"},
+        {"key":"MILITARY", "text": "军事活动"},
+        {"key":"CONTROL", "text": "流量"},
+        {"key":"WEATHER", "text": "天气"},
+        {"key":"AIRLINE", "text": "航空公司"},
+        {"key":"SCHEDULE", "text": "航班时刻"},
+        {"key":"JOINT_INSPECTION", "text": "联检"},
+        {"key":"OIL", "text": "油料"},
+        {"key":"DEPART_SYSTEM", "text": "离港系统"},
+        {"key":"PASSENGER", "text": "旅客"},
+        {"key":"PUBLIC_SECURITY", "text": "公共安全"},
+        {"key":"MAJOR_SECURITY_ACTIVITIES", "text": "重大保障活动"},
+        {"key":"OTHER", "text": "其它"},
+    ];
+
+
+
+    const  getData = function () {
+        let arr = [];
+
+        for( var d in reasonData){
+            let obj = {
+                value: restrictMap[reasonData[d].key] || 0,
+                name: reasonData[d].text
+            }
+            arr.push(obj);
+        }
+        return arr;
+    };
+
+
+    const getLegendData = function () {
+        let arr = [];
+
+        for( var d in reasonData){
+            arr.push(reasonData[d].text);
+        }
+        console.log(arr);
+        return arr;
+    }
+
+
     const getOption = function () {
+
+
 
         const option = {
             backgroundColor: "#00000000",
@@ -21,27 +71,21 @@ const PieChart = (props) => {
                 formatter: '{b} : {c} <br> ({d}%)'
             },
             legend: {
-                data: ['机场', '航路', '天气', '要客', '其他'],
+                data: getLegendData(),
                 show: false
             },
             series: [{
                 name: '',
                 type: 'pie',
-                radius: ['30%', '40%'],
-                data: [
-                    {value: 2, name: '机场'},
-                    {value: 4, name: '航路'},
-                    {value: 3, name: '天气'},
-                    {value: 2, name: '要客'},
-                    {value: 3, name: '其他'}
-                ],
+                radius: ['55%', '70%'],
+                data: getData(),
                 emphasis: {
                     itemStyle: {
                         shadowBlur: 10,
                         shadowOffsetX: 0,
                         shadowColor: 'rgba(0, 0, 0, 0.5)'
                     }
-                }
+                },
             }]
         };
 

@@ -8,36 +8,57 @@
  */
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
-import { getFullTime, addStringTime } from 'utils/basic-verify'
+import { getFullTime, addStringTime, isValidVariable } from 'utils/basic-verify'
 
 //堆叠区域图
 const LineChart =(props) => {
 
+    const executeData = props.executeData || {};
+    // 执行起降
+    const executeDAMap = executeData.executeDAMap || {};
+    // 执行区域飞越
+    const executeAOvfMap = executeData.executeAOvfMap || {};
+    // 执行国际飞越
+    const executeOvfMap = executeData.executeOvfMap || {};
+
     const getTimeAxis = function () {
-        const now = getFullTime(new Date());
-
-        const number = 1000*60*60*24/(1000*60*10);
-
         let arr = [];
-
-        for ( let i=0; i<number; i++){
-
-            const str = addStringTime(now, -1*i*1000*60*10);
-            arr.push(str.substring(8,10)+ ":" + str.substring(10,12) );
-
+        // 以执行起降数据为基础遍历时间
+        for ( let data in executeDAMap){
+            arr.push(data);
         }
-        return arr;
+
+        return arr.sort((item1,item2)=>{
+            let nameA = item1.toUpperCase(); // ignore upper and lowercase
+            let nameB = item2.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            // names must be equal
+            return 0;
+        });
     };
 
+    let Axis = getTimeAxis();
+    console.log(Axis);
 
-    const  randomValue = function () {
-        const number = 1000*60*60*24/(1000*60*10);
+    const  randomValue = function (value) {
         let arr = [];
 
-        for ( let i=0; i<number; i++){
-            const val = Math.floor(Math.random()*10);
-            arr.push(val);
-        }
+        Axis.map((item, index)=> {
+
+            let val = value[item];
+
+            if(isValidVariable(val)){
+                arr.push(val);
+            }else {
+                arr.push(0)
+            }
+        });
+
 
         return arr;
     };
@@ -48,7 +69,7 @@ const LineChart =(props) => {
 
         const option = {
             backgroundColor: "#00000000",
-            color: ["#37A2DA", "#67E0E3", "#FFDB5C", "#ff9f7f","#e7bcf3",],
+            color: ["#37A2DA", "#67E0E3", "#2d6b92a3", ],
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
@@ -59,32 +80,37 @@ const LineChart =(props) => {
                 }
             },
             legend: {
-                data: ['起飞', '降落', '飞越本区', '国际飞越'],
-                show:false,
+                data: ['起降',  '飞越本区', '国际飞越'],
+                // show:false,
             },
             grid: {
-                top: '10px',
-                left: '5px',
-                right: '5px',
-                bottom: '2px',
-                containLabel: false
+                top: '25px',
+                left: '25px',
+                right: '25px',
+                bottom: '20px',
+                containLabel: true
             },
             xAxis: [
                 {
                     type: 'category',
                     boundaryGap: false,
                     data: xAxis,
-                    axisTick: {
-                        show: false
-                    },
+                    // axisTick: {
+                    //     show: true
+                    // },
                     axisLabel:{
-                        show: false
-                    },
-                    axisLine:{
-                        lineStyle:{
-                            color: "#00000000"
+                        show: true,
+                        formatter: function (value, index) {
+                            let hh = value.substring(8,10);
+                            let mm = value.substring(10,12)
+                            return hh +':' + mm;
                         }
                     },
+                    // axisLine:{
+                    //     lineStyle:{
+                    //         color: "#00000000"
+                    //     }
+                    // },
                 }
             ],
             yAxis: [
@@ -101,36 +127,36 @@ const LineChart =(props) => {
                             color: "#00000000"
                         }
                     },
+                    axisLabel:{
+                        formatter:'{value} 架次'
+                    }
                 }
             ],
             series: [
                 {
-                    name: '起飞',
+                    name: '起降',
                     type: 'line',
-                    stack: '总量',
+                    stack: '架次',
+                    smooth:true,
                     areaStyle: {},
-                    data: randomValue()
+                    data: randomValue(executeDAMap)
                 },
-                {
-                    name: '降落',
-                    type: 'line',
-                    stack: '总量',
-                    areaStyle: {},
-                    data: randomValue()
-                },
+
                 {
                     name: '飞越本区',
                     type: 'line',
-                    stack: '总量',
+                    stack: '架次',
+                    smooth:true,
                     areaStyle: {},
-                    data: randomValue()
+                    data: randomValue(executeAOvfMap)
                 },
                 {
                     name: '国际飞越',
                     type: 'line',
-                    stack: '总量',
+                    stack: '架次',
+                    smooth:true,
                     areaStyle: {},
-                    data: randomValue()
+                    data: randomValue(executeOvfMap)
                 },
             ]
         };
