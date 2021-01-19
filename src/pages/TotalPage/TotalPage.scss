@@ -1,8 +1,15 @@
 .bell-news {
     width: 32px;
 }
+.ant-layout-header {
+    background: #2c2c2c!important;
+    .simple_nav{
+        margin: 0.5rem 1rem;
+    }
+}
+
 .total_body{
-    margin: 0 10px 10px;
+    margin: 0 1rem 1rem;
     @include display-flex(column);
     @include flex();
     .cont_top{

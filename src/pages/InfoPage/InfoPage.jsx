@@ -98,7 +98,7 @@ function InfoCard(props){
                             {
                                 (dataType === "FTMI") ?
                                     <span>
-                                        <Button className="info_btn btn_blue" size="small" onClick={ function(e){
+                                        <Button className="info_btn btn_blue" siz.total_bodye="small" onClick={ function(e){
                                             sendMsgToClient(message)
                                             e.stopPropagation()
                                         } } >查看容流监控</Button>
