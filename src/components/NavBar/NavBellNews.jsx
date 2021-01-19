@@ -68,7 +68,7 @@ function NavBellNews(props){
     },[ user.id ]);
     let newsLen = newsList.newsLength;
     return (
-            <div>
+            <div className="bell-news">
             {
                 ( newsLen <= 0 )
                     ? <BellOutlined className="bell_icon" style={{"fontSize": "20px"}} onClick = {openMsg} />
