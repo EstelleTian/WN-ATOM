@@ -19,7 +19,7 @@ import './WorkFlowPage.scss'
 let WorkFlowNav = inject("workFlowData")(observer((props) => {
     const handleClick = e => {
         console.log('click ', e);
-        props.workFlowData.activeTab = e.key;
+        props.workFlowData.setActiveTab( e.key );
     };
     return (
         <Menu onClick={handleClick} selectedKeys={[props.workFlowData.activeTab]} mode="horizontal" className="work_menu">

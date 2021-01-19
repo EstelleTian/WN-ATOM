@@ -181,12 +181,12 @@ const WorkFlowContent = (props) => {
 
     return (
         <Spin spinning={loading} >
-            <div>
+            <div className="workflow_wind_cont">
                 <div className="header_canvas">工作流ID:{modalId}</div>
                 <div className="cont_canvas">
                     <Table
                         columns={columns}
-                        dataSource={ [] }
+                        dataSource={ data }
                         size="small"
                         bordered
                         // pagination={false}
@@ -196,9 +196,7 @@ const WorkFlowContent = (props) => {
                     />
                 </div>
                 <div>
-                    <Button type="primary"
-                        // onClick={ closeModal }
-                    >
+                    <Button type="primary" className="btn_confirm" >
                         确认</Button>
                     <Button onClick={ ()=>{ alert("建设中,敬请期待!")} } style={{ float: 'left'}}>窗口模式</Button>
                 </div>

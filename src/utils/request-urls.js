@@ -29,6 +29,8 @@ const ReqUrls = {
     createFlowUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/sim/',
     //获取工作流-办结列表
     hisTaskUrl: 'http://192.168.243.187:28086/workflow/userHisTask/',
+    //获取工作流-待办列表
+    tasksUrl: 'http://192.168.243.187:28086/workflow/userTask/',
 
 };
 //协调相关url
