@@ -26,7 +26,7 @@ const ReqUrls = {
     //获取流控数据
     ATOMDataUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/restrictions/',
     //创建流控-数据提交
-    createFlowUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/',
+    createFlowUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/sim/',
     //获取工作流-办结列表
     hisTaskUrl: 'http://192.168.243.187:28086/workflow/userHisTask/',
 
