@@ -101,9 +101,12 @@ let FLIGHTIDPopover = (props) => {
         const orgdata = record.orgdata || {};
         let orgFlight = JSON.parse(orgdata) || {};
         let urlKey = "";
-        if( type === "direct-in-pool"){
+        if( type === "direct-in-pool"){ //入池
             urlKey = "flightInPoolRest";
-            orgFlight.poolStatus = FlightCoordination.IN_POOL; //1
+            orgFlight.poolStatus = FlightCoordination.IN_POOL_M; //2
+        }else if( type === "direct-out-pool"){ //出池
+            urlKey = "flightOutPoolRes";
+            orgFlight.poolStatus = FlightCoordination.OUT_POOL; //0
         }
         // else if( type === "unexempt"){
         //     urlKey = "flightExemptCancel";
@@ -171,9 +174,16 @@ let FLIGHTIDPopover = (props) => {
                 }
                 {
                     ( !isInPoolFlight && hasAuth )
-                        ? <Button loading={poolLoad} className="c-btn c-btn-red" onClick={ () => { handlePool("direct-in-pool", record, "移入等待池") } }>移入等待池</Button>
+                        ? <Button loading={poolLoad} className="c-btn c-btn-green" onClick={ () => { handlePool("direct-in-pool", record, "移入等待池") } }>移入等待池</Button>
                         : ""
                 }
+                {
+                    ( !isInPoolFlight && hasAuth )
+                        ? <Button loading={poolLoad} className="c-btn c-btn-red" onClick={ () => { handlePool("direct-out-pool", record, "移出等待池") } }>移出等待池</Button>
+                        : ""
+                }
+                <Button loading={poolLoad} className="c-btn c-btn-red" onClick={ () => { handlePool("direct-out-pool", record, "移出等待池") } }>移出等待池</Button>
+
             </div>
         )
     });

@@ -35,15 +35,16 @@ function LoginPage(props){
                     params,
                     resFunc: (data)=> {
                         // updateUserInfoData(data)
-                        console.log(data)
-                        const { status } = data;
+                        console.log(data);
+                        const { status, user } = data;
                         if( status*1 === 200){
                             message.success({
                                 content: "登录成功",
                                 duration: 4,
                                 style: msgStyle
                             });
-                            saveUserInfo(username, password)
+                            saveUserInfo(username, password);
+                            localStorage.setItem("user", JSON.stringify(user) );
                         }else{
                             const err = data.error;
                             const msg = err.message;

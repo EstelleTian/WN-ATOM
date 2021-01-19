@@ -37,7 +37,7 @@ const columns = [
             return (
                 <div className="handler">
                     <div className="handler_1">
-                        <span style={{color: '#ec4747'}}>{text} 主办 </span>
+                        <span style={{color: '#ec4747'}}>{text} </span>
                         {
                             index === 2
                                 ? <span className="handler"  style={{color: 'green'}}>[已转交下一步,用时：11分钟43秒 ]</span>
@@ -66,7 +66,7 @@ const columns = [
         }
     },
     {
-        title: "会签意见",
+        title: "意见",
         dataIndex: "handleRes",
         align: 'center',
         key: "handleRes",

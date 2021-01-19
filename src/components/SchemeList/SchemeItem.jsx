@@ -4,6 +4,8 @@ import {  observer } from 'mobx-react'
 import {Modal, message, Button, Table} from "antd";
 import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 import { Window as WindowDHX } from "dhx-suite";
+import ReactDom from "react-dom";
+import WorkFlowContent from "../WorkFlow/WorkFlowContent";
 
 
 //方案状态转化
@@ -72,7 +74,26 @@ function SchemeItem(props){
     }
     //工作流详情
     const showWorkFlowDetail = function(id){
-        props.toggleWorkFlowModalVisible(true, id);
+        let windowClass = 'win_' + Math.floor( Math.random()*100000000 );
+        let window = new WindowDHX({
+            width: 1200,
+            height: 800,
+            title: "工作流详情",
+            html: `<div class="`+windowClass+`"></div>`,
+            css: "bg-black",
+            closable: true,
+            movable: true,
+            resizable: true
+        })
+
+        setTimeout(function(){
+            window.show();
+            const winDom = document.getElementsByClassName(windowClass)[0];
+            ReactDom.render(
+                <WorkFlowContent modalId={id} />,
+                winDom);
+        }, 500)
+        // props.toggleWorkFlowModalVisible(true, id);
     }
 
 

@@ -15,7 +15,7 @@ import NavBar  from 'components/NavBar/NavBar.jsx';
 import ModalBox from 'components/ModalBox/ModalBox'
 import LeftMultiCanvas  from 'components/LeftMultiCanvas/LeftMultiCanvas'
 import RightMultiCanvas  from 'components/RightMultiCanvas/RightMultiCanvas'
-import {  isValidVariable,  } from 'utils/basic-verify'
+import {  isValidVariable  } from 'utils/basic-verify'
 import './FangxingPage.scss'
 
 const FlightTable = lazy(() => import('components/FlightTable/FlightTable') );
@@ -33,16 +33,17 @@ function FangxingPage(props){
         }
         else{
             //TODO 测试用，正式去掉该else
-            setTimeout(function(){
-                if( !isValidVariable( props.systemPage.user.id ) ){
-                    // alert("未登录成功:" + props.systemPage.user.id);
-                    props.systemPage.setUserData({
-                        id: 14,
-                        descriptionCN: "--"
-                    });
-                    setLogin(true);
-                }
-            },1)
+            // setTimeout(function(){
+            //     if( !isValidVariable( props.systemPage.user.id ) ){
+            //         // alert("未登录成功:" + props.systemPage.user.id);
+            //         props.systemPage.setUserData({
+            //             id: 14,
+            //             descriptionCN: "--",
+            //             username: 'lanzhouflw'
+            //         });
+            //         setLogin(true);
+            //     }
+            // },1)
         }
     },[ user.id ]);
     return (

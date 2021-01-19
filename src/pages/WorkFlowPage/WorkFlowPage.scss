@@ -17,10 +17,10 @@
   margin: 0.5rem 1rem;
   border: 1px solid #5d5d5d;
   .ant-pagination{
-    position: absolute;
-    top: -42px;
-    right: 10px;
-  }
+      position: relative;
+      //top: -42px;
+      right: 10px;
+    }
 }
 .work_search{
   margin: 0.5rem auto;
@@ -39,6 +39,7 @@
 }
 .work_btns{
   margin: 0.5rem auto;
+  float: right;
   button{
     margin: 0 5px 0 5px ;
   }

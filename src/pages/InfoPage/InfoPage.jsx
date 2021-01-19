@@ -8,11 +8,11 @@
  */
 import React, {useEffect, useState, Fragment} from 'react'
 import { Layout, Button, Collapse, Row, Col, Tooltip } from 'antd'
-import { DeleteOutlined, AlertOutlined, WarningOutlined, MailOutlined, CloseOutlined} from '@ant-design/icons'
+import { DeleteOutlined, CloseOutlined} from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
-import { Link } from  'react-router-dom'
+// import { Link } from  'react-router-dom'
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { formatTimeString } from 'utils/basic-verify'
+import { formatTimeString, isValidVariable } from 'utils/basic-verify'
 import { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openControlDetail, openMessageDlg } from 'utils/client'
 import Stomp from 'stompjs'
 import './InfoPage.scss'
@@ -214,8 +214,13 @@ function PanelList(props) {
 }
 //消息模块
 function InfoPage(props){
-    const stompClient = () => {
-        console.log("建立连接");
+    const [ login, setLogin ] = useState(false);
+    const stompClient = ( username = "" ) => {
+        if( !isValidVariable(username) ){
+            return;
+        }
+        // alert("建立连接:" + username);
+        // console.log("建立连接");
         // 建立连接
         let ws = new WebSocket('ws://192.168.210.150:15674/ws');
         let stompClient = Stomp.over(ws)
@@ -224,14 +229,13 @@ function InfoPage(props){
         stompClient.debug = null;
 
         let on_connect = function (x) {
-
             console.log("WebSocket连接成功:");
             console.log(x);
-
             //收到限制消息
-            stompClient.subscribe("/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE" , function (d) {
+            const topic1 = "/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE_"+username;
+            stompClient.subscribe( topic1, function (d) {
                 //收到消息
-                console.log("WebSocket收到消息:");
+                console.log(topic1 + "  WebSocket收到消息:");
                 console.log(d.body);
                 const body = d.body;
                 const msgObj = JSON.parse(body);
@@ -295,11 +299,13 @@ function InfoPage(props){
         //     const { message } = msgObj;
         //     props.newsList.addNews(message);
         // },2000 );
-        stompClient();
-    }, [])
+        const user = localStorage.getItem("user");
+        props.systemPage.setUserData( JSON.parse(user) );
+    }, []);
+
     const emptyNews = () =>{
         props.newsList.emptyNews();
-    }
+    };
 
     const  add =() => {
         const id = new Date().getTime();
@@ -314,34 +320,60 @@ function InfoPage(props){
         props.newsList.addNews(message);
     }
 
-    const { newsList } = props;
+    const { newsList, systemPage } = props;
+    const { user } = systemPage;
 
+    useEffect(function(){
+        const id = user.id;
+        if( isValidVariable(id) ){
+            setLogin(true);
+            stompClient(user.username);
+        }
+        else{
+            //TODO 测试用，正式去掉该else
+            // setTimeout(function(){
+            //             //     if( !isValidVariable( props.systemPage.user.id ) ){
+            //             //         // alert("未登录成功:" + props.systemPage.user.id);
+            //             //         props.systemPage.setUserData({
+            //             //             id: 14,
+            //             //             descriptionCN: "--",
+            //             //             username: 'lanzhouflw'
+            //             //         });
+            //             //         setLogin(true);
+            //             //         stompClient('lanzhouflw');
+            //             //     }
+            //             // },1)
+        }
+    },[ user.id ]);
     const len = newsList.list.length;
     return (
         <Layout className="layout">
-            <div className="info_canvas">
-                <div className="info_header">
-                    <div className="title">消息推送(共{ len }条，最多100条)</div>
-                    <Tooltip title="清除">
-                        <div className="radish">
-                            <DeleteOutlined onClick={ emptyNews } />
-                        </div>
-                    </Tooltip>
-                    {/** <div className="scroll"><Checkbox checked>滚屏</Checkbox></div>
-                     <div className="to_top"><Checkbox checked>告警置顶</Checkbox></div>*/}
-                    <Tooltip title="关闭">
-                        <div className="close" onClick={()=>{ closeMessageDlg("")}}><CloseOutlined /> </div>
-                    </Tooltip>
+            {
+                login ? <div className="info_canvas">
+                    <div className="info_header">
+                        <div className="title">消息推送(共{ len }条，最多100条)</div>
+                        <Tooltip title="清除">
+                            <div className="radish">
+                                <DeleteOutlined onClick={ emptyNews } />
+                            </div>
+                        </Tooltip>
+                        {/** <div className="scroll"><Checkbox checked>滚屏</Checkbox></div>
+                         <div className="to_top"><Checkbox checked>告警置顶</Checkbox></div>*/}
+                        <Tooltip title="关闭">
+                            <div className="close" onClick={()=>{ closeMessageDlg("")}}><CloseOutlined /> </div>
+                        </Tooltip>
 
-                </div>
-                <PanelList newsList={newsList}/>
+                    </div>
+                    <PanelList newsList={newsList}/>
 
-            </div>
+                </div> : ""
+            }
+
         </Layout>
     )
 }
 
 
 // export default withRouter( InfoPage );
-export default inject("newsList")(observer(InfoPage));
+export default inject("newsList", "systemPage")(observer(InfoPage));
 

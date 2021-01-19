@@ -32,22 +32,40 @@ const columns = [
         align: 'center',
         key: "handler",
         width: (screenWidth > 1920) ? 165 : 165,
-        // fixed: 'left',
         render: (text, record, index) => {
             return (
                 <div className="handler">
                     <div className="handler_1">
-                        <span>{text} 主办 </span>
-                        <span className="handler">[已办结,用时：11分钟43秒 ]</span>
+                        <span style={{color: '#ec4747'}}>{text} </span>
+                        {
+                            index === 2
+                                ? <span className="handler"  style={{color: 'green'}}>[已转交下一步,用时：11分钟43秒 ]</span>
+                                : ""
+                        }
+                        {
+                            index === 3
+                                ? <span className="handler"  style={{color: 'orange'}}>[未接受办理]</span>
+                                : ""
+                        }
+                        {
+                            index !== 3 && index !== 2
+                                ? <span className="handler"  style={{color: 'green'}}>[已办结,用时：11分钟43秒 ]</span> : ""
+                        }
+
                     </div>
                     <div className="handler_2">开始于：2020-12-17 11:07:55</div>
-                    <div className="handler_3">结束于：2020-12-17 11:19:38</div>
+                    {
+                        index === 3
+                            ? ""
+                            : <div className="handler_3">结束于：2020-12-17 11:19:38</div>
+                    }
+
                 </div>
             )
         }
     },
     {
-        title: "会签意见",
+        title: "意见",
         dataIndex: "handleRes",
         align: 'center',
         key: "handleRes",

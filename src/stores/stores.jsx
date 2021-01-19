@@ -13,6 +13,7 @@ import { executeKPIData } from './executeKPIStores'
 import { flightPerformanceData } from './flightPerformanceStores'
 import { capacityFlowMonitorData } from './capacityFlowMonitorStores'
 import { systemPage } from './pageStores'
+import { workFlowData } from './workFlowStores'
 
 export { 
     schemeListData,
@@ -20,6 +21,7 @@ export {
     executeKPIData,
     systemPage,
     flightPerformanceData,
-    capacityFlowMonitorData
+    capacityFlowMonitorData,
+    workFlowData
  };
 

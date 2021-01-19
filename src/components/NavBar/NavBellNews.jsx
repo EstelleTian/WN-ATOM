@@ -3,11 +3,15 @@ import {BellOutlined} from "@ant-design/icons";
 import React, {useEffect} from "react";
 import {inject, observer} from "mobx-react";
 import { openMessageDlg } from 'utils/client.js'
+import {  isValidVariable  } from 'utils/basic-verify'
 import Stomp from "stompjs";
 
 function NavBellNews(props){
 
-    const stompClient = () => {
+    const stompClient = ( username = "" ) => {
+        if( !isValidVariable(username) ){
+            return;
+        }
         // 建立连接
         let ws = new WebSocket('ws://192.168.210.150:15674/ws');
         let stompClient = Stomp.over(ws)
@@ -17,7 +21,8 @@ function NavBellNews(props){
         let on_connect = function (x) {
             console.log("WebSocket连接成功:");
             //收到限制消息
-            stompClient.subscribe("/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE" , function (d) {
+            const topic1 = "/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE_"+username;
+            stompClient.subscribe( topic1, function (d) {
                 //收到消息
                 console.log("WebSocket收到消息:");
                 console.log(d.body);
@@ -36,9 +41,6 @@ function NavBellNews(props){
         stompClient.connect('guest', 'guest', on_connect, on_error, '/');
 
     }
-    useEffect(function(){
-        stompClient();
-    }, [])
     const openMsg = () => {
         openMessageDlg();
         // props.newsList.emptyNews();
@@ -56,7 +58,14 @@ function NavBellNews(props){
         console.log(222);
         props.newsList.addNews(message);
     }
-    const { newsList  } = props;
+    const { newsList, systemPage } = props;
+    const { user } = systemPage;
+    useEffect(function(){
+        const id = user.id;
+        if( isValidVariable(id) ){
+            stompClient(user.username);
+        }
+    },[ user.id ]);
     let newsLen = newsList.newsLength;
     return (
             <div>
@@ -72,4 +81,4 @@ function NavBellNews(props){
     )
 }
 
-export  default  inject("newsList")(observer( NavBellNews) )
+export  default  inject("newsList", "systemPage")(observer( NavBellNews) )
