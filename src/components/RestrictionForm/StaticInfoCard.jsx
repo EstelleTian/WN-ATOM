@@ -1,6 +1,6 @@
 import React, {useEffect, useState, Fragment} from 'react'
 import "moment/locale/zh-cn"
-import { Descriptions, Collapse, DatePicker, Card, Form, Input, Row, Col, Select} from 'antd'
+import { Descriptions, Radio, DatePicker, Card, Form, Input, Row, Col, Select} from 'antd'
 import ExemptCard from './ExemptCard'
 import LimitedCard from './LimitedCard'
 import  moment  from 'moment'
@@ -37,6 +37,18 @@ function StaticInfoCard(props){
     useEffect(function(){
         setModeUnit(unit);
     },[restrictionMode])
+
+    function areaBlock(field) {
+        return (
+            <Radio.Group buttonStyle="solid">
+                <Radio.Button value={`${field}-ZLLL`}>兰州</Radio.Button>
+                <Radio.Button value={`${field}-ZLXY`}>西安</Radio.Button>
+                <Radio.Button value={`${field}-ZBSD`}>山东</Radio.Button>
+                <Radio.Button value={`${field}-MORE`}>更多</Radio.Button>
+            </Radio.Group>
+        )
+    }
+
 
     const updateStartDateString =(date) => {
         if( props.hasOwnProperty("updateStartDateString") ){
@@ -317,6 +329,8 @@ function StaticInfoCard(props){
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
+            </Row>
+            <Row gutter={24}>
                 <Col span={8}>
                     <Form.Item
                         name="exemptPreUnit"
@@ -336,6 +350,8 @@ function StaticInfoCard(props){
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
+            </Row>
+            <Row gutter={24}>
                 <Col span={8}>
                     <Form.Item
                         name="a"
@@ -360,6 +376,30 @@ function StaticInfoCard(props){
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
+            </Row>
+            <Row gutter={24}>
+                <Col span={8}>
+                    <Form.Item
+                        className="hidden-label"
+                        name="ab1"
+                        label={` `}
+                    >
+                        {areaBlock('flowControlDep')}
+                    </Form.Item>
+                </Col>
+                <Col span={8} className=""></Col>
+                <Col span={8}>
+                    <Form.Item
+                        className="hidden-label"
+                        name="ab1"
+                        label={` `}
+                    >
+                        {areaBlock('flowControlArr')}
+                    </Form.Item>
+                </Col>
+            </Row>
+
+            <Row gutter={24}>
                 <Col span={8}>
                     <Form.Item
                         name="d"
@@ -382,6 +422,27 @@ function StaticInfoCard(props){
                         label="豁免降落机场"
                     >
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row gutter={24}>
+                <Col span={8}>
+                    <Form.Item
+                        className="hidden-label"
+                        name="ab1"
+                        label={` `}
+                    >
+                        {areaBlock('exemptDep')}
+                    </Form.Item>
+                </Col>
+                <Col span={8} className=""></Col>
+                <Col span={8}>
+                    <Form.Item
+                        className="hidden-label"
+                        name="ab1"
+                        label={` `}
+                    >
+                        {areaBlock('exemptArr')}
                     </Form.Item>
                 </Col>
             </Row>

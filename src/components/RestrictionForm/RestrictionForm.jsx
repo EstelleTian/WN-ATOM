@@ -441,6 +441,7 @@ function RestrictionForm(props){
     const submitFormData = (data) => {
 
         const opt = {
+            // url:'http://192.168.243.120:58189/hydrogen-scheme-flow-server/simulationTactics/import/443',
             url:'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/443',
             method:'POST',
             params:JSON.stringify(data),
@@ -472,6 +473,7 @@ function RestrictionForm(props){
         });
         //发送到客户端
         if(pageType ==='CREATE'){
+            debugger
             handleImportControl(id);
         }else if(pageType === 'IMPORT'){
             handleImportControl(id, props.message.id);
