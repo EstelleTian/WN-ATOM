@@ -10,13 +10,13 @@ import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
 import {message, Checkbox, Empty, Spin} from 'antd'
 import { requestGet, request } from 'utils/request'
-import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
+import { isValidVariable, isValidObject } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
 import  SchemeModal  from "./SchemeModal";
-import  WorkFlowModal  from "components/WorkFlow/WorkFlowModal";
+import { ReqUrls } from 'utils/request-urls'
 import  SchemeItem  from "./SchemeItem";
 import './SchemeList.scss'
-import {SyncOutlined} from "@ant-design/icons";
+
 
 //方案多选按钮组
 const plainOptions = [
@@ -102,7 +102,7 @@ function SchemeList (props){
     const getSchemeList = useCallback(( startNextRefresh = false  ) => {
         // console.log("获取--方案列表，statusValues是:"+statusValues);
         const opt = {
-            url:'http://192.168.194.21:58189/implementTactics',
+            url: ReqUrls.schemeListUrl,
             method: 'GET',
             params:{
                 status: props.schemeListData.statusValues.join(','),
@@ -129,7 +129,7 @@ function SchemeList (props){
     const requestFlightTableData = useCallback( ( id, resolve, reject ) => {
         // if( isValidVariable(id) ){
         const opt = {
-            url:'http://192.168.194.21:29890/tactic/' + id,
+            url: ReqUrls.flightsDataUrl + id,
             method:'GET',
             params:{},
             resFunc: (data)=> {
@@ -158,7 +158,7 @@ function SchemeList (props){
     //获取--执行KPI数据
     const requestExecuteKPIData = useCallback( ( id, resolve, reject ) => {
         const opt = {
-            url:'http://192.168.194.21:29890/performkpi/' + id,
+            url: ReqUrls.kpiDataUrl + id,
             method:'GET',
             params:{},
             resFunc: (data)=> {

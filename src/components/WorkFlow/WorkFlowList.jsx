@@ -1,10 +1,10 @@
 /*
- * @Author: your name
- * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2020-12-22 20:36:30
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
+ * @Author: liutianjiao
+ * @Date:
+ * @LastEditTime: 2021-01-19 18:33:18
+ * @LastEditors: liutianjiao
+ * @Description: 工作流列表
+ * @FilePath: WorkFlowList.jsx
  */
 import React, {useEffect, useState, useCallback} from 'react'
 import ReactDom from 'react-dom';
@@ -12,7 +12,7 @@ import { Button, Input, Table, message} from 'antd'
 import { Window as WindowDHX } from "dhx-suite";
 import { getFullTime, formatTimeString } from 'utils/basic-verify'
 import { requestGet } from 'utils/request'
-// import Stomp from 'stompjs'
+import { ReqUrls } from 'utils/request-urls'
 import { inject, observer } from 'mobx-react'
 import WorkFlowContent from "./WorkFlowContent";
 import {isValidVariable} from "../../utils/basic-verify";
@@ -97,7 +97,7 @@ function WorkFlowList(props){
         let url = "";
         let params = {};
         if( activeTab === "finished"){
-            url = 'http://192.168.243.187:28086/workflow/userHisTask/'+user.username;
+            url = ReqUrls.hisTaskUrl + user.username;
             params = {
                 start: "",
                 end: "",

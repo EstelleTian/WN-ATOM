@@ -141,7 +141,7 @@ const WorkFlowContent = (props) => {
             duration: 4,
         });
     })
-    //根据modalId获取方案详情
+    //根据modalId获取工作流详情
     const requestSchemeDetail = useCallback(( modalId ) => {
         const opt = {
             url: 'http://192.168.243.187:28086/workflow/procTaskHis/SchemeApprovalProcess/' + modalId,

@@ -8,12 +8,10 @@
  */
 import React, { useEffect, useCallback,useState } from 'react'
 import { inject, observer } from 'mobx-react'
-import { requestGet, request } from 'utils/request'
-import {  message, Col, Row, Empty, Spin} from 'antd'
-import { getFullTime,  getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
-
-
-
+import { request } from 'utils/request'
+import { ReqUrls } from 'utils/request-urls'
+import {  message, Col, Row, Spin} from 'antd'
+import { getFullTime, isValidObject } from 'utils/basic-verify'
 import PerformanceItemHeader from './PerformanceItemHeader'
 import List from './List'
 import PieChart from './PieChart'
@@ -184,7 +182,7 @@ const FlightPerformance =(props) => {
         const opt = {
             // url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flight/',
             // url:'http://192.168.243.191:28001/atc-monitor-server/monitor/v1/flight?targets=ZLXYACC,ZLLLACC&starttime=202101130000&endtime=202101132359',
-            url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flight?targets=ZLXYACC,ZLLLACC&starttime='+ start+'&endtime='+end,
+            url: ReqUrls.performanceDataUrl + '?targets=ZLXYACC,ZLLLACC&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> {

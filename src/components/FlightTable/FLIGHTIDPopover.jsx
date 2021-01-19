@@ -10,7 +10,8 @@ import { message as antdMessage, message, Popover, Button, Tooltip} from "antd";
 import React,{ useCallback, useState, useEffect } from "react";
 import {  isValidVariable } from 'utils/basic-verify'
 import { FlightCoordination, PriorityList } from 'utils/flightcoordination.js'
-import { request, requestGet } from 'utils/request'
+import { request } from 'utils/request'
+import { CollaborateUrl } from 'utils/request-urls'
 import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
 import {observer, inject} from "mobx-react";
 import FmeToday from "../../utils/fmetoday";
@@ -81,8 +82,7 @@ let FLIGHTIDPopover = (props) => {
             const fid = orgFlight.flightid;
 
             const opt = {
-                // url:'http://192.168.243.162:29891/'+urlKey,
-                url:'http://192.168.243.162:28089/'+urlKey,
+                url: CollaborateUrl.exemptyUrl + urlKey,
                 method: 'POST',
                 params: {
                     userId: userId,
@@ -125,7 +125,7 @@ let FLIGHTIDPopover = (props) => {
             const fid = orgFlight.flightid;
 
             const opt = {
-                url:'http://192.168.243.162:28089/'+urlKey,
+                url: CollaborateUrl.poolUrl + urlKey,
                 method: 'POST',
                 params: {
                     userId: userId,
@@ -139,8 +139,6 @@ let FLIGHTIDPopover = (props) => {
         }
 
     });
-
-
 
     const {text, record } = props.opt;
     let { orgdata } = record;
@@ -201,6 +199,13 @@ let FLIGHTIDPopover = (props) => {
 
     }, [tipObj.visible] )
 
+    let colorClass = "";
+    if( isValidVariable(priority) && priority*1 > 0 ){
+        colorClass = "priority_"+ priority;
+    }
+    if(isInPoolFlight){
+        colorClass += " in_pool " + orgdata.poolStatus;
+    }
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
@@ -210,8 +215,7 @@ let FLIGHTIDPopover = (props) => {
             trigger={[`contextMenu`]}
         >
             <Tooltip title={ tipObj.title } visible={ tipObj.visible } color={ tipObj.color }>
-                {/*<div className={`full-cell ${ isValidVariable(priority) > 0 ? "priority_"+priority : "" }`}>*/}
-                <div className={` ${ isValidVariable(priority) > 0 ? "priority_"+priority : "" }`}>
+                <div className={colorClass}  >
                     <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${ PriorityList[priority] }`}>
                         <span className="">{ text }</span>
                     </div>

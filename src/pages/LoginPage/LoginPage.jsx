@@ -2,7 +2,8 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {Form, Icon, Input, Button, Alert, Row, Col, message} from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import md5 from 'js-md5'
-import { requestGet, request } from 'utils/request';
+import { requestGet } from 'utils/request';
+import { ReqUrls } from 'utils/request-urls'
 import { saveUserInfo } from 'utils/client';
 import './LoginPage.scss'
 const msgStyle = {
@@ -29,9 +30,9 @@ function LoginPage(props){
                     "clientVersion":"1.5.6",
                 };
                 console.log(params);
-                message.destroy()
+                message.destroy();
                 const opt = {
-                    url: 'http://192.168.194.21:18380/uuma-server/client/login',
+                    url: ReqUrls.loginUrl,
                     params,
                     resFunc: (data)=> {
                         // updateUserInfoData(data)

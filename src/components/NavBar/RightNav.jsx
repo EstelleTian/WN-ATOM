@@ -21,6 +21,10 @@ function RightNav(props){
 
     const { flightTableData } = props;
     const exemptLen = flightTableData.getExemptFlights.length || 0;
+    const poolLen = flightTableData.getPoolFlights.length || 0;
+    const specialLen = flightTableData.getSpecialFlights.length || 0;
+    const expiredLen = flightTableData.getExpiredFlights.length || 0;
+    const todoLen = flightTableData.getTodoFlights.length || 0;
 
     return (
         <div className="layout-nav-right layout-row nav_right">
@@ -33,17 +37,61 @@ function RightNav(props){
                             exemptLen > 0 ?
                                 <Badge
                                     className="site-badge-count-109"
-                                    count={ props.flightTableData.getExemptFlights.length }
+                                    count={ exemptLen }
                                     style={{ backgroundColor: 'rgb(61, 132, 36)' }}
                                 />
                                 : ""
                         }
 
                     </Radio.Button>
-                    <Radio.Button value="pool">等待池</Radio.Button>
-                    <Radio.Button value="special">特殊航班</Radio.Button>
-                    <Radio.Button value="expired">失效航班</Radio.Button>
-                    <Radio.Button value="todo">待办事项</Radio.Button>
+                    <Radio.Button value="pool">
+                        等待池
+                        {
+                            poolLen > 0 ?
+                                <Badge
+                                    className="site-badge-count-109"
+                                    count={ poolLen}
+                                    style={{ backgroundColor: 'rgb(61, 132, 36)' }}
+                                />
+                                : ""
+                        }
+                    </Radio.Button>
+                    <Radio.Button value="special">
+                        特殊航班
+                        {
+                            specialLen > 0 ?
+                                <Badge
+                                    className="site-badge-count-109"
+                                    count={ specialLen }
+                                    style={{ backgroundColor: 'rgb(61, 132, 36)' }}
+                                />
+                                : ""
+                        }
+                    </Radio.Button>
+                    <Radio.Button value="expired">
+                        失效航班
+                        {
+                            expiredLen > 0 ?
+                                <Badge
+                                    className="site-badge-count-109"
+                                    count={ expiredLen }
+                                    style={{ backgroundColor: 'rgb(61, 132, 36)' }}
+                                />
+                                : ""
+                        }
+                    </Radio.Button>
+                    <Radio.Button value="todo">
+                        待办事项
+                        {
+                            todoLen > 0 ?
+                                <Badge
+                                    className="site-badge-count-109"
+                                    count={ todoLen }
+                                    style={{ backgroundColor: 'rgb(61, 132, 36)' }}
+                                />
+                                : ""
+                        }
+                    </Radio.Button>
 
                     {/*<WinBtn btnTitle="豁免航班" type="exempt" />*/}
                     {/*<WinBtn btnTitle="等待池" type="pool" />*/}
