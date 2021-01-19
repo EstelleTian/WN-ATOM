@@ -63,16 +63,19 @@
     //position: relative;
     //left: -6px;
     >span{
-        padding: 0 5px;
+        padding: 0;
     }
 }
 .interval_green{
     //background: rgba(54, 159, 135,0.4);
     //color: #3AE1B0;
 }
+.interval{
+    margin: 0.5rem 0;
+}
 .interval_red{
-    //background: rgba(141 ,73, 65, .4);
-    color: #fde900;
+    background: #2b2bf5;
+    //color: #fde900;
 }
 
 //表格 单元格 padding
