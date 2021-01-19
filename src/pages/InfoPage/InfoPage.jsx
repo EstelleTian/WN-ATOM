@@ -6,8 +6,8 @@
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
  */
-import React, {useEffect, useState, Fragment} from 'react'
-import { Layout, Button, Collapse, Row, Col, Tooltip } from 'antd'
+import React, {useEffect, useState} from 'react'
+import { Layout, Button, Collapse, Row, Col, Tooltip, Checkbox } from 'antd'
 import { DeleteOutlined, CloseOutlined} from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
 // import { Link } from  'react-router-dom'
@@ -59,7 +59,7 @@ function InfoCard(props){
     data = JSON.parse(data);
     let { sourceStatus, startTime, endTime, publishUnit } = data;
     let dataContent = data.content || "";
-    console.log( message. data);
+    // console.log( message. data);
     level = getLevel( level );
     return (
         <CSSTransition
@@ -84,9 +84,9 @@ function InfoCard(props){
                         <div className={`level_text ${level}`}>{level}</div>
                         <div className="date">{ formatTimeString( sendTime ) }</div>
                         <div className="options">
-                            {
-                                dataType === "FCDM" ? <Button className="info_btn btn_blue" size="small" onClick={ function(e){ openTimeSlotFrame(message) } }>查看放行监控</Button> : ""
-                            }
+                            {/*{*/}
+                            {/*    dataType === "FCDM" ? <Button className="info_btn btn_blue" size="small" onClick={ function(e){ openTimeSlotFrame(message) } }>查看放行监控</Button> : ""*/}
+                            {/*}*/}
                             {
                                 (dataType === "OPEI" || dataType === "PROI") ?
                                     <Button className="info_btn btn_blue" size="small" onClick={ function(e){
@@ -215,6 +215,7 @@ function PanelList(props) {
 //消息模块
 function InfoPage(props){
     const [ login, setLogin ] = useState(false);
+    const [ scrollChecked, setScrollChecked ] = useState(true);
     const stompClient = ( username = "" ) => {
         if( !isValidVariable(username) ){
             return;
@@ -241,7 +242,12 @@ function InfoPage(props){
                 const msgObj = JSON.parse(body);
                 const { message } = msgObj;
                 props.newsList.addNews(message);
-                openMessageDlg()
+                //收到消息后，如果滚屏，自动置顶
+                if( scrollChecked ){
+                    const listDom = document.getElementsByClassName("todo-list");
+                    listDom[0].scrollTop = 0;
+                }
+                openMessageDlg();
             })
         }
 
@@ -251,58 +257,7 @@ function InfoPage(props){
         }
         // 连接消息服务器
         stompClient.connect('guest', 'guest', on_connect, on_error, '/');
-
     }
-    useEffect(function(){
-        // setTimeout(function(){
-        //     const msgObj = {
-        //         "message":[
-        //             {
-        //                 "id":2460915,
-        //                 "sendTime":"20210104095703",
-        //                 "name":"外区流控信息-新增",
-        //                 "content":"新增-外区流控信息（前台推送自测）",
-        //                 "data":"{\"id\":2460915,\"sourceId\":\"125478\",\"source\":\"ATOM\",\"sourceType\":\"MIT\"}",
-        //                 "dataCode":"AFAO",
-        //                 "dataType":"FTMI",
-        //                 "level":"NOTICE",
-        //                 "source":"ATOM"
-        //             },
-        //             {
-        //                 "id":2460917,
-        //                 "timestamp":"Dec 29, 2020 12:58:06 PM",
-        //                 "generateTime":"20201229125806",
-        //                 "sendTime":"20201229125806",
-        //                 "name":"更新-外区流控信息",
-        //                 "content":"更新-外区流控信息（前台推送自测）",
-        //                 "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT"}',
-        //                 "dataCode":"UFAO",
-        //                 "dataType":"FTMI",
-        //                 "level":"NOTICE",
-        //                 "source":"ATOM"
-        //             },
-        //             {
-        //                 "id":2460922,
-        //                 "timestamp":"Dec 29, 2020 12:58:06 PM",
-        //                 "generateTime":"20201229125806",
-        //                 "sendTime":"20201229125806",
-        //                 "name":"终止-外区流控信息",
-        //                 "content":"终止-外区流控信息（前台推送自测）",
-        //                 "data":'{ "id":2460917, "sourceId":"557877", "source":"ATOM", "sourceType":"MIT" }',
-        //                 "dataCode":"TFAO",
-        //                 "dataType":"FTMI",
-        //                 "level":"NOTICE",
-        //                 "source":"ATOM"
-        //             }
-        //         ]
-        //     };
-        //     const { message } = msgObj;
-        //     props.newsList.addNews(message);
-        // },2000 );
-        const user = localStorage.getItem("user");
-        props.systemPage.setUserData( JSON.parse(user) );
-    }, []);
-
     const emptyNews = () =>{
         props.newsList.emptyNews();
     };
@@ -322,7 +277,10 @@ function InfoPage(props){
 
     const { newsList, systemPage } = props;
     const { user } = systemPage;
-
+    useEffect(function(){
+        const user = localStorage.getItem("user");
+        props.systemPage.setUserData( JSON.parse(user) );
+    }, []);
     useEffect(function(){
         const id = user.id;
         if( isValidVariable(id) ){
@@ -354,11 +312,16 @@ function InfoPage(props){
                         <div className="title">消息推送(共{ len }条，最多100条)</div>
                         <Tooltip title="清除">
                             <div className="radish">
-                                <DeleteOutlined onClick={ emptyNews } />
+                                {/*<DeleteOutlined onClick={ emptyNews } />*/}
+                                <DeleteOutlined onClick={ add } />
                             </div>
                         </Tooltip>
-                        {/** <div className="scroll"><Checkbox checked>滚屏</Checkbox></div>
-                         <div className="to_top"><Checkbox checked>告警置顶</Checkbox></div>*/}
+                        <div className="scroll">
+                            <Checkbox checked={ scrollChecked } onChange={ e => {
+                                setScrollChecked(e.target.checked);
+                            }}>滚屏</Checkbox>
+                        </div>
+                        {/** <div className="to_top"><Checkbox checked>告警置顶</Checkbox></div>*/}
                         <Tooltip title="关闭">
                             <div className="close" onClick={()=>{ closeMessageDlg("")}}><CloseOutlined /> </div>
                         </Tooltip>

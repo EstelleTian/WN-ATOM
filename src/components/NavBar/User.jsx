@@ -3,6 +3,7 @@ import {  Dropdown, Menu, } from "antd";
 import { PoweroffOutlined, SettingOutlined} from "@ant-design/icons";
 import {observer, inject} from "mobx-react";
 import {withRouter} from "react-router-dom";
+import {isValidVariable} from "../../utils/basic-verify";
 
 const menu = (
     <Menu >
@@ -74,11 +75,18 @@ function User(props){
     }, []);
     //放行监控页面
     if( pathname === "/fangxing" ){
-        return (
-            <Dropdown overlay={menu} placement="bottomCenter" arrow>
+        if( isValidVariable(user.id) ){
+            return (
+                <Dropdown overlay={menu} placement="bottomCenter" arrow>
+                    <span  className="user-name">{ descriptionCN }</span>
+                </Dropdown>
+            )
+        }else{
+            return (
                 <span  className="user-name">{ descriptionCN }</span>
-            </Dropdown>
-        )
+            )
+        }
+
     }else{
         return (
             <span className="user_name">{ descriptionCN }</span>

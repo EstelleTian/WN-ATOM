@@ -31,24 +31,16 @@ let FLIGHTIDPopover = (props) => {
             title: content,
             color: "rgba(151,59,52,0.9)"
         });
-        if( exemptLoad ){
-            setExemptLoad(false);
-        }
-        if( poolLoad ){
-            setPoolLoad(false);
-        }
+        setExemptLoad(false);
+        setPoolLoad(false);
 
     });
     //数据提交成功回调
     const requestSuccess = useCallback( ( data, title ) => {
         console.log(title + '成功:',data);
         console.log( props.flightTableData.updateSingleFlight );
-        if( exemptLoad ){
-            setExemptLoad(false);
-        }
-        if( poolLoad ){
-            setPoolLoad(false);
-        }
+        setExemptLoad(false);
+        setPoolLoad(false);
 
         const { flightCoordination } = data;
         //更新单条航班数据

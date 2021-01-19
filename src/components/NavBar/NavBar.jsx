@@ -28,7 +28,7 @@ function NavBar(props){
         console.log( "当前url是：",props.location.pathname );
         //放行监控页面
         if( pathname === "/fangxing" ){
-            return <div className="layout-row space-between">
+            return <div className="layout-row space-between multi_nav">
                 <div className="layout-nav-left layout-row">
                     <div className="seat ">
                         <Radio.Group defaultValue="a" buttonStyle="solid" size="large" >
@@ -54,14 +54,20 @@ function NavBar(props){
                 <RightNav/>
             </div>
         }else {
-            return <div className="layout-row space-between">
+            return <div className="layout-row space-between simple_nav">
                         <div className="layout-nav-left layout-row">
                             <span>{title}</span>
                         </div>
                         <div className="layout-nav-right layout-row">
-                            <NavBellNews />
-                            <Avatar className="user_icon" icon={<UserOutlined />} />
-                            <User />
+                            <div className="single_bell">
+                                <NavBellNews />
+                            </div>
+                            <div className="single_user">
+                                <Avatar className="user_icon" icon={<UserOutlined />} />
+                                <User />
+                            </div>
+
+
                         </div>
             </div>
         }

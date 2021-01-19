@@ -2,9 +2,11 @@
     height: auto !important;
     line-height: inherit;
     background: rgba(64, 64, 64, 0.7);
-    padding: 8px 0 !important;
-    margin: 9px 11px;
-
+     padding: 0;
+    .multi_nav{
+        padding: 8px 0 !important;
+        margin: 9px 11px;
+    }
     >span{
         font-size: 1.57rem;
         position: relative;
@@ -97,4 +99,19 @@
 }
 .space-between {
     justify-content: space-between;
+}
+.simple_nav{
+    padding: 0.5rem 1rem;
+    border: 1px solid #5d5d5d;
+    .single_bell{
+        margin-right: 1.5rem;
+    }
+    .single_user{
+        .user_icon{
+            position: relative;
+            top: -2px;
+            right: 3px;
+        }
+
+    }
 }

@@ -214,7 +214,6 @@ const FlightCoordination = {
         let color="";
         let descriptions="";
         let s = parseInt(alarm, 10);
-        console.log(alarm);
         switch (s) {
             case FlightCoordination.ALARM_TYPE_DELAY:
                 zh = '延';

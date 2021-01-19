@@ -87,16 +87,12 @@ function WorkFlowList(props){
             content,
             duration: 4,
         });
-        if( loading ){
-            setLoading(false);
-        }
-        if( refreshBtnLoading ){
-            setRefreshBtnLoading(false);
-        }
-
     });
     //获取 办结工作请求
     const requestDatas = () => {
+        if( !isValidVariable(user.id) ){
+            return;
+        }
         setLoading(true);
         let url = "";
         let params = {};
@@ -115,15 +111,13 @@ function WorkFlowList(props){
             resFunc: (data)=> {
                 //更新工作流数据
                 handleTasksData(data);
-                if( loading ){
-                    setLoading(false);
-                }
-                if( refreshBtnLoading ){
-                    setRefreshBtnLoading(false);
-                }
+                setLoading(false);
+                setRefreshBtnLoading(false);
             },
             errFunc: (err)=> {
                 requestErr(err, '办结工作数据获取失败' );
+                setLoading(false);
+                setRefreshBtnLoading(false);
 
             },
         };
@@ -137,6 +131,7 @@ function WorkFlowList(props){
     }
 
     useEffect(function () {
+        console.log(activeTab, user.id);
         if( "todo" === activeTab ){
             // setExpandable(false);
             // setColumns([
@@ -371,28 +366,7 @@ function WorkFlowList(props){
                         return (
                             <span className='opt_btns'>
                     <a onClick={ e =>{
-                        // showWorkFlowDetail(true, "");
-                        let windowClass = 'win_' + Math.floor( Math.random()*100000000 );
-                        let window = new WindowDHX({
-                            width: 1000,
-                            height: 665,
-                            title: "工作流详情",
-                            html: `<div class="`+windowClass+`"></div>`,
-                            css: "bg-black",
-                            closable: true,
-                            movable: true,
-                            resizable: true
-                        })
-
-                        setTimeout(function(){
-                            window.show();
-                            const winDom = document.getElementsByclassName(windowClass)[0];
-                            ReactDom.render(
-                                <WorkFlowContent modalId={""} />,
-                                winDom);
-                        }, 500)
-
-
+                        showDetailWind( record );
                         e.stopPropagation();
                     } }>详情</a>
                     {/*<a>收回</a>*/}
@@ -569,6 +543,34 @@ function WorkFlowList(props){
         //     })
         // }
     },[activeTab, user.id]);
+    //展示详情窗口
+    const showDetailWind = useCallback(( record ) => {
+        console.log(record);
+         const sid = record.sid || "";
+        // showWorkFlowDetail(true, "");
+        let windowClass = 'win_' + sid;
+        if( !isValidVariable(sid) ){
+            windowClass = 'win_' + Math.floor( Math.random()*100000000 );
+        }
+        let window = new WindowDHX({
+            width: 1000,
+            height: 665,
+            title: "工作流详情",
+            html: `<div class="`+windowClass+`"></div>`,
+            css: "bg-black",
+            closable: true,
+            movable: true,
+            resizable: true
+        });
+        window.show();
+        setTimeout(function(){
+
+            const winDom = document.getElementsByClassName(windowClass)[0];
+            ReactDom.render(
+                <WorkFlowContent modalId={ sid } />,
+                winDom);
+        }, 500)
+    });
     //根据输入框输入值，检索显示航班
     const filterInput = useCallback((data) => {
         if( searchVal === "" ){
@@ -585,8 +587,8 @@ function WorkFlowList(props){
                 }
             }
             return false
-        } )
-        return newArr
+        } );
+        return newArr;
     });
     //转换为表格数据
     let cdata = convertData( workFlowData.tasks );

@@ -386,8 +386,12 @@ const FmeToday = {
 	 * @return true / false
 	 */
 	hadTele : function(fme, tele) {
-		if (isValidVariable(fme.teletype) && fme.teletype.indexOf(tele) >= 0) {
-			return true;
+		if ( isValidVariable(fme) ) {
+			if ( fme.hasOwnProperty("teletype") ) {
+				if( isValidVariable(fme.teletype) && ( fme.teletype.indexOf(tele) >= 0 ) ){
+					return true;
+				}
+			}
 		}
 		return false;
 	},
@@ -411,6 +415,7 @@ const FmeToday = {
 			return true;
 		}
 		if (this.hadTele(fme, "FPL") || this.hadTele(fme, "CHG")
+
 				|| this.hadTele(fme, "DLA")) {
 			return true;
 		}

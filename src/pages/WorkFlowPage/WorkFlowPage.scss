@@ -9,7 +9,7 @@
 //工作流--导航样式
 .work_menu{
   background: rgba(64, 64, 64, 0.8);
-  margin: 0.5rem 1rem;
+  margin: 0.5rem 1rem 0.2rem;
   border: 1px solid #5d5d5d;
   line-height: 3rem;
 
@@ -23,6 +23,7 @@
   background: rgba(64, 64, 64, 0.8);
   margin: 0.5rem 1rem;
   border: 1px solid #5d5d5d;
+  position: relative;
   .ant-pagination{
       position: relative;
       //top: -42px;
@@ -33,6 +34,12 @@
   margin: 0.5rem auto;
   text-align: center;
 
+}
+.data_time{
+  display: inline-block;
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.5rem;
 }
 .opt_btns{
   a{
@@ -50,4 +57,7 @@
   button{
     margin: 0 5px 0 5px ;
   }
+}
+.nav_header{
+  margin: 0.5rem 1rem;
 }

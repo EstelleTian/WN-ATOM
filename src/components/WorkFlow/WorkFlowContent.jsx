@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import {Modal, message, Button, Table} from "antd";
+import React, {useState, useEffect, useCallback, Suspense} from 'react'
+import {Modal, message, Button, Table, Spin} from "antd";
 import { requestGet,  } from 'utils/request'
 import {getFullTime, getDayTimeFromString, isValidVariable, isValidObject} from 'utils/basic-verify'
 
@@ -110,16 +110,29 @@ const data = [
 
 
 const WorkFlowContent = (props) => {
-    const [ loading, setLoading ] = useState(false);
+    const [ loading, setLoading ] = useState(true);
     let [ flowData, setFlowData ] = useState({});
     const { modalId } = props;
     // console.log(11111, visible, modalId );
 
     //更新方案列表数据
     const updateDetailData = useCallback( data => {
+        const generateTime = data.generateTime || "";
+        const hisInstance = data.hisInstance || {};
+        if( !isValidObject(hisInstance) ){
+            //取error
+            const error = data.error || {};
+            const msg = error.message || "";
+            message.error({
+                msg,
+                duration: 4,
+            });
+        }else{
+            setFlowData(data);
+        }
         //TODO 更新表单数据
         // console.log( data );
-        setFlowData(data);
+        // setFlowData(data);
     })
     //请求错误处理
     const requestErr = useCallback((err, content) => {
@@ -129,27 +142,30 @@ const WorkFlowContent = (props) => {
         });
     })
     //根据modalId获取方案详情
-    const requestSchemeDetail = useCallback(() => {
+    const requestSchemeDetail = useCallback(( modalId ) => {
         const opt = {
-            url: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/implementTactics/' + modalId,
+            url: 'http://192.168.243.187:28086/workflow/procTaskHis/SchemeApprovalProcess/' + modalId,
+            // url: 'http://192.168.243.187:28086/workflow/procTaskHis/SchemeApprovalProcess/22222-TOBT',
             method: 'GET',
             params:{},
             resFunc: (data)=> {
-                updateDetailData(data)
-                // setManualRefresh(false);
+                console.log( data );
+                updateDetailData(data);
+                setLoading(false);
             },
             errFunc: (err)=> {
                 requestErr(err, '方案详情数据获取失败' );
-                // setManualRefresh(false);
+                setLoading(false);
             }
         };
         requestGet(opt);
     });
     useEffect(function(){
-        // if( visible ){
+        console.log("modalId:"+modalId);
+        if( isValidVariable( modalId ) ){
             //根据modalId获取方案详情
-            // requestSchemeDetail( modalId );
-        // }
+            requestSchemeDetail( modalId );
+        }
         // console.log("useEffect", modalId);
     },[  modalId ])
 
@@ -165,28 +181,30 @@ const WorkFlowContent = (props) => {
     const {tacticName="", } = basicTacticInfo;
 
     return (
-        <div>
-            <div className="header_canvas">工作流ID:{modalId}</div>
-            <div className="cont_canvas">
-                <Table
-                    columns={columns}
-                    dataSource={ data }
-                    size="small"
-                    bordered
-                    // pagination={false}
-                    loading={ loading }
-                    // onChange={onChange}
-                    // rowClassName={(record, index)=>setRowClassName(record, index)}
-                />
-            </div>
+        <Spin spinning={loading} >
             <div>
-                <Button type="primary"
+                <div className="header_canvas">工作流ID:{modalId}</div>
+                <div className="cont_canvas">
+                    <Table
+                        columns={columns}
+                        dataSource={ [] }
+                        size="small"
+                        bordered
+                        // pagination={false}
+                        loading={ loading }
+                        // onChange={onChange}
+                        // rowClassName={(record, index)=>setRowClassName(record, index)}
+                    />
+                </div>
+                <div>
+                    <Button type="primary"
                         // onClick={ closeModal }
-                >
-                    确认</Button>
-                <Button onClick={ ()=>{ alert("建设中,敬请期待!")} } style={{ float: 'left'}}>窗口模式</Button>
+                    >
+                        确认</Button>
+                    <Button onClick={ ()=>{ alert("建设中,敬请期待!")} } style={{ float: 'left'}}>窗口模式</Button>
+                </div>
             </div>
-        </div>
+        </Spin>
     )
 }
 

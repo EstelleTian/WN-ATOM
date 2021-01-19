@@ -1,12 +1,11 @@
 
-import React, { useEffect, useCallback, useState } from 'react'
+import React from 'react'
 import {  observer } from 'mobx-react'
-import {Modal, message, Button, Table} from "antd";
-import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
-import { Window as WindowDHX } from "dhx-suite";
 import ReactDom from "react-dom";
-import WorkFlowContent from "../WorkFlow/WorkFlowContent";
-
+import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
+import { Window as WindowDHX } from "dhx-suite";
+import { openBaseSchemeFrame } from "utils/client"
+import WorkFlowContent from "components/WorkFlow/WorkFlowContent";
 
 //方案状态转化
 const convertSatus = (status) => {
@@ -85,9 +84,9 @@ function SchemeItem(props){
             movable: true,
             resizable: true
         })
-
+        window.show();
         setTimeout(function(){
-            window.show();
+
             const winDom = document.getElementsByClassName(windowClass)[0];
             ReactDom.render(
                 <WorkFlowContent modalId={id} />,
@@ -175,7 +174,7 @@ function SchemeItem(props){
                                 e.stopPropagation();
                             } }>调整</div>
                             <div className="opt" onClick={ e =>{
-                                showDetail(id);
+                                openBaseSchemeFrame(id);
                                 e.stopPropagation();
                             } }>决策依据</div>
                             <div className="opt" onClick={ e =>{

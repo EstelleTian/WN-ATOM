@@ -80,4 +80,16 @@ const closeCreateDlg =() => {
         console.error(error);
     }
 };
-export { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo, closeCreateDlg}
+//决策依据
+const openBaseSchemeFrame =(id) => {
+    try {
+        alert("决策依据id:"+id);
+        jsEntity.openBaseSchemeFrame(id);
+    }catch(error){
+        console.error(error);
+    }
+};
+export {
+    sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
+    closeCreateDlg, openBaseSchemeFrame
+}

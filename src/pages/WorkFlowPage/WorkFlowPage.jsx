@@ -10,6 +10,7 @@ import React  from 'react'
 import {observer, inject} from "mobx-react";
 import { Layout, Menu} from 'antd'
 import { ClockCircleOutlined, CheckOutlined } from '@ant-design/icons';
+import NavBar  from 'components/NavBar/NavBar.jsx';
 // import Stomp from 'stompjs'
 import WorkFlowList from 'components/WorkFlow/WorkFlowList'
 import './WorkFlowPage.scss'
@@ -48,6 +49,7 @@ let WorkFlowNav = inject("workFlowData")(observer((props) => {
 function WorkFlowPage(){
     return (
         <Layout className="work_layout">
+            <NavBar className="nav_bar" title="空中交通运行放行监控系统" username="" />
             <WorkFlowNav />
             <WorkFlowList />
         </Layout>
