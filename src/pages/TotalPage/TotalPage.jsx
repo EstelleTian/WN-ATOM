@@ -57,7 +57,7 @@ function TodoPage (props){
                     <div className="capacity-flow-monitor-module">
                         <CapacityFlowMonitor/>
                     </div>
-                    <AddMonitorCard/>
+                    {/*<AddMonitorCard/>*/}
                 </div>
             </div>
         </Layout>

@@ -14,6 +14,7 @@ import { CloseCircleOutlined } from '@ant-design/icons';
 import { getFullTime,  getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
 import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import SectorMonitor from 'components/MiniMonitor/SectorMonitor'
+import AddMonitorCard from 'components/MiniMonitor/AddMonitorCard'
 import ModalBox from 'components/ModalBox/ModalBox'
 import 'components/ModalBox/ModalBox.scss'
 import "./CapacityFlowMonitor.scss"
@@ -42,7 +43,55 @@ const CapacityFlowMonitor =(props) => {
 
 
 
-    const AirportMonitorData = getAirportMonitorData(flow);
+    let airportMonitorData = getAirportMonitorData(flow);
+
+    const appendAddMonitorCard = (arrData) => {
+        let addData = {
+            id: 'ADD',
+            title: '新增',
+        }
+
+        arrData.push(addData);
+        return arrData;
+    };
+
+    airportMonitorData = appendAddMonitorCard(airportMonitorData);
+
+
+
+
+    const  listItemData = (item)=> {
+        if(item.id ==='ADD'){
+            return (
+                <List.Item key={item.key}>
+                    <ModalBox showDecorator = {true} title={item.title} className="monitor-box add-monitor-box">
+                        <div className="monitor-content">
+                            <AddMonitorCard data={ item.data }  />
+                        </div>
+                    </ModalBox>
+                </List.Item>
+            )
+        }else {
+            return (
+                <List.Item key={item.key}>
+                    <ModalBox showDecorator = {true} title={item.title} className="monitor-box">
+                        <div className="actions">
+                            <div onClick={()=>{console.log("sss")}} className="remove">
+                                <CloseCircleOutlined />
+                            </div>
+                        </div>
+                        <div className="monitor-content">
+                            <AirportMonitor data={ item.data }  />
+
+                        </div>
+
+                    </ModalBox>
+                </List.Item>
+            )
+        }
+    }
+
+
     const SectorMonitorData = [
         {
             title: '西安01扇区',
@@ -138,22 +187,9 @@ const CapacityFlowMonitor =(props) => {
         <div className="capacity_flow_monitor_container">
             <List
                 grid={{ gutter: 16, column: 5 }}
-                dataSource={AirportMonitorData}
+                dataSource={airportMonitorData}
                 renderItem={item => (
-                    <List.Item key={item.key}>
-                        <ModalBox showDecorator = {true} title={item.title} className="monitor-box">
-                            <div className="actions">
-                                <div onClick={()=>{console.log("sss")}} className="remove">
-                                    <CloseCircleOutlined />
-                                </div>
-                            </div>
-                            <div className="monitor-content">
-                                <AirportMonitor data={ item.data }  />
-
-                            </div>
-
-                        </ModalBox>
-                    </List.Item>
+                    listItemData(item)
                 )}
             />
             {/*<List*/}

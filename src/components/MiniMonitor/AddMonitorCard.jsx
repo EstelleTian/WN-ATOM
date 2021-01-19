@@ -8,13 +8,36 @@
  */
 import React from 'react'
 import ModalBox from '../ModalBox/ModalBox'
+import { PlusCircleOutlined } from '@ant-design/icons';
+
 import './AddMonitorCard.scss'
 function AddMonitorCard(props){
    
     return (
-        <ModalBox title="新增" style={{width: '180px', height: '140px', margin: '10px 5px 0 5px'}}  className="add_monitor">
-            <span className="add">+自定义监控</span>
-        </ModalBox>
+        <div className="monitor layout-column">
+            <div className="chart-container">
+                <div className="action">
+                    <PlusCircleOutlined className="add-icon" />
+                    <div className="text">
+                        新增自定义监控
+                    </div>
+                </div>
+
+
+            </div>
+            <div className="options">
+                <div className="normal-rate">
+                    <div className="rate-progress">
+
+                    </div>
+                    <div className="rate-text">
+                        {` `}
+                    </div>
+                </div>
+                <div className="weather">{``}</div>
+            </div>
+        </div>
+
     )
 }
 
