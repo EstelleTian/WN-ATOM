@@ -1,14 +1,15 @@
 
 import React, { Suspense, useState } from  'react'
-import {Form, Input, Button, Checkbox, Spin, Row, Col,   message as antdMessage} from "antd";
+import {Spin, Row, Col, message as antdMessage} from "antd";
 import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail'
 import NTFMDetail  from 'components/RestrictionDetail/NTFMDetail'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
 import FlowRelation  from 'components/RestrictionForm/FlowRelation'
 import { request } from 'utils/request'
-
+import { ReqUrls } from 'utils/request-urls'
+import { NWGlobal } from "utils/global";
 import './RestrictionPage.scss'
-import {NWGlobal} from "../../utils/global";
+
 
 //限制详情
 function RestrictionPage( props ) {
@@ -50,15 +51,14 @@ function RestrictionPage( props ) {
         });
     }
     const requestATOMData = (id) => {
-        // id = "2460915";
+        let user = localStorage.getItem("user");
+        user = JSON.parse(user);
+
         const opt = {
-            url:'http://192.168.194.21:58189/hydrogen-scheme-flow-server/restrictions/' + id,
+            url: ReqUrls.ATOMDataUrl + id,
             method:'GET',
             params:{
-                // status: "RUNNING",
-                // startTime: "",
-                // endTIme: "",
-                userId: "443"
+                userId: user.id
             },
             resFunc: (data)=> updateData(data),
             errFunc: (err)=> requestErr(err, '流控数据获取失败' ),

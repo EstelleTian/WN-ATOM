@@ -1,21 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import {Modal, message, Button} from "antd";
-import { requestGet,  } from 'utils/request'
-import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
-import {getFullTime, getDayTimeFromString, isValidVariable, isValidObject} from '../../utils/basic-verify'
-
+import { Modal, message, Button } from "antd";
+import { requestGet } from 'utils/request'
+import { isValidObject } from 'utils/basic-verify'
+import { ReqUrls } from 'utils/request-urls'
 import SchemeDetail  from 'components/SchemeList/SchemeDetail'
 
 const SchemeModal = (props) => {
-    const [ loading, setLoading ] = useState(false);
     let [ flowData, setFlowData ] = useState({})
     const { visible, modalId, setVisible } = props;
-    // console.log(11111, visible, modalId );
 
     //更新方案列表数据
     const updateDetailData = useCallback( data => {
         //TODO 更新表单数据
-        // console.log( data );
         setFlowData(data);
     })
     //请求错误处理
@@ -28,7 +24,7 @@ const SchemeModal = (props) => {
     //根据modalId获取方案详情
     const requestSchemeDetail = useCallback(() => {
         const opt = {
-            url: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/implementTactics/' + modalId,
+            url: ReqUrls.schemeDetailByIdUrl + modalId,
             method: 'GET',
             params:{},
             resFunc: (data)=> {

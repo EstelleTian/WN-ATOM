@@ -6,14 +6,14 @@
  * @Description: In U.3ser Settings Edit
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
-import React, { useEffect, useCallback,useState } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { inject, observer } from 'mobx-react'
-import { requestGet, request } from 'utils/request'
-import {  message, Checkbox , Empty, Spin, List, } from 'antd'
+import { request } from 'utils/request'
+import {  message, Spin, List, } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons';
-import { getFullTime,  getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
+import { getFullTime, isValidObject } from 'utils/basic-verify'
 import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
-import SectorMonitor from 'components/MiniMonitor/SectorMonitor'
+import { ReqUrls } from 'utils/request-urls'
 import AddMonitorCard from 'components/MiniMonitor/AddMonitorCard'
 import ModalBox from 'components/ModalBox/ModalBox'
 import 'components/ModalBox/ModalBox.scss'
@@ -163,7 +163,7 @@ const CapacityFlowMonitor =(props) => {
         const start = nowDate+'000000';
         const end = nowDate+'235900';
         const opt = {
-            url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flow?targets=ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLLLAR01&starttime='+ start+'&endtime='+end,
+            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLLLAR01&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> {

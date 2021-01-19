@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import {Modal, message, Button, Table} from "antd";
-import { requestGet,  } from 'utils/request'
-import {getFullTime, getDayTimeFromString, isValidVariable, isValidObject} from 'utils/basic-verify'
+import { requestGet } from 'utils/request'
+import { ReqUrls } from 'utils/request-urls'
+import { isValidObject} from 'utils/basic-verify'
 
 
 //获取屏幕宽度，适配 2k
@@ -133,7 +134,7 @@ const WorkFlowModal = (props) => {
     //根据modalId获取方案详情
     const requestSchemeDetail = useCallback(() => {
         const opt = {
-            url: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/implementTactics/' + modalId,
+            url: ReqUrls.schemeDetailByIdUrl + modalId,
             method: 'GET',
             params:{},
             resFunc: (data)=> {

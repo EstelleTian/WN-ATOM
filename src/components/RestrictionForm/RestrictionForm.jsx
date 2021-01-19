@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import  moment  from 'moment'
 import "moment/locale/zh-cn"
-import {Button, Modal,   Form,  message as antdMessage} from 'antd'
+import {Button, Modal, Form} from 'antd'
 import StaticInfoCard from './StaticInfoCard'
-import FlowList from './FlowList'
 import { handleImportControl, closeCreateDlg } from 'utils/client'
-import { getFullTime, formatTimeString, getDateFromString, isValidObject, isValidVariable } from '../../utils/basic-verify'
+import { getFullTime, formatTimeString, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { request } from 'utils/request'
-
-
+import { ReqUrls } from 'utils/request-urls'
 import './RestrictionForm.scss'
 
 //表单整体
@@ -440,7 +438,7 @@ function RestrictionForm(props){
      * */
     const submitFormData = (data) => {
         const opt = {
-            url:'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/'+user.id,
+            url: ReqUrls.createFlowUrl + user.id,
             method:'POST',
             params:JSON.stringify(data),
             resFunc: (data)=> requestSuccess(data),

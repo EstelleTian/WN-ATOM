@@ -7,16 +7,14 @@
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
 import React from 'react'
-import { Layout, Spin } from 'antd'
+import { Layout } from 'antd'
 import { withRouter } from 'react-router-dom';
 import ModalBox from 'components/ModalBox/ModalBox'
 import NavBar  from 'components/NavBar/NavBar.jsx'
-import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
-import SectorMonitor from 'components/MiniMonitor/SectorMonitor'
-import AddMonitorCard from 'components/MiniMonitor/AddMonitorCard'
+import { ReqUrls } from 'utils/request-urls'
 import FlightPerformance from 'components/FlightPerformance/FlightPerformance'
 import CapacityFlowMonitor from 'components/CapacityFlowMonitor/CapacityFlowMonitor'
-// import DHXWindow from 'components/SimpleMap/DHXWindow'
+
 
 import './TotalPage.scss'
 //总体监控布局模块
@@ -36,8 +34,8 @@ function TodoPage (props){
                                     height="100%"
                                     frameBorder={0}
                                     scrolling="no"
-                                    src="http://192.168.210.84:8080/#/map"
-                                ></iframe>
+                                    src={ ReqUrls.mapUrl }
+                                />
                             </div>
 
 
