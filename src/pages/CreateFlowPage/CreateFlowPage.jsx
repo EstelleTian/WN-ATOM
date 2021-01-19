@@ -2,6 +2,8 @@
 import React, {useState, useEffect} from "react";
 import {inject, observer} from "mobx-react";
 import './CreateFlowPage.jsx'
+import { withRouter } from 'react-router-dom'
+import { formatTimeString, isValidVariable } from 'utils/basic-verify'
 import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
 import './CreateFlowPage.scss'
 
@@ -11,7 +13,13 @@ function CreateFlowPage(props){
     const { user = {} } = systemPage;
     useEffect(function(){
         const user = localStorage.getItem("user");
-        props.systemPage.setUserData( JSON.parse(user) );
+        if( isValidVariable(user) ){
+            props.systemPage.setUserData( JSON.parse(user) );
+        }
+        else{
+            props.history.push('/')
+        }
+
     }, []);
     return (
         <div className="create-flow-container">
@@ -24,4 +32,4 @@ function CreateFlowPage(props){
     )
 }
 
-export default inject("systemPage")( observer(CreateFlowPage));
+export default inject("systemPage")( observer( withRouter(CreateFlowPage) ));

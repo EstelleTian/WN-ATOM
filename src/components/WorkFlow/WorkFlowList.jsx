@@ -8,6 +8,7 @@
  */
 import React, {useEffect, useState, useCallback} from 'react'
 import ReactDom from 'react-dom';
+import { withRouter } from 'react-router-dom'
 import { Button, Input, Table, message} from 'antd'
 import { Window as WindowDHX } from "dhx-suite";
 import { getFullTime, formatTimeString } from 'utils/basic-verify'
@@ -78,7 +79,13 @@ function WorkFlowList(props){
     //用户信息获取
     useEffect(function(){
         const user = localStorage.getItem("user");
-        props.systemPage.setUserData( JSON.parse(user) );
+        if( isValidVariable(user) ){
+            props.systemPage.setUserData( JSON.parse(user) );
+        }
+        else{
+            props.history.push('/')
+        }
+
     }, []);
 
     //请求错误处理
@@ -632,5 +639,5 @@ function WorkFlowList(props){
     )
 }
 
-export default inject("workFlowData", "systemPage")(observer(WorkFlowList));
+export default inject("workFlowData", "systemPage")(observer( withRouter(WorkFlowList) ));
 

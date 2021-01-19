@@ -279,7 +279,10 @@ function InfoPage(props){
     const { user } = systemPage;
     useEffect(function(){
         const user = localStorage.getItem("user");
-        props.systemPage.setUserData( JSON.parse(user) );
+        if( isValidVariable(user) ){
+            props.systemPage.setUserData( JSON.parse(user) );
+        }
+
     }, []);
     useEffect(function(){
         const id = user.id;
