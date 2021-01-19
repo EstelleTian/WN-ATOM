@@ -144,8 +144,7 @@ const WorkFlowContent = (props) => {
     //根据modalId获取工作流详情
     const requestSchemeDetail = useCallback(( modalId ) => {
         const opt = {
-            url: 'http://192.168.243.187:28086/workflow/procTaskHis/SchemeApprovalProcess/' + modalId,
-            // url: 'http://192.168.243.187:28086/workflow/procTaskHis/SchemeApprovalProcess/22222-TOBT',
+            url: 'http://192.168.243.187:28086/workflow/procTaskHis/' + modalId,
             method: 'GET',
             params:{},
             resFunc: (data)=> {
