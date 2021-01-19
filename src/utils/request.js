@@ -2,6 +2,8 @@
  * Created by adcc on 2020/12/18.
  */
 import axios from 'axios';
+import {  isValidVariable, isValidObject } from 'utils/basic-verify'
+
 /*axios  get 请求
  * @param url 请求url
  * @param params 请求参数对象 Object
@@ -12,8 +14,18 @@ const requestGet = ( parameters  ) => {
     axios.get( url, {
         params
     }).then( response => {
+
         const data = response.data;
-        resFunc( data );
+        if(isValidObject(data) && isValidVariable(data.status) && data.status === 200){
+            resFunc( data );
+        } else if( typeof errFunc == 'function' ){
+            if(isValidObject(data) && isValidObject(data.error) && isValidVariable(data.error.message)){
+                errFunc( data.error.message );
+            } else {
+                errFunc();
+            }
+        }
+
     }).catch( err => {
         if( typeof errFunc == 'function'){
             errFunc( err );
@@ -41,7 +53,15 @@ const request = ( parameters ) => {
         }
     }).then( response => {
         const data = response.data;
-        resFunc( data );
+        if(isValidObject(data) && isValidVariable(data.status) && data.status === 200){
+            resFunc( data );
+        } else if( typeof errFunc == 'function' ){
+            if(isValidObject(data) && isValidObject(data.error) && isValidVariable(data.error.message)){
+                errFunc( data.error.message );
+            } else {
+                errFunc();
+            }
+        }
     }).catch( err => {
         if( typeof errFunc == 'function'){
             errFunc( err );
