@@ -439,9 +439,8 @@ function RestrictionForm(props){
      * 数据提交
      * */
     const submitFormData = (data) => {
-
         const opt = {
-            url:'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/443',
+            url:'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/'+user.id,
             method:'POST',
             params:JSON.stringify(data),
             resFunc: (data)=> requestSuccess(data),

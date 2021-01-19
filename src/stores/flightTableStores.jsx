@@ -109,9 +109,7 @@ class FlightTableData{
                 });
             }
         }
-
         this.generateTime = generateTime;
-
     }
     //单条--航班更新
     @action updateSingleFlight( fObj ){

@@ -31,14 +31,25 @@ let FLIGHTIDPopover = (props) => {
             title: content,
             color: "rgba(151,59,52,0.9)"
         });
-        setExemptLoad(false);
+        if( exemptLoad ){
+            setExemptLoad(false);
+        }
+        if( poolLoad ){
+            setPoolLoad(false);
+        }
 
     });
     //数据提交成功回调
     const requestSuccess = useCallback( ( data, title ) => {
-
         console.log(title + '成功:',data);
         console.log( props.flightTableData.updateSingleFlight );
+        if( exemptLoad ){
+            setExemptLoad(false);
+        }
+        if( poolLoad ){
+            setPoolLoad(false);
+        }
+
         const { flightCoordination } = data;
         //更新单条航班数据
         props.flightTableData.updateSingleFlight( flightCoordination );
@@ -51,7 +62,7 @@ let FLIGHTIDPopover = (props) => {
             title: title + '成功',
             color: cgreen
         });
-        setExemptLoad(false);
+
     });
 
     //标记豁免 取消标记豁免
@@ -178,12 +189,10 @@ let FLIGHTIDPopover = (props) => {
                         : ""
                 }
                 {
-                    ( !isInPoolFlight && hasAuth )
+                    ( isInPoolFlight && hasAuth )
                         ? <Button loading={poolLoad} className="c-btn c-btn-red" onClick={ () => { handlePool("direct-out-pool", record, "移出等待池") } }>移出等待池</Button>
                         : ""
                 }
-                <Button loading={poolLoad} className="c-btn c-btn-red" onClick={ () => { handlePool("direct-out-pool", record, "移出等待池") } }>移出等待池</Button>
-
             </div>
         )
     });

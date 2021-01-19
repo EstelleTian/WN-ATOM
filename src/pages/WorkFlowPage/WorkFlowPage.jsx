@@ -7,12 +7,13 @@
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
  */
 import React  from 'react'
+import {observer, inject} from "mobx-react";
 import { Layout, Menu} from 'antd'
-import { ClockCircleOutlined, CheckOutlined,  FontColorsOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, CheckOutlined } from '@ant-design/icons';
 // import Stomp from 'stompjs'
 import WorkFlowList from 'components/WorkFlow/WorkFlowList'
 import './WorkFlowPage.scss'
-import {observer, inject} from "mobx-react";
+
 //工作流导航
 let WorkFlowNav = inject("workFlowData")(observer((props) => {
     const handleClick = e => {
@@ -36,9 +37,9 @@ let WorkFlowNav = inject("workFlowData")(observer((props) => {
             {/*<Menu.Item key="weituo"  icon={<ExpandAltOutlined />}>*/}
             {/*    委托工作*/}
             {/*</Menu.Item>*/}
-            <Menu.Item key="all"  icon={<FontColorsOutlined />}>
-                全部工作
-            </Menu.Item>
+            {/*<Menu.Item key="all"  icon={<FontColorsOutlined />}>*/}
+            {/*    全部工作*/}
+            {/*</Menu.Item>*/}
         </Menu>
     )
 }));
@@ -46,7 +47,7 @@ let WorkFlowNav = inject("workFlowData")(observer((props) => {
 //工作流模块
 function WorkFlowPage(){
     return (
-        <Layout className="layout">
+        <Layout className="work_layout">
             <WorkFlowNav />
             <WorkFlowList />
         </Layout>

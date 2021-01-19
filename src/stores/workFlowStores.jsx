@@ -6,38 +6,21 @@
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
  */
-
 import { makeObservable, observable, action, computed } from 'mobx'
 import { isValidVariable } from 'utils/basic-verify'
-
-// 单条工作流对象
-class WorkFlowItem{
-    // 方案id
-    @observable id = ""
-    constructor( opt ){
-        makeObservable(this)
-        for( let key in opt ){
-            this[key] = opt[key]
-        }
-        this.active = false
-    }
-
-}
  // 工作流列表数据
 class WorkFlowData{
     constructor(){
         makeObservable(this)
     }
-    // 方案列表
-    @observable list = [];
+    // 工作流列表
+    @observable tasks = {};
     //数据时间
     @observable generateTime = "";
-    //方案id
-    @observable schemeId = "";
     //定时器
     @observable timeoutId = "";
     //导航选中
-    @observable activeTab = 'todo';
+    @observable activeTab = 'finished';
     //数据获取
     @observable loading = false;
     //更新表格loading状态
@@ -48,20 +31,12 @@ class WorkFlowData{
     @action setStatusValues( values ){
         this.statusValues = values;
     }
-    // 更新方案-全部
-    @action updateList( arr, generateTime){
-        this.list = [];
-        arr.map( item => {
-            const itemIns = new WorkFlowItem(item);
-            this.list.push( itemIns );
-
-        });
+    // 更新工作流-全部
+    @action updateTasks( tasks, generateTime){
+        this.tasks = tasks;
         this.generateTime = generateTime;
     }
-
-    @computed get newList(){
-
-    }
+    
 
 }
 

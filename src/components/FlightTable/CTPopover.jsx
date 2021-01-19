@@ -293,7 +293,7 @@ const CTPopover = (props) => {
             <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`}
                  title={`${isValidVariable(text) ? text : ""}-${sourceCN}-${ subTitle }`}
             >
-                <span className="">{getTimeAndStatus(text)}</span>
+                <span className="">{getDayTimeFromString(text)}</span>
             </div>
         </div>;
     }

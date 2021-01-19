@@ -99,18 +99,23 @@ const parseFullTime = (str) => {
  * @param date
  * @returns
  */
-const getFullTime = (date) => {
+const getFullTime = (date, type) => {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
     let hour = date.getHours();
     let mins = date.getMinutes();
+    let seconds = date.getSeconds();
     year = '' + year;
     month = month < 10 ? '0' + month : '' + month;
     day = day < 10 ? '0' + day : '' + day;
     hour = hour < 10 ? '0' + hour : '' + hour;
     mins = mins < 10 ? '0' + mins : '' + mins;
+    seconds = seconds < 10 ? '0' + seconds : '' + seconds;
     let fullTime = year + month + day + hour + mins;
+    if( type === 1 ){
+        fullTime = year + "-" + month + "-" + day + " " + hour + ":" + mins + "-" + seconds;
+    }
     return fullTime;
 };
 
