@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import { withRouter } from 'react-router-dom'
 import  moment  from 'moment'
 import "moment/locale/zh-cn"
 import {Button, Modal, Form} from 'antd'
@@ -8,11 +9,12 @@ import { getFullTime, formatTimeString, isValidObject, isValidVariable } from '.
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import './RestrictionForm.scss'
+import {inject, observer} from "mobx-react";
 
 //表单整体
 function RestrictionForm(props){
-    console.log("RestrictionForm~~ render");
-    const  { flowData = {}, showImportBtn, user={} } = props;
+    const  { flowData = {}, showImportBtn, systemPage } = props;
+    const  { user={} } = systemPage;
     let userDescriptionCN = user.descriptionCN ||　"";
 
     // 方案数据对象
@@ -620,6 +622,15 @@ function RestrictionForm(props){
         form.setFieldsValue(data);
         // setRenderNumber(renderNumber++);
     };
+    useEffect(function(){
+        const user = localStorage.getItem("user");
+        if( isValidVariable(user) ){
+            props.systemPage.setUserData( JSON.parse(user) );
+        }
+        else{
+            props.history.push('/')
+        }
+    }, []);
 
 
     return (
@@ -696,4 +707,4 @@ function RestrictionForm(props){
     )
 }
 
-export default RestrictionForm
+export default withRouter( inject("newsList", "systemPage")(observer(RestrictionForm)) );

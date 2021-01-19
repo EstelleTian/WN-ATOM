@@ -229,11 +229,11 @@ class FlightTableData{
             }
             const fmeToday = flight.fmeToday;
             // 已起飞航班不计算
-            if (isValidVariable(fmeToday.RDeptime) || isValidVariable(fmeToday.RArrtime)) {
+            if (isValidVariable(fmeToday.rdeptime) || isValidVariable(fmeToday.rarrtime)) {
                 return false;
             }
             // 飞越航班不显示
-            if(flight.clearanceType == FlightCoordination.CLEARANCE_OVERFLY) {
+            if(flight.clearanceType === FlightCoordination.CLEARANCE_OVERFLY) {
                 return false;
             }
             return true;

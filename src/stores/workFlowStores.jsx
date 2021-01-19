@@ -20,7 +20,7 @@ class WorkFlowData{
     //定时器
     @observable timeoutId = "";
     //导航选中
-    @observable activeTab = 'finished';
+    @observable activeTab = 'todo';
     //数据获取
     @observable loading = false;
     //更新表格loading状态
@@ -28,9 +28,10 @@ class WorkFlowData{
         this.loading = load;
     }
     //更新表格loading状态
-    @action setStatusValues( values ){
-        this.statusValues = values;
+    @action setActiveTab( value ){
+        this.activeTab = value;
     }
+
     // 更新工作流-全部
     @action updateTasks( tasks, generateTime){
         this.tasks = tasks;

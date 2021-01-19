@@ -7,6 +7,7 @@ const RestrictionPage = lazy(() => import('../pages/RestrictionPage/RestrictionP
 const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
 const CreateFlowPage = lazy(() => import('../pages/CreateFlowPage/CreateFlowPage'));
 const WorkFlowPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowPage'));
+const CapacityManagementPage = lazy(() => import('../pages/CapacityManagementPage/CapacityManagementPage'));
 
 export default [
     {
@@ -50,5 +51,11 @@ export default [
         component: withRouter(WorkFlowPage),
         exact: true,
         title: '工作流',
+    },
+    {
+        path: '/capacity',
+        component: withRouter(CapacityManagementPage),
+        exact: true,
+        title: '容量管理',
     },
 ];

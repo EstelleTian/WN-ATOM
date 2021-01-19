@@ -114,7 +114,7 @@ const getFullTime = (date, type) => {
     seconds = seconds < 10 ? '0' + seconds : '' + seconds;
     let fullTime = year + month + day + hour + mins;
     if( type === 1 ){
-        fullTime = year + "-" + month + "-" + day + " " + hour + ":" + mins + "-" + seconds;
+        fullTime = year + "-" + month + "-" + day + " " + hour + ":" + mins + ":" + seconds;
     }
     return fullTime;
 };
