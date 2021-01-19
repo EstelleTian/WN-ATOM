@@ -1,6 +1,6 @@
 import React, {useEffect, useState, Fragment} from 'react'
 import "moment/locale/zh-cn"
-import { Descriptions, Radio, DatePicker, Card, Form, Input, Row, Col, Select} from 'antd'
+import { Button, Radio, DatePicker, Card, Form, Input, Row, Col, Select, Tooltip } from 'antd'
 import ExemptCard from './ExemptCard'
 import LimitedCard from './LimitedCard'
 import  moment  from 'moment'
@@ -32,15 +32,61 @@ function StaticInfoCard(props){
         unit = restrictionModeUnit[restrictionMode] || "";
     }
 
+    // 起飞机场
+    let depAp= "";
+    if(isValidObject(form)){
+        depAp = form.getFieldsValue()['depAp'] || '';
+    }
+    // 降落机场
+    let arrAp= "";
+    if(isValidObject(form)){
+        arrAp = form.getFieldsValue()['arrAp'] || '';
+    }
+
+    // 豁免起飞机场
+    let exemptDepAp= "";
+    if(isValidObject(form)){
+        exemptDepAp = form.getFieldsValue()['exemptDepAp'] || '';
+    }
+    // 豁免降落机场
+    let exemptArrAp= "";
+    if(isValidObject(form)){
+        exemptArrAp = form.getFieldsValue()['exemptArrAp'] || '';
+    }
+
     // 更新限制数值单位
     let [ modeUnit, setModeUnit] = useState(unit);
+    // 起飞机场
+    let [ depApValue, setDepApValue] = useState(depAp);
+    let [ arrApValue, setArrApValue] = useState(arrAp);
+    let [ exemptDepApValue, setExemptDepApValue] = useState(exemptDepAp);
+    let [ exemptArrApValue, setExemptArrApValue] = useState(exemptArrAp);
+
     useEffect(function(){
         setModeUnit(unit);
-    },[restrictionMode])
+    },[restrictionMode,])
+
+    /**
+     * 区域机场数据
+     *
+     * */
+    const areaAirportData = {
+        'ZLLL':'ZBAL;ZBAR;ZBEN;ZBUH;ZLDH;ZLDL;ZLGL;ZLGM;ZLGY;ZLHB;ZLHX;ZLIC;ZLJC;ZLJQ;ZLLL;ZLLN;ZLTS;ZLXH;ZLXN;ZLYS;ZLZW;ZLZY',
+        'ZLXY':'ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL',
+    };
+
+    function areaBlockChange(e) {
+        let value =  e.target.value;
+        const arr = value.split('-');
+        const field = arr[0];
+        const val = arr[1];
+        let valueString = areaAirportData[val] || '';
+        updateFormAPFieldValue(field, valueString);
+    }
 
     function areaBlock(field) {
         return (
-            <Radio.Group buttonStyle="solid">
+            <Radio.Group onChange={areaBlockChange} buttonStyle="solid">
                 <Radio.Button value={`${field}-ZLLL`}>兰州</Radio.Button>
                 <Radio.Button value={`${field}-ZLXY`}>西安</Radio.Button>
                 <Radio.Button value={`${field}-ZBSD`}>山东</Radio.Button>
@@ -49,6 +95,25 @@ function StaticInfoCard(props){
         )
     }
 
+
+
+    /**
+     * 更新表单字段数值
+     * */
+    const updateFormAPFieldValue =(field, value) => {
+        if( props.hasOwnProperty("updateFormAPFieldValue") ){
+            props.updateFormAPFieldValue(field, value);
+        }
+        if(field ==='depAp'){
+            setDepApValue(value);
+        } else if(field ==='arrAp'){
+            setArrApValue(value);
+        }else if(field ==='exemptDepAp'){
+            setExemptDepApValue(value)
+        }else if(field ==='exemptArrAp'){
+            setExemptArrApValue(value)
+        }
+    };
 
     const updateStartDateString =(date) => {
         if( props.hasOwnProperty("updateStartDateString") ){
@@ -120,10 +185,9 @@ function StaticInfoCard(props){
 
     return (
     <Fragment>
-
         <Card title="方案信息"  bordered={ false } size="">
             <Row gutter={24}>
-                <Col span={24}>
+                <Col span={21}>
                     <Form.Item
                         name="tacticName"
                         label="方案名称"
@@ -131,6 +195,11 @@ function StaticInfoCard(props){
                         rules={[{ required: true }]}
                     >
                         <Input disabled={ props.disabledForm }/>
+                    </Form.Item>
+                </Col>
+                <Col span={3}>
+                    <Form.Item >
+                        <Button type="primary">自动命名</Button>
                     </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -353,16 +422,18 @@ function StaticInfoCard(props){
             </Row>
             <Row gutter={24}>
                 <Col span={8}>
+
                     <Form.Item
-                        name="a"
+                        name="depAp"
                         label="起飞机场"
                     >
-                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
+                        <Input title={depApValue} className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
+
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name="b"
+                        name="highLimit"
                         label="高度"
                     >
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
@@ -370,10 +441,10 @@ function StaticInfoCard(props){
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name="c"
+                        name="arrAp"
                         label="降落机场"
                     >
-                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
+                        <Input title={arrApValue} className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
             </Row>
@@ -381,20 +452,20 @@ function StaticInfoCard(props){
                 <Col span={8}>
                     <Form.Item
                         className="hidden-label"
-                        name="ab1"
+                        name="depAp-area"
                         label={` `}
                     >
-                        {areaBlock('flowControlDep')}
+                        {areaBlock('depAp')}
                     </Form.Item>
                 </Col>
                 <Col span={8} className=""></Col>
                 <Col span={8}>
                     <Form.Item
                         className="hidden-label"
-                        name="ab1"
+                        name="arrAp-area"
                         label={` `}
                     >
-                        {areaBlock('flowControlArr')}
+                        {areaBlock('arrAp')}
                     </Form.Item>
                 </Col>
             </Row>
@@ -402,15 +473,15 @@ function StaticInfoCard(props){
             <Row gutter={24}>
                 <Col span={8}>
                     <Form.Item
-                        name="d"
+                        name="exemptDepAp"
                         label="豁免起飞机场"
                     >
-                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
+                        <Input title={exemptDepApValue} className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name="e"
+                        name="exemptHeight"
                         label="豁免高度"
                     >
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
@@ -418,10 +489,10 @@ function StaticInfoCard(props){
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name="f"
+                        name="exemptArrAp"
                         label="豁免降落机场"
                     >
-                        <Input className="text-uppercase" disabled={ props.disabledForm }/>
+                        <Input title={exemptArrApValue} className="text-uppercase" disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
             </Row>
@@ -429,20 +500,20 @@ function StaticInfoCard(props){
                 <Col span={8}>
                     <Form.Item
                         className="hidden-label"
-                        name="ab1"
+                        name="exemptDepAp-area"
                         label={` `}
                     >
-                        {areaBlock('exemptDep')}
+                        {areaBlock('exemptDepAp')}
                     </Form.Item>
                 </Col>
                 <Col span={8} className=""></Col>
                 <Col span={8}>
                     <Form.Item
                         className="hidden-label"
-                        name="ab1"
+                        name="exemptArrAp-area"
                         label={` `}
                     >
-                        {areaBlock('exemptArr')}
+                        {areaBlock('exemptArrAp')}
                     </Form.Item>
                 </Col>
             </Row>

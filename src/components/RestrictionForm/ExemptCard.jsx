@@ -41,50 +41,50 @@ function XuCard(props){
     )
 }
 //尾流类型选项
-const exemptWakeFlowType = [
+const exemptionWakeFlowLevel = [
     { label: 'G', value: 'G' },
     { label: 'H', value: 'H' },
     { label: 'M', value: 'M' },
     { label: 'L', value: 'L' },
 ];
 //运营人
-const exemptAuType = [
+const exemptionAuType = [
     { label: '内机', value: 'DOMESTIC_AU' },
     { label: '外机', value: 'FOREIGN_AU' },
-    { label: '台湾机', value: 'O' },
-    { label: '港澳机', value: 'TW' },
+    { label: '台湾机', value: 'TAIWAN_AU' },
+    { label: '港澳机', value: 'HKANDMC_AU' },
 ]
 //航班类型选项
-const exemptMissionType = [
-    { label: '国内', value: 'D' },
-    { label: '国际', value: 'I' },
-    { label: '台湾地区', value: 'TW' },
-    { label: '港澳特区', value: 'GA' },
-    { label: '飞越', value: 'O' },
+const exemptionAirlineType = [
+    { label: '国内', value: 'DOMESTIC' },
+    { label: '国际', value: 'INTERNATIONAL'},
+    { label: '台湾地区', value: 'TAIWAN' },
+    { label: '港澳特区', value: 'HKANDMC' },
+    { label: '飞越', value: 'OVERFLY' },
 ];
 //客货类型选项
-const exemptPassengerCargoType = [
-    { label: '客班', value: 'PASSENGER' },
+const exemptionMissionType = [
+    { label: '客班', value: 'AIRLINE'},
     { label: '货班', value: 'CARGO' }
 ];
 //任务类型选项
-const exemptTaskType = [
-    { label: '正班', value: 'REGULAR' },
-    { label: '补班', value: '1' },
-    { label: '加班包机', value: '2' },
-    { label: '调机', value: '3' },
-    { label: '校验', value: '4' },
-    { label: '急救', value: '5' },
-    { label: '公务机', value: '6' },
-    { label: '其他', value: '17' },
+const exemptionTask = [
+    { label: '正班', value: 'REGULAR'},
+    { label: '补班', value: 'PATCH'},
+    { label: '加班包机', value: 'PAXCHARTER'},
+    { label: '调机', value: 'FERRY' },
+    { label: '校验', value: 'CHECK' },
+    { label: '急救', value: 'AMBULANCE'},
+    { label: '公务机', value: 'BUSINESS'},
+    { label: '其他', value: 'OTHER' },
 ];
 //军民航选项
-const exemptMilitaryCivilType = [
+const exemptionOrganization = [
     { label: '军航', value: 'MILITARY' },
     { label: '民航', value: 'CIVIL' }
 ];
 //限制资质选项
-const exemptQualification = [
+const exemptionAbility = [
     { label: 'II类', value: 'CAT2' }
 ];
 
@@ -115,63 +115,63 @@ function ExemptCard(props){
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="exemptWakeFlowType"
+                        name="exemptionWakeFlowLevel"
                         label="尾流类型"
                     >
-                        <Checkbox.Group options={exemptWakeFlowType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={exemptionWakeFlowLevel} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="exemptAuType"
+                        name="exemptionAuType"
                         label="运营人"
                     >
-                        <Checkbox.Group options={exemptAuType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={exemptionAuType} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="exemptMissionType"
+                        name="exemptionAirlineType"
                         label="航班类型"
                     >
-                        <Checkbox.Group options={exemptMissionType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={exemptionAirlineType} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="exemptPassengerCargoType"
+                        name="exemptionMissionType"
                         label="客货类型"
                     >
-                        <Checkbox.Group options={exemptPassengerCargoType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={exemptionMissionType} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="exemptTaskType"
+                        name="exemptionTask"
                         label="任务类型"
                     >
-                        <Checkbox.Group options={exemptTaskType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={exemptionTask} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="exemptMilitaryCivilType"
+                        name="exemptionOrganization"
                         label="军民航"
                     >
-                        <Checkbox.Group options={exemptMilitaryCivilType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={exemptionOrganization} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="exemptQualification"
+                        name="exemptionAbility"
                         label="限制资质"
                     >
-                        <Checkbox.Group options={exemptQualification} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={exemptionAbility} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="exemptAircraftType"
+                        name="exemptionAircraftType"
                         label="受控机型"
                     >
                         <Select
@@ -189,7 +189,7 @@ function ExemptCard(props){
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="gd"
+                        name="exemptHeight"
                         label="受控高度"
                     >
                         <Select

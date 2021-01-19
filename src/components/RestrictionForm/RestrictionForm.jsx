@@ -54,14 +54,14 @@ function RestrictionForm(props){
     // const { targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit} = getDirectionListData(directionList);
     // 流控方向领域对象
     const directionListData = directionList[0] || {};
-    const { targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit } = directionListData;
+    const { targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = directionListData;
     // 流控航班类型条件
     const flowControlFlight = isValidObject(sourceFlowcontrol.flowControlFlight) ? sourceFlowcontrol.flowControlFlight : {};
 
-    const { flowControlFlightId ="", flowControlWakeFlowType="", flowControlMissionType="", flowControlPassengerCargoType="",
-        flowControlTaskType="", flowControlMilitaryCivilType="", flowControlQualification="",flowControlAircraftType="",
-        exemptFlightId="", exemptWakeFlowType="", exemptMissionType="", exemptPassengerCargoType="",
-        exemptTaskType="", exemptMilitaryCivilType="", exemptQualification="", exemptAircraftType="",
+    const { flowControlFlightId ="", wakeFlowLevel="", airlineType="", missionType="", auType ="",
+        task="", organization="", ability="",aircraftType="",
+        exemptFlightId="", exemptionWakeFlowLevel="", exemptionAirlineType="", exemptionMissionType="", exemptionAuType,
+        exemptionTask="", exemptionOrganization="", exemptionAbility="", exemptionAircraftType="",
     } = flowControlFlight;
 
     // 依据流控限制方式取流控限制数值方法
@@ -89,9 +89,14 @@ function RestrictionForm(props){
         "exemptPreUnit",
         "exemptbehindUnit",
         "flowControlFlightId",
-        "flowControlAircraftType",
+        "aircraftType",
         "exemptFlightId",
-        "exemptAircraftType",
+        "aircraftType",
+        "exemptionAircraftType",
+        "depAp",
+        "arrAp",
+        "exemptDepAp",
+        "exemptArrAp",
     ];
 
 
@@ -126,6 +131,16 @@ function RestrictionForm(props){
         exemptbehindUnit: exemptbehindUnit,
         // 限制高度
         highLimit: highLimit,
+        // 豁免高度
+        exemptHeight: exemptHeight,
+        // 起飞机场
+        depAp: depAp,
+        // 降落机场
+        arrAp: arrAp,
+        // 豁免起飞机场
+        exemptDepAp: exemptDepAp,
+        // 豁免降落机场
+        exemptArrAp: exemptArrAp,
 
         // 方案开始日期(DatePicker组件使用)
         startDate: isValidVariable(basicStartTime) ? moment(basicStartTime, dateFormat) :  moment(now, dateFormat) ,
@@ -154,36 +169,40 @@ function RestrictionForm(props){
         // 包含-航班号
         flowControlFlightId: isValidVariable(flowControlFlightId) ? flowControlFlightId.split(';') : [],
         // 包含-尾流类型
-        flowControlWakeFlowType: flowControlWakeFlowType.split(';'),
-        // 包含-航班性质
-        flowControlMissionType: flowControlMissionType.split(';'),
+        wakeFlowLevel: isValidVariable(wakeFlowLevel) ? wakeFlowLevel.split(';') : [] ,
+        // 包含-运营人
+        auType: isValidVariable(auType) ? auType.split(';') : [],
+        // 包含-航班类型
+        airlineType: isValidVariable(airlineType) ? airlineType.split(';') : [],
         // 包含-客货类型
-        flowControlPassengerCargoType: flowControlPassengerCargoType.split(';'),
+        missionType: isValidVariable(missionType) ? missionType.split(';') : [],
         // 包含-任务类型
-        flowControlTaskType: flowControlTaskType.split(';'),
-        // 包含-航班属性
-        flowControlMilitaryCivilType: flowControlMilitaryCivilType.split(';'),
+        task: isValidVariable(task) ? task.split(';') : [],
+        // 包含-军民航
+        organization: isValidVariable(organization) ? organization.split(';') : [],
         // 包含-限制资质
-        flowControlQualification: flowControlQualification.split(';'),
+        ability: isValidVariable(ability) ? ability.split(';') : [],
         // 包含-受控机型
-        flowControlAircraftType: isValidVariable(flowControlAircraftType) ? flowControlAircraftType.split(';') : [],
+        aircraftType: isValidVariable(aircraftType) ? aircraftType.split(';') : [],
 
         // 不包含-航班号
         exemptFlightId: isValidVariable(exemptFlightId) ? exemptFlightId.split(';') : [],
         // 不包含-尾流类型
-        exemptWakeFlowType: exemptWakeFlowType.split(';'),
-        // 不包含-航班性质
-        exemptMissionType: exemptMissionType.split(';'),
+        exemptionWakeFlowLevel: isValidVariable(exemptionWakeFlowLevel) ? exemptionWakeFlowLevel.split(';') : [],
+        // 不包含-航班类型
+        exemptionAirlineType: isValidVariable(exemptionAirlineType) ? exemptionAirlineType.split(';') : [],
+        // 不包含-运营人
+        exemptionAuType: isValidVariable(exemptionAuType) ? exemptionAuType.split(';') : [],
         // 不包含-客货类型
-        exemptPassengerCargoType: exemptPassengerCargoType.split(';'),
+        exemptionMissionType: isValidVariable(exemptionMissionType) ? exemptionMissionType.split(';') : [],
         // 不包含-任务类型
-        exemptTaskType: exemptTaskType.split(';'),
-        // 不包含-航班属性
-        exemptMilitaryCivilType: exemptMilitaryCivilType.split(';'),
+        exemptionTask: isValidVariable(exemptionTask) ? exemptionTask.split(';') : [],
+        // 不包含-军民航
+        exemptionOrganization: isValidVariable(exemptionOrganization) ?  exemptionOrganization.split(';') : [],
         // 不包含-限制资质
-        exemptQualification: exemptQualification.split(';'),
+        exemptionAbility:isValidVariable(exemptionAbility) ? exemptionAbility.split(';') : [],
         // 不包含-受控机型
-        exemptAircraftType:  isValidVariable(exemptAircraftType) ? exemptAircraftType.split(';') : [],
+        exemptionAircraftType:  isValidVariable(exemptionAircraftType) ? exemptionAircraftType.split(';') : [],
 
     };
 
@@ -347,13 +366,14 @@ function RestrictionForm(props){
 
         // 表单字段数据
         const { tacticName, tacticPublishUnit, tacticPublishUser,
-            targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit,
+            targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit, exemptHeight,
+            depAp, arrAp, exemptDepAp, exemptArrAp,
             flowControlName, flowControlReason, flowControlPublishType, restrictionRemark,
             restrictionMode, restrictionModeValue,
-            flowControlFlightId, flowControlWakeFlowType, flowControlMissionType, flowControlPassengerCargoType,
-            flowControlTaskType, flowControlMilitaryCivilType, flowControlQualification,flowControlAircraftType,
-            exemptFlightId, exemptWakeFlowType, exemptMissionType, exemptPassengerCargoType,
-            exemptTaskType, exemptMilitaryCivilType, exemptQualification, exemptAircraftType,
+            flowControlFlightId, wakeFlowLevel, auType, airlineType, missionType,
+            task, organization, ability,aircraftType,
+            exemptFlightId, exemptionWakeFlowLevel, exemptionAirlineType,exemptionAuType,  exemptionMissionType,
+            exemptionTask, exemptionOrganization, exemptionAbility, exemptionAircraftType,
         } = values;
         // 更新方案名称
         basicTacticInfo.tacticName = tacticName;
@@ -377,6 +397,16 @@ function RestrictionForm(props){
         directionListData.exemptbehindUnit = exemptbehindUnit;
         // 更新限制高度
         directionListData.highLimit = highLimit;
+        // 更新豁免高度
+        directionListData.exemptHeight = exemptHeight;
+        // 起飞机场
+        directionListData.depAp = depAp;
+        // 降落机场
+        directionListData.arrAp = arrAp;
+        // 豁免起飞机场
+        directionListData.exemptDepAp = exemptDepAp;
+        // 豁免降落机场
+        directionListData.exemptArrAp = exemptArrAp;
 
         // 更新流控名称
         sourceFlowcontrol.flowControlName = flowControlName;
@@ -397,36 +427,40 @@ function RestrictionForm(props){
         // 更新流控交通流-包含-航班号
         flowControlFlight.flowControlFlightId = flowControlFlightId.join(';');
         // 更新流控交通流-包含-尾流类型
-        flowControlFlight.flowControlWakeFlowType = flowControlWakeFlowType.join(';');
-        // 更新流控交通流-包含-航班性质
-        flowControlFlight.flowControlMissionType = flowControlMissionType.join(';');
+        flowControlFlight.wakeFlowLevel = wakeFlowLevel.join(';');
+        // 更新流控交通流-包含-运营人
+        flowControlFlight.auType = auType.join(';');
+        // 更新流控交通流-包含-航班类型
+        flowControlFlight.airlineType = airlineType.join(';');
         // 更新流控交通流-包含-客货类型
-        flowControlFlight.flowControlPassengerCargoType = flowControlPassengerCargoType.join(';');
+        flowControlFlight.missionType = missionType.join(';');
         // 更新流控交通流-包含-任务类型
-        flowControlFlight.flowControlTaskType = flowControlTaskType.join(';');
-        // 更新流控交通流-包含-航班属性
-        flowControlFlight.flowControlMilitaryCivilType = flowControlMilitaryCivilType.join(';');
+        flowControlFlight.task = task.join(';');
+        // 更新流控交通流-包含-军民航
+        flowControlFlight.organization = organization.join(';');
         // 更新流控交通流-包含-限制资质
-        flowControlFlight.flowControlQualification = flowControlQualification.join(';');
+        flowControlFlight.ability = ability.join(';');
         // 更新流控交通流-包含-受控机型
-        flowControlFlight.flowControlAircraftType = flowControlAircraftType.join(';');
+        flowControlFlight.aircraftType = aircraftType.join(';');
 
         // 更新流控交通流-不包含-航班号
         flowControlFlight.exemptFlightId = exemptFlightId.join(';');
         // 更新流控交通流-不包含-尾流类型
-        flowControlFlight.exemptWakeFlowType = exemptWakeFlowType.join(';');
-        // 更新流控交通流-不包含-航班性质
-        flowControlFlight.exemptMissionType = exemptMissionType.join(';');
+        flowControlFlight.exemptionWakeFlowLevel = exemptionWakeFlowLevel.join(';');
+        // 更新流控交通流-不包含-航班类型
+        flowControlFlight.exemptionAirlineType = exemptionAirlineType.join(';');
+        // 更新流控交通流-不包含-运营人
+        flowControlFlight.exemptionAuType = exemptionAuType.join(';');
         // 更新流控交通流-不包含-客货类型
-        flowControlFlight.exemptPassengerCargoType = exemptPassengerCargoType.join(';');
+        flowControlFlight.exemptionMissionType = exemptionMissionType.join(';');
         // 更新流控交通流-不包含-任务类型
-        flowControlFlight.exemptTaskType = exemptTaskType.join(';');
-        // 更新流控交通流-不包含-航班属性
-        flowControlFlight.exemptMilitaryCivilType = exemptMilitaryCivilType.join(';');
+        flowControlFlight.exemptionTask = exemptionTask.join(';');
+        // 更新流控交通流-不包含-军民航
+        flowControlFlight.exemptionOrganization = exemptionOrganization.join(';');
         // 更新流控交通流-不包含-限制资质
-        flowControlFlight.exemptQualification = exemptQualification.join(';');
+        flowControlFlight.exemptionAbility = exemptionAbility.join(';');
         // 更新流控交通流-不包含-受控机型
-        flowControlFlight.exemptAircraftType = exemptAircraftType.join(';');
+        flowControlFlight.exemptionAircraftType = exemptionAircraftType.join(';');
 
 
 
@@ -489,19 +523,12 @@ function RestrictionForm(props){
         setImportButtonDisable(false);
         setConfirmLoading(false);
         setIsModalVisible(false);
-        const errMsg = err.message || "";
-
-        // antdMessage.error({
-        //     content:  (
-        //         <span>
-        //             <span>{ `${operateame}失败`}</span>
-        //             <br/>
-        //             <span>{errMsg}</span>
-        //
-        //         </span>
-        //     ),
-        //     duration: 4,
-        // });
+        let errMsg = "";
+        if(isValidObject(err) && isValidVariable(err.message)){
+            errMsg = err.message;
+        }else if(isValidVariable(err)){
+            errMsg = err;
+        }
         Modal.error({
             content: (
                 <span>
@@ -582,6 +609,18 @@ function RestrictionForm(props){
         form.setFieldsValue({flowControlPublishType: type});
     };
 
+    /**
+     * 更新流控发布类型
+     *
+     * */
+    const updateFormAPFieldValue =(field, value) => {
+        let data = {};
+        data[field] = value;
+        // 更新表单中流控发布类型
+        form.setFieldsValue(data);
+        // setRenderNumber(renderNumber++);
+    };
+
 
     return (
         <div>
@@ -606,6 +645,7 @@ function RestrictionForm(props){
                     updateEndDateString={updateEndDateString }
                     updateEndTimeString ={ updateEndTimeString }
                     updateRestrictionMode={updateRestrictionMode }
+                    updateFormAPFieldValue={updateFormAPFieldValue }
                     form = { form}
 
                 />

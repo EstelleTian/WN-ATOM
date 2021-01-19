@@ -41,14 +41,14 @@ function XuCard(props){
     )
 }
 //尾流类型选项
-const flowControlWakeFlowType = [
+const wakeFlowLevel = [
     { label: 'G', value: 'G' },
     { label: 'H', value: 'H' },
     { label: 'M', value: 'M' },
     { label: 'L', value: 'L' },
 ];
 //运营人
-const flowControlAuType = [
+const auType = [
     { label: '内机', value: 'DOMESTIC_AU' },
     { label: '外机', value: 'FOREIGN_AU' },
     { label: '台湾机', value: 'TAIWAN_AU' },
@@ -56,7 +56,7 @@ const flowControlAuType = [
 ]
 
 //航班类型选项
-const flowControlMissionType = [
+const airlineType = [
     { label: '国内', value: 'DOMESTIC' },
     { label: '国际', value: 'INTERNATIONAL' },
     { label: '台湾地区', value: 'TAIWAN' },
@@ -64,28 +64,28 @@ const flowControlMissionType = [
     { label: '飞越', value: 'OVERFLY' },
 ];
 //客货类型选项
-const flowControlPassengerCargoType = [
+const missionType = [
     { label: '客班', value: 'AIRLINE' },
     { label: '货班', value: 'CARGO' }
 ];
 //任务类型选项
-const flowControlTaskType = [
+const task = [
     { label: '正班', value: 'REGULAR' },
     { label: '补班', value: 'PATCH' },
-    { label: '加班包机', value: 'PAXADD' },
+    { label: '加班包机', value: 'PAXCHARTER' },
     { label: '调机', value: 'FERRY' },
     { label: '校验', value: 'CHECK' },
     { label: '急救', value: 'AMBULANCE' },
     { label: '公务机', value: 'BUSINESS' },
-    { label: '其他', value: '33' },
+    { label: '其他', value: 'OTHER' },
 ];
 //军民航选项
-const flowControlMilitaryCivilType = [
+const organization = [
     { label: '军航', value: 'MILITARY' },
     { label: '民航', value: 'CIVIL' }
 ];
 //限制资质选项
-const flowControlQualification = [
+const ability = [
     { label: 'II类', value: 'CAT2' }
 ];
 
@@ -118,63 +118,63 @@ function LimitedCard(props){
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="flowControlWakeFlowType"
+                        name="wakeFlowLevel"
                         label="尾流类型"
                     >
-                        <Checkbox.Group options={flowControlWakeFlowType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={wakeFlowLevel} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="flowControlAuType"
+                        name="auType"
                         label="运营人"
                     >
-                        <Checkbox.Group options={flowControlAuType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={auType} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="flowControlMissionType"
+                        name="airlineType"
                         label="航班类型"
                     >
-                        <Checkbox.Group options={flowControlMissionType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={airlineType} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="flowControlPassengerCargoType"
+                        name="missionType"
                         label="客货类型"
                     >
-                        <Checkbox.Group options={flowControlPassengerCargoType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={missionType} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="flowControlTaskType"
+                        name="task"
                         label="任务类型"
                     >
-                        <Checkbox.Group options={flowControlTaskType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={task} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="flowControlMilitaryCivilType"
+                        name="organization"
                         label="军民航"
                     >
-                        <Checkbox.Group options={flowControlMilitaryCivilType} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={organization} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="flowControlQualification"
+                        name="ability"
                         label="限制资质"
                     >
-                        <Checkbox.Group options={flowControlQualification} disabled={ props.disabledForm } />
+                        <Checkbox.Group options={ability} disabled={ props.disabledForm } />
                     </Form.Item>
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="flowControlAircraftType"
+                        name="aircraftType"
                         label="受控机型"
                     >
                         <Select
@@ -192,7 +192,7 @@ function LimitedCard(props){
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="g"
+                        name="flowControlHeight"
                         label="受控高度"
                     >
                         <Select
