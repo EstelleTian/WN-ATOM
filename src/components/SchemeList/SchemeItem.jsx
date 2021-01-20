@@ -92,6 +92,8 @@ function SchemeItem(props){
             });
             setWindow(newWindow);
             setWindowClass(windowClass);
+        }else{
+            window.show();
         }
     }
 
