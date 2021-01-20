@@ -11,7 +11,7 @@ import { inject, observer } from 'mobx-react'
 import { request } from 'utils/request'
 import {  message, Spin, List, } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons';
-import { getFullTime, isValidObject } from 'utils/basic-verify'
+import { getFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
 import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import { ReqUrls } from 'utils/request-urls'
 import AddMonitorCard from 'components/MiniMonitor/AddMonitorCard'
@@ -91,10 +91,10 @@ const CapacityFlowMonitor =(props) => {
             let nameA = item1.data.description.order; // ignore upper and lowercase
             let nameB = item2.data.description.order; // ignore upper and lowercase
             if (nameA < nameB) {
-                return 1;
+                return -1;
             }
             if (nameA > nameB) {
-                return -1;
+                return 1;
             }
             // names must be equal
             return 0;
@@ -177,7 +177,13 @@ const CapacityFlowMonitor =(props) => {
 
     // 请求错误处理
     const requestErr = useCallback((err, content) => {
-        const errMsg = err.message || "";
+        let errMsg = "";
+        if(isValidObject(err) && isValidVariable(err.message)){
+            errMsg = err.message;
+        }else if(isValidVariable(err)){
+            errMsg = err;
+        }
+
         message.error({
             content:(
                 <span>
@@ -215,7 +221,7 @@ const CapacityFlowMonitor =(props) => {
         const start = nowDate+'000000';
         const end = nowDate+'235900';
         const opt = {
-            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=P40,ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLLLAR01&starttime='+ start+'&endtime='+end,
+            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=IGADA,P40,ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLLLAR01&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> {
