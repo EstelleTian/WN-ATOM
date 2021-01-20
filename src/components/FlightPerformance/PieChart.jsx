@@ -58,7 +58,6 @@ const PieChart = (props) => {
         for( var d in reasonData){
             arr.push(reasonData[d].text);
         }
-        console.log(arr);
         return arr;
     }
 

@@ -67,7 +67,6 @@ const FlightPerformance =(props) => {
     // 执行国际飞越
     const executeOvfMap = isValidObject(flight.executeOvfMap) ? flight.executeOvfMap : {};
 
-    console.log(executeDAMap)
     // 执行率
     const executeRatio = flight.executeRatio || 0;
     // 执行数据

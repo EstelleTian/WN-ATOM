@@ -88,15 +88,26 @@ const CapacityFlowMonitor =(props) => {
 
             arr.push(obj);
         }
+
         // 排序 按order字段值升序
         let sortArr = arr.sort((item1,item2)=>{
-            let nameA = item1.data.description.order; // ignore upper and lowercase
-            let nameB = item2.data.description.order; // ignore upper and lowercase
-            if (nameA < nameB) {
-                return -1;
-            }
-            if (nameA > nameB) {
-                return 1;
+
+            if(isValidObject(item1)
+                && isValidObject(item1.data)
+                && isValidObject(item1.data.description)
+                && isValidObject(item1.data.description.order)
+                && isValidObject(item2)
+                && isValidObject(item2.data)
+                && isValidObject(item2.data.description)
+                && isValidObject(item2.data.description.order) ){
+                let nameA = item1.data.description.order; // ignore upper and lowercase
+                let nameB = item2.data.description.order; // ignore upper and lowercase
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
             }
             // names must be equal
             return 0;
