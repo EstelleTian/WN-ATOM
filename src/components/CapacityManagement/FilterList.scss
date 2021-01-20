@@ -1,0 +1,14 @@
+.list-wrapper {
+  display: flex;
+  flex-direction: column;
+  .filter-list {
+    .filter-list-item {
+      padding: 8px 10px;
+      border: none;
+      &:hover {
+        cursor: pointer;
+        background: $c-white-15;
+      }
+    }
+  }
+}

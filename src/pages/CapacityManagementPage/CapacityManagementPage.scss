@@ -1,0 +1,26 @@
+.capacity-page {
+  .sider-content {
+    padding: 10px;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    .search-box {
+
+    }
+    .option-box {
+
+    }
+    .list-box {
+      padding: 10px 0;
+      overflow-y: auto;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+  }
+  .content-wrapper {
+    flex: 1 1 0%;
+    min-width: 540px;
+    height: 100%;
+  }
+}
