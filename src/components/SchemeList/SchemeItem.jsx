@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {  observer } from 'mobx-react'
 import ReactDom from "react-dom";
 import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
@@ -28,6 +28,8 @@ const convertSatus = (status) => {
 }
 //单条方案
 function SchemeItem(props){
+    const [window, setWindow] = useState("");
+    const [windowClass, setWindowClass] = useState("");
     const onChange = (e, id) => {
         e.preventDefault();
         e.stopPropagation();
@@ -73,27 +75,38 @@ function SchemeItem(props){
     }
     //工作流详情
     const showWorkFlowDetail = function(id){
-        let windowClass = 'win_' + Math.floor( Math.random()*100000000 );
-        let window = new WindowDHX({
-            width: 1200,
-            height: 800,
-            title: "工作流详情",
-            html: `<div class="`+windowClass+`"></div>`,
-            css: "bg-black",
-            closable: true,
-            movable: true,
-            resizable: true
-        })
-        window.show();
-        setTimeout(function(){
-
-            const winDom = document.getElementsByClassName(windowClass)[0];
-            ReactDom.render(
-                <WorkFlowContent modalId={id} />,
-                winDom);
-        }, 500)
-        // props.toggleWorkFlowModalVisible(true, id);
+        let windowClass = 'win_' + id;
+        if( !isValidVariable(id) ){
+            windowClass = 'win_' + Math.floor( Math.random()*100000000 );
+        }
+        if( document.getElementsByClassName(windowClass).length === 0 ){
+            const newWindow = new WindowDHX({
+                width: 1000,
+                height: 665,
+                title: "工作流详情(方案ID:"+id+")",
+                html: `<div class="wind_canvas `+windowClass+`"></div>`,
+                css: "bg-black",
+                closable: true,
+                movable: true,
+                resizable: true
+            });
+            setWindow(newWindow);
+            setWindowClass(windowClass);
+        }
     }
+
+    useEffect(function(){
+        if( window !== "" ){
+            window.show();
+            setTimeout(function(){
+                const winDom = document.getElementsByClassName(windowClass)[0];
+                ReactDom.render(
+                    <WorkFlowContent modalId={id} window={window}/>,
+                    winDom);
+            }, 200)
+        }
+
+    },[window]);
 
 
     return (

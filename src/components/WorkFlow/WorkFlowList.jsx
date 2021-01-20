@@ -364,14 +364,14 @@ function WorkFlowList(props){
          const sid = record.sid || "";
         // showWorkFlowDetail(true, "");
         let windowClass = 'win_' + sid;
-        // if( !isValidVariable(sid) ){
+        if( !isValidVariable(sid) ){
             windowClass = 'win_' + Math.floor( Math.random()*100000000 );
-        // }
+        }
         let window = new WindowDHX({
             width: 1000,
             height: 665,
-            title: "工作流详情",
-            html: `<div class="`+windowClass+`"></div>`,
+            title: "工作流详情(流水号:"+sid+")",
+            html: `<div class="wind_canvas `+windowClass+`"></div>`,
             css: "bg-black",
             closable: true,
             movable: true,
@@ -381,7 +381,7 @@ function WorkFlowList(props){
         setTimeout(function(){
             const winDom = document.getElementsByClassName(windowClass)[0];
             ReactDom.render(
-                <WorkFlowContent modalId={ sid } />,
+                <WorkFlowContent modalId={ sid } window={window}/>,
                 winDom);
         }, 200)
     });

@@ -19,17 +19,6 @@
   border-bottom: 2px solid #7db2cc;
 }
 
-.work_cont{
-  background: rgba(64, 64, 64, 0.8);
-  margin: 0.5rem 1rem;
-  border: 1px solid #5d5d5d;
-  position: relative;
-  .ant-pagination{
-      position: relative;
-      //top: -42px;
-      right: 10px;
-    }
-}
 .work_search{
   margin: 0.5rem auto;
   text-align: center;
@@ -51,18 +40,11 @@
     }
   }
 }
-.work_btns{
-  margin: 0.5rem auto;
-  float: right;
-  button{
-    margin: 0 5px 0 5px ;
-  }
-}
+
 .nav_header{
   margin: 0.5rem 1rem;
 }
-.workflow_wind_cont{
-  .btn_confirm{
-    float: right;
-  }
-}
+//.wind_canvas{
+//  @include display_flex();
+//  @include flex();
+//}
