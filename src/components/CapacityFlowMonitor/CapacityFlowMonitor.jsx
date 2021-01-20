@@ -35,8 +35,9 @@ const CapacityFlowMonitor =(props) => {
      * 更新单条容流数据的描述数据
      * */
     const updateSingleDataDescription =(key, descriptionData) => {
-        console.log(key, descriptionData);
-        flow[key].description = descriptionData;
+        if(isValidObject(flow) && isValidObject(flow[key])){
+            flow[key].description = descriptionData;
+        }
     };
 
     /**
@@ -125,7 +126,7 @@ const CapacityFlowMonitor =(props) => {
     const appendAddMonitorCard = (arrData) => {
         let addData = {
             id: 'ADD',
-            title: '新增',
+            title: '新增监控',
         }
         arrData.push(addData);
         return arrData;
@@ -222,7 +223,7 @@ const CapacityFlowMonitor =(props) => {
         const start = nowDate+'000000';
         const end = nowDate+'235900';
         const opt = {
-            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=IGADA,P40,ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLLLAR01&starttime='+ start+'&endtime='+end,
+            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=IGADA,P40,ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLXYAR02,ZLXYAR07,ZLLLAR01,ZLLLAR02&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> {
