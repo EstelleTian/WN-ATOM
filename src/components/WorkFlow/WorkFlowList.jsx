@@ -1,8 +1,8 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-19 18:33:18
- * @LastEditors: liutianjiao
+ * @LastEditTime: 2021-01-20 16:20:58
+ * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
  */
@@ -21,6 +21,62 @@ const { Search } = Input;
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 
+const DetailBtn = function(props){
+    const [window, setWindow] = useState("");
+    const [windowClass, setWindowClass] = useState("");
+
+    //展示详情窗口
+    const showDetailWind = useCallback(( record ) => {
+        console.log(record);
+         const sid = record.sid || "";
+        // showWorkFlowDetail(true, "");
+        let windowClass = 'win_' + sid;
+        if( !isValidVariable(sid) ){
+            windowClass = 'win_' + Math.floor( Math.random()*100000000 );
+        }
+        if( document.getElementsByClassName(windowClass).length === 0 ){
+            const newWindow = new WindowDHX({
+                width: 1000,
+                height: 665,
+                title: "工作流详情(流水号:"+sid+")",
+                html: `<div class="wind_canvas `+windowClass+`"></div>`,
+                css: "bg-black",
+                closable: true,
+                movable: true,
+                resizable: true
+            });
+            setWindow(newWindow);
+            setWindowClass(windowClass);
+        }else{
+            window.show();
+        }
+    });
+
+    useEffect(function(){
+        console.log("111",window);
+        if( window !== "" ){
+            console.log(window);
+            window.show();
+            setTimeout(function(){
+                const winDom = document.getElementsByClassName(windowClass)[0];
+                let id = windowClass.replace("win_", "");
+                ReactDom.render(
+                    <WorkFlowContent modalId={id} window={window}/>,
+                    winDom);
+            }, 200)
+        }
+
+    },[window]);
+    
+    return (
+        <a onClick={ e =>{
+            showDetailWind( props.record );
+            e.stopPropagation();
+        } }>详情</a>
+    )
+}
+
+
 //工作流列表
 function WorkFlowList(props){
     const [ searchVal, setSearchVal ] = useState("");
@@ -30,6 +86,8 @@ function WorkFlowList(props){
 
     const [ columns, setColumns ] = useState([]);
     const [ expandable, setExpandable ] = useState(false);
+
+
 
     const { systemPage, workFlowData } = props;
     const { activeTab } = workFlowData;
@@ -93,14 +151,12 @@ function WorkFlowList(props){
         render: (text, record, index) => {
             return (
                 <span className='opt_btns'>
-                                <a onClick={ e =>{
-                                    showDetailWind( record );
-                                    e.stopPropagation();
-                                } }>详情</a>
+                    <DetailBtn record={record} />
+                            
                     {/*<a>收回</a>*/}
                     {/*<a>催办</a>*/}
                     {/*<a>导出</a>*/}
-                            </span>
+                </span>
             )
         }
     };
@@ -358,33 +414,7 @@ function WorkFlowList(props){
         }
     },[ activeTab ]);
 
-    //展示详情窗口
-    const showDetailWind = useCallback(( record ) => {
-        console.log(record);
-         const sid = record.sid || "";
-        // showWorkFlowDetail(true, "");
-        let windowClass = 'win_' + sid;
-        if( !isValidVariable(sid) ){
-            windowClass = 'win_' + Math.floor( Math.random()*100000000 );
-        }
-        let window = new WindowDHX({
-            width: 1000,
-            height: 665,
-            title: "工作流详情(流水号:"+sid+")",
-            html: `<div class="wind_canvas `+windowClass+`"></div>`,
-            css: "bg-black",
-            closable: true,
-            movable: true,
-            resizable: true
-        });
-        window.show();
-        setTimeout(function(){
-            const winDom = document.getElementsByClassName(windowClass)[0];
-            ReactDom.render(
-                <WorkFlowContent modalId={ sid } window={window}/>,
-                winDom);
-        }, 200)
-    });
+    
     //根据输入框输入值，检索显示航班
     const filterInput = useCallback((data) => {
         if( searchVal === "" ){
@@ -439,7 +469,11 @@ function WorkFlowList(props){
                         pagination={{
                             showSizeChanger: true,
                             showQuickJumper: true,
-                            showTotal: (total, range) => `共 ${total} 条`
+                            showTotal: (total, range) => `共 ${total} 条`,
+                            defaultPageSize: 20
+                        }}
+                        scroll={{
+                            y: (screenWidth > 1920) ? 1000 : 840,
                         }}
                         loading={ loading }
                         // onChange={onChange}

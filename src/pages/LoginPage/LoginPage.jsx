@@ -44,8 +44,9 @@ function LoginPage(props){
                                 duration: 4,
                                 style: msgStyle
                             });
-                            saveUserInfo(username, password);
+                
                             localStorage.setItem("user", JSON.stringify(user) );
+                            saveUserInfo(username, password);
                         }else{
                             const err = data.error;
                             const msg = err.message;
@@ -100,7 +101,7 @@ function LoginPage(props){
     return (
         <div className="login bc-image-11">
             <Row type="flex" justify="center" align="middle">
-                <Col xs={{ span: 14}}  md={{ span: 10}} lg={{ span: 9}}  xl={{ span: 6}} xxl={{ span: 6}} >
+                <Col xs={{ span: 14}}  md={{ span: 11}} lg={{ span: 9}}  xl={{ span: 7}} xxl={{ span: 6}} >
                     <div className="content">
                         <Form
                             form={form}
