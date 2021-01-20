@@ -20,9 +20,11 @@ const ReqUrls = {
     //获取--执行KPI数据
     kpiDataUrl: 'http://192.168.194.21:29890/performkpi/',
     //获取航班执行数据
-    performanceDataUrl: 'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flight',
+    performanceDataUrl: 'http://192.168.194.22:28001/traffic-flow-monitor-server/monitor/v1/flight',
+    // performanceDataUrl: 'http://192.168.243.191:28001/traffic-flow-monitor-server/monitor/v1/flight',
     // 获取容流数据
-    capacityFlowMonitorDataUrl: 'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flow',
+    capacityFlowMonitorDataUrl: 'http://192.168.194.22:28001/traffic-flow-monitor-server/monitor/v1/flow',
+    // capacityFlowMonitorDataUrl: 'http://192.168.243.191:28001/traffic-flow-monitor-server/monitor/v1/flow',
     //获取流控数据
     ATOMDataUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/restrictions/',
     //创建流控-数据提交

@@ -14,15 +14,12 @@ import {getFullTime, addStringTime, isValidVariable} from 'utils/basic-verify'
 import MiniMonitor from './MiniMonitor'
 
 function AirportMonitor(props) {
-
     const data = props.data || {};
-
     const flowMap = data.flowMap || {};
     // 天气
     const weather = data.weather || "";
     // 起飞正常率
     const depRatio = data.depRatio || 0;
-
     const getTimeAxis = function () {
         let arr = [];
         // 以执行起降数据为基础遍历时间
@@ -43,41 +40,85 @@ function AirportMonitor(props) {
             return 0;
         });
     };
-
     const axis = getTimeAxis();
 
+    const formatterTooltip = (data) => {
+        let capacityData = {};
+        let notOverflowData = {};
+        let overflowData = {};
+        data.map((item)=>{
+            if(item.seriesName ==='capacity'){
+                capacityData= item;
+            }else if(item.seriesName ==='notOverflow'){
+                notOverflowData = item;
+            }else if(item.seriesName ==='overflow'){
+                overflowData = item;
+            }
+        });
+        let axisValue = capacityData.axisValue;
+        let capacity = capacityData.value;
+        let overflow = overflowData.value;
+        let notOverflow = notOverflowData.value;
+
+
+        let flowVal = overflow+notOverflow;
+
+        let result = ``;
+
+        if(overflow > 0){
+            result = `${axisValue} <br/> 容量: ${capacity} 架次 <br/> 流量: ${flowVal} 架次 <br/> 超容: ${overflow} 架次`;
+        }else {
+            result = `${axisValue} <br/> 容量: ${capacity} 架次 <br/> 流量: ${flowVal} 架次`;
+        }
+        return result
+    }
+
     const getOption = function () {
-        let FPLData = [];
-        let DEPData = [];
-        let ARRData = [];
-        let OFFLINEData = [];
-        let SCHEDULEData = [];
-        let CAPACITYData = [];
+        // 流量
+        let flightNumData = [];
+        // 容量
+        let capacityData = [];
+        // 超量
+        let overflowData = [];
+        // 未超出
+        let notOverflowData = [];
+
+
+
 
         axis.map((item, index) => {
             let data = flowMap[item];
-            let FPL = isValidVariable(data.FPL) ? data.FPL : 0;
-            let DEP = isValidVariable(data.DEP) ? data.DEP : 0;
-            let ARR = isValidVariable(data.ARR) ? data.ARR : 0;
-            let OFFLINE = isValidVariable(data.OFFLINE) ? data.OFFLINE : 0;
-            let SCHEDULE = isValidVariable(data.SCHEDULE) ? data.SCHEDULE : 0;
-            FPLData.push(FPL);
-            DEPData.push(DEP);
-            ARRData.push(ARR);
-            OFFLINEData.push(OFFLINE);
-            SCHEDULEData.push(SCHEDULE);
-        })
+            let flightNum = isValidVariable(data.flightNum) ? data.flightNum : 0;
+            let capacity = isValidVariable(data.capacity) ? data.capacity : 0;
+            let overflow = 0;
+            let notOverflow = 0;
+            if(flightNum > capacity){
+                overflow = flightNum - capacity;
+                notOverflow = capacity
+            }else if(flightNum < capacity) {
+                notOverflow = flightNum
+            }
+            flightNumData.push(flightNum);
+            capacityData.push(capacity);
+            overflowData.push(overflow);
+            notOverflowData.push(notOverflow);
+        });
 
         const option = {
-            color: ["#8F959E", "#008200", "#8F959E", "#0076F7", "#00698C"],
+            color: ["#8F959E", "#1479d1", "#cb6b6f"],
             tooltip: {
+                show: true,
                 trigger: 'axis',
+                backgroundColor:'rgba(0, 0, 0, 0.7)',
                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    type: 'line'        // 默认为直线，可选为：'line' | 'shadow'
+                },
+                formatter:(data)=>{
+                    return formatterTooltip(data);
                 }
             },
             legend: {
-                data: ['FPL', 'DEP', 'ARR', 'OFFLINE', 'SCHEDULE','容量'],
+                data: ['流量', '超容', '容量'],
                 show: false
             },
             grid: {
@@ -127,39 +168,21 @@ function AirportMonitor(props) {
             ],
             series: [
                 {
-                    name: 'FPL',
+                    name: 'notOverflow',
                     type: 'bar',
-                    stack: '1',
-                    data: FPLData
+                    stack: 'flow',
+                    data: notOverflowData
                 },
                 {
-                    name: 'DEP',
+                    name: 'overflow',
                     type: 'bar',
-                    stack: '1',
-                    data: DEPData
+                    stack: 'flow',
+                    data: overflowData
                 },
                 {
-                    name: 'ARR',
-                    type: 'bar',
-                    stack: '1',
-                    data: ARRData
-                },
-                {
-                    name: 'OFFLINE',
-                    type: 'bar',
-                    stack: '1',
-                    data: OFFLINEData
-                },
-                {
-                    name: 'SCHEDULE',
-                    type: 'bar',
-                    stack: '1',
-                    data: SCHEDULEData
-                },
-                {
-                    name: '容量',
+                    name: 'capacity',
                     type: 'line',
-                    data: CAPACITYData
+                    data: capacityData,
                 }
             ]
         };
@@ -167,8 +190,6 @@ function AirportMonitor(props) {
         return option;
 
     };
-    // getOption();
-
 
     return (
         <div className="monitor">

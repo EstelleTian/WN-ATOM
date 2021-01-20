@@ -8,10 +8,12 @@
  */
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
+import { isValidObject, isValidVariable } from 'utils/basic-verify'
+
 
 // 环形饼图
 const PieChart = (props) => {
-
+    // 限制原因对象
     const  restrictMap = props.data || {};;
 
 
@@ -36,13 +38,15 @@ const PieChart = (props) => {
 
     const  getData = function () {
         let arr = [];
-
         for( var d in reasonData){
-            let obj = {
-                value: restrictMap[reasonData[d].key] || 0,
-                name: reasonData[d].text
+            let key = reasonData[d].key;
+            if(restrictMap.hasOwnProperty(key)){
+                let obj = {
+                    value: restrictMap[key],
+                    name: reasonData[d].text
+                };
+                arr.push(obj);
             }
-            arr.push(obj);
         }
         return arr;
     };
@@ -54,7 +58,6 @@ const PieChart = (props) => {
         for( var d in reasonData){
             arr.push(reasonData[d].text);
         }
-        console.log(arr);
         return arr;
     }
 

@@ -43,7 +43,6 @@ const LineChart =(props) => {
     };
 
     let Axis = getTimeAxis();
-    console.log(Axis);
 
     const  randomValue = function (value) {
         let arr = [];

@@ -11,7 +11,7 @@ import { inject, observer } from 'mobx-react'
 import { request } from 'utils/request'
 import {  message, Spin, List, } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons';
-import { getFullTime, isValidObject } from 'utils/basic-verify'
+import { getFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
 import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import { ReqUrls } from 'utils/request-urls'
 import AddMonitorCard from 'components/MiniMonitor/AddMonitorCard'
@@ -24,41 +24,125 @@ import "./CapacityFlowMonitor.scss"
 const CapacityFlowMonitor =(props) => {
 
     const capacityFlowMonitorData = props.capacityFlowMonitorData || {};
+    const { loading } = capacityFlowMonitorData;
     const monitorData = capacityFlowMonitorData.monitorData || {};
+    const describedMap = monitorData.selfDescribedMap || {};
     const flow = monitorData.flow || {}
-    console.log(flow);
+    // 类型排序
+    const typeOrder = ['AP', 'ACC', 'SECTOR', 'APP', 'ROUTE', 'POINT'];
 
-    const getAirportMonitorData = (monitorData) => {
-        let arr = [];
-        for( let d in monitorData){
+    /**
+     * 更新单条容流数据的描述数据
+     * */
+    const updateSingleDataDescription =(key, descriptionData) => {
+        if(isValidObject(flow) && isValidObject(flow[key])){
+            flow[key].description = descriptionData;
+        }
+    };
+
+    /**
+     * 分类
+     * */
+    const getClassifiedData = (typeData, describedMap)=> {
+        for( let key in describedMap){
+            let data = describedMap[key];
+            updateSingleDataDescription(key, data);
+            let type = data['type'];
+            for(let t in typeData){
+                if(type === t){
+                    typeData[type][key] = data;
+                }
+            }
+        }
+    };
+
+    // 分类数据
+    const typeData = {
+        // 机场
+        'AP': {},
+        // 航路点
+        'POINT': {},
+        // 航路
+        'ROUTE': {},
+        // 管制区
+        'ACC': {},
+        // 扇区
+        'SECTOR': {},
+        // 进近
+        'APP': {},
+    };
+    // 进行分类
+    getClassifiedData(typeData, describedMap);
+
+    const getSingleTypeData = (type, monitorData) => {
+        // 取出已分类数据对象中该类数据
+        let typeDataMap = typeData[type];
+        let arr=[];
+        // 遍历并取monitorData数据中对应的容流数据
+        for( let d in typeDataMap){
             let obj = {
                 id: d,
                 title: d,
                 data: monitorData[d],
             };
+
             arr.push(obj);
         }
-        return arr;
+
+        // 排序 按order字段值升序
+        let sortArr = arr.sort((item1,item2)=>{
+
+            if(isValidObject(item1)
+                && isValidObject(item1.data)
+                && isValidObject(item1.data.description)
+                && isValidObject(item1.data.description.order)
+                && isValidObject(item2)
+                && isValidObject(item2.data)
+                && isValidObject(item2.data.description)
+                && isValidObject(item2.data.description.order) ){
+                let nameA = item1.data.description.order; // ignore upper and lowercase
+                let nameB = item2.data.description.order; // ignore upper and lowercase
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+            }
+            // names must be equal
+            return 0;
+        });
+
+        return sortArr;
     };
 
 
+    // 容流列表
+    let monitorDataist = [];
 
-    let airportMonitorData = getAirportMonitorData(flow);
+    // 机场类型数据
+    let APMonitorData = getSingleTypeData('AP', flow);
+    // 管制区
+    let ACCMonitorData = getSingleTypeData('ACC', flow);
+    // 扇区类型数据
+    let SECTORMonitorData = getSingleTypeData('SECTOR', flow);
+    // 进近
+    let APPMonitorData = getSingleTypeData('APP', flow);
+    // 航路
+    let ROUTEMonitorData = getSingleTypeData('ROUTE', flow);
+    // 航路点
+    let POINTonitorData = getSingleTypeData('POINT', flow);
+    monitorDataist = APMonitorData.concat(ACCMonitorData).concat(SECTORMonitorData).concat(APPMonitorData).concat(ROUTEMonitorData).concat(POINTonitorData);
 
     const appendAddMonitorCard = (arrData) => {
         let addData = {
             id: 'ADD',
-            title: '新增',
+            title: '新增监控',
         }
-
         arrData.push(addData);
         return arrData;
     };
-
-    airportMonitorData = appendAddMonitorCard(airportMonitorData);
-
-
-
+    monitorDataist = appendAddMonitorCard(monitorDataist);
 
     const  listItemData = (item)=> {
         if(item.id ==='ADD'){
@@ -90,28 +174,9 @@ const CapacityFlowMonitor =(props) => {
             )
         }
     }
-
-
-    const SectorMonitorData = [
-        {
-            title: '西安01扇区',
-        },
-        {
-            title: '西安02扇区',
-        },
-        {
-            title: '西安03扇区',
-        },
-        {
-            title: '西安04扇区',
-        },
-
-    ];
-
     // 更新--执行KPI store数据
     const updateCapacityFlowMonitorData = useCallback(capacityFlowMonitorData => {
         if( isValidObject(capacityFlowMonitorData) ){
-            console.log(capacityFlowMonitorData)
             props.capacityFlowMonitorData.updateCapacityFlowMonitorData(capacityFlowMonitorData)
         }else{
             props.capacityFlowMonitorData.updateCapacityFlowMonitorData({});
@@ -125,7 +190,13 @@ const CapacityFlowMonitor =(props) => {
 
     // 请求错误处理
     const requestErr = useCallback((err, content) => {
-        const errMsg = err.message || "";
+        let errMsg = "";
+        if(isValidObject(err) && isValidVariable(err.message)){
+            errMsg = err.message;
+        }else if(isValidVariable(err)){
+            errMsg = err;
+        }
+
         message.error({
             content:(
                 <span>
@@ -163,7 +234,7 @@ const CapacityFlowMonitor =(props) => {
         const start = nowDate+'000000';
         const end = nowDate+'235900';
         const opt = {
-            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLLLAR01&starttime='+ start+'&endtime='+end,
+            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=IGADA,P40,ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLXYAR02,ZLXYAR07,ZLLLAR01,ZLLLAR02&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> {
@@ -183,11 +254,11 @@ const CapacityFlowMonitor =(props) => {
 
 
     return(
-        <Spin spinning={false} >
+        <Spin spinning={loading} >
         <div className="capacity_flow_monitor_container">
             <List
                 grid={{ gutter: 16, column: 5 }}
-                dataSource={airportMonitorData}
+                dataSource={monitorDataist}
                 renderItem={item => (
                     listItemData(item)
                 )}

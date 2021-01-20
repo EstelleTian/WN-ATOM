@@ -22,13 +22,20 @@ import './FlightPerformance.scss'
 //航班执行情况模块
 const FlightPerformance =(props) => {
 
-    const flightPerformanceData = props.flightPerformanceData || { };
+    // 航班执行情况数据
+    const flightPerformanceData = props.flightPerformanceData || {};
+    // 限制数据
+    const implementTacticsReasonData = props.implementTacticsReasonData || {};
     const { loading } = flightPerformanceData;
     const performanceData = flightPerformanceData.performanceData || {};
-
-
+    // 航班执行情况数据对象
     const flight = performanceData.flight || {};
-    const generateTime = performanceData.generateTime || "";
+    const performanceGenerateTime = performanceData.generateTime || "";
+    // 限制原因数据
+    const  reasonData = implementTacticsReasonData.reasonData || {};
+    // 限制原因数据对象
+    const  statisticsMap = reasonData.statisticsMap || {};
+
     // 计划起降架次
     const sDANum = flight.sDANum || 0;
     //计划起飞架次
@@ -48,9 +55,9 @@ const FlightPerformance =(props) => {
     // 返航备降航班
     const cplNum = flight.cplNum || 0;
     // 限制总数
-    const restrictTotal = flight.restrictTotal || 0;
+    const restrictTotal = statisticsMap['ALL'] || 0;
     // 限制原因分类数据
-    const restrictMap = isValidObject(flight.restrictMap) ? flight.restrictMap : {};
+    const restrictMap = statisticsMap;
 
 
     // 执行起降
@@ -60,7 +67,6 @@ const FlightPerformance =(props) => {
     // 执行国际飞越
     const executeOvfMap = isValidObject(flight.executeOvfMap) ? flight.executeOvfMap : {};
 
-    console.log(executeDAMap)
     // 执行率
     const executeRatio = flight.executeRatio || 0;
     // 执行数据
@@ -125,7 +131,7 @@ const FlightPerformance =(props) => {
     ]
 
 
-    //更新--执行KPI store数据
+    //更新--航班执行情况 store数据
     const updateFlightPerformanceData = useCallback(flightPerformanceData => {
         if( isValidObject(flightPerformanceData) ){
             props.flightPerformanceData.updateFlightPerformanceData(flightPerformanceData)
@@ -136,6 +142,18 @@ const FlightPerformance =(props) => {
                 duration: 4,
             });
 
+        }
+    });
+    //更新--限制store数据
+    const updateImplementTacticsReasonData = useCallback(reasonData => {
+        if( isValidObject(reasonData) ){
+            props.implementTacticsReasonData.updateFlightPerformanceData(reasonData)
+        }else{
+            props.implementTacticsReasonData.updateFlightPerformanceData({});
+            message.error({
+                content:"获取的限制数据为空",
+                duration: 4,
+            });
         }
     });
 
@@ -157,31 +175,35 @@ const FlightPerformance =(props) => {
     useEffect(function(){
         // 初次获取数据启用loading
         props.flightPerformanceData.toggleLoad(true);
-        // 获取数据
+        // 获取航班执行情况数据
         requestFlightPerformanceData();
+        // 获取限制数据
+        requestImplementTacticsReasonData();
         // 清除定时
         clearInterval(props.flightPerformanceData.timeoutId);
+        clearInterval(props.implementTacticsReasonData.timeoutId);
         // 开启定时获取数据
         props.flightPerformanceData.timeoutId = setInterval(requestFlightPerformanceData, 60*1000);
+        props.implementTacticsReasonData.timeoutId = setInterval(requestImplementTacticsReasonData, 60*1000);
         return function(){
             clearInterval(props.flightPerformanceData.timeoutId);
+            clearInterval(props.implementTacticsReasonData.timeoutId);
             props.flightPerformanceData.timeoutId = "";
+            props.implementTacticsReasonData.timeoutId = "";
         }
     },[])
 
 
 
 
-    //获取--执行KPI数据
+    //获取--航班执行情况数据
     const requestFlightPerformanceData = useCallback(() => {
-
+        //TODO 时间范围取值需要使用服务器时间，目前使用的终端时间
         const nowDate = getFullTime(new Date()).substring(0,8);
         const start = nowDate+'000000';
         const end = nowDate+'235900';
 
         const opt = {
-            // url:'http://192.168.194.22:28001/atc-monitor-server/monitor/v1/flight/',
-            // url:'http://192.168.243.191:28001/atc-monitor-server/monitor/v1/flight?targets=ZLXYACC,ZLLLACC&starttime=202101130000&endtime=202101132359',
             url: ReqUrls.performanceDataUrl + '?targets=ZLXYACC,ZLLLACC&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
@@ -192,6 +214,27 @@ const FlightPerformance =(props) => {
             errFunc: (err)=> {
                 requestErr(err, '航班执行数据获取失败')
                 props.flightPerformanceData.toggleLoad(false)
+            } ,
+        };
+        request(opt);
+    });
+
+    //获取--限制数据
+    const requestImplementTacticsReasonData = useCallback(() => {
+        //TODO 时间范围取值需要使用服务器时间，目前使用的终端时间
+        const nowDate = getFullTime(new Date()).substring(0,8);
+        const start = nowDate+'000000';
+        const end = nowDate+'235900';
+
+        const opt = {
+            url: ReqUrls.schemeListUrl + '/statistics?starttime='+ start+'&endtime='+end,
+            method:'GET',
+            params:{},
+            resFunc: (data)=> {
+                updateImplementTacticsReasonData(data)
+            },
+            errFunc: (err)=> {
+                requestErr(err, '限制数据获取失败')
             } ,
         };
         request(opt);
@@ -246,4 +289,4 @@ const FlightPerformance =(props) => {
     )
 }
 
-export default inject("flightPerformanceData","systemPage")(observer(FlightPerformance))
+export default inject("flightPerformanceData","implementTacticsReasonData","systemPage")(observer(FlightPerformance))
