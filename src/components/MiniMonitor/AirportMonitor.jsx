@@ -66,9 +66,9 @@ function AirportMonitor(props) {
         let result = ``;
 
         if(overflow > 0){
-            result = `容量: ${capacity} 架次 <br/> 流量: ${flowVal} 架次 <br/> 超容: ${overflow} 架次`;
+            result = `${axisValue} <br/> 容量: ${capacity} 架次 <br/> 流量: ${flowVal} 架次 <br/> 超容: ${overflow} 架次`;
         }else {
-            result = `容量: ${capacity} 架次 <br/> 流量: ${flowVal} 架次`;
+            result = `${axisValue} <br/> 容量: ${capacity} 架次 <br/> 流量: ${flowVal} 架次`;
         }
         return result
     }
