@@ -14,6 +14,7 @@ import { flightPerformanceData } from './flightPerformanceStores'
 import { capacityFlowMonitorData } from './capacityFlowMonitorStores'
 import { systemPage } from './pageStores'
 import { workFlowData } from './workFlowStores'
+import { implementTacticsReasonData } from './implementTacticsReasonStores'
 
 export { 
     schemeListData,
@@ -22,6 +23,7 @@ export {
     systemPage,
     flightPerformanceData,
     capacityFlowMonitorData,
-    workFlowData
+    workFlowData,
+    implementTacticsReasonData,
  };
 
