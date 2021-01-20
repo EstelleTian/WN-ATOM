@@ -24,6 +24,7 @@ import "./CapacityFlowMonitor.scss"
 const CapacityFlowMonitor =(props) => {
 
     const capacityFlowMonitorData = props.capacityFlowMonitorData || {};
+    const { loading } = capacityFlowMonitorData;
     const monitorData = capacityFlowMonitorData.monitorData || {};
     const describedMap = monitorData.selfDescribedMap || {};
     const flow = monitorData.flow || {}
@@ -241,7 +242,7 @@ const CapacityFlowMonitor =(props) => {
 
 
     return(
-        <Spin spinning={false} >
+        <Spin spinning={loading} >
         <div className="capacity_flow_monitor_container">
             <List
                 grid={{ gutter: 16, column: 5 }}
