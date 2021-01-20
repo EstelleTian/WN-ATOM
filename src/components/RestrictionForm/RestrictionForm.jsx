@@ -274,6 +274,8 @@ function RestrictionForm(props){
             setConfirmLoading(true);
             // 处理导入提交数据
             const submitData = handleSubmitData(values);
+            console.log(submitData)
+            return
             // 数据提交
             submitFormData(submitData)
         } catch (errorInfo) {

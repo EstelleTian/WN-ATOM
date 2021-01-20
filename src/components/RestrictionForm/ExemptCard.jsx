@@ -53,6 +53,7 @@ const exemptionAuType = [
     { label: '外机', value: 'FOREIGN_AU' },
     { label: '台湾机', value: 'TAIWAN_AU' },
     { label: '港澳机', value: 'HKANDMC_AU' },
+    { label: '未知', value: 'UNKNOWN' },
 ]
 //航班类型选项
 const exemptionAirlineType = [
@@ -61,11 +62,14 @@ const exemptionAirlineType = [
     { label: '台湾地区', value: 'TAIWAN' },
     { label: '港澳特区', value: 'HKANDMC' },
     { label: '飞越', value: 'OVERFLY' },
+    { label: '未知', value: 'UNKNOWN' },
+
 ];
 //客货类型选项
 const exemptionMissionType = [
     { label: '客班', value: 'AIRLINE'},
-    { label: '货班', value: 'CARGO' }
+    { label: '货班', value: 'CARGO' },
+    { label: '未知', value: 'UNKNOWN' },
 ];
 //任务类型选项
 const exemptionTask = [
@@ -81,7 +85,8 @@ const exemptionTask = [
 //军民航选项
 const exemptionOrganization = [
     { label: '军航', value: 'MILITARY' },
-    { label: '民航', value: 'CIVIL' }
+    { label: '民航', value: 'CIVIL' },
+    { label: '未知', value: 'UNKNOWN' },
 ];
 //限制资质选项
 const exemptionAbility = [

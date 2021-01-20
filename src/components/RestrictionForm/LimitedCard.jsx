@@ -53,6 +53,7 @@ const auType = [
     { label: '外机', value: 'FOREIGN_AU' },
     { label: '台湾机', value: 'TAIWAN_AU' },
     { label: '港澳机', value: 'HKANDMC_AU' },
+    { label: '未知', value: 'UNKNOWN' },
 ]
 
 //航班类型选项
@@ -62,11 +63,13 @@ const airlineType = [
     { label: '台湾地区', value: 'TAIWAN' },
     { label: '港澳特区', value: 'HKANDMC' },
     { label: '飞越', value: 'OVERFLY' },
+    { label: '未知', value: 'UNKNOWN' },
 ];
 //客货类型选项
 const missionType = [
     { label: '客班', value: 'AIRLINE' },
-    { label: '货班', value: 'CARGO' }
+    { label: '货班', value: 'CARGO' },
+    { label: '未知', value: 'UNKNOWN' },
 ];
 //任务类型选项
 const task = [
@@ -82,7 +85,8 @@ const task = [
 //军民航选项
 const organization = [
     { label: '军航', value: 'MILITARY' },
-    { label: '民航', value: 'CIVIL' }
+    { label: '民航', value: 'CIVIL' },
+    { label: '未知', value: 'UNKNOWN' },
 ];
 //限制资质选项
 const ability = [
