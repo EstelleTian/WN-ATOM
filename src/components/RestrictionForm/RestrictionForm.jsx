@@ -117,7 +117,7 @@ function RestrictionForm(props){
         // 流控信息中的流控名称
         flowControlName: flowControlName || "",
         // 方案发布单位
-        tacticPublishUnit: tacticPublishUnit || "",
+        tacticPublishUnit: tacticPublishUnit || "流量室",
         // 方案发布用户
         tacticPublishUser:  tacticPublishUser || userDescriptionCN,
         // 基准单元
@@ -622,6 +622,45 @@ function RestrictionForm(props){
         form.setFieldsValue(data);
         // setRenderNumber(renderNumber++);
     };
+
+    /**
+     * 自动命名
+     *
+     * */
+    const autofillTacticName = async () => {
+        try {
+            // 限制数值单位集合
+            const restrictionModeUnit = {
+                "MIT":"分钟",
+                "AFP":"架",
+            };
+            // 限制数值单位
+            let unit = "";
+            // 必要校验字段
+            const fields =[
+                'targetUnit',
+                'restrictionMode',
+                'restrictionModeValue',
+                'startDate',
+                'startTime',
+            ];
+            // 触发表单验证取表单数据
+            const values = await form.validateFields(fields);
+            const { startTime, targetUnit, restrictionMode, restrictionModeValue, } = values;
+            unit = restrictionModeUnit[restrictionMode];
+            // 拼接名称
+            const name = `${startTime}-${targetUnit.toUpperCase()}-${restrictionMode}-${restrictionModeValue} ${unit} `;
+            // 更新
+            form.setFieldsValue({'tacticName': name});
+
+        } catch (errorInfo) {
+            console.log('Failed:', errorInfo);
+        }
+    };
+
+
+
+
     useEffect(function(){
         const user = localStorage.getItem("user");
         if( isValidVariable(user) ){
@@ -657,6 +696,7 @@ function RestrictionForm(props){
                     updateEndTimeString ={ updateEndTimeString }
                     updateRestrictionMode={updateRestrictionMode }
                     updateFormAPFieldValue={updateFormAPFieldValue }
+                    autofillTacticName={autofillTacticName }
                     form = { form}
 
                 />

@@ -154,6 +154,14 @@ function StaticInfoCard(props){
         setModeUnit(unit);
 
     };
+
+    /**
+     * 自动命名
+     * */
+    const handleAutofillName =() => {
+        // 更新表单方案名称数值
+        props.autofillTacticName();
+    };
     const restrictionModeData = [
         {"key":"AFP", "text": "AFP"},
         // {"key":"GDP", "text": "GDP"},
@@ -199,7 +207,7 @@ function StaticInfoCard(props){
                 </Col>
                 <Col span={3}>
                     <Form.Item >
-                        <Button type="primary">自动命名</Button>
+                        <Button type="primary" onClick={ handleAutofillName } >自动命名</Button>
                     </Form.Item>
                 </Col>
                 <Col span={8}>
