@@ -17,6 +17,7 @@
     font-size: 18px;
   }
 }
+
 //单元格为空，样式占位
 .empty_cell{
   height: 26px;
@@ -79,6 +80,9 @@
   .CTOT_DEP,.CTO_DEP,.COBT_DEP{
     background: #595959!important;
     color: #999797;
+    .DEP{
+      background: none;
+    }
   }
 
   //起飞  #CCCCCC
@@ -96,6 +100,28 @@
   }
   .AUTO{
     background: #3D8424;
+  }
+  
+  .TOBT_EOBT{  //TOBT报文
+    background: #b10fb1;
+  }
+  .TOBT_SYSTEM{  //TOBT推算
+    background: #FFFF00;
+  }
+  .TOBT_MANUAL_APPLY{  //TOBT申请
+    background: #0377c5;
+  }
+
+  .TOBT_MANUAL_APPROVE{  //TOBT批复
+    background: #057705;
+  }
+
+  .TOBT_MANUAL_APPLY{  //TOBT拒绝
+    background: #ad4141;
+  }
+
+  .TOBT_IMPROVE{  //TOBT调整
+    background: #CC9900;
   }
 }
 
