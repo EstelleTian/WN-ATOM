@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-21 10:55:55
+ * @LastEditTime: 2021-01-21 13:23:56
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -138,6 +138,12 @@ function WorkFlowList(props){
             align: 'center',
             key: "steps",
             width: (screenWidth > 1920) ? 70 : 70,
+            // width: (screenWidth > 1920) ? 90 : 90,
+            // render: (text, record, index) => {
+            //     return (
+            //         <div className="steps_cell">{text}</div>
+            //     )
+            // }
 
         },
         {
@@ -153,7 +159,7 @@ function WorkFlowList(props){
         dataIndex: "opt",
         align: 'center',
         key: "opt",
-        width: (screenWidth > 1920) ? 60 :60,
+        width: (screenWidth > 1920) ? 45 :45,
         render: (text, record, index) => {
             return (
                 <span className='opt_btns'>
@@ -282,22 +288,27 @@ function WorkFlowList(props){
             }
             //获取第一个hisTasks对象
             const hisTasksKeys = Object.keys( hisTasks );
-            let hid = hisTasksKeys[0];
-            const hitem = hisTasks[hid] || {};
-            const name = hitem.name || "";
+            const hisTasksLen = hisTasksKeys.length || 0;
+            let hid = "";
+            if( hisTasksLen > 0 ){
+                hid = hisTasksKeys[0];
+                const hitem = hisTasks[hid] || {};
+                const name = hitem.name || "";
 
-            let obj = {
-                key: sid,
-                sid: sid,
-                businessName,
-                steps: name,
-                userNameCn,
-                endTime,
-                taskStatus,
-                opt: "",
-                orgdata: JSON.stringify( item )
-            };
-            newList.push(obj)
+                let obj = {
+                    key: sid,
+                    sid: sid,
+                    businessName,
+                    // steps: "第"+(hisTasksLen)+"步:"+name,
+                    steps: name,
+                    userNameCn,
+                    endTime,
+                    taskStatus,
+                    opt: "",
+                    orgdata: JSON.stringify( item )
+                };
+                newList.push(obj);
+            }                                                                               
         }
         return newList
     });
@@ -314,22 +325,28 @@ function WorkFlowList(props){
             let taskStatus = "处理中"; //流程状态
             //获取第一个hisTasks对象
             const hisTasksKeys = Object.keys( instanceTasks );
-            let hid = hisTasksKeys[0];
-            const hitem = instanceTasks[hid] || {};
-            const name = hitem.name || "";
-            const createTime = hitem.createTime || ""; //到达时间
-            let obj = {
-                key: sid,
-                sid: sid,
-                businessName,
-                steps: name,
-                userNameCn,
-                createTime,
-                taskStatus,
-                opt: "",
-                orgdata: JSON.stringify( item )
-            };
-            newList.push(obj)
+            const hisTasksLen = hisTasksKeys.length || 0;
+            let hid = "";
+            if( hisTasksLen > 0 ){
+                hid = hisTasksKeys[0];
+                const hitem = instanceTasks[hid] || {};
+                const name = hitem.name || "";
+                const createTime = hitem.createTime || ""; //到达时间
+                let obj = {
+                    key: sid,
+                    sid: sid,
+                    businessName,
+                    // steps: "第"+(hisTasksLen)+"步:"+name,
+                    steps: name,
+                    userNameCn,
+                    createTime,
+                    taskStatus,
+                    opt: "",
+                    orgdata: JSON.stringify( item )
+                };
+                newList.push(obj)
+            }
+            
         }
         return newList
     });
