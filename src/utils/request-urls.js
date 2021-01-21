@@ -33,6 +33,8 @@ const ReqUrls = {
     hisTaskUrl: 'http://192.168.194.20:28087/workflow/userHisTask/',
     //获取工作流-待办列表
     tasksUrl: 'http://192.168.194.20:28087/workflow/userTask/',
+    // 航班查询
+    searchFlightUrl: 'http://192.168.194.20:38188/hydrogen-flight-plan-server/flightPlan/retrieveDataByFlightId/',
 
 };
 //协调相关url
