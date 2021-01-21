@@ -53,10 +53,9 @@ function RestrictionForm(props){
     const { restrictionMode, } = flowControlMeasure;
 
 
-    // const { targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit} = getDirectionListData(directionList);
     // 流控方向领域对象
     const directionListData = directionList[0] || {};
-    const { targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = directionListData;
+    const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptbehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = directionListData;
     // 流控航班类型条件
     const flowControlFlight = isValidObject(sourceFlowcontrol.flowControlFlight) ? sourceFlowcontrol.flowControlFlight : {};
 
@@ -86,9 +85,9 @@ function RestrictionForm(props){
     const upperFields=[
         "tacticPublishUser",
         "targetUnit",
-        "preorderUnit",
+        "formerUnit",
         "behindUnit",
-        "exemptPreUnit",
+        "exemptFormerUnit",
         "exemptbehindUnit",
         "flowControlFlightId",
         "aircraftType",
@@ -124,11 +123,11 @@ function RestrictionForm(props){
         // 基准单元
         targetUnit: targetUnit,
         // 前序单元
-        preorderUnit: preorderUnit,
+        formerUnit: formerUnit,
         // 后序单元
         behindUnit: behindUnit,
         // 豁免前序
-        exemptPreUnit: exemptPreUnit,
+        exemptFormerUnit: exemptFormerUnit,
         // 豁免后序
         exemptbehindUnit: exemptbehindUnit,
         // 限制高度
@@ -369,7 +368,7 @@ function RestrictionForm(props){
 
         // 表单字段数据
         const { tacticName, tacticPublishUnit, tacticPublishUser,
-            targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit, exemptHeight,
+            targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptbehindUnit, highLimit, exemptHeight,
             depAp, arrAp, exemptDepAp, exemptArrAp,
             flowControlName, flowControlReason, flowControlPublishType, restrictionRemark,
             restrictionMode, restrictionModeValue,
@@ -391,11 +390,11 @@ function RestrictionForm(props){
         // 更新基准单元
         directionListData.targetUnit = targetUnit;
         // 更新前序单元
-        directionListData.preorderUnit = preorderUnit;
+        directionListData.formerUnit = formerUnit;
         // 更新后序单元
         directionListData.behindUnit = behindUnit;
         // 更新豁免前序
-        directionListData.exemptPreUnit = exemptPreUnit;
+        directionListData.exemptFormerUnit = exemptFormerUnit;
         // 更新豁免后序
         directionListData.exemptbehindUnit = exemptbehindUnit;
         // 更新限制高度
