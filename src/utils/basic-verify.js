@@ -280,4 +280,4 @@ const millisecondToDate = ( msd ) => {
     return time;
 };
 export { isValidVariable, isValidObject, calculateStringTimeDiff, addStringTime, getFullTime, formatTimeString,
-    getTimeFromString, getDayTimeFromString, getDateFromString, getTimeAndStatus, millisecondToDate };
+    getTimeFromString, getDayTimeFromString, getDateFromString, getTimeAndStatus, millisecondToDate, addDateTime };

@@ -7,8 +7,9 @@
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
 import React, {useState, useEffect, useCallback} from 'react'
-import { getFullTime,getDayTimeFromString, isValidObject, isValidVariable } from 'utils/basic-verify'
-import { List, Divider , Icon, Form, Input,  Select, Drawer, Tooltip, Tag  } from 'antd'
+import { getFullTime,getDayTimeFromString, isValidObject, isValidVariable, addDateTime } from 'utils/basic-verify'
+import { List, Divider , Icon, Form, Input,  Select, Drawer, Tooltip, Tag, Row, Col, } from 'antd'
+
 
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
@@ -25,6 +26,8 @@ const FlightSearch = (props) => {
     const EMPTY = '航班不存在';
     const FAILURE = '查询失败';
 
+    const defaultDate="today";
+
     let [drawerVisible, setDrawerVisible,  ] = useState(0);
     // 单个航班数据
     let [flight, setFlight, ] = useState(0);
@@ -32,6 +35,7 @@ const FlightSearch = (props) => {
     let [searchTootipText, setSearchTootipText, ] = useState(NORMAL);
     let [searchLoadingVisible, setSearchLoadingVisible, ] = useState(0);
     let [selectedID, setSelectedID, ] = useState(-1);
+    let [searchDate, setSearchDate, ] = useState(defaultDate);
     const data = [];
     let [flightListData, setFlightListData, ] = useState(data);
     useEffect(() => {
@@ -50,7 +54,7 @@ const FlightSearch = (props) => {
      * */
     const  closeDrawer = useCallback(function () {
         setDrawerVisible(false);
-        setSelectedID(-1)
+        // setSelectedID(-1)
     });
 
     /**
@@ -99,6 +103,44 @@ const FlightSearch = (props) => {
     );
 
     /**
+     * 查询日期变更
+     * */
+    const handleChangeDate = (value)=> {
+        setSearchDate(value);
+    };
+
+    /**
+     * 绘制单个航班命中方案列表中单个方案信息
+     * */
+    const drawSchemeItem = (data,index) =>{
+        return(
+            <List.Item
+                className={(data.id === selectedID) ? 'selected': ''}
+                key={ data.id }
+                onClick={() => {
+                    // showSingleFlightSummary(item)
+                }}
+            >
+                <Row>
+                    <Col span={2}>
+                        <div>{index+1}</div>
+                    </Col>
+                    <Col span={5}>
+                        <div>{index+1}</div>
+                    </Col>
+                    <Col span={5}>
+                        <div>{index+1}</div>
+                    </Col>
+                    <Col span={5}>
+                        <div>{index+1}</div>
+                    </Col>
+                </Row>
+            </List.Item>
+        )
+    };
+
+
+    /**
      *  绘制航班略情数据
      * */
     const drawFlightSummerData = useCallback(function (flight) {
@@ -107,50 +149,192 @@ const FlightSearch = (props) => {
         const DEPAP = flight.DEPAP || 'N/A';
         const ARRAP = flight.ARRAP || 'N/A';
         const AGCT = flight.AGCT || 'N/A';
+        const AOBT = flight.AOBT || 'N/A';
+        const ATOT = flight.ATOT || 'N/A';
+        const RWY = flight.RWY || 'N/A';
+        const SID = flight.SID || 'N/A';
+        const REG = flight.REG || 'N/A';
         let FORMER = flight.FORMER || 'N/A';
+        const text  = <span>{`查看航班详情`}</span>;
 
+        const schemeListData = [];
 
         return (
-            <div className="summary-container">
-                <div className="flight-summary summary-nav">
-                    <div className="descriptions ap">ADEP-ADES</div>
-                    <div className="descriptions">AGCT</div>
-                    <div className="descriptions">AOBT</div>
-                    <div className="descriptions">ATOT</div>
-                    <div className="descriptions">RWY</div>
-                    <div className="descriptions">SID</div>
-                    <div className="descriptions">STATUS</div>
-                </div>
-                <div className="flight-summary summary-value">
-                    <div className="descriptions ap">{`${DEPAP}-${ARRAP}`}</div>
-                    <div className="descriptions">{AGCT}</div>
-                    <div className="descriptions">1200</div>
-                    <div className="descriptions">1215</div>
-                    <div className="descriptions">02L</div>
-                    <div className="descriptions">N/A</div>
-                    <div className="descriptions"><Tag color="#2db7f5">计划</Tag></div>
-                </div>
 
-                <Divider className="former-divider" orientation="center"> {`前序航班 ${FORMER}`}</Divider>
+            <div className="summary-container" >
+                <div className="flight-summary-section">
+                    <Form
+                        layout="vertical "
+                    >
+                        <Row className="summary-row">
+                            <Col className="vertical-span" span={4}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input">
+                                            <div className="ant-form-item-control-input-content flight-id">
+                                                <div>{FLIGHTID}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col span={5}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-label ">
+                                        <label className="ant-form-item-no-colon" >ADEP-ADES</label>
+                                    </div>
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content text-center">{`${DEPAP}-${ARRAP}`}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col span={3}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-label ">
+                                        <label className="ant-form-item-no-colon" title="">AGCT</label>
+                                    </div>
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content">{AGCT}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col span={3}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-label ">
+                                        <label className="ant-form-item-no-colon" title="">AOBT</label>
+                                    </div>
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content">{AOBT}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col span={3}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-label ">
+                                        <label className="ant-form-item-no-colon" title="">ATOT</label>
+                                    </div>
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content">{ATOT}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col span={3}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-label ">
+                                        <label className="ant-form-item-no-colon " title="">RWY</label>
+                                    </div>
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content">{RWY}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col span={3}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-label ">
+                                        <label className="ant-form-item-no-colon" title="">SID</label>
+                                    </div>
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content">{SID}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row className="summary-row">
+                            <Col className="vertical-span" span={4}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-label ">
+                                        <label className="ant-form-item-no-colon" >FORMER</label>
+                                    </div>
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content">{FORMER}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col span={5}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-label ">
+                                        <label className="ant-form-item-no-colon" >ADEP-ADES</label>
+                                    </div>
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content">{`N/A`}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col span={3}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-label ">
+                                        <label className="ant-form-item-no-colon" title="">ACTYPE</label>
+                                    </div>
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content">{AGCT}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col span={3}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-label ">
+                                        <label className="ant-form-item-no-colon" title="">REG</label>
+                                    </div>
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content">{REG}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col span={3}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-label ">
+                                        <label className="ant-form-item-no-colon" title="">ALDT</label>
+                                    </div>
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content">{ATOT}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col className="vertical-span" span={6}>
+                                <div className="ant-row ant-form-item">
+                                    <div className="ant-col ant-form-item-control">
+                                        <div className="ant-form-item-control-input ">
+                                            <div className="ant-form-item-control-input-content"><Tag className="flight-status-tag" color="#2db7f5">计划</Tag></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
 
-
-                <div className="flight-summary summary-nav">
-                    <div className="descriptions ap">ADEP-ADES</div>
-                    <div className="descriptions">ACTYPE</div>
-                    <div className="descriptions">REG</div>
-                    <div className="descriptions">ALDT</div>
-                    <div className="descriptions">STATUS</div>
-                    <div className="descriptions">{` `}</div>
-                    <div className="descriptions">{` `}</div>
+                        </Row>
+                    </Form>
                 </div>
-                <div className="flight-summary summary-value">
-                    <div className="descriptions ap">ZBLA-ZBAA</div>
-                    <div className="descriptions">B738</div>
-                    <div className="descriptions">1200</div>
-                    <div className="descriptions">N/A</div>
-                    <div className="descriptions"><Tag color="#87d068">起飞</Tag></div>
-                    <div className="descriptions">{` `}</div>
-                    <div className="descriptions">{` `}</div>
+                <div className="scheme-list-section">
+                    {
+                        (schemeListData.length > 0)  ? <List
+                            itemLayout="horizontal"
+                            size="small"
+                            dataSource={schemeListData}
+                            renderItem={drawSchemeItem}
+                        /> : ''
+                    }
+
                 </div>
             </div>
         )
@@ -162,11 +346,7 @@ const FlightSearch = (props) => {
      *  获取航班略情抽屉标题
      * */
     const getDrawerTitle = useCallback(function () {
-        const text  = <span>{`查看航班详情`}</span>;
-        const title = <Tooltip placement="top" title={text}>
-                        <span className="title-flight-id">{flight.FLIGHTID}</span>
-                    </Tooltip>;
-        return title
+        return <span className="title-flight-id">{flight.FLIGHTID}</span>
     });
 
     /**
@@ -175,10 +355,18 @@ const FlightSearch = (props) => {
      * */
     const requestFlightData = useCallback((flightId) => {
         setSearchLoadingVisible(true);
-        const nowDate = getFullTime(new Date()).substring(0,8);
-        const start = nowDate+'0000';
-        // const start = '202101150000';
-        const end = nowDate+'2359';
+
+        const now = new Date();
+        let targetData = "";
+        if(searchDate === 'yestoday'){
+            targetData = getFullTime(addDateTime(now, -1*1000*60*60*24)).substring(0,8)
+        }else if(searchDate === 'tomorrow'){
+            targetData = getFullTime(addDateTime(now, 1*1000*60*60*24)).substring(0,8)
+        }else if(searchDate === 'today') {
+            targetData = getFullTime(now).substring(0,8);
+        }
+        const start = targetData+'0000';
+        const end = targetData+'2359';
         const opt = {
             url: ReqUrls.searchFlightUrl+`${flightId}/${start}/${end}`,
             method:'GET',
@@ -264,9 +452,7 @@ const FlightSearch = (props) => {
             EOBT: getDayTimeFromString(flight.eobt),
             FORMER: flight.formerFlightid,
         };
-
         return obj;
-
     }
 
     /**
@@ -309,6 +495,8 @@ const FlightSearch = (props) => {
             setDrawerVisible(true);
             // 显示单个航班信息
             showSingleFlightSummary(flightListData[0]);
+        }else {
+            setSelectedID(-1);
         }
     });
 
@@ -356,16 +544,14 @@ const FlightSearch = (props) => {
                                 onSearch={searchFlightData}
                                 onPressEnter = {pressEnter}
                                 onChange={handleInputValueChange}
-                                // onMousedown={ handleInputValueChange}
-                                // onMouseLeave={ handleMouseLeave }
-                                // onBlur ={ changeTootipText }
                                 style={{marginRight: '2%', width: '30%'}}
                         />
                     </Tooltip>
                     <Select
                         size="small"
                         style={{marginRight: '2%'}}
-                        defaultValue="today"
+                        defaultValue={defaultDate}
+                        onChange={handleChangeDate}
                     >
                         <Option value="yestoday">昨日</Option>
                         <Option value="today">今日</Option>
@@ -400,7 +586,7 @@ const FlightSearch = (props) => {
                     visible={drawerVisible}
                     mask={ false}
                     getContainer={false}
-                    width="73%"
+                    width="100%"
                     style={{position: 'absolute'}}
                 >
                     { drawFlightSummerData(flight)}
