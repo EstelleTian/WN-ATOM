@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-23 20:23:17
+ * @LastEditTime: 2021-01-21 10:55:09
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \WN-ATOM\src\routes\index.jsx
+ */
 import React, { lazy } from 'react';
 import { withRouter } from 'react-router-dom';
 const InfoPage = lazy(() => import('../pages/InfoPage/InfoPage'));
@@ -7,6 +15,7 @@ const RestrictionPage = lazy(() => import('../pages/RestrictionPage/RestrictionP
 const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
 const CreateFlowPage = lazy(() => import('../pages/CreateFlowPage/CreateFlowPage'));
 const WorkFlowPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowPage'));
+const WorkFlowDetailPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowDetailPage'));
 const CapacityManagementPage = lazy(() => import('../pages/CapacityManagementPage/CapacityManagementPage'));
 
 export default [
@@ -51,6 +60,12 @@ export default [
         component: withRouter(WorkFlowPage),
         exact: true,
         title: '工作流',
+    },
+    {
+        path: '/workflow_detail/:source/:id',
+        component: withRouter(WorkFlowDetailPage),
+        exact: true,
+        title: '工作流详情',
     },
     {
         path: '/capacity',

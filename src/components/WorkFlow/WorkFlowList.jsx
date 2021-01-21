@@ -1,14 +1,14 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-20 16:20:58
+ * @LastEditTime: 2021-01-21 10:55:55
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
  */
 import React, {useEffect, useState, useCallback} from 'react'
 import ReactDom from 'react-dom';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { Button, Input, Table, message} from 'antd'
 import { Window as WindowDHX } from "dhx-suite";
 import { getFullTime, formatTimeString } from 'utils/basic-verify'
@@ -68,11 +68,16 @@ const DetailBtn = function(props){
 
     },[window]);
     
+    let id = "";
+    if( isValidVariable(id) ){
+        id = windowClass.replace("win_", "");
+    }
     return (
-        <a onClick={ e =>{
-            showDetailWind( props.record );
-            e.stopPropagation();
-        } }>详情</a>
+        // <a onClick={ e =>{
+        //     showDetailWind( props.record );
+        //     e.stopPropagation();
+        // } }>详情</a>
+        <Link to={`/workflow_detail/list/${props.record.sid}`} target="_blank">详情</Link>
     )
 }
 
@@ -92,6 +97,8 @@ function WorkFlowList(props){
     const { systemPage, workFlowData } = props;
     const { activeTab } = workFlowData;
     const { user } = systemPage;
+
+
 
     //查询框
     const onSearch = value => {
@@ -115,15 +122,14 @@ function WorkFlowList(props){
         dataIndex: "sid",
         align: 'center',
         key: "sid",
-        width: (screenWidth > 1920) ? 30 : 30,
-
+        width: (screenWidth > 1920) ? 35 : 35,
     },
         {
             title: "工作名称",
             dataIndex: "businessName",
             align: 'center',
             key: "businessName",
-            width: (screenWidth > 1920) ? 130 : 130,
+            width: (screenWidth > 1920) ? 120 : 120,
 
         },
         {
@@ -139,7 +145,7 @@ function WorkFlowList(props){
             dataIndex: "userNameCn",
             align: 'center',
             key: "userNameCn",
-            width: (screenWidth > 1920) ? 50 : 50,
+            width: (screenWidth > 1920) ? 60 : 60,
         }];
 
     const optColumn = {
@@ -169,13 +175,18 @@ function WorkFlowList(props){
             dataIndex: "endTime",
             align: 'center',
             key: "endTime",
-            width: (screenWidth > 1920) ? 60 : 50,
+            width: (screenWidth > 1920) ? 70 : 70,
             render: (text, record, index) => {
                 if( text === "" ){
                     return text
                 }else {
                     return getFullTime(new Date(text), 1)
                 }
+                // if( text === "" ){
+                //     return <span>{text}</span>
+                // }else {
+                //     return <span title={`${getFullTime(new Date(text), 1)}`}>{getFullTime(new Date(text), 2)}</span>
+                // }
             }
         },
         {
@@ -228,7 +239,7 @@ function WorkFlowList(props){
             dataIndex: "createTime",
             align: 'center',
             key: "createTime",
-            width: (screenWidth > 1920) ? 60 : 50,
+            width: (screenWidth > 1920) ? 70 : 70,
             render: (text, record, index) => {
                 if( text === "" ){
                     return text
@@ -237,13 +248,20 @@ function WorkFlowList(props){
                 }
             }
         },
-        {
-            title: "已停留",
-            dataIndex: "stopTime",
-            align: 'center',
-            key: "stopTime",
-            width: (screenWidth > 1920) ? 60 : 40,
-        },
+        // {
+        //     title: "已停留",
+        //     dataIndex: "stopTime",
+        //     align: 'center',
+        //     key: "stopTime",
+        //     width: (screenWidth > 1920) ? 60 : 40,
+        //     render: (text, record, index) => {
+        //         if( text === "" ){
+        //             return text
+        //         }else {
+        //             return getFullTime(new Date(text), 1)
+        //         }
+        //     }
+        // },
         optColumn,
 
     ];
@@ -443,6 +461,10 @@ function WorkFlowList(props){
     }
 
     let data = filterInput( cdata );
+    //按流水号排序
+    data = data.sort( (a,b) => {
+        return ( a.sid*1 - b.sid*1 ) *(-1);
+    } );
     return (
         <div className="work_cont">
             <div className="work_search">
@@ -470,7 +492,7 @@ function WorkFlowList(props){
                             showSizeChanger: true,
                             showQuickJumper: true,
                             showTotal: (total, range) => `共 ${total} 条`,
-                            defaultPageSize: 20
+                            // defaultPageSize: 20
                         }}
                         scroll={{
                             y: (screenWidth > 1920) ? 1000 : 840,
@@ -481,7 +503,7 @@ function WorkFlowList(props){
                     />
                 </div>
             </div>
-            <div className="data_time">数据时间：{ formatTimeString(workFlowData.generateTime) }</div>
+            <div className="date_time">数据时间：{ formatTimeString(workFlowData.generateTime) }</div>
         </div>
     )
 }

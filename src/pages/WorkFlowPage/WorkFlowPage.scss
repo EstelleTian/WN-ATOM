@@ -1,11 +1,11 @@
 
-@media screen and ( min-width: 1921px){
-  .work_layout{
-    width: 70%;
-    margin: 0 auto;
-  }
+.work_layout, .work_detail_layout{
+  width: 1060px;
+  height: 600px;
 }
-
+.work_detail_layout{
+  margin: 0 auto;
+}
 //工作流--导航样式
 .work_menu{
   background: rgba(64, 64, 64, 0.8);
@@ -24,11 +24,12 @@
   text-align: center;
 
 }
-.data_time{
+.date_time{
   display: inline-block;
   position: absolute;
-  bottom: 0.75rem;
-  left: 0.5rem;
+  bottom: 15px;
+  left: 5px;
+  font-size: 15px;
 }
 .opt_btns{
   a{

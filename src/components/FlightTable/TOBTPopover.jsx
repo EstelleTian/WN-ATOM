@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-20 17:04:20
+ * @LastEditTime: 2021-01-21 08:53:20
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -102,9 +102,7 @@ const TOBTPopover = (props) => {
         )
     }else{
         return(
-            <PopoverTip title={ title } textDom={textDom} opt={opt} 
-            col="TOBT"
-            />
+            <PopoverTip title={ title } textDom={textDom} opt={opt} />
         )
     }
 

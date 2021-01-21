@@ -1,7 +1,9 @@
 import React, {useState, useEffect, useCallback } from 'react'
 import { message, Button, Table, Spin } from "antd";
+import { Link } from 'react-router-dom'
 import { requestGet } from 'utils/request'
-import { getFullTime, isValidVariable, isValidObject, millisecondToDate } from 'utils/basic-verify'
+import { ReqUrls } from 'utils/request-urls'
+import { getFullTime, isValidVariable, formatTimeString, millisecondToDate } from 'utils/basic-verify'
 import './WorkFlowContent.scss'
 
 //获取屏幕宽度，适配 2k
@@ -112,11 +114,15 @@ const columns = [
 const WorkFlowContent = (props) => {
     const [ loading, setLoading ] = useState(true);
     const [ data, setData ] = useState([]);
-    const { modalId } = props;
+    const [ instance, setInstance ] = useState({});
+    const [ generateTime, setGenerateTime ] = useState("");
+    const { modalId, from, source } = props;
     //更新工作流列表数据
     const updateDetailData = useCallback( data => {
-        const generateTime = data.generateTime || "";
-        // const hisInstance = data.hisInstance || {};
+        const gTime = data.generateTime || "";
+        setGenerateTime(gTime);
+        const hisInstance = data.hisInstance || {};
+        setInstance(hisInstance);
         const hisTasks = data.hisTasks || [];
         console.log("hisTasks",hisTasks);
         // if( !isValidObject(hisInstance) ){
@@ -157,8 +163,14 @@ const WorkFlowContent = (props) => {
     })
     //根据modalId获取工作流详情
     const requestSchemeDetail = useCallback(( modalId ) => {
+        let url = "";
+        if( source === "fangxing" ){
+            url = ReqUrls.taskDetailUrl + 'SchemeApprovalProcess/' + modalId;
+        }else{
+            url = ReqUrls.taskDetailUrl + modalId;
+        }
         const opt = {
-            url: 'http://192.168.243.187:28086/workflow/procTaskHis/' + modalId,
+            url, 
             method: 'GET',
             params:{},
             resFunc: (data)=> {
@@ -186,10 +198,20 @@ const WorkFlowContent = (props) => {
         // setVisible(false)
     });
 
+    const processVariables = instance.processVariables || {};
+    const businessName = processVariables.businessName || "";
+
+
     return (
         <Spin spinning={loading} >
             <div className="workflow_wind_cont">
-                {/*<div className="header_canvas">工作流ID:{modalId}</div>*/}
+                {
+                    from === "simple" ? <div className="info_canvas">
+                        <div className="info_name">{ businessName }({modalId})</div>
+                        <div className="generateTime">数据时间:{ isValidVariable(generateTime) ? formatTimeString(generateTime) : "" }</div>
+                    </div> : ""
+                }
+            
                 <div className="cont_canvas">
                     <Table
                         columns={columns}
@@ -208,12 +230,26 @@ const WorkFlowContent = (props) => {
                         // rowClassName={(record, index)=>setRowClassName(record, index)}
                     />
                 </div>
-                <div className="win_btns">
-                    <Button type="primary" className="btn_confirm" onClick={ e => {
-                        props.window.hide();
-                    } }>确认</Button>
-                    <Button onClick={ ()=>{ alert("建设中,敬请期待!")} } style={{ float: 'left'}}>窗口模式</Button>
-                </div>
+                {
+                    from === "simple" ? "" : <div className="win_btns">
+                        <Button type="primary" className="btn_confirm" onClick={ e => {
+                            props.window.hide();
+                        } }>确认</Button>
+                        <Button onClick={ (e)=>{ 
+                            props.window.hide();
+                            if( source === "fangxing"){ //从放行监控点击窗口模式来到工作流详情
+                                window.open( "/#/workflow_detail/fangxing/"+modalId ,"_blank");
+                            }else{
+                                window.open( "/#/workflow_detail/"+modalId ,"_blank");
+                            }
+
+                            
+                        } } style={{ float: 'left'}}>
+                            窗口模式
+                        </Button>
+                    </div>
+                }
+                
             </div>
         </Spin>
     )

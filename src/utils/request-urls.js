@@ -1,11 +1,14 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-20 16:11:18
+ * @LastEditTime: 2021-01-21 11:06:36
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
  */
+
+//  const workflowIP = "http://192.168.243.187:28086";
+ const workflowIP = "http://192.168.194.20:28087";
 const ReqUrls = {
     //用户登录
     loginUrl: 'http://192.168.194.21:18380/uuma-server/client/login',
@@ -30,9 +33,11 @@ const ReqUrls = {
     //创建流控-数据提交
     createFlowUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/sim/',
     //获取工作流-办结列表
-    hisTaskUrl: 'http://192.168.194.20:28087/workflow/userHisTask/',
+    hisTaskUrl: workflowIP+'/workflow/userHisTask/',
     //获取工作流-待办列表
-    tasksUrl: 'http://192.168.194.20:28087/workflow/userTask/',
+    tasksUrl: workflowIP+'/workflow/userTask/',
+    //获取工作流-详情
+    taskDetailUrl: workflowIP+'/workflow/procTaskHis/',
 
 };
 //协调相关url

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-20 16:49:00
+ * @LastEditTime: 2021-01-21 08:55:13
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -27,13 +27,13 @@ const CTPopover = (props) => {
     let title = "";
     if( col === "COBT"){
         field = orgdata.cobtField || {};
-        title = "预撤时间修改";
+        title = "COBT时间变更";
     }else if( col === "CTOT"){
         field = orgdata.ctotField || {};
-        title = "预起时间修改";
+        title = "CTOT时间变更";
     }else if( col === "FFIXT"){
         field = orgdata.ffixField || {};
-        title = "过点时间修改";
+        title = "FFIXT时间变更";
     }else if( col === "TOBT"){
         field = orgdata.tobtField || {};
         title = "TOBT申请变更";

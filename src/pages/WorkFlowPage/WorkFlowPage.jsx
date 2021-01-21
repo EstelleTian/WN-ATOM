@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2020-12-22 20:36:30
+ * @LastEditTime: 2021-01-21 09:01:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -49,7 +49,8 @@ let WorkFlowNav = inject("workFlowData")(observer((props) => {
 function WorkFlowPage(){
     return (
         <Layout className="work_layout">
-            <NavBar className="nav_bar" title="空中交通运行放行监控系统" username="" />
+            {/*<NavBar className="nav_bar" title="空中交通运行放行监控系统" username="" />*/}
+        
             <WorkFlowNav />
             <WorkFlowList />
         </Layout>
