@@ -1,7 +1,8 @@
 .flight_search {
-
-  .box_content {
-    overflow: visible;
+  &.modal_box {
+    .box_content {
+      overflow: visible;
+    }
   }
   .container {
     height: 100%;
@@ -19,7 +20,7 @@
         flex-direction: row-reverse
       }
     }
-    .content{
+    .content {
       @include display_flex(column);
       @include flex();
       position: relative;
@@ -34,18 +35,21 @@
         cursor: pointer;
         padding: 4px;
         &:hover {
-          background: #4065ff
-        };
+          background: #262626
+        }
+      ;
+        &.selected {
+          background: #35A5DA;
+        }
       }
       .list-nav {
         padding: 4px;
         position: sticky;
         position: -webkit-sticky;
         top: 0;
-        background: #202020;
+        background: #313131;
         z-index: 1;
-        //box-shadow: 0 6px 16px -8px rgba(0,0,0,.32), 0 9px 28px 0 rgba(0,0,0,.2), 0 12px 48px 16px rgba(0,0,0,.12);
-        box-shadow: -6px 0 16px -8px rgba(0,0,0,.5), -9px 0 28px 0 rgba(0,0,0,.5), -12px 0 48px 16px rgba(0,0,0,.5);
+        box-shadow: -6px 0 16px -8px rgba(0, 0, 0, .5), -9px 0 28px 0 rgba(0, 0, 0, .5), -12px 0 48px 16px rgba(0, 0, 0, .5);
         @include display_flex();
         flex: 0 1 auto;
 
@@ -57,7 +61,7 @@
         .num {
           flex: 0 0 50px;
         }
-        .flight-id, .flight-sobt , .flight-former {
+        .flight-id, .flight-sobt, .flight-former {
           //flex: 1 1 10%;
         }
 
@@ -78,11 +82,6 @@
           .num {
             flex: 0 0 50px;
           }
-
-          //.flight-id, .flight-sobt, .flight-former {
-          //  flex: 1 1 10%;
-          //}
-
         }
       }
     }
@@ -91,10 +90,10 @@
     }
     .flight-summary-drawer {
       .ant-drawer-content-wrapper {
-        box-shadow: -6px 0 16px -8px rgba(0,0,0,.5), -9px 0 28px 0 rgba(0,0,0,.5), -12px 0 48px 16px rgba(0,0,0,.5);
-        //border-radius: 4px;
-        //border-left: 1px solid $c-white-15;
-
+        box-shadow: -6px 0 16px -8px rgba(0, 0, 0, .5), -9px 0 28px 0 rgba(0, 0, 0, .5), -12px 0 48px 16px rgba(0, 0, 0, .5);
+        .ant-drawer-body {
+          padding: 8px;
+        }
       }
 
       .flight-summary {
@@ -106,7 +105,7 @@
           flex: 0 1 80px;
         }
       }
-      .summary-nav{
+      .summary-nav {
         color: #5bc0de;
       }
     }

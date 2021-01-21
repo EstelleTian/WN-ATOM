@@ -103,7 +103,7 @@ function SchemeItem(props){
             setTimeout(function(){
                 const winDom = document.getElementsByClassName(windowClass)[0];
                 ReactDom.render(
-                    <WorkFlowContent modalId={id} window={window}/>,
+                    <WorkFlowContent modalId={id} window={window} source="fangxing" />,
                     winDom);
             }, 200)
         }

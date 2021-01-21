@@ -7,8 +7,12 @@
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
 import React, {useState, useEffect, useCallback} from 'react'
-import { isValidVariable } from 'utils/basic-verify'
+import { getFullTime,getDayTimeFromString, isValidObject, isValidVariable } from 'utils/basic-verify'
 import { List, Divider , Icon, Form, Input,  Select, Drawer, Tooltip, Tag  } from 'antd'
+
+import { request } from 'utils/request'
+import { ReqUrls } from 'utils/request-urls'
+
 
 import './FlightSearch.scss'
 const { Option } = Select;
@@ -17,305 +21,328 @@ const { Search } = Input;
 //航班查询模块
 const FlightSearch = (props) => {
 
-    let [drawerVisible, setDrawerVisible,  ] = useState(0)
-    let [flight, setFlight, ] = useState(0)
-    let [searchTootipVisible, setSearchTootipVisible, ] = useState(0)
-    let [searchLoadingVisible, setSearchLoadingVisible, ] = useState(0)
-    // const flightListData = [];
-    const data = []
-    let [flightListData, setFlightListData, ] = useState(data)
+    const NORMAL = '';
+    const EMPTY = '航班不存在';
+    const FAILURE = '查询失败';
+
+    let [drawerVisible, setDrawerVisible,  ] = useState(0);
+    // 单个航班数据
+    let [flight, setFlight, ] = useState(0);
+    let [searchTootipVisible, setSearchTootipVisible, ] = useState(0);
+    let [searchTootipText, setSearchTootipText, ] = useState(NORMAL);
+    let [searchLoadingVisible, setSearchLoadingVisible, ] = useState(0);
+    let [selectedID, setSelectedID, ] = useState(-1);
+    const data = [];
+    let [flightListData, setFlightListData, ] = useState(data);
     useEffect(() => {
 
-    }, [drawerVisible, flightListData]);
+    }, [drawerVisible, flightListData, selectedID, flight ]);
 
 
-    const mockFlightListData = [
+    /**
+     * 隐藏tooltip
+     * */
+    const  hideTooltip = useCallback(function () {
+        setSearchTootipVisible(false);
+    });
+    /**
+     * 关闭单个航班信息抽屉
+     * */
+    const  closeDrawer = useCallback(function () {
+        setDrawerVisible(false);
+        setSelectedID(-1)
+    });
 
-        {
-            id: 0,
-            flightId: 'BAV459',
-            depap: 'RKSI',
-            arrap: 'VVNB',
-            sobt: '17/0630',
-            reg: 'N/A',
-            former: 'N/A'
-        },{
-            id: 1,
-            flightId: 'CCA1130',
-            depap: 'ZBLA',
-            arrap: 'ZBAA',
-            sobt: '17/2130',
-            reg: 'N/A',
-            former: 'CCA001'
-        },
-        {
-            id: 2,
-            flightId: 'CCA112',
-            depap: 'ZLLL',
-            arrap: 'ZUUU',
-            sobt: '17/2142',
-            reg: 'N/A',
-            former: 'N/A'
-        },
-        {
-            id: 3,
-            flightId: 'CCA1553',
-            depap: 'ZBHH',
-            arrap: 'ZSPD',
-            sobt: '17/1915',
-            reg: 'N/A',
-            former: 'N/A'
-        },
-        {
-            id: 4,
-            flightId: 'CCA1110',
-            depap: 'ZBXH',
-            arrap: 'ZBAA',
-            sobt: '17/0900',
-            reg: 'N/A',
-            former: 'CCA122'
-        },
-        {
-            id: 5,
-            flightId: 'CCA4153',
-            depap: 'ZUUU',
-            arrap: 'ZWWW',
-            sobt: '17/1620',
-            reg: 'N/A',
-            former: 'N/A'
-        },
-        {
-            id: 6,
-            flightId: 'CCA8130',
-            depap: 'ZLIC',
-            arrap: 'ZBTJ',
-            sobt: '17/0750',
-            reg: 'N/A',
-            former: 'N/A'
-        },
-        {
-            id: 7,
-            flightId: 'CCA4224',
-            depap: 'ZUBZ',
-            arrap: 'ZUUU',
-            sobt: '17/1505',
-            reg: 'N/A',
-            former: 'CCA110'
-        },
-        {
-            id: 8,
-            flightId: 'CES2219',
-            depap: 'ZSSS',
-            arrap: 'ZUUU',
-            sobt: '17/0645',
-            reg: 'N/A',
-            former: 'N/A'
-        },
-        {
-            id: 9,
-            flightId: 'CES337',
-            depap: 'ZLXY',
-            arrap: 'ZUCK',
-            sobt: '17/2130',
-            reg: 'N/A',
-            former: 'N/A'
-        },
-        {
-            id: 10,
-            flightId: 'CSN777',
-            depap: 'ZLXY',
-            arrap: 'ZUCK',
-            sobt: '17/2130',
-            reg: 'N/A',
-            former: 'N/A'
-        },
-        {
-            id: 11,
-            flightId: 'CSN700',
-            depap: 'ZLXY',
-            arrap: 'ZUCK',
-            sobt: '17/2130',
-            reg: 'N/A',
-            former: 'N/A'
-        },
-        {
-            id: 12,
-            flightId: 'CES9780',
-            depap: 'ZYTX',
-            arrap: 'ZSWX',
-            sobt: '17/2020',
-            reg: 'N/A',
-            former: 'N/A'
-        },
-        {
-            id: 13,
-            flightId: 'CCA991',
-            depap: 'ZGGG',
-            arrap: 'ZUCK',
-            sobt: '17/1430',
-            reg: 'N/A',
-            former: 'N/A'
-        },
-        {
-            id: 14,
-            flightId: 'CSN6250',
-            depap: 'ZLXY',
-            arrap: 'ZYDQ',
-            sobt: '17/2140',
-            reg: 'N/A',
-            former: 'N/A'
-        },
+    /**
+     * 显示单个航班信息
+     * */
+    const showSingleFlightSummary = useCallback(function (flight) {
+        setSelectedID(flight.id);
+        // 更新航班略情抽屉中的航班数据
+        setFlight(flight);
+        setDrawerVisible(true);
+    });
 
-    ];
-
+    /**
+     * 绘制航班列表中单个航班信息
+     * */
     const drawFlightItem = useCallback(function (item, index) {
+
+            let FLIGHTID = item.FLIGHTID;
+            let DEPAP = item.DEPAP;
+            let ARRAP = item.ARRAP;
+            let SOBT = item.SOBT;
+
             return (
-                <List.Item key={ item.id } onClick={() => {
-                    showFlightDetail(item)
-                }} >
+                <List.Item
+                    className={(item.id === selectedID) ? 'selected': ''}
+                    key={ item.id }
+                    onClick={() => {
+                        showSingleFlightSummary(item)
+                     }}
+                >
                     <div className="flight-item">
                         <a className="flight">
                             <div className="flight-prop num">{index + 1}</div>
-                            <div className="flight-prop flight-id">{item.flightId}</div>
-                            <div className="flight-prop flight-depap">{item.depap}</div>
-                            <div className="flight-prop flight-arrap">{item.arrap}</div>
-                            <div className="flight-prop flight-sobt">{item.sobt}</div>
+                            <div className="flight-prop flight-id">{FLIGHTID}</div>
+                            <div className="flight-prop flight-depap">{DEPAP}</div>
+                            <div className="flight-prop flight-arrap">{ARRAP}</div>
+                            <div className="flight-prop flight-sobt">{SOBT}</div>
                             <div className="flight-prop flight-former">{item.former}</div>
                         </a>
                     </div>
                 </List.Item>
             )
         }
-    )
+    );
 
+    /**
+     *  绘制航班略情数据
+     * */
+    const drawFlightSummerData = useCallback(function (flight) {
+        const id = flight.id;
+        const FLIGHTID = flight.FLIGHTID || 'N/A';
+        const DEPAP = flight.DEPAP || 'N/A';
+        const ARRAP = flight.ARRAP || 'N/A';
+        const agct = flight.agct || 'N/A';
 
-    const showFlightDetail = useCallback(function (flight) {
-        console.log(flight)
-        setFlight(flight);
-        setDrawerVisible(true);
-    });
-
-    const  closeDrawer = useCallback(function () {
-        setDrawerVisible(false)
-    })
-
-    const drawFlightSummerData = useCallback(function () {
         return (
-        <div className="summary-container">
-            <div className="state">
-                <Tag color="#2db7f5">计划</Tag>
-                {/*<Tag color="#87d068">起飞</Tag>*/}
-                {/*<Tag color="#722ed1">降落</Tag>*/}
-                {/*<Tag color="#f50">返航</Tag>*/}
-            </div>
+            <div className="summary-container">
+                <div className="state">
+                    <Tag color="#2db7f5">计划</Tag>
+                    {/*<Tag color="#87d068">起飞</Tag>*/}
+                    {/*<Tag color="#722ed1">降落</Tag>*/}
+                    {/*<Tag color="#f50">返航</Tag>*/}
+                </div>
 
-            <div className="flight-summary summary-nav">
-                <div className="descriptions ap">ADEP-ADES</div>
-                <div className="descriptions">AGCT</div>
-                <div className="descriptions">AOBT</div>
-                <div className="descriptions">ATOT</div>
-                <div className="descriptions">RWY</div>
-                <div className="descriptions">SID</div>
-            </div>
-            <div className="flight-summary summary-value">
-                <div className="descriptions ap">{`${flight.depap}-${flight.arrap}`}</div>
-                <div className="descriptions">N/A</div>
-                <div className="descriptions">1200</div>
-                <div className="descriptions">1215</div>
-                <div className="descriptions">02L</div>
-                <div className="descriptions">N/A</div>
-            </div>
+                <div className="flight-summary summary-nav">
+                    <div className="descriptions ap">ADEP-ADES</div>
+                    <div className="descriptions">AGCT</div>
+                    <div className="descriptions">AOBT</div>
+                    <div className="descriptions">ATOT</div>
+                    <div className="descriptions">RWY</div>
+                    <div className="descriptions">SID</div>
+                </div>
+                <div className="flight-summary summary-value">
+                    <div className="descriptions ap">{`${DEPAP}-${ARRAP}`}</div>
+                    <div className="descriptions">{agct}</div>
+                    <div className="descriptions">1200</div>
+                    <div className="descriptions">1215</div>
+                    <div className="descriptions">02L</div>
+                    <div className="descriptions">N/A</div>
+                </div>
 
-            <Divider orientation="center"> {`前序航班 ${flight.former}`}</Divider>
-            <div className="state">
-                <Tag color="#87d068">起飞</Tag>
-            </div>
+                <Divider orientation="center"> {`前序航班 ${flight.former}`}</Divider>
+                <div className="state">
+                    <Tag color="#87d068">起飞</Tag>
+                </div>
 
-            <div className="flight-summary summary-nav">
-                <div className="descriptions ap">ADEP-ADES</div>
-                <div className="descriptions">ACTYPE</div>
-                <div className="descriptions">REG</div>
-                <div className="descriptions">ALDT</div>
+                <div className="flight-summary summary-nav">
+                    <div className="descriptions ap">ADEP-ADES</div>
+                    <div className="descriptions">ACTYPE</div>
+                    <div className="descriptions">REG</div>
+                    <div className="descriptions">ALDT</div>
+                </div>
+                <div className="flight-summary summary-value">
+                    <div className="descriptions ap">ZBLA-ZBAA</div>
+                    <div className="descriptions">B738</div>
+                    <div className="descriptions">1200</div>
+                    <div className="descriptions">N/A</div>
+                </div>
             </div>
-            <div className="flight-summary summary-value">
-                <div className="descriptions ap">ZBLA-ZBAA</div>
-                <div className="descriptions">B738</div>
-                <div className="descriptions">1200</div>
-                <div className="descriptions">N/A</div>
-            </div>
-        </div>
         )
 
 
     })
-    const drawDrawerTitle = useCallback(function () {
-        const text  = <span>{`查看航班详情`}</span>;
 
+    /**
+     *  获取航班略情抽屉标题
+     * */
+    const getDrawerTitle = useCallback(function () {
+        const text  = <span>{`查看航班详情`}</span>;
         const title = <Tooltip placement="top" title={text}>
-                        <span className="title-flight-id">{flight.flightId}</span>
+                        <span className="title-flight-id">{flight.FLIGHTID}</span>
                     </Tooltip>;
         return title
     });
 
-    const searchFlightData = useCallback(function (value) {
-        value = value.toUpperCase();
-        if(!isValidVariable(value)){
-            setSearchTootipVisible(true);
+    /**
+     * 发送获取航班数据请求
+     *
+     * */
+    const requestFlightData = useCallback((flightId) => {
+        setSearchLoadingVisible(true);
+        const nowDate = getFullTime(new Date()).substring(0,8);
+        // const start = nowDate+'0000';
+        const start = '202101150000';
+        const end = nowDate+'2359';
+        const opt = {
+            url: ReqUrls.searchFlightUrl+`${flightId}/${start}/${end}`,
+            method:'GET',
+            params:{},
+            resFunc: (data)=> {
+                updateFlightListData(data)
+            },
+            errFunc: (err)=> {
+                requestErr(err, '查询失败')
+            } ,
+        };
+        request(opt);
+    });
+
+
+    /**
+     * 航班查询
+     * */
+    const searchFlightData = useCallback(function (value, event) {
+        // 检测事件是否为输入框的清除图标点击事件
+        if(isValidVariable(event)){
+            const target = event.currentTarget;
+            const nodeName = target.nodeName;
+            const eventType = event.type.toUpperCase();
+            if(nodeName ==='INPUT' && eventType === 'CLICK'){
+                // 隐藏tooltip
+                hideTooltip();
+                return;
+            }
+        }
+        if(isValidVariable(value)) {
+            // 获取航班数据
+            requestFlightData(value);
         }else {
-            setSearchTootipVisible(false);
-            setSearchLoadingVisible(true);
-            setTimeout((value)=>{
-                mockData(value)
-            },1000*1,value);
+            setSearchTootipText('请输入航班号');
+            setSearchTootipVisible(true);
+            // 添加点击事件
+            addClickEventListener();
         }
     });
+
+    /**
+     * 在document 添加点击事件,用于隐藏tooltip
+     * */
+    const addClickEventListener = () => {
+        document.addEventListener(`click`, function onClickOutside() {
+            // 隐藏tooltip
+            hideTooltip();
+            document.removeEventListener(`click`, onClickOutside)
+        })
+    };
+    /**
+     * 输入框按下回车的回调
+     * */
     const pressEnter = useCallback(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
         const value = e.target.value.toUpperCase();
+        // 航班查询
         searchFlightData(value);
     });
 
-    const changeValue = useCallback(function (e) {
-        const value = e.target.value;
-        if(isValidVariable(value)){
-            setSearchTootipVisible(false);
+    /**
+     *
+     * 输入框内容变化时的回调
+     * */
+    const handleInputValueChange = (e) => {
+        // 隐藏
+        hideTooltip();
+    };
+
+    const convertSingleFlight = (flightData)=> {
+        let flight = flightData.fmeTodayTraMonitor || {}
+        let { alarmField, taskField, eapField, oapField, tobtField, cobtField, ctotField, fmeToday, ffixField, ctoField, etoField, agctField } = flight;
+        let obj = {
+            key: flight.id,
+            id: flight.id,
+            FLIGHTID: flight.flightId,
+            DEPAP:  flight.depap,
+            ARRAP: flight.arrap,
+            SOBT: getDayTimeFromString(flight.sobt),
+            EOBT: getDayTimeFromString(flight.eobt),
+        };
+
+        return obj;
+
+    }
+
+    /**
+     * 更新航班列表数据
+     *
+     * */
+    const  updateFlightListData = useCallback(function (data) {
+        // 隐藏loading
+        setSearchLoadingVisible(false);
+        // 关闭单个航班信息抽屉
+        closeDrawer();
+
+        // 结果数据id集合
+        let dataList = [];
+        // 结果数据对象
+        let dataMap = {};
+        if(isValidObject(data) && isValidObject(data.result)){
+            dataList = Object.keys(data.result);
+            dataMap = data.result;
+        }
+        // 遍历将结果数据对象转为数组形式
+        let flightListData = [];
+        dataList.map((item)=> {
+            let flight = convertSingleFlight(dataMap[item]);
+            flightListData.push(flight);
+        });
+        // 更新航班列表数据
+        setFlightListData((old)=>{
+            return flightListData
+        });
+        // 航班列表数据个数
+        const  len = flightListData.length;
+        // 若为0个
+        if(len === 0){
+            setSearchTootipText(EMPTY);
+            setSearchTootipVisible(true);
+            // 添加点击事件
+            addClickEventListener();
+        }else if (len === 1){
+            setDrawerVisible(true);
+            // 显示单个航班信息
+            showSingleFlightSummary(data[0]);
         }
     });
 
-    const  hideTooltip = useCallback(function () {
-        setSearchTootipVisible(false);
-    })
+    /**
+     * 请求失败回调
+     *
+     * */
+    const requestErr = (err) => {
+        // 隐藏loading
+        setSearchLoadingVisible(false);
+        // 关闭单个航班信息抽屉
+        closeDrawer();
 
+        let errMsg = "";
+        if(isValidObject(err) && isValidVariable(err.message)){
+            errMsg = err.message;
+        }else if(isValidVariable(err)){
+            errMsg = err;
+        }
+        let content = FAILURE;
+        if(isValidVariable(errMsg)){
+            content = `${content} : ${errMsg}`
+        }
+        setSearchTootipText(content);
+        setSearchTootipVisible(true);
+        // 添加点击事件
+        addClickEventListener();
+    };
 
-    const mockData = useCallback(function (value) {
-        setSearchLoadingVisible(false)
-        setFlightListData((old)=>{
-            const data = mockFlightListData.filter((element)=>{
-                return element.flightId.indexOf(value) !== -1;
-            });
-            console.log(data.length);
-            if(data.length == 1){
-                setDrawerVisible(true);
-                showFlightDetail(data[0]);
-            }else {
-                setDrawerVisible(false);
-            }
-            return data
-        });
-
-    })
-
-
-
-    const title = drawDrawerTitle();
+    // 航班略情抽屉标题
+    const drawerTitle = getDrawerTitle();
 
     return (
-
         <div className="container">
 
             <div className="options">
                 <div className="box">
 
-                    <Tooltip title="请输入航班号" color="volcano" visible={searchTootipVisible}>
+                    <Tooltip title={searchTootipText} color="volcano" visible={searchTootipVisible}>
                         <Search className="flight-search"
                                 placeholder="航班号"
                                 size="small"
@@ -323,9 +350,10 @@ const FlightSearch = (props) => {
                                 loading={searchLoadingVisible}
                                 onSearch={searchFlightData}
                                 onPressEnter = {pressEnter}
-                                onChange={changeValue}
-                                onMouseLeave={ hideTooltip }
-                                onBlur ={ hideTooltip }
+                                onChange={handleInputValueChange}
+                                // onMousedown={ handleInputValueChange}
+                                // onMouseLeave={ handleMouseLeave }
+                                // onBlur ={ changeTootipText }
                                 style={{marginRight: '2%', width: '30%'}}
                         />
                     </Tooltip>
@@ -338,19 +366,17 @@ const FlightSearch = (props) => {
                         <Option value="today">今日</Option>
                         <Option value="tomorrow">明日</Option>
                     </Select>
-
                 </div>
-
             </div>
             <div className="content">
                 <div className="flight-list">
                     <div className="list-nav">
                         <div className="flight-prop num">Num</div>
-                        <div className="flight-prop flight-id">CallSign</div>
-                        <div className="flight-prop flight-depap">ADEP</div>
-                        <div className="flight-prop flight-arrap">ADES</div>
-                        <div className="flight-prop flight-sobt">SOBT</div>
-                        <div className="flight-prop flight-former">FORMER</div>
+                        <div title="航班号" className="flight-prop flight-id">FLIGHTID</div>
+                        <div title="起飞机场" className="flight-prop flight-depap">DEPAP</div>
+                        <div title="降落机场" className="flight-prop flight-arrap">ARRAP</div>
+                        <div title="计划撤轮档" className="flight-prop flight-sobt">SOBT</div>
+                        <div title="前序航班" className="flight-prop flight-former">FORMER</div>
                     </div>
                     <List
                         itemLayout="horizontal"
@@ -360,8 +386,9 @@ const FlightSearch = (props) => {
                     />
                 </div>
                 <Drawer
+                    destroyOnClose= {true}
                     className="flight-summary-drawer"
-                    title={ title }
+                    title={ drawerTitle }
                     placement="right"
                     closable={true}
                     onClose={ closeDrawer }
@@ -371,7 +398,7 @@ const FlightSearch = (props) => {
                     width="70%"
                     style={{position: 'absolute'}}
                 >
-                    { drawFlightSummerData()}
+                    { drawFlightSummerData(flight)}
 
                 </Drawer>
             </div>
