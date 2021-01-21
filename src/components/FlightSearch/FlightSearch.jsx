@@ -69,11 +69,13 @@ const FlightSearch = (props) => {
     const drawFlightItem = useCallback(function (item, index) {
 
             let FLIGHTID = item.FLIGHTID;
-            let DEPAP = item.DEPAP;
-            let ARRAP = item.ARRAP;
-            let SOBT = item.SOBT;
+            let DEPAP = item.DEPAP || 'N/A';
+            let ARRAP = item.ARRAP || 'N/A';
+            let SOBT = item.SOBT || 'N/A';
+            let REG = item.REG || 'N/A';
+            let FORMER = item.FORMER || 'N/A';
 
-            return (
+        return (
                 <List.Item
                     className={(item.id === selectedID) ? 'selected': ''}
                     key={ item.id }
@@ -85,10 +87,10 @@ const FlightSearch = (props) => {
                         <a className="flight">
                             <div className="flight-prop num">{index + 1}</div>
                             <div className="flight-prop flight-id">{FLIGHTID}</div>
-                            <div className="flight-prop flight-depap">{DEPAP}</div>
-                            <div className="flight-prop flight-arrap">{ARRAP}</div>
+                            <div className="flight-prop flight-depap-arrap">{`${DEPAP}-${ARRAP}`}</div>
                             <div className="flight-prop flight-sobt">{SOBT}</div>
-                            <div className="flight-prop flight-former">{item.former}</div>
+                            <div className="flight-prop flight-reg">{REG}</div>
+                            <div className="flight-prop flight-former">{FORMER}</div>
                         </a>
                     </div>
                 </List.Item>
@@ -104,7 +106,7 @@ const FlightSearch = (props) => {
         const FLIGHTID = flight.FLIGHTID || 'N/A';
         const DEPAP = flight.DEPAP || 'N/A';
         const ARRAP = flight.ARRAP || 'N/A';
-        const agct = flight.agct || 'N/A';
+
 
         return (
             <div className="summary-container">
@@ -125,7 +127,7 @@ const FlightSearch = (props) => {
                 </div>
                 <div className="flight-summary summary-value">
                     <div className="descriptions ap">{`${DEPAP}-${ARRAP}`}</div>
-                    <div className="descriptions">{agct}</div>
+                    <div className="descriptions">{}</div>
                     <div className="descriptions">1200</div>
                     <div className="descriptions">1215</div>
                     <div className="descriptions">02L</div>
@@ -161,7 +163,7 @@ const FlightSearch = (props) => {
     const getDrawerTitle = useCallback(function () {
         const text  = <span>{`查看航班详情`}</span>;
         const title = <Tooltip placement="top" title={text}>
-                        <span className="title-flight-id">{flight.FLIGHTID}</span>
+                        <span className="title-flight-id">{flight.FLIGHTID}{flight.id}</span>
                     </Tooltip>;
         return title
     });
@@ -173,8 +175,8 @@ const FlightSearch = (props) => {
     const requestFlightData = useCallback((flightId) => {
         setSearchLoadingVisible(true);
         const nowDate = getFullTime(new Date()).substring(0,8);
-        // const start = nowDate+'0000';
-        const start = '202101150000';
+        const start = nowDate+'0000';
+        // const start = '202101150000';
         const end = nowDate+'2359';
         const opt = {
             url: ReqUrls.searchFlightUrl+`${flightId}/${start}/${end}`,
@@ -256,8 +258,10 @@ const FlightSearch = (props) => {
             FLIGHTID: flight.flightId,
             DEPAP:  flight.depap,
             ARRAP: flight.arrap,
+            REG : flight.reg,
             SOBT: getDayTimeFromString(flight.sobt),
             EOBT: getDayTimeFromString(flight.eobt),
+            FORMER: flight.formerFlightid,
         };
 
         return obj;
@@ -303,7 +307,7 @@ const FlightSearch = (props) => {
         }else if (len === 1){
             setDrawerVisible(true);
             // 显示单个航班信息
-            showSingleFlightSummary(data[0]);
+            showSingleFlightSummary(flightListData[0]);
         }
     });
 
@@ -373,9 +377,9 @@ const FlightSearch = (props) => {
                     <div className="list-nav">
                         <div className="flight-prop num">Num</div>
                         <div title="航班号" className="flight-prop flight-id">FLIGHTID</div>
-                        <div title="起飞机场" className="flight-prop flight-depap">DEPAP</div>
-                        <div title="降落机场" className="flight-prop flight-arrap">ARRAP</div>
+                        <div title="起飞机场" className="flight-prop flight-depap-arrap">DEPAP-ARRAP</div>
                         <div title="计划撤轮档" className="flight-prop flight-sobt">SOBT</div>
+                        <div title="计划撤轮档" className="flight-prop flight-reg">REG</div>
                         <div title="前序航班" className="flight-prop flight-former">FORMER</div>
                     </div>
                     <List
@@ -395,7 +399,7 @@ const FlightSearch = (props) => {
                     visible={drawerVisible}
                     mask={ false}
                     getContainer={false}
-                    width="70%"
+                    width="73%"
                     style={{position: 'absolute'}}
                 >
                     { drawFlightSummerData(flight)}

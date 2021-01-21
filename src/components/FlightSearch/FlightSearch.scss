@@ -31,6 +31,9 @@
       @include flex();
       width: 100%;
       overflow: auto;
+      .ant-list {
+        font-size: 1rem;
+      }
       .ant-list-item {
         cursor: pointer;
         padding: 4px;
@@ -39,7 +42,7 @@
         }
       ;
         &.selected {
-          background: #35A5DA;
+          background: #266E90;
         }
       }
       .list-nav {
@@ -57,9 +60,12 @@
           @include flex();
           visibility: visible;
           text-align: center;
+          &.flight-depap-arrap {
+            @include flex(2);
+          }
         }
         .num {
-          flex: 0 0 50px;
+          flex: 0 0 60px;
         }
         .flight-id, .flight-sobt, .flight-former {
           //flex: 1 1 10%;
@@ -78,9 +84,13 @@
             @include flex();
             visibility: visible;
             text-align: center;
+            &.flight-depap-arrap {
+              @include flex(2);
+            }
           }
+
           .num {
-            flex: 0 0 50px;
+            flex: 0 0 60px;
           }
         }
       }
@@ -90,7 +100,9 @@
     }
     .flight-summary-drawer {
       .ant-drawer-content-wrapper {
-        box-shadow: -6px 0 16px -8px rgba(0, 0, 0, .5), -9px 0 28px 0 rgba(0, 0, 0, .5), -12px 0 48px 16px rgba(0, 0, 0, .5);
+        .ant-drawer-header, .ant-drawer-content {
+          background: #343434;
+        }
         .ant-drawer-body {
           padding: 8px;
         }
