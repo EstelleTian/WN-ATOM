@@ -374,7 +374,7 @@ function StaticInfoCard(props){
             <Row gutter={24}>
                 <Col span={8}>
                     <Form.Item
-                        name="preorderUnit"
+                        name="formerUnit"
                         label="前序单元"
                     >
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
@@ -402,7 +402,7 @@ function StaticInfoCard(props){
             <Row gutter={24}>
                 <Col span={8}>
                     <Form.Item
-                        name="exemptPreUnit"
+                        name="exemptFormerUnit"
                         label="豁免前序"
                     >
                         <Input className="text-uppercase" disabled={ props.disabledForm }/>
