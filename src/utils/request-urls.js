@@ -1,8 +1,8 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-19 17:56:19
- * @LastEditors: liutianjiao
+ * @LastEditTime: 2021-01-20 16:11:18
+ * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
  */
@@ -30,9 +30,9 @@ const ReqUrls = {
     //创建流控-数据提交
     createFlowUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/sim/',
     //获取工作流-办结列表
-    hisTaskUrl: 'http://192.168.243.187:28086/workflow/userHisTask/',
+    hisTaskUrl: 'http://192.168.194.20:28087/workflow/userHisTask/',
     //获取工作流-待办列表
-    tasksUrl: 'http://192.168.243.187:28086/workflow/userTask/',
+    tasksUrl: 'http://192.168.194.20:28087/workflow/userTask/',
 
 };
 //协调相关url

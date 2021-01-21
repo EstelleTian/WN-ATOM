@@ -254,6 +254,27 @@ const getTimeAndStatus = ( str ) => {
     }
     return "";
 };
-
+/**
+ * 根据毫秒返回用时
+ *
+ * @param str  毫秒数
+ * @param addMillis
+ * @returns {String}
+ */
+const millisecondToDate = ( msd ) => {
+    let time = parseFloat(msd) / 1000; //先将毫秒转化成秒
+    if ( isValidVariable(time) ) {
+        if (time > 60 && time < 60 * 60) {
+            time = parseInt(time / 60) + "分钟" + parseInt((parseFloat(time / 60) - parseInt(time / 60)) * 60) + "秒";
+        } else if (time >= 60 * 60 && time < 60 * 60 * 24) {
+            time = parseInt(time / 3600) + "小时"
+                + parseInt((parseFloat(time / 3600) - parseInt(time / 3600)) * 60) + "分钟"
+                + parseInt((parseFloat((parseFloat(time / 3600) - parseInt(time / 3600)) * 60) - parseInt((parseFloat(time / 3600) - parseInt(time / 3600)) * 60)) * 60) + "秒";
+        } else {
+            time = parseInt(time) + "秒";
+        }
+    }
+    return time;
+};
 export { isValidVariable, isValidObject, calculateStringTimeDiff, addStringTime, getFullTime, formatTimeString,
-    getTimeFromString, getDayTimeFromString, getDateFromString, getTimeAndStatus };
+    getTimeFromString, getDayTimeFromString, getDateFromString, getTimeAndStatus, millisecondToDate };

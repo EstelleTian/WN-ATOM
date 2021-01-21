@@ -44,8 +44,9 @@ function LoginPage(props){
                                 duration: 4,
                                 style: msgStyle
                             });
-                            saveUserInfo(username, password);
+                
                             localStorage.setItem("user", JSON.stringify(user) );
+                            saveUserInfo(username, password);
                         }else{
                             const err = data.error;
                             const msg = err.message;
@@ -100,7 +101,7 @@ function LoginPage(props){
     return (
         <div className="login bc-image-11">
             <Row type="flex" justify="center" align="middle">
-                <Col xs={{ span: 16}}  md={{ span: 12}} lg={{ span: 13}}  xl={{ span: 9}} xxl={{ span: 7}} >
+                <Col xs={{ span: 14}}  md={{ span: 11}} lg={{ span: 9}}  xl={{ span: 7}} xxl={{ span: 6}} >
                     <div className="content">
                         <Form
                             form={form}
@@ -134,9 +135,10 @@ function LoginPage(props){
                         </Form>
 
                     </div>
-                    <p className="copyright">Copyright ADCC 民航数据通信有限责任公司</p>
+                    
                 </Col>
             </Row>
+            <div className="copyright">Copyright ADCC 民航数据通信有限责任公司</div>
 
         </div>
     )
