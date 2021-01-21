@@ -104,7 +104,17 @@
           background: #343434;
         }
         .ant-drawer-body {
-          padding: 8px;
+          padding: 10px;
+        }
+        .ant-drawer-header {
+          padding: 7px 10px;
+          .ant-drawer-close {
+            padding: 11px 20px;
+          }
+        }
+        .former-divider {
+          margin: 0;
+          font-size: 0.85rem;
         }
       }
 

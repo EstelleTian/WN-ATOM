@@ -106,17 +106,12 @@ const FlightSearch = (props) => {
         const FLIGHTID = flight.FLIGHTID || 'N/A';
         const DEPAP = flight.DEPAP || 'N/A';
         const ARRAP = flight.ARRAP || 'N/A';
+        const AGCT = flight.AGCT || 'N/A';
+        let FORMER = flight.FORMER || 'N/A';
 
 
         return (
             <div className="summary-container">
-                <div className="state">
-                    <Tag color="#2db7f5">计划</Tag>
-                    {/*<Tag color="#87d068">起飞</Tag>*/}
-                    {/*<Tag color="#722ed1">降落</Tag>*/}
-                    {/*<Tag color="#f50">返航</Tag>*/}
-                </div>
-
                 <div className="flight-summary summary-nav">
                     <div className="descriptions ap">ADEP-ADES</div>
                     <div className="descriptions">AGCT</div>
@@ -124,32 +119,38 @@ const FlightSearch = (props) => {
                     <div className="descriptions">ATOT</div>
                     <div className="descriptions">RWY</div>
                     <div className="descriptions">SID</div>
+                    <div className="descriptions">STATUS</div>
                 </div>
                 <div className="flight-summary summary-value">
                     <div className="descriptions ap">{`${DEPAP}-${ARRAP}`}</div>
-                    <div className="descriptions">{}</div>
+                    <div className="descriptions">{AGCT}</div>
                     <div className="descriptions">1200</div>
                     <div className="descriptions">1215</div>
                     <div className="descriptions">02L</div>
                     <div className="descriptions">N/A</div>
+                    <div className="descriptions"><Tag color="#2db7f5">计划</Tag></div>
                 </div>
 
-                <Divider orientation="center"> {`前序航班 ${flight.former}`}</Divider>
-                <div className="state">
-                    <Tag color="#87d068">起飞</Tag>
-                </div>
+                <Divider className="former-divider" orientation="center"> {`前序航班 ${FORMER}`}</Divider>
+
 
                 <div className="flight-summary summary-nav">
                     <div className="descriptions ap">ADEP-ADES</div>
                     <div className="descriptions">ACTYPE</div>
                     <div className="descriptions">REG</div>
                     <div className="descriptions">ALDT</div>
+                    <div className="descriptions">STATUS</div>
+                    <div className="descriptions">{` `}</div>
+                    <div className="descriptions">{` `}</div>
                 </div>
                 <div className="flight-summary summary-value">
                     <div className="descriptions ap">ZBLA-ZBAA</div>
                     <div className="descriptions">B738</div>
                     <div className="descriptions">1200</div>
                     <div className="descriptions">N/A</div>
+                    <div className="descriptions"><Tag color="#87d068">起飞</Tag></div>
+                    <div className="descriptions">{` `}</div>
+                    <div className="descriptions">{` `}</div>
                 </div>
             </div>
         )
@@ -163,7 +164,7 @@ const FlightSearch = (props) => {
     const getDrawerTitle = useCallback(function () {
         const text  = <span>{`查看航班详情`}</span>;
         const title = <Tooltip placement="top" title={text}>
-                        <span className="title-flight-id">{flight.FLIGHTID}{flight.id}</span>
+                        <span className="title-flight-id">{flight.FLIGHTID}</span>
                     </Tooltip>;
         return title
     });
