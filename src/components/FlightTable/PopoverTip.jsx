@@ -1,13 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-01-21 08:58:48
+ * @LastEditTime: 2021-01-21 12:17:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
  */
 import {
-    message as antdMessage,
     message,
     Popover,
     Button,
@@ -18,6 +17,8 @@ import {
     Checkbox,
     Tooltip
 } from "antd";
+import {observer, inject} from "mobx-react";
+import { request } from 'utils/request'
 import React,{ useCallback, useState, useEffect } from "react";
 import {  isValidVariable  } from 'utils/basic-verify'
 import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
@@ -34,7 +35,8 @@ const PopoverTip = ( props ) => {
         title: "",
         color: ""
     });
-    let { record, col } = props.opt;
+    const { title } = props;
+    const { record, col } = props.opt;
 
     useEffect(function(){
         if( tipObj.visible ){
@@ -75,6 +77,8 @@ const PopoverTip = ( props ) => {
                 title: content,
                 color: cred
             });
+            //关闭协调窗口popover
+            closePopover();
         })
         //数据提交成功回调
         const requestSuccess = useCallback( ( data, title ) => {
@@ -82,50 +86,56 @@ const PopoverTip = ( props ) => {
             console.log( props.flightTableData.updateSingleFlight );
             const { flightCoordination } = data;
             props.flightTableData.updateSingleFlight( flightCoordination );
-            message.success(title + '成功');
+            setTipObj({
+                visible: true,
+                title: title + '成功',
+                color: cgreen
+            });
             //关闭协调窗口popover
             closePopover();
         });
         //表单提交
         const formSubmit = ( values ) =>{
-            setTipObj({
-                visible: true,
-                title: props.title+"成功",
-                color: cgreen
-            });
-            // const newStartTime =  moment(values.startTime).format('YYYYMMDD'); //日期转化
-            // const { record } = props.opt;
-            // const orgdata = record.orgdata || {};
-            // let orgFlight = JSON.parse(orgdata) || {}; //航班fc
-            // const userId = props.systemPage.user.id || '14';
-            // const timestr = newStartTime + "" + values.time;
-            //
-            //
-            // orgFlight.locked = autoChecked ? 1 : "";
-            //
-            // let urlKey = "";
-            // if( col === "COBT"){
-            //     orgFlight.cobtField.value = timestr;
-            //     urlKey = "updateCobt";
-            // }else if( col === "CTOT"){
-            //     orgFlight.ctotField.value = timestr;
-            //     urlKey = "updateCtot";
-            // }
-            // //传参
-            // const params = {
-            //     userId: userId,
-            //     flightCoordination: orgFlight, //航班原fc
-            //     comment: values.comment,  //备注
-            // }
-            // console.log(params);
-            // const opt = {
-            //     url:'http://192.168.243.162:28089/flight/'+urlKey,
-            //     method: 'POST',
-            //     params: params,
-            //     resFunc: (data)=> requestSuccess(data, title),
-            //     errFunc: (err)=> requestErr(err, title+'失败' ),
-            // };
-            // request(opt);
+
+            const newStartTime =  moment(values.startTime).format('YYYYMMDD'); //日期转化
+            const { record } = props.opt;
+            const orgdata = record.orgdata || {};
+            let orgFlight = JSON.parse(orgdata) || {}; //航班fc
+            const userId = props.systemPage.user.id || '14';
+            const timestr = newStartTime + "" + values.time;
+    
+            orgFlight.locked = autoChecked ? 1 : "";
+            
+            let urlKey = "";
+            let url = "";
+            if( col === "COBT"){
+                orgFlight.cobtField.value = timestr;
+                urlKey = "updateCobt";
+                url = 'http://192.168.243.162:28089/flight/'+urlKey;
+            }else if( col === "CTOT"){
+                orgFlight.ctotField.value = timestr;
+                urlKey = "updateCtot";
+                url = 'http://192.168.243.162:28089/flight/'+urlKey; //张浩东ip
+            }else if( col === "TOBT"){
+                orgFlight.tobtField.value = timestr;
+                urlKey = "updateTobtApply";
+                url = 'http://192.168.243.8:28089/flight/'+urlKey; //薛满林ip
+            }
+            //传参
+            const params = {
+                userId: userId,
+                flightCoordination: orgFlight, //航班原fc
+                comment: values.comment,  //备注
+            }
+            console.log(params);
+            const opt = {
+                url,
+                method: 'POST',
+                params: params,
+                resFunc: (data)=> requestSuccess(data, title),
+                errFunc: (err)=> requestErr(err, title+'失败' ),
+            };
+            request(opt);
         }
 
         return (
@@ -208,7 +218,7 @@ const PopoverTip = ( props ) => {
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
             placement="rightTop"
-            title={ props.title }
+            title={ title }
             content={  content  }
             trigger={[`contextMenu`]}
             getContainer={false}
@@ -235,4 +245,4 @@ const PopoverTip = ( props ) => {
 
 }
 
-export default PopoverTip;
+export default inject( "systemPage", "flightTableData")(observer(PopoverTip));

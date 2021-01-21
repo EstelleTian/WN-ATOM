@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-20 16:49:00
+ * @LastEditTime: 2021-01-21 12:06:06
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -10,7 +10,6 @@
 import React from "react";
 import { isValidVariable, getDayTimeFromString, getTimeAndStatus } from 'utils/basic-verify'
 import { FlightCoordination,  } from 'utils/flightcoordination.js'
-import {observer, inject} from "mobx-react";
 import CellTip from "./CellTip";
 import PopoverTip from "./PopoverTip";
 import FmeToday from "utils/fmetoday";
@@ -27,13 +26,13 @@ const CTPopover = (props) => {
     let title = "";
     if( col === "COBT"){
         field = orgdata.cobtField || {};
-        title = "预撤时间修改";
+        title = "COBT时间变更";
     }else if( col === "CTOT"){
         field = orgdata.ctotField || {};
-        title = "预起时间修改";
+        title = "CTOT时间变更";
     }else if( col === "FFIXT"){
         field = orgdata.ffixField || {};
-        title = "过点时间修改";
+        title = "FFIXT时间变更";
     }else if( col === "TOBT"){
         field = orgdata.tobtField || {};
         title = "TOBT申请变更";
@@ -110,11 +109,11 @@ const CTPopover = (props) => {
         )
     }else{
         return(
-            <PopoverTip title={ title } textDom={textDom} opt={opt}/>
+            <PopoverTip title={ title } textDom={textDom} opt={opt} />
         )
     }
 
 }
 
 
-export default inject( "systemPage")(observer(CTPopover))
+export default CTPopover
