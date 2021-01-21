@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-21 08:55:13
+ * @LastEditTime: 2021-01-21 12:06:06
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -10,7 +10,6 @@
 import React from "react";
 import { isValidVariable, getDayTimeFromString, getTimeAndStatus } from 'utils/basic-verify'
 import { FlightCoordination,  } from 'utils/flightcoordination.js'
-import {observer, inject} from "mobx-react";
 import CellTip from "./CellTip";
 import PopoverTip from "./PopoverTip";
 import FmeToday from "utils/fmetoday";
@@ -110,11 +109,11 @@ const CTPopover = (props) => {
         )
     }else{
         return(
-            <PopoverTip title={ title } textDom={textDom} opt={opt}/>
+            <PopoverTip title={ title } textDom={textDom} opt={opt} />
         )
     }
 
 }
 
 
-export default inject( "systemPage")(observer(CTPopover))
+export default CTPopover

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-13 10:00:18
+ * @LastEditTime: 2021-01-21 12:08:16
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -14,7 +14,7 @@ import { request } from 'utils/request'
 import { CollaborateUrl } from 'utils/request-urls'
 import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
 import {observer, inject} from "mobx-react";
-import FmeToday from "../../utils/fmetoday";
+import FmeToday from "utils/fmetoday";
 
 //航班号右键协调框
 let FLIGHTIDPopover = (props) => {
