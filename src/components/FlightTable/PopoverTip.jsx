@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-01-21 12:17:44
+ * @LastEditTime: 2021-01-21 14:24:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -19,6 +19,7 @@ import {
 } from "antd";
 import {observer, inject} from "mobx-react";
 import { request } from 'utils/request'
+import { CollaborateUrl } from 'utils/request-urls'
 import React,{ useCallback, useState, useEffect } from "react";
 import {  isValidVariable  } from 'utils/basic-verify'
 import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
@@ -29,6 +30,7 @@ import moment from "moment";
  //popover和tip组合协调窗口
 const PopoverTip = ( props ) => {
     const [autoChecked, setAutoChecked] = useState(true);
+    const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
     
     const [ tipObj, setTipObj] = useState({
         visible: false,
@@ -77,6 +79,7 @@ const PopoverTip = ( props ) => {
                 title: content,
                 color: cred
             });
+            setSubmitBtnLoading(false);
             //关闭协调窗口popover
             closePopover();
         })
@@ -91,12 +94,13 @@ const PopoverTip = ( props ) => {
                 title: title + '成功',
                 color: cgreen
             });
+            setSubmitBtnLoading(false);
             //关闭协调窗口popover
             closePopover();
         });
         //表单提交
         const formSubmit = ( values ) =>{
-
+            setSubmitBtnLoading(true)
             const newStartTime =  moment(values.startTime).format('YYYYMMDD'); //日期转化
             const { record } = props.opt;
             const orgdata = record.orgdata || {};
@@ -110,16 +114,16 @@ const PopoverTip = ( props ) => {
             let url = "";
             if( col === "COBT"){
                 orgFlight.cobtField.value = timestr;
-                urlKey = "updateCobt";
-                url = 'http://192.168.243.162:28089/flight/'+urlKey;
+                urlKey = "/updateCobt";
+                url = CollaborateUrl.cobtUrl +urlKey;
             }else if( col === "CTOT"){
                 orgFlight.ctotField.value = timestr;
-                urlKey = "updateCtot";
-                url = 'http://192.168.243.162:28089/flight/'+urlKey; //张浩东ip
+                urlKey = "/updateCtot";
+                url = CollaborateUrl.ctotUrl + urlKey; //张浩东ip
             }else if( col === "TOBT"){
                 orgFlight.tobtField.value = timestr;
-                urlKey = "updateTobtApply";
-                url = 'http://192.168.243.8:28089/flight/'+urlKey; //薛满林ip
+                urlKey = "/updateTobtApply";
+                url = CollaborateUrl.tobtUrl + '/flight'+urlKey; //薛满林ip
             }
             //传参
             const params = {
@@ -200,10 +204,10 @@ const PopoverTip = ( props ) => {
                         {
                             (opt.col === "TOBT" ) 
                             ? <div>
-                                <Button size="small" className="c-btn c-btn-yellow"  type="primary" htmlType="submit">申请</Button>
+                                <Button loading={submitBtnLoading} size="small" className="c-btn c-btn-yellow"  type="primary" htmlType="submit">申请</Button>
                               </div>
                             : <div>
-                                <Button size="small"  type="primary" htmlType="submit">修改</Button>
+                                <Button loading={submitBtnLoading} size="small"  type="primary" htmlType="submit">修改</Button>
                                 <Button style={{marginLeft: '8px'}}  size="small">重置</Button>
                             </div>
                         }

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-21 13:23:56
+ * @LastEditTime: 2021-01-21 14:16:21
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -27,7 +27,7 @@ const DetailBtn = function(props){
 
     //展示详情窗口
     const showDetailWind = useCallback(( record ) => {
-        console.log(record);
+        // console.log(record);
          const sid = record.sid || "";
         // showWorkFlowDetail(true, "");
         let windowClass = 'win_' + sid;
@@ -53,9 +53,9 @@ const DetailBtn = function(props){
     });
 
     useEffect(function(){
-        console.log("111",window);
+        // console.log("111",window);
         if( window !== "" ){
-            console.log(window);
+            // console.log(window);
             window.show();
             setTimeout(function(){
                 const winDom = document.getElementsByClassName(windowClass)[0];
@@ -102,7 +102,7 @@ function WorkFlowList(props){
 
     //查询框
     const onSearch = value => {
-        console.log(value);
+        // console.log(value);
         setSearchVal(value);
     }
     //用户信息获取
@@ -413,7 +413,7 @@ function WorkFlowList(props){
     }
 
     useEffect(function () {
-        console.log(user.id);
+        // console.log(user.id);
         if( "todo" === activeTab ){
             setColumns(todoColumns);
             //获取 待办数据
@@ -431,7 +431,7 @@ function WorkFlowList(props){
         }
     },[ props.systemPage.user ]);
     useEffect(function () {
-        console.log("activeTab改变了:",activeTab);
+        // console.log("activeTab改变了:",activeTab);
         if( "todo" === activeTab ){
             setColumns(todoColumns);
             //获取 待办数据

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-21 12:08:16
+ * @LastEditTime: 2021-01-21 14:25:55
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -66,10 +66,10 @@ let FLIGHTIDPopover = (props) => {
         let orgFlight = JSON.parse(orgdata) || {};
         let urlKey = "";
         if( type === "exempt"){
-            urlKey = "flightExempt";
+            urlKey = "/flightExempt";
             orgFlight.priority =FlightCoordination.PRIORITY_EXEMPT; //48
         }else if( type === "unexempt"){
-            urlKey = "flightExemptCancel";
+            urlKey = "/flightExemptCancel";
             orgFlight.priority =FlightCoordination.PRIORITY_NORMAL; //0
         }
 
@@ -105,10 +105,10 @@ let FLIGHTIDPopover = (props) => {
         let orgFlight = JSON.parse(orgdata) || {};
         let urlKey = "";
         if( type === "direct-in-pool"){ //入池
-            urlKey = "flightInPoolRest";
+            urlKey = "/flightInPoolRest";
             orgFlight.poolStatus = FlightCoordination.IN_POOL_M; //2
         }else if( type === "direct-out-pool"){ //出池
-            urlKey = "flightOutPoolRes";
+            urlKey = "/flightOutPoolRes";
             orgFlight.poolStatus = FlightCoordination.OUT_POOL; //0
         }
         // else if( type === "unexempt"){

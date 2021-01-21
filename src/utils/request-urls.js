@@ -1,13 +1,13 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-21 13:21:45
+ * @LastEditTime: 2021-01-21 14:25:33
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
  */
-const workflowIP = "http://192.168.243.187:28086";
-//  const workflowIP = "http://192.168.194.20:28087";
+// const workflowIP = "http://192.168.243.187:28086";
+ const workflowIP = "http://192.168.194.20:28087";
 const ReqUrls = {
     //用户登录
     loginUrl: 'http://192.168.194.21:18380/uuma-server/client/login',
@@ -39,14 +39,20 @@ const ReqUrls = {
     taskDetailUrl: workflowIP+'/workflow/procTaskHis/',
     // 航班查询
     searchFlightUrl: 'http://192.168.194.20:38188/hydrogen-flight-plan-server/flightPlan/retrieveDataByFlightId/',
-
 };
+const CollaborateIP = "http://192.168.194.20:28087";
 //协调相关url
 const CollaborateUrl = {
     //标记豁免、取消豁免
-    exemptyUrl : 'http://192.168.243.162:28089/',
+    exemptyUrl : CollaborateIP,
     //入池、出池
-    poolUrl : 'http://192.168.243.162:28089/',
+    poolUrl : CollaborateIP,
+    //TOBT
+    tobtUrl : CollaborateIP,
+    //CTOT
+    ctotUrl : CollaborateIP,
+    //COBT
+    cobtUrl : CollaborateIP,
 };
 
 export { ReqUrls, CollaborateUrl };
