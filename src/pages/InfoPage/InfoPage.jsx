@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2020-12-22 20:36:30
+ * @LastEditTime: 2021-01-22 09:54:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -242,11 +242,7 @@ function InfoPage(props){
                 const msgObj = JSON.parse(body);
                 const { message } = msgObj;
                 props.newsList.addNews(message);
-                //收到消息后，如果滚屏，自动置顶
-                if( scrollChecked ){
-                    const listDom = document.getElementsByClassName("todo-list");
-                    listDom[0].scrollTop = 0;
-                }
+                
                 openMessageDlg();
             })
         }
@@ -307,6 +303,16 @@ function InfoPage(props){
         }
     },[ user.id ]);
     const len = newsList.list.length;
+
+    useEffect(function(){
+        //收到消息后，如果滚屏，自动置顶
+        console.log("scrollChecked",scrollChecked);
+        if( newsList.list.length > 1 && scrollChecked ){
+            const listDom = document.getElementsByClassName("todo-list");
+            listDom[0].scrollTop = 0;
+        }
+    },[ newsList.list.length ]);
+
     return (
         <Layout className="layout">
             {
@@ -315,8 +321,8 @@ function InfoPage(props){
                         <div className="title">消息推送(共{ len }条，最多100条)</div>
                         <Tooltip title="清除">
                             <div className="radish">
-                                {/*<DeleteOutlined onClick={ emptyNews } />*/}
-                                <DeleteOutlined onClick={ add } />
+                                {/*<DeleteOutlined onClick={ add } />*/}
+                                <DeleteOutlined onClick={ emptyNews } />
                             </div>
                         </Tooltip>
                         <div className="scroll">

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2020-12-23 11:18:24
+ * @LastEditTime: 2021-01-22 14:32:30
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -22,6 +22,54 @@ const randerAlarmCellChildren =(opt)=> {
     const {text, record, index, col, colCN} = opt;
     // 置空title属性,解决title显示[object,object]问题
     return <div className="alarm" title="">{text}</div>
+}
+
+/**
+ * 根据航班id滚动到对应位置
+ * @param classStr  定位容器class
+ * */
+const scrollTopById = (id, classStr ) => {
+    // console.log("目标定位航班是：",props.flightTableData.getTargetFlight.id, props.flightTableData.getTargetFlight.flightid );
+    if( isValidVariable(id) ){
+        const flightCanvas = document.getElementsByClassName(classStr);
+        const boxContent = flightCanvas[0].getElementsByClassName("box_content");
+        const contentH = boxContent[0].clientHeight; //表格外框高度
+        const tableBody = boxContent[0].getElementsByClassName("ant-table-body");
+        const tableTBody = boxContent[0].getElementsByClassName("ant-table-tbody");
+        const tableTBodyH = tableTBody[0].clientHeight; //表格总高度
+        // console.log("目标定位航班[contentH]是：",contentH, "tableBodyH:", tableBodyH );
+        if( tableTBodyH*1 > contentH*1 ){
+            //计算定位航班
+            const tr = boxContent[0].getElementsByClassName( id );
+            const trHeight = tr[0].clientHeight;
+            const rowIndex = tr[0].firstElementChild.innerHTML; //当前航班所在行号
+            let mtop = rowIndex *  trHeight;
+            // console.log("目标定位航班是：",tr , trHeight, rowIndex, mtop);
+            if( contentH/2 < mtop ){
+                const scrollTop = Math.floor( mtop - contentH/2 );
+                // console.log("目标定位航班  滚动高度是：", scrollTop);
+                tableBody[0].scrollTop = scrollTop;
+            }
+        }
+    }
+}
+//设置行高亮-传入目标dom
+const highlightRowByDom = targetDom => {
+    let tClass = targetDom.getAttribute("class");
+    const trs = targetDom.parentElement.children;
+    clearHighlightRowByDom(trs);
+    targetDom.setAttribute("class", tClass+" active_row");  
+}
+
+//清除行高亮-定位容器class
+const clearHighlightRowByDom = trs => {
+    const len = trs.length;
+    for(let i = 0; i < len; i++){
+        let trDom = trs[i];
+        let trClass = trDom.getAttribute("class");
+        trClass = trClass.replace("active_row", "");
+        trDom.setAttribute("class", trClass);
+    } 
 }
 
 
@@ -355,4 +403,4 @@ const formatSingleFlight = flight => {
 };
 
 
-export {  getColumns, formatSingleFlight }
+export {  getColumns, formatSingleFlight, scrollTopById, highlightRowByDom, clearHighlightRowByDom }

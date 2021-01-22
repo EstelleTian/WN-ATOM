@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2020-12-22 19:24:44
+ * @LastEditTime: 2021-01-22 13:35:32
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -18,6 +18,8 @@ class FlightItem{
     @observable id = "";
     // 优先级
     @observable priority = "";
+    // 入池状态
+    @observable poolStatus = "";
     // 更新时间戳
     @observable updateTimeStamp = "";
     // 航班选中状态
@@ -121,6 +123,31 @@ class FlightTableData{
             }
         });
     }
+    //单条--航班高亮--航班id
+    @action toggleSelectFlight( fid ){
+        this.list.map( item => {
+            const oldFId = item.id;
+            if( oldFId*1 === fid*1 ){
+                item.toggleSelected();
+            }else{
+                item.selected = false;
+            }
+        });
+    }
+
+    //获取航班高亮航班对象
+    @computed get getSelectedFlight(){
+        let resFlight = {
+            id: ""
+        };
+        this.list.map( flight => {
+            if( flight.selected  ){
+                resFlight = flight;
+            }
+        })
+        return resFlight;
+    }
+    
     //获取和generatetime时间比最近的航班对象，用以自动滚动
     @computed get getTargetFlight(){
         // console.log("list长度:" + this.list.length);
@@ -159,22 +186,22 @@ class FlightTableData{
     //获取等待池航班
     @computed get getPoolFlights(){
         const filterFlights = this.list.filter( flight => {
-            if ( !isValidVariable(flight)  || !isValidVariable(flight.fmeToday) ) {
-                return false;
-            }
-            // 未发FPL不显示
-            if ( !FmeToday.hadFPL(flight.fmeToday) ) {
-                return false;
-            }
-            // 已起飞的不显示
-            if( FmeToday.hadDEP(flight.fmeToday) || FmeToday.hadARR(flight.fmeToday) ){
-                return false;
-            }
-            // 飞越航班不显示
-            if( flight.clearanceType == FlightCoordination.CLEARANCE_OVERFLY ) {
-                return false;
-            }
-            if(FlightCoordination.isInPoolFlight(flight)) {
+            // if ( !isValidVariable(flight)  || !isValidVariable(flight.fmeToday) ) {
+            //     return false;
+            // }
+            // // 未发FPL不显示
+            // if ( !FmeToday.hadFPL(flight.fmeToday) ) {
+            //     return false;
+            // }
+            // // 已起飞的不显示
+            // if( FmeToday.hadDEP(flight.fmeToday) || FmeToday.hadARR(flight.fmeToday) ){
+            //     return false;
+            // }
+            // // 飞越航班不显示
+            // if( flight.clearanceType == FlightCoordination.CLEARANCE_OVERFLY ) {
+            //     return false;
+            // }
+            if( FlightCoordination.isInPoolFlight(flight) ) {
                 return true;
             }
 

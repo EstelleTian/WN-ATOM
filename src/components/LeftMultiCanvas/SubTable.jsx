@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2020-12-24 19:19:59
+ * @LastEditTime: 2021-01-22 14:36:16
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -10,9 +10,9 @@ import React, {  Suspense, useCallback, useState, useEffect} from 'react';
 import { Table, Spin } from 'antd';
 import {inject, observer} from "mobx-react";
 import ModalBox from 'components/ModalBox/ModalBox';
-import { getColumns, formatSingleFlight} from 'components/FlightTable/TableColumns';
+import { getColumns, formatSingleFlight, scrollTopById, highlightRowByDom, clearHighlightRowByDom} from 'components/FlightTable/TableColumns';
 import './LeftMultiCanvas.scss';
-import {isValidVariable} from "../../utils/basic-verify";
+import {isValidVariable} from "utils/basic-verify";
 //根据key识别列表名称
 const subKeys = {
     "exempt": "豁免航班列表",
@@ -148,6 +148,23 @@ function SubTable(props){
 
     }, [tableWidth, tableHeight]);
 
+    useEffect(() => {
+        const { id } = props.flightTableData.getSelectedFlight;
+        const flightCanvas = document.getElementsByClassName( leftActiveName+"_canvas")[0];
+        if( isValidVariable( id ) ){
+            const trDom = flightCanvas.getElementsByClassName(id);
+            if( trDom.length > 0 ){
+                highlightRowByDom(trDom[0]);
+            }else{
+                const tableTBody = flightCanvas.getElementsByClassName("ant-table-tbody");
+                const trs = tableTBody[0].getElementsByTagName("tr");
+                clearHighlightRowByDom(trs);
+            }
+            scrollTopById(id, leftActiveName+"_canvas");
+            
+        }
+
+    }, [ props.flightTableData.getSelectedFlight.id ]);
 
     //转换为表格数据
     const coverFlightTableData = useCallback( subTableData => {
@@ -203,7 +220,16 @@ function SubTable(props){
                         x: tableWidth,
                         y: tableHeight
                     }}
-                    // onChange={onChange}
+                    onRow={record => {
+                        return {
+                          onClick: event => {// 点击行
+                            console.log(event);
+                            const fid = event.currentTarget.getAttribute("data-row-key")
+                            flightTableData.toggleSelectFlight(fid);
+                          }, 
+    
+                        };
+                      }}
                     rowClassName={(record, index)=>setRowClassName(record, index)}/>
             </ModalBox>
         </Suspense>

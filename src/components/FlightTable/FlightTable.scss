@@ -58,6 +58,11 @@
         background: #303942;
     }
 }
+//航班高亮配色
+.active_row>td{
+    background-color: #706247 !important;
+}
+
 //过点时间间隔样式
 .interval{
     //position: relative;
@@ -85,7 +90,7 @@
 .ant-table.ant-table-small .ant-table-tbody > tr > td,
 .ant-table.ant-table-small tfoot > tr > th,
 .ant-table.ant-table-small tfoot > tr > td {
-    padding: 0.35rem 0.5rem;
+    padding: 0.35rem;
 }
 .alarm-tag.ant-tag {
     padding: 0 4px;

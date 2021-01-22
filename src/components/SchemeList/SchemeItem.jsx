@@ -1,15 +1,16 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {  observer } from 'mobx-react'
 import ReactDom from "react-dom";
 import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
 import { Window as WindowDHX } from "dhx-suite";
 import { openBaseSchemeFrame } from "utils/client"
 import WorkFlowContent from "components/WorkFlow/WorkFlowContent";
-import {Tooltip } from 'antd'
+import {Tooltip,Menu, Dropdown  } from 'antd'
+import { DownOutlined } from '@ant-design/icons';
 
-
-
+//获取屏幕宽度，适配 2k
+let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 
 const reasonType = {
     "AIRPORT": "机场",
@@ -46,15 +47,16 @@ const convertSatus = (status) => {
     }
     return newStatus;
 }
+
 //单条方案
 function SchemeItem(props){
     const [window, setWindow] = useState("");
     const [windowClass, setWindowClass] = useState("");
-    const onChange = (e, id) => {
+    const onChange = useCallback((e, id) => {
         e.preventDefault();
         e.stopPropagation();
         props.handleActive( id );
-    };
+    });
     let { item } = props;
     let { id, tacticName , tacticStatus, tacticPublishUnit, basicTacticInfoReason, basicTacticInfoRemark,
         tacticTimeInfo: { startTime, endTime, publishTime, createTime, startCalculateTime =""},
@@ -92,21 +94,21 @@ function SchemeItem(props){
     if( behindUnits !== ""){
         behindUnits = behindUnits.substring(0, targetUnits.length-1);
     }
-    const showDetail = function(id){
+    const showDetail = useCallback((id)=>{
         props.toggleModalVisible(true, id);
-    }
+    })
 
 
-    const getSummaryText = ()=> {
+    const getSummaryText = useCallback(()=> {
         return(
             {
 
             }
         )
-    }
+    })
 
     //工作流详情
-    const showWorkFlowDetail = function(id){
+    const showWorkFlowDetail = useCallback((id) => {
         let windowClass = 'win_' + id;
         if( !isValidVariable(id) ){
             windowClass = 'win_' + Math.floor( Math.random()*100000000 );
@@ -127,7 +129,7 @@ function SchemeItem(props){
         }else{
             window.show();
         }
-    }
+    })
 
     useEffect(function(){
         if( window !== "" ){
@@ -143,14 +145,26 @@ function SchemeItem(props){
     },[window]);
 
     let summaryText = `发布时间:${getTimeFromString(publishTime)} 创建时间:${getTimeFromString(createTime)} 原因:${basicTacticInfoReasonZh} 备注: ${basicTacticInfoRemark}`;
-    let summaryTextForTootip = ()=>(
+    let summaryTextForTootip = useCallback(()=>(
         <div className="scheme-summary">
             <p>发布时间: {getTimeFromString(publishTime)} </p>
             <p>创建时间: {getTimeFromString(createTime)}</p>
             <p>原因: {basicTacticInfoReasonZh} </p>
             <p>备注: {basicTacticInfoRemark}</p>
         </div>
-    );
+    ));
+
+    const menu = (
+        <Menu>
+          <Menu.Item>
+            <div className="menu_opt" onClick={ e =>{
+                  showDetail(id);
+                  e.stopPropagation();
+              } }>方案调整</div>
+          </Menu.Item>
+        
+        </Menu>
+      );
 
 
 
@@ -217,28 +231,37 @@ function SchemeItem(props){
                         </Tooltip>
                     </div>
                 </div>
-                <div className="right-column">
+                <div className="right-column2">
                     <div className="options-box layout-row">
-                        <div className=" layout-row">
-                            <div className="opt"
-                            >影响航班</div>
-                            <div className="opt" onClick={ e =>{
+                        <div className="opt" onClick={ e =>{
+                            showDetail(id);
+                            e.stopPropagation();
+                        } }>方案详情</div>
+                        <div className="opt" onClick={ e =>{
+                            showWorkFlowDetail(id);
+                            e.stopPropagation();
+                        } }>工作流</div>
+                        <div className="opt" onClick={ e =>{
+                            openBaseSchemeFrame(id);
+                            e.stopPropagation();
+                        } }>决策依据</div>
+                    
+                        {
+                            (screenWidth > 1920) 
+                            ? <div className="opt" onClick={ e =>{
                                 showDetail(id);
                                 e.stopPropagation();
-                            } }>详情</div>
-                            <div className="opt" onClick={ e =>{
-                                showDetail(id);
-                                e.stopPropagation();
-                            } }>调整</div>
-                            <div className="opt" onClick={ e =>{
-                                openBaseSchemeFrame(id);
-                                e.stopPropagation();
-                            } }>决策依据</div>
-                            <div className="opt" onClick={ e =>{
-                                showWorkFlowDetail(id);
-                                e.stopPropagation();
-                            } }>工作流</div>
-                        </div>
+                            } }>方案调整</div>  
+                            : <div className="opt">
+                                <Dropdown overlay={menu}>
+                                    <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                    <DownOutlined />
+                                    </a>
+                                </Dropdown>
+                            </div>
+                        }
+                        
+                        
                     </div>
 
                 </div>

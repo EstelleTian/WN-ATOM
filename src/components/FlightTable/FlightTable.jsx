@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-01-21 15:51:07
+ * @LastEditTime: 2021-01-22 14:18:04
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -11,7 +11,7 @@ import React, {useState, useEffect, useCallback} from 'react'
 import { inject, observer } from 'mobx-react'
 import {Table, Input, Checkbox } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
-import { getColumns, formatSingleFlight} from 'components/FlightTable/TableColumns'
+import { getColumns, formatSingleFlight, scrollTopById, highlightRowByDom} from 'components/FlightTable/TableColumns'
 import { isValidVariable } from 'utils/basic-verify'
 import './FlightTable.scss';
 
@@ -53,6 +53,7 @@ function FlightTable(props){
         return id;
     });
 
+
     //转换为表格数据
     const coverFlightTableData = useCallback( list => {
         return list.map( flight => formatSingleFlight(flight) )
@@ -75,35 +76,33 @@ function FlightTable(props){
         setHeight( height );
 
     }, [tableWidth, tableHeight]);
+
+
+
+    
     useEffect(() => {
         if( autoScroll ){
-            const { id, flightid } = props.flightTableData.getTargetFlight;
-            // console.log("目标定位航班是：",props.flightTableData.getTargetFlight.id, props.flightTableData.getTargetFlight.flightid );
-            if( isValidVariable(id) ){
-                const flightCanvas = document.getElementsByClassName("flight_canvas");
-                const boxContent = flightCanvas[0].getElementsByClassName("box_content");
-                const contentH = boxContent[0].clientHeight; //表格外框高度
-                const tableBody = boxContent[0].getElementsByClassName("ant-table-body");
-                const tableTBody = boxContent[0].getElementsByClassName("ant-table-tbody");
-                const tableTBodyH = tableTBody[0].clientHeight; //表格总高度
-                // console.log("目标定位航班[contentH]是：",contentH, "tableBodyH:", tableBodyH );
-                if( tableTBodyH*1 > contentH*1 ){
-                    //计算定位航班
-                    const tr = boxContent[0].getElementsByClassName( id );
-                    const trHeight = tr[0].clientHeight;
-                    const rowIndex = tr[0].firstElementChild.innerHTML; //当前航班所在行号
-                    let mtop = rowIndex *  trHeight;
-                    // console.log("目标定位航班是：",tr , trHeight, rowIndex, mtop);
-                    if( contentH/2 < mtop ){
-                        const scrollTop = Math.floor( mtop - contentH/2 );
-                        // console.log("目标定位航班  滚动高度是：", scrollTop);
-                        tableBody[0].scrollTop = scrollTop;
-                    }
-                }
-            }
+            const { id } = props.flightTableData.getTargetFlight;
+            scrollTopById(id, "flight_canvas");
         }
 
     }, [ props.flightTableData.getTargetFlight.id ]);
+
+    useEffect(() => {
+        const { id } = props.flightTableData.getSelectedFlight;
+        if( isValidVariable( id ) ){
+            const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
+            const trDom = flightCanvas.getElementsByClassName(id);
+            if( trDom.length > 0 ){
+                highlightRowByDom(trDom[0]);
+            }
+            scrollTopById(id, "flight_canvas");
+            
+        }
+
+    }, [ props.flightTableData.getSelectedFlight.id ]);
+
+
     const onChange = useCallback((pagination, filters, sorter, extra) => {
         // console.log('params', pagination, filters, sorter, extra);
         setSortOrder( sorter.order );
@@ -180,6 +179,16 @@ function FlightTable(props){
                 }}
                 onChange={onChange}
                 rowClassName={(record, index)=>setRowClassName(record, index)}
+                onRow={record => {
+                    return {
+                      onClick: event => {// 点击行
+                        console.log(event);
+                        const fid = event.currentTarget.getAttribute("data-row-key")
+                        flightTableData.toggleSelectFlight(fid);
+                      }, 
+
+                    };
+                  }}
             />
         </ModalBox>
 

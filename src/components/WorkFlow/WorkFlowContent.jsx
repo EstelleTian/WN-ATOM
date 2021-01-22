@@ -89,11 +89,16 @@ const columns = [
                 agreeCN = "同意";
                 agreeColor = 'green';
             }
-            const comment = taskLocalVariables.comment || "";
+            let comment = taskLocalVariables.comments || "";
+
+            if( isValidVariable( agreeCN ) && isValidVariable( comment )  ){
+                comment = "("+comment+")";
+            }
 
             return (
                 <span style={{color: agreeColor }}>
-                    {agreeCN} { comment !== "" ? "("+comment+")" : ""}
+                    {agreeCN} {comment}
+                    
                 </span>
             )
         }
