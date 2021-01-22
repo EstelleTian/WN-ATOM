@@ -1,217 +1,21 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-01-22 09:54:54
+ * @LastEditTime: 2021-01-22 16:32:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
  */
 import React, {useEffect, useState} from 'react'
-import { Layout, Button, Collapse, Row, Col, Tooltip, Checkbox } from 'antd'
+import { Layout, Tooltip, Checkbox } from 'antd'
 import { DeleteOutlined, CloseOutlined} from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
-// import { Link } from  'react-router-dom'
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { formatTimeString, isValidVariable } from 'utils/basic-verify'
-import { sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openControlDetail, openMessageDlg } from 'utils/client'
+import { isValidVariable } from 'utils/basic-verify'
+import { closeMessageDlg, openMessageDlg } from 'utils/client'
 import Stomp from 'stompjs'
+import InfoList from 'components/Info/InfoList'
 import './InfoPage.scss'
 
-const { Panel } = Collapse;
-
-function getLevel(level){
-    let res = "message";
-    switch(level){
-        case "MESSAGE": res = "message";break;
-        case "NOTICE": res = "notice";break;
-        case "WARNING": res = "warn";break;
-    }
-    return res;
-}
-const convertStatus = ( sourceStatus ) => {
-    let cn = "";
-    switch ( sourceStatus ) {
-        case "ADD" : cn="新增";break;
-        case "UPDATE" : cn="更新";break;
-        case "DELETE" : cn="终止";break;
-    }
-    return cn;
-}
-//单个消息-消息头
-function InfoCard(props){
-    let [inProp, setInProp] = useState(true);
-    let [active, setActive] = useState(true);
-
-    const removeCard = (massage) => {
-        closeMessageDlg(massage)
-        setInProp(false);
-        // setTimeout(function(){
-        //     props.newsList.delNew( props.message );
-        // }, 1000)
-    }
-    useEffect(function(){
-        setTimeout(function(){
-            setActive(false)
-        },3000)
-    },[])
-    let { message, index } = props;
-    let {level, sendTime, content, dataType, dataCode, id,  name, data =""} = message;
-    data = JSON.parse(data);
-    let { sourceStatus, startTime, endTime, publishUnit } = data;
-    let dataContent = data.content || "";
-    // console.log( message. data);
-    level = getLevel( level );
-    return (
-        <CSSTransition
-            in={ inProp }
-            timeout={0}
-            classNames="item"
-            key = { id }
-            unmountOnExit={ true }
-            onExited={(node) => {
-                //动画出场之后的回调
-                // 移除该项
-                props.newsList.delNew( props.message );
-            }}
-        >
-            <div className={`info_card  ${ active ? "active" : "" } ${dataType}`}>
-                <div className={`level_icon ${level}`}>
-                    <div className={`message-icon ${dataType} ${level}`} />
-                </div>
-                <div className="card_cont">
-                    {/*{ id+"-"+index }*/}
-                    <div className="title">
-                        <div className={`level_text ${level}`}>{level}</div>
-                        <div className="date">{ formatTimeString( sendTime ) }</div>
-                        <div className="options">
-                            {/*{*/}
-                            {/*    dataType === "FCDM" ? <Button className="info_btn btn_blue" size="small" onClick={ function(e){ openTimeSlotFrame(message) } }>查看放行监控</Button> : ""*/}
-                            {/*}*/}
-                            {
-                                (dataType === "OPEI" || dataType === "PROI") ?
-                                    <Button className="info_btn btn_blue" size="small" onClick={ function(e){
-                                        sendMsgToClient(message)
-                                        e.stopPropagation()
-                                    } } >查看容流监控</Button>
-                                    :""
-                            }
-                            {
-                                (dataType === "FTMI") ?
-                                    <span>
-                                        <Button className="info_btn btn_blue" size="small" onClick={ function(e){
-                                            sendMsgToClient(message)
-                                            e.stopPropagation()
-                                        } } >查看容流监控</Button>
-                                        {/*<Link to="/restriction" target="_blank">*/}
-                                            <Button size="small" onClick={ (e)=>{
-                                                //将data转换为对象再生成字符串对象传递，否则接收后转换不成正确的json
-                                                let { data } = message;
-                                                data = JSON.parse( data);
-                                                data = Object.assign({}, data )
-                                               let newMsg =  Object.assign({}, message);
-                                                newMsg.data = data;
-
-                                                // console.log( str )
-                                                // sessionStorage.setItem("message", str );
-                                                openControlDetail( newMsg )
-                                                e.stopPropagation()
-                                            }}>查看流控详情</Button>
-                                        {/*</Link>*/}
-                                    </span>
-                                : ""
-                            }
-                        </div>
-                        <Tooltip title="关闭">
-                            <div className="close" onClick={ (e) =>{
-                                removeCard(message);
-                                e.stopPropagation()
-                            }} ><CloseOutlined /> </div>
-                        </Tooltip>
-                    </div>
-                    {
-                        (dataType === "FTMI")
-                            ? <div>
-                                <div className="text">
-                                    <span className={`${sourceStatus} sourceStatus`}>{convertStatus(sourceStatus)}</span>-{ name }
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span className="publishUnit">发布单位：{publishUnit}</span>
-                                </div>
-                                <div className="text">
-                                    { dataContent }
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    {formatTimeString(startTime)}- {formatTimeString(endTime)}
-                                    {/*&nbsp;&nbsp;&nbsp;&nbsp;*/}
-
-                                </div>
-                            </div>
-                            : <div>
-                                <div className="text">
-                                    { name }
-                                </div>
-
-                                <div className="text">
-                                    { content }
-                                </div>
-                            </div>
-                    }
-
-                </div>
-            </div>
-        </CSSTransition>
-    )
-}
-
-//单个消息模块下详情
-function InfoCardDetail(props){
-    let { message } = props;
-    let {sendTime, content, name, source } = message;
-    return (
-        <div className="card_detail">
-            <Row>
-                <Col span={2} className="name">时间：</Col>
-                <Col span={8} className="text send_time">{ formatTimeString( sendTime ) }</Col>
-                <Col span={14} className="text send_time">
-
-                </Col>
-            </Row>
-            <Row>
-                <Col span={2} className="name">名称：</Col>
-                <Col span={22} className="text send_time">{ name }</Col>
-            </Row>
-            <Row>
-                <Col span={2} className="name">来源：</Col>
-                <Col span={22} className="text send_time">{ source }</Col>
-            </Row>
-            <Row>
-                <Col span={2} className="name">内容：</Col>
-                <Col span={22} className="text send_time">{  content  }</Col>
-            </Row>
-        </div>
-    )
-}
-
-//单个消息-panel模块
-function PanelList(props) {
-    return (
-        <TransitionGroup className="todo-list">
-            <Collapse accordion className="info_content">
-                {
-                    props.newsList.list.map((newItem, index) => (
-
-                        <Panel
-                            showArrow={false}
-                            header={ <InfoCard message={ newItem } newsList={props.newsList} index={index}/> }
-                            key={ newItem.id }
-                        >
-                            <InfoCardDetail message={ newItem }/>
-                        </Panel>
-                    ))
-                }
-            </Collapse>
-        </TransitionGroup>
-    )
-}
 //消息模块
 function InfoPage(props){
     const [ login, setLogin ] = useState(false);
@@ -336,7 +140,7 @@ function InfoPage(props){
                         </Tooltip>
 
                     </div>
-                    <PanelList newsList={newsList}/>
+                    <InfoList newsList={newsList}/>
 
                 </div> : ""
             }
