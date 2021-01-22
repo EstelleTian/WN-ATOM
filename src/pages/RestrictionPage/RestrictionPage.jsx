@@ -92,7 +92,7 @@ function RestrictionPage( props ) {
 
         <Suspense fallback={ <div className="load_spin"><Spin tip="加载中..."/></div> }>
             {/*<div>messageStr:{messageStr}</div>*/}
-            <div style={{ color: '#eb6650' }}>{ newTypeCn }流控 -> 数据来源--{source}</div>
+            <div style={{ color: '#eb6650' }}>{ newTypeCn }流控 -&gt; 数据来源--{source}</div>
             {
                 ( dataCode === "AFAO" || dataCode === "AFAI") ?
                     <Row gutter={12} className="res_canvas">
@@ -112,7 +112,8 @@ function RestrictionPage( props ) {
                                 <span>流控导入</span>
                                 <FlowRelation  setDisabledForm = {setDisabledForm} flowData={ flowData }  disabledForm = {disabledForm} message={message} />
                             </Row>
-                            <RestrictionForm  pageType="IMPORT" disabledForm = {disabledForm} setDisabledForm = {setDisabledForm} flowData={ flowData } message={message}  showImportBtn={true} />
+                            <RestrictionForm  pageType="IMPORT" disabledForm = {disabledForm} 
+                            setDisabledForm = {setDisabledForm} flowData={ flowData } message={message}  showIgnoreBtn={true} />
                         </Col>
                     </Row>
                     : ""

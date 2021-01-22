@@ -13,7 +13,7 @@ import {inject, observer} from "mobx-react";
 
 //表单整体
 function RestrictionForm(props){
-    const  { flowData = {}, showImportBtn, systemPage } = props;
+    const  { flowData = {}, showIgnoreBtn=false, systemPage } = props;
     const  { user={} } = systemPage;
     let userDescriptionCN = user.descriptionCN ||　"";
 
@@ -223,6 +223,9 @@ function RestrictionForm(props){
     let [ startTime, setStartTime] = useState(startDate);
     // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
     let [ endTime, setEndTime] = useState(endDate);
+
+    // 忽略模态框显隐变量
+    let [ isIgnoreModalVisible, setIsIgnoreModalVisible] = useState(false);
 
     const [form] = Form.useForm();
     useEffect(function(){
@@ -710,9 +713,7 @@ function RestrictionForm(props){
                 {/*/>*/}
 
             </Form>
-            {
-                showImportBtn
-                    ?  <div className="footer" style={{width:props.width}}>
+             <div className="footer" style={{width:props.width}}>
                             <Button
                                 className="r_btn btn_import"
                                 type="primary"
@@ -734,9 +735,43 @@ function RestrictionForm(props){
                                     props.btnName ? <p>{`确定${props.btnName}?`}</p> : <p>确定导入当前流控?</p>
                                 }
                             </Modal>
+                            {
+                                showIgnoreBtn
+                                    ? <div>
+                                        <Button
+                                            className="r_btn btn_ignore"
+                                            // type="primary"
+                                            onClick={()=>{
+                                                setIsIgnoreModalVisible(true)
+                                            }}
+                                            disabled ={ isIgnoreModalVisible }
+                                        >
+                                            忽略
+                                        </Button>
+                                        <Modal
+                                            title={ "忽略" }
+                                            visible={isIgnoreModalVisible}
+                                            maskClosable={false}
+                                            style={{ top: 200 }}
+                                            onOk ={ e=>{
+                                                // 隐藏模态框显示
+                                                setIsIgnoreModalVisible(false);
+                                                closeCreateDlg();
+
+                                            } }
+                                            onCancel={e=>{
+                                                // 隐藏模态框显示
+                                                setIsIgnoreModalVisible(false);
+                                            }}
+                                            confirmLoading = { false }
+                                            >
+                                            确定忽略当前流控?
+                                        </Modal>
+                                    </div>
+                            : "" }
                         </div>
-                    : ""
-            }
+                    
+           
 
 
         </div>
