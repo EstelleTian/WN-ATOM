@@ -6,6 +6,26 @@ import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/
 import { Window as WindowDHX } from "dhx-suite";
 import { openBaseSchemeFrame } from "utils/client"
 import WorkFlowContent from "components/WorkFlow/WorkFlowContent";
+import {Tooltip } from 'antd'
+
+
+
+
+const reasonType = {
+    "AIRPORT": "机场",
+    "MILITARY":"军事活动",
+    "CONTROL":"流量",
+    "WEATHER":"天气",
+    "AIRLINE":"航空公司",
+    "SCHEDULE":"航班时刻",
+    "JOINT_INSPECTION":"联检",
+    "OIL":"油料",
+    "DEPART_SYSTEM":"离港系统",
+    "PASSENGER":"旅客",
+    "PUBLIC_SECURITY":"公共安全",
+    "MAJOR_SECURITY_ACTIVITIES":"重大保障活动",
+    "OTHER":"其它",
+};
 
 //方案状态转化
 const convertSatus = (status) => {
@@ -40,6 +60,7 @@ function SchemeItem(props){
         tacticTimeInfo: { startTime, endTime, publishTime, createTime, startCalculateTime =""},
         sourceFlowcontrol = {}, directionList = []
     } = item;
+    basicTacticInfoRemark = basicTacticInfoRemark || "";
     if( sourceFlowcontrol === null ){
         sourceFlowcontrol = {};
     }
@@ -47,6 +68,7 @@ function SchemeItem(props){
     if( flowControlMeasure === null ){
         flowControlMeasure = {};
     }
+    let basicTacticInfoReasonZh = reasonType[basicTacticInfoReason] || "";
     let { restrictionMITValue = "", restrictionAFPValueSequence ="", restrictionMode = ""} = flowControlMeasure;
     //限制值
     let interVal = "";
@@ -73,6 +95,16 @@ function SchemeItem(props){
     const showDetail = function(id){
         props.toggleModalVisible(true, id);
     }
+
+
+    const getSummaryText = ()=> {
+        return(
+            {
+
+            }
+        )
+    }
+
     //工作流详情
     const showWorkFlowDetail = function(id){
         let windowClass = 'win_' + id;
@@ -109,6 +141,17 @@ function SchemeItem(props){
         }
 
     },[window]);
+
+    let summaryText = `发布时间:${getTimeFromString(publishTime)} 创建时间:${getTimeFromString(createTime)} 原因:${basicTacticInfoReasonZh} 备注: ${basicTacticInfoRemark}`;
+    let summaryTextForTootip = ()=>(
+        <div className="scheme-summary">
+            <p>发布时间: {getTimeFromString(publishTime)} </p>
+            <p>创建时间: {getTimeFromString(createTime)}</p>
+            <p>原因: {basicTacticInfoReasonZh} </p>
+            <p>备注: {basicTacticInfoRemark}</p>
+        </div>
+    );
+
 
 
     return (
@@ -164,15 +207,14 @@ function SchemeItem(props){
             <div className="layout-row">
                 <div className="left-column">
                     <div className="summary">
-                        <div className="cell">
-                            发布时间:<span>{getTimeFromString(publishTime)}</span>
-                            &nbsp;&nbsp;
-                            创建时间:<span>{getTimeFromString(createTime)}</span>
-                            &nbsp;&nbsp;
-                            原因:<span>{basicTacticInfoReason}</span>
-                            &nbsp;&nbsp;
-                            备注:<span>{basicTacticInfoRemark}</span>
-                        </div>
+                        <Tooltip
+                            placement="left"
+                            destroyTooltipOnHide={true}
+                            title={summaryTextForTootip()}>
+                            <div className="cell">
+                                <span>{summaryText}</span>
+                            </div>
+                        </Tooltip>
                     </div>
                 </div>
                 <div className="right-column">

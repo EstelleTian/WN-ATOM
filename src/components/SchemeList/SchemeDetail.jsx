@@ -15,6 +15,21 @@ import './SchemeDetail.scss'
 //方案详情模块
 function SchemeDetail(props) {
 
+    const reasonType = {
+        "AIRPORT": "机场",
+        "MILITARY":"军事活动",
+        "CONTROL":"流量",
+        "WEATHER":"天气",
+        "AIRLINE":"航空公司",
+        "SCHEDULE":"航班时刻",
+        "JOINT_INSPECTION":"联检",
+        "OIL":"油料",
+        "DEPART_SYSTEM":"离港系统",
+        "PASSENGER":"旅客",
+        "PUBLIC_SECURITY":"公共安全",
+        "MAJOR_SECURITY_ACTIVITIES":"重大保障活动",
+        "OTHER":"其它",
+    };
 
     const {flowData = {}, } = props;
     // 方案数据对象
@@ -28,7 +43,7 @@ function SchemeDetail(props) {
     // 方案方向信息
     let directionList = isValidVariable(basicTacticInfo.directionList) ? basicTacticInfo.directionList : [];
 
-    const {tacticName, tacticPublishUnit, tacticPublishUser, id,   } = basicTacticInfo;
+    const {tacticName, tacticPublishUnit, tacticPublishUser, id, basicTacticInfoReason,   } = basicTacticInfo;
     let flowcontrolList = [];
     if(isValidVariable(tacticProcessInfo.flowcontrolList)){
         flowcontrolList = tacticProcessInfo.flowcontrolList
@@ -38,7 +53,9 @@ function SchemeDetail(props) {
 
     // 流控方向领域对象
     const directionListData = directionList[0] || {};
-    const {targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit} = directionListData;
+    const {targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit, } = directionListData;
+
+    const basicTacticInfoReasonZh = reasonType[basicTacticInfoReason] || "";
 
 
     let sourceFlowcontrolList = [];
@@ -218,11 +235,11 @@ function SchemeDetail(props) {
 
                             <div className="ant-row ant-form-item">
                                 <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                    <label className="ant-form-item-no-colon" title="限制高度">限制高度</label>
+                                    <label className="ant-form-item-no-colon" title="原因">原因</label>
                                 </div>
                                 <div className="ant-col ant-form-item-control">
                                     <div className="ant-form-item-control-input">
-                                        <div className="ant-form-item-control-input-content">{highLimit}</div>
+                                        <div className="ant-form-item-control-input-content">{basicTacticInfoReasonZh}</div>
                                     </div>
                                 </div>
                             </div>
