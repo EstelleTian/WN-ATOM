@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-21 14:16:21
+ * @LastEditTime: 2021-01-21 15:48:52
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -105,6 +105,11 @@ function WorkFlowList(props){
         // console.log(value);
         setSearchVal(value);
     }
+    const onChange = e => {
+        const value = e.target.value;
+        // console.log(e.target.value);
+        setSearchVal(value);
+    }
     //用户信息获取
     useEffect(function(){
         const user = localStorage.getItem("user");
@@ -137,8 +142,8 @@ function WorkFlowList(props){
             dataIndex: "steps",
             align: 'center',
             key: "steps",
-            width: (screenWidth > 1920) ? 70 : 70,
-            // width: (screenWidth > 1920) ? 90 : 90,
+            // width: (screenWidth > 1920) ? 70 : 70,
+            width: (screenWidth > 1920) ? 90 : 90,
             // render: (text, record, index) => {
             //     return (
             //         <div className="steps_cell">{text}</div>
@@ -485,7 +490,7 @@ function WorkFlowList(props){
     return (
         <div className="work_cont">
             <div className="work_search">
-                <Search allowClear placeholder="请输入要查询的工作号" onSearch={onSearch} style={{ width: 500 }}  enterButton="查询" />
+                <Input allowClear placeholder="请输入要查询的关键字" onChange={onChange} style={{ width: 500 }} />
                 <Button type="primary" loading = { refreshBtnLoading } style={{ marginLeft: "1rem" }}
                     onClick = { e => {
                         setRefreshBtnLoading(true);

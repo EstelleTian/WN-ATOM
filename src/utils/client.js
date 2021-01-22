@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2020-12-22 18:29:07
+ * @LastEditTime: 2021-01-21 21:06:36
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -81,6 +81,15 @@ const closeCreateDlg =() => {
     }
 };
 //决策依据
+const openBaseSchemeFrame =(id) => {
+    try {
+        alert("决策依据id:"+id);
+        jsEntity.openBaseSchemeFrame(id);c
+    }catch(error){
+        console.error(error);
+    }
+};
+//工作流详情
 const openBaseSchemeFrame =(id) => {
     try {
         alert("决策依据id:"+id);

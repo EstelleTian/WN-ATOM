@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-21 13:05:41
+ * @LastEditTime: 2021-01-21 16:14:06
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -29,9 +29,13 @@ const TOBTPopover = (props) => {
     if( col === "TOBT"){
         field = orgdata.tobtField || {};
         title = "TOBT申请变更";
+        
     }
     let source = field.source || "";
     let sourceCN = FlightCoordination.getSourceZh( source );
+    if( source === "TOBT_MANUAL_APPLY" ){
+        title = "TOBT批复变更";
+    }
 
     const fmeToday = orgdata.fmeToday;
     let bgStatus = "";
@@ -93,6 +97,9 @@ const TOBTPopover = (props) => {
             </div>
         </div>;
     }
+
+    
+    
     //航班已起飞或者不在本区域内--不显示
     if ( hadDEP || hadARR || !hadFPL || !isInAreaFlight ) {
         return (
@@ -101,10 +108,17 @@ const TOBTPopover = (props) => {
             </CellTip>
         )
     }else{
-        return(
-            <PopoverTip title={ title } textDom={textDom} opt={opt}  />
-
-        )
+        //TODO 模拟测试，展示批复窗口，此处为判断是否展示批复逻辑
+        if( source === "TOBT_MANUAL_APPLY" ){
+            return(
+                <PopoverTip title={ title } textDom={textDom} opt={opt} approve={{ flag: true, tasks: {} }}  />
+            )
+        }else{
+            return(
+                <PopoverTip title={ title } textDom={textDom} opt={opt}  />
+            )
+        }
+        
     }
 
 }

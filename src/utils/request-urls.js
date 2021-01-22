@@ -1,13 +1,14 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-21 14:25:33
+ * @LastEditTime: 2021-01-21 14:42:35
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
  */
+//工作流ip
 // const workflowIP = "http://192.168.243.187:28086";
- const workflowIP = "http://192.168.194.20:28087";
+const workflowIP = "http://192.168.194.20:28087";
 const ReqUrls = {
     //用户登录
     loginUrl: 'http://192.168.194.21:18380/uuma-server/client/login',
@@ -40,7 +41,8 @@ const ReqUrls = {
     // 航班查询
     searchFlightUrl: 'http://192.168.194.20:38188/hydrogen-flight-plan-server/flightPlan/retrieveDataByFlightId/',
 };
-const CollaborateIP = "http://192.168.194.20:28087";
+//协调ip
+const CollaborateIP = "http://192.168.194.22:28088";
 //协调相关url
 const CollaborateUrl = {
     //标记豁免、取消豁免

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-01-21 14:24:31
+ * @LastEditTime: 2021-01-21 16:56:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -21,7 +21,7 @@ import {observer, inject} from "mobx-react";
 import { request } from 'utils/request'
 import { CollaborateUrl } from 'utils/request-urls'
 import React,{ useCallback, useState, useEffect } from "react";
-import {  isValidVariable  } from 'utils/basic-verify'
+import {  isValidVariable, getFullTime  } from 'utils/basic-verify'
 import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
 
 import moment from "moment";
@@ -31,6 +31,7 @@ import moment from "moment";
 const PopoverTip = ( props ) => {
     const [autoChecked, setAutoChecked] = useState(true);
     const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
+    const [refuseBtnLoading, serRefuseBtnLoading] = useState(false);
     
     const [ tipObj, setTipObj] = useState({
         visible: false,
@@ -39,6 +40,8 @@ const PopoverTip = ( props ) => {
     });
     const { title } = props;
     const { record, col } = props.opt;
+    const approve = props.approve || {};
+
 
     useEffect(function(){
         if( tipObj.visible ){
@@ -53,9 +56,9 @@ const PopoverTip = ( props ) => {
     }, [tipObj.visible, props.visible] );
     // 内容渲染
     const getContent = useCallback((opt)  =>{
-        // const [form] = Form.useForm();
+        const [form] = Form.useForm();
         let { text, record, col } = opt;
-        let { FLIGHTID, DEPAP, ARRAP } = record;
+        let { FLIGHTID, DEPAP, ARRAP, orgdata } = record;
         let time = "";
         let date = "";
         if( isValidVariable(text) && text.length >= 12 ){
@@ -71,6 +74,19 @@ const PopoverTip = ( props ) => {
             date,
             comment: ""
         };
+
+        if( col === "TOBT" && approve.flag ){
+            initialValues = {
+                flightid: FLIGHTID || '',
+                airport: DEPAP + "-" + ARRAP,
+                applyComment: "", //申请备注
+                applyTime: "", 
+                comment: "", //批复备注
+                date: moment( new Date(), "YYYY-MM-DD"),
+                orgTime: "",
+                time: getFullTime(new Date(), 3),
+            }
+        }
 
         //数据提交失败回调
         const requestErr =useCallback( (err, content) => {
@@ -141,6 +157,103 @@ const PopoverTip = ( props ) => {
             };
             request(opt);
         }
+        const onCheck = async (key) => {
+            try {
+              const values = await form.validateFields();
+              console.log(key, 'Success:', values);
+            } catch (errorInfo) {
+              console.log(key, 'Failed:', errorInfo);
+            }
+        };
+
+        //TOBT批复
+        if( col === "TOBT" ){
+            if( approve.flag ){
+                return (
+                    <Form
+                        form = {form}
+                        size="small"
+                        initialValues={initialValues}
+                        className="ffixt_form"
+                    >
+                        <Descriptions size="small" bordered column={1}>
+                            <Descriptions.Item label="航班">
+                                <Form.Item
+                                    name="flightid"
+                                >
+                                    <Input disabled/>
+                                </Form.Item>
+                            </Descriptions.Item>
+                            <Descriptions.Item label="机场">
+                                <Form.Item
+                                    name="airport"
+                                >
+                                    <Input disabled/>
+                                </Form.Item>
+                            </Descriptions.Item>
+                            <Descriptions.Item label="原始">
+                                <Form.Item
+                                    name="orgTime"
+                                >
+                                    <Input disabled/>
+                                </Form.Item>
+                            </Descriptions.Item>
+                            <Descriptions.Item label="申请">
+                                <Form.Item
+                                    name="applyTime"
+                                >
+                                    <Input disabled/>
+                                </Form.Item>
+                            </Descriptions.Item>
+                            <Descriptions.Item label="申请备注">
+                                <Form.Item
+                                    name="applyComment"
+                                >
+                                    <Input.TextArea maxLength={100} />
+                                </Form.Item>
+                            </Descriptions.Item>
+                            <Descriptions.Item label="日期" >
+                                <Form.Item
+                                    name="date"
+                                >
+                                    <DatePicker className="clr_date"  format="YYYY-MM-DD"/>
+                                </Form.Item>
+        
+                            </Descriptions.Item>
+                            <Descriptions.Item label="时间">
+                                <Form.Item
+                                    name="time"
+                                >
+                                    <Input/>
+                                </Form.Item>
+                            </Descriptions.Item>
+                            <Descriptions.Item label="批复备注">
+                                <Form.Item
+                                    name="comment"
+                                >
+                                    <Input.TextArea maxLength={100} />
+                                </Form.Item>
+                            </Descriptions.Item>
+                            <div>
+                                <Button loading={submitBtnLoading} size="small" className="c-btn c-btn-green" type="primary" 
+                                    onClick={ e=> {
+                                        onCheck("approve");
+                                    }}
+                                >批复</Button>
+                                <Button loading={refuseBtnLoading} size="small" className="c-btn c-btn-red" type="primary" style={{marginLeft: '8px'}}  
+                                onClick={ e=> {
+                                    onCheck("refuse");
+                                }}
+                                >拒绝</Button>
+                            </div>
+                                
+                        </Descriptions>
+        
+                    </Form>
+                )
+            }
+        }
+        
 
         return (
             <Form
@@ -227,7 +340,7 @@ const PopoverTip = ( props ) => {
             trigger={[`contextMenu`]}
             getContainer={false}
             onVisibleChange = {(visible) => {
-                if( visible && col === "TOBT" ){
+                if( visible && col === "TOBT" && approve.flag !== true ){
                     let { COBT, CTOT, CTO } = record;
                     if( isValidVariable(COBT) && isValidVariable(CTOT) && isValidVariable(CTO) ){
                         setTipObj({

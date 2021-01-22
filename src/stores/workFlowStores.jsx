@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-01-21 10:51:47
+ * @LastEditTime: 2021-01-21 15:07:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -20,7 +20,7 @@ class WorkFlowData{
     //定时器
     @observable timeoutId = "";
     //导航选中
-    @observable activeTab = 'finished';
+    @observable activeTab = 'todo';
     //数据获取
     @observable loading = false;
     //更新表格loading状态

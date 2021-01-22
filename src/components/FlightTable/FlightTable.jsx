@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2020-12-17 11:03:31
+ * @LastEditTime: 2021-01-21 15:51:07
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -153,15 +153,16 @@ function FlightTable(props){
                                     }}
                     />
                 </div>
-                <Input.Search
+                <Input
                     allowClear
-                    style={{ width: '180px', marginRight: '15px' }}
+                    style={{ width: '200px', marginRight: '15px' }}
                     defaultValue={searchVal}
+                    placeholder="请输入要查询的关键字"
                     onPressEnter={(e)=>{
                         setSearchVal( e.target.value )
                     }}
-                    onSearch={(value)=>{
-                        setSearchVal( value )
+                    onChange={(e)=>{
+                        setSearchVal( e.target.value )
                     }}
                 />
                 <span  className="total_num">总计{data.length}条</span>
