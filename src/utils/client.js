@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-01-21 21:06:36
+ * @LastEditTime: 2021-01-22 08:43:06
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -89,15 +89,7 @@ const openBaseSchemeFrame =(id) => {
         console.error(error);
     }
 };
-//工作流详情
-const openBaseSchemeFrame =(id) => {
-    try {
-        alert("决策依据id:"+id);
-        jsEntity.openBaseSchemeFrame(id);
-    }catch(error){
-        console.error(error);
-    }
-};
+
 export {
     sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame

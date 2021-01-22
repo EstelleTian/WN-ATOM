@@ -730,13 +730,9 @@ function RestrictionForm(props){
                                 onCancel={handleCancel}
                                 confirmLoading = { confirmLoading }
                                 >
-
                                 {
                                     props.btnName ? <p>{`确定${props.btnName}?`}</p> : <p>确定导入当前流控?</p>
                                 }
-
-
-
                             </Modal>
                         </div>
                     : ""
