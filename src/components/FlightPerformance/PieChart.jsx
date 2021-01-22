@@ -80,8 +80,15 @@ const PieChart = (props) => {
             series: [{
                 name: '',
                 type: 'pie',
-                radius: ['55%', '70%'],
+                radius: ['50%', '65%'],
                 data: getData(),
+                label:{
+                    distanceToLabelLine: 5
+                },
+                labelLine: {
+                    // length: 5,
+                    length2: 5,
+                },
                 emphasis: {
                     itemStyle: {
                         shadowBlur: 10,
