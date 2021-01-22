@@ -20,7 +20,7 @@ function RestrictionForm(props){
     // 方案数据对象
     const { tacticProcessInfo={} } = flowData;
     const { basicTacticInfo={} } = tacticProcessInfo;
-    const { tacticName, tacticPublishUnit, tacticPublishUser, id, tacticTimeInfo={}, sourceFlowcontrol={}, directionList=[] } = basicTacticInfo;
+    let { tacticName, tacticPublishUnit, tacticPublishUser, id, tacticTimeInfo={}, sourceFlowcontrol={}, directionList=[] } = basicTacticInfo;
 
     // 方案开始时间(12位字符串)
     let basicStartTime = tacticTimeInfo.startTime;
@@ -101,7 +101,9 @@ function RestrictionForm(props){
     ];
 
 
-
+    if( props.btnName === "创建方案"){
+        tacticPublishUser =  tacticPublishUser || userDescriptionCN;
+    }
 
     // 流控限制数值
     let restrictionModeValue =getRestrictionModeValue();
@@ -119,7 +121,7 @@ function RestrictionForm(props){
         // 方案发布单位
         tacticPublishUnit: tacticPublishUnit || "流量室",
         // 方案发布用户
-        tacticPublishUser:  tacticPublishUser || userDescriptionCN,
+        tacticPublishUser:  tacticPublishUser,
         // 基准单元
         targetUnit: targetUnit,
         // 前序单元
