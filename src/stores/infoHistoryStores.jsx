@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-01-21 15:07:25
+ * @LastEditTime: 2021-01-25 18:17:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -14,7 +14,7 @@ class InfoHistoryData{
         makeObservable(this)
     }
     // 消息历史列表
-    @observable infoData = {};
+    @observable infoData = [];
     //数据时间
     @observable generateTime = "";
     //定时器

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2020-12-22 17:24:51
+ * @LastEditTime: 2021-01-25 17:29:41
  * @LastEditors: Please set LastEditors
  * @Description: 消息中心数据存储
  * @FilePath: \WN-CDM\src\stores\infoStores.jsx
@@ -44,6 +44,8 @@ class NewsList{
     }
     //消息数据
     @observable list = [];
+    //消息数据
+    @observable generateTime = "";
 
     //插入消息
     @action addNews( newList ){
@@ -53,6 +55,11 @@ class NewsList{
         if( len > 100 ){
             this.list = this.list.splice(0,100)
         }
+    }
+    //插入消息
+    @action addAllNews( newList, generateTime ){
+        this.list = newList;
+        this.generateTime = generateTime;
     }
     // 清空消息
     @action emptyNews(){

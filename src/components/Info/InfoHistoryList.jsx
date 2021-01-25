@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-01-22 16:34:21
+ * @LastEditTime: 2021-01-25 18:23:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -33,7 +33,7 @@ function InfoHistoryList(props){
 
 
     const { systemPage, infoHistoryData } = props;
-    const { infoData } = infoHistoryData;
+    let { infoData = [] } = infoHistoryData;
     // const { activeTab } = infoHistoryData;
     const { user } = systemPage;
 
@@ -64,9 +64,9 @@ function InfoHistoryList(props){
     const columns = [
         {
             title: "",
-            dataIndex: "num",
+            dataIndex: "id",
             align: 'center',
-            key: "num",
+            key: "id",
             width: (screenWidth > 1920) ? 35 : 35,
         },
         {
@@ -92,7 +92,8 @@ function InfoHistoryList(props){
             align: 'center',
             key: "name",
             width: (screenWidth > 1920) ? 60 : 60,
-        } , {
+        } , 
+        {
             title: "消息内容",
             dataIndex: "content",
             align: 'center',
@@ -116,11 +117,8 @@ function InfoHistoryList(props){
         let url = "";
         let params = {};
 
-        url = ReqUrls.tasksUrl + user.username;
+        url = "http://192.168.194.21:28680/cdm-nw-event-center-server/event/info/history";
         params = {
-            start: "",
-            end: "",
-            user: user.id
         }
         const opt = {
             url,
@@ -144,8 +142,8 @@ function InfoHistoryList(props){
 
     //处理消息历史数据
     const handleTasksData = (data) => {
-        const { tasks ={}, generateTime } = data;
-        infoHistoryData.updateTasks( tasks, generateTime );
+        const { result =[], generateTime } = data;
+        infoHistoryData.updateTasks( result, generateTime );
     };
 
     useEffect(function () {
@@ -173,7 +171,18 @@ function InfoHistoryList(props){
         } );
         return newArr;
     });
+    //根据输入框输入值，检索显示航班
+    const converToData = useCallback((data) => {
+        let newArr = []; 
+        data.map( item => {
+            let obj = {};
+            
+            
+        } );
+        return newArr;
+    });
 
+    infoData = converToData(infoData);
     let data = filterInput(infoData);
     //按流水号排序
     // data = data.sort( (a,b) => {
