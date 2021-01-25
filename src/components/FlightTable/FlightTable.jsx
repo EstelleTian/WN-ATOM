@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-01-25 08:55:40
+ * @LastEditTime: 2021-01-25 16:32:11
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -105,6 +105,17 @@ function FlightTable(props){
 
     }, [ props.flightTableData.getSelectedFlight.id ]);
 
+    // DidMount 激活方案列表id变化后，重新处理执行KPI定时器
+    useEffect(function(){
+        // console.log("执行KPI useEffect id变了:"+id);
+        if( isValidVariable( props.schemeListData.activeScheme.id ) ){
+            if( autoScroll ){
+                const { id } = props.flightTableData.getTargetFlight;
+                scrollTopById(id, "flight_canvas");
+            }
+        }
+    }, [ props.schemeListData.activeScheme.id ] );
+
 
     const onChange = useCallback((pagination, filters, sorter, extra) => {
         // console.log('params', pagination, filters, sorter, extra);
@@ -186,8 +197,12 @@ function FlightTable(props){
                     return {
                       onClick: event => {// 点击行
                         console.log(event);
-                        const fid = event.currentTarget.getAttribute("data-row-key")
-                        flightTableData.toggleSelectFlight(fid);
+                        const popoverDom = document.getElementsByClassName("ant-popover");
+                        if( popoverDom.length === 0 ){
+                            const fid = event.currentTarget.getAttribute("data-row-key")
+                            flightTableData.toggleSelectFlight(fid);
+                        }
+                        
                       }, 
 
                     };

@@ -4,7 +4,7 @@ import  moment  from 'moment'
 import "moment/locale/zh-cn"
 import {Button, Modal, Form} from 'antd'
 import StaticInfoCard from './StaticInfoCard'
-import { handleImportControl, closeCreateDlg } from 'utils/client'
+import { handleImportControl, closeCreateDlg, closeControlDetail } from 'utils/client'
 import { getFullTime, formatTimeString, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'

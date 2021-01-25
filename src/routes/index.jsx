@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-01-21 10:55:09
+ * @LastEditTime: 2021-01-25 13:57:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -9,6 +9,7 @@
 import React, { lazy } from 'react';
 import { withRouter } from 'react-router-dom';
 const InfoPage = lazy(() => import('../pages/InfoPage/InfoPage'));
+const InfoTodayPage = lazy(() => import('../pages/InfoPage/InfoTodayPage'));
 const FangxingPage = lazy(() => import('../pages/FangxingPage/FangxingPage'));
 const TotalPage = lazy(() => import('../pages/TotalPage/TotalPage'));
 const RestrictionPage = lazy(() => import('../pages/RestrictionPage/RestrictionPage'));
@@ -31,6 +32,12 @@ export default [
         component: withRouter(InfoPage),
         exact: true,
         title: '消息中心',
+    },
+    {
+        path: '/today_news',
+        component: withRouter(InfoTodayPage),
+        exact: true,
+        title: '近两小时消息历史',
     },
     {
         path: '/fangxing',

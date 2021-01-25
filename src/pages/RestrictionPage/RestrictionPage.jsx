@@ -118,7 +118,7 @@ function RestrictionPage( props ) {
                     </Row>
                     : ""
             }
-            {
+            { //更新
                 ( dataCode === "UFAO" || dataCode === "UFAI") ?
                     <Row gutter={12} className="res_canvas">
                         <Col span={12} className="res_left">
@@ -154,7 +154,7 @@ function RestrictionPage( props ) {
                     </Row>
                     : ""
             }
-            {
+            { //终止
                 ( dataCode === "TFAO" || dataCode === "TFAI") ?
                     <Row gutter={12} className="res_canvas">
                         <Col span={12} className="res_left">

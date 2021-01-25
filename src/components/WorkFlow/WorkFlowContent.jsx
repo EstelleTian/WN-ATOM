@@ -34,10 +34,10 @@ const columns = [
         key: "handler",
         width: (screenWidth > 1920) ? 165 : 165,
         render: (text, record, index) => {
-            let odata = JSON.parse( record.orgdata );
-            const startTime = odata.startTime || 0;
-            const endTime = odata.endTime || 0;
-            const durationInMillis = odata.durationInMillis || 0;
+            let orgdata = JSON.parse( record.orgdata );
+            const startTime = orgdata.startTime || 0;
+            const endTime = orgdata.endTime || 0;
+            const durationInMillis = orgdata.durationInMillis || 0;
             return (
                 <div className="handler">
                     <div className="handler_1">
@@ -122,6 +122,10 @@ const WorkFlowContent = (props) => {
     const [ instance, setInstance ] = useState({});
     const [ generateTime, setGenerateTime ] = useState("");
     const { modalId, from, source } = props;
+    const processVariables = instance.processVariables || {};
+    const processDefinitionKey = instance.processDefinitionKey || "";
+    const endTime = instance.endTime || "";
+    const businessName = processVariables.businessName || "";
     //更新工作流列表数据
     const updateDetailData = useCallback( data => {
         const gTime = data.generateTime || "";
@@ -189,7 +193,12 @@ const WorkFlowContent = (props) => {
             }
         };
         requestGet(opt);
-    });
+    },[]);
+
+    useEffect(function(){
+        document.title = businessName + "详情";
+    },[businessName]);
+
     useEffect(function(){
         console.log("modalId:"+modalId);
         if( isValidVariable( modalId ) ){
@@ -197,16 +206,35 @@ const WorkFlowContent = (props) => {
             requestSchemeDetail( modalId );
         }
         // console.log("useEffect", modalId);
-    },[  modalId ])
+    },[ modalId ]);
 
-    const closeModal = useCallback(()=>{
-        // setVisible(false)
-    });
+    //根据不同类型调整到不同窗口
+    const openHandleWind = useCallback(() => {
+        alert("建设中...");
+        const instance = data.hisInstance || {};
+         const processDefinitionKey = data.processDefinitionKey || "";
+         const businessKey = data.businessKey || ""; //方案id
+         const processVariables = instance.processVariables || {};
+         switch(processDefinitionKey){
+             case "FlightApprovalProcess": //航班审批流程
+                const tacticId = processVariables.tacticId || "";//航班对应方案id
+                const fmeId = processVariables.fmeId || "";//航班id
+                
+                break;
+             case "SchemeApprovalProcess": //方案审批流程
+                
+             break;
+             case "CapacityApprovalProcess": //容量审批流程
+             
+             break;
+             
+         }
+         console.log(orgdata);
 
-    const processVariables = instance.processVariables || {};
-    const businessName = processVariables.businessName || "";
+        
+    },[]);
 
-
+    console.log("isValidVariable(endTime) ",isValidVariable(endTime) );
     return (
         <Spin spinning={loading} >
             <div className="workflow_wind_cont">
@@ -235,25 +263,57 @@ const WorkFlowContent = (props) => {
                         // rowClassName={(record, index)=>setRowClassName(record, index)}
                     />
                 </div>
-                {
-                    from === "simple" ? "" : <div className="win_btns">
+                <div className="win_btns">
+                    {
+                        isValidVariable(endTime) ? "" :
                         <Button type="primary" className="btn_confirm" onClick={ e => {
+                            openHandleWind();
                             props.window.hide();
-                        } }>确认</Button>
-                        <Button onClick={ (e)=>{ 
+                        } }>主办</Button>
+                    }
+                    {
+                        from === "simple" ? "" : 
+                            <Button onClick={ (e)=>{ 
+                                props.window.hide();
+                                if( source === "fangxing"){ //从放行监控点击窗口模式来到工作流详情
+                                   window.open( "/#/workflow_detail/fangxing/"+modalId ,"_blank");
+                                }else{
+                                    window.open( "/#/workflow_detail/"+modalId ,"_blank");
+                                }
+    
+                                
+                            } }>
+                                窗口模式
+                            </Button>
+                    }
+                    {
+                        processDefinitionKey === "FlightApprovalProcess"
+                        ? <Button type="primary" className="" onClick={ e => {
+                            // openHandleWind();
+                            alert("建设中...");
                             props.window.hide();
-                            if( source === "fangxing"){ //从放行监控点击窗口模式来到工作流详情
-                                window.open( "/#/workflow_detail/fangxing/"+modalId ,"_blank");
-                            }else{
-                                window.open( "/#/workflow_detail/"+modalId ,"_blank");
-                            }
-
-                            
-                        } } style={{ float: 'left'}}>
-                            窗口模式
-                        </Button>
-                    </div>
-                }
+                        } }>查看放行监控</Button> : ""
+                    }
+                    
+                    {
+                        processDefinitionKey === "SchemeApprovalProcess"
+                        ? <Button type="primary" className="" onClick={ e => {
+                            // openHandleWind();
+                            alert("建设中...");
+                            props.window.hide();
+                        } }>查看容流监控</Button> : ""
+                    }
+                    {
+                        processDefinitionKey === "CapacityApprovalProcess"
+                        ? <Button type="primary" className="" onClick={ e => {
+                            // openHandleWind();
+                            alert("建设中...");
+                            props.window.hide();
+                        } }>查看容量监控</Button> : ""
+                    }
+                    
+                </div>
+                
                 
             </div>
         </Spin>

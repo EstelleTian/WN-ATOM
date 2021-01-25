@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-22 16:58:51
+ * @LastEditTime: 2021-01-25 15:18:39
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -21,6 +21,7 @@ const { Search } = Input;
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 
+//详情 按钮
 const DetailBtn = function(props){
     const [window, setWindow] = useState("");
     const [windowClass, setWindowClass] = useState("");
@@ -50,7 +51,7 @@ const DetailBtn = function(props){
         }else{
             window.show();
         }
-    });
+    },[]);
 
     useEffect(function(){
         // console.log("111",window);
@@ -73,14 +74,48 @@ const DetailBtn = function(props){
         id = windowClass.replace("win_", "");
     }
     return (
-        // <a onClick={ e =>{
-        //     showDetailWind( props.record );
-        //     e.stopPropagation();
-        // } }>详情</a>
-        <Link to={`/workflow_detail/list/${props.record.sid}`} target="_blank">详情</Link>
+        <span>
+            <Link to={`/workflow_detail/list/${props.record.sid}`} target="_blank">详情</Link>
+
+        </span>
     )
 }
+//主办 按钮
+const HandleBtn = function(props){
+    //根据不同类型调整到不同窗口
+    const openHandleWind = useCallback(( record ) => {
+        alert("建设中...");
+        let orgdata = JSON.parse( record.orgdata );
+         const instance = orgdata.instance || {};
+         const processDefinitionKey = orgdata.processDefinitionKey || "";
+         const businessKey = orgdata.businessKey || ""; //方案id
+         const processVariables = instance.processVariables || {};
+         switch(processDefinitionKey){
+             case "FlightApprovalProcess": //航班审批流程
+                const tacticId = processVariables.tacticId || "";//航班对应方案id
+                const fmeId = processVariables.fmeId || "";//航班id
+                
+                break;
+             case "SchemeApprovalProcess": //方案审批流程
+                
+             break;
+             case "CapacityApprovalProcess": //容量审批流程
+             
+             break;
+             
+         }
+         console.log(orgdata);
 
+        
+    },[]);
+
+    return (
+        <a onClick={ e =>{
+            openHandleWind(props.record);
+             e.stopPropagation();
+         } }>主办</a>
+    )
+}
 
 //工作流列表
 function WorkFlowList(props){
@@ -92,13 +127,9 @@ function WorkFlowList(props){
     const [ columns, setColumns ] = useState([]);
     const [ expandable, setExpandable ] = useState(false);
 
-
-
     const { systemPage, workFlowData } = props;
     const { activeTab } = workFlowData;
     const { user } = systemPage;
-
-
 
     //查询框
     const onSearch = value => {
@@ -169,7 +200,10 @@ function WorkFlowList(props){
             return (
                 <span className='opt_btns'>
                     <DetailBtn record={record} />
-                            
+                    {
+                        activeTab === "todo" ? <HandleBtn record={record} />: ""
+                    }
+                
                     {/*<a>收回</a>*/}
                     {/*<a>催办</a>*/}
                     {/*<a>导出</a>*/}
@@ -316,7 +350,7 @@ function WorkFlowList(props){
             }                                                                               
         }
         return newList
-    });
+    },[]);
     //待办数据转换
     const convertTodoData = useCallback((tasks) => {
         let newList = [];
@@ -354,16 +388,16 @@ function WorkFlowList(props){
             
         }
         return newList
-    });
+    },[]);
     //请求错误处理
     const requestErr = useCallback((err, content) => {
         message.error({
             content,
             duration: 4,
         });
-    });
+    },[]);
     //获取 办结工作请求
-    const requestDatas = () => {
+    const requestDatas = useCallback(() => {
         if( !isValidVariable(user.id) ){
             return;
         }
@@ -403,10 +437,10 @@ function WorkFlowList(props){
             },
         };
         requestGet(opt);
-    };
+    },[ props.systemPage.user, activeTab ]);
 
     //处理 办结工作 数据
-    const handleTasksData = (data) => {
+    const handleTasksData = useCallback((data) => {
         if( "finished" === activeTab ){
             const { historyTasks ={}, generateTime } = data;
             workFlowData.updateTasks( historyTasks, generateTime );
@@ -415,7 +449,7 @@ function WorkFlowList(props){
             workFlowData.updateTasks( tasks, generateTime );
         }
 
-    }
+    },[activeTab])
 
     useEffect(function () {
         // console.log(user.id);
@@ -434,26 +468,7 @@ function WorkFlowList(props){
             //获取 办结数据
             requestDatas();
         }
-    },[ props.systemPage.user ]);
-    useEffect(function () {
-        // console.log("activeTab改变了:",activeTab);
-        if( "todo" === activeTab ){
-            setColumns(todoColumns);
-            //获取 待办数据
-            requestDatas();
-        }
-        else if( "finished" === activeTab ){
-            setColumns(finishedColumns);
-            //行拓展
-            // setExpandable({
-            //     expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
-            //     rowExpandable: record => record.name !== 'Not Expandable',
-            // })
-            //获取 办结数据
-            requestDatas();
-        }
-    },[ activeTab ]);
-
+    },[ props.systemPage.user, activeTab ]);
     
     //根据输入框输入值，检索显示航班
     const filterInput = useCallback((data) => {
@@ -517,7 +532,7 @@ function WorkFlowList(props){
                             // defaultPageSize: 20
                         }}
                         scroll={{
-                            y: 412,
+                            y: 390,
                         }}
                         loading={ loading }
                         // onChange={onChange}
