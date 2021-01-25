@@ -131,7 +131,7 @@ function RestrictionPage( props ) {
                                         source === "ATOM" ? <ATOMDetail flowData={ flowData }  message={ message } /> : ""
                                     }
                                     {
-                                        source === "NTFM" ? <NTFMDetail/> : ""
+                                        source === "NTFM" ? <NTFMDetail flowData={ flowData } message={ message } /> : ""
                                     }
                                 </Col>
                             </Row>
@@ -146,7 +146,7 @@ function RestrictionPage( props ) {
                                         source === "ATOM" ? <ATOMDetail  flowData={ flowData }  message={ message } /> : ""
                                     }
                                     {
-                                        source === "NTFM" ? <NTFMDetail/> : ""
+                                        source === "NTFM" ? <NTFMDetail flowData={ flowData } message={ message } /> : ""
                                     }
                                 </Col>
                             </Row>
@@ -164,10 +164,10 @@ function RestrictionPage( props ) {
                             <Row>
                                 <Col>
                                     {
-                                        source === "ATOM" ? <ATOMDetail message={ message }  /> : ""
+                                        source === "ATOM" ? <ATOMDetail flowData={ flowData } message={ message }  /> : ""
                                     }
                                     {
-                                        source === "NTFM" ? <NTFMDetail/> : ""
+                                        source === "NTFM" ? <NTFMDetail  flowData={ flowData } message={ message } /> : ""
                                     }
                                 </Col>
                             </Row>

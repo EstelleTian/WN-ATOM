@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-01-22 16:34:21
+ * @LastEditTime: 2021-01-25 18:01:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -125,7 +125,8 @@ function InfoCard(props){
                         </Tooltip>
                     </div>
                     {
-                        (dataType === "FTMI")
+                        //||dataType === "PROI"
+                        (dataType === "FTMI"  )
                             ? <div>
                                 <div className="text">
                                     <span className={`${sourceStatus} sourceStatus`}>{convertStatus(sourceStatus)}</span>-{ name }

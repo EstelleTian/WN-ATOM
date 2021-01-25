@@ -46,6 +46,10 @@
             }
         }
     }
+    .ant-spin-nested-loading,.ant-spin-container{
+        @include display_flex();
+        @include flex();
+    }
     .todo-list{
         @include flex();
         overflow-y: auto;
