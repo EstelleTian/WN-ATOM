@@ -17,8 +17,11 @@ import CapacityFlowMonitor from 'components/CapacityFlowMonitor/CapacityFlowMoni
 
 
 import './TotalPage.scss'
+
+
 //总体监控布局模块
 function TodoPage (props){
+    alert("页面组件加载")
     return (
         <Layout className="layout">
             <NavBar className="nav_bar" title="空中交通运行总体态势监控" username="西安流量室"/>
