@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-01-22 14:18:04
+ * @LastEditTime: 2021-01-25 08:55:40
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -24,10 +24,13 @@ function FlightTable(props){
     let [sortOrder, setSortOrder] = useState("ascend"); //表格排序 顺序  升序ascend/降序
     //设置表格行的 class
     const setRowClassName = useCallback((record, index) => {
-        let { FFIXT, orgdata, id } = record;
+        let FFIXT = record.FFIXT || "";
+        let id = record.id || "";
         if( sortKey === "FFIXT" ) {
-            const activeScheme = props.schemeListData.activeScheme;
-            let {startTime, endTime} = activeScheme.tacticTimeInfo;
+            const activeScheme = props.schemeListData.activeScheme || {};
+            const tacticTimeInfo = activeScheme.tacticTimeInfo || {};
+            let startTime = tacticTimeInfo.startTime || "";
+            let endTime = tacticTimeInfo.endTime || "";
             if( isValidVariable(FFIXT) && FFIXT.length > 12 ){
                 FFIXT = FFIXT.substring(0, 12);
             }
@@ -51,13 +54,13 @@ function FlightTable(props){
             }
         }
         return id;
-    });
+    },[]);
 
 
     //转换为表格数据
     const coverFlightTableData = useCallback( list => {
         return list.map( flight => formatSingleFlight(flight) )
-    });
+    },[]);
     useEffect(() => {
         const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
         flightCanvas.oncontextmenu = function(){
@@ -107,7 +110,7 @@ function FlightTable(props){
         // console.log('params', pagination, filters, sorter, extra);
         setSortOrder( sorter.order );
         setSortKey( sorter.columnKey )
-    })
+    },[])
     //根据输入框输入值，检索显示航班
     const filterInput = useCallback((data) => {
         if( searchVal === "" ){
@@ -126,7 +129,7 @@ function FlightTable(props){
             return false
         } )
         return newArr
-    });
+    },[]);
     const flightTableData = props.flightTableData;
     const { list, loading, generateTime } = flightTableData;
     let data = coverFlightTableData(list);

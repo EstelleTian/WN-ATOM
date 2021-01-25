@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2020-12-24 19:19:24
+ * @LastEditTime: 2021-01-25 08:49:23
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -45,7 +45,7 @@ function SchemeList (props){
         setVisible(flag);
         //选中方案id
         setModalId(id);
-    });
+    },[]);
 
     //请求错误处理
     const requestErr = useCallback((err, content) => {
@@ -53,7 +53,7 @@ function SchemeList (props){
             content,
             duration: 4,
         });
-    });
+    },[]);
 
     //更新--方案列表 store数据
     const updateSchemeListData = useCallback(data => {
@@ -74,7 +74,7 @@ function SchemeList (props){
             schemeListData.updateList(list, generateTime);
         }
 
-    });
+    },[]);
     //更新--航班列表 store数据
     const updateFlightTableData = useCallback( ( flightData, id )  => {
         let  { flights, generateTime } = flightData;
@@ -83,7 +83,7 @@ function SchemeList (props){
         }else{
             props.flightTableData.updateFlightsList([], generateTime, id);
         }
-    });
+    },[]);
     //更新--执行KPI store数据
     const updateExecuteKPIData = useCallback(executeKPIData => {
         if( isValidObject(executeKPIData) ){
@@ -96,7 +96,7 @@ function SchemeList (props){
             });
 
         }
-    });
+    },[]);
 
     //获取--方案列表
     const getSchemeList = useCallback(( startNextRefresh = false  ) => {
@@ -124,7 +124,7 @@ function SchemeList (props){
             },
         };
         requestGet(opt);
-    });
+    },[]);
     //获取--航班列表数据
     const requestFlightTableData = useCallback( ( id, resolve, reject ) => {
         // if( isValidVariable(id) ){
@@ -154,7 +154,7 @@ function SchemeList (props){
         request(opt);
         // }
 
-    });
+    },[]);
     //获取--执行KPI数据
     const requestExecuteKPIData = useCallback( ( id, resolve, reject ) => {
         const opt = {
@@ -177,7 +177,7 @@ function SchemeList (props){
             } ,
         };
         request(opt);
-    });
+    },[]);
 
     //高亮方案并获取航班数据和KPI数据
     const handleActive = useCallback(( id, title, from ) => {
@@ -206,7 +206,7 @@ function SchemeList (props){
 
         // }
 
-    });
+    },[]);
 
     // DidMount 激活方案列表id变化后，重新处理航班定时器
     useEffect(function(){
