@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-01-21 16:56:48
+ * @LastEditTime: 2021-01-25 10:28:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -20,6 +20,7 @@ import {
 import {observer, inject} from "mobx-react";
 import { request } from 'utils/request'
 import { CollaborateUrl } from 'utils/request-urls'
+import { REGEXP } from 'utils/regExpUtil'
 import React,{ useCallback, useState, useEffect } from "react";
 import {  isValidVariable, getFullTime  } from 'utils/basic-verify'
 import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
@@ -114,57 +115,55 @@ const PopoverTip = ( props ) => {
             //关闭协调窗口popover
             closePopover();
         });
-        //表单提交
-        const formSubmit = ( values ) =>{
-            setSubmitBtnLoading(true)
-            const newStartTime =  moment(values.startTime).format('YYYYMMDD'); //日期转化
-            const { record } = props.opt;
-            const orgdata = record.orgdata || {};
-            let orgFlight = JSON.parse(orgdata) || {}; //航班fc
-            const userId = props.systemPage.user.id || '14';
-            const timestr = newStartTime + "" + values.time;
-    
-            orgFlight.locked = autoChecked ? 1 : "";
-            
-            let urlKey = "";
-            let url = "";
-            if( col === "COBT"){
-                orgFlight.cobtField.value = timestr;
-                urlKey = "/updateCobt";
-                url = CollaborateUrl.cobtUrl +urlKey;
-            }else if( col === "CTOT"){
-                orgFlight.ctotField.value = timestr;
-                urlKey = "/updateCtot";
-                url = CollaborateUrl.ctotUrl + urlKey; //张浩东ip
-            }else if( col === "TOBT"){
-                orgFlight.tobtField.value = timestr;
-                urlKey = "/updateTobtApply";
-                url = CollaborateUrl.tobtUrl + '/flight'+urlKey; //薛满林ip
-            }
-            //传参
-            const params = {
-                userId: userId,
-                flightCoordination: orgFlight, //航班原fc
-                comment: values.comment,  //备注
-            }
-            console.log(params);
-            const opt = {
-                url,
-                method: 'POST',
-                params: params,
-                resFunc: (data)=> requestSuccess(data, title),
-                errFunc: (err)=> requestErr(err, title+'失败' ),
-            };
-            request(opt);
-        }
-        const onCheck = async (key) => {
+
+        const onCheck = async () => {
             try {
               const values = await form.validateFields();
-              console.log(key, 'Success:', values);
+              console.log('Success:', values);
+              setSubmitBtnLoading(true)
+              const newStartTime =  moment(values.startTime).format('YYYYMMDD'); //日期转化
+              const { record } = props.opt;
+              const orgdata = record.orgdata || {};
+              let orgFlight = JSON.parse(orgdata) || {}; //航班fc
+              const userId = props.systemPage.user.id || '14';
+              const timestr = newStartTime + "" + values.time;
+      
+              orgFlight.locked = autoChecked ? 1 : "";
+              
+              let urlKey = "";
+              let url = "";
+              if( col === "COBT"){
+                  orgFlight.cobtField.value = timestr;
+                  urlKey = "/updateCobt";
+                  url = CollaborateUrl.cobtUrl +urlKey;
+              }else if( col === "CTOT"){
+                  orgFlight.ctotField.value = timestr;
+                  urlKey = "/updateCtot";
+                  url = CollaborateUrl.ctotUrl + urlKey; //张浩东ip
+              }else if( col === "TOBT"){
+                  orgFlight.tobtField.value = timestr;
+                  urlKey = "/updateTobtApply";
+                  url = CollaborateUrl.tobtUrl + '/flight'+urlKey; //薛满林ip
+              }
+              //传参
+              const params = {
+                  userId: userId,
+                  flightCoordination: orgFlight, //航班原fc
+                  comment: values.comment,  //备注
+              }
+              console.log(params);
+              const opt = {
+                  url,
+                  method: 'POST',
+                  params: params,
+                  resFunc: (data)=> requestSuccess(data, title),
+                  errFunc: (err)=> requestErr(err, title+'失败' ),
+              };
+              request(opt);
             } catch (errorInfo) {
-              console.log(key, 'Failed:', errorInfo);
+              console.log('Failed:', errorInfo);
             }
-        };
+          };
 
         //TOBT批复
         if( col === "TOBT" ){
@@ -223,6 +222,17 @@ const PopoverTip = ( props ) => {
                             <Descriptions.Item label="时间">
                                 <Form.Item
                                     name="time"
+                                    rules = {[
+                                        {
+                                            type: 'string',
+                                            pattern: REGEXP.TIMEHHmm,
+                                            message: "请输入有效的开始时间"
+                                        },
+                                        {
+                                            required: true,
+                                            message: "请输入开始时间"
+                                        }
+                                    ]}
                                 >
                                     <Input/>
                                 </Form.Item>
@@ -237,12 +247,12 @@ const PopoverTip = ( props ) => {
                             <div>
                                 <Button loading={submitBtnLoading} size="small" className="c-btn c-btn-green" type="primary" 
                                     onClick={ e=> {
-                                        onCheck("approve");
+                                        onCheck(e,"approve");
                                     }}
                                 >批复</Button>
                                 <Button loading={refuseBtnLoading} size="small" className="c-btn c-btn-red" type="primary" style={{marginLeft: '8px'}}  
                                 onClick={ e=> {
-                                    onCheck("refuse");
+                                    onCheck(e,"refuse");
                                 }}
                                 >拒绝</Button>
                             </div>
@@ -257,9 +267,8 @@ const PopoverTip = ( props ) => {
 
         return (
             <Form
-                // form={form}
+                form={form}
                 size="small"
-                onFinish={ formSubmit }
                 initialValues={initialValues}
                 className="ffixt_form"
             >
@@ -289,6 +298,17 @@ const PopoverTip = ( props ) => {
                     <Descriptions.Item label="时间">
                         <Form.Item
                             name="time"
+                            rules = {[
+                                {
+                                    type: 'string',
+                                    pattern: REGEXP.TIMEHHmm,
+                                    message: "请输入有效的开始时间"
+                                },
+                                {
+                                    required: true,
+                                    message: "请输入开始时间"
+                                }
+                            ]}
                         >
                             <Input/>
                         </Form.Item>
@@ -317,10 +337,19 @@ const PopoverTip = ( props ) => {
                         {
                             (opt.col === "TOBT" ) 
                             ? <div>
-                                <Button loading={submitBtnLoading} size="small" className="c-btn c-btn-yellow"  type="primary" htmlType="submit">申请</Button>
+                                <Button loading={submitBtnLoading} size="small" className="c-btn c-btn-yellow"  
+                                type="primary" 
+                                    onClick={ e=> {
+                                        onCheck(e,"apply");
+                                    }}
+                                >申请</Button>
                               </div>
                             : <div>
-                                <Button loading={submitBtnLoading} size="small"  type="primary" htmlType="submit">修改</Button>
+                                <Button loading={submitBtnLoading} size="small"  type="primary" 
+                                    onClick={ e=> {
+                                        onCheck(e, "");
+                                    }}
+                                >修改</Button>
                                 <Button style={{marginLeft: '8px'}}  size="small">重置</Button>
                             </div>
                         }

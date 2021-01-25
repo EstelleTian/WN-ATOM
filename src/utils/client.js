@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-01-22 16:31:00
+ * @LastEditTime: 2021-01-25 14:54:17
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -91,7 +91,7 @@ const openBaseSchemeFrame =(id) => {
 //忽略-按钮-点击
 const closeControlDetail =(id) => {
     try {
-        closeControlDetail(id)
+        jsEntity.closeControlDetail(id);
     }catch(error){
         console.error(error);
     }
