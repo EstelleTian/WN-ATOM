@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-22 16:18:56
+ * @LastEditTime: 2021-01-22 16:58:51
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -517,7 +517,7 @@ function WorkFlowList(props){
                             // defaultPageSize: 20
                         }}
                         scroll={{
-                            y: 415,
+                            y: 412,
                         }}
                         loading={ loading }
                         // onChange={onChange}
