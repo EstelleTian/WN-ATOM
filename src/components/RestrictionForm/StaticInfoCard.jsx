@@ -5,6 +5,7 @@ import ExemptCard from './ExemptCard'
 import LimitedCard from './LimitedCard'
 import  moment  from 'moment'
 import { formatTimeString, getDateFromString, isValidObject, isValidVariable } from '../../utils/basic-verify'
+import { REGEXP } from '../../utils/regExpUtil'
 
 const { Option } = Select;
 
@@ -247,7 +248,7 @@ function StaticInfoCard(props){
                         props.disabledForm ? (
                             <Form.Item
                                 label="开始时间"
-                                required={true}
+                                // required={true}
                                 // className="date-time-form-compact"
                                 name="basicStartTimeDisplay"
                             >
@@ -281,8 +282,17 @@ function StaticInfoCard(props){
                                     name="startTime"
                                     label=""
                                     className="time-form"
-                                    rules={[{ required: true, message:'请输入开始时间' }]}
-                                    // rules={[{ required: true }]}
+                                    rules={[
+                                        {
+                                            type: 'string',
+                                            pattern: REGEXP.TIMEHHmm,
+                                            message: '请输入有效的开始时间',
+                                        },
+                                        {
+                                            required: true,
+                                            message: '请输入开始时间',
+                                        },
+                                    ]}
                                 >
                                     <Input
                                         placeholder={ timeFormat }
@@ -328,9 +338,17 @@ function StaticInfoCard(props){
                                     name="endTime"
                                     label=""
                                     className="time-form"
+                                    rules={[
+                                        {
+                                            type: 'string',
+                                            pattern: REGEXP.TIMEHHmm,
+                                            message: '请输入有效的结束时间',
+                                        },
+                                    ]}
 
                                 >
                                     <Input
+                                        allowClear={true}
                                         placeholder={ timeFormat }
                                         onChange={ updateEndTimeString }
                                         disabled={ props.disabledForm }

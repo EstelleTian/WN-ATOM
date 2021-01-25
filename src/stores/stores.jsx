@@ -15,6 +15,7 @@ import { capacityFlowMonitorData } from './capacityFlowMonitorStores'
 import { systemPage } from './pageStores'
 import { workFlowData } from './workFlowStores'
 import { implementTacticsReasonData } from './implementTacticsReasonStores'
+import { infoHistoryData } from './infoHistoryStores'
 
 export { 
     schemeListData,
@@ -25,5 +26,7 @@ export {
     capacityFlowMonitorData,
     workFlowData,
     implementTacticsReasonData,
+    infoHistoryData
+
  };
 

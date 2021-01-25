@@ -17,6 +17,7 @@ const CreateFlowPage = lazy(() => import('../pages/CreateFlowPage/CreateFlowPage
 const WorkFlowPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowPage'));
 const WorkFlowDetailPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowDetailPage'));
 const CapacityManagementPage = lazy(() => import('../pages/CapacityManagementPage/CapacityManagementPage'));
+const InfoHistoryPage = lazy(() => import('../pages/InfoPage/InfoHistoryPage'));
 
 export default [
     {
@@ -72,5 +73,10 @@ export default [
         component: withRouter(CapacityManagementPage),
         exact: true,
         title: '容量管理',
+    },{
+        path: '/infoHistory',
+        component: withRouter(InfoHistoryPage),
+        exact: true,
+        title: '消息历史',
     },
 ];

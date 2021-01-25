@@ -1,0 +1,18 @@
+.info-history-content {
+    margin: 0 1rem;
+    width: 1080px;
+    height: 600px;
+    .header {
+        margin: 1rem 0;
+
+        display: flex;
+        justify-content: space-between;
+        .destriction {
+            flex: 1;
+        }
+        .search {
+            text-align: right;
+            flex: 1;
+        }
+    }
+}
