@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-01-25 18:23:14
+ * @LastEditTime: 2021-01-26 11:25:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -65,40 +65,45 @@ function InfoHistoryList(props){
         {
             title: "",
             dataIndex: "id",
-            align: 'center',
+            align: 'left',
             key: "id",
             width: (screenWidth > 1920) ? 35 : 35,
         },
         {
             title: "时间",
             dataIndex: "time",
-            align: 'center',
+            align: 'left',
             key: "time",
-            width: (screenWidth > 1920) ? 120 : 120,
+            width: (screenWidth > 1920) ? 50 : 50,
+            render: (text, record, index) => {
+                return (
+                    <div title={text}>{ formatTimeString(text) }</div>
+                )
+            }
 
         },
         {
             title: "消息发出方",
             dataIndex: "sender",
-            align: 'center',
-            key: "sendersteps",
+            align: 'left',
+            key: "sender",
             // width: (screenWidth > 1920) ? 70 : 70,
-            width: (screenWidth > 1920) ? 90 : 90,
+            width: (screenWidth > 1920) ? 60 : 60,
 
         },
         {
             title: "消息名称",
-            dataIndex: "name",
-            align: 'center',
-            key: "name",
-            width: (screenWidth > 1920) ? 60 : 60,
+            dataIndex: "msName",
+            align: 'left',
+            key: "msName",
+            width: (screenWidth > 1920) ? 70 : 70,
         } , 
         {
             title: "消息内容",
             dataIndex: "content",
-            align: 'center',
+            align: 'left',
             key: "content",
-            width: (screenWidth > 1920) ? 160 : 160,
+            width: (screenWidth > 1920) ? 120 : 120,
         }];
 
     //请求错误处理
@@ -173,29 +178,58 @@ function InfoHistoryList(props){
     });
     //根据输入框输入值，检索显示航班
     const converToData = useCallback((data) => {
+
+        let o = data.reduce( (idObj, curVal) =>{
+            if( idObj.hasOwnProperty(curVal.id) ){
+                idObj[curVal.id]++
+            }else{
+                idObj[curVal.id]= 1;
+            }
+            return idObj
+        },{});
+        console.log(o);
+
         let newArr = []; 
         data.map( item => {
-            let obj = {};
-            
+            let data = JSON.parse(item.data) || {};       
+            let obj = {
+                key: item.id,
+                id: item.id,
+                time: item.sendTime,
+                sender: data.publishUnit,
+                msName: item.name,
+                content: item.content
+            };
+            newArr.push(obj);
             
         } );
         return newArr;
     });
 
     infoData = converToData(infoData);
-    let data = filterInput(infoData);
     //按流水号排序
-    // data = data.sort( (a,b) => {
-    //     return ( a.sid*1 - b.sid*1 ) *(-1);
-    // } );
+    infoData = infoData.sort( (a,b) => {
+        return ( a.id*1 - b.id*1 ) *(-1);
+    } );
+    let data = filterInput(infoData);
+
     return (
         <div className="info-history-content">
             <header className="header">
                 <div className="destriction">
-                    所有消息记录(共条) 第1页
+                    历史消息记录
                 </div>
                 <div className="search">
                     <Input allowClear placeholder="请输入要查询的关键字" onChange={onChange} style={{ width: 300 }} />
+                    <Button type="primary" loading = { refreshBtnLoading } style={{ marginLeft: "0.5rem" }}
+                        onClick = { e => {
+                            setRefreshBtnLoading(true);
+                            //刷新列表
+                            requestDatas();
+                        }}
+                    >
+                        刷新
+                    </Button>
                 </div>
             </header>
             <div className="table-container">

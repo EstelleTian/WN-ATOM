@@ -25,13 +25,13 @@
             color: #eeeeee;
         }
         .scroll{
-            position: absolute;
-            right: 70px;
-            top: 8px;
+            position: relative;
+            top: -3px;
         }
-        .to_top{
-            position: absolute;
-            right: 40px;
+        .more{
+            position: relative;
+            top: 2px;
+            margin: 0 0.25rem;
         }
         .radish{
             padding: 0 5px;

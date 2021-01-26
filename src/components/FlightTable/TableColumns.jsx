@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-01-22 14:32:30
+ * @LastEditTime: 2021-01-26 13:40:34
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -41,15 +41,18 @@ const scrollTopById = (id, classStr ) => {
         if( tableTBodyH*1 > contentH*1 ){
             //计算定位航班
             const tr = boxContent[0].getElementsByClassName( id );
-            const trHeight = tr[0].clientHeight;
-            const rowIndex = tr[0].firstElementChild.innerHTML; //当前航班所在行号
-            let mtop = rowIndex *  trHeight;
-            // console.log("目标定位航班是：",tr , trHeight, rowIndex, mtop);
-            if( contentH/2 < mtop ){
-                const scrollTop = Math.floor( mtop - contentH/2 );
-                // console.log("目标定位航班  滚动高度是：", scrollTop);
-                tableBody[0].scrollTop = scrollTop;
+            if( tr.length > 0 ){
+                const trHeight = tr[0].clientHeight;
+                const rowIndex = tr[0].firstElementChild.innerHTML; //当前航班所在行号
+                let mtop = rowIndex *  trHeight;
+                // console.log("目标定位航班是：",tr , trHeight, rowIndex, mtop);
+                if( contentH/2 < mtop ){
+                    const scrollTop = Math.floor( mtop - contentH/2 );
+                    // console.log("目标定位航班  滚动高度是：", scrollTop);
+                    tableBody[0].scrollTop = scrollTop;
+                }
             }
+            
         }
     }
 }

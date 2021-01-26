@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-25 15:18:39
+ * @LastEditTime: 2021-01-26 09:16:20
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -163,7 +163,7 @@ function WorkFlowList(props){
         {
             title: "工作名称",
             dataIndex: "businessName",
-            align: 'center',
+            align: 'left',
             key: "businessName",
             width: (screenWidth > 1920) ? 120 : 120,
 
@@ -171,7 +171,7 @@ function WorkFlowList(props){
         {
             title: "我经办的步骤",
             dataIndex: "steps",
-            align: 'center',
+            align: 'left',
             key: "steps",
             // width: (screenWidth > 1920) ? 70 : 70,
             width: (screenWidth > 1920) ? 90 : 90,
@@ -185,7 +185,7 @@ function WorkFlowList(props){
         {
             title: "发起人",
             dataIndex: "userNameCn",
-            align: 'center',
+            align: 'left',
             key: "userNameCn",
             width: (screenWidth > 1920) ? 60 : 60,
         }];

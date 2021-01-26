@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-01-22 16:32:38
+ * @LastEditTime: 2021-01-26 11:36:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
  */
 import React, {useEffect, useState} from 'react'
-import { Layout, Tooltip, Checkbox } from 'antd'
+import { Layout, Tooltip, Checkbox, Button } from 'antd'
 import { DeleteOutlined, CloseOutlined} from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
 import { isValidVariable } from 'utils/basic-verify'
@@ -113,7 +113,10 @@ function InfoPage(props){
         console.log("scrollChecked",scrollChecked);
         if( newsList.list.length > 1 && scrollChecked ){
             const listDom = document.getElementsByClassName("todo-list");
-            listDom[0].scrollTop = 0;
+            if( listDom.length > 0 ){
+                listDom[0].scrollTop = 0;
+            }
+            
         }
     },[ newsList.list.length ]);
 
@@ -123,17 +126,26 @@ function InfoPage(props){
                 login ? <div className="info_canvas">
                     <div className="info_header">
                         <div className="title">消息推送(共{ len }条，最多100条)</div>
+                        <div className="scroll">
+                            <Checkbox checked={ scrollChecked } onChange={ e => {
+                                setScrollChecked(e.target.checked);
+                            }}>滚屏</Checkbox>
+                        </div>
+
                         <Tooltip title="清除">
                             <div className="radish">
                                 {/*<DeleteOutlined onClick={ add } />*/}
                                 <DeleteOutlined onClick={ emptyNews } />
                             </div>
                         </Tooltip>
-                        <div className="scroll">
-                            <Checkbox checked={ scrollChecked } onChange={ e => {
-                                setScrollChecked(e.target.checked);
-                            }}>滚屏</Checkbox>
-                        </div>
+                    
+                        <Button type="primary" size="small"  className="more"
+                            onClick={ e => {
+                                window.open("/#/today_news");
+                            }}
+                        >
+                            更多
+                        </Button>
                         {/** <div className="to_top"><Checkbox checked>告警置顶</Checkbox></div>*/}
                         <Tooltip title="关闭">
                             <div className="close" onClick={()=>{ closeMessageDlg("")}}><CloseOutlined /> </div>

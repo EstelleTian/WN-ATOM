@@ -1,14 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-01-22 16:09:16
- * @LastEditTime: 2021-01-25 17:50:45
+ * @LastEditTime: 2021-01-26 11:27:29
  * @LastEditors: Please set LastEditors
  * @Description: 消息当日全部数据
  * @FilePath: \WN-ATOM\src\pages\InfoPage\InfoListPage.jsx
  */
 import React, {useEffect, useState, useCallback } from 'react'
-import { Layout, Tooltip, Spin, Input } from 'antd'
-import { DeleteOutlined, CloseOutlined} from '@ant-design/icons'
+import { Layout, Tooltip, Spin, Input, Button } from 'antd'
+import { CloseOutlined} from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
 import { requestGet } from 'utils/request'
 import { isValidVariable, formatTimeString } from 'utils/basic-verify'
@@ -20,6 +20,7 @@ import './InfoPage.scss'
 function InfoTodayPage(props){
     const [ login, setLogin ] = useState(false);
     const [ loading, setLoading ] = useState(false);
+    const [ refreshBtnLoading, setRefreshBtnLoading ] = useState(false);
     let [searchVal, setSearchVal] = useState(""); //输入框过滤 输入内容
     let { newsList, systemPage } = props;
     const { user } = systemPage;
@@ -44,10 +45,12 @@ function InfoTodayPage(props){
                     props.newsList.addAllNews(result, generateTime);
                 }
                 setLoading(false);
+                setRefreshBtnLoading(false);
             },
             errFunc: (err)=> {
                 requestErr(err, '消息历史数据获取失败' );
                 setLoading(false);
+                setRefreshBtnLoading(false);
 
             },
         };
@@ -75,7 +78,6 @@ function InfoTodayPage(props){
 
     //根据输入框输入值，检索显示
     const filterInput = useCallback((data,searchVal) => {
-        console.log("filterInput",searchVal)
         if( searchVal === "" ){
             return data;
         }
@@ -120,6 +122,15 @@ function InfoTodayPage(props){
                                 setSearchVal( e.target.value )
                             }}
                         />
+                        <Button type="primary" loading = { refreshBtnLoading } style={{ margin: "0 0.25rem" }}
+                            onClick = { e => {
+                                setRefreshBtnLoading(true);
+                                //刷新列表
+                                requestDatas();
+                            }}
+                        >
+                            刷新
+                        </Button>
                         
                         
                         <Tooltip title="关闭">

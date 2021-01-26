@@ -1,10 +1,9 @@
 .info-history-content {
     margin: 0 1rem;
-    width: 1080px;
+    width: 900px;
     height: 600px;
     .header {
         margin: 1rem 0;
-
         display: flex;
         justify-content: space-between;
         .destriction {
@@ -14,5 +13,10 @@
             text-align: right;
             flex: 1;
         }
+    }
+    .date_time{
+        position: relative;
+        top: -2.5rem;
+
     }
 }
