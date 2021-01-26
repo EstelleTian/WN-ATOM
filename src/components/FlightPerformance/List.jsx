@@ -26,7 +26,7 @@ const List =(props) => {
                             { des }
                         </div>
                         <div className="value">
-                            { value }{ unit}
+                            { value } { unit}
                         </div>
                     </div>
 

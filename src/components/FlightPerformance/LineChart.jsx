@@ -54,7 +54,7 @@ const LineChart =(props) => {
             if(isValidVariable(val)){
                 arr.push(val);
             }else {
-                arr.push(0)
+                arr.push("")
             }
         });
 
@@ -68,9 +68,11 @@ const LineChart =(props) => {
 
         const option = {
             backgroundColor: "#00000000",
-            color: ["#37A2DA", "#67E0E3", "#2d6b92a3", ],
+            color: ["#267ba4", "#1b9acd", "#446683", ],
+            animation: false ,
             tooltip: {
                 trigger: 'axis',
+                backgroundColor:'rgba(90, 90, 90, 0.8)',
                 axisPointer: {
                     type: 'cross',
                     label: {
@@ -80,23 +82,24 @@ const LineChart =(props) => {
             },
             legend: {
                 data: ['起降',  '飞越本区', '国际飞越'],
-                // show:false,
+                icon: 'circle'
             },
             grid: {
-                top: '25px',
-                left: '25px',
-                right: '25px',
-                bottom: '20px',
+                top:'30px',
+                left: '1%',
+                right: '2%',
+                bottom: '1%',
                 containLabel: true
             },
             xAxis: [
                 {
                     type: 'category',
-                    boundaryGap: false,
                     data: xAxis,
-                    // axisTick: {
-                    //     show: true
-                    // },
+                    axisLine: {
+                        lineStyle: {
+                            color: "#6c6c6c"
+                        }
+                    },
                     axisLabel:{
                         show: true,
                         formatter: function (value, index) {
@@ -105,29 +108,27 @@ const LineChart =(props) => {
                             return hh +':' + mm;
                         }
                     },
-                    // axisLine:{
-                    //     lineStyle:{
-                    //         color: "#00000000"
-                    //     }
-                    // },
                 }
             ],
             yAxis: [
                 {
                     type: 'value',
-                    axisTick: {
-                        show: false
+                    axisTick:{
+                        show:false
                     },
-                    splitLine:{
-                        show: false
-                    },
-                    axisLine:{
-                        lineStyle:{
-                            color: "#00000000"
+                    axisLine: {
+                        lineStyle: {
+                            color: "#6c6c6c"
                         }
                     },
                     axisLabel:{
                         formatter:'{value} 架次'
+                    },
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            type:'solid',
+                        }
                     }
                 }
             ],
@@ -136,7 +137,11 @@ const LineChart =(props) => {
                     name: '起降',
                     type: 'line',
                     stack: '架次',
-                    smooth:true,
+                    smooth: true,
+                    lineStyle: {
+                        width: 0
+                    },
+                    showSymbol: false,
                     areaStyle: {},
                     data: randomValue(executeDAMap)
                 },
@@ -145,7 +150,11 @@ const LineChart =(props) => {
                     name: '飞越本区',
                     type: 'line',
                     stack: '架次',
-                    smooth:true,
+                    smooth: true,
+                    lineStyle: {
+                        width: 0
+                    },
+                    showSymbol: false,
                     areaStyle: {},
                     data: randomValue(executeAOvfMap)
                 },
@@ -153,7 +162,11 @@ const LineChart =(props) => {
                     name: '国际飞越',
                     type: 'line',
                     stack: '架次',
-                    smooth:true,
+                    smooth: true,
+                    lineStyle: {
+                        width: 0
+                    },
+                    showSymbol: false,
                     areaStyle: {},
                     data: randomValue(executeOvfMap)
                 },
@@ -163,11 +176,13 @@ const LineChart =(props) => {
         return option;
     }
     return(
-        <div>
+        <div id="flight-line-chart" style={{width: '100%', height:'200px', margin: '0px'}} >
             <ReactEcharts
                 theme="dark"
                 option={getOption()}
-                className='react_for_echarts'/>
+                className='react_for_echarts'
+                style={{width: '100%',height:'100%'}}
+            />
         </div>
     )
 }

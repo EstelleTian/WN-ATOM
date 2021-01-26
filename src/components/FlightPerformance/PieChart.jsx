@@ -68,7 +68,8 @@ const PieChart = (props) => {
 
         const option = {
             backgroundColor: "#00000000",
-            color: [ "#0076F7", "#FFA500","#37A2DA", "#f04864","#8F959E", "#67E0E3", "#9FE6B8", "#FFDB5C", "#ff9f7f","#fb7293","#E062AE","#E690D1","#e7bcf3","#9d96f5","#8378EA","#96BFFF"],
+            // color: [ "#0076F7", "#FFA500","#37A2DA", "#f04864","#8F959E", "#67E0E3", "#9FE6B8", "#FFDB5C", "#ff9f7f","#fb7293","#E062AE","#E690D1","#e7bcf3","#9d96f5","#8378EA","#96BFFF"],
+            color: [ "#5babb1", "#065280","#2e6689", "#35a5da","#4b7ba4", "#67E0E3", "#9FE6B8", "#FFDB5C", "#ff9f7f","#fb7293","#E062AE","#E690D1","#e7bcf3","#9d96f5","#8378EA","#96BFFF"],
             tooltip: {
                 trigger: 'item',
                 formatter: '{b} : {c} <br> ({d}%)'
@@ -82,32 +83,29 @@ const PieChart = (props) => {
                 type: 'pie',
                 radius: ['50%', '65%'],
                 data: getData(),
-                label:{
-                    distanceToLabelLine: 5
-                },
-                labelLine: {
-                    // length: 5,
-                    length2: 5,
-                },
-                emphasis: {
-                    itemStyle: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
-                },
+                // emphasis: {
+                //     itemStyle: {
+                //         shadowBlur: 10,
+                //         shadowOffsetX: 0,
+                //         shadowColor: 'rgba(0, 0, 0, 0.5)'
+                //     }
+                // },
             }]
         };
 
         return option;
     }
     return (
-        <div>
+        <div  style={{width: '100%', height:'200px', margin: '0px'}}>
             <ReactEcharts
                 theme="dark"
                 option={getOption()}
-                style={props.style}
-                className='react_for_echarts layout-row flex-wrap justify-content-center'/>
+                // style={props.style}
+                className='react_for_echarts layout-row flex-wrap justify-content-center'
+                style={{width: '100%',height:'100%'}}
+
+
+            />
         </div>
     )
 }

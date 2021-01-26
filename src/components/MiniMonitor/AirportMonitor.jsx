@@ -64,11 +64,15 @@ function AirportMonitor(props) {
         let flowVal = overflow+notOverflow;
 
         let result = ``;
+        let capacityString = "";
+        if(isValidVariable(capacity)){
+            capacityString = `容量: ${capacity} 架次 <br/>`
+        }
 
         if(overflow > 0){
-            result = `${axisValue} <br/> 容量: ${capacity} 架次 <br/> 流量: ${flowVal} 架次 <br/> 超容: ${overflow} 架次`;
+            result = `${axisValue} <br/> ${capacityString} 流量: ${flowVal} 架次 <br/> 超容: ${overflow} 架次`;
         }else {
-            result = `${axisValue} <br/> 容量: ${capacity} 架次 <br/> 流量: ${flowVal} 架次`;
+            result = `${axisValue} <br/> ${capacityString} 流量: ${flowVal} 架次`;
         }
         return result
     }
@@ -89,16 +93,27 @@ function AirportMonitor(props) {
         axis.map((item, index) => {
             let data = flowMap[item];
             let flightNum = isValidVariable(data.flightNum) ? data.flightNum : 0;
-            let capacity = isValidVariable(data.capacity) ? data.capacity : 0;
+            let capacity = isValidVariable(data.capacity) ? data.capacity : "";
             let overflow = 0;
             let notOverflow = 0;
 
-            if(flightNum > capacity){
-                overflow = flightNum - capacity;
-                notOverflow = capacity
-            }else if(flightNum < capacity) {
+            if(isValidVariable(capacity)){
+                if(capacity < 0){
+                    notOverflow = flightNum;
+                    capacity = "";
+                }else {
+                    if(flightNum > capacity){
+                        overflow = flightNum - capacity;
+                        notOverflow = capacity
+                    }else if(flightNum < capacity) {
+                        notOverflow = flightNum
+                    }
+                }
+            }else {
                 notOverflow = flightNum
             }
+
+
             let weather = {
                 value: data.weather || "",
                 xAxis: item,
@@ -115,10 +130,13 @@ function AirportMonitor(props) {
 
         const option = {
             color: ["#8F959E", "#1479d1", "#cb6b6f"],
+            darkMode:true,
+            animation: false ,
+
             tooltip: {
                 show: true,
                 trigger: 'axis',
-                backgroundColor:'rgba(0, 0, 0, 0.7)',
+                backgroundColor:'rgba(90, 90, 90, 0.8)',
                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                     type: 'line'        // 默认为直线，可选为：'line' | 'shadow'
                 },
@@ -131,11 +149,11 @@ function AirportMonitor(props) {
                 show: false
             },
             grid: {
-                top: '0px',
-                left: '0px',
-                right: '5px',
-                bottom: '20px',
-                containLabel: false
+                top:'10px',
+                left: '1%',
+                right: '2%',
+                bottom: '1%',
+                containLabel: true
             },
             xAxis: [
                 {
@@ -143,7 +161,7 @@ function AirportMonitor(props) {
                     data: axis,
                     axisLine: {
                         lineStyle: {
-                            color: "#8F959E"
+                            color: "#ffffffd9"
                         }
                     },
                     axisTick: {
@@ -153,7 +171,6 @@ function AirportMonitor(props) {
                         show: true,
                         formatter: function (value, index) {
                             let hh = value.substring(8,10);
-
                             return hh;
                         }
                     }
@@ -163,16 +180,17 @@ function AirportMonitor(props) {
                 {
                     type: 'value',
                     axisLine: {
-                        // lineStyle: {
-                        //     color: "#8F959E"
-                        // }
+                        lineStyle: {
+                            color: "#ffffffd9"
+                        }
                     },
-                    axisTick: {
-                        show: true
+                    axisTick:{
+                      show:false
                     },
-                    splitLine: {
-                        show: false
+                    axisLabel:{
+                        formatter:'{value} 架次'
                     },
+
                 }
             ],
             series: [

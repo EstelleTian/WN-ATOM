@@ -238,7 +238,7 @@ const CapacityFlowMonitor =(props) => {
         // const start = nowDate+'110000';
         // const end = nowDate+'155900';
         const opt = {
-            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=IGADA,P40,ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLXYAR02,ZLXYAR07,ZLLLAR01,ZLLLAR02&starttime='+ start+'&endtime='+end,
+            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=IGADA,P40,ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLXYAR02,ZLXYAR07,ZLLLAR01,ZLLLAR02, W152&starttime='+ start+'&endtime='+end,
             // url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=ZLXY,ZLLL&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},

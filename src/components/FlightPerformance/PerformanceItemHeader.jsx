@@ -16,8 +16,11 @@ const PerformanceItemHeader =(props) => {
         <div className="header">
             <div className="title" style={ style }> { title }</div>
             <div className="description" style={{ color: style.color }}>
-                <span className="value">{ value }</span>
-                <span className="unit">{ unit }</span>
+                <div className="text-wrapper">
+                    <span className="value">{ value }</span>
+                    <span className="unit">{ unit }</span>
+                </div>
+
             </div>
         </div>
     )

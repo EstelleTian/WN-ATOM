@@ -250,25 +250,25 @@ const FlightPerformance =(props) => {
             <Row style={{marginBottom: 10}}>
                 <Col span={24} className="layout-row" >
                     <div className="performance_item module">
-                        <PerformanceItemHeader style={ {background:"#866216", color:"#FFFFFF"}}  title="计划"  value={sDANum}  unit="架次"  />
+                        <PerformanceItemHeader style={ {background:"#4b7ba4", color:"#d4d4d4"}}  title="计划"  value={sDANum}  unit="架次"  />
                         <div className="content">
                             <List listData={planData} />
                         </div>
                     </div>
                     <div className="performance_item module">
-                        <PerformanceItemHeader style={ {background:"#2d93bb", color:"#FFFFFF"}}  title="执行"  value={ (executeRatio*100).toFixed(0)}  unit="%"  />
+                        <PerformanceItemHeader style={ {background:"#2e93bb", color:"#d4d4d4"}}  title="执行"  value={ (executeRatio*100).toFixed(0)}  unit="%"  />
                         <div className="content">
                             <LineChart executeData={executeData}   />
                         </div>
                     </div>
                     <div className="performance_item module">
-                        <PerformanceItemHeader style={ {background:"#158f9c", color:"#FFFFFF"}}  title="限制"  value={restrictTotal}  unit="条"  />
+                        <PerformanceItemHeader style={ {background:"#168f9d", color:"#d4d4d4"}}  title="限制"  value={restrictTotal}  unit="条"  />
                         <div className="content">
                             <PieChart data={restrictMap}/>
                         </div>
                     </div>
                     <div className="performance_item module">
-                        <PerformanceItemHeader style={ {background:"#2d6b92", color:"#FFFFFF"}} title="绩效"  value={situation}  />
+                        <PerformanceItemHeader style={ {background:"#2d6b92", color:"#d4d4d4"}} title="绩效"  value={situation}  />
                         <div className="content">
                             <List listData={performance}  />
                         </div>
@@ -278,7 +278,7 @@ const FlightPerformance =(props) => {
             <Row>
                 <Col span={24} className="layout-column" >
                     <div className="performance_item module">
-                        <div>其他待定数据项...</div>
+                        <div style={ {height:"140px", }}  ></div>
                     </div>
 
                 </Col>

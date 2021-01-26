@@ -16,7 +16,9 @@ function MiniMonitor(props){
             <div title={props.title} style={{width: '100%', height: '160px', margin: '0px'}}  className={props.className}>
                 <ReactEcharts
                 option={props.option}
-                className='react_for_echarts' />
+                className='react_for_echarts'
+                style={{width: '100%',height:'100%'}}
+                />
             </div>
     )
 }
