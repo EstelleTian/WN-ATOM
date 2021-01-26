@@ -181,16 +181,16 @@ function AirportMonitor(props) {
                     type: 'bar',
                     stack: 'flow',
                     data: notOverflowData,
-                    markPoint: {
-                        symbolSize: 40,
-                        itemStyle: {
-                            color:'#866216'
-                        },
-                        label:{
-                            fontSize: 16,
-                        },
-                        data: weatherData,
-                    }
+                    // markPoint: {
+                    //     symbolSize: 40,
+                    //     itemStyle: {
+                    //         color:'#866216'
+                    //     },
+                    //     label:{
+                    //         fontSize: 16,
+                    //     },
+                    //     data: weatherData,
+                    // }
                 },
                 {
                     name: 'overflow',
