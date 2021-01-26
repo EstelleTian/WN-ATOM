@@ -34,6 +34,7 @@
     "react-highcharts": "^16.0.2",
     "react-resizable": "^1.11.0",
     "react-scripts": "1.1.4",
+    "react-sticky": "^6.0.3",
     "react-stomp": "^4.1.1",
     "react-transition-group": "^4.4.1",
     "react-websocket": "^2.0.1",
