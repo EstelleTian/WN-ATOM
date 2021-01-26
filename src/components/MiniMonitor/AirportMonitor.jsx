@@ -83,7 +83,7 @@ function AirportMonitor(props) {
         // 未超出
         let notOverflowData = [];
 
-
+        let weatherData = [];
 
 
         axis.map((item, index) => {
@@ -92,16 +92,25 @@ function AirportMonitor(props) {
             let capacity = isValidVariable(data.capacity) ? data.capacity : 0;
             let overflow = 0;
             let notOverflow = 0;
+
             if(flightNum > capacity){
                 overflow = flightNum - capacity;
                 notOverflow = capacity
             }else if(flightNum < capacity) {
                 notOverflow = flightNum
             }
+            let weather = {
+                value: data.weather || "",
+                xAxis: item,
+                yAxis: 0
+            };
             flightNumData.push(flightNum);
             capacityData.push(capacity);
             overflowData.push(overflow);
             notOverflowData.push(notOverflow);
+            if(isValidVariable(data.weather)){
+                weatherData.push(weather);
+            }
         });
 
         const option = {
@@ -159,7 +168,7 @@ function AirportMonitor(props) {
                         // }
                     },
                     axisTick: {
-                        show: false
+                        show: true
                     },
                     splitLine: {
                         show: false
@@ -171,7 +180,17 @@ function AirportMonitor(props) {
                     name: 'notOverflow',
                     type: 'bar',
                     stack: 'flow',
-                    data: notOverflowData
+                    data: notOverflowData,
+                    markPoint: {
+                        symbolSize: 40,
+                        itemStyle: {
+                            color:'#866216'
+                        },
+                        label:{
+                            fontSize: 16,
+                        },
+                        data: weatherData,
+                    }
                 },
                 {
                     name: 'overflow',
