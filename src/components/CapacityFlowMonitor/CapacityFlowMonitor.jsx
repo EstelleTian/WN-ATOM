@@ -233,8 +233,8 @@ const CapacityFlowMonitor =(props) => {
     // 获取容流数据
     const requestCapacityFlowMonitorData = useCallback(() => {
         const nowDate = getFullTime(new Date()).substring(0,8);
-        const start = nowDate+'150000';
-        const end = nowDate+'175900';
+        const start = nowDate+'000000';
+        const end = nowDate+'235900';
         // const start = nowDate+'110000';
         // const end = nowDate+'155900';
         const opt = {
