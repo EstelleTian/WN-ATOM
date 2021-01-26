@@ -11,7 +11,7 @@ import { inject, observer } from 'mobx-react'
 import { request } from 'utils/request'
 import {  message, Spin, List, } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons';
-import { getFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
+import { getFullTime, isValidObject, isValidVariable, formatTimeString } from 'utils/basic-verify'
 import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import { ReqUrls } from 'utils/request-urls'
 import AddMonitorCard from 'components/MiniMonitor/AddMonitorCard'
@@ -26,6 +26,7 @@ const CapacityFlowMonitor =(props) => {
     const capacityFlowMonitorData = props.capacityFlowMonitorData || {};
     const { loading } = capacityFlowMonitorData;
     const monitorData = capacityFlowMonitorData.monitorData || {};
+    const generateTime = monitorData.generateTime || "";
     const describedMap = monitorData.selfDescribedMap || {};
     const flow = monitorData.flow || {}
     // 类型排序
@@ -83,6 +84,7 @@ const CapacityFlowMonitor =(props) => {
             let obj = {
                 id: d,
                 title: d,
+                generateTime: generateTime,
                 data: monitorData[d],
             };
 
@@ -158,7 +160,7 @@ const CapacityFlowMonitor =(props) => {
         }else {
             return (
                 <List.Item key={item.key}>
-                    <ModalBox showDecorator = {true} title={item.title} className="monitor-box">
+                    <ModalBox showDecorator = {false} title={`${item.title} (数据时间:${formatTimeString(item.generateTime)})`}className="monitor-box">
                         <div className="actions">
                             <div onClick={()=>{console.log("sss")}} className="remove">
                                 <CloseCircleOutlined />

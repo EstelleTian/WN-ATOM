@@ -6,14 +6,22 @@
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
-import React from 'react'
-import { Layout } from 'antd'
+import React , { lazy, Suspense, useState, useEffect, useCallback}  from 'react'
+import { Layout, Empty, Spin } from 'antd'
+
 import { withRouter } from 'react-router-dom';
+import {inject, observer} from "mobx-react";
+
 import ModalBox from 'components/ModalBox/ModalBox'
 import NavBar  from 'components/NavBar/NavBar.jsx'
 import { ReqUrls } from 'utils/request-urls'
-import FlightPerformance from 'components/FlightPerformance/FlightPerformance'
-import CapacityFlowMonitor from 'components/CapacityFlowMonitor/CapacityFlowMonitor'
+import { formatTimeString } from 'utils/basic-verify'
+
+// import FlightPerformance from 'components/FlightPerformance/FlightPerformance'
+const FlightPerformance = lazy(() => import('components/FlightPerformance/FlightPerformance') );
+const CapacityFlowMonitor = lazy(() => import('components/CapacityFlowMonitor/CapacityFlowMonitor') );
+
+// import CapacityFlowMonitor from 'components/CapacityFlowMonitor/CapacityFlowMonitor'
 
 
 import './TotalPage.scss'
@@ -21,7 +29,12 @@ import './TotalPage.scss'
 
 //总体监控布局模块
 function TodoPage (props){
-    alert("页面组件加载")
+    useEffect(() => {
+        alert('组件加载')
+
+    }, []);
+
+
     return (
         <Layout className="layout">
             <NavBar className="nav_bar" title="空中交通运行总体态势监控" username="西安流量室"/>
@@ -46,10 +59,13 @@ function TodoPage (props){
                     </div>
                     <div className="cont_top_right">
                         <ModalBox
-                            title="航班执行情况"
+                            title={`航班执行情况 (数据时间:${ formatTimeString(props.flightPerformanceData.performanceData.generateTime) })`}
                             showDecorator = {true}
                         >
-                            <FlightPerformance/>
+                            <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+                                <FlightPerformance/>
+                            </Suspense>
+
                         </ModalBox>
 
                     </div>
@@ -66,6 +82,7 @@ function TodoPage (props){
     )
 }
 
-export default withRouter(TodoPage);
+// export default withRouter(TodoPage);
+export default inject("flightPerformanceData", "capacityFlowMonitorData", "systemPage")(observer(TodoPage))
 
 
