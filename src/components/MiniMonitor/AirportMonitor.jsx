@@ -239,8 +239,8 @@ function AirportMonitor(props) {
                         <Progress
                             percent={ (depRatio*100).toFixed(0) }
                             showInfo={false}
-                            strokeColor="#35A5DA"
-                            trailColor="#65737a"
+                            strokeColor="#35a5da"
+                            trailColor="#2d6b92"
                         />
                     </div>
                     <div className="rate-text">

@@ -11,7 +11,7 @@ import { inject, observer } from 'mobx-react'
 import { request } from 'utils/request'
 import {  message, Spin, List, } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons';
-import { getFullTime, isValidObject, isValidVariable, formatTimeString } from 'utils/basic-verify'
+import { getFullTime, isValidObject, isValidVariable, formatTimeString, addStringTime } from 'utils/basic-verify'
 import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import { ReqUrls } from 'utils/request-urls'
 import AddMonitorCard from 'components/MiniMonitor/AddMonitorCard'
@@ -232,9 +232,19 @@ const CapacityFlowMonitor =(props) => {
 
     // 获取容流数据
     const requestCapacityFlowMonitorData = useCallback(() => {
-        const nowDate = getFullTime(new Date()).substring(0,8);
-        const start = nowDate+'000000';
-        const end = nowDate+'235900';
+        const now = getFullTime(new Date());
+
+        // 小时差值
+        const diffHour = 8;
+        // 差值毫秒数
+        const diff = 1000*60*60*diffHour;
+        // 前8小时
+        const before = addStringTime(now, diff*-1)
+        // 后8小时
+        const after = addStringTime(now, diff*1);
+        const start = before+'00';
+        const end = after+'00';
+        // const nowDate = now.substring(0,8);
         // const start = nowDate+'110000';
         // const end = nowDate+'155900';
         const opt = {
