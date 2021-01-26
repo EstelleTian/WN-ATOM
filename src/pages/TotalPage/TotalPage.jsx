@@ -29,10 +29,10 @@ import './TotalPage.scss'
 
 //总体监控布局模块
 function TodoPage (props){
-    useEffect(() => {
-        alert('组件加载')
-
-    }, []);
+    // useEffect(() => {
+    //     alert('组件加载')
+    //
+    // }, []);
 
 
     return (
