@@ -7,8 +7,9 @@
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
 import React, {useState, useEffect, useCallback} from 'react'
-import { getFullTime,getDayTimeFromString, isValidObject, isValidVariable, addDateTime } from 'utils/basic-verify'
+import { getFullTime,getDayTimeFromString, formatTimeString, isValidObject, isValidVariable, addDateTime } from 'utils/basic-verify'
 import { List, Divider , Icon, Form, Input,  Select, Drawer, Tooltip, Tag, Row, Col, } from 'antd'
+import { FlightCoordination } from 'utils/flightcoordination.js'
 
 
 import { request } from 'utils/request'
@@ -71,13 +72,15 @@ const FlightSearch = (props) => {
      * 绘制航班列表中单个航班信息
      * */
     const drawFlightItem = useCallback(function (item, index) {
-
-            let FLIGHTID = item.FLIGHTID;
-            let DEPAP = item.DEPAP || 'N/A';
-            let ARRAP = item.ARRAP || 'N/A';
+            let formerFlight = item.formerFlightObj ||  {};
+            let FLIGHTID = item.flightId;
+            let DEPAP = item.depAp || 'N/A';
+            let ARRAP = item.arrAp || 'N/A';
             let SOBT = item.SOBT || 'N/A';
-            let REG = item.REG || 'N/A';
-            let FORMER = item.FORMER || 'N/A';
+            let REG = item.registeNum || 'N/A';
+            let FORMER = formerFlight.flightId || 'N/A';
+            let FORMERDEPAP = formerFlight.depAp || 'N/A';
+            let FORMERARRAP = formerFlight.arrAp || 'N/A';
 
         return (
                 <List.Item
@@ -144,17 +147,29 @@ const FlightSearch = (props) => {
      *  绘制航班略情数据
      * */
     const drawFlightSummerData = useCallback(function (flight) {
+        let formerFlight = flight.formerFlightObj ||  {};
+        let DEPAP = flight.depAp || 'N/A';
+        let ARRAP = flight.arrAp || 'N/A';
         const id = flight.id;
-        const FLIGHTID = flight.FLIGHTID || 'N/A';
-        const DEPAP = flight.DEPAP || 'N/A';
-        const ARRAP = flight.ARRAP || 'N/A';
-        const AGCT = flight.AGCT || 'N/A';
-        const AOBT = flight.AOBT || 'N/A';
-        const ATOT = flight.ATOT || 'N/A';
-        const RWY = flight.RWY || 'N/A';
+        const FLIGHTID = flight.flightId || 'N/A';
+        const AGCT = flight.AGCT ;
+        const AGCTHHmm = getDayTimeFromString(AGCT) || "N/A";
+        const AOBT = flight.AOBT ;
+        const AOBTHHmm = getDayTimeFromString(AOBT) || "N/A";
+        const ATOT = flight.atd;
+        const ATOTHHmm = getDayTimeFromString(ATOT) || "N/A";
+        const RWY = flight.runWay || 'N/A';
         const SID = flight.SID || 'N/A';
-        const REG = flight.REG || 'N/A';
-        let FORMER = flight.FORMER || 'N/A';
+        const REG = flight.registeNum || 'N/A';
+        const ALDT = flight.ALDT || 'N/A';
+        const ACTYPE = flight.aircraftType || 'N/A';
+        const STATUS = flight.status;
+        const STATUSZH =FlightCoordination.getStatusZh(STATUS);
+        const STATUSColor = "";
+
+        let FORMER = formerFlight.flightId || 'N/A';
+        let FORMERDEPAP = formerFlight.depAp || 'N/A';
+        let FORMERARRAP = formerFlight.arrAp || 'N/A';
         const text  = <span>{`查看航班详情`}</span>;
 
         const schemeListData = [];
@@ -197,7 +212,9 @@ const FlightSearch = (props) => {
                                     </div>
                                     <div className="ant-col ant-form-item-control">
                                         <div className="ant-form-item-control-input ">
-                                            <div className="ant-form-item-control-input-content">{AGCT}</div>
+                                            <Tooltip title={ formatTimeString(AGCT)  }>
+                                                <div className="ant-form-item-control-input-content">{AGCTHHmm}</div>
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </div>
@@ -209,7 +226,9 @@ const FlightSearch = (props) => {
                                     </div>
                                     <div className="ant-col ant-form-item-control">
                                         <div className="ant-form-item-control-input ">
-                                            <div className="ant-form-item-control-input-content">{AOBT}</div>
+                                            <Tooltip title={ formatTimeString(AOBT)  }>
+                                                <div className="ant-form-item-control-input-content">{AOBTHHmm}</div>
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </div>
@@ -221,7 +240,9 @@ const FlightSearch = (props) => {
                                     </div>
                                     <div className="ant-col ant-form-item-control">
                                         <div className="ant-form-item-control-input ">
-                                            <div className="ant-form-item-control-input-content">{ATOT}</div>
+                                            <Tooltip title={ formatTimeString(ATOT)  }>
+                                                <div className="ant-form-item-control-input-content">{ATOTHHmm}</div>
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </div>
@@ -271,7 +292,7 @@ const FlightSearch = (props) => {
                                     </div>
                                     <div className="ant-col ant-form-item-control">
                                         <div className="ant-form-item-control-input ">
-                                            <div className="ant-form-item-control-input-content">{`N/A`}</div>
+                                            <div className="ant-form-item-control-input-content">{`${FORMERDEPAP}-${FORMERARRAP}`}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -283,7 +304,7 @@ const FlightSearch = (props) => {
                                     </div>
                                     <div className="ant-col ant-form-item-control">
                                         <div className="ant-form-item-control-input ">
-                                            <div className="ant-form-item-control-input-content">{AGCT}</div>
+                                            <div className="ant-form-item-control-input-content">{ACTYPE}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -307,7 +328,7 @@ const FlightSearch = (props) => {
                                     </div>
                                     <div className="ant-col ant-form-item-control">
                                         <div className="ant-form-item-control-input ">
-                                            <div className="ant-form-item-control-input-content">{ATOT}</div>
+                                            <div className="ant-form-item-control-input-content">{ALDT}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -316,7 +337,7 @@ const FlightSearch = (props) => {
                                 <div className="ant-row ant-form-item">
                                     <div className="ant-col ant-form-item-control">
                                         <div className="ant-form-item-control-input ">
-                                            <div className="ant-form-item-control-input-content"><Tag className="flight-status-tag" color="#2db7f5">计划</Tag></div>
+                                            <div className="ant-form-item-control-input-content"><Tag className="flight-status-tag" color="#2db7f5">{STATUSZH}</Tag></div>
                                         </div>
                                     </div>
                                 </div>
@@ -346,7 +367,7 @@ const FlightSearch = (props) => {
      *  获取航班略情抽屉标题
      * */
     const getDrawerTitle = useCallback(function () {
-        return <span className="title-flight-id">{flight.FLIGHTID}</span>
+        return <span className="title-flight-id">{flight.flightId}</span>
     });
 
     /**
@@ -399,7 +420,7 @@ const FlightSearch = (props) => {
         }
         if(isValidVariable(value)) {
             // 获取航班数据
-            requestFlightData(value);
+            requestFlightData(value.toUpperCase());
         }else {
             setSearchTootipText('请输入航班号');
             setSearchTootipVisible(true);
@@ -439,18 +460,11 @@ const FlightSearch = (props) => {
     };
 
     const convertSingleFlight = (flightData)=> {
-        let flight = flightData.fmeTodayTraMonitor || {}
-        let { alarmField, taskField, eapField, oapField, tobtField, cobtField, ctotField, fmeToday, ffixField, ctoField, etoField, agctField } = flight;
+        let flight = flightData.flight || {};
+        let formerFlight = flightData.formerFlight || {};
         let obj = {
-            key: flight.id,
-            id: flight.id,
-            FLIGHTID: flight.flightId,
-            DEPAP:  flight.depap,
-            ARRAP: flight.arrap,
-            REG : flight.reg,
-            SOBT: getDayTimeFromString(flight.sobt),
-            EOBT: getDayTimeFromString(flight.eobt),
-            FORMER: flight.formerFlightid,
+            ...flight,
+            formerFlightObj: formerFlight,
         };
         return obj;
     }
@@ -469,9 +483,9 @@ const FlightSearch = (props) => {
         let dataList = [];
         // 结果数据对象
         let dataMap = {};
-        if(isValidObject(data) && isValidObject(data.result)){
-            dataList = Object.keys(data.result);
-            dataMap = data.result;
+        if(isValidObject(data) && isValidObject(data.flightResult)){
+            dataList = Object.keys(data.flightResult);
+            dataMap = data.flightResult;
         }
         // 遍历将结果数据对象转为数组形式
         let flightListData = [];
