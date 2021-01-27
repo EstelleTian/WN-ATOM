@@ -349,79 +349,79 @@ const FlightCoordination = {
         let zh = "";
         let s = parseInt(status, 10);
         switch (s) {
-            case this.STATUS_FORMER_SCH:
+            case FlightCoordination.STATUS_FORMER_SCH:
                 zh = '前段计划';
                 break;
-            case this.STATUS_FORMER_CNL:
+            case FlightCoordination.STATUS_FORMER_CNL:
                 zh = '前段取消';
                 break;
-            case this.STATUS_FORMER_FPL:
+            case FlightCoordination.STATUS_FORMER_FPL:
                 zh = '前段准备';
                 break;
-            case this.STATUS_FORMER_BOARDING:
+            case FlightCoordination.STATUS_FORMER_BOARDING:
                 zh = '前段上客';
                 break;
-            case this.STATUS_FORMER_CLOSE:
+            case FlightCoordination.STATUS_FORMER_CLOSE:
                 zh = '前段关门';
                 break;
-            case this.STATUS_FORMER_OUT:
+            case FlightCoordination.STATUS_FORMER_OUT:
                 zh = '前段推出';
                 break;
-            case this.STATUS_FORMER_DEP:
+            case FlightCoordination.STATUS_FORMER_DEP:
                 zh = '前段起飞';
                 break;
-            case this.STATUS_FORMER_RTN:
+            case FlightCoordination.STATUS_FORMER_RTN:
                 zh = '前段返航';
                 break;
-            case this.STATUS_FORMER_ALN:
+            case FlightCoordination.STATUS_FORMER_ALN:
                 zh = '前段备降';
                 break;
-            case this.STATUS_FORMER_ARR:
+            case FlightCoordination.STATUS_FORMER_ARR:
                 zh = '前段降落';
                 break;
-            case this.STATUS_FORMER_ARR_RTN:
+            case FlightCoordination.STATUS_FORMER_ARR_RTN:
                 zh = '前段返航降落';
                 break;
-            case this.STATUS_FORMER_ARR_ALN:
+            case FlightCoordination.STATUS_FORMER_ARR_ALN:
                 zh = '前段备降降落';
                 break;
-            case this.STATUS_FORMER_INN:
+            case FlightCoordination.STATUS_FORMER_INN:
                 zh = '前段入站';
                 break;
-            case this.STATUS_SCH:
+            case FlightCoordination.STATUS_SCH:
                 zh = '计划';
                 break;
-            case this.STATUS_CNL:
+            case FlightCoordination.STATUS_CNL:
                 zh = '取消';
                 break;
-            case this.STATUS_FPL:
+            case FlightCoordination.STATUS_FPL:
                 zh = '准备';
                 break;
-            case this.STATUS_BOARDING:
+            case FlightCoordination.STATUS_BOARDING:
                 zh = '上客';
                 break;
-            case this.STATUS_CLOSE:
+            case FlightCoordination.STATUS_CLOSE:
                 zh = '关门';
                 break;
-            case this.STATUS_OUT:
+            case FlightCoordination.STATUS_OUT:
                 zh = '推出';
                 break;
-            case this.STATUS_DEP:
+            case FlightCoordination.STATUS_DEP:
                 zh = '起飞';
                 break;
-            case this.STATUS_RTN:
+            case FlightCoordination.STATUS_RTN:
                 zh = '备降';
                 break;
-            case this.STATUS_ALN:
+            case FlightCoordination.STATUS_ALN:
                 zh = '返航';
                 break;
-            case this.STATUS_ARR:
+            case FlightCoordination.STATUS_ARR:
                 zh = '降落';
                 break;
-            case this.STATUS_ARR_RTN:
+            case FlightCoordination.STATUS_ARR_RTN:
                 zh = '返航降落';
                 break;
-            case this.STATUS_ARR_ALN:
+            case FlightCoordination.STATUS_ARR_ALN:
                 zh = '备降降落';
                 break;
             default:
