@@ -1,12 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-01-27 14:17:15
+ * @LastEditTime: 2021-01-27 17:38:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
  */
 import React, {useState, useEffect, useCallback} from 'react'
+import {inject, observer} from 'mobx-react'
 import { Radio } from 'antd'
 import { isValidVariable } from 'utils/basic-verify'
 import ModalBox from 'components/ModalBox/ModalBox'
@@ -37,17 +38,16 @@ function CapacityCont (props){
         requestData();
     }, []);
 
-    const onChange = e => {
-        console.log('radio checked', e.target.value);
-        
-      };
-
+    const { capacity, pane } = props;
     return (
         <div>
             <div className="line_canvas">
                 <div className="radio_sel date_sel">
                     <span>日期选择:</span>
-                    <Radio.Group onChange={onChange} value="0">
+                    <Radio.Group onChange={e => {
+                        console.log('radio checked', e.target.value);
+                        capacity.updateDateSel( pane.key ,e.target.value );
+                      }} value={pane.date}>
                         <Radio value="-1">昨日</Radio>
                         <Radio value="0">当日</Radio>
                         <Radio value="1">次日</Radio>
@@ -55,15 +55,21 @@ function CapacityCont (props){
                 </div>
                 <div className="radio_sel type_sel">
                     <span>种类选择:</span>
-                    <Radio.Group onChange={onChange} value="0">
-                        <Radio value="-1">进港</Radio>
-                        <Radio value="0">出港</Radio>
-                        <Radio value="1">进出港</Radio>
+                    <Radio.Group onChange={e => {
+                        console.log('radio checked', e.target.value);
+                        capacity.updateKindSel( pane.key ,e.target.value );
+                      }} value={pane.kind}>
+                        <Radio value="in">进港</Radio>
+                        <Radio value="out">出港</Radio>
+                        <Radio value="all">进出港</Radio>
                     </Radio.Group>
                 </div>
                 <div className="radio_sel interval_sel">
                     <span>请选择时间间隔(单位：分钟):</span>
-                    <Radio.Group onChange={onChange} value="60">
+                    <Radio.Group onChange={e => {
+                        console.log('radio checked', e.target.value);
+                        capacity.updateTimeIntervalSel( pane.key ,e.target.value );
+                      }} value={pane.timeInterval}>
                         <Radio value="15">15</Radio>
                         <Radio value="30">30</Radio>
                         <Radio value="60">60</Radio>
@@ -101,4 +107,4 @@ function CapacityCont (props){
     )
 }
 
-export default CapacityCont;
+export default inject( "capacity" )(observer(CapacityCont));

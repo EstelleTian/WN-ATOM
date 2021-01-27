@@ -4,10 +4,10 @@
 }
 .total_set{
     margin: 1rem;
-   
+
     .set_item{
         margin-right: 1rem;
-        margin-bottom: 1rem;
+        margin-bottom: 23px;
         font-size: 1rem;
         .span_title{
             display: inline-block;
@@ -23,9 +23,19 @@
             display: inline-block;
             padding: 0px 6px!important;
             .ant-input{
-                font-size: 1rem;
+                font-size: 1.25rem;
+                padding: 0 0 0 10px;
+                // text-align: right;
+            }
+            .ant-input[disabled] {
+                color: inherit!important;
+                border: none;
+                background: inherit;
             }
         }
+    }
+    .btns{
+        text-align: center;
     }
 }
 
