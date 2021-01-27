@@ -1,0 +1,49 @@
+.line_canvas{
+    // @include display_flex(column);
+    // @include flex(1);
+    // position: relative;
+    .radio_sel{
+        margin-right: 1rem;
+        display: inline-block;
+        border-right: 1px dashed rgb(172, 170, 170);
+        >span{
+            padding-right: 0.5rem;
+        }
+    }
+    
+    .cap_line_chart{
+        height: inherit!important;
+    }
+}
+.cap_set_canvas{
+    @include display_flex(column);
+    @include flex();
+    .set_top{
+        @include display_flex();
+        @include flex();
+        .static_modal{
+            width: 260px;
+            margin: 0.5rem;
+        }
+        .dynamic_modal{
+            @include flex();
+            margin: 0.5rem;
+        }
+    }
+    .cap_part{
+        @include flex();
+    }
+}
+.alarm{
+    font-size: 1.25rem;
+    padding-left: 0.25rem;
+}
+.alarm_yellow{
+    color: yellow;
+}
+.alarm_orange{
+    color: orange;
+}
+.alarm_red{
+    color: red;
+}

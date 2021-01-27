@@ -24,7 +24,7 @@ const columns = [
         dataIndex: "handleStep",
         align: 'center',
         key: "handleStep",
-        width: (screenWidth > 1920) ? 80 : 80,
+        width: (screenWidth > 1920) ? 100 : 100,
 
     },
     {
@@ -32,38 +32,28 @@ const columns = [
         dataIndex: "handler",
         align: 'center',
         key: "handler",
-        width: (screenWidth > 1920) ? 165 : 165,
+        width: 100,
         render: (text, record, index) => {
             let orgdata = JSON.parse( record.orgdata );
             const startTime = orgdata.startTime || 0;
-            const endTime = orgdata.endTime || 0;
+            const endTime = orgdata.endTime || "";
             const durationInMillis = orgdata.durationInMillis || 0;
+
             return (
                 <div className="handler">
                     <div className="handler_1">
                         <span style={{color: '#ec4747'}}>{text} </span>
-                            <span className="handler"  style={{color: 'green'}}>[用时：{ millisecondToDate(durationInMillis) } ]</span>
-                        {/*{*/}
-                        {/*    index === 2*/}
-                        {/*        ? <span className="handler"  style={{color: 'green'}}>[已转交下一步,用时：11分钟43秒 ]</span>*/}
-                        {/*        : ""*/}
-                        {/*}*/}
-                        {/*{*/}
-                        {/*    index === 3*/}
-                        {/*        ? <span className="handler"  style={{color: 'orange'}}>[未接受办理]</span>*/}
-                        {/*        : ""*/}
-                        {/*}*/}
-                        {/*{*/}
-                        {/*    index !== 3 && index !== 2*/}
-                        {/*        ? <span className="handler"  style={{color: 'green'}}>[已办结,用时：11分钟43秒 ]</span> : ""*/}
-                        {/*}*/}
+                            {
+                                isValidVariable(endTime) ? <span className=""  style={{color: 'green'}}>[用时：{ millisecondToDate(durationInMillis) } ]</span> : ""
+                            }
+                        
 
                     </div>
                     <div className="handler_2">开始于：{ getFullTime( new Date(startTime), 1 ) }</div>
                     {
                         index === 3
                             ? ""
-                            : <div className="handler_3">结束于：{ getFullTime(new Date(endTime), 1) }</div>
+                            : <div className="handler_3">结束于：{  isValidVariable(endTime) ? getFullTime(new Date(endTime), 1) : "" }</div>
                     }
 
                 </div>

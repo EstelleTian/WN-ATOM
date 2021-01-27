@@ -1,0 +1,34 @@
+.static_title{
+        
+    margin-bottom: 0.3rem;
+}
+.total_set{
+    margin: 1rem;
+   
+    .set_item{
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        .span_title{
+            display: inline-block;
+            width: 100px;
+            padding-right: 3px;
+            text-align: right;
+        }
+        .set_item_input{
+            margin: 0;
+            position: relative;
+            top: -5px;
+            width: 70px;
+            display: inline-block;
+            padding: 0px 6px!important;
+            .ant-input{
+                font-size: 1rem;
+            }
+        }
+    }
+}
+
+.yellow{
+    background: rgb(146, 133, 16);
+}
