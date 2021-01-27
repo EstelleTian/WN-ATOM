@@ -19,23 +19,23 @@ import "./CapacityCont.scss"
 //容量管理内容页
 function CapacityCont (props){
     
-    const requestData = useCallback(
-        () => {
-            let user = localStorage.getItem("user");
-            user = JSON.parse(user);
-            const userId = user.id || "";
-            if( isValidVariable(userId) ){
-                
-            }
-        
-        },
-        [],
-    )
+    // const requestData = useCallback(
+    //     () => {
+    //         let user = localStorage.getItem("user");
+    //         user = JSON.parse(user);
+    //         const userId = user.id || "";
+    //         if( isValidVariable(userId) ){
+    //
+    //         }
+    //
+    //     },
+    //     [],
+    // )
 
     useEffect( function(){
         const { pane } = props;
         //获取数据
-        requestData();
+        // requestData();
     }, []);
 
     const { capacity, pane } = props;
@@ -96,12 +96,12 @@ function CapacityCont (props){
                         showDecorator = {true}
                         className="dynamic_modal"
                     >
-                        <DynamicTable />   
+                        <DynamicTable />
                     </ModalBox>
                 </div>
-                
+
                 <div className="cap_part alert_setting"></div>
-                
+
             </div>
         </div>
     )
