@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2020-12-24 17:28:06
+ * @LastEditTime: 2021-01-27 09:49:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -9,10 +9,10 @@
 import React from 'react'
 import { Layout, Spin } from 'antd'
 import { withRouter } from 'react-router-dom';
-import ModalBox from 'components/ModalBox/ModalBox'
 import SearchWidget  from 'components/CapacityManagement/SearchWidget'
 import FilterWidget  from 'components/CapacityManagement/FilterWidget'
 import FilterList  from 'components/CapacityManagement/FilterList'
+import CapacityTabs  from 'components/CapacityManagement/CapacityTabs'
 
 // import DHXWindow from 'components/SimpleMap/DHXWindow'
 
@@ -40,9 +40,9 @@ function CapacityManagement (props){
                         </div>
                     </div>
                 </Sider>
-                <Content >
+                <Content>
                     <div className="content-wrapper">
-                        sss
+                        <CapacityTabs/>
                     </div>
                 </Content>
             </Layout>

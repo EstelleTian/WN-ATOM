@@ -1,9 +1,8 @@
 .capacity-page {
   .sider-content {
     padding: 10px;
-    display: flex;
+    @include display_flex(column);
     height: 100%;
-    flex-direction: column;
     .search-box {
 
     }
@@ -19,8 +18,21 @@
     }
   }
   .content-wrapper {
-    flex: 1 1 0%;
-    min-width: 540px;
+    margin: 0.5rem;
     height: 100%;
+    @include display_flex(column);
+    @include flex();
+    .ant-tabs,.ant-tabs-content-holder,.ant-tabs-content{
+      @include display_flex(column);
+      @include flex();
+    }
+    .ant-tabs-content>div{
+      @include display_flex(column);
+      @include flex();
+      >div{
+        @include display_flex(column);
+        @include flex();
+      }
+    }
   }
 }
