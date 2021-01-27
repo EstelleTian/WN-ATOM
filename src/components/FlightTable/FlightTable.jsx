@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-01-25 17:08:47
+ * @LastEditTime: 2021-01-26 13:46:17
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -195,8 +195,8 @@ function FlightTable(props){
                 rowClassName={(record, index)=>setRowClassName(record, index)}
                 onRow={record => {
                     return {
-                      onClick: event => {// 点击行
-                        console.log(event);
+                      onClick: (event) => {// 点击行
+                        console.log(record);
                         const popoverDom = document.getElementsByClassName("ant-popover");
                         if( popoverDom.length === 0 ){
                             const fid = event.currentTarget.getAttribute("data-row-key")

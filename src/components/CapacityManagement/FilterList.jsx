@@ -1,19 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2020-12-21 09:42:52
+ * @LastEditTime: 2021-01-27 10:29:01
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
 import React, {useState, useEffect, useCallback} from 'react'
+import {inject, observer} from 'mobx-react'
 import { isValidVariable } from 'utils/basic-verify'
 import { List   } from 'antd'
-import { CloseOutlined, CheckOutlined, } from '@ant-design/icons';
-
 
 import './FilterList.scss'
-
 
 //过滤列表模块
 const FilterList = (props) => {
@@ -40,7 +38,7 @@ const FilterList = (props) => {
     const data=[];
     let [flightListData, setFlightListData, ] = useState(data)
     useEffect(() => {
-
+        
     }, [flightListData]);
 
 
@@ -55,7 +53,10 @@ const FilterList = (props) => {
                     <List.Item
                         key={item.key}
                         className="filter-list-item"
-                        onClick={()=>{console.log(item)}}
+                        onClick={()=>{
+                            console.log(item);
+                            props.capacity.setPane(item.text, item.key, "airport")
+                        }}
                     >
                         {item.text}
                     </List.Item>
@@ -66,4 +67,4 @@ const FilterList = (props) => {
 }
 
 
-export default FilterList
+export default inject("capacity")(observer(FilterList));

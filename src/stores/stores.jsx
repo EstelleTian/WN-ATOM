@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2020-12-22 09:39:48
+ * @LastEditTime: 2021-01-26 15:16:49
  * @LastEditors: Please set LastEditors
  * @Description: store集合
  * @FilePath: \WN-CDM\src\stores\stores.jsx
@@ -16,6 +16,7 @@ import { systemPage } from './pageStores'
 import { workFlowData } from './workFlowStores'
 import { implementTacticsReasonData } from './implementTacticsReasonStores'
 import { infoHistoryData } from './infoHistoryStores'
+import { capacity } from './capacityStores'
 
 export { 
     schemeListData,
@@ -26,7 +27,8 @@ export {
     capacityFlowMonitorData,
     workFlowData,
     implementTacticsReasonData,
-    infoHistoryData
+    infoHistoryData,
+    capacity
 
  };
 
