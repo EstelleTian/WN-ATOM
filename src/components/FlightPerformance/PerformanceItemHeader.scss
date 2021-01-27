@@ -22,11 +22,11 @@
       display: flex;
       justify-content: center;
       .text-wrapper{
-        margin: 5px;
+        margin-top: 15px;
         padding: 0 15px;
         background-color: #35393c;
         border-radius: 4px;
-        min-width: 60%;
+        min-width: 170px;
       }
       .value {
         color: #35a5da;
@@ -51,7 +51,7 @@
       align-items: center;
       display: flex;
       flex-direction: column;
-      min-width: 80%;
+      min-width: 288px;
     }
 
     .list-item {

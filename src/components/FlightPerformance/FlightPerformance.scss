@@ -1,4 +1,9 @@
 .flight_performance_list_container {
   height: 100%;
-  margin: 0 5px;
+  margin: 0 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  .performance-row {
+    flex: 1;
+  }
 }

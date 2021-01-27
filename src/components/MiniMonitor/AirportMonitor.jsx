@@ -161,7 +161,7 @@ function AirportMonitor(props) {
                     data: axis,
                     axisLine: {
                         lineStyle: {
-                            color: "#ffffffd9"
+                            color: "#969696"
                         }
                     },
                     axisTick: {
@@ -181,7 +181,7 @@ function AirportMonitor(props) {
                     type: 'value',
                     axisLine: {
                         lineStyle: {
-                            color: "#ffffffd9"
+                            color: "#969696"
                         }
                     },
                     axisTick:{

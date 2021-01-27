@@ -14,12 +14,17 @@
     @include flex();
     .cont_top{
         @include display-flex();
-        @include flex();
+        //@include flex();
+        flex: 0 1 700px;
         .cont_top_left{
-            @include flex();
+            //@include flex();
+          flex: 0 1 699px;
         }
         .cont_top_right{
             @include flex(2);
+          .ant-spin-nested-loading, .ant-spin-container{
+            height: 100%;
+          }
         }
     }
     .cont_bottom{
@@ -32,7 +37,7 @@
         .map-container {
             display: flex;
             flex: 1;
-            margin: 0 5px 5px;
+            margin: 0 16px 14px 13px;
             //width: 820px;
             //height: 600px;
             .map-frame {

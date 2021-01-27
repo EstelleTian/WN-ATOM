@@ -247,7 +247,7 @@ const FlightPerformance =(props) => {
     return(
         <Spin spinning={loading} >
         <div className="flight_performance_list_container">
-            <Row style={{marginBottom: 10}}>
+            <Row className="performance-row" style={{marginBottom: 10}}>
                 <Col span={24} className="layout-row" >
                     <div className="performance_item module">
                         <PerformanceItemHeader style={ {background:"#4b7ba4", color:"#d4d4d4"}}  title="计划"  value={sDANum}  unit="架次"  />
@@ -275,7 +275,7 @@ const FlightPerformance =(props) => {
                     </div>
                 </Col>
             </Row>
-            <Row>
+            <Row className="performance-row" style={{marginBottom: 12}}>
                 <Col span={24} className="layout-column" >
                     <div className="performance_item module">
                         <div style={ {height:"140px", }}  ></div>
