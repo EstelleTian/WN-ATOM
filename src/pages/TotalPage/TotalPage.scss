@@ -9,7 +9,8 @@
 }
 
 .main-wrapper {
-    position: relative;
+    //position: relative;
+    overflow-y: hidden;
     .top{
         flex: auto;
         height: 716px;
