@@ -12,19 +12,22 @@ import Decorator  from 'components/Decorator/Decorator.jsx'
 import './ModalBox.scss'
 
 const ModalBox = (props) => {
-    let [contentHeight, setContentHeight] = useState(0);
-    let modalRef = useRef();
+    // let [contentHeight, setContentHeight] = useState(0);
+    // let modalRef = useRef();
     const { style={}, className = "", title, showDecorator } = props;
 
 
-    useEffect(() => {
-        let offsetHeight = modalRef.current.offsetHeight
-        offsetHeight -= 40
-        setContentHeight( offsetHeight )
-    }, [contentHeight])
+    // useEffect(() => {
+    //     let offsetHeight = modalRef.current.offsetHeight
+    //     offsetHeight -= 40
+    //     setContentHeight( offsetHeight )
+    // }, [contentHeight])
     
     return(
-        <div ref={modalRef} className={`modal_box ${ className !== "" ? className : ""}`}  style={style} >
+        <div
+            // ref={modalRef}
+            className={`modal_box ${ className !== "" ? className : ""}`}
+            style={style} >
         { title !== "" ?
             <div className="box_header">
                 <span className="title">{title}</span>
@@ -35,7 +38,10 @@ const ModalBox = (props) => {
             : ""
         }
             
-            <div className="box_content" style={{ height: contentHeight}}>
+            <div
+                className="box_content"
+                 // style={{ height: contentHeight}}
+            >
                 {props.children}
             </div>
         </div>

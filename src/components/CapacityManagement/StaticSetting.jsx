@@ -16,17 +16,22 @@ import './StaticSetting.scss'
 const rules  = [
     {
         pattern: REGEXP.NUMBER3,
-        message: "请输入0~999范围内的整数"
+        message: "请输入0~999的整数"
     },
     {
         required: true,
-        message: `请输入非空数据`,
+        message: `必填项`,
     }
 ]
 const formItemLayout = {
     labelCol: { span:24 },
     wrapperCol: { span: 24 },
   };
+
+const CInput = (props) => {
+
+}
+
 //静态容量配置
 function StaticSetting (props){
     const [ formData, setFormData] = useState({});
@@ -78,7 +83,8 @@ function StaticSetting (props){
                             rules={rules}
                             name="capacityVal"
                             >
-                            <Input maxLength={3} className={` ${ (orgData.capacityVal*1 !== formData.capacityVal*1) ? "yellow" : ""} `}
+
+                            <Input  maxLength={3} className={` ${ (orgData.capacityVal*1 !== formData.capacityVal*1) ? "yellow" : ""} `}
                                 onPressEnter={save} onBlur={save}  ref={inputRef} disabled={disabled}/>
                         </Form.Item>
                     </div>
