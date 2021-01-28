@@ -199,9 +199,10 @@ const FlightPerformance =(props) => {
     //获取--航班执行情况数据
     const requestFlightPerformanceData = useCallback(() => {
         //TODO 时间范围取值需要使用服务器时间，目前使用的终端时间
-        const nowDate = getFullTime(new Date()).substring(0,8);
+        const now = getFullTime(new Date());
+        const nowDate = now.substring(0,8);
         const start = nowDate+'000000';
-        const end = nowDate+'235900';
+        const end =now;
 
         const opt = {
             url: ReqUrls.performanceDataUrl + '?targets=ZLXYACC,ZLLLACC&starttime='+ start+'&endtime='+end,
@@ -222,9 +223,10 @@ const FlightPerformance =(props) => {
     //获取--限制数据
     const requestImplementTacticsReasonData = useCallback(() => {
         //TODO 时间范围取值需要使用服务器时间，目前使用的终端时间
-        const nowDate = getFullTime(new Date()).substring(0,8);
+        const now = getFullTime(new Date());
+        const nowDate = now.substring(0,8);
         const start = nowDate+'000000';
-        const end = nowDate+'235900';
+        const end =now;
 
         const opt = {
             url: ReqUrls.schemeListUrl + '/statistics?starttime='+ start+'&endtime='+end,

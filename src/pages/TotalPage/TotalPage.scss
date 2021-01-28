@@ -4,46 +4,59 @@
 .ant-layout-header {
     background: #2c2c2c!important;
     .simple_nav{
-        margin: 0.5rem 1rem;
+        margin: 9px 11px;
     }
 }
 
-.total_body{
-    margin: 0 1rem 1rem;
-    @include display-flex(column);
-    @include flex();
-    .cont_top{
-        @include display-flex();
-        //@include flex();
-        flex: 0 1 700px;
-        .cont_top_left{
-            //@include flex();
-          flex: 0 1 699px;
+.main-wrapper {
+    position: relative;
+    .top{
+        flex: auto;
+        height: 716px;
+        margin-bottom: 10px;
+        .flex-row {
+            @include flex();
+            flex-wrap: nowrap;
+            margin-left: 11px;
+            margin-right: 11px;
+            .left-container {
+                flex: 1 1 auto;
+                width: 700px;
+                margin-right: 4px;
+                .map-container {
+                    display: flex;
+                    flex: 1;
+                    margin: 0 16px 14px 13px;
+                    //width: 820px;
+                    //height: 600px;
+                    .map-frame {
+                        border-radius: 8px;
+                        border: 1px solid #6c6c6c;
+                        padding-bottom: 1px;
+                    }
+                }
+            }
+            .right-container {
+                flex: 1 1 calc(100% - 700px);
+                width: calc(100% - 700px);
+                margin-left: 4px;
+                .ant-spin-nested-loading, .ant-spin-container{
+                    height: 100%;
+                }
+            }
         }
-        .cont_top_right{
-            @include flex(2);
-          .ant-spin-nested-loading, .ant-spin-container{
+
+    }
+    .bottom {
+        flex: auto;
+        height: 654px;
+        .capacity-contianer {
+            flex: 1 1 0%;
             height: 100%;
-          }
-        }
-    }
-    .cont_bottom{
-        @include flex();
-        overflow-y: auto;
-        
-    }
-    .map-module{
-        margin-right: 5px;
-        .map-container {
-            display: flex;
-            flex: 1;
-            margin: 0 16px 14px 13px;
-            //width: 820px;
-            //height: 600px;
-            .map-frame {
-                border-radius: 8px;
-                border: 1px solid #6c6c6c;
-                padding-bottom: 1px;
+            margin-left: 11px;
+            margin-right: 11px;
+            .ant-spin-nested-loading, .ant-spin-container{
+                height: 100%;
             }
         }
     }
@@ -52,5 +65,5 @@
         border-radius: 6px;
     }
 
-
 }
+

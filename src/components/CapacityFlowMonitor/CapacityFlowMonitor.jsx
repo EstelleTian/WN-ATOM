@@ -149,7 +149,7 @@ const CapacityFlowMonitor =(props) => {
     const  listItemData = (item)=> {
         if(item.id ==='ADD'){
             return (
-                <List.Item key={item.key}>
+                <List.Item className="moitor-col" key={item.key}>
                     <ModalBox showDecorator = {true} title={item.title} className="monitor-box add-monitor-box">
                         <div className="monitor-content">
                             <AddMonitorCard data={ item.data }  />
@@ -159,7 +159,7 @@ const CapacityFlowMonitor =(props) => {
             )
         }else {
             return (
-                <List.Item key={item.key}>
+                <List.Item className="moitor-col" key={item.key}>
                     <ModalBox showDecorator = {false} title={`${item.title} (数据时间:${formatTimeString(item.generateTime)})`}className="monitor-box">
                         <div className="actions">
                             <div onClick={()=>{console.log("sss")}} className="remove">
@@ -248,7 +248,7 @@ const CapacityFlowMonitor =(props) => {
         // const start = nowDate+'110000';
         // const end = nowDate+'155900';
         const opt = {
-            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=IGADA,P40,ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLXYAR02,ZLXYAR07,ZLLLAR01,ZLLLAR02, W152&starttime='+ start+'&endtime='+end,
+            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=IGADA,P40,ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLXYAR02,ZLXYAR07,ZLLLAR01,ZLLLAR02,W152&starttime='+ start+'&endtime='+end,
             // url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=ZLXY,ZLLL&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
