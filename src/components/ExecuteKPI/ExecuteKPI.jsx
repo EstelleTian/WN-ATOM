@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 13:47:11
- * @LastEditTime: 2020-12-24 18:47:10
+ * @LastEditTime: 2021-01-28 15:50:16
  * @LastEditors: Please set LastEditors
  * @Description: 执行KPI
  * @FilePath: \WN-CDM\src\components\ExecuteKPI\ExecuteKPI.jsx
  */
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Empty, Row, Spin,} from 'antd'
 import { inject, observer } from 'mobx-react'
 import ImpactFlights from './ImpactFlights'
@@ -20,7 +20,10 @@ import './ExecuteKPI.scss'
 const ExecuteKPI = (props) => {
     const executeKPIData = props.executeKPIData;
     const { loading } = executeKPIData;
-
+    useEffect(() => {
+        
+    }, [executeKPIData.KPIData])
+    
     return (
         <Spin spinning={loading} >
 

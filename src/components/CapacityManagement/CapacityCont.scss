@@ -1,18 +1,20 @@
 .line_canvas{
-    // @include display_flex(column);
-    // @include flex(1);
-    // position: relative;
+    margin: 0 0.5rem;
     .radio_sel{
         margin-right: 1rem;
         display: inline-block;
-        border-right: 1px dashed rgb(172, 170, 170);
         >span{
             padding-right: 0.5rem;
         }
     }
     
+    
     .cap_line_chart{
         height: inherit!important;
+    }
+    .refresh_btn{
+        float: right;
+        margin-right: 0.5rem;
     }
 }
 .cap_set_canvas{
