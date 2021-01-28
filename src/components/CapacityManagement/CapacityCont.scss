@@ -22,12 +22,20 @@
         @include display_flex();
         @include flex();
         .static_modal{
-            width: 260px;
+            width: 280px;
             margin: 0.5rem;
         }
         .dynamic_modal{
             @include flex();
             margin: 0.5rem;
+            .ant-table-thead{
+                th{
+                    font-size: 1rem;
+                }
+            }
+            .num_cell{
+                font-size: 1.25rem;
+            }
         }
     }
     .cap_part{

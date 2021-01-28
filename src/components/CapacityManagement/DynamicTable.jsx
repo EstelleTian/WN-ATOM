@@ -1,4 +1,6 @@
 import React, { useContext, useState, useEffect, useRef, useCallback } from "react";
+import {inject, observer} from 'mobx-react'
+import { AlertOutlined  } from '@ant-design/icons';
 import { Table, Input, Button, Popconfirm, Form } from "antd";
 import { getFullTime, isValidVariable, formatTimeString, millisecondToDate } from 'utils/basic-verify'
 import { REGEXP } from 'utils/regExpUtil'
@@ -25,48 +27,6 @@ for( let i = 0; i<24; i++){
         tArr.push(hour+min);
     }
 }
-console.log(tArr);
-
-let tableData = [];
-let cColumns = [
-    {
-        title: "",
-        dataIndex: "time",
-        align: 'center',
-        key: "time",
-        fixed: 'left',
-        width: (screenWidth > 1920) ? 100 : 100,
-        render: (text, record, index) => {
-            return (
-                <div className="">{text}</div>
-            )
-        }
-    },
-];
-let obj = {
-    key: "capacityVal",
-    time: "容量值",
-}
-tArr.map( key => {
-    obj[key] = 30;
-    cColumns.push({
-        title: key,
-        dataIndex: key,
-        align: 'center',
-        key: key,
-        width: 60,
-        editable: true
-    });
-})
-
-tableData.push(obj);
-
-
-console.log(cColumns);
-console.log(tableData);
-
-
-
 
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
@@ -115,8 +75,9 @@ const EditableCell = ({
   let childNode = children;
 
   if (editable) {
-    let orgVal = record.time[dataIndex]*1;
-    let hasChanged = (orgVal !== record[dataIndex]*1);
+    const newVal = record[dataIndex]*1;
+    const orgVal = JSON.parse( record.time )[dataIndex]*1;
+    const flag = newVal !== orgVal;
     childNode = <Form.Item
         style={{
             margin: 0
@@ -133,7 +94,7 @@ const EditableCell = ({
             }
         ]}
         >
-        <Input className={` ${hasChanged ? "yellow" : ""} `} ref={inputRef} onPressEnter={save} onBlur={save} />
+        <Input className={` ${flag ? "yellow" : ""} `} ref={inputRef} onPressEnter={save} onBlur={save} />
     </Form.Item>
     
   }
@@ -142,94 +103,184 @@ const EditableCell = ({
 };
 
 
+ //处理列配置
+ const getColumns = () => {
+    let cColumns = [
+        {
+            title: "",
+            dataIndex: "time",
+            align: 'center',
+            key: "time",
+            fixed: 'left',
+            width: (screenWidth > 1920) ? 100 : 100,
+            render: (text, record, index) => {
+                const key = record.key || "";
+                const time = JSON.parse( record.time ) || {};
 
+                const showText = time.time || "";
+                return (
+                    <div className="">1111</div>
+                )
+            }
+        },
+    ];
+    tArr.map( key => {
+        cColumns.push({
+            title: key,
+            dataIndex: key,
+            align: 'center',
+            key: key,
+            width: 60,
+            editable: true
+        });
+        
+    });
+    return cColumns
+}
+
+//处理为表格格式数据
+const convertToTableData = () => {
+    let dataArr = [];
+
+    let obj = {
+        key: "capacityVal",
+        time: "容量值",
+    }
+    tArr.map( key => {
+        obj[key] = 30;
+    });
+    dataArr.push(obj);
+    obj.time = JSON.stringify(obj);
+
+    let obj2 = {
+        key: "capacityL1",
+        time: "超容告警",
+    }
+    tArr.map( key => {
+        obj2[key] = 2;
+    });
+    dataArr.push(obj2);
+    obj2.time = JSON.stringify(obj2);
+
+    let obj3 = {
+        key: "capacityL2",
+        time: "超容告警",
+    }
+    tArr.map( key => {
+        obj3[key] = 8;
+    });
+    dataArr.push(obj3);
+    obj3.time = JSON.stringify(obj3);
+
+    let obj4 = {
+        key: "capacityL3",
+        time: "超容告警",
+    }
+    tArr.map( key => {
+        obj4[key] = 12;
+    });
+    dataArr.push(obj4);
+    obj4.time = JSON.stringify(obj4);
+
+    return dataArr;
+    
+}
 
 //动态容量配置
 const DynamicTable = (props) => {
-    const [ columns, setColumns ] = useState([]); //表格列配置
-    const [ tableData, setTableData ] = useState([]); //表格数据
+    const [ loading, setLoading ] = useState(false); 
 
+    const { capacity } = props;
     //数据保存
-    const handleSave = useCallback(
-        (row) => {
-            const newData = [...dataSource];
-            const index = newData.findIndex((item) => row.key === item.key);
-            const item = newData[index];
-            newData.splice(index, 1, { ...item, ...row }); //行数据替换
-            setDataSource(newData);
-        },
-        [dataSource]
-    );
+    const handleSave = (row) => {
+        // console.log(tableData);
+        let newData = [...tableData];
+        const index = newData.findIndex((item) => row.key === item.key);
+        const item = newData[index];
+        newData.splice(index, 1, { ...item, ...row }); //行数据替换
+        setTableData(newData);
+    }
     
-    columns = cColumns.map((col) => {
-    if (!col.editable) {
-        return col;
-    }
-    return {
-        ...col,
-        onCell: (record) => ({
-        record,
-        editable: col.editable,
-        dataIndex: col.dataIndex,
-        title: col.title,
-        handleSave: handleSave,
-        hasChanged: true
-        })
-    };
-    });
-
-    //处理列配置
-    const getColumns = () => {
-        let cColumns = [
-            {
-                title: "",
-                dataIndex: "time",
-                align: 'center',
-                key: "time",
-                fixed: 'left',
-                width: (screenWidth > 1920) ? 100 : 100,
-                render: (text, record, index) => {
-                    return (
-                        <div className="">{text}</div>
-                    )
-                }
-            },
-        ];
-        tArr.map( key => {
-            cColumns.push({
-                title: key,
-                dataIndex: key,
-                align: 'center',
-                key: key,
-                width: 60,
-                editable: true
-            });
-        });
-        setColumns(cColumns);
-    }
 
     useEffect(() => {
-        getColumns();
-    }, [])
+        capacity.setDynamicTableColumns( getColumns() );
+        
+        capacity.setDynamicTableDatas( convertToTableData() );
+    }, []);
+
+    const getNewColumns = function(){
+        console.log("aaaaaa",capacity.getDynamicTableColumns);
+        let newColumns = [];
+        capacity.getDynamicTableColumns.map((col) => {
+
+            if( col.dataIndex === "time" ){
+                newColumns.push( {
+                    ...col,
+                    render: (text, record, index) => {
+                        const key = record.key || "";
+                        const time = JSON.parse( record.time ) || {};
+        
+                        const showText = time.time || "";
+                        return (
+                            <div className="">
+                                {showText}
+                                { key === "capacityL1" ? <AlertOutlined className="alarm alarm_yellow"/> : "" }
+                                { key === "capacityL2" ? <AlertOutlined className="alarm alarm_orange"/> : "" }
+                                { key === "capacityL3" ? <AlertOutlined className="alarm alarm_red"/> : "" }
+                            </div>
+                        )
+                    }
+                })
+            }else{
+                newColumns.push( {
+                    ...col,
+                    render: (text, record, index) => {
+                        return (
+                            <div className="num_cell">
+                                {text}
+                            </div>
+                        )
+                    } });
+                // if (!col.editable) {
+                //     newColumns.push( col );
+                // }
+                // newColumns.push( {
+                //     ...col,
+                //     onCell: (record) => ({
+                //         record,
+                //         editable: col.editable,
+                //         dataIndex: col.dataIndex,
+                //         title: col.title,
+                //         handleSave: handleSave,
+                //         hasChanged: true
+                //     })
+                // })
+            }
     
+         
+        });
+        return newColumns;
+    }
+
     return (
         <div>
           <Table
-              components={{
-                body: {
-                  row: EditableRow,
-                  cell: EditableCell
-                }
-              }}
+            //   components={{
+            //     body: {
+            //       row: EditableRow,
+            //       cell: EditableCell
+            //     }
+            //   }}
+              loading={loading}
               rowClassName={() => "editable-row"}
-              columns={ columns }
-              dataSource={ tableData }
+              columns={ getNewColumns() }
+              dataSource={ capacity.dynamicTableDatas }
               size="small"
               bordered
               pagination={false}
-            scroll = {{
-                x: 1000
-            }}
+                scroll = {{
+                    x: 1000
+                }}
           /> 
         </div>
       );
@@ -237,4 +288,4 @@ const DynamicTable = (props) => {
 }
 
 
-export default DynamicTable
+export default inject( "capacity" )(observer(DynamicTable))
