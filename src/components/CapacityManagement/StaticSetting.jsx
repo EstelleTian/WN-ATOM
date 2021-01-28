@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:45:23
- * @LastEditTime: 2021-01-27 19:29:22
+ * @LastEditTime: 2021-01-28 08:53:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\StaticSetting.jsx
@@ -31,7 +31,7 @@ const formItemLayout = {
 function StaticSetting (props){
     const [ formData, setFormData] = useState({});
     const [ orgData, setOrgData] = useState({});
-    const [ disabled, setDisabled] = useState(true);
+    const [ disabled, setDisabled] = useState(false);
     
     const [ form ] = Form.useForm();
     const inputRef = useRef(null);
