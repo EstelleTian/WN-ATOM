@@ -13,15 +13,17 @@
         height: inherit!important;
     }
     .refresh_btn{
-        float: right;
-        margin-right: 0.5rem;
+        position: absolute;
+        right: 1rem;
     }
 }
 .cap_set_canvas{
     @include display_flex(column);
     @include flex();
+    margin: 0 auto;
+    width: 1300px;
     .set_top{
-        @include display_flex();
+        @include display_flex(column);
         @include flex();
         .static_modal{
             width: 280px;
@@ -29,6 +31,8 @@
         }
         .dynamic_modal{
             @include flex();
+        }
+        .dynamic_modal, .static_cap_modal{
             margin: 0.5rem;
             .ant-table-thead{
                 th{
@@ -38,6 +42,9 @@
             .num_cell{
                 font-size: 1.25rem;
             }
+        }
+        .static_cap_modal_24{
+           
         }
     }
     .cap_part{
@@ -57,3 +64,10 @@
 .alarm_red{
     color: red;
 }
+
+@media screen and ( max-width: 1920px) and ( min-width: 1681px){
+    .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-thead > tr > th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-small tfoot > tr > th, .ant-table.ant-table-small tfoot > tr > td {
+        padding: 4px 4px;
+    }
+  }
+

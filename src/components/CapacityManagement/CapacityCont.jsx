@@ -1,21 +1,22 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-01-28 13:11:11
+ * @LastEditTime: 2021-01-28 17:16:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
  */
 import React, {useState, useEffect, useCallback} from 'react'
 import {inject, observer} from 'mobx-react'
-import { Radio, Button } from 'antd'
-import { isValidVariable } from 'utils/basic-verify'
+import { Button } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
-import DynamicTable from './DynamicTable'
-import StaticSetting from './StaticSetting';
+// import DynamicTable from './DynamicTable'
+// import StaticSetting from './StaticSetting';
+import CapacityTable from './CapacityTable';
 
 import "./CapacityCont.scss"
-
+//获取屏幕宽度，适配 2k
+let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 //容量管理内容页
 function CapacityCont (props){
     
@@ -40,9 +41,10 @@ function CapacityCont (props){
 
     const { capacity, pane } = props;
     return (
-        <div>
+        <div style={{ overflowX: 'auto'}}>
+        
             <div className="line_canvas">
-                <div className="radio_sel date_sel">
+                {/*<div className="radio_sel date_sel">
                     <span>日期:</span>
                     <Radio.Group
                         optionType="button"
@@ -92,7 +94,7 @@ function CapacityCont (props){
                         ]}
                     >
                     </Radio.Group>
-                </div>
+                </div>*/}
                 <Button type="primary" 
                     // loading = { refreshBtnLoading } 
                     className="refresh_btn"
@@ -103,9 +105,10 @@ function CapacityCont (props){
                         刷新
                 </Button>
             </div>
+           
             <div className="cap_set_canvas">
-                <div className="set_top">
-                    <ModalBox
+               <div className="set_top">
+                     {/*<ModalBox
                         title="静态容量配置"
                         style={{
                             height: 330
@@ -114,20 +117,30 @@ function CapacityCont (props){
                         className="static_modal"
                     >
                         <StaticSetting pane={pane}/>
-                    </ModalBox>
+                    </ModalBox>*/}
                     <ModalBox
-                        title="动态容量配置"
+                        title="静态容量配置"
                         style={{
-                            height: 330
+                            height: 120
                         }}
                         showDecorator = {true}
-                        className="dynamic_modal"
+                        className="static_cap_modal"
                     >
-                        <DynamicTable />
+                        <CapacityTable type="line1"/>
+                    </ModalBox>
+                    <ModalBox
+                        title="静态容量配置"
+                        // style={{
+                        //     height: (screenWidth > 1920) ? 1040 : 820,
+                        // }}
+                        showDecorator = {true}
+                        className="static_cap_modal static_cap_modal_24"
+                    >
+                        <CapacityTable  type="line24"/>
                     </ModalBox>
                 </div>
-
-                <div className="cap_part alert_setting"></div>
+            
+                {/* <div className="cap_part alert_setting"></div>*/}
 
             </div>
         </div>
