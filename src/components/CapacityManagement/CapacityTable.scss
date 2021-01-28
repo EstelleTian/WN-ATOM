@@ -1,0 +1,17 @@
+.box_content{
+  overflow: visible!important;
+}
+.table_cont{
+  position: relative;
+  .opt_btns{
+    position: absolute;
+    right: 1rem;
+    top: -30px;
+    .reset{
+      margin-left: 1rem;
+    }
+  }
+  .yellow{
+    background: rgb(146, 133, 16);
+  }
+}

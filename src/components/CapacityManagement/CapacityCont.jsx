@@ -119,7 +119,7 @@ function CapacityCont (props){
                         <StaticSetting pane={pane}/>
                     </ModalBox>*/}
                     <ModalBox
-                        title="静态容量配置"
+                        title="静态容量——默认配置"
                         style={{
                             height: 120
                         }}
@@ -129,7 +129,7 @@ function CapacityCont (props){
                         <CapacityTable type="line1"/>
                     </ModalBox>
                     <ModalBox
-                        title="静态容量配置"
+                        title="静态容量——自定义配置"
                         // style={{
                         //     height: (screenWidth > 1920) ? 1040 : 820,
                         // }}

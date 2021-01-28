@@ -21,7 +21,15 @@
 let data1 = {
     list: [{
         key: 1,
-        time: "全天",
+        time: JSON.stringify({
+            time: "全天",
+            hourMaxDEPARR: 52,
+            hourMaxDEP: 36,
+            hourMaxARR: 41,
+            quarterMaxDEPARR: 18,
+            quarterMaxDEP: 12,
+            quarterMaxARR: 15,
+        }),
         hourMaxDEPARR: 52,
         hourMaxDEP: 36,
         hourMaxARR: 41,
@@ -30,6 +38,7 @@ let data1 = {
         quarterMaxARR: 15,
     }]
 }
+
 
 let data24 = {
     list: []
@@ -48,6 +57,7 @@ for( let i = 0; i<24; i++){
         quarterMaxDEP: 12,
         quarterMaxARR: 15,
     }
+    obj.time = JSON.stringify(obj);
     data24.list.push( obj );
 }
 export { data1, data24 } 
