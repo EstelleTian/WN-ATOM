@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-01-28 17:13:51
+ * @LastEditTime: 2021-02-01 09:44:21
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -71,7 +71,7 @@ const EditableCell = ({
 
             handleSave(values);
         } catch (errInfo) {
-            console.log('Save failed:', errInfo);
+            
         }
     };
 
@@ -234,8 +234,20 @@ const CapacityTable = (props) => {
             values.time = newStr;
             newTableData.push(values);
         })
-        setTableData(newTableData)
+        setTableData(newTableData);
+    }
 
+    const resetOrgTableDatas = () => {
+        let newTableData = [];
+        tableData.map( item => {
+            let obj = {};
+            let timeStr = item.time;
+            let timeObj = JSON.parse(timeStr);
+            obj = {...item, ...timeObj};
+            obj.time = timeStr;
+            newTableData.push(obj);
+        })
+        setTableData(newTableData);
     }
 
     const mergedColumns = getColumns().map((col) => {
@@ -260,7 +272,6 @@ const CapacityTable = (props) => {
                 {
                     !editable
                         ? <Button className="" size="small" type="primary" onClick={e =>{
-
                             setEditable(true);
                         }}>修改 </Button>
                         : <span>
@@ -269,7 +280,9 @@ const CapacityTable = (props) => {
                                 //更新初始化数据
                                 updateOrgTableDatas()
                             }}>保存 </Button>
-                            <Button className="reset" size="small" onClick={e =>{ setEditable(false) }}>重置 </Button>
+                            <Button className="reset" size="small" onClick={e =>{ 
+                                resetOrgTableDatas()
+                             }}>重置 </Button>
                         </span>
                 }
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-01-25 18:01:00
+ * @LastEditTime: 2021-02-01 10:18:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -9,7 +9,7 @@
 import React, {useEffect, useState} from 'react'
 import { Button, Collapse, Row, Col, Tooltip, Checkbox } from 'antd'
 import { CloseOutlined} from '@ant-design/icons'
-
+import { Link } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { formatTimeString } from 'utils/basic-verify'
 import { sendMsgToClient, closeMessageDlg, openControlDetail } from 'utils/client'
@@ -94,25 +94,25 @@ function InfoCard(props){
                             {
                                 (dataType === "FTMI") ?
                                     <span>
-                                        <Button className="info_btn btn_blue" size="small" onClick={ function(e){
+                                        {/* <Button className="info_btn btn_blue" size="small" onClick={ function(e){
                                             sendMsgToClient(message)
                                             e.stopPropagation()
-                                        } } >查看容流监控</Button>
-                                        {/*<Link to="/restriction" target="_blank">*/}
+                                        } } >查看容流监控</Button>*/}
+                                        <Link to="/restriction" target="_blank">
                                             <Button size="small" onClick={ (e)=>{
                                                 //将data转换为对象再生成字符串对象传递，否则接收后转换不成正确的json
                                                 let { data } = message;
                                                 data = JSON.parse( data);
                                                 data = Object.assign({}, data )
-                                               let newMsg =  Object.assign({}, message);
+                                                let newMsg =  Object.assign({}, message);
                                                 newMsg.data = data;
 
                                                 // console.log( str )
-                                                // sessionStorage.setItem("message", str );
-                                                openControlDetail( newMsg )
+                                                localStorage.setItem("message", JSON.stringify(message) );
+                                                // openControlDetail( newMsg )
                                                 e.stopPropagation()
                                             }}>查看流控详情</Button>
-                                        {/*</Link>*/}
+                                        </Link>
                                     </span>
                                 : ""
                             }

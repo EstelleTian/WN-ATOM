@@ -196,7 +196,7 @@ function StaticInfoCard(props){
     <Fragment>
         <Card title="方案信息"  bordered={ false } size="">
             <Row gutter={24}>
-                <Col span={21}>
+                <Col span={20}>
                     <Form.Item
                         name="tacticName"
                         label="方案名称"
@@ -206,11 +206,15 @@ function StaticInfoCard(props){
                         <Input disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
-                <Col span={3}>
-                    <Form.Item >
-                        <Button type="primary" onClick={ handleAutofillName } >自动命名</Button>
-                    </Form.Item>
-                </Col>
+                {
+                    props.disabledForm ? ""
+                    : <Col span={3}>
+                        <Form.Item >
+                            <Button type="primary" onClick={ handleAutofillName } >自动命名</Button>
+                        </Form.Item>
+                    </Col>
+                }
+                
                 <Col span={8}>
                     <Form.Item
                         name="tacticPublishUnit"

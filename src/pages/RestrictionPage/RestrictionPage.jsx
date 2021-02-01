@@ -1,13 +1,13 @@
 
-import React, { Suspense, useState } from  'react'
-import {Spin, Row, Col, message as antdMessage} from "antd";
+import React, { Suspense, useState, useEffect } from  'react'
+import {Spin, Row, Col, message as antdMessage, Button} from "antd";
 import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail'
 import NTFMDetail  from 'components/RestrictionDetail/NTFMDetail'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
 import FlowRelation  from 'components/RestrictionForm/FlowRelation'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
-import { NWGlobal } from "utils/global";
+import { sendMsgToClient } from 'utils/client'
 import './RestrictionPage.scss'
 
 
@@ -17,24 +17,7 @@ function RestrictionPage( props ) {
     let [ message, setMessage ] = useState({});
     let [ disabledForm, setDisabledForm] = useState(true);
     let [flowData, setFlowData] = useState({})
-
-    //TODO 测试数据，交由客户端后去除---start
-    // message = sessionStorage.getItem('message')
-    // message = JSON.parse(message)
-    // console.log(message)
-    //TODO 测试数据，交由客户端后去除---end
-    NWGlobal.setMsg = function(str){
-        // setMessageStr(str)
-        // alert("收到字符串:"+str);
-        let json = JSON.parse(str);
-        setMessage(json);
-        // alert("转json:"+json);
-        const { data= {} } = json;
-        const id = data.id;
-        // alert("id:"+ id);
-        requestATOMData(id);
-    };
-
+    
     //更新方案列表数据
     const updateData = data => {
         let {  status } = data;
@@ -66,39 +49,52 @@ function RestrictionPage( props ) {
         request(opt);
     }
 
+    useEffect(() => {
+        let msgStr = localStorage.getItem("message");
+        let json = JSON.parse(msgStr);
+        setMessage(json);
+        let { data = {} } = json;
+        data = JSON.parse(data);
+        const id = data.id;
+        console.log("id:", id);
+        requestATOMData(id);
+    }, [])
+
     let newTypeCn = "";
     let dataCode = "";
     let source = "";
-    if( message !== null && message.hasOwnProperty("dataCode") ){
+   if( message !== null && message.hasOwnProperty("dataCode") ){
         dataCode = message.dataCode || "";
         source = message.source || "";
         console.log(dataCode);
         if( dataCode === "AFAO" ){
             newTypeCn = "新增外区流控信息";
         }else if( dataCode === "UFAO" ){
-            newTypeCn = "更新外区流控信息";
+            newTypeCn = "变更外区流控信息";
         }else if( dataCode === "TFAO" ){
             newTypeCn = "终止外区流控信息";
         }else if( dataCode === "AFAI" ){
             newTypeCn = "新增区内流控信息";
         }else if( dataCode === "UFAI" ){
-            newTypeCn = "更新区内流控信息";
+            newTypeCn = "变更区内流控信息";
         }else if( dataCode === "TFAI" ){
             newTypeCn = "终止区内流控信息";
         }
+        document.title = newTypeCn;
     }
 
-    return (
+    
 
+    return (
         <Suspense fallback={ <div className="load_spin"><Spin tip="加载中..."/></div> }>
-            {/*<div>messageStr:{messageStr}</div>*/}
-            <div style={{ color: '#eb6650' }}>{ newTypeCn }流控 -&gt; 数据来源--{source}</div>
+            {/*<div>messageStr:{messageStr}</div>*/}          
             {
                 ( dataCode === "AFAO" || dataCode === "AFAI") ?
                     <Row gutter={12} className="res_canvas">
                         <Col span={12} className="res_left">
                             <Row className="title">
-                                <span>流控详情({source})</span>
+                                <span>{ newTypeCn }({source})</span>
+                               {/* <div style={{ color: '#eb6650' }}>{ newTypeCn }流控 -&gt; 数据来源--{source}</div>*/} 
                             </Row>
                             {
                                 source === "ATOM" ? <ATOMDetail flowData={ flowData } message={message}  /> : ""
@@ -110,10 +106,21 @@ function RestrictionPage( props ) {
                         <Col span={12} className="res_right">
                             <Row className="title">
                                 <span>流控导入</span>
-                                <FlowRelation  setDisabledForm = {setDisabledForm} flowData={ flowData }  disabledForm = {disabledForm} message={message} />
+                                <FlowRelation  
+                                    setDisabledForm = {setDisabledForm} 
+                                    flowData={ flowData }  
+                                    disabledForm = {disabledForm} 
+                                    message={message} 
+                                />
                             </Row>
-                            <RestrictionForm  pageType="IMPORT" disabledForm = {disabledForm} 
-                            setDisabledForm = {setDisabledForm} flowData={ flowData } message={message}  showIgnoreBtn={true} />
+                            <RestrictionForm  
+                                pageType="IMPORT" 
+                                disabledForm = {disabledForm} 
+                                setDisabledForm = {setDisabledForm} 
+                                flowData={ flowData } 
+                                message={message}  
+                                showIgnoreBtn={true} 
+                            />
                         </Col>
                     </Row>
                     : ""
@@ -123,7 +130,7 @@ function RestrictionPage( props ) {
                     <Row gutter={12} className="res_canvas">
                         <Col span={12} className="res_left">
                             <Row className="title">
-                                <span>原流控详情({source})</span>
+                                <span>{ newTypeCn.replace("变更", "原") }({source})</span>
                             </Row>
                             <Row>
                                 <Col>
@@ -138,9 +145,18 @@ function RestrictionPage( props ) {
                         </Col>
                         <Col span={12} className="res_right">
                             <Row className="title">
-                                <span>变更流控详情({source})</span>
+                                <span>{ newTypeCn }({source})</span>
+                                <Button type="primary" className="info_btn btn_blue"
+                                    style={
+                                        { marginLeft: '1rem'}
+                                    }
+                                onClick={ function(e){
+                                    sendMsgToClient(message)
+                                    window.close();
+                                    e.stopPropagation()
+                                } } >查看容流监控</Button>
                             </Row>
-                            <Row>
+                        <Row>
                                 <Col>
                                     {
                                         source === "ATOM" ? <ATOMDetail  flowData={ flowData }  message={ message } /> : ""
@@ -159,7 +175,16 @@ function RestrictionPage( props ) {
                     <Row gutter={12} className="res_canvas">
                         <Col span={12} className="res_left">
                             <Row className="title">
-                                <span>流控详情({source})</span>
+                                <span>{ newTypeCn }({source})</span>
+                                <Button type="primary" className="info_btn btn_blue"
+                                    style={
+                                        { marginLeft: '1rem'}
+                                    }
+                                onClick={ function(e){
+                                    sendMsgToClient(message)
+                                    window.close();
+                                    e.stopPropagation()
+                                } } >查看容流监控</Button>
                             </Row>
                             <Row>
                                 <Col>

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-01-28 17:16:19
+ * @LastEditTime: 2021-02-01 09:56:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -94,7 +94,7 @@ function CapacityCont (props){
                         ]}
                     >
                     </Radio.Group>
-                </div>*/}
+                </div>
                 <Button type="primary" 
                     // loading = { refreshBtnLoading } 
                     className="refresh_btn"
@@ -103,7 +103,7 @@ function CapacityCont (props){
                     }}
                 >
                         刷新
-                </Button>
+                </Button>*/}
             </div>
            
             <div className="cap_set_canvas">
@@ -129,7 +129,7 @@ function CapacityCont (props){
                         <CapacityTable type="line1"/>
                     </ModalBox>
                     <ModalBox
-                        title="静态容量——自定义配置"
+                        title="静态容量——时段配置"
                         // style={{
                         //     height: (screenWidth > 1920) ? 1040 : 820,
                         // }}
