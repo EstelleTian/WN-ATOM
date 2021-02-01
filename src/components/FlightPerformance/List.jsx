@@ -15,12 +15,13 @@ const List =(props) => {
         const { listData =[] } = props;
 
         return listData.map((item, index) => {
-            const  { color="", des="", value="", unit="",} = item;
+            const  { iconType="", color="", des="", value="", unit="",} = item;
             return (
                 <li key={item.id} className="list-item">
                     <div className="item">
                         <div className="icon">
-                            <Badge className="list-item-dot" size="" color={ color }  />
+                            {/*<Badge className="list-item-dot" size="" color={ color }  />*/}
+                            <div className={`list-item-icon ${iconType}`} />
                         </div>
                         <div className="destriction">
                             { des }

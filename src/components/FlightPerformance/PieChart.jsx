@@ -81,6 +81,7 @@ const PieChart = (props) => {
             series: [{
                 name: '',
                 type: 'pie',
+                stillShowZeroSum: false,
                 radius: ['50%', '65%'],
                 data: getData(),
                 // emphasis: {
@@ -103,8 +104,6 @@ const PieChart = (props) => {
                 // style={props.style}
                 className='react_for_echarts layout-row flex-wrap justify-content-center'
                 style={{width: '100%',height:'100%'}}
-
-
             />
         </div>
     )

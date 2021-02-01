@@ -5,23 +5,121 @@
     .options {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         .normal-rate {
             display: flex;
             flex: 1;
-            .rate-progress, .rate-text {
-                flex: 1;
+            .rate-progress{
+                //flex: 1;
+                width: 200px;
 
             }
             .rate-text {
-                flex: 1;
                 margin-left: 15px;
             }
         }
         .weather {
-            //flex: 1 1  auto;
-            //width: 32px;
-            text-align: right;
+            display: flex;
+            justify-content: flex-end;
             padding: 0 5px;
+            .text{
+                line-height: 24px;
+                vertical-align: middle;
+            }
+        }
+        .weather-icon {
+            width: 24px;
+            height: 24px;
+            margin-left: 6px;
+            background-position: center;
+        }
+        // 晴
+        .sunny {
+            background: url('../../images/weather/sunny.png');
+        }
+        //毛毛雨
+        .drizzle {
+            background: url('../../images/weather/drizzle.png');
+        }
+        //雨
+        .rain {
+            background: url('../../images/weather/rain.png');
+        }
+        // 雷暴的雨
+        .thunderstorm_rain {
+            background: url('../../images/weather/thunderstorm_rain.png');
+        }
+        // 雷暴的轻度雨
+        .thunderstorm_light_rain {
+            background: url('../../images/weather/thunderstorm_light_rain.png');
+        }
+        // 雪
+        .snow {
+            background: url('../../images/weather/snow.png');
+        }
+        // 米雪
+        .granular_snow {
+            background: url('../../images/weather/granular_snow.png');
+        }
+        // 冰针
+        .ice_needle {
+            background: url('../../images/weather/ice_needle.png');
+        }
+        // 冰粒
+        .ice_particle {
+            background: url('../../images/weather/ice_particle.png');
+        }
+        // 冰雹
+        .hail {
+            background: url('../../images/weather/hail.png');
+        }
+        // 小冰粒
+        .small_ice_particle {
+            background: url('../../images/weather/small_ice_particle.png');
+        }
+        // 轻雾
+        .light_fog {
+            background: url('../../images/weather/light_fog.png');
+        }
+        // 雾
+        .fog {
+            background: url('../../images/weather/fog.png');
+        }
+        // 烟
+        .smoke {
+            background: url('../../images/weather/smoke.png');
+        }
+        // 浮尘
+        .floating_dust {
+            background: url('../../images/weather/floating_dust.png');
+        }
+        // 沙
+        .sand {
+            background: url('../../images/weather/sand.png');
+        }
+        // 霾
+        .haze {
+            background: url('../../images/weather/haze.png');
+        }
+        // 尘/沙旋风
+        .whirlwind {
+            background: url('../../images/weather/whirlwind.png');
+        }
+        // 漏斗云
+        .funnel_cloud {
+            background: url('../../images/weather/funnel_cloud.png');
+        }
+        // 尘暴
+        .dust_storm {
+            background: url('../../images/weather/dust_storm.png');
+        }
+        // 飑
+        .squall {
+            background: url('../../images/weather/squall.png');
+        }
+        // 沙暴
+        .sandstorm {
+            background: url('../../images/weather/sandstorm.png');
         }
     }
 }

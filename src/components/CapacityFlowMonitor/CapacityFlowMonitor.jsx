@@ -160,7 +160,7 @@ const CapacityFlowMonitor =(props) => {
         }else {
             return (
                 <List.Item className="moitor-col" key={item.key}>
-                    <ModalBox showDecorator = {false} title={`${item.title} (数据时间:${formatTimeString(item.generateTime)})`}className="monitor-box">
+                    <ModalBox showDecorator = {true} title={item.title} className="monitor-box">
                         <div className="actions">
                             <div onClick={()=>{console.log("sss")}} className="remove">
                                 <CloseCircleOutlined />
@@ -232,24 +232,15 @@ const CapacityFlowMonitor =(props) => {
 
     // 获取容流数据
     const requestCapacityFlowMonitorData = useCallback(() => {
-        const now = getFullTime(new Date());
 
-        // 小时差值
-        const diffHour = 8;
-        // 差值毫秒数
-        const diff = 1000*60*60*diffHour;
-        // 前8小时
-        const before = addStringTime(now, diff*-1)
-        // 后8小时
-        const after = addStringTime(now, diff*1);
-        const start = before+'00';
-        const end = after+'00';
-        // const nowDate = now.substring(0,8);
-        // const start = nowDate+'110000';
-        // const end = nowDate+'155900';
+        const now = getFullTime(new Date());
+        const nextDate = addStringTime(now, 1000*60*60*24).substring(0,8);
+        const nowDate = now.substring(0,8);
+        const start = nowDate+'050000';
+        const end =nextDate+'050000';
         const opt = {
             url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=IGADA,P40,ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLXYAR02,ZLXYAR07,ZLLLAR01,ZLLLAR02,W152&starttime='+ start+'&endtime='+end,
-            // url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=ZLXY,ZLLL&starttime='+ start+'&endtime='+end,
+            // url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=ZLXY,ZLLL,ZLXYAR01,ZLXYAR02,ZLXYAR07&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> {

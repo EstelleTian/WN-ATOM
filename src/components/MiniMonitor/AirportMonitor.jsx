@@ -219,6 +219,7 @@ function AirportMonitor(props) {
                 {
                     name: 'capacity',
                     type: 'line',
+                    symbol: "none",
                     data: capacityData,
                 }
             ]
@@ -227,6 +228,60 @@ function AirportMonitor(props) {
         return option;
 
     };
+
+
+    const getWeatherIcon = function () {
+        let icon = "";
+        if(weather ==="晴"){
+            icon = "sunny";
+        }else if(weather ==="毛毛雨"){
+            icon = "drizzle";
+        }else if(weather ==="雨"){
+            icon = "rain";
+        }else if(weather ==="雷暴的雨"){
+            icon = "thunderstorm_rain";
+        }else if(weather ==="雷暴的轻度雨"){
+            icon = "thunderstorm_light_rain";
+        }else if(weather ==="雪"){
+            icon = "snow";
+        }else if(weather ==="米雪"){
+            icon = "granular_snow";
+        }else if(weather ==="冰针"){
+            icon = "ice_needle";
+        }else if(weather ==="冰粒"){
+            icon = "ice_particle";
+        }else if(weather ==="冰雹"){
+            icon = "hail";
+        }else if(weather ==="小冰粒"){
+            icon = "small_ice_particle";
+        }else if(weather ==="轻雾"){
+            icon = "light_fog";
+        }else if(weather ==="雾"){
+            icon = "fog";
+        }else if(weather ==="烟"){
+            icon = "smoke";
+        }else if(weather ==="浮尘"){
+            icon = "floating_dust";
+        }else if(weather ==="沙"){
+            icon = "sand";
+        }else if(weather ==="霾"){
+            icon = "haze";
+        }else if(weather ==="尘/沙旋风"){
+            icon = "whirlwind";
+        }else if(weather ==="漏斗云"){
+            icon = "funnel_cloud";
+        }else if(weather ==="尘暴"){
+            icon = "dust_storm";
+        }else if(weather ==="飑"){
+            icon = "squall";
+        }else if(weather ==="沙暴"){
+            icon = "sandstorm";
+        }
+        return icon;
+    }
+
+    const weatherIcon = getWeatherIcon();
+
 
     return (
         <div className="monitor">
@@ -247,7 +302,11 @@ function AirportMonitor(props) {
                         {`正常率 ${(depRatio*100).toFixed(0)}%`}
                     </div>
                 </div>
-                <div className="weather">{weather}</div>
+
+                { isValidVariable(weather) ? <div className="weather">
+                    <div className="text">{weather}</div>
+                    <div className= { `weather-icon ${weatherIcon}`}></div>
+                </div> : "" }
             </div>
 
         </div>

@@ -11,7 +11,7 @@ import { inject, observer } from 'mobx-react'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import {  message, Col, Row, Spin} from 'antd'
-import { getFullTime, isValidObject } from 'utils/basic-verify'
+import { getFullTime, addStringTime, isValidObject } from 'utils/basic-verify'
 import PerformanceItemHeader from './PerformanceItemHeader'
 import List from './List'
 import PieChart from './PieChart'
@@ -79,27 +79,30 @@ const FlightPerformance =(props) => {
     const planData = [
         {
             id:"sDepNum",
-            color:"#1890ff",
+            iconType: 'takeoff',
+            // color:"#1890ff",
             des:"计划起飞",
             value:sDepNum,
             unit: "架次"
         },{
             id:"sArrNum",
-            color: "#13c2c2",
+            iconType: 'landing',
             des:"计划落地",
             value:sArrNum,
             unit: "架次"
         },
         {
             id:"sAOvfNum",
-            color: "#2fc25b",
+            iconType: 'area-over',
+            // color: "#2fc25b",
             des:"飞越本区",
             value:sAOvfNum,
             unit: "架次"
         },
         {
             id:"sOvfNum",
-            color: "#facc14",
+            iconType: 'international-over',
+            // color: "#facc14",
             des:"国际飞越",
             value:sOvfNum,
             unit: "架次"
@@ -110,20 +113,23 @@ const FlightPerformance =(props) => {
     const performance = [
         {
             id:"depRatio",
-            color:"#2fc25b",
+            iconType: 'normal-takeoff',
+            // color:"#2fc25b",
             des:"起飞正常",
             value:(depRatio*100).toFixed(0),
             unit: "%"
         },{
             id:"groundDelay",
-            color:"#facc14",
+            iconType: 'ground-delay',
+            // color:"#facc14",
             des:"地面延误",
             value:groundDelay,
             unit: "架次"
         },
         {
             id:"cplNum",
-            color:"#f04864",
+            iconType: 'return',
+            // color:"#f04864",
             des:"返航备降",
             value:cplNum,
             unit: "架次"
@@ -200,9 +206,10 @@ const FlightPerformance =(props) => {
     const requestFlightPerformanceData = useCallback(() => {
         //TODO 时间范围取值需要使用服务器时间，目前使用的终端时间
         const now = getFullTime(new Date());
+        const nextDate = addStringTime(now, 1000*60*60*24).substring(0,8);
         const nowDate = now.substring(0,8);
-        const start = nowDate+'000000';
-        const end =now;
+        const start = nowDate+'050000';
+        const end =nextDate+'050000';
 
         const opt = {
             url: ReqUrls.performanceDataUrl + '?targets=ZLXYACC,ZLLLACC&starttime='+ start+'&endtime='+end,
