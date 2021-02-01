@@ -51,6 +51,7 @@
     .bottom {
         flex: auto;
         height: 654px;
+        overflow-y: auto;
         .capacity-contianer {
             flex: 1 1 0%;
             height: 100%;
