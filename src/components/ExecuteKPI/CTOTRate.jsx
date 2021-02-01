@@ -99,7 +99,6 @@ function CTOTRate(props){
         return getRateList(item);
     })
 
-    console.log(apRate)
 
 
     const totalChartConfig={

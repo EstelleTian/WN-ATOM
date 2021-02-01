@@ -25,7 +25,7 @@ function NavBar(props){
     const getHeader =() => {
         const { location, title } = props;
         const pathname = location.pathname || "";
-        console.log( "当前url是：",props.location.pathname );
+        // console.log( "当前url是：",props.location.pathname );
         //放行监控页面
         if( pathname === "/fangxing" ){
             return <div className="layout-row space-between multi_nav">

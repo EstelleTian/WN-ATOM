@@ -714,66 +714,62 @@ function RestrictionForm(props){
 
             </Form>
              <div className="footer" style={{width:props.width}}>
+                <Button
+                    className="r_btn btn_import"
+                    type="primary"
+                    onClick={handleImportClick}
+                    disabled ={ importButtonDisable }
+                >
+                    { props.btnName || "导入" }
+                </Button>
+                <Modal
+                    title={ props.btnName || "导入" }
+                    visible={isModalVisible}
+                    maskClosable={false}
+                    style={{ top: 200 }}
+                    onOk ={ handleImportFormData }
+                    onCancel={handleCancel}
+                    confirmLoading = { confirmLoading }
+                    >
+                    {
+                        props.btnName ? <p>{`确定${props.btnName}?`}</p> : <p>确定导入当前流控?</p>
+                    }
+                </Modal>
+                {
+                    showIgnoreBtn
+                        ? <div>
                             <Button
-                                className="r_btn btn_import"
-                                type="primary"
-                                onClick={handleImportClick}
-                                disabled ={ importButtonDisable }
+                                className="r_btn btn_ignore"
+                                // type="primary"
+                                onClick={()=>{
+                                    setIsIgnoreModalVisible(true)
+                                }}
+                                disabled ={ isIgnoreModalVisible }
                             >
-                                { props.btnName || "导入" }
+                                忽略
                             </Button>
                             <Modal
-                                title={ props.btnName || "导入" }
-                                visible={isModalVisible}
+                                title={ "忽略" }
+                                visible={isIgnoreModalVisible}
                                 maskClosable={false}
                                 style={{ top: 200 }}
-                                onOk ={ handleImportFormData }
-                                onCancel={handleCancel}
-                                confirmLoading = { confirmLoading }
+                                onOk ={ e=>{
+                                    // 隐藏模态框显示
+                                    setIsIgnoreModalVisible(false);
+                                    closeControlDetail( props.message.id );
+
+                                } }
+                                onCancel={e=>{
+                                    // 隐藏模态框显示
+                                    setIsIgnoreModalVisible(false);
+                                }}
+                                confirmLoading = { false }
                                 >
-                                {
-                                    props.btnName ? <p>{`确定${props.btnName}?`}</p> : <p>确定导入当前流控?</p>
-                                }
+                                确定忽略当前流控?
                             </Modal>
-                            {
-                                showIgnoreBtn
-                                    ? <div>
-                                        <Button
-                                            className="r_btn btn_ignore"
-                                            // type="primary"
-                                            onClick={()=>{
-                                                setIsIgnoreModalVisible(true)
-                                            }}
-                                            disabled ={ isIgnoreModalVisible }
-                                        >
-                                            忽略
-                                        </Button>
-                                        <Modal
-                                            title={ "忽略" }
-                                            visible={isIgnoreModalVisible}
-                                            maskClosable={false}
-                                            style={{ top: 200 }}
-                                            onOk ={ e=>{
-                                                // 隐藏模态框显示
-                                                setIsIgnoreModalVisible(false);
-                                                closeControlDetail( props.message.id );
-
-                                            } }
-                                            onCancel={e=>{
-                                                // 隐藏模态框显示
-                                                setIsIgnoreModalVisible(false);
-                                            }}
-                                            confirmLoading = { false }
-                                            >
-                                            确定忽略当前流控?
-                                        </Modal>
-                                    </div>
-                            : "" }
                         </div>
-                    
-           
-
-
+                : "" }
+            </div>
         </div>
     )
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-01-25 08:49:23
+ * @LastEditTime: 2021-01-28 15:51:33
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -45,7 +45,7 @@ function SchemeList (props){
         setVisible(flag);
         //选中方案id
         setModalId(id);
-    },[]);
+    });
 
     //请求错误处理
     const requestErr = useCallback((err, content) => {
@@ -53,7 +53,7 @@ function SchemeList (props){
             content,
             duration: 4,
         });
-    },[]);
+    });
 
     //更新--方案列表 store数据
     const updateSchemeListData = useCallback(data => {
@@ -74,7 +74,7 @@ function SchemeList (props){
             schemeListData.updateList(list, generateTime);
         }
 
-    },[]);
+    });
     //更新--航班列表 store数据
     const updateFlightTableData = useCallback( ( flightData, id )  => {
         let  { flights, generateTime } = flightData;
@@ -83,7 +83,7 @@ function SchemeList (props){
         }else{
             props.flightTableData.updateFlightsList([], generateTime, id);
         }
-    },[]);
+    });
     //更新--执行KPI store数据
     const updateExecuteKPIData = useCallback(executeKPIData => {
         if( isValidObject(executeKPIData) ){
@@ -96,7 +96,7 @@ function SchemeList (props){
             });
 
         }
-    },[]);
+    });
 
     //获取--方案列表
     const getSchemeList = useCallback(( startNextRefresh = false  ) => {
@@ -124,7 +124,7 @@ function SchemeList (props){
             },
         };
         requestGet(opt);
-    },[]);
+    });
     //获取--航班列表数据
     const requestFlightTableData = useCallback( ( id, resolve, reject ) => {
         // if( isValidVariable(id) ){
@@ -154,7 +154,7 @@ function SchemeList (props){
         request(opt);
         // }
 
-    },[]);
+    });
     //获取--执行KPI数据
     const requestExecuteKPIData = useCallback( ( id, resolve, reject ) => {
         const opt = {
@@ -177,7 +177,7 @@ function SchemeList (props){
             } ,
         };
         request(opt);
-    },[]);
+    });
 
     //高亮方案并获取航班数据和KPI数据
     const handleActive = useCallback(( id, title, from ) => {
@@ -206,13 +206,16 @@ function SchemeList (props){
 
         // }
 
-    },[]);
+    });
 
     // DidMount 激活方案列表id变化后，重新处理航班定时器
     useEffect(function(){
         const id = props.schemeListData.activeScheme.id || "";
         // console.log("航班列表 useEffect id变了:"+id);
         if( isValidVariable( props.schemeListData.activeScheme.id ) ){
+            if( !isValidVariable(props.flightTableData.timeoutId) ){
+                requestFlightTableData(id);
+            }
             // console.log("航班列表 清空定时器:"+props.flightTableData.timeoutId);
             clearInterval(props.flightTableData.timeoutId);
             props.flightTableData.timeoutId = "";
@@ -224,6 +227,10 @@ function SchemeList (props){
             },60 * 1000);
             // console.log("航班列表 配置定时器:"+timeoutid);
             props.flightTableData.timeoutId = timeoutid;
+        }else{
+            clearInterval(props.flightTableData.timeoutId);
+            props.flightTableData.timeoutId = "";
+            props.flightTableData.updateFlightsList([], "", "");
         }
     }, [ props.schemeListData.activeScheme.id ] );
 
@@ -232,6 +239,10 @@ function SchemeList (props){
         const id = props.schemeListData.activeScheme.id || "";
         // console.log("执行KPI useEffect id变了:"+id);
         if( isValidVariable( props.schemeListData.activeScheme.id ) ){
+            if( !isValidVariable(props.executeKPIData.timeoutId) ){
+                requestExecuteKPIData(id);
+            
+            }
             // console.log("执行KPI 清空定时器:"+props.flightTableData.timeoutId);
             clearInterval(props.executeKPIData.timeoutId);
             props.executeKPIData.timeoutId = "";
@@ -245,6 +256,10 @@ function SchemeList (props){
             },60 * 1000);
             // console.log("执行KPI 配置定时器:"+timeoutid);
             props.executeKPIData.timeoutId = timeoutid;
+        }else{
+            clearInterval(props.executeKPIData.timeoutId);
+            props.executeKPIData.timeoutId = "";
+            props.executeKPIData.updateExecuteKPIData({});
         }
     }, [ props.schemeListData.activeScheme.id ] );
 
@@ -268,7 +283,7 @@ function SchemeList (props){
     useEffect(function(){
 
         return function(){
-            console.log("方案列表卸载");
+            // console.log("方案列表卸载");
             clearInterval(props.flightTableData.timeoutId);
             props.flightTableData.timeoutId = "";
             clearInterval(props.executeKPIData.timeoutId);
@@ -327,7 +342,7 @@ function SchemeList (props){
             }
             Promise.all([p1, p2, p3]).then((values) => {
                 console.timeEnd("全局");
-                console.log(values);
+                // console.log(values);
                 props.systemPage.pageRefresh = false;
             });
 
@@ -345,7 +360,7 @@ function SchemeList (props){
             //检测 没有选中方案 则默认选中第一个方案
             if( !isValidVariable(id)  && sortedList.length > 0 ){
                 let id = sortedList[0].id + "";
-                console.log("未获取到id，选定第一个:",id);
+                // console.log("未获取到id，选定第一个:",id);
                 handleActive(id);
             }
         }

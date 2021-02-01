@@ -1,0 +1,34 @@
+.box_content{
+  overflow: visible!important;
+}
+.table_cont{
+  position: relative;
+  .opt_btns{
+    position: absolute;
+    right: 1rem;
+    top: -30px;
+    .reset{
+      margin-left: 1rem;
+    }
+  }
+  .yellow{
+    .ant-input{
+      background: rgb(146, 133, 16);
+    }
+    
+  }
+  //放大表格单元格样式
+  .ant-table-body{
+    tr>td.ant-table-cell{
+      font-size: 1.11rem;
+      padding: 2px 0;
+      .ant-input{
+        width: 50px;
+        text-align: center;
+        font-size: 1.11rem;
+        padding: 0;
+      }
+    }
+  }
+}
+

@@ -1,12 +1,12 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-26 09:16:20
+ * @LastEditTime: 2021-01-28 13:09:35
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
  */
-import React, {useEffect, useState, useCallback} from 'react'
+import React, {useEffect, useState, useCallback, useRef} from 'react'
 import ReactDom from 'react-dom';
 import { withRouter, Link } from 'react-router-dom'
 import { Button, Input, Table, message} from 'antd'
@@ -127,6 +127,8 @@ function WorkFlowList(props){
     const [ columns, setColumns ] = useState([]);
     const [ expandable, setExpandable ] = useState(false);
 
+    const timerId = useRef();
+
     const { systemPage, workFlowData } = props;
     const { activeTab } = workFlowData;
     const { user } = systemPage;
@@ -165,7 +167,7 @@ function WorkFlowList(props){
             dataIndex: "businessName",
             align: 'left',
             key: "businessName",
-            width: (screenWidth > 1920) ? 120 : 120,
+            width: (screenWidth > 1920) ? 150 : 150, 
 
         },
         {
@@ -174,7 +176,7 @@ function WorkFlowList(props){
             align: 'left',
             key: "steps",
             // width: (screenWidth > 1920) ? 70 : 70,
-            width: (screenWidth > 1920) ? 90 : 90,
+            width: (screenWidth > 1920) ? 70 : 70,
             // render: (text, record, index) => {
             //     return (
             //         <div className="steps_cell">{text}</div>
@@ -266,7 +268,7 @@ function WorkFlowList(props){
             dataIndex: "taskStatus",
             align: 'center',
             key: "taskStatus",
-            width: (screenWidth > 1920) ? 60 : 50,
+            width: (screenWidth > 1920) ? 40 : 40,
             render: (text, record, index) => {
                 let textClass = ""
                 if(text === "处理中"){
@@ -319,7 +321,13 @@ function WorkFlowList(props){
             const hisTasks = item.hisTasks || {}; //子任务集合
             const endTime = hisInstance.endTime || "";
             const processVariables = hisInstance.processVariables || {};
-            const businessName = processVariables.businessName || ""; //工作名称
+            let businessName = processVariables.businessName || ""; //工作名称
+            const processDefinitionName = hisInstance.processDefinitionName || ""; 
+            businessName = processDefinitionName + "("+businessName+")";
+            if(businessName === "()"){
+                businessName = "";
+            }
+
             const userNameCn = processVariables.userNameCn || ""; //发起人
             let taskStatus = "进行中"; //流程状态
             if( isValidVariable(endTime) ){
@@ -358,8 +366,14 @@ function WorkFlowList(props){
             const item = tasks[sid] || {};
             const instance = item.instance || {}; //工作流实例
             const instanceTasks = item.instanceTasks || {}; //子任务集合
+            
             const processVariables = instance.processVariables || {};
-            const businessName = processVariables.businessName || ""; //工作名称
+            let businessName = processVariables.businessName || ""; //工作名称
+            const processDefinitionName = instance.processDefinitionName || ""; 
+            businessName = processDefinitionName + "("+businessName+")";
+            if(businessName === "()"){
+                businessName = "";
+            }
             const userNameCn = processVariables.userNameCn || ""; //发起人
             let taskStatus = "处理中"; //流程状态
             //获取第一个hisTasks对象
@@ -457,6 +471,7 @@ function WorkFlowList(props){
             setColumns(todoColumns);
             //获取 待办数据
             requestDatas();
+           
         }
         else if( "finished" === activeTab ){
             setColumns(finishedColumns);
@@ -467,6 +482,15 @@ function WorkFlowList(props){
             // })
             //获取 办结数据
             requestDatas();
+        }
+        if( isValidVariable(activeTab) ){
+            timerId.current = setInterval(()=>{
+                requestDatas();
+            }, 30*1000)
+        }
+        return () => {
+            clearInterval(timerId.current)
+            timerId.current = null;
         }
     },[ props.systemPage.user, activeTab ]);
     

@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-01-07 20:19:37
+ * @LastEditTime: 2021-01-28 15:31:36
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \WN-ATOM\src\components\ExecuteKPI\ImpactFlights.jsx
+ */
 import React from 'react'
 import {Col, Row} from "antd";
 

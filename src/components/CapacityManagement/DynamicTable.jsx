@@ -4,6 +4,7 @@ import { AlertOutlined  } from '@ant-design/icons';
 import { Table, Input, Button, Popconfirm, Form } from "antd";
 import { getFullTime, isValidVariable, formatTimeString, millisecondToDate } from 'utils/basic-verify'
 import { REGEXP } from 'utils/regExpUtil'
+import data from '../../mockdata/dynamic'
 
 const EditableContext = React.createContext(null);
 
@@ -203,6 +204,7 @@ const DynamicTable = (props) => {
     
 
     useEffect(() => {
+        console.log(data)
         capacity.setDynamicTableColumns( getColumns() );
         
         capacity.setDynamicTableDatas( convertToTableData() );
