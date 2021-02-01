@@ -73,12 +73,12 @@ const LineChart =(props) => {
             tooltip: {
                 trigger: 'axis',
                 backgroundColor:'rgba(90, 90, 90, 0.8)',
-                axisPointer: {
-                    type: 'cross',
-                    label: {
-                        backgroundColor: '#6a7985'
-                    }
-                }
+                // axisPointer: {
+                //     type: 'cross',
+                //     label: {
+                //         backgroundColor: '#6a7985'
+                //     }
+                // }
             },
             legend: {
                 data: ['起降',  '飞越本区', '国际飞越'],
