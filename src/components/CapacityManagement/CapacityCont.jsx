@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-02-02 11:16:26
+ * @LastEditTime: 2021-02-02 17:31:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -122,7 +122,7 @@ function CapacityCont (props){
                         <ModalBox
                             title="静态容量——默认配置"
                             style={{
-                                height: 160
+                                height: 140
                             }}
                             showDecorator = {true}
                             className="static_cap_modal"
@@ -140,7 +140,7 @@ function CapacityCont (props){
                             <CapacityTable  type="line24"/>
                         </ModalBox>
                     </div>
-                   {/* <div className="right_wrapper">
+                   <div className="right_wrapper">
                         <ModalBox
                             title="动态容量——时段配置"
                             // style={{
@@ -151,7 +151,7 @@ function CapacityCont (props){
                         >
                             <CapacityTable  type="line24"/>
                         </ModalBox>
-                    </div>*/}
+                    </div>
                    
                 </div>
             

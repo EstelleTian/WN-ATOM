@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-02-02 14:32:05
+ * @LastEditTime: 2021-02-02 17:31:30
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -101,19 +101,17 @@ const EditableCell = ({
     );
 };
 //动态容量配置
-class CapacityTable extends React.Component{
-    constructor(props){
-        super(props);
-        this.mergedColumns = [];
-        this.state = {
-            loading: false,
-            tableData: [],
-            tableHeight: 0,
-            editable: false
-        };
-    }
-    //处理列配置
-    getColumns=()=>{
+const CapacityTable = (props) => {
+    const [ loading, setLoading ] = useState(false); 
+    const [ tableData, setTableData ] = useState([]); 
+    
+    let [ tableHeight, setTableHeight ] = useState(0);
+    let [ editable, setEditable] = useState(false);
+    const [ form ] = Form.useForm();
+    const { capacity } = props;
+
+     //处理列配置
+    const getColumns = () => {
         let cColumns = [
             {
                 title: "时间",
@@ -195,36 +193,39 @@ class CapacityTable extends React.Component{
         return cColumns
     }
 
-    handleTableHeight=()=>{
-        if( this.props.type === "line1" ){
-            this.setState({
-                tableHeight: 100
-            })
-         }else if( this.props.type === "line24" ){
+    //获取数据
+    useEffect(() => {
+         if( props.type === "line1" ){
+            setTableData( data1.list || []);
+         }else if( props.type === "line24" ){
+            setTableData( data24.list || []);
+        }
+    }, [])
+    useEffect(() => {
+        if( props.type === "line1" ){
+            setTableHeight(80)
+         }else if( props.type === "line24" ){
             const dom = document.getElementsByClassName("static_cap_modal_24")
             const boxContent = dom[0].getElementsByClassName("box_content")
-            let height = boxContent[0].offsetHeight - 80;
-            this.setState({
-                tableHeight: height
-            })
+            let height = boxContent[0].offsetHeight - 65;
+            setTableHeight( height );
         }
-    }
 
-    handleSave=(row)=>{
+    }, [tableHeight]);
+
+    const handleSave = (row) => {
         console.log("保存row", row);
-        const newData = [...this.state.tableData];
+        const newData = [...tableData];
         const index = newData.findIndex((item) => row.key === item.key);
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
-        this.setState({
-            tableData: newData
-        })
+        setTableData(newData)
 
     };
-    
-    updateOrgTableDatas=()=>{
+
+    const updateOrgTableDatas = () => {
         let newTableData = [];
-        this.state.tableData.map( item => {
+        tableData.map( item => {
             let values = item;
             let timeObj = JSON.parse(values.time);
             values.time = timeObj.time;
@@ -232,14 +233,12 @@ class CapacityTable extends React.Component{
             values.time = newStr;
             newTableData.push(values);
         })
-        this.setState({
-            tableData: newTableData
-        })
+        setTableData(newTableData);
     }
 
-    resetOrgTableDatas=()=>()=>{
+    const resetOrgTableDatas = () => {
         let newTableData = [];
-        this.state.tableData.map( item => {
+        tableData.map( item => {
             let obj = {};
             let timeStr = item.time;
             let timeObj = JSON.parse(timeStr);
@@ -247,91 +246,68 @@ class CapacityTable extends React.Component{
             obj.time = timeStr;
             newTableData.push(obj);
         })
-        // this.setState({
-        //     tableData: newTableData
-        // })
+        setTableData(newTableData);
     }
 
-    componentDidMount(){
-        if( this.props.type === "line1" ){
-            this.setState({
-                tableData:data1.list || []
-            })
-         }else if( this.props.type === "line24" ){
-            this.setState({
-                tableData:data24.list || []
-            })
+    const mergedColumns = getColumns().map((col) => {
+        if (!col.editable) {
+            return col;
         }
-        this.handleTableHeight();
-        this.mergedColumns = this.getColumns().map((col) => {
-            if (!col.editable) {
-                return col;
-            }
-    
-            return {
-                ...col,
-                onCell: (record) => ({
-                    record,
-                    dataIndex: col.dataIndex,
-                    title: col.title,
-                    editing: this.state.editable,
-                    handleSave: this.handleSave,
-                }),
-            };
-        });
-    }
-    componentDidUpdate(){
 
-    }
-    render(){
-        console.log("render~~");
-        
-        return (
-            <div className="table_cont">
-                <div className="opt_btns">
-                    {
-                        !this.state.editable
-                            ? <Button className="" size="small" type="primary" onClick={e =>{
-                                this.setState({
-                                    editable: true
-                                })
-                            }}>修改 </Button>
-                            : <span>
-                                <Button className="" size="small" type="primary"  onClick={e =>{
-                                    this.setState({
-                                        editable: false
-                                    })
-                                    //更新初始化数据
-                                    // this.updateOrgTableDatas()
-                                }}>保存 </Button>
-                                <Button className="reset" size="small" onClick={ this.resetOrgTableDatas() }>重置 </Button>
-                            </span>
-                    }
-    
-                </div>
-                    <Table
-                        components={{
-                            body: {
-                                row: EditableRow,
-                                cell: EditableCell,
-                            },
-                        }}
-                        loading={this.state.loading}
-                        columns={ this.mergedColumns }
-                        dataSource={ this.state.tableData }
-                        size="small"
-                        bordered
-                        pagination={false}
-                        scroll={{
-                            x: 350,
-                            y: this.state.tableHeight
-                        }}
-                    />
-    
+        return {
+            ...col,
+            onCell: (record) => ({
+                record,
+                dataIndex: col.dataIndex,
+                title: col.title,
+                editing: editable,
+                handleSave,
+            }),
+        };
+    });
+    return (
+        <div className="table_cont">
+            <div className="opt_btns">
+                {
+                    !editable
+                        ? <Button className="" size="small" type="primary" onClick={e =>{
+                            setEditable(true);
+                        }}>修改 </Button>
+                        : <span>
+                            <Button className="" size="small" type="primary"  onClick={e =>{
+                                setEditable(false);
+                                //更新初始化数据
+                                updateOrgTableDatas()
+                            }}>保存 </Button>
+                            <Button className="reset" size="small" onClick={ e =>{
+                                setEditable(false);
+                                resetOrgTableDatas();
+                            } }> 取消 </Button>
+                        </span>
+                }
+
             </div>
-          );
-    
-    }
+                <Table
+                    components={{
+                        body: {
+                            row: EditableRow,
+                            cell: EditableCell,
+                        },
+                    }}
+                    loading={loading}
+                    columns={ mergedColumns }
+                    dataSource={ tableData }
+                    size="small"
+                    bordered
+                    pagination={false}
+                    scroll={{
+                        x: 350,
+                        y: tableHeight
+                    }}
+                />
+
+        </div>
+      );
 
 }
 

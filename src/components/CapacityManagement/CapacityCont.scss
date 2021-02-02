@@ -29,6 +29,7 @@
         .left_wrapper,.right_wrapper{
             @include display_flex(column);
             @include flex();
+            align-items: center;
         }
         .static_modal{
             width: 280px;
