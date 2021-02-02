@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-02-01 09:44:21
+ * @LastEditTime: 2021-02-02 14:32:05
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
  */
 
-import React, { useContext, useState, useEffect, useRef, useCallback } from "react";
+import React, { useContext, useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {inject, observer} from 'mobx-react'
 import { AlertOutlined  } from '@ant-design/icons';
 import { Table, Input, Button, Popconfirm, Form } from "antd";
@@ -67,8 +67,6 @@ const EditableCell = ({
         try {
             let subvalues = await form.validateFields();
             let values = { ...record, ...subvalues };
-
-
             handleSave(values);
         } catch (errInfo) {
             
@@ -103,17 +101,19 @@ const EditableCell = ({
     );
 };
 //动态容量配置
-const CapacityTable = (props) => {
-    const [ loading, setLoading ] = useState(false); 
-    const [ tableData, setTableData ] = useState(false); 
-    
-    let [ tableHeight, setTableHeight ] = useState(0);
-    let [ editable, setEditable] = useState(false);
-    const [ form ] = Form.useForm();
-    const { capacity } = props;
-
-     //处理列配置
-    const getColumns = () => {
+class CapacityTable extends React.Component{
+    constructor(props){
+        super(props);
+        this.mergedColumns = [];
+        this.state = {
+            loading: false,
+            tableData: [],
+            tableHeight: 0,
+            editable: false
+        };
+    }
+    //处理列配置
+    getColumns=()=>{
         let cColumns = [
             {
                 title: "时间",
@@ -121,7 +121,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "time",
                 fixed: 'left',
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 30 : 30,
                 render: (text, record, index) => {
                     const time = JSON.parse( record.time );
                     const val = time.time || "全天";
@@ -137,7 +137,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "hourMaxDEPARR",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
                 
                 
             },
@@ -147,7 +147,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "hourMaxDEP",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
                 
                 
             },
@@ -157,7 +157,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "hourMaxARR",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
 
                 
             },
@@ -167,7 +167,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "quarterMaxDEPARR",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
 
                 
             },
@@ -177,7 +177,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "quarterMaxDEP",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
 
                 
             },
@@ -187,7 +187,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "quarterMaxARR",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
 
                 
             },
@@ -195,38 +195,36 @@ const CapacityTable = (props) => {
         return cColumns
     }
 
-    //获取数据
-    useEffect(() => {
-         if( props.type === "line1" ){
-            setTableData( data1.list || []);
-         }else if( props.type === "line24" ){
-            setTableData( data24.list || []);
-        }
-    }, [])
-    useEffect(() => {
-        if( props.type === "line1" ){
-            setTableHeight(100)
-         }else if( props.type === "line24" ){
+    handleTableHeight=()=>{
+        if( this.props.type === "line1" ){
+            this.setState({
+                tableHeight: 100
+            })
+         }else if( this.props.type === "line24" ){
             const dom = document.getElementsByClassName("static_cap_modal_24")
             const boxContent = dom[0].getElementsByClassName("box_content")
-            let height = boxContent[0].offsetHeight - 33;
-            setTableHeight( height );
+            let height = boxContent[0].offsetHeight - 80;
+            this.setState({
+                tableHeight: height
+            })
         }
+    }
 
-    }, [tableHeight]);
-
-    const handleSave = (row) => {
-        const newData = [...tableData];
+    handleSave=(row)=>{
+        console.log("保存row", row);
+        const newData = [...this.state.tableData];
         const index = newData.findIndex((item) => row.key === item.key);
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
-        setTableData(newData)
+        this.setState({
+            tableData: newData
+        })
 
     };
-
-    const updateOrgTableDatas = () => {
+    
+    updateOrgTableDatas=()=>{
         let newTableData = [];
-        tableData.map( item => {
+        this.state.tableData.map( item => {
             let values = item;
             let timeObj = JSON.parse(values.time);
             values.time = timeObj.time;
@@ -234,12 +232,14 @@ const CapacityTable = (props) => {
             values.time = newStr;
             newTableData.push(values);
         })
-        setTableData(newTableData);
+        this.setState({
+            tableData: newTableData
+        })
     }
 
-    const resetOrgTableDatas = () => {
+    resetOrgTableDatas=()=>()=>{
         let newTableData = [];
-        tableData.map( item => {
+        this.state.tableData.map( item => {
             let obj = {};
             let timeStr = item.time;
             let timeObj = JSON.parse(timeStr);
@@ -247,66 +247,91 @@ const CapacityTable = (props) => {
             obj.time = timeStr;
             newTableData.push(obj);
         })
-        setTableData(newTableData);
+        // this.setState({
+        //     tableData: newTableData
+        // })
     }
 
-    const mergedColumns = getColumns().map((col) => {
-        if (!col.editable) {
-            return col;
+    componentDidMount(){
+        if( this.props.type === "line1" ){
+            this.setState({
+                tableData:data1.list || []
+            })
+         }else if( this.props.type === "line24" ){
+            this.setState({
+                tableData:data24.list || []
+            })
         }
+        this.handleTableHeight();
+        this.mergedColumns = this.getColumns().map((col) => {
+            if (!col.editable) {
+                return col;
+            }
+    
+            return {
+                ...col,
+                onCell: (record) => ({
+                    record,
+                    dataIndex: col.dataIndex,
+                    title: col.title,
+                    editing: this.state.editable,
+                    handleSave: this.handleSave,
+                }),
+            };
+        });
+    }
+    componentDidUpdate(){
 
-        return {
-            ...col,
-            onCell: (record) => ({
-                record,
-                dataIndex: col.dataIndex,
-                title: col.title,
-                editing: editable,
-                handleSave,
-            }),
-        };
-    });
-    return (
-        <div className="table_cont">
-            <div className="opt_btns">
-                {
-                    !editable
-                        ? <Button className="" size="small" type="primary" onClick={e =>{
-                            setEditable(true);
-                        }}>修改 </Button>
-                        : <span>
-                            <Button className="" size="small" type="primary"  onClick={e =>{
-                                setEditable(false);
-                                //更新初始化数据
-                                updateOrgTableDatas()
-                            }}>保存 </Button>
-                            <Button className="reset" size="small" onClick={e =>{ 
-                                resetOrgTableDatas()
-                             }}>重置 </Button>
-                        </span>
-                }
-
+    }
+    render(){
+        console.log("render~~");
+        
+        return (
+            <div className="table_cont">
+                <div className="opt_btns">
+                    {
+                        !this.state.editable
+                            ? <Button className="" size="small" type="primary" onClick={e =>{
+                                this.setState({
+                                    editable: true
+                                })
+                            }}>修改 </Button>
+                            : <span>
+                                <Button className="" size="small" type="primary"  onClick={e =>{
+                                    this.setState({
+                                        editable: false
+                                    })
+                                    //更新初始化数据
+                                    // this.updateOrgTableDatas()
+                                }}>保存 </Button>
+                                <Button className="reset" size="small" onClick={ this.resetOrgTableDatas() }>重置 </Button>
+                            </span>
+                    }
+    
+                </div>
+                    <Table
+                        components={{
+                            body: {
+                                row: EditableRow,
+                                cell: EditableCell,
+                            },
+                        }}
+                        loading={this.state.loading}
+                        columns={ this.mergedColumns }
+                        dataSource={ this.state.tableData }
+                        size="small"
+                        bordered
+                        pagination={false}
+                        scroll={{
+                            x: 350,
+                            y: this.state.tableHeight
+                        }}
+                    />
+    
             </div>
-                <Table
-                    components={{
-                        body: {
-                            row: EditableRow,
-                            cell: EditableCell,
-                        },
-                    }}
-                    loading={loading}
-                    columns={ mergedColumns }
-                    dataSource={ tableData }
-                    size="small"
-                    bordered
-                    pagination={false}
-                    scroll={{
-                        y: tableHeight
-                    }}
-                />
-
-        </div>
-      );
+          );
+    
+    }
 
 }
 

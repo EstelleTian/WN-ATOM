@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-21 14:25:55
+ * @LastEditTime: 2021-02-01 16:16:40
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -183,6 +183,22 @@ let FLIGHTIDPopover = (props) => {
                         ? <Button loading={poolLoad} className="c-btn c-btn-red" onClick={ () => { handlePool("direct-out-pool", record, "移出等待池") } }>移出等待池</Button>
                         : ""
                 }
+                <Button loading={poolLoad} className="c-btn c-btn-green" 
+                    onClick={ () => {
+                        handlePool("direct-out-pool", record, "申请移出等待池") 
+                    } }
+                >申请移出等待池</Button>
+                <Button loading={poolLoad} className="c-btn c-btn-blue" 
+                    onClick={ () => {
+                        handlePool("direct-out-pool", record, "批复移出等待池") 
+                    } }
+                >批复移出等待池</Button>
+                <Button loading={poolLoad} className="c-btn c-btn-red" 
+                    onClick={ () => {
+                        handlePool("direct-out-pool", record, "拒绝移出等待池") 
+                    } }
+                >拒绝移出等待池</Button>
+
             </div>
         )
     });

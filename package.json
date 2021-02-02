@@ -24,6 +24,7 @@
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
     "moment": "^2.24.0",
+    "normalize.css": "^8.0.1",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "prop-types": "^15.7.2",
     "qs": "^6.6.0",

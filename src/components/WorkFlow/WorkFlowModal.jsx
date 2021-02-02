@@ -181,7 +181,7 @@ const WorkFlowModal = (props) => {
             footer = {
                 <div>
                     <Button type="primary" onClick={ closeModal }>确认</Button>
-                    <Button onClick={ ()=>{ alert("建设中,敬请期待!")} } style={{ float: 'left'}}>窗口模式</Button>
+                    {/*<Button onClick={ ()=>{ alert("建设中,敬请期待!")} } style={{ float: 'left'}}>窗口模式</Button>*/}
                 </div>
             }
         >

@@ -22,19 +22,24 @@
     @include display_flex(column);
     @include flex();
     margin: 0 auto;
-    width: 1300px;
+    width: 100%;
     .set_top{
-        @include display_flex(column);
+        @include display_flex();
         @include flex();
+        .left_wrapper,.right_wrapper{
+            @include display_flex(column);
+            @include flex();
+        }
         .static_modal{
             width: 280px;
-            margin: 0.5rem;
+            // margin: 0.5rem;
         }
         .dynamic_modal{
             @include flex();
         }
         .dynamic_modal, .static_cap_modal{
             margin: 0.5rem;
+            width: 750px;
             .ant-table-thead{
                 th{
                     font-size: 1rem;
@@ -45,7 +50,7 @@
             }
         }
         .static_cap_modal_24{
-           
+            @include flex();
         }
     }
     .cap_part{

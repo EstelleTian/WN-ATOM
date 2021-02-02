@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback } from 'react'
 import { message, Button, Table, Spin } from "antd";
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
+import { openConfirmFrame, openTimeSlotFrameWithFlightId } from 'utils/client'
 import { requestGet } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import { getFullTime, isValidVariable, formatTimeString, millisecondToDate } from 'utils/basic-verify'
@@ -123,7 +124,7 @@ const WorkFlowContent = (props) => {
         const hisInstance = data.hisInstance || {};
         setInstance(hisInstance);
         const hisTasks = data.hisTasks || [];
-        console.log("hisTasks",hisTasks);
+        // console.log("hisTasks",hisTasks);
         // if( !isValidObject(hisInstance) ){
         //     //取error
         //     const error = data.error || {};
@@ -173,7 +174,7 @@ const WorkFlowContent = (props) => {
             method: 'GET',
             params:{},
             resFunc: (data)=> {
-                console.log( data );
+                // console.log( data );
                 updateDetailData(data);
                 setLoading(false);
             },
@@ -190,7 +191,7 @@ const WorkFlowContent = (props) => {
     },[businessName]);
 
     useEffect(function(){
-        console.log("modalId:"+modalId);
+        // console.log("modalId:"+modalId);
         if( isValidVariable( modalId ) ){
             //根据modalId获取工作流详情
             requestSchemeDetail( modalId );
@@ -199,32 +200,31 @@ const WorkFlowContent = (props) => {
     },[ modalId ]);
 
     //根据不同类型调整到不同窗口
-    const openHandleWind = useCallback(() => {
-        alert("建设中...");
-        const instance = data.hisInstance || {};
-         const processDefinitionKey = data.processDefinitionKey || "";
-         const businessKey = data.businessKey || ""; //方案id
+    const openHandleWind = () => {
+
+         const processDefinitionKey = instance.processDefinitionKey || "";
+         const businessKey = instance.businessKey || ""; //方案id
          const processVariables = instance.processVariables || {};
          switch(processDefinitionKey){
              case "FlightApprovalProcess": //航班审批流程
-                const tacticId = processVariables.tacticId || "";//航班对应方案id
+                const tacticId = processVariables.tacticId || ""; //航班对应方案id
                 const fmeId = processVariables.fmeId || "";//航班id
-                
+                openTimeSlotFrameWithFlightId(tacticId, fmeId);
                 break;
              case "SchemeApprovalProcess": //方案审批流程
+
+                openConfirmFrame( businessKey );
                 
-             break;
+                break;
              case "CapacityApprovalProcess": //容量审批流程
              
              break;
-             
          }
-         console.log(orgdata);
 
         
-    },[]);
+    };
 
-    console.log("isValidVariable(endTime) ",isValidVariable(endTime) );
+    // console.log("isValidVariable(endTime) ",isValidVariable(endTime) );
     return (
         <Spin spinning={loading} >
             <div className="workflow_wind_cont">
@@ -258,13 +258,21 @@ const WorkFlowContent = (props) => {
                         isValidVariable(endTime) ? "" :
                         <Button type="primary" className="btn_confirm" onClick={ e => {
                             openHandleWind();
-                            props.window.hide();
+                            if( isValidVariable(props.window) ){
+                                props.window.hide();
+                            }
+                            // else{
+                            //     window.close();
+                            // }
+                            
                         } }>主办</Button>
                     }
-                    {
+                     {/**{
                         from === "simple" ? "" : 
                             <Button onClick={ (e)=>{ 
-                                props.window.hide();
+                                if( isValidVariable(props.window) ){
+                                    props.window.hide();
+                                }
                                 if( source === "fangxing"){ //从放行监控点击窗口模式来到工作流详情
                                    window.open( "/#/workflow_detail/fangxing/"+modalId ,"_blank");
                                 }else{
@@ -275,8 +283,8 @@ const WorkFlowContent = (props) => {
                             } }>
                                 窗口模式
                             </Button>
-                    }
-                    {
+                    }*/}
+                 {/**    {
                         processDefinitionKey === "FlightApprovalProcess"
                         ? <Button type="primary" className="" onClick={ e => {
                             // openHandleWind();
@@ -300,7 +308,7 @@ const WorkFlowContent = (props) => {
                             alert("建设中...");
                             props.window.hide();
                         } }>查看容量监控</Button> : ""
-                    }
+                    }*/}
                     
                 </div>
                 

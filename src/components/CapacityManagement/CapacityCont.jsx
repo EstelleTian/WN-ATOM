@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-02-01 09:56:55
+ * @LastEditTime: 2021-02-02 11:16:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -118,26 +118,41 @@ function CapacityCont (props){
                     >
                         <StaticSetting pane={pane}/>
                     </ModalBox>*/}
-                    <ModalBox
-                        title="静态容量——默认配置"
-                        style={{
-                            height: 120
-                        }}
-                        showDecorator = {true}
-                        className="static_cap_modal"
-                    >
-                        <CapacityTable type="line1"/>
-                    </ModalBox>
-                    <ModalBox
-                        title="静态容量——时段配置"
-                        // style={{
-                        //     height: (screenWidth > 1920) ? 1040 : 820,
-                        // }}
-                        showDecorator = {true}
-                        className="static_cap_modal static_cap_modal_24"
-                    >
-                        <CapacityTable  type="line24"/>
-                    </ModalBox>
+                    <div className="left_wrapper">
+                        <ModalBox
+                            title="静态容量——默认配置"
+                            style={{
+                                height: 160
+                            }}
+                            showDecorator = {true}
+                            className="static_cap_modal"
+                        >
+                            <CapacityTable type="line1"/>
+                        </ModalBox>
+                        <ModalBox
+                            title="静态容量——时段配置"
+                            // style={{
+                            //     height: (screenWidth > 1920) ? 1040 : 820,
+                            // }}
+                            showDecorator = {true}
+                            className="static_cap_modal static_cap_modal_24"
+                        >
+                            <CapacityTable  type="line24"/>
+                        </ModalBox>
+                    </div>
+                   {/* <div className="right_wrapper">
+                        <ModalBox
+                            title="动态容量——时段配置"
+                            // style={{
+                            //     height: (screenWidth > 1920) ? 1040 : 820,
+                            // }}
+                            showDecorator = {true}
+                            className="static_cap_modal static_cap_modal_24"
+                        >
+                            <CapacityTable  type="line24"/>
+                        </ModalBox>
+                    </div>*/}
+                   
                 </div>
             
                 {/* <div className="cap_part alert_setting"></div>*/}

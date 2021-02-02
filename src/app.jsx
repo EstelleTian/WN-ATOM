@@ -1,9 +1,18 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-23 20:10:27
+ * @LastEditTime: 2021-02-01 15:23:11
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \WN-ATOM\src\app.jsx
+ */
 import React from "react";
 import ReactDom from 'react-dom';
 import Routes from './routes/route';
 import { ConfigProvider  } from 'antd';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
+import 'normalize.css'
 import "dhx-suite/codebase/suite.min.css";
 import './custom-ant-theme.less'
 import './app.less';

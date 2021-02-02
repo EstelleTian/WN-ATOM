@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-01-22 14:36:16
+ * @LastEditTime: 2021-02-02 09:57:35
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -90,7 +90,11 @@ const SubNames = {
         },
         "TYPE":{
             "en":"TYPE",
-            "cn":"协调类型"
+            "cn":"待办类型"
+        },
+        "ORIGINALVALUE":{
+            "en":"ORIGINALVALUE",
+            "cn":"原始值"
         },
         "VALUE":{
             "en":"VALUE",
@@ -98,15 +102,19 @@ const SubNames = {
         },
         "USER":{
             "en":"USER",
-            "cn":"申请人"
+            "cn":"发起人"
         },
         "TIMESTAMP":{
             "en":"TIMESTAMP",
-            "cn":"申请时间"
+            "cn":"发起时间"
         },
         "COMMENT":{
             "en":"COMMENT",
             "cn":"备注"
+        },
+        "OPTIONS":{
+            "en":"OPTIONS",
+            "cn":"操作"
         },
     },
 }
