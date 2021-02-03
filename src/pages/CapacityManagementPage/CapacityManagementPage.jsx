@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-01-27 09:49:47
+ * @LastEditTime: 2021-02-03 09:25:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -21,7 +21,6 @@ const { Header, Footer, Sider, Content } = Layout;
 
 //容量管理模块
 function CapacityManagement (props){
-
     return (
         <Layout className="capacity-page">
             {/*<Header>Header</Header>*/}

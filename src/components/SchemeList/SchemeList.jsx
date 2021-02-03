@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-01-28 15:51:33
+ * @LastEditTime: 2021-02-03 09:59:09
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -35,17 +35,17 @@ function SchemeList (props){
     const [ schemeListRefresh, setSchemeListRefresh ] = useState( false ); //方案列表 是否是更新中 状态 true为更新中 false为更新完毕
     const [ firstLoadScheme, setFirstLoadScheme ] = useState( true ); //方案列表是否是第一次更新
     //状态-多选按钮组-切换事件
-    const onChange = (checkedValues)=>{
+    const onChange = useCallback((checkedValues)=>{
         // console.log('checked = ', checkedValues);
         props.schemeListData.setStatusValues( checkedValues );
-    };
+    },[]);
 
     //方案详情显隐
     const toggleModalVisible = useCallback(( flag, id )=>{
         setVisible(flag);
         //选中方案id
         setModalId(id);
-    });
+    },[]);
 
     //请求错误处理
     const requestErr = useCallback((err, content) => {
@@ -53,7 +53,7 @@ function SchemeList (props){
             content,
             duration: 4,
         });
-    });
+    },[]);
 
     //更新--方案列表 store数据
     const updateSchemeListData = useCallback(data => {
@@ -73,17 +73,17 @@ function SchemeList (props){
             //更新 方案列表 store
             schemeListData.updateList(list, generateTime);
         }
-
-    });
+    }, [schemeListData]);
     //更新--航班列表 store数据
     const updateFlightTableData = useCallback( ( flightData, id )  => {
         let  { flights, generateTime } = flightData;
         if( flights !== null ){
             props.flightTableData.updateFlightsList(flights, generateTime, id);
+            sessionStorage.setItem("flightTableGenerateTime", generateTime);
         }else{
             props.flightTableData.updateFlightsList([], generateTime, id);
         }
-    });
+    },[props.flightTableData]);
     //更新--执行KPI store数据
     const updateExecuteKPIData = useCallback(executeKPIData => {
         if( isValidObject(executeKPIData) ){
@@ -96,7 +96,7 @@ function SchemeList (props){
             });
 
         }
-    });
+    },[props.executeKPIData]);
 
     //获取--方案列表
     const getSchemeList = useCallback(( startNextRefresh = false  ) => {
@@ -124,7 +124,7 @@ function SchemeList (props){
             },
         };
         requestGet(opt);
-    });
+    }, [props.schemeListData, props.systemPage.user.id]);
     //获取--航班列表数据
     const requestFlightTableData = useCallback( ( id, resolve, reject ) => {
         // if( isValidVariable(id) ){
@@ -154,7 +154,7 @@ function SchemeList (props){
         request(opt);
         // }
 
-    });
+    }, [props.flightTableData]);
     //获取--执行KPI数据
     const requestExecuteKPIData = useCallback( ( id, resolve, reject ) => {
         const opt = {
@@ -177,11 +177,10 @@ function SchemeList (props){
             } ,
         };
         request(opt);
-    });
+    },[props.executeKPIData]);
 
     //高亮方案并获取航班数据和KPI数据
     const handleActive = useCallback(( id, title, from ) => {
-        // if( props.schemeListData.schemeId != id ){
         const res = props.schemeListData.toggleSchemeActive( id+"" );
         if( res ){
             props.flightTableData.toggleLoad(true);
@@ -203,10 +202,7 @@ function SchemeList (props){
                 });
             }
         }
-
-        // }
-
-    });
+    },[props.schemeListData, props.flightTableData, props.executeKPIData]);
 
     // DidMount 激活方案列表id变化后，重新处理航班定时器
     useEffect(function(){

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-01 16:16:40
+ * @LastEditTime: 2021-02-02 18:38:25
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -11,7 +11,7 @@ import React,{ useCallback, useState, useEffect } from "react";
 import {  isValidVariable } from 'utils/basic-verify'
 import { FlightCoordination, PriorityList } from 'utils/flightcoordination.js'
 import { request } from 'utils/request'
-import { CollaborateUrl } from 'utils/request-urls'
+import { CollaborateUrl, CollaborateIP } from 'utils/request-urls'
 import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
 import {observer, inject} from "mobx-react";
 import FmeToday from "utils/fmetoday";
@@ -65,29 +65,26 @@ let FLIGHTIDPopover = (props) => {
         const orgdata = record.orgdata || {};
         let orgFlight = JSON.parse(orgdata) || {};
         let urlKey = "";
-        if( type === "exempt"){
-            urlKey = "/flightExempt";
-            orgFlight.priority =FlightCoordination.PRIORITY_EXEMPT; //48
-        }else if( type === "unexempt"){
-            urlKey = "/flightExemptCancel";
-            orgFlight.priority =FlightCoordination.PRIORITY_NORMAL; //0
+        let taskId = "";
+        if( type === "exempt"){ //申请豁免
+            urlKey = "/flightPriorityApply";
+        }else if( type === "unexempt"){ //申请取消豁免
+            urlKey = "/flightCancelApplication";
         }
 
-        //TODO测试
-        // props.flightTableData.updateSingleFlight( orgFlight );
-
         if( isValidVariable(urlKey) ){
-            // console.log(JSON.stringify(orgFlight));
             const userId = props.systemPage.user.id || '14';
             const fid = orgFlight.flightid;
 
             const opt = {
-                url: CollaborateUrl.exemptyUrl + urlKey,
+                url: CollaborateIP + urlKey,
                 method: 'POST',
                 params: {
-                    userId: userId,
+                    userId,
                     flightCoordination: orgFlight,
                     comment: "",
+                    taskId: "",
+                    
                 },
                 resFunc: (data)=> requestSuccess(data, fid+title),
                 errFunc: (err)=> requestErr(err, fid+title+'失败' ),
@@ -104,12 +101,12 @@ let FLIGHTIDPopover = (props) => {
         const orgdata = record.orgdata || {};
         let orgFlight = JSON.parse(orgdata) || {};
         let urlKey = "";
-        if( type === "direct-in-pool"){ //入池
-            urlKey = "/flightInPoolRest";
-            orgFlight.poolStatus = FlightCoordination.IN_POOL_M; //2
-        }else if( type === "direct-out-pool"){ //出池
-            urlKey = "/flightOutPoolRes";
-            orgFlight.poolStatus = FlightCoordination.OUT_POOL; //0
+        if( type === "direct-in-pool"){ //申请入池
+            urlKey = "/flightPutPoolApply";
+            // orgFlight.poolStatus = FlightCoordination.IN_POOL_M; //2
+        }else if( type === "direct-out-pool"){ //申请出池
+            urlKey = "/flightOutPoolApply";
+            // orgFlight.poolStatus = FlightCoordination.OUT_POOL; //0
         }
         // else if( type === "unexempt"){
         //     urlKey = "flightExemptCancel";
@@ -125,12 +122,13 @@ let FLIGHTIDPopover = (props) => {
             const fid = orgFlight.flightid;
 
             const opt = {
-                url: CollaborateUrl.poolUrl + urlKey,
+                url: CollaborateIP + urlKey,
                 method: 'POST',
                 params: {
                     userId: userId,
                     flightCoordination: orgFlight,
                     comment: "",
+                    taskId: "",
                 },
                 resFunc: (data)=> requestSuccess(data, fid+title),
                 errFunc: (err)=> requestErr(err, fid+title+'失败' ),
@@ -165,39 +163,25 @@ let FLIGHTIDPopover = (props) => {
                 <button className="c-btn c-btn-blue">查看航班详情</button>
                 {
                     ( priority === FlightCoordination.PRIORITY_NORMAL && hasAuth )
-                        ? <Button loading={exemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "exempt", record, "标记豁免") } }>标记豁免</Button>
+                        ? <Button loading={exemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "exempt", record, "申请豁免") } }>申请豁免</Button>
                         : ""
                 }
                 {
                     ( priority === FlightCoordination.PRIORITY_EXEMPT && hasAuth )
-                        ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "取消豁免") } }>取消豁免</Button>
+                        ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "申请取消豁免") } }>申请取消豁免</Button>
                         : ""
                 }
                 {
                     ( !isInPoolFlight && hasAuth )
-                        ? <Button loading={poolLoad} className="c-btn c-btn-green" onClick={ () => { handlePool("direct-in-pool", record, "移入等待池") } }>移入等待池</Button>
+                        ? <Button loading={poolLoad} className="c-btn c-btn-green" onClick={ () => { handlePool("direct-in-pool", record, "申请入池") } }>申请入池</Button>
                         : ""
                 }
                 {
                     ( isInPoolFlight && hasAuth )
-                        ? <Button loading={poolLoad} className="c-btn c-btn-red" onClick={ () => { handlePool("direct-out-pool", record, "移出等待池") } }>移出等待池</Button>
+                        ? <Button loading={poolLoad} className="c-btn c-btn-red" onClick={ () => { handlePool("direct-out-pool", record, "申请出池") } }>申请出池</Button>
                         : ""
                 }
-                <Button loading={poolLoad} className="c-btn c-btn-green" 
-                    onClick={ () => {
-                        handlePool("direct-out-pool", record, "申请移出等待池") 
-                    } }
-                >申请移出等待池</Button>
-                <Button loading={poolLoad} className="c-btn c-btn-blue" 
-                    onClick={ () => {
-                        handlePool("direct-out-pool", record, "批复移出等待池") 
-                    } }
-                >批复移出等待池</Button>
-                <Button loading={poolLoad} className="c-btn c-btn-red" 
-                    onClick={ () => {
-                        handlePool("direct-out-pool", record, "拒绝移出等待池") 
-                    } }
-                >拒绝移出等待池</Button>
+
 
             </div>
         )

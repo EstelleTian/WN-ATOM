@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-01-26 13:46:17
+ * @LastEditTime: 2021-02-02 19:19:48
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -71,7 +71,7 @@ function FlightTable(props){
 
         let width = boxContent.offsetWidth;
         let height = boxContent.offsetHeight;
-        // console.log("表格高度："+height );
+        console.log("表格高度："+height );
         // height -= 40;//标题高度“航班列表”
         // height -= 45;//表头高度
         height -= tableHeader.offsetHeight;//表头高度
