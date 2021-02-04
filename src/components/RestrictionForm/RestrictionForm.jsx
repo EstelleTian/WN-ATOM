@@ -514,6 +514,7 @@ function RestrictionForm(props){
         }else if(pageType === 'IMPORT'){
             handleImportControl(id, props.message.id);
         }
+        window.close();
     };
 
     /**
@@ -756,7 +757,7 @@ function RestrictionForm(props){
                                 onOk ={ e=>{
                                     // 隐藏模态框显示
                                     setIsIgnoreModalVisible(false);
-                                    closeControlDetail( props.message.id );
+                                    window.close();
 
                                 } }
                                 onCancel={e=>{

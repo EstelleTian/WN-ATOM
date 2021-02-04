@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-02-01 10:18:07
+ * @LastEditTime: 2021-02-01 14:28:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -12,8 +12,7 @@ import { CloseOutlined} from '@ant-design/icons'
 import { Link } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { formatTimeString } from 'utils/basic-verify'
-import { sendMsgToClient, closeMessageDlg, openControlDetail } from 'utils/client'
-
+import { sendMsgToClient } from 'utils/client'
 
 const { Panel } = Collapse;
 
@@ -41,7 +40,7 @@ function InfoCard(props){
     let [active, setActive] = useState(true);
 
     const removeCard = (massage) => {
-        closeMessageDlg(massage)
+        // closeMessageDlg(massage)
         setInProp(false);
 
     }

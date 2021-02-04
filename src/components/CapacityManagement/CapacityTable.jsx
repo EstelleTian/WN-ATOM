@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-02-01 09:44:21
+ * @LastEditTime: 2021-02-02 17:31:30
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
  */
 
-import React, { useContext, useState, useEffect, useRef, useCallback } from "react";
+import React, { useContext, useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {inject, observer} from 'mobx-react'
 import { AlertOutlined  } from '@ant-design/icons';
 import { Table, Input, Button, Popconfirm, Form } from "antd";
@@ -67,8 +67,6 @@ const EditableCell = ({
         try {
             let subvalues = await form.validateFields();
             let values = { ...record, ...subvalues };
-
-
             handleSave(values);
         } catch (errInfo) {
             
@@ -105,7 +103,7 @@ const EditableCell = ({
 //动态容量配置
 const CapacityTable = (props) => {
     const [ loading, setLoading ] = useState(false); 
-    const [ tableData, setTableData ] = useState(false); 
+    const [ tableData, setTableData ] = useState([]); 
     
     let [ tableHeight, setTableHeight ] = useState(0);
     let [ editable, setEditable] = useState(false);
@@ -121,7 +119,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "time",
                 fixed: 'left',
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 30 : 30,
                 render: (text, record, index) => {
                     const time = JSON.parse( record.time );
                     const val = time.time || "全天";
@@ -137,7 +135,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "hourMaxDEPARR",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
                 
                 
             },
@@ -147,7 +145,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "hourMaxDEP",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
                 
                 
             },
@@ -157,7 +155,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "hourMaxARR",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
 
                 
             },
@@ -167,7 +165,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "quarterMaxDEPARR",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
 
                 
             },
@@ -177,7 +175,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "quarterMaxDEP",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
 
                 
             },
@@ -187,7 +185,7 @@ const CapacityTable = (props) => {
                 align: 'center',
                 key: "quarterMaxARR",
                 editable: true,
-                width: (screenWidth > 1920) ? 100 : 100,
+                width: (screenWidth > 1920) ? 50 : 50,
 
                 
             },
@@ -205,17 +203,18 @@ const CapacityTable = (props) => {
     }, [])
     useEffect(() => {
         if( props.type === "line1" ){
-            setTableHeight(100)
+            setTableHeight(80)
          }else if( props.type === "line24" ){
             const dom = document.getElementsByClassName("static_cap_modal_24")
             const boxContent = dom[0].getElementsByClassName("box_content")
-            let height = boxContent[0].offsetHeight - 33;
+            let height = boxContent[0].offsetHeight - 65;
             setTableHeight( height );
         }
 
     }, [tableHeight]);
 
     const handleSave = (row) => {
+        console.log("保存row", row);
         const newData = [...tableData];
         const index = newData.findIndex((item) => row.key === item.key);
         const item = newData[index];
@@ -280,9 +279,10 @@ const CapacityTable = (props) => {
                                 //更新初始化数据
                                 updateOrgTableDatas()
                             }}>保存 </Button>
-                            <Button className="reset" size="small" onClick={e =>{ 
-                                resetOrgTableDatas()
-                             }}>重置 </Button>
+                            <Button className="reset" size="small" onClick={ e =>{
+                                setEditable(false);
+                                resetOrgTableDatas();
+                            } }> 取消 </Button>
                         </span>
                 }
 
@@ -301,6 +301,7 @@ const CapacityTable = (props) => {
                     bordered
                     pagination={false}
                     scroll={{
+                        x: 350,
                         y: tableHeight
                     }}
                 />

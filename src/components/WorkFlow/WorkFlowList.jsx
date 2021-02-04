@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-28 13:09:35
+ * @LastEditTime: 2021-02-02 15:07:16
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -17,6 +17,7 @@ import { ReqUrls } from 'utils/request-urls'
 import { inject, observer } from 'mobx-react'
 import WorkFlowContent from "./WorkFlowContent";
 import {isValidVariable} from "utils/basic-verify";
+import { openConfirmFrame, openTimeSlotFrameWithFlightId } from 'utils/client'
 const { Search } = Input;
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
@@ -83,21 +84,21 @@ const DetailBtn = function(props){
 //主办 按钮
 const HandleBtn = function(props){
     //根据不同类型调整到不同窗口
-    const openHandleWind = useCallback(( record ) => {
-        alert("建设中...");
+    const openHandleWind = ( record ) => {
         let orgdata = JSON.parse( record.orgdata );
          const instance = orgdata.instance || {};
-         const processDefinitionKey = orgdata.processDefinitionKey || "";
-         const businessKey = orgdata.businessKey || ""; //方案id
+         const processDefinitionKey = instance.processDefinitionKey || "";
+         const businessKey = instance.businessKey || ""; //方案id
          const processVariables = instance.processVariables || {};
          switch(processDefinitionKey){
              case "FlightApprovalProcess": //航班审批流程
                 const tacticId = processVariables.tacticId || "";//航班对应方案id
                 const fmeId = processVariables.fmeId || "";//航班id
-                
+                openTimeSlotFrameWithFlightId(tacticId, fmeId);
                 break;
              case "SchemeApprovalProcess": //方案审批流程
-                
+                console.log("方案审批流程",businessKey);
+                openConfirmFrame( businessKey );
              break;
              case "CapacityApprovalProcess": //容量审批流程
              
@@ -107,7 +108,7 @@ const HandleBtn = function(props){
          console.log(orgdata);
 
         
-    },[]);
+    };
 
     return (
         <a onClick={ e =>{
@@ -411,11 +412,14 @@ function WorkFlowList(props){
         });
     },[]);
     //获取 办结工作请求
-    const requestDatas = useCallback(() => {
+    const requestDatas = useCallback((triggerLoading) => {
         if( !isValidVariable(user.id) ){
             return;
         }
-        setLoading(true);
+        if( triggerLoading ){
+            setLoading(true);
+        }
+        
         let url = "";
         let params = {};
         if( activeTab === "finished"){
@@ -470,7 +474,7 @@ function WorkFlowList(props){
         if( "todo" === activeTab ){
             setColumns(todoColumns);
             //获取 待办数据
-            requestDatas();
+            requestDatas(true);
            
         }
         else if( "finished" === activeTab ){
@@ -481,11 +485,11 @@ function WorkFlowList(props){
             //     rowExpandable: record => record.name !== 'Not Expandable',
             // })
             //获取 办结数据
-            requestDatas();
+            requestDatas(true);
         }
         if( isValidVariable(activeTab) ){
             timerId.current = setInterval(()=>{
-                requestDatas();
+                requestDatas(false);
             }, 30*1000)
         }
         return () => {
@@ -534,7 +538,7 @@ function WorkFlowList(props){
                     onClick = { e => {
                         setRefreshBtnLoading(true);
                         //刷新列表
-                        requestDatas();
+                        requestDatas(true);
                     }}
                 >
                     刷新

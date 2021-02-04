@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-01-26 11:36:30
+ * @LastEditTime: 2021-02-01 14:06:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -141,7 +141,7 @@ function InfoPage(props){
                     
                         <Button type="primary" size="small"  className="more"
                             onClick={ e => {
-                                window.open("/#/today_news");
+                                window.open("./#/today_news");
                             }}
                         >
                             更多

@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-01-22 14:36:16
+ * @LastEditTime: 2021-02-03 09:24:17
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
-import React, {  Suspense, useCallback, useState, useEffect} from 'react';
+import React, {  Suspense, useCallback, useState, useEffect, useMemo} from 'react';
 import { Table, Spin } from 'antd';
 import {inject, observer} from "mobx-react";
 import ModalBox from 'components/ModalBox/ModalBox';
@@ -19,7 +19,6 @@ const subKeys = {
     "pool": "等待池列表",
     "special": "特殊航班列表",
     "expired": "失效航班列表",
-    "todo": "待办航班列表",
 }
 
 const commonSubNames = {
@@ -83,32 +82,6 @@ const SubNames = {
     },
     "special": commonSubNames,
     "expired": commonSubNames,
-    "todo": {
-        "FLIGHTID":{
-            "en":"FLIGHTID",
-            "cn":"航班号",
-        },
-        "TYPE":{
-            "en":"TYPE",
-            "cn":"协调类型"
-        },
-        "VALUE":{
-            "en":"VALUE",
-            "cn":"协调值"
-        },
-        "USER":{
-            "en":"USER",
-            "cn":"申请人"
-        },
-        "TIMESTAMP":{
-            "en":"TIMESTAMP",
-            "cn":"申请时间"
-        },
-        "COMMENT":{
-            "en":"COMMENT",
-            "cn":"备注"
-        },
-    },
 }
 
 function SubTable(props){
@@ -123,7 +96,7 @@ function SubTable(props){
         case "pool": subTableData = flightTableData.getPoolFlights;break;
         case "special": subTableData = flightTableData.getSpecialFlights;break;
         case "expired": subTableData = flightTableData.getExpiredFlights;break;
-        case "todo": subTableData = flightTableData.getTodoFlights;break;
+        default:
     }
     const columns = getColumns( SubNames[leftActiveName] );
     console.log(leftActiveName, columns, subTableData);
@@ -167,40 +140,43 @@ function SubTable(props){
     }, [ props.flightTableData.getSelectedFlight.id ]);
 
     //转换为表格数据
-    const coverFlightTableData = useCallback( subTableData => {
+    const tableData = useMemo( () => {
         return subTableData.map( flight => formatSingleFlight(flight) )
-    });
+    }, [subTableData]);
     //设置表格行的 class
-    const setRowClassName = useCallback((record, index) => {
-        let { FFIXT, orgdata, id } = record;
-        if( sortKey === "FFIXT" ) {
-            const activeScheme = props.schemeListData.activeScheme;
-            let {startTime, endTime} = activeScheme.tacticTimeInfo;
-            if( isValidVariable(FFIXT) && FFIXT.length > 12 ){
-                FFIXT = FFIXT.substring(0, 12);
-            }
-            if( isValidVariable(startTime) && startTime.length > 12 ){
-                startTime = startTime.substring(0, 12);
-            }
-            // console.log("FFIXT",FFIXT,"startTime",startTime,"endTime",endTime);
-            if (startTime * 1 <= FFIXT * 1) {
-                if (isValidVariable(endTime)) {
-                    endTime = endTime.substring(0, 12);
-                    if (FFIXT * 1 <= endTime * 1) {
-                        return id + " in_range"
+    const rowClassName = useCallback(
+        (record, index) => {
+            let { FFIXT, orgdata, id } = record;
+            if( sortKey === "FFIXT" ) {
+                const activeScheme = props.schemeListData.activeScheme;
+                let {startTime, endTime} = activeScheme.tacticTimeInfo;
+                if( isValidVariable(FFIXT) && FFIXT.length > 12 ){
+                    FFIXT = FFIXT.substring(0, 12);
+                }
+                if( isValidVariable(startTime) && startTime.length > 12 ){
+                    startTime = startTime.substring(0, 12);
+                }
+                // console.log("FFIXT",FFIXT,"startTime",startTime,"endTime",endTime);
+                if (startTime * 1 <= FFIXT * 1) {
+                    if (isValidVariable(endTime)) {
+                        endTime = endTime.substring(0, 12);
+                        if (FFIXT * 1 <= endTime * 1) {
+                            return id + " in_range"
+                        } else {
+                            return id + " out_range";
+                        }
                     } else {
-                        return id + " out_range";
+                        return id + " in_range";
                     }
                 } else {
-                    return id + " in_range";
+                    return id + " out_range";
                 }
-            } else {
-                return id + " out_range";
             }
-        }
-        return id;
-    });
-    const tableData = coverFlightTableData( subTableData );
+            return id;
+        },
+        [],
+    );
+    
     console.log(tableData);
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
@@ -230,7 +206,7 @@ function SubTable(props){
     
                         };
                       }}
-                    rowClassName={(record, index)=>setRowClassName(record, index)}/>
+                    rowClassName={rowClassName}/>
             </ModalBox>
         </Suspense>
 

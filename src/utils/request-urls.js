@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-21 14:42:35
+ * @LastEditTime: 2021-02-02 20:17:04
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -40,9 +40,12 @@ const ReqUrls = {
     taskDetailUrl: workflowIP+'/workflow/procTaskHis/',
     // 航班查询
     searchFlightUrl: 'http://192.168.194.20:38188/hydrogen-flight-plan-server/flightPlan/retrieveDataByFlightId/',
+    //待办航班列表-放行监控页面中的
+    todoListUrl: 'http://192.168.243.8:29891/flight/backlog/task/'
 };
 //协调ip
-const CollaborateIP = "http://192.168.194.22:28088";
+// const CollaborateIP = "http://192.168.194.22:28088";
+const CollaborateIP = "http://192.168.243.162:28088";
 //协调相关url
 const CollaborateUrl = {
     //标记豁免、取消豁免
@@ -57,4 +60,4 @@ const CollaborateUrl = {
     cobtUrl : CollaborateIP,
 };
 
-export { ReqUrls, CollaborateUrl };
+export { ReqUrls, CollaborateIP, CollaborateUrl };

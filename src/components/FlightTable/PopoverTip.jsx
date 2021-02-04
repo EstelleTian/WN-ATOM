@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-01-25 10:28:23
+ * @LastEditTime: 2021-02-02 20:38:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -19,7 +19,7 @@ import {
 } from "antd";
 import {observer, inject} from "mobx-react";
 import { request } from 'utils/request'
-import { CollaborateUrl } from 'utils/request-urls'
+import { CollaborateUrl, CollaborateIP } from 'utils/request-urls'
 import { REGEXP } from 'utils/regExpUtil'
 import React,{ useCallback, useState, useEffect } from "react";
 import {  isValidVariable, getFullTime  } from 'utils/basic-verify'
@@ -127,7 +127,7 @@ const PopoverTip = ( props ) => {
               let orgFlight = JSON.parse(orgdata) || {}; //航班fc
               const userId = props.systemPage.user.id || '14';
               const timestr = newStartTime + "" + values.time;
-      
+              console.log(timestr);
               orgFlight.locked = autoChecked ? 1 : "";
               
               let urlKey = "";
@@ -139,18 +139,22 @@ const PopoverTip = ( props ) => {
               }else if( col === "CTOT"){
                   orgFlight.ctotField.value = timestr;
                   urlKey = "/updateCtot";
-                  url = CollaborateUrl.ctotUrl + urlKey; //张浩东ip
+                  url = CollaborateUrl.ctotUrl + urlKey; 
               }else if( col === "TOBT"){
                   orgFlight.tobtField.value = timestr;
-                  urlKey = "/updateTobtApply";
-                  url = CollaborateUrl.tobtUrl + '/flight'+urlKey; //薛满林ip
+                  urlKey = "/flight/updateTobtApply";
+                  url = CollaborateIP + '/flight'+urlKey; 
               }
               //传参
-              const params = {
+              let params = {
                   userId: userId,
                   flightCoordination: orgFlight, //航班原fc
                   comment: values.comment,  //备注
+                  taskId: ""
               }
+              if( col === "TOBT"){
+                params["tobtValue"] = timestr;
+            }
               console.log(params);
               const opt = {
                   url,
