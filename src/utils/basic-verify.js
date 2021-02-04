@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-15 15:12:48
- * @LastEditTime: 2021-01-21 16:55:17
+ * @LastEditTime: 2021-02-03 16:33:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\utils\basic-verify.js
@@ -202,22 +202,26 @@ const getTimeFromString = ( str ) => {
  * @param nomins {boolen}
  * @returns {String}
  */
-const getDayTimeFromString = ( str, nomins ) => {
+const getDayTimeFromString = ( str, nomins, type ) => {
     if( isValidVariable(str) && ( str.length === 12 || str.length === 14 ) ){
         // 解析各个值
         const day = str.substring(6, 8);
         const hour = str.substring(8, 10);
         const mins = str.substring(10, 12);
-        // if( nomins ){
-        //     return day + "/" + hour  +  "00";
-        // }else{
-        //     return day + "/" + hour  +  mins;
-        // }
-        if( nomins ){
-            return  hour  +  "00";
+        if( type === 2 ){
+            if( nomins ){
+                return day + "/" + hour  +  "00";
+            }else{
+                return  day + "/" +hour  +  mins;
+            }
         }else{
-            return  hour  +  mins;
+            if( nomins ){
+                return  hour  +  "00";
+            }else{
+                return  hour  +  mins;
+            }
         }
+        
     }
     return "";
 };

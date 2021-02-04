@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-02 20:17:04
+ * @LastEditTime: 2021-02-04 08:28:59
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -44,8 +44,8 @@ const ReqUrls = {
     todoListUrl: 'http://192.168.243.8:29891/flight/backlog/task/'
 };
 //协调ip
-// const CollaborateIP = "http://192.168.194.22:28088";
-const CollaborateIP = "http://192.168.243.162:28088";
+const CollaborateIP = "http://192.168.194.22:28088";
+// const CollaborateIP = "http://192.168.243.162:28088";
 //协调相关url
 const CollaborateUrl = {
     //标记豁免、取消豁免

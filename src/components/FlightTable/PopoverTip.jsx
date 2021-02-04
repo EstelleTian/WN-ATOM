@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-02-02 20:38:56
+ * @LastEditTime: 2021-02-03 10:55:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -143,7 +143,7 @@ const PopoverTip = ( props ) => {
               }else if( col === "TOBT"){
                   orgFlight.tobtField.value = timestr;
                   urlKey = "/flight/updateTobtApply";
-                  url = CollaborateIP + '/flight'+urlKey; 
+                  url = CollaborateIP + urlKey; 
               }
               //传参
               let params = {

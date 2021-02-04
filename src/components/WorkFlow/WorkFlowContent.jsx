@@ -137,14 +137,14 @@ const WorkFlowContent = (props) => {
             let newData = [];
             hisTasks.map( (item, index) =>{
                 const name = item.name || "";
+                const assigneeName = item.assigneeName || "";
                 const taskLocalVariables = item.taskLocalVariables || {};
-                const userNameCn = taskLocalVariables.userNameCn || "";
                 const comments = taskLocalVariables.comments || "";
                 const obj =
                     {
                         key: index,
                         handleStep: name,
-                        handler: userNameCn,
+                        handler: assigneeName,
                         handleRes: comments,
                         orgdata: JSON.stringify(item)
                     };
