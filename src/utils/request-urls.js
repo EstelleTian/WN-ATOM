@@ -13,7 +13,7 @@ const ReqUrls = {
     //用户登录
     loginUrl: 'http://192.168.194.21:18380/uuma-server/client/login',
     //缩略地图
-    mapUrl: "http://192.168.210.84:8080/#/map",
+    mapUrl: "http://192.168.194.40:8081/#/map",
     //根据modalId获取方案详情
     schemeDetailByIdUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/implementTactics/',
     //获取--方案列表
