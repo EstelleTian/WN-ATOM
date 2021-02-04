@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-02-02 15:08:06
+ * @LastEditTime: 2021-02-04 11:45:34
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -100,7 +100,7 @@ const closeControlDetail =(id) => {
 const openConfirmFrame =(schemeId = "") => {
     try {
         //方案id
-        alert("跳转到容流监控=>schemeId:" +schemeId);
+        // alert("跳转到容流监控=>schemeId:" +schemeId);
         jsEntity.openConfirmFrame(schemeId);
     }catch(error){
         console.error(error);
@@ -109,7 +109,7 @@ const openConfirmFrame =(schemeId = "") => {
 //工作流-主办-跳转到放行监控页面
 const openTimeSlotFrameWithFlightId =(schemeId = "", flightId = "") => {
     try {
-        alert("跳转到放行监控页面=>schemeId:" +schemeId+"  flightId:"+flightId);
+        // alert("跳转到放行监控页面=>schemeId:" +schemeId+"  flightId:"+flightId);
         jsEntity.openTimeSlotFrameWithFlightId(schemeId, flightId);
     }catch(error){
         console.error(error);

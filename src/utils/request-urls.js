@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-04 08:28:59
+ * @LastEditTime: 2021-02-04 10:54:56
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -41,7 +41,7 @@ const ReqUrls = {
     // 航班查询
     searchFlightUrl: 'http://192.168.194.20:38188/hydrogen-flight-plan-server/flightPlan/retrieveDataByFlightId/',
     //待办航班列表-放行监控页面中的
-    todoListUrl: 'http://192.168.243.8:29891/flight/backlog/task/'
+    todoListUrl: 'http://192.168.194.21:29891/flight/backlog/task/'
 };
 //协调ip
 const CollaborateIP = "http://192.168.194.22:28088";

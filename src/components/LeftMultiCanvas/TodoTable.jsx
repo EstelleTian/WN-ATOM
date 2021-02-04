@@ -1,19 +1,20 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-04 09:01:01
+ * @LastEditTime: 2021-02-04 11:22:42
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
 import React, {  Suspense, useCallback, useState, useEffect, useMemo, useRef} from 'react';
-import { Table, Spin, message } from 'antd';
+import { Table, Spin, message, Popconfirm, Form, Modal, Button, Input, DatePicker, Descriptions  } from 'antd';
 import {inject, observer} from "mobx-react";
 import ModalBox from 'components/ModalBox/ModalBox';
 import { isValidVariable } from "utils/basic-verify";
+import { REGEXP } from 'utils/regExpUtil'
 import { ReqUrls, CollaborateIP } from "utils/request-urls";
 import { requestGet, request  } from "utils/request";
-import { formatTimeString, getDayTimeFromString  } from "utils/basic-verify";
+import { getFullTime, getDayTimeFromString  } from "utils/basic-verify";
 import './TodoTable.scss';
 
 //根据key识别列表列配置columns
@@ -60,16 +61,115 @@ const names = {
     },
 }
 
+const TOBTModal = (props) => {
+    const form = Form.useForm();
+    const { setTobtModalVisible, tobtModalVisible } = props;
+    const flight = props.flight || {};
+    const flightid = flight.flightid || "";
+    const tobtFiled = flight.tobtFiled || {};
+    const applyTime = tobtFiled.value || "";
+
+    let initialValues = {
+        flightid: flightid,
+        applyTime: applyTime,
+        date: "",
+        time: "",
+    }
+
+    console.log(initialValues);
+    
+    return (
+        <Modal
+        title={`TOBT申请`}
+        centered
+        visible={ tobtModalVisible }
+        onOk={() => {} }
+        onCancel={() => {} }
+        width={500}
+        maskClosable={false}
+        destroyOnClose = { true }
+        footer = {
+            <div>
+                <Button type="primary" onClick={ ()=>{
+                    setTobtModalVisible(false)
+                } }>申请</Button>
+                <Button  onClick={ ()=>{
+                    setTobtModalVisible(false)
+                } }>取消</Button>
+            </div>
+        }
+    >
+        <div>
+        <Form
+            form={form}
+            size="small"
+            initialValues={initialValues}
+            className="ffixt_form"
+        >
+            <Descriptions size="small" bordered column={1}>
+                <Descriptions.Item label="航班">
+                    <Form.Item
+                        name="flightid"
+                    >
+                        <Input disabled/>
+                    </Form.Item>
+                </Descriptions.Item>
+                <Descriptions.Item label="原TOBT">
+                    <Form.Item
+                        name="applyTime"
+                    >
+                        <Input disabled/>
+                    </Form.Item>
+                </Descriptions.Item>
+                <Descriptions.Item label="日期" >
+                    <Form.Item
+                        name="date"
+                    >
+                        <DatePicker className="clr_date"  format="YYYY-MM-DD"/>
+                    </Form.Item>
+                </Descriptions.Item>
+                <Descriptions.Item label="时间">
+                    <Form.Item
+                        name="time"
+                        rules = {[
+                            {
+                                type: 'string',
+                                pattern: REGEXP.TIMEHHmm,
+                                message: "请输入有效的时间"
+                            },
+                            {
+                                required: true,
+                                message: "请输入时间"
+                            }
+                        ]}
+                    >
+                        <Input/>
+                    </Form.Item>
+                </Descriptions.Item>
+            </Descriptions>
+
+        </Form>
+        </div>
+    </Modal> 
+    )
+
+}
 
 
-function TodoTable(props){
+const TodoTable = (props) => {
     const [tableWidth, setWidth] = useState(0);
     const [tableHeight, setHeight] = useState(0);
     const [ loading, setLoading ] = useState(false);
+    const [ popVisible, setPopVisible ] = useState(false); //气泡确认框
+    const [ tobtModalVisible, setTobtModalVisible] = useState(false); //TOBT修改确认框
+    const [ tobtFlight, setTobtFlight] = useState({}); //TOBT 航班对象
+    
     const [ refreshBtnLoading, setRefreshBtnLoading ] = useState(false);
     const [ subTableData, setSubTableData ] = useState([]);
     
+    const generateTime = useRef(0);
     const timerId = useRef();
+
 
 
     const user = props.systemPage.user || {};
@@ -119,6 +219,8 @@ function TodoTable(props){
        console.log(data);
        let tableData = [];
        const backLogTasks = data.backLogTasks || {};
+       const gTime = data.generateTime || "";
+       generateTime.current = gTime;
        for(let key in backLogTasks){
            const backLogTask = backLogTasks[key] || {}; //流水号
            const flight = backLogTask.flight || {};
@@ -219,6 +321,17 @@ function TodoTable(props){
                 params["type"] = "";
                 params["tobt"] = "";
 
+                // const curTime = generateTime.current || 0;
+                // const tobtTime = flight.tobtFiled.value || 0;
+                // if( isValidVariable(curTime) && isValidVariable(tobtTime) ){
+                //     if( tobtTime*1 < curTime*1 ){
+                //         //提示要先调整tobt再操作
+                //         setPopVisible(true);
+                //         setTobtFlight(flight);
+                //         return;
+                //     }
+                // }
+
             }else if(type === "refuse"){
                 //出等待池拒绝
                 url = CollaborateIP+"/flightOutPoolDown";
@@ -246,14 +359,17 @@ function TodoTable(props){
             }
         }
 
-        const opt = {
-            url,
-            method: 'POST',
-            params: params,
-            resFunc: (data)=> requestSuccess(data, title + '成功', key),
-            errFunc: (err)=> requestErr(err, title + '失败' ),
-        };
-        request(opt);
+        if( isValidVariable(url) ){
+            const opt = {
+                url,
+                method: 'POST',
+                params: params,
+                resFunc: (data)=> requestSuccess(data, title + '成功', key),
+                errFunc: (err)=> requestErr(err, title + '失败' ),
+            };
+            request(opt);
+        }
+        
 
     }
     const getColumns = useMemo( function(){
@@ -281,6 +397,28 @@ function TodoTable(props){
                     }
                 }
             }
+            //发起时间排序
+            if( en === "TIMESTAMP" ){
+                tem["defaultSortOrder"] ='ascend';
+                tem["render"] = (text, record, index) => {
+                    const time = getFullTime( new Date(text), 2 )
+                    return <div title={time}>{ time }</div>;
+                }
+            }
+            //待办类型
+            if( en === "TYPE" ){
+                tem["render"] = (text, record, index) => {
+                    let type = text;
+                    switch( text ){
+                        case "EXEMPT": type = "申请豁免"; break;
+                        case "UNEXEMPT": type = "取消申请豁免"; break;
+                        case "INPOOL": type = "申请入池"; break;
+                        case "OUTPOOL": type = "申请出池"; break;
+                        case "TOBT": type = "申请TOBT"; break;
+                    }
+                    return <div title={type}>{ type }</div>;
+                }
+            }
     
             if( en === "FLIGHTID" ){
                 tem["width"] = 80;
@@ -304,6 +442,8 @@ function TodoTable(props){
                         <div>
                             <a className="todo_opt_btn todo_agree" style={{paddingRight: '10px'}} onClick={ e =>{
                                 sendResultRequest("agree", text);
+                                
+                                // setPopVisible(true);
                                 e.stopPropagation();
                             } }>同意</a>
                             <a className="todo_opt_btn todo_refuse" onClick={ e =>{
@@ -323,7 +463,7 @@ function TodoTable(props){
             columns.push(tem)
         }
         return columns;
-    }, []);
+    }, [popVisible]);
 
     useEffect(()=>{
         requestDatas(true);
@@ -385,22 +525,21 @@ function TodoTable(props){
                     size="small"
                     bordered
                     pagination={false}
-                    // loading={ loading }
+                    loading={ loading }
                     scroll={{
                         x: tableWidth,
                         y: tableHeight
                     }}
-                    onRow={record => {
-                        return {
-                          onClick: event => {// 点击行
-                            console.log(event);
-                            const fid = event.currentTarget.getAttribute("data-row-key")
-                            flightTableData.toggleSelectFlight(fid);
-                          }, 
-    
-                        };
-                      }}
                 />
+                {
+                    tobtModalVisible &&
+                    <TOBTModal 
+                        flight={tobtFlight} 
+                        setTobtModalVisible={setTobtModalVisible} 
+                        tobtModalVisible={tobtModalVisible} 
+                    />
+                                   
+                }
             </ModalBox>
         </Suspense>
 
