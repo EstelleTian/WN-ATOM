@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-02 15:07:16
+ * @LastEditTime: 2021-02-05 09:52:01
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -125,7 +125,6 @@ function WorkFlowList(props){
     const [ refreshBtnLoading, setRefreshBtnLoading ] = useState(false);
     const [ workFlowModalId, setWorkFlowModalId ] = useState(""); //当前选中工作流工作流的id，不一定和激活工作流id一样
 
-    const [ columns, setColumns ] = useState([]);
     const [ expandable, setExpandable ] = useState(false);
 
     const timerId = useRef();
@@ -287,6 +286,11 @@ function WorkFlowList(props){
             dataIndex: "createTime",
             align: 'center',
             key: "createTime",
+            showSorterTooltip: false,
+            defaultSortOrder: 'descend',
+            sorter: (a, b) => {
+                return a.createTime - b.createTime
+            },
             width: (screenWidth > 1920) ? 70 : 70,
             render: (text, record, index) => {
                 if( text === "" ){
@@ -469,16 +473,22 @@ function WorkFlowList(props){
 
     },[activeTab])
 
+    const getColumns = () => {
+        if( "todo" === activeTab ){
+            return todoColumns;
+        }else if( "finished" === activeTab ){
+            return finishedColumns;
+        }
+    }
+
     useEffect(function () {
         // console.log(user.id);
         if( "todo" === activeTab ){
-            setColumns(todoColumns);
             //获取 待办数据
             requestDatas(true);
            
         }
         else if( "finished" === activeTab ){
-            setColumns(finishedColumns);
             //行拓展
             // setExpandable({
             //     expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
@@ -527,9 +537,12 @@ function WorkFlowList(props){
 
     let data = filterInput( cdata );
     //按流水号排序
-    data = data.sort( (a,b) => {
-        return ( a.sid*1 - b.sid*1 ) *(-1);
-    } );
+    // data = data.sort( (a,b) => {
+    //     return ( a.sid*1 - b.sid*1 ) *(-1);
+    // } );
+
+    let columns = getColumns();
+    
     return (
         <div className="work_cont">
             <div className="work_search">

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-01-26 13:40:34
+ * @LastEditTime: 2021-02-05 10:40:01
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -249,10 +249,10 @@ const getColumns = ( names = defaultNames ) => {
             dataIndex: en,
             align: 'center',
             key: en,
-            width: (screenWidth > 1920) ? 60 : 60,
+            width: (screenWidth > 1920) ? 80 : 80,
             ellipsis: true,
             className: en,
-            showSorterTooltip: false ,
+            showSorterTooltip: false,
             onHeaderCell: ( column ) => {
                 //配置表头属性，增加title值
                 return {
@@ -285,7 +285,7 @@ const getColumns = ( names = defaultNames ) => {
         //默认排序
         if( en === "FFIXT" ){
             tem["defaultSortOrder"] ='ascend';
-            tem["width"] = (screenWidth > 1920) ? 70 : 58
+            tem["width"] = (screenWidth > 1920) ? 80 : 65
         }
         // if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAWT" || en === "OAWT"){
         //     tem["width"] = (screenWidth > 1920) ? 70 : 58
@@ -297,7 +297,7 @@ const getColumns = ( names = defaultNames ) => {
         //     tem["align"] = "left"
         // }
         if( en === "FLIGHTID" ){
-            tem["width"] = (screenWidth > 1920) ? 95 : 70
+            tem["width"] = (screenWidth > 1920) ? 110 : 80
             tem["fixed"] = 'left'
         }
 

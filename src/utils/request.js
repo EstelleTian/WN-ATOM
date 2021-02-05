@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-23 20:10:28
+ * @LastEditTime: 2021-02-04 17:10:57
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \WN-ATOM\src\utils\request.js
+ */
 /**
  * Created by adcc on 2020/12/18.
  */
@@ -22,13 +30,13 @@ const requestGet = ( parameters  ) => {
             if(isValidObject(data) && isValidObject(data.error) && isValidVariable(data.error.message)){
                 errFunc( data.error.message );
             } else {
-                errFunc();
+                errFunc("");
             }
         }
 
     }).catch( err => {
         if( typeof errFunc == 'function'){
-            errFunc( err );
+            errFunc(  err );
         }
         console.error(err);
     })
@@ -64,7 +72,7 @@ const request = ( parameters ) => {
         }
     }).catch( err => {
         if( typeof errFunc == 'function'){
-            errFunc( err );
+            errFunc( "", err );
         }
         console.error(err);
     })

@@ -19,12 +19,12 @@ function RightNav(props){
         console.log(e.target.value)
     }
 
-    const { flightTableData } = props;
+    const { flightTableData, todoList } = props;
     const exemptLen = flightTableData.getExemptFlights.length || 0;
     const poolLen = flightTableData.getPoolFlights.length || 0;
     const specialLen = flightTableData.getSpecialFlights.length || 0;
     const expiredLen = flightTableData.getExpiredFlights.length || 0;
-    const todoLen = flightTableData.getTodoFlights.length || 0;
+    const todoLen = todoList.todos.length || 0;
 
     return (
         <div className="layout-nav-right layout-row nav_right">
@@ -118,4 +118,4 @@ function RightNav(props){
     )
 }
 
-export  default  inject("systemPage", "flightTableData")( observer(RightNav))
+export  default  inject("systemPage", "flightTableData", "todoList")( observer(RightNav))

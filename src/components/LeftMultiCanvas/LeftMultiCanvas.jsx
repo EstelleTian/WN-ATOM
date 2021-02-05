@@ -1,17 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-02 19:53:57
+ * @LastEditTime: 2021-02-05 11:15:22
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
 import React, { lazy, Suspense} from 'react';
 import {inject, observer} from "mobx-react";
-import {Spin} from "antd";
-import ExecuteKPI  from 'components/ExecuteKPI/ExecuteKPI'
-import ModalBox from 'components/ModalBox/ModalBox'
-import { DoubleLeftOutlined } from '@ant-design/icons';
+import ExecuteKPIModal  from 'components/ExecuteKPI/ExecuteKPIModal'
+import { DoubleLeftOutlined, CloseOutlined } from '@ant-design/icons';
 import TodoTable  from './TodoTable'
 import SubTable  from './SubTable'
 import './LeftMultiCanvas.scss'
@@ -24,19 +22,10 @@ function LeftMultiCanvas(props){
             <div className='unfold_icon'
                  onClick={()=>{
                      props.systemPage.setLeftActiveName("")
-            }}><DoubleLeftOutlined/></div>
+            }}><CloseOutlined /></div>
             {
                 leftActiveName === "kpi" && 
-                <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
-                        <ModalBox
-                            // title={`执行KPI (数据时间:${ formatTimeString(props.executeKPIData.generateTime) })`}
-                            title="执行KPI"
-                            showDecorator = {true}
-                            className="kpi"
-                        >
-                            <ExecuteKPI />
-                        </ModalBox>
-                    </Suspense>
+                <ExecuteKPIModal />
             }
             {
                 leftActiveName === "todo" && 
@@ -51,7 +40,6 @@ function LeftMultiCanvas(props){
 
 }
 
-// export default inject("systemPage", "executeKPIData")(observer(LeftMultiCanvas))
 export default inject("systemPage")(observer(LeftMultiCanvas))
 
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-02-03 10:55:31
+ * @LastEditTime: 2021-02-04 17:14:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -51,7 +51,7 @@ const PopoverTip = ( props ) => {
                     ...tipObj,
                     visible: false
                 });
-            }, 1000)
+            }, 3000)
         }
 
     }, [tipObj.visible, props.visible] );
@@ -161,7 +161,13 @@ const PopoverTip = ( props ) => {
                   method: 'POST',
                   params: params,
                   resFunc: (data)=> requestSuccess(data, title),
-                  errFunc: (err)=> requestErr(err, title+'失败' ),
+                  errFunc: (err, msg)=> {
+                      if( isValidVariable(err) ){
+                        requestErr(err, err )
+                      }else{
+                        requestErr(err, title+'失败' )
+                      }
+                  },
               };
               request(opt);
             } catch (errorInfo) {

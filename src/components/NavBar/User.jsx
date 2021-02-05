@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-01-12 14:15:12
+ * @LastEditTime: 2021-02-05 14:59:57
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \WN-ATOM\src\components\NavBar\User.jsx
+ */
 import React, { useEffect }  from "react";
 import {  Dropdown, Menu, } from "antd";
 import { PoweroffOutlined, SettingOutlined} from "@ant-design/icons";
@@ -15,7 +23,7 @@ const menu = (
             <PoweroffOutlined />
             退出登录
         </Menu.Item>
-
+            
     </Menu>
 );
 function User(props){
@@ -36,10 +44,13 @@ function User(props){
     //放行监控页面
     if( pathname === "/fangxing" ){
         if( isValidVariable(user.id) ){
+            // return (
+            //     <Dropdown overlay={menu} placement="bottomCenter" arrow>
+            //         <span  className="user-name">{ descriptionCN }</span>
+            //     </Dropdown>
+            // )
             return (
-                <Dropdown overlay={menu} placement="bottomCenter" arrow>
-                    <span  className="user-name">{ descriptionCN }</span>
-                </Dropdown>
+                <span  className="user-name">{ descriptionCN }</span>
             )
         }else{
             return (

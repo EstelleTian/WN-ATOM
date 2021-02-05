@@ -30,7 +30,10 @@
     .ant-btn-primary:hover, .ant-btn-primary:focus,
     .ant-btn-primary{
         background: #266E90;
-        border: 1px solid #13729F;
+        border-left: 1px solid #13729F;
+        border-top: 1px solid #13729F;
+        border-bottom: 1px solid #13729F;
+        border-right: 1px solid rgba(255, 255, 255, 0.3);
     }
     //调整按钮组高度
     .ant-radio-group-large .ant-radio-button-wrapper{

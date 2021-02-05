@@ -37,6 +37,7 @@
                         @include flex();
                         position: relative;
                         margin-bottom: 10px;
+                        overflow: inherit;
                         >.modal_box{
                             @include flex();
                         }

@@ -23,37 +23,37 @@
 }
 
 .c-btn-red {
-  color: #FFFFFF;
-  background-color: #E26A6A;
+  color: rgba(255, 255, 255, 0.85) ;
+  background-color: #a35252;
   &:hover, &:focus, &:active {
-    color: #FFFFFF;
-    background-color: #dc4c4c;
+    color: rgba(255, 255, 255, 0.85) ;
+    background-color: #8d4747;
   }
 }
 
 .c-btn-blue {
-  color: #FFFFFF;
-  background-color: #578ebe;
+  color: rgba(255, 255, 255, 0.85) ;
+  background-color: #266E90;
   &:hover, &:focus, &:active {
-    color: #FFFFFF;
-    background-color: #437cae;
+    color: rgba(255, 255, 255, 0.85) ;
+    background-color: #215e7a;
   }
 }
 
 .c-btn-green {
-  color: #FFFFFF;
+  color: rgba(255, 255, 255, 0.85) ;
   background-color: #26a69a;
   &:hover, &:focus, &:active {
-    color: #FFFFFF;
+    color: rgba(255, 255, 255, 0.85) ;
     background-color: #1f897f;
   }
 }
 
 .c-btn-yellow {
-  color: #FFFFFF;
+  color: rgba(255, 255, 255, 0.85) ;
   background-color: #9c821b;
   &:hover, &:focus, &:active {
-    color: #FFFFFF;
+    color: rgba(255, 255, 255, 0.85) ;
     background-color: #867019;
   }
 }

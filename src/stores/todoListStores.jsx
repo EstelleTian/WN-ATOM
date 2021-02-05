@@ -1,22 +1,21 @@
 /*
  * @Author: your name
- * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-02-05 11:31:11
+ * @Date: 2021-02-05 12:59:35
+ * @LastEditTime: 2021-02-05 13:04:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \WN-CDM\src\stores\FlightStores.jsx
+ * @FilePath: \WN-ATOM\src\stores\todoListStores.jsx
  */
-
 import { makeObservable, observable, action, computed } from 'mobx'
 
 
- // 单个方案执行KPI数据
-class ExecuteKPIData {
+ // 放行监控-待办列表-数据
+class TODOList {
     constructor(){
         makeObservable(this)
     }
     // 列表
-    @observable KPIData = {};
+    @observable todos = [];
     //数据时间
     @observable generateTime = "";
     //数据获取
@@ -24,17 +23,18 @@ class ExecuteKPIData {
     //定时器
     @observable timeoutId = "";
 
-    //更新航班数据
-    @action updateExecuteKPIData( KPIData ){
-        this.KPIData = KPIData;
+    //更新待办列表数据
+    @action updateTodosData( todos ){
+        this.todos = todos;
     }
     //更新loading状态
     @action toggleLoad( load ){
         this.loading = load;
     }
+
 }
 
-let executeKPIData = new ExecuteKPIData();
+let todoList = new TODOList();
 
 
-export { executeKPIData }
+export { todoList }

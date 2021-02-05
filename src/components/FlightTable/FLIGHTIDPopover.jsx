@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-02 18:38:25
+ * @LastEditTime: 2021-02-04 17:14:11
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -87,7 +87,13 @@ let FLIGHTIDPopover = (props) => {
                     
                 },
                 resFunc: (data)=> requestSuccess(data, fid+title),
-                errFunc: (err)=> requestErr(err, fid+title+'失败' ),
+                errFunc: (err, msg)=> {
+                    if( isValidVariable(err) ){
+                      requestErr(err, err )
+                    }else{
+                      requestErr(err, fid+title+'失败' )
+                    }
+                },
             };
             request(opt);
         }
@@ -131,7 +137,13 @@ let FLIGHTIDPopover = (props) => {
                     taskId: "",
                 },
                 resFunc: (data)=> requestSuccess(data, fid+title),
-                errFunc: (err)=> requestErr(err, fid+title+'失败' ),
+                errFunc: (err, msg)=> {
+                    if( isValidVariable(err) ){
+                      requestErr(err, err )
+                    }else{
+                      requestErr(err, fid+title+'失败' )
+                    }
+                },
             };
             request(opt);
         }

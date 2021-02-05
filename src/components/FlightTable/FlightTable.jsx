@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-02 19:19:48
+ * @LastEditTime: 2021-02-05 14:35:50
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -12,7 +12,7 @@ import { inject, observer } from 'mobx-react'
 import {Table, Input, Checkbox } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { getColumns, formatSingleFlight, scrollTopById, highlightRowByDom} from 'components/FlightTable/TableColumns'
-import { isValidVariable } from 'utils/basic-verify'
+import { isValidVariable, formatTimeString } from 'utils/basic-verify'
 import './FlightTable.scss';
 
 function FlightTable(props){
@@ -146,24 +146,35 @@ function FlightTable(props){
     let data = coverFlightTableData(list);
     data = filterInput(data);
     let columns = getColumns();
+    const activeScheme = props.schemeListData.activeScheme || {};
+    const tacticName = activeScheme.tacticName || "";
+
+    const getTitle = () => {
+        return <span>
+            <span>航班列表({ formatTimeString(generateTime) })</span>
+            —
+            <span style={{ color: "#36a5da"}}>{tacticName}</span>
+        </span>
+    }
     return (
         <ModalBox
-            className="flight_canvas"
-            // title={`航班列表 (数据时间:${ formatTimeString(generateTime) })`}
-            title={`航班列表`}
+            className="flight_canvas" 
+            title={getTitle()}
+            
+            // title={`航班列表`}
             showDecorator = {true}
         >
             <div className="statistics">
                 <div className="auto_scroll">
                     <Checkbox.Group options={[{ label: '自动滚动', value: 'auto_scroll' }]} defaultValue={ 'auto_scroll' }
-                                    onChange={(checkedValues)=>{
-                                        console.log(checkedValues)
-                                        if( checkedValues.indexOf("auto_scroll") === -1 ){
-                                            setAutoScroll( false );
-                                        }else{
-                                            setAutoScroll( true );
-                                        }
-                                    }}
+                        onChange={(checkedValues)=>{
+                            console.log(checkedValues)
+                            if( checkedValues.indexOf("auto_scroll") === -1 ){
+                                setAutoScroll( false );
+                            }else{
+                                setAutoScroll( true );
+                            }
+                        }}
                     />
                 </div>
                 <Input

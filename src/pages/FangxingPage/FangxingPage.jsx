@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2020-12-24 19:19:59
+ * @LastEditTime: 2021-02-05 10:41:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -52,7 +52,7 @@ function FangxingPage(props){
             {
                 login ?  <div className="nav_body">
                     <div className="cont_left">
-                        <SchemeTitle />
+                        {/*<SchemeTitle />*/}
                         <div className="left_cont">
                             {
                                 leftActiveName === "" ? ""

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-02-03 09:59:09
+ * @LastEditTime: 2021-02-05 11:29:51
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -73,7 +73,7 @@ function SchemeList (props){
             //更新 方案列表 store
             schemeListData.updateList(list, generateTime);
         }
-    }, [schemeListData]);
+    }, [props.schemeListData]);
     //更新--航班列表 store数据
     const updateFlightTableData = useCallback( ( flightData, id )  => {
         let  { flights, generateTime } = flightData;
@@ -86,6 +86,7 @@ function SchemeList (props){
     },[props.flightTableData]);
     //更新--执行KPI store数据
     const updateExecuteKPIData = useCallback(executeKPIData => {
+        console.log(executeKPIData)
         if( isValidObject(executeKPIData) ){
             props.executeKPIData.updateExecuteKPIData(executeKPIData)
         }else{
@@ -157,27 +158,38 @@ function SchemeList (props){
     }, [props.flightTableData]);
     //获取--执行KPI数据
     const requestExecuteKPIData = useCallback( ( id, resolve, reject ) => {
-        const opt = {
-            url: ReqUrls.kpiDataUrl + id,
-            method:'GET',
-            params:{},
-            resFunc: (data)=> {
-                updateExecuteKPIData(data)
-                props.executeKPIData.toggleLoad(false);
-                if( isValidVariable(resolve) ){
-                    resolve("success");
-                }
-            },
-            errFunc: (err)=> {
-                requestErr(err, 'KPI数据获取失败')
-                props.executeKPIData.toggleLoad(false);
-                if( isValidVariable(resolve) ){
-                    resolve("error")
-                }
-            } ,
-        };
-        request(opt);
+        if(props.systemPage.leftActiveName === "kpi"){
+            const opt = {
+                url: ReqUrls.kpiDataUrl + id,
+                method:'GET',
+                params:{},
+                resFunc: (data)=> {
+                    updateExecuteKPIData(data)
+                    props.executeKPIData.toggleLoad(false);
+                    if( isValidVariable(resolve) ){
+                        resolve("success");
+                    }
+                },
+                errFunc: (err)=> {
+                    requestErr(err, 'KPI数据获取失败')
+                    props.executeKPIData.toggleLoad(false);
+                    if( isValidVariable(resolve) ){
+                        resolve("error")
+                    }
+                } ,
+            };
+            request(opt);
+        }
     },[props.executeKPIData]);
+
+    useEffect(()=>{
+        console.log("useEffect leftActiveName:",props.systemPage.leftActiveName);
+        if(props.systemPage.leftActiveName === "kpi"){
+            const id = props.schemeListData.activeScheme.id || "";
+            requestExecuteKPIData(id);
+        }
+        
+    }, [props.systemPage.leftActiveName])
 
     //高亮方案并获取航班数据和KPI数据
     const handleActive = useCallback(( id, title, from ) => {

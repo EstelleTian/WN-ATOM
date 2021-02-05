@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-03 09:24:17
+ * @LastEditTime: 2021-02-05 10:54:22
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -176,12 +176,19 @@ function SubTable(props){
         },
         [],
     );
-    
-    console.log(tableData);
+    const activeScheme = props.schemeListData.activeScheme || {};
+    const tacticName = activeScheme.tacticName || "";
+    const getTitle = () => {
+        return <span>
+            <span>{subKeys[leftActiveName]}</span>
+            —
+            <span style={{ color: "#36a5da"}}>{tacticName}</span>
+        </span>
+    }
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <ModalBox
-                title={subKeys[leftActiveName]}
+                title={getTitle()}
                 showDecorator = {true}
                 className={`sub_table_modal ${leftActiveName}_canvas ${leftActiveName}`}
             >
