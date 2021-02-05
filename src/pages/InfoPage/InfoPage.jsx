@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-02-05 16:16:21
+ * @LastEditTime: 2021-02-05 16:48:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -45,8 +45,9 @@ function InfoPage(props){
                 const body = d.body;
                 const msgObj = JSON.parse(body);
                 const { message } = msgObj;
-                const dataCode = message.dataCode || "";
-                if( dataCode === "WFEA"){
+                //level 没值 不接收该消息
+                const level = message.level || "";
+                if( !isValidVariable(level) ){
                     console.log("收到了 流程审批 消息 屏蔽了");
                 }else{
                     props.newsList.addNews(message);
