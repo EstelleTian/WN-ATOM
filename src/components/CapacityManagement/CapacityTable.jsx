@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-02-02 17:31:30
+ * @LastEditTime: 2021-02-05 16:09:34
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -304,6 +304,7 @@ const CapacityTable = (props) => {
                         x: 350,
                         y: tableHeight
                     }}
+                    className="capacity_number_table"
                 />
 
         </div>

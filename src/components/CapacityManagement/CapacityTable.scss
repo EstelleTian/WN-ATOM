@@ -17,17 +17,27 @@
     }
     
   }
+  
+}
+.capacity_number_table{
   //放大表格单元格样式
   .ant-table-body{
-    tr>td.ant-table-cell{
-      font-size: 1.11rem;
-      padding: 2px 0;
+    tr > td.ant-table-cell{
+      font-family: fantasy;
+      font-size: 1.75rem;
+      padding: 4px 0;
+      line-height: 1;
       .ant-input{
         width: 50px;
         text-align: center;
-        font-size: 1.11rem;
+        font-size: 1.3rem;
         padding: 0;
+        line-height: 0.75;
       }
+    }
+    tr > td.ant-table-cell:first-child{
+      font-size: 1.1rem;
+      font-family: Microsoft Yahei;
     }
   }
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-02-05 10:40:01
+ * @LastEditTime: 2021-02-05 16:36:12
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -283,9 +283,12 @@ const getColumns = ( names = defaultNames ) => {
             return 0;
         }
         //默认排序
+        if( en === "FFIX" || en === "EAW" || en === "OAW" ){
+            tem["width"] = (screenWidth > 1920) ? 95 : 65
+        }
         if( en === "FFIXT" ){
             tem["defaultSortOrder"] ='ascend';
-            tem["width"] = (screenWidth > 1920) ? 80 : 65
+            tem["width"] = (screenWidth > 1920) ? 95 : 65
         }
         // if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAWT" || en === "OAWT"){
         //     tem["width"] = (screenWidth > 1920) ? 70 : 58
@@ -297,7 +300,7 @@ const getColumns = ( names = defaultNames ) => {
         //     tem["align"] = "left"
         // }
         if( en === "FLIGHTID" ){
-            tem["width"] = (screenWidth > 1920) ? 110 : 80
+            tem["width"] = (screenWidth > 1920) ? 120 : 100
             tem["fixed"] = 'left'
         }
 

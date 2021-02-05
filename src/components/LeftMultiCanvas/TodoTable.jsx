@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-05 14:49:55
+ * @LastEditTime: 2021-02-05 16:26:01
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -239,7 +239,7 @@ const names = {
     "FLIGHTID":{
         "en":"FLIGHTID",
         "cn":"航班号",
-        width: 110,
+        width: (screenWidth > 1920) ? 125 : 90,
     },
     "TYPE":{
         "en":"TYPE",
@@ -259,7 +259,7 @@ const names = {
     "USER":{
         "en":"USER",
         "cn":"发起人",
-        width: (screenWidth > 1920) ? 200 : 180,
+        width: (screenWidth > 1920) ? 210 : 180,
     },
     "TIMESTAMP":{
         "en":"TIMESTAMP",
@@ -350,6 +350,8 @@ const TodoTable = (props) => {
            const businessName = processVariables.businessName || "";
            const startUserName = instance.startUserName || "";
            let startTime = instance.startTime || "";
+
+           
            
 
            let options = {
