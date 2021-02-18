@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-02-05 16:48:37
+ * @LastEditTime: 2021-02-08 11:50:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -53,6 +53,7 @@ function InfoPage(props){
                     props.newsList.addNews(message);
                 }
                 
+            
                 
                 
                 openMessageDlg();

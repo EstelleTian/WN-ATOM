@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 11:08:47
- * @LastEditTime: 2021-02-05 11:31:41
+ * @LastEditTime: 2021-02-18 15:04:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\ExecuteKPI\ExecuteKPIModal.jsx
@@ -35,7 +35,7 @@ function ExecuteKPIModal(props){
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <ModalBox
                 title={ getTitle() }
-                showDecorator = {true}
+                showDecorator = {false}
                 className="kpi"
             >
                 <ExecuteKPI />

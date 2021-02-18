@@ -56,6 +56,12 @@
         background: #303942;
     }
 }
+//航班范围内 奇数行 底色
+.odd.in_range{
+    .ant-table-cell{
+        background: #313e4b;
+    }
+}
 //航班高亮配色
 .active_row>td{
     background-color: #706247 !important;
@@ -98,7 +104,14 @@
     }
 } 
 .alarm-tag.ant-tag {
-    padding: 0 4px;
+    padding: 0 2px;
     margin-right: 4px;
     cursor: pointer;
+    font-size: 16px;
+    position: relative;
+    top: -2px;
+}
+//航班范围外 奇数行 底色
+.odd>td{
+    background-color: #3d3b3b;
 }

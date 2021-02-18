@@ -222,7 +222,7 @@ const FlightCoordination = {
                 break;
             case FlightCoordination.ALARM_TYPE_CRITICAL:
                 zh = '临';
-                color="#C0A2C7";
+                color="rgb(138 94 148)";
                 descriptions="临界";
                 break;
             case FlightCoordination.ALARM_TYPE_EXEMPTION:

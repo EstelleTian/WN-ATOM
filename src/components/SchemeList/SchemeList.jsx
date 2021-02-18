@@ -1,16 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-02-05 11:29:51
+ * @LastEditTime: 2021-02-18 16:17:32
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
  */
-import React, { useEffect, useCallback,useState } from 'react'
+import React, { useEffect, useCallback,useState } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react'
 import {message, Checkbox, Empty, Spin} from 'antd'
-import { requestGet, request } from 'utils/request'
-import { isValidVariable, isValidObject } from 'utils/basic-verify'
+import { requestGet } from 'utils/request'
+import { isValidVariable } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
 import  SchemeModal  from "./SchemeModal";
 import { ReqUrls } from 'utils/request-urls'
@@ -32,7 +33,6 @@ function SchemeList (props){
     const [ visible, setVisible ] = useState(false); //详情模态框显隐
     const [ modalId, setModalId ] = useState(""); //当前选中方案详情的id，不一定和激活方案id一样
     const [ manualRefresh, setManualRefresh ] = useState( false ); //方案手动更新按钮loading状态
-    const [ schemeListRefresh, setSchemeListRefresh ] = useState( false ); //方案列表 是否是更新中 状态 true为更新中 false为更新完毕
     const [ firstLoadScheme, setFirstLoadScheme ] = useState( true ); //方案列表是否是第一次更新
     //状态-多选按钮组-切换事件
     const onChange = useCallback((checkedValues)=>{
@@ -57,7 +57,6 @@ function SchemeList (props){
 
     //更新--方案列表 store数据
     const updateSchemeListData = useCallback(data => {
-        setSchemeListRefresh(false);
         let { tacticProcessInfos, status, generateTime } = data;
         if( status === 500 ){
             message.error('获取的方案列表数据为空');
@@ -74,131 +73,45 @@ function SchemeList (props){
             schemeListData.updateList(list, generateTime);
         }
     }, [props.schemeListData]);
-    //更新--航班列表 store数据
-    const updateFlightTableData = useCallback( ( flightData, id )  => {
-        let  { flights, generateTime } = flightData;
-        if( flights !== null ){
-            props.flightTableData.updateFlightsList(flights, generateTime, id);
-            sessionStorage.setItem("flightTableGenerateTime", generateTime);
-        }else{
-            props.flightTableData.updateFlightsList([], generateTime, id);
-        }
-    },[props.flightTableData]);
-    //更新--执行KPI store数据
-    const updateExecuteKPIData = useCallback(executeKPIData => {
-        console.log(executeKPIData)
-        if( isValidObject(executeKPIData) ){
-            props.executeKPIData.updateExecuteKPIData(executeKPIData)
-        }else{
-            props.executeKPIData.updateExecuteKPIData({});
-            message.error({
-                content:"获取的KPI数据为空",
-                duration: 4,
-            });
-
-        }
-    },[props.executeKPIData]);
 
     //获取--方案列表
     const getSchemeList = useCallback(( startNextRefresh = false  ) => {
         // console.log("获取--方案列表，statusValues是:"+statusValues);
-        const opt = {
-            url: ReqUrls.schemeListUrl,
-            method: 'GET',
-            params:{
-                status: props.schemeListData.statusValues.join(','),
-                startTime: "",
-                endTime: "",
-                userId: props.systemPage.user.id
-            },
-            resFunc: (data)=> {
-                //更新方案数据
-                updateSchemeListData(data);
-                if( props.schemeListData.loading !== false){
-                    props.schemeListData.toggleLoad(false);
-                }
-
-            },
-            errFunc: (err)=> {
-                requestErr(err, '方案列表数据获取失败' );
-                setManualRefresh(false);
-            },
-        };
-        requestGet(opt);
-    }, [props.schemeListData, props.systemPage.user.id]);
-    //获取--航班列表数据
-    const requestFlightTableData = useCallback( ( id, resolve, reject ) => {
-        // if( isValidVariable(id) ){
-        const opt = {
-            url: ReqUrls.flightsDataUrl + id,
-            method:'GET',
-            params:{},
-            resFunc: (data)=> {
-                updateFlightTableData(data, id);
-                if( props.flightTableData.loading !== false){
-                    props.flightTableData.toggleLoad(false);
-                }
-                if( isValidVariable(resolve) ){
-                    resolve("success");
-                }
-
-            },
-            errFunc: (err)=> {
-                requestErr(err, '航班列表数据获取失败');
-                props.flightTableData.toggleLoad(false);
-                if( isValidVariable(resolve) ){
-                    resolve("error")
-                }
-
-            } ,
-        };
-        request(opt);
-        // }
-
-    }, [props.flightTableData]);
-    //获取--执行KPI数据
-    const requestExecuteKPIData = useCallback( ( id, resolve, reject ) => {
-        if(props.systemPage.leftActiveName === "kpi"){
+        let p = new Promise( (resolve, reject) => {
             const opt = {
-                url: ReqUrls.kpiDataUrl + id,
-                method:'GET',
-                params:{},
+                url: ReqUrls.schemeListUrl,
+                method: 'GET',
+                params:{
+                    status: props.schemeListData.statusValues.join(','),
+                    startTime: "",
+                    endTime: "",
+                    userId: props.systemPage.user.id
+                },
                 resFunc: (data)=> {
-                    updateExecuteKPIData(data)
-                    props.executeKPIData.toggleLoad(false);
-                    if( isValidVariable(resolve) ){
-                        resolve("success");
+                    //更新方案数据
+                    updateSchemeListData(data);
+                    if( props.schemeListData.loading !== false){
+                        props.schemeListData.toggleLoad(false);
                     }
+                    resolve("成功");
                 },
                 errFunc: (err)=> {
-                    requestErr(err, 'KPI数据获取失败')
-                    props.executeKPIData.toggleLoad(false);
-                    if( isValidVariable(resolve) ){
-                        resolve("error")
-                    }
-                } ,
+                    requestErr(err, '方案列表数据获取失败' );
+                    setManualRefresh(false);
+                    reject("失败");
+                },
             };
-            request(opt);
-        }
-    },[props.executeKPIData]);
-
-    useEffect(()=>{
-        console.log("useEffect leftActiveName:",props.systemPage.leftActiveName);
-        if(props.systemPage.leftActiveName === "kpi"){
-            const id = props.schemeListData.activeScheme.id || "";
-            requestExecuteKPIData(id);
-        }
+            requestGet(opt);
+        });
+        return p;
         
-    }, [props.systemPage.leftActiveName])
+    }, [props.schemeListData, props.systemPage.user.id]);
+
 
     //高亮方案并获取航班数据和KPI数据
     const handleActive = useCallback(( id, title, from ) => {
         const res = props.schemeListData.toggleSchemeActive( id+"" );
         if( res ){
-            props.flightTableData.toggleLoad(true);
-            props.executeKPIData.toggleLoad(true);
-            requestFlightTableData(id+"");
-            requestExecuteKPIData(id+"");
             //来自客户端定位，滚动到对应位置
             if( from === "client" ){
                 // 滚动条滚动到顶部
@@ -214,62 +127,8 @@ function SchemeList (props){
                 });
             }
         }
-    },[props.schemeListData, props.flightTableData, props.executeKPIData]);
+    },[props.schemeListData]);
 
-    // DidMount 激活方案列表id变化后，重新处理航班定时器
-    useEffect(function(){
-        const id = props.schemeListData.activeScheme.id || "";
-        // console.log("航班列表 useEffect id变了:"+id);
-        if( isValidVariable( props.schemeListData.activeScheme.id ) ){
-            if( !isValidVariable(props.flightTableData.timeoutId) ){
-                requestFlightTableData(id);
-            }
-            // console.log("航班列表 清空定时器:"+props.flightTableData.timeoutId);
-            clearInterval(props.flightTableData.timeoutId);
-            props.flightTableData.timeoutId = "";
-            //生成新定时器--轮询
-            const timeoutid = setInterval(function(){
-                // console.log("航班列表 定时开始执行， 获取数据，id是："+ id);
-                // setSchemeListRefresh(false);
-                requestFlightTableData(id)
-            },60 * 1000);
-            // console.log("航班列表 配置定时器:"+timeoutid);
-            props.flightTableData.timeoutId = timeoutid;
-        }else{
-            clearInterval(props.flightTableData.timeoutId);
-            props.flightTableData.timeoutId = "";
-            props.flightTableData.updateFlightsList([], "", "");
-        }
-    }, [ props.schemeListData.activeScheme.id ] );
-
-    // DidMount 激活方案列表id变化后，重新处理执行KPI定时器
-    useEffect(function(){
-        const id = props.schemeListData.activeScheme.id || "";
-        // console.log("执行KPI useEffect id变了:"+id);
-        if( isValidVariable( props.schemeListData.activeScheme.id ) ){
-            if( !isValidVariable(props.executeKPIData.timeoutId) ){
-                requestExecuteKPIData(id);
-            
-            }
-            // console.log("执行KPI 清空定时器:"+props.flightTableData.timeoutId);
-            clearInterval(props.executeKPIData.timeoutId);
-            props.executeKPIData.timeoutId = "";
-            //生成新定时器--轮询
-            const timeoutid = setInterval(function(){
-                // console.log("执行KPI 定时开始执行， 获取数据，id是："+ id);
-                // setSchemeListRefresh(false);
-                if( props.systemPage.leftActiveName === "kpi"){
-                    requestExecuteKPIData(id)
-                }
-            },60 * 1000);
-            // console.log("执行KPI 配置定时器:"+timeoutid);
-            props.executeKPIData.timeoutId = timeoutid;
-        }else{
-            clearInterval(props.executeKPIData.timeoutId);
-            props.executeKPIData.timeoutId = "";
-            props.executeKPIData.updateExecuteKPIData({});
-        }
-    }, [ props.schemeListData.activeScheme.id ] );
 
     // DidMount 重新处理方案列表定时器
     useEffect(function(){
@@ -289,13 +148,8 @@ function SchemeList (props){
     }, [firstLoadScheme] );
     // DidMount 第一次获取方案列表
     useEffect(function(){
-
         return function(){
             // console.log("方案列表卸载");
-            clearInterval(props.flightTableData.timeoutId);
-            props.flightTableData.timeoutId = "";
-            clearInterval(props.executeKPIData.timeoutId);
-            props.executeKPIData.timeoutId = "";
             clearInterval(props.schemeListData.timeoutId);
             props.schemeListData.timeoutId = "";
         }
@@ -331,29 +185,6 @@ function SchemeList (props){
                 getSchemeList();
                 resolve("方案列表")
             } );
-            const id = props.schemeListData.activeScheme.id || "";
-            let p2;
-            let p3;
-            if( isValidVariable( id ) ){
-                p2 = new Promise( function(resolve, reject) {
-                    // 异步处理
-                    // 处理结束后、调用resolve 或 reject
-                    props.flightTableData.toggleLoad(true);
-                    requestFlightTableData(id, resolve, reject)
-                } );
-                p3 = new Promise(function(resolve, reject) {
-                    // 异步处理
-                    props.executeKPIData.toggleLoad(true);
-                    // 处理结束后、调用resolve 或 reject
-                    requestExecuteKPIData(id, resolve, reject);
-                } );
-            }
-            Promise.all([p1, p2, p3]).then((values) => {
-                console.timeEnd("全局");
-                // console.log(values);
-                props.systemPage.pageRefresh = false;
-            });
-
         }
     },[ props.systemPage.pageRefresh ]);
 
@@ -381,8 +212,11 @@ function SchemeList (props){
     //接收客户端传来方案id，用以自动切换到选中方案
     NWGlobal.setSchemeId = ( schemeId, title )  => {
         // alert("收到id:"+schemeId+"  title:"+title);
-        getSchemeList(); //主动获取一次
-        handleActive( schemeId, title, 'client' );
+         //主动获取一次
+        getSchemeList().then( function(data) {
+            handleActive( schemeId, title, 'client' );
+        });
+        
     };
 
     const schemeListData = props.schemeListData;
@@ -421,4 +255,17 @@ function SchemeList (props){
     )
 }
 
-export default inject("schemeListData","executeKPIData","flightTableData","systemPage")(observer(SchemeList))
+SchemeList.propTypes = {
+    schemeListData: PropTypes.shape({
+        loading: PropTypes.bool,
+        pageRefresh: PropTypes.bool,
+        sortedList: PropTypes.array.isRequired,
+        statusValues: PropTypes.array.isRequired,
+      }),
+    systemPage:  PropTypes.shape({
+        user: PropTypes.object.isRequired,
+      })
+
+}
+
+export default inject("schemeListData", "systemPage")(observer(SchemeList))
