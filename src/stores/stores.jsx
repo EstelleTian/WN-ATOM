@@ -17,6 +17,7 @@ import { workFlowData } from './workFlowStores'
 import { implementTacticsReasonData } from './implementTacticsReasonStores'
 import { infoHistoryData } from './infoHistoryStores'
 import { capacity } from './capacityStores'
+import { userSubscribeData } from './totalPageStores'
 import { todoList } from './todoListStores'
 
 export { 
@@ -30,7 +31,8 @@ export {
     implementTacticsReasonData,
     infoHistoryData,
     capacity,
-    todoList
+    todoList,
+    userSubscribeData
 
  };
 

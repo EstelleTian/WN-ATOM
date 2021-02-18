@@ -13,7 +13,7 @@
     overflow-y: hidden;
     .top{
         flex: auto;
-        height: 716px;
+        height: 712px;
         margin-bottom: 10px;
         .flex-row {
             @include flex();
@@ -27,7 +27,7 @@
                 .map-container {
                     display: flex;
                     flex: 1;
-                    margin: 0 16px 14px 13px;
+                    margin: 0 10px 10px;
                     //width: 820px;
                     //height: 600px;
                     .map-frame {

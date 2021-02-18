@@ -2,9 +2,19 @@
   position: relative;
   flex: 1 1 0%;
   height: 100%;
-  overflow-y: auto;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none
+  }
+  .ant-list-grid .ant-col > .ant-list-item.moitor-col {
+    margin-bottom: 10px;
+  }
   //padding-top: 10px;
   .monitor-box {
+    .box_header{
+      height: 32px;
+      line-height: 32px;
+    }
     .box_content {
       overflow: visible;
     }
@@ -14,7 +24,7 @@
     }
   }
   .monitor-content {
-    padding: 5px 15px 15px;
+    padding: 5px;
     display: block;
     //max-height: 215px;
   }

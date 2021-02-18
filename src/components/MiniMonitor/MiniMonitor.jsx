@@ -13,7 +13,7 @@ import "./MiniMonitor.scss"
 
 function MiniMonitor(props){
     return (
-            <div title={props.title} style={{width: '100%', height: '200px', margin: '0px'}}  className={props.className}>
+            <div title={props.title} style={{width: '100%', height: '135px', margin: '0px'}}  className={props.className}>
                 <ReactEcharts
                 option={props.option}
                 className='react_for_echarts'

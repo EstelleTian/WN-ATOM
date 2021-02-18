@@ -11,7 +11,7 @@ import { inject, observer } from 'mobx-react'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import {  message, Col, Row, Spin} from 'antd'
-import { getFullTime, addStringTime, isValidObject } from 'utils/basic-verify'
+import { getFullTime, addStringTime, isValidObject,isValidVariable } from 'utils/basic-verify'
 import PerformanceItemHeader from './PerformanceItemHeader'
 import List from './List'
 import PieChart from './PieChart'
@@ -197,9 +197,28 @@ const FlightPerformance =(props) => {
             props.flightPerformanceData.timeoutId = "";
             props.implementTacticsReasonData.timeoutId = "";
         }
-    },[])
+    },[props.userSubscribeData.subscribeData])
 
-
+    /**
+     * 获取监控单元
+     * */
+    const getMonitorUnits =()=> {
+        const { userSubscribeData={} } = props;
+        let subscribeData = userSubscribeData.subscribeData || {};
+        let {monitorUnit, focus} = subscribeData;
+        let arr = [];
+        if(isValidObject(monitorUnit) && isValidVariable(focus)){
+            let areaData = monitorUnit[focus].data;
+            for( let type in areaData){
+                let data = areaData[type];
+                let units = data.units;
+                for( let unit in units){
+                    arr.push(unit);
+                }
+            }
+        }
+        return arr;
+    };
 
 
     //获取--航班执行情况数据
@@ -210,9 +229,14 @@ const FlightPerformance =(props) => {
         const nowDate = now.substring(0,8);
         const start = nowDate+'050000';
         const end =nextDate+'050000';
+        const monitorUnits = getMonitorUnits();
+        const units = monitorUnits.join(',');
+        if(!isValidVariable(units)){
+            return;
+        }
 
         const opt = {
-            url: ReqUrls.performanceDataUrl + '?targets=ZLXYACC,ZLLLACC&starttime='+ start+'&endtime='+end,
+            url: ReqUrls.performanceDataUrl + '?targets='+units+'&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> {
@@ -298,4 +322,4 @@ const FlightPerformance =(props) => {
     )
 }
 
-export default inject("flightPerformanceData","implementTacticsReasonData","systemPage")(observer(FlightPerformance))
+export default inject("userSubscribeData","flightPerformanceData","implementTacticsReasonData","systemPage")(observer(FlightPerformance))

@@ -72,7 +72,7 @@ const PieChart = (props) => {
             color: [ "#5babb1", "#065280","#2e6689", "#35a5da","#4b7ba4", "#67E0E3", "#9FE6B8", "#FFDB5C", "#ff9f7f","#fb7293","#E062AE","#E690D1","#e7bcf3","#9d96f5","#8378EA","#96BFFF"],
             tooltip: {
                 trigger: 'item',
-                formatter: '{b} : {c} <br> ({d}%)'
+                formatter: '{b} : {c} 条 <br> ({d}%)'
             },
             legend: {
                 data: getLegendData(),
@@ -84,6 +84,11 @@ const PieChart = (props) => {
                 stillShowZeroSum: false,
                 radius: ['50%', '65%'],
                 data: getData(),
+                label: {
+                    formatter: '{b}: {c}条\n ({d}%)',
+                    fontSize:18,
+
+                }
                 // emphasis: {
                 //     itemStyle: {
                 //         shadowBlur: 10,

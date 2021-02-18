@@ -149,7 +149,7 @@ function AirportMonitor(props) {
                 show: false
             },
             grid: {
-                top:'10px',
+                top:'8px',
                 left: '1%',
                 right: '2%',
                 bottom: '1%',
@@ -187,9 +187,9 @@ function AirportMonitor(props) {
                     axisTick:{
                       show:false
                     },
-                    axisLabel:{
-                        formatter:'{value} 架次'
-                    },
+                    // axisLabel:{
+                    //     formatter:'{value} 架次'
+                    // },
 
                 }
             ],

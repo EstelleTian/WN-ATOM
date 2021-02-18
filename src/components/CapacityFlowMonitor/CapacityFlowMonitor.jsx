@@ -22,16 +22,12 @@ import "./CapacityFlowMonitor.scss"
 
 //容流略图模块
 const CapacityFlowMonitor =(props) => {
-
     const capacityFlowMonitorData = props.capacityFlowMonitorData || {};
     const { loading } = capacityFlowMonitorData;
     const monitorData = capacityFlowMonitorData.monitorData || {};
     const generateTime = monitorData.generateTime || "";
     const describedMap = monitorData.selfDescribedMap || {};
     const flow = monitorData.flow || {}
-    // 类型排序
-    const typeOrder = ['AP', 'ACC', 'SECTOR', 'APP', 'ROUTE', 'POINT'];
-
     /**
      * 更新单条容流数据的描述数据
      * */
@@ -150,7 +146,7 @@ const CapacityFlowMonitor =(props) => {
         if(item.id ==='ADD'){
             return (
                 <List.Item className="moitor-col" key={item.key}>
-                    <ModalBox showDecorator = {true} title={item.title} className="monitor-box add-monitor-box">
+                    <ModalBox showDecorator = {false} title={item.title} className="monitor-box add-monitor-box">
                         <div className="monitor-content">
                             <AddMonitorCard data={ item.data }  />
                         </div>
@@ -160,7 +156,7 @@ const CapacityFlowMonitor =(props) => {
         }else {
             return (
                 <List.Item className="moitor-col" key={item.key}>
-                    <ModalBox showDecorator = {true} title={item.title} className="monitor-box">
+                    <ModalBox showDecorator = {false} title={item.title} className="monitor-box">
                         <div className="actions">
                             <div onClick={()=>{console.log("sss")}} className="remove">
                                 <CloseCircleOutlined />
@@ -225,26 +221,48 @@ const CapacityFlowMonitor =(props) => {
             clearInterval(props.capacityFlowMonitorData.timeoutId);
             props.capacityFlowMonitorData.timeoutId = "";
         }
-    },[])
+    },[props.userSubscribeData.subscribeData])
 
 
 
-
+    /**
+     * 获取监控单元
+     * */
+    const getMonitorUnits =()=> {
+        const { userSubscribeData={} } = props;
+        let subscribeData = userSubscribeData.subscribeData || {};
+        let {monitorUnit, focus} = subscribeData;
+        let arr = [];
+        if(isValidObject(monitorUnit) && isValidVariable(focus)){
+            let areaData = monitorUnit[focus].data;
+            for( let type in areaData){
+                let data = areaData[type];
+                let units = data.units;
+                for( let unit in units){
+                    arr.push(unit);
+                }
+            }
+        }
+        return arr;
+    };
     // 获取容流数据
     const requestCapacityFlowMonitorData = useCallback(() => {
-
         const now = getFullTime(new Date());
         const nextDate = addStringTime(now, 1000*60*60*24).substring(0,8);
         const nowDate = now.substring(0,8);
         const start = nowDate+'050000';
         const end =nextDate+'050000';
+        const monitorUnits = getMonitorUnits();
+        const units = monitorUnits.join(',');
+        if(!isValidVariable(units)){
+            return;
+        }
         const opt = {
-            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=IGADA,P40,ZLXY,ZLLL,ZLXYACC,ZLLLACC,ZLXYAR01,ZLXYAR02,ZLXYAR07,ZLLLAR01,ZLLLAR02,W152&starttime='+ start+'&endtime='+end,
-            // url: ReqUrls.capacityFlowMonitorDataUrl+'?targets=ZLXY,ZLLL,ZLXYAR01,ZLXYAR02,ZLXYAR07&starttime='+ start+'&endtime='+end,
+            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets='+units+'&starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> {
-                updateCapacityFlowMonitorData(data)
+                updateCapacityFlowMonitorData(data);
                 props.capacityFlowMonitorData.toggleLoad(false)
             },
             errFunc: (err)=> {
@@ -255,32 +273,19 @@ const CapacityFlowMonitor =(props) => {
         request(opt);
     });
 
-
-
-
-
     return(
         <Spin spinning={loading} >
-        <div className="capacity_flow_monitor_container">
+        <div className="capacity_flow_monitor_container no-scrollbar">
             <List
-                grid={{ gutter: 16, column: 5 }}
+                grid={{ gutter: 6, column: 10 }}
                 dataSource={monitorDataist}
                 renderItem={item => (
                     listItemData(item)
                 )}
             />
-            {/*<List*/}
-                {/*grid={{ gutter: 16, column: 8 }}*/}
-                {/*dataSource={SectorMonitorData}*/}
-                {/*renderItem={item => (*/}
-                    {/*<List.Item>*/}
-                        {/*<Card size="small" title={item.title}><SectorMonitor/></Card>*/}
-                    {/*</List.Item>*/}
-                {/*)}*/}
-            {/*/>*/}
         </div>
         </Spin>
     )
 }
 
-export default inject("capacityFlowMonitorData","systemPage")(observer(CapacityFlowMonitor))
+export default inject("userSubscribeData","capacityFlowMonitorData","systemPage")(observer(CapacityFlowMonitor))

@@ -1,7 +1,7 @@
 .monitor {
-    padding: 5px;
+    padding: 0 2px;
     background: #343434;
-    border-radius: 6px;
+    border-radius: 4px;
     .options {
         display: flex;
         flex-direction: row;
@@ -9,13 +9,14 @@
         .normal-rate {
             display: flex;
             flex: 1;
+            line-height: 24px;
             .rate-progress{
                 //flex: 1;
-                width: 200px;
+                width: 90px;
 
             }
             .rate-text {
-                margin-left: 15px;
+                margin-left: 8px;
             }
         }
         .weather {

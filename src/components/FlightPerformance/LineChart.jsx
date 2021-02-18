@@ -122,7 +122,7 @@ const LineChart =(props) => {
                         }
                     },
                     axisLabel:{
-                        formatter:'{value} 架次'
+                        // formatter:'{value} 架次'
                     },
                     splitLine: {
                         show: true,
