@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-05 09:52:01
+ * @LastEditTime: 2021-02-18 17:10:50
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -129,7 +129,7 @@ function WorkFlowList(props){
 
     const timerId = useRef();
 
-    const { systemPage, workFlowData } = props;
+    const { systemPage, workFlowData, tasks } = props;
     const { activeTab } = workFlowData;
     const { user } = systemPage;
 
