@@ -84,6 +84,7 @@ function ATOMTermination(props){
                 </Row>
                 <ATOMDetail
                     flowData={ flowData }
+                    title="流控信息"
                 />
             </Col>
         </Row>

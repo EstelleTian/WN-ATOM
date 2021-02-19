@@ -84,9 +84,11 @@ function ATOMUpdate(props){
                 </Row>
                 <ATOMDetail
                     flowData={ flowData }
+                    title="流控信息"
                 />
                 <ATOMDetail
                     flowData={ flowData }
+                    title="原流控信息"
                 />
             </Col>
             <Col span={12} className="res_right">

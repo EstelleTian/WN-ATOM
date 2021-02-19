@@ -19,6 +19,7 @@ import { sendMsgToClient } from 'utils/client'
 function ATOMAdd(props){
     const { title, setDisabledForm,  disabledForm} = props;
     let [flowData, setFlowData] = useState({});
+    let [ message, setMessage ] = useState({});
 
     //更新方案列表数据
     const updateData = data => {
@@ -58,6 +59,7 @@ function ATOMAdd(props){
     useEffect(() => {
         let msgStr = localStorage.getItem("message");
         let json = JSON.parse(msgStr);
+        setMessage(json);
         let { data = {} } = json;
         // data = JSON.parse(data);
         const id = data.id;
@@ -71,7 +73,7 @@ function ATOMAdd(props){
                 <Row className="title">
                     <span>{ title }</span>
                 </Row>
-                <ATOMDetail flowData={ flowData } />
+                <ATOMDetail flowData={ flowData } title="流控信息" />
             </Col>
             <Col span={12} className="res_right">
                 <Row className="title">

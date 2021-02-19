@@ -4,7 +4,7 @@ import  moment  from 'moment'
 import "moment/locale/zh-cn"
 import {Button, Modal, Form} from 'antd'
 import StaticInfoCard from './StaticInfoCard'
-import { handleImportControl, closeCreateDlg, closeControlDetail } from 'utils/client'
+import { handleImportControl, closeCreateDlg, closeControlDetail, handleImportControlForUpdate } from 'utils/client'
 import { getFullTime, formatTimeString, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
@@ -13,7 +13,7 @@ import {inject, observer} from "mobx-react";
 
 //表单整体
 function RestrictionForm(props){
-    const  { flowData = {}, showIgnoreBtn=false, systemPage } = props;
+    const  { flowData = {}, showIgnoreBtn=false, systemPage, setVisible } = props;
     const  { user={} } = systemPage;
     let userDescriptionCN = user.descriptionCN ||　"";
 
@@ -468,8 +468,10 @@ function RestrictionForm(props){
         flowControlFlight.exemptionAbility = exemptionAbility.join(';');
         // 更新流控交通流-不包含-受控机型
         flowControlFlight.exemptionAircraftType = exemptionAircraftType.join(';');
-
-
+        // 若为方案修改则追加formerId字段
+        if(props.pageType === 'MODIFY'){
+            opt.formerId = basicTacticInfo.id;
+        }
 
         return opt;
     };
@@ -478,11 +480,12 @@ function RestrictionForm(props){
      * 数据提交
      * */
     const submitFormData = (data) => {
+        const id = basicTacticInfo.id;
         const opt = {
             url: ReqUrls.createFlowUrl + user.id,
             method:'POST',
             params:JSON.stringify(data),
-            resFunc: (data)=> requestSuccess(data),
+            resFunc: (data)=> requestSuccess(id,data),
             errFunc: (err)=> requestErr(err ),
         };
         request(opt);
@@ -493,28 +496,30 @@ function RestrictionForm(props){
     /**
      * 数据提交成功回调
      * */
-    const requestSuccess =(data) => {
-
+    const requestSuccess =(oldId, data) => {
         let operateName = props.btnName || "流控导入";
         const { pageType } = props;
 
         const { tacticProcessInfo={} } = data;
         const { basicTacticInfo={} } = tacticProcessInfo;
         const { id } = basicTacticInfo;
-        console.log(id);
         setConfirmLoading(false);
         setIsModalVisible(false);
-        // antdMessage.success( `${operateName}成功`);
         Modal.success({
             content: `${operateName}成功`,
+            maskClosable:true
         });
         //发送到客户端
         if(pageType ==='CREATE'){
             handleImportControl(id);
         }else if(pageType === 'IMPORT'){
             handleImportControl(id, props.message.id);
+        }else if(pageType === 'MODIFY'){
+            handleImportControlForUpdate(oldId,id);
+            setTimeout(()=>{
+                setVisible(false)
+            }, 1000)
         }
-        window.close();
     };
 
     /**
@@ -684,13 +689,9 @@ function RestrictionForm(props){
                 // size="small"
                 initialValues={initialValues}
                 onFinish={(values) => {
-                    // const newStartTime = moment(values.startTime).format('YYYYMMDDHHmm');
                     console.log(values);
-                    // console.log(newStartTime);
-                    // sendMsgToClient(message)
-
                 }}
-                className="destriction_form"
+                className="advanced_form"
             >
                 <StaticInfoCard
                     disabledForm={props.disabledForm}
@@ -716,7 +717,7 @@ function RestrictionForm(props){
             </Form>
              <div className="footer" style={{width:props.width}}>
                 <Button
-                    className="r_btn btn_import"
+                    className={(props.pageType ==="MODIFY")? "btn_save" : "r_btn btn_import"}
                     type="primary"
                     onClick={handleImportClick}
                     disabled ={ importButtonDisable }
@@ -727,7 +728,8 @@ function RestrictionForm(props){
                     title={ props.btnName || "导入" }
                     visible={isModalVisible}
                     maskClosable={false}
-                    style={{ top: 200 }}
+                    centered
+                    // style={{ top: 200 }}
                     onOk ={ handleImportFormData }
                     onCancel={handleCancel}
                     confirmLoading = { confirmLoading }

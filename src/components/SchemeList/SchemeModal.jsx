@@ -4,10 +4,12 @@ import { requestGet } from 'utils/request'
 import { isValidObject } from 'utils/basic-verify'
 import { ReqUrls } from 'utils/request-urls'
 import SchemeDetail  from 'components/SchemeList/SchemeDetail'
+import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
+
 
 const SchemeModal = (props) => {
     let [ flowData, setFlowData ] = useState({})
-    const { visible, modalId, setVisible } = props;
+    const { visible, modalId, modalType, setVisible } = props;
 
     //更新方案列表数据
     const updateDetailData = useCallback( data => {
@@ -50,6 +52,61 @@ const SchemeModal = (props) => {
         setVisible(false)
     });
 
+    const setModalContent = useCallback(()=>{
+
+        if(modalType === "DETAIL"){
+            return(
+                <Modal
+                    title={`方案详情 - ${tacticName} `}
+                    centered
+                    visible={ visible }
+                    onOk={() => setVisible(false)}
+                    onCancel={() => setVisible(false)}
+                    width={1000}
+                    // maskClosable={false}
+                    destroyOnClose = { true }
+                    footer = {
+                        <div>
+                            <Button type="primary" onClick={ closeModal }>确认</Button>
+                            {/*<Button onClick={ ()=>{ alert("建设中,敬请期待!")} } style={{ float: 'left'}}>窗口模式</Button>*/}
+                        </div>
+                    }
+                >
+                    <SchemeDetail flowData={ flowData }  />
+                </Modal>
+            )
+        }else if(modalType === "MODIFY") {
+            return(
+                <Modal
+                    title={`方案调整 - ${tacticName} `}
+                    centered
+                    visible={ visible }
+                    onOk={() => setVisible(false)}
+                    onCancel={() => setVisible(false)}
+                    width={1200}
+                    // maskClosable={false}
+                    destroyOnClose = { true }
+                    footer = {
+                        <div>
+                            <Button type="primary" className="scheme-modify">保存修改</Button>
+                        </div>
+                    }
+                >
+                    <RestrictionForm
+                        onRef={(ref)=>{ this.child = ref}}
+                        pageType="MODIFY"
+                        btnName="保存修改"
+                        setVisible={ setVisible }
+                        flowData={ flowData }
+                    />
+                </Modal>
+            )
+        }
+
+    });
+
+
+
     // 方案数据对象
     // 方案数据对象
     let tacticProcessInfo = isValidObject(flowData.tacticProcessInfo) ? flowData.tacticProcessInfo : {};
@@ -59,24 +116,7 @@ const SchemeModal = (props) => {
     const {tacticName="", } = basicTacticInfo;
 
     return (
-        <Modal
-            title={`方案详情 - ${tacticName} `}
-            centered
-            visible={ visible }
-            onOk={() => setVisible(false)}
-            onCancel={() => setVisible(false)}
-            width={1000}
-            maskClosable={false}
-            destroyOnClose = { true }
-            footer = {
-                <div>
-                    <Button type="primary" onClick={ closeModal }>确认</Button>
-                    {/*<Button onClick={ ()=>{ alert("建设中,敬请期待!")} } style={{ float: 'left'}}>窗口模式</Button>*/}
-                </div>
-            }
-        >
-            <SchemeDetail flowData={ flowData }  />
-        </Modal>
+        setModalContent()
     )
 }
 

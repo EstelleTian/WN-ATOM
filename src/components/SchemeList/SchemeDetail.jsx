@@ -66,7 +66,7 @@ function SchemeDetail(props) {
         <Row className="scheme-detail">
             <Col span={24}>
             <Form
-                className="destriction_form"
+                className="advanced_form sample_form"
                 colon={false}
                 labelAlign="left"
             >
