@@ -15,7 +15,7 @@ import './ATOMDetail.scss'
 function ATOMDetail(props){
 
     const options = [
-        { label: '是否同意高度', value: 'sameHeight' },
+        { label: '是否同一高度', value: 'sameHeight' },
         { label: '起飞申请', value: 'takeoffApply' },
         { label: '禁航', value: 'noFly' },
     ];
