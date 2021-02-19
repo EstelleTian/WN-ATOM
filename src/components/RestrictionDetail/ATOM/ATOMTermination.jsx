@@ -61,7 +61,7 @@ function ATOMTermination(props){
         let json = JSON.parse(msgStr);
         setMessage(json);
         let { data = {} } = json;
-        // data = JSON.parse(data);
+        data = JSON.parse(data);
         const id = data.id;
         console.log("id:", id);
         requestATOMData(id);
