@@ -20,9 +20,17 @@ function StaticInfoCard(props){
 
     // 限制数值单位集合
     const restrictionModeUnit = {
-        "MIT":"分钟",
+        "MIT":"分钟一架",
         "AFP":"架",
-    }
+    };
+    /**
+     * 区域机场数据
+     *
+     * */
+    const areaAirportData = {
+        'ZLLL':'ZBAL;ZBAR;ZBEN;ZBUH;ZLDH;ZLDL;ZLGL;ZLGM;ZLGY;ZLHB;ZLHX;ZLIC;ZLJC;ZLJQ;ZLLL;ZLLN;ZLTS;ZLXH;ZLXN;ZLYS;ZLZW;ZLZY',
+        'ZLXY':'ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL',
+    };
 
     // 限制方式
     let restrictionMode="";
@@ -67,14 +75,7 @@ function StaticInfoCard(props){
         setModeUnit(unit);
     },[restrictionMode,])
 
-    /**
-     * 区域机场数据
-     *
-     * */
-    const areaAirportData = {
-        'ZLLL':'ZBAL;ZBAR;ZBEN;ZBUH;ZLDH;ZLDL;ZLGL;ZLGM;ZLGY;ZLHB;ZLHX;ZLIC;ZLJC;ZLJQ;ZLLL;ZLLN;ZLTS;ZLXH;ZLXN;ZLYS;ZLZW;ZLZY',
-        'ZLXY':'ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL',
-    };
+
 
     function areaBlockChange(e) {
         let value =  e.target.value;
@@ -82,7 +83,7 @@ function StaticInfoCard(props){
         const field = arr[0];
         const val = arr[1];
         let valueString = areaAirportData[val] || '';
-        updateFormAPFieldValue(field, valueString);
+        updateFormAirportFieldValue(field, valueString);
     }
 
     function areaBlock(field) {
@@ -99,11 +100,11 @@ function StaticInfoCard(props){
 
 
     /**
-     * 更新表单字段数值
+     * 更新机场表单字段数值
      * */
-    const updateFormAPFieldValue =(field, value) => {
-        if( props.hasOwnProperty("updateFormAPFieldValue") ){
-            props.updateFormAPFieldValue(field, value);
+    const updateFormAirportFieldValue =(field, value) => {
+        if( props.hasOwnProperty("updateFormAirportFieldValue") ){
+            props.updateFormAirportFieldValue(field, value);
         }
         if(field ==='depAp'){
             setDepApValue(value);
@@ -252,7 +253,7 @@ function StaticInfoCard(props){
                         props.disabledForm ? (
                             <Form.Item
                                 label="开始时间"
-                                // required={true}
+                                required={true}
                                 // className="date-time-form-compact"
                                 name="basicStartTimeDisplay"
                             >
@@ -478,27 +479,30 @@ function StaticInfoCard(props){
                     </Form.Item>
                 </Col>
             </Row>
-            <Row gutter={24}>
-                <Col span={8}>
-                    <Form.Item
-                        className="hidden-label"
-                        name="depAp-area"
-                        label={` `}
-                    >
-                        {areaBlock('depAp')}
-                    </Form.Item>
-                </Col>
-                <Col span={8} className=""></Col>
-                <Col span={8}>
-                    <Form.Item
-                        className="hidden-label"
-                        name="arrAp-area"
-                        label={` `}
-                    >
-                        {areaBlock('arrAp')}
-                    </Form.Item>
-                </Col>
-            </Row>
+            {
+                props.disabledForm ? "":
+                    <Row gutter={24}>
+                        <Col span={8}>
+                            <Form.Item
+                                className="hidden-label"
+                                name="depAp-area"
+                                label={` `}
+                            >
+                                {areaBlock('depAp')}
+                            </Form.Item>
+                        </Col>
+                        <Col span={8} className=""></Col>
+                        <Col span={8}>
+                            <Form.Item
+                                className="hidden-label"
+                                name="arrAp-area"
+                                label={` `}
+                            >
+                                {areaBlock('arrAp')}
+                            </Form.Item>
+                        </Col>
+                    </Row>
+            }
 
             <Row gutter={24}>
                 <Col span={8}>
@@ -526,27 +530,30 @@ function StaticInfoCard(props){
                     </Form.Item>
                 </Col>
             </Row>
-            <Row gutter={24}>
-                <Col span={8}>
-                    <Form.Item
-                        className="hidden-label"
-                        name="exemptDepAp-area"
-                        label={` `}
-                    >
-                        {areaBlock('exemptDepAp')}
-                    </Form.Item>
-                </Col>
-                <Col span={8} className=""></Col>
-                <Col span={8}>
-                    <Form.Item
-                        className="hidden-label"
-                        name="exemptArrAp-area"
-                        label={` `}
-                    >
-                        {areaBlock('exemptArrAp')}
-                    </Form.Item>
-                </Col>
-            </Row>
+            {
+                props.disabledForm ? "":
+                    <Row gutter={24}>
+                        <Col span={8}>
+                            <Form.Item
+                                className="hidden-label"
+                                name="exemptDepAp-area"
+                                label={` `}
+                            >
+                                {areaBlock('exemptDepAp')}
+                            </Form.Item>
+                        </Col>
+                        <Col span={8} className=""></Col>
+                        <Col span={8}>
+                            <Form.Item
+                                className="hidden-label"
+                                name="exemptArrAp-area"
+                                label={` `}
+                            >
+                                {areaBlock('exemptArrAp')}
+                            </Form.Item>
+                        </Col>
+                    </Row>
+            }
             <Row gutter={12}>
                 <Col span={12}>
                     <LimitedCard title="包含"  disabledForm={props.disabledForm}   />
