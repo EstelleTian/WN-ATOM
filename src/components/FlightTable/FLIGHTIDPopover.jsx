@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-04 17:14:11
+ * @LastEditTime: 2021-02-19 13:57:37
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -75,7 +75,7 @@ let FLIGHTIDPopover = (props) => {
         if( isValidVariable(urlKey) ){
             const userId = props.systemPage.user.id || '14';
             const fid = orgFlight.flightid;
-
+            const schemeId = props.schemeListData.activeScheme.id || ""; //方案id
             const opt = {
                 url: CollaborateIP + urlKey,
                 method: 'POST',
@@ -84,7 +84,7 @@ let FLIGHTIDPopover = (props) => {
                     flightCoordination: orgFlight,
                     comment: "",
                     taskId: "",
-                    
+                    tacticId: schemeId,
                 },
                 resFunc: (data)=> requestSuccess(data, fid+title),
                 errFunc: (err, msg)=> {
@@ -114,27 +114,21 @@ let FLIGHTIDPopover = (props) => {
             urlKey = "/flightOutPoolApply";
             // orgFlight.poolStatus = FlightCoordination.OUT_POOL; //0
         }
-        // else if( type === "unexempt"){
-        //     urlKey = "flightExemptCancel";
-        //     orgFlight.priority =FlightCoordination.PRIORITY_NORMAL; //0
-        // }
-
-        //TODO测试
-        // props.flightTableData.updateSingleFlight( orgFlight );
-
+        
         if( isValidVariable(urlKey) ){
             // console.log(JSON.stringify(orgFlight));
             const userId = props.systemPage.user.id || '14';
             const fid = orgFlight.flightid;
-
+            const schemeId = props.schemeListData.activeScheme.id || ""; //方案id
             const opt = {
                 url: CollaborateIP + urlKey,
                 method: 'POST',
                 params: {
-                    userId: userId,
+                    userId,
                     flightCoordination: orgFlight,
                     comment: "",
                     taskId: "",
+                    tacticId: schemeId,
                 },
                 resFunc: (data)=> requestSuccess(data, fid+title),
                 errFunc: (err, msg)=> {
@@ -237,5 +231,5 @@ let FLIGHTIDPopover = (props) => {
         </Popover >
     )
 }
-export default inject("flightTableData", "systemPage")(observer(FLIGHTIDPopover))
+export default inject("flightTableData", "systemPage", "schemeListData")(observer(FLIGHTIDPopover))
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-02-05 16:36:12
+ * @LastEditTime: 2021-02-19 15:48:47
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -375,11 +375,12 @@ const formatSingleFlight = flight => {
         key: flight.id,
         id: flight.id,
         FLIGHTID: flight.flightid,
-        ALARM: formatAlarmValue(alarms).map((item)=>(
-            <Tooltip key={item.key} title={item.descriptions}>
-                <Tag className={`alarm-tag alarm_${item.key} `}  key={item.key} color={item.color}>{item.zh}</Tag>
-            </Tooltip>
-        )),
+        ALARM: alarms.join("-"),
+        // formatAlarmValue(alarms).map((item)=>(
+        //     <Tooltip key={item.key} title={item.descriptions}>
+        //         <Tag className={`alarm-tag alarm_${item.key} `}  key={item.key} color={item.color}>{item.zh}</Tag>
+        //     </Tooltip>
+        // )),
         TASK: taskVal,
         // TASK: PriorityList[flight.priority],
         EAW: eapField.name,
