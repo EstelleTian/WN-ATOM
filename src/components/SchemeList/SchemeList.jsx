@@ -32,6 +32,7 @@ const plainOptions = [
 function SchemeList (props){
     const [ visible, setVisible ] = useState(false); //详情模态框显隐
     const [ modalId, setModalId ] = useState(""); //当前选中方案详情的id，不一定和激活方案id一样
+    const [ modalType, setModalType ] = useState(""); //当前选中方案详情的id，不一定和激活方案id一样
     const [ manualRefresh, setManualRefresh ] = useState( false ); //方案手动更新按钮loading状态
     const [ firstLoadScheme, setFirstLoadScheme ] = useState( true ); //方案列表是否是第一次更新
     //状态-多选按钮组-切换事件
@@ -40,11 +41,15 @@ function SchemeList (props){
         props.schemeListData.setStatusValues( checkedValues );
     },[]);
 
-    //方案详情显隐
+    //方案模态框显隐
     const toggleModalVisible = useCallback(( flag, id )=>{
         setVisible(flag);
         //选中方案id
         setModalId(id);
+    },[]);
+    //方案模态框类型切换
+    const toggleModalType = useCallback(( type )=>{
+        setModalType(type);
     },[]);
 
     //请求错误处理
@@ -238,6 +243,7 @@ function SchemeList (props){
                                         handleActive={handleActive}
                                         key={index}
                                         toggleModalVisible={toggleModalVisible}
+                                        toggleModalType={toggleModalType}
                                     >
                                     </SchemeItem>
                                 )
@@ -245,7 +251,12 @@ function SchemeList (props){
 
                     }
                     {
-                        visible ? <SchemeModal visible={visible} setVisible={setVisible} modalId={modalId} /> : ""
+                        visible ? <SchemeModal
+                            visible={visible}
+                            setVisible={setVisible}
+                            modalType={ modalType }
+                            modalId={modalId} />
+                            : ""
                     }
 
                 </div>

@@ -96,6 +96,12 @@ function SchemeItem(props){
     }
     const showDetail = useCallback((id)=>{
         props.toggleModalVisible(true, id);
+        props.toggleModalType('DETAIL');
+    });
+
+    const showModify = useCallback((id)=>{
+        props.toggleModalVisible(true, id);
+        props.toggleModalType('MODIFY');
     })
 
 
@@ -249,7 +255,7 @@ function SchemeItem(props){
                         {
                             (screenWidth > 1920) 
                             ? <div className="opt" onClick={ e =>{
-                                showDetail(id);
+                                showModify(id);
                                 e.stopPropagation();
                             } }>方案调整</div>  
                             : <div className="opt">

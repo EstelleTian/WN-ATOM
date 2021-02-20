@@ -61,6 +61,16 @@ const handleImportControl =(str, massageId) => {
         console.error(error);
     }
 };
+//方案列表--点击方案调整
+const handleImportControlForUpdate =(oldId, newId) => {
+    try {
+
+        //传递被修改方案id和修改后的新方案id
+        jsEntity.importControlForUpdate(oldId, oldId);
+    }catch(error){
+        console.error(error);
+    }
+};
 //发送用户名-密码
 const saveUserInfo =(username, password) => {
     try {
@@ -119,5 +129,5 @@ const openTimeSlotFrameWithFlightId =(schemeId = "", flightId = "") => {
 export {
     sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
-    openConfirmFrame, openTimeSlotFrameWithFlightId
+    openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate
 }
