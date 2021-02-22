@@ -93,10 +93,10 @@ const SchemeModal = (props) => {
                     }
                 >
                     <RestrictionForm
-                        onRef={(ref)=>{ this.child = ref}}
-                        pageType="MODIFY"
-                        btnName="保存修改"
-                        setVisible={ setVisible }
+                        operationType="MODIFY"
+                        operationDescription="方案调整"
+                        primaryButtonName="保存修改"
+                        setModalVisible={ setVisible }
                         flowData={ flowData }
                     />
                 </Modal>

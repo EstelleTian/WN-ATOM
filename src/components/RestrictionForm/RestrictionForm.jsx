@@ -13,7 +13,10 @@ import {inject, observer} from "mobx-react";
 
 //表单整体
 function RestrictionForm(props){
-    const  { flowData = {}, showIgnoreBtn=false, systemPage, setVisible } = props;
+    const  {
+        flowData = {}, showIgnoreBtn=false, showEditBtn= false, systemPage,
+        primaryButtonName, setModalVisible,  operationType, operationDescription
+    } = props;
     const  { user={} } = systemPage;
     let userDescriptionCN = user.descriptionCN ||　"";
 
@@ -101,7 +104,7 @@ function RestrictionForm(props){
     ];
 
 
-    if( props.btnName === "创建方案"){
+    if( operationType === "CREATE"){
         tacticPublishUser =  tacticPublishUser || userDescriptionCN;
     }
 
@@ -211,7 +214,7 @@ function RestrictionForm(props){
 
     // 模态框显隐变量
     let [ isModalVisible, setIsModalVisible] = useState(false);
-    // 导入按钮禁用变量
+    // 主要操作按钮禁用变量
     let [ importButtonDisable, setImportButtonDisable] = useState(false);
     // 模态框确定按钮loading变量
     let [ confirmLoading, setConfirmLoading] = useState(false);
@@ -231,11 +234,10 @@ function RestrictionForm(props){
 
     const [form] = Form.useForm();
     useEffect(function(){
-        console.log("useEffect", initialValues);
         form.resetFields();//重置，用以表单初始值赋值
         // 更新表单各时间数值
         updateDataTime();
-    },[id, user.id])
+    },[id, user.id]);
 
 
     const updateDataTime =() => {
@@ -247,13 +249,13 @@ function RestrictionForm(props){
         setEndTime(endTimeString);
     };
 
-
-    // 导入按钮事件
-    const  handleImportClick = async () => {
+    // 主要操作按钮事件
+    const  handlePrimaryBtnClick = async () => {
         try {
+            // 触发表单验证取表单数据
             const values = await form.validateFields();
+            // 开启确认模态框
             setIsModalVisible(true);
-
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
         }
@@ -266,8 +268,8 @@ function RestrictionForm(props){
         setConfirmLoading(false);
     };
 
-    // 处理导入表单数据
-    const handleImportFormData = async () => {
+    // 处理表单提交数据
+    const handleSubmitFormData = async () => {
         try {
             // 触发表单验证取表单数据
             const values = await form.validateFields();
@@ -276,9 +278,8 @@ function RestrictionForm(props){
                 props.setDisabledForm(true);
             }
             setConfirmLoading(true);
-            // 处理导入提交数据
+            // 处理提交数据
             const submitData = handleSubmitData(values);
-
             // 数据提交
             submitFormData(submitData)
         } catch (errorInfo) {
@@ -469,7 +470,7 @@ function RestrictionForm(props){
         // 更新流控交通流-不包含-受控机型
         flowControlFlight.exemptionAircraftType = exemptionAircraftType.join(';');
         // 若为方案修改则追加formerId字段
-        if(props.pageType === 'MODIFY'){
+        if(operationType === 'MODIFY'){
             opt.formerId = basicTacticInfo.id;
         }
 
@@ -497,8 +498,6 @@ function RestrictionForm(props){
      * 数据提交成功回调
      * */
     const requestSuccess =(oldId, data) => {
-        let operateName = props.btnName || "流控导入";
-        const { pageType } = props;
 
         const { tacticProcessInfo={} } = data;
         const { basicTacticInfo={} } = tacticProcessInfo;
@@ -506,18 +505,18 @@ function RestrictionForm(props){
         setConfirmLoading(false);
         setIsModalVisible(false);
         Modal.success({
-            content: `${operateName}成功`,
+            content: `${operationDescription}成功`,
             maskClosable:true
         });
         //发送到客户端
-        if(pageType ==='CREATE'){
+        if(operationType ==='CREATE'){
             handleImportControl(id);
-        }else if(pageType === 'IMPORT'){
+        }else if(operationType === 'IMPORT'){
             handleImportControl(id, props.message.id);
-        }else if(pageType === 'MODIFY'){
+        }else if(operationType === 'MODIFY'){
             handleImportControlForUpdate(oldId,id);
             setTimeout(()=>{
-                setVisible(false)
+                setModalVisible(false)
             }, 1000)
         }
     };
@@ -526,7 +525,6 @@ function RestrictionForm(props){
      * 数据提交失败回调
      * */
     const requestErr = (err) => {
-        let operateame = props.btnName || "流控导入";
         if( props.hasOwnProperty("setDisabledForm") ){
             props.setDisabledForm(false);
         }
@@ -543,7 +541,7 @@ function RestrictionForm(props){
         Modal.error({
             content: (
                 <span>
-                    <span>{ `${operateame}失败`}</span>
+                    <span>{ `${operationDescription}失败`}</span>
                     <br/>
                     <span>{errMsg}</span>
 
@@ -603,28 +601,12 @@ function RestrictionForm(props){
         setEndTime(timeString)
     };
 
-    /**
-     * 更新流控限制方式
-     *
-     * */
-    const updateRestrictionMode =(mode) => {
-        // 更新表单中流控限制方式
-        // form.setFieldsValue({restrictionMode: mode});
-    };
-    /**
-     * 更新流控发布类型
-     *
-     * */
-    const updatePublishType =(type) => {
-        // 更新表单中流控发布类型
-        form.setFieldsValue({flowControlPublishType: type});
-    };
 
     /**
      * 更新流控发布类型
      *
      * */
-    const updateFormAPFieldValue =(field, value) => {
+    const updateFormAirportFieldValue =(field, value) => {
         let data = {};
         data[field] = value;
         // 更新表单中流控发布类型
@@ -640,7 +622,7 @@ function RestrictionForm(props){
         try {
             // 限制数值单位集合
             const restrictionModeUnit = {
-                "MIT":"分钟",
+                "MIT":"分钟一架",
                 "AFP":"架",
             };
             // 限制数值单位
@@ -666,8 +648,134 @@ function RestrictionForm(props){
             console.log('Failed:', errorInfo);
         }
     };
+    /**
+     * 打开编辑
+     * */
+    const handleOpenEdit =()=> {
+        if( props.hasOwnProperty("setDisabledForm")){
+            props.setDisabledForm(false);
+        }
+    };
+
+    /**
+     * 保存编辑
+     *
+     * */
+    const handleSaveEdit = async () => {
+        try {
+            // 触发表单验证取表单数据
+            const values = await form.validateFields();
+            if( props.hasOwnProperty("setDisabledForm")){
+                props.setDisabledForm(true);
+            }
+        } catch (errorInfo) {
+
+            console.log('Failed:', errorInfo);
+
+        }
+    };
 
 
+    /**
+     * 编辑按钮
+     *
+     * */
+    const drawEditBtn = ()=> {
+        return(
+            <div>
+                {
+                    props.disabledForm ?
+                        <Button
+                            className="btn_edit"
+                            type="primary"
+                            onClick={ handleOpenEdit }>
+                            编辑
+                        </Button>
+                        : <Button
+                            className="btn_save_edit"
+                            type="primary"
+                            onClick={ handleSaveEdit } >
+                            保存编辑
+                         </Button>
+                }
+            </div>
+        )
+    };
+    /**
+     * 忽略
+     *
+     * */
+    const drawIgnoreBtn = ()=> {
+        return (
+            <div>
+                <Button
+                    className="r_btn btn_ignore"
+                    onClick={()=>{
+                        setIsIgnoreModalVisible(true)
+                    }}
+                    disabled ={ isIgnoreModalVisible }
+                >
+                    忽略
+                </Button>
+                <Modal
+                    title={ "忽略" }
+                    visible={isIgnoreModalVisible}
+                    maskClosable={false}
+                    centered
+                    onOk ={ e=>{
+                        // 隐藏模态框显示
+                        setIsIgnoreModalVisible(false);
+                        window.close();
+                    } }
+                    onCancel={e=>{
+                        // 隐藏模态框显示
+                        setIsIgnoreModalVisible(false);
+                    }}
+                    confirmLoading = { false }
+                >
+                    确定忽略当前流控?
+                </Modal>
+            </div>
+        )
+    };
+
+    /**
+     * 操作栏
+     * */
+    const drawOperation = ()=> {
+        return (
+            <div className="footer" style={{width:props.width}}>
+
+                {
+                    showEditBtn ? (drawEditBtn()) : ""
+                }
+                <div>
+                    <Button
+                        className={(operationType ==="MODIFY")? "btn_create" : "r_btn btn_import"}
+                        type="primary"
+                        onClick={handlePrimaryBtnClick}
+                        disabled ={ importButtonDisable }
+                    >
+                        { primaryButtonName }
+                    </Button>
+                    <Modal
+                        title={ primaryButtonName }
+                        visible={isModalVisible}
+                        maskClosable={false}
+                        centered
+                        onOk ={ handleSubmitFormData }
+                        onCancel={handleCancel}
+                        confirmLoading = { confirmLoading }
+                    >
+                        <p>{`确定${primaryButtonName}?`}</p>
+                    </Modal>
+                </div>
+                {
+                    showIgnoreBtn ? (drawIgnoreBtn()) : ""
+                }
+            </div>
+        )
+    };
 
 
     useEffect(function(){
@@ -684,9 +792,7 @@ function RestrictionForm(props){
     return (
         <div>
             <Form
-                // colon = { false }
                 form={form}
-                // size="small"
                 initialValues={initialValues}
                 onFinish={(values) => {
                     console.log(values);
@@ -699,80 +805,16 @@ function RestrictionForm(props){
                     updateStartTimeString={updateStartTimeString }
                     updateEndDateString={updateEndDateString }
                     updateEndTimeString ={ updateEndTimeString }
-                    updateRestrictionMode={updateRestrictionMode }
-                    updateFormAPFieldValue={updateFormAPFieldValue }
+                    updateFormAirportFieldValue={updateFormAirportFieldValue }
                     autofillTacticName={autofillTacticName }
                     form = { form}
 
                 />
-                {/*<FlowList*/}
-                    {/*disabledForm={props.disabledForm}*/}
-
-                    {/*updateFlowControlStartTimeDisplay={updateFlowControlStartTimeDisplay }*/}
-                    {/*updateFlowControlEndTimeDisplay={updateFlowControlEndTimeDisplay }*/}
-                    {/*updateRestrictionMode={ updateRestrictionMode }*/}
-                    {/*updatePublishType={ updatePublishType }*/}
-                {/*/>*/}
 
             </Form>
-             <div className="footer" style={{width:props.width}}>
-                <Button
-                    className={(props.pageType ==="MODIFY")? "btn_save" : "r_btn btn_import"}
-                    type="primary"
-                    onClick={handleImportClick}
-                    disabled ={ importButtonDisable }
-                >
-                    { props.btnName || "导入" }
-                </Button>
-                <Modal
-                    title={ props.btnName || "导入" }
-                    visible={isModalVisible}
-                    maskClosable={false}
-                    centered
-                    // style={{ top: 200 }}
-                    onOk ={ handleImportFormData }
-                    onCancel={handleCancel}
-                    confirmLoading = { confirmLoading }
-                    >
-                    {
-                        props.btnName ? <p>{`确定${props.btnName}?`}</p> : <p>确定导入当前流控?</p>
-                    }
-                </Modal>
-                {
-                    showIgnoreBtn
-                        ? <div>
-                            <Button
-                                className="r_btn btn_ignore"
-                                // type="primary"
-                                onClick={()=>{
-                                    setIsIgnoreModalVisible(true)
-                                }}
-                                disabled ={ isIgnoreModalVisible }
-                            >
-                                忽略
-                            </Button>
-                            <Modal
-                                title={ "忽略" }
-                                visible={isIgnoreModalVisible}
-                                maskClosable={false}
-                                style={{ top: 200 }}
-                                onOk ={ e=>{
-                                    // 隐藏模态框显示
-                                    setIsIgnoreModalVisible(false);
-                                    window.close();
-
-                                } }
-                                onCancel={e=>{
-                                    // 隐藏模态框显示
-                                    setIsIgnoreModalVisible(false);
-                                }}
-                                confirmLoading = { false }
-                                >
-                                确定忽略当前流控?
-                            </Modal>
-                        </div>
-                : "" }
-            </div>
+            {
+                drawOperation()
+            }
         </div>
     )
 }

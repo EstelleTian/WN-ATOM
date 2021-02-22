@@ -126,7 +126,7 @@ function RestrictionPage( props ) {
                     : ""
             }
             { //终止
-                ( pageType === "ATOMTermination") ?
+                ( pageType === "ATOMTerminate") ?
                     <ATOMTermination
                         title={ `${newTypeCn}(${source})` }
                     />

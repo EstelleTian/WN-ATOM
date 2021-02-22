@@ -10,7 +10,11 @@ function CreateFlowPage(props){
     return (
         <div className="create-flow-container">
             <div className="content">
-                <RestrictionForm pageType="CREATE" btnName="创建方案" />
+                <RestrictionForm
+                    operationType="CREATE"
+                    operationDescription="创建方案"
+                    primaryButtonName="创建方案"
+                />
             </div>
 
         </div>
