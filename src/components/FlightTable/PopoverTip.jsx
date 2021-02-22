@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-02-04 17:14:01
+ * @LastEditTime: 2021-02-22 15:19:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -24,7 +24,7 @@ import { REGEXP } from 'utils/regExpUtil'
 import React,{ useCallback, useState, useEffect } from "react";
 import {  isValidVariable, getFullTime  } from 'utils/basic-verify'
 import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
-
+import { useTip } from './CustomUses'
 import moment from "moment";
 
 
@@ -34,27 +34,11 @@ const PopoverTip = ( props ) => {
     const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
     const [refuseBtnLoading, serRefuseBtnLoading] = useState(false);
     
-    const [ tipObj, setTipObj] = useState({
-        visible: false,
-        title: "",
-        color: ""
-    });
+    const [ tipObj, setTipObj ] = useTip(2000);
     const { title } = props;
     const { record, col } = props.opt;
     const approve = props.approve || {};
 
-
-    useEffect(function(){
-        if( tipObj.visible ){
-            setTimeout(function(){
-                setTipObj({
-                    ...tipObj,
-                    visible: false
-                });
-            }, 3000)
-        }
-
-    }, [tipObj.visible, props.visible] );
     // 内容渲染
     const getContent = useCallback((opt)  =>{
         const [form] = Form.useForm();

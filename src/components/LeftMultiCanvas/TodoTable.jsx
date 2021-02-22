@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-22 13:59:06
+ * @LastEditTime: 2021-02-22 16:22:18
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -16,6 +16,7 @@ import { ReqUrls, CollaborateIP } from "utils/request-urls";
 import { requestGet, request  } from "utils/request";
 import { getFullTime, getDayTimeFromString, isValidVariable, formatTimeString  } from "utils/basic-verify";
 import { FlightCoordination  } from "utils/flightcoordination";
+import { OptionBtn  } from "./OptionBtn";
 import moment from "moment";
 import './TodoTable.scss';
 
@@ -401,7 +402,7 @@ const TodoTable = (props) => {
 
 
     //处理 操作 同意/拒绝
-    const sendResultRequest = ( type, text = "") => {
+    const sendResultRequest = ( type, text = "", setLoad) => {
         
         if( !isValidVariable(userId) ){
             return;
@@ -483,16 +484,21 @@ const TodoTable = (props) => {
                 url,
                 method: 'POST',
                 params: params,
-                resFunc: (data)=> requestSuccess(data, title + '成功', key),
+                resFunc: (data)=> {
+                    requestSuccess(data, title + '成功', key)
+                    setLoad(false);
+                },
                 errFunc: (err)=> {
                     if( isValidVariable(err) ){
                         requestErr(err, err )
                     }else{
                         requestErr(err, title + '失败' )
                     }
+                    setLoad(false);
                 },
             };
             request(opt);
+            
         }
         
 
@@ -599,26 +605,23 @@ const TodoTable = (props) => {
                     
                     return (
                         <div>
-                        {
-                            TOBTFlag
-                            ?  <TOBTPop setTobtModalVisible={setTobtModalVisible} record={JSON.parse(OPTIONS)} setTobtFlight={setTobtFlight} >
-                                    
-                                    <Button size="small" className="todo_opt_btn todo_apply c-btn-blue" style={{marginRight: '10px'}}>同意</Button>
-                                </TOBTPop> 
-                            : <Button size="small" className="todo_opt_btn todo_apply c-btn-blue" style={{marginRight: '10px'}}
-                                onClick={ e =>{
-                                    sendResultRequest("agree", text);
-                                } }
-                                >同意</Button>
-                             
-                        }
-                        <Button size="small" className="todo_opt_btn todo_refuse c-btn-red"
-                            onClick={ e =>{
-                                sendResultRequest("refuse", text);
-                                 e.stopPropagation();
-                                } }
-                            >拒绝</Button>                 
-                            
+                            {
+                                TOBTFlag
+                                ?  <TOBTPop setTobtModalVisible={setTobtModalVisible} record={JSON.parse(OPTIONS)} setTobtFlight={setTobtFlight} >
+                                        <Button size="small" className="todo_opt_btn todo_agree c-btn-blue">同意</Button>
+                                    </TOBTPop> 
+                                : <OptionBtn type="agree" text="同意" callback = {
+                                    (setLoad)=>{ 
+                                        sendResultRequest("agree", text, setLoad) 
+                                    }
+                                } />
+                                
+                            }
+                            <OptionBtn type="refuse" text="拒绝" callback = {
+                                (setLoad)=>{ 
+                                    sendResultRequest("refuse", text, setLoad) 
+                                }
+                            } />
                         </div>
                     );
                 }
