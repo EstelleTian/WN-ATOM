@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-05 16:26:01
+ * @LastEditTime: 2021-02-22 13:59:06
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -350,15 +350,21 @@ const TodoTable = (props) => {
            const businessName = processVariables.businessName || "";
            const startUserName = instance.startUserName || "";
            let startTime = instance.startTime || "";
-
            
+           let taskId = "";
+           const instanceTasks = task.instanceTasks || {};
+           const instanceTasksKeys = Object.keys( instanceTasks );
+           if( instanceTasksKeys.length > 0 ){
+             taskId = instanceTasksKeys[0] || "";
+           }
            
 
            let options = {
                 key,
                 flightCoorType,
                 agree,
-                flight
+                flight,
+                taskId
            }
            
            let obj = {
@@ -380,6 +386,9 @@ const TodoTable = (props) => {
 
     //数据提交成功回调
     const requestSuccess = useCallback( ( data, content, key ) => {
+        console.log("协调成功：",data)
+        const { flightCoordination = {} } = data;
+        props.flightTableData.updateSingleFlight( flightCoordination );
         //重新请求数据
         requestDatas(true);
 
@@ -399,13 +408,14 @@ const TodoTable = (props) => {
         }
         const dataObj = JSON.parse(text);
         const flightCoorType = dataObj.flightCoorType || '';
-        const key = dataObj.key || {}; //流水号
+        const key = dataObj.key || ""; //流水号
+        const taskId = dataObj.taskId || ""; //流水号
         const flight = dataObj.flight || {};
         let params = {
-            userId: userId,
+            userId,
             flightCoordination: flight, //航班原fc
             comment: "",  //备注
-            taskId: key
+            taskId
         }
 
         let url = "";
@@ -725,7 +735,7 @@ const TodoTable = (props) => {
 
 }
 
-export default inject("systemPage", "todoList")(observer(TodoTable))
+export default inject("systemPage", "todoList", "flightTableData")(observer(TodoTable))
 
 
 

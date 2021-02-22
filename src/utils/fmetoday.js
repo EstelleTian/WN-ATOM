@@ -529,7 +529,7 @@ const FmeToday = {
 	 * @return true / false
 	 */
 	isSCHStatus : function(fme) {
-		if (isValidVariable(fme.status)
+		if (isValidObject(fme) && isValidVariable(fme.status)
 				&& parseInt(fme.status, 10) == FmeToday.STATUS_SCH) {
 			return true;
 		}

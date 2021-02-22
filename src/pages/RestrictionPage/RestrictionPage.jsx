@@ -5,12 +5,7 @@ import {Spin, Row, Col, message as antdMessage, Button} from "antd";
 import ATOMAdd  from 'components/RestrictionDetail/ATOM/ATOMAdd'
 import ATOMUpdate  from 'components/RestrictionDetail/ATOM/ATOMUpdate'
 import ATOMTermination  from 'components/RestrictionDetail/ATOM/ATOMTermination'
-import NTFMDetail  from 'components/RestrictionDetail/NTFMDetail'
-import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
-import FlowRelation  from 'components/RestrictionForm/FlowRelation'
-import { request } from 'utils/request'
-import { ReqUrls } from 'utils/request-urls'
-import { sendMsgToClient } from 'utils/client'
+
 import './RestrictionPage.scss'
 
 
