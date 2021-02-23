@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-22 15:34:37
+ * @LastEditTime: 2021-02-23 11:10:50
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -21,6 +21,7 @@ let FLIGHTIDPopover = (props) => {
     const [ exemptLoad, setExemptLoad ] = useState(false);
     const [ poolLoad, setPoolLoad ] = useState(false);
     const [ tipObj, setTipObj] = useTip(2500);
+    const {text, record } = props.opt;
     //数据提交失败回调
     const requestErr =useCallback( (err, content) => {
         setTipObj({
@@ -140,8 +141,8 @@ let FLIGHTIDPopover = (props) => {
 
     },[props.systemPage.user, props.schemeListData.activeScheme.id]);
 
-    const { text, priority, isInPoolFlight, hasAuth, colorClass } = useMemo( ()=>{
-        const {text, record } = props.opt;
+    const { priority, isInPoolFlight, hasAuth, colorClass } = useMemo( ()=>{
+        
         let { orgdata } = record;
         if( isValidVariable(orgdata) ){
             orgdata = JSON.parse(orgdata);
@@ -171,7 +172,7 @@ let FLIGHTIDPopover = (props) => {
             colorClass += " in_pool " + orgdata.poolStatus;
         }
         
-        return { text, priority, isInPoolFlight, hasAuth, colorClass };
+        return { priority, isInPoolFlight, hasAuth, colorClass };
     }, [props.opt])
 
     
@@ -203,7 +204,7 @@ let FLIGHTIDPopover = (props) => {
 
             </div>
         )
-    },[priority, isInPoolFlight, hasAuth]);
+    },[priority, isInPoolFlight, hasAuth, exemptLoad, poolLoad]);
 
     return(
         <Popover

@@ -506,7 +506,10 @@ function RestrictionForm(props){
         setIsModalVisible(false);
         Modal.success({
             content: `${operationDescription}成功`,
-            maskClosable:true
+            // maskClosable:true,
+            onOk: () =>{
+                window.close();
+            }
         });
         //发送到客户端
         if(operationType ==='CREATE'){
