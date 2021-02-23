@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-18 17:10:50
+ * @LastEditTime: 2021-02-20 18:07:12
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -168,6 +168,7 @@ function WorkFlowList(props){
             align: 'left',
             key: "businessName",
             width: (screenWidth > 1920) ? 150 : 150, 
+        
 
         },
         {
@@ -219,10 +220,16 @@ function WorkFlowList(props){
         ...commonColumns,
         {
             title: "办结时间",
-            dataIndex: "endTime",
+            dataIndex: "createTime",
+
             align: 'center',
-            key: "endTime",
+            key: "createTime",
             width: (screenWidth > 1920) ? 70 : 70,
+            showSorterTooltip: false,
+            defaultSortOrder: 'descend',
+            sorter: (a, b) => {
+                return a.createTime - b.createTime;
+            },
             render: (text, record, index) => {
                 if( text === "" ){
                     return text
@@ -324,7 +331,7 @@ function WorkFlowList(props){
             const item = tasks[sid] || {};
             const hisInstance = item.hisInstance || {}; //工作流实例
             const hisTasks = item.hisTasks || {}; //子任务集合
-            const endTime = hisInstance.endTime || "";
+            
             const processVariables = hisInstance.processVariables || {};
             let businessName = processVariables.businessName || ""; //工作名称
             const processDefinitionName = hisInstance.processDefinitionName || ""; 
@@ -334,6 +341,7 @@ function WorkFlowList(props){
             }
 
             const userNameCn = processVariables.userNameCn || ""; //发起人
+            let endTime;
             let taskStatus = "进行中"; //流程状态
             if( isValidVariable(endTime) ){
                 taskStatus = "已结束"
@@ -347,6 +355,13 @@ function WorkFlowList(props){
                 const hitem = hisTasks[hid] || {};
                 const name = hitem.name || "";
 
+                
+
+                if( hisTasksLen > 0 ){
+                    let lastTaskKey = hisTasksKeys[hisTasksLen-1];
+                    
+                    endTime = hisTasks[lastTaskKey].endTime || "";
+                }
                 let obj = {
                     key: sid,
                     sid: sid,
@@ -354,7 +369,7 @@ function WorkFlowList(props){
                     // steps: "第"+(hisTasksLen)+"步:"+name,
                     steps: name,
                     userNameCn,
-                    endTime,
+                    createTime: endTime,
                     taskStatus,
                     opt: "",
                     orgdata: JSON.stringify( item )

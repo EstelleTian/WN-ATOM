@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-02-01 14:28:21
+ * @LastEditTime: 2021-02-22 13:36:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -97,21 +97,32 @@ function InfoCard(props){
                                             sendMsgToClient(message)
                                             e.stopPropagation()
                                         } } >查看容流监控</Button>*/}
-                                        <Link to="/restriction" target="_blank">
-                                            <Button size="small" onClick={ (e)=>{
-                                                //将data转换为对象再生成字符串对象传递，否则接收后转换不成正确的json
-                                                let { data } = message;
-                                                data = JSON.parse( data);
-                                                data = Object.assign({}, data )
-                                                let newMsg =  Object.assign({}, message);
-                                                newMsg.data = data;
-
-                                                // console.log( str )
-                                                localStorage.setItem("message", JSON.stringify(message) );
-                                                // openControlDetail( newMsg )
+                                        
+                                        {
+                                            (dataCode === "TFAO") 
+                                            ? <Button className="info_btn btn_blue" size="small" onClick={ function(e){
+                                                sendMsgToClient(message)
                                                 e.stopPropagation()
-                                            }}>查看流控详情</Button>
-                                        </Link>
+                                            } } >查看容流监控</Button> 
+                                            : <Link to="/restriction" target="_blank">
+                                                <Button size="small" onClick={ (e)=>{
+                                                    //将data转换为对象再生成字符串对象传递，否则接收后转换不成正确的json
+                                                    let { data } = message;
+                                                    data = JSON.parse( data);
+                                                    data = Object.assign({}, data )
+                                                    let newMsg =  Object.assign({}, message);
+                                                    newMsg.data = data;
+
+                                                    // console.log( str )
+                                                    localStorage.setItem("message", JSON.stringify(message) );
+                                                    // openControlDetail( newMsg )
+                                                    e.stopPropagation()
+                                                }}>查看流控详情</Button>
+                                            </Link>
+                                            
+                                        }
+                                            
+                                        
                                     </span>
                                 : ""
                             }

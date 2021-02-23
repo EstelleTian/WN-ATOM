@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-18 16:33:47
+ * @LastEditTime: 2021-02-22 16:37:54
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -9,7 +9,7 @@
 
 import React, {useState, useEffect, useCallback} from 'react'
 import { inject, observer } from 'mobx-react'
-import {Table, Input, Checkbox } from 'antd'
+import {Table, Input, Checkbox, message } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { getColumns, formatSingleFlight, scrollTopById, highlightRowByDom} from 'components/FlightTable/TableColumns'
 import { isValidVariable, formatTimeString } from 'utils/basic-verify'
@@ -76,7 +76,13 @@ function FlightTable(props){
             props.flightTableData.updateFlightsList([], generateTime, id);
         }
     },[props.flightTableData]);
-
+    //请求错误处理
+    const requestErr = useCallback((err, content) => {
+        message.error({
+            content,
+            duration: 4,
+        });
+    },[]);
     //获取--航班列表数据
     const requestFlightTableData = useCallback( ( id, resolve, reject ) => {
         const opt = {
@@ -237,13 +243,27 @@ function FlightTable(props){
         } )
         return newArr
     },[]);
+
+
+   
     
     const flightTableData = props.flightTableData;
     const { list, loading, generateTime } = flightTableData;
     let data = coverFlightTableData(list);
     data = filterInput(data);
     let columns = getColumns();
-    
+
+    const handleRow = useCallback(
+        (event, record) => {// 点击行
+            const popoverDom = document.getElementsByClassName("ant-popover");
+            if( popoverDom.length === 0 ){
+                const fid = event.currentTarget.getAttribute("data-row-key")
+                flightTableData.toggleSelectFlight(fid);
+            }
+            
+          },
+        [flightTableData]
+        )
 
     const getTitle = () => {
         const activeScheme = props.schemeListData.activeScheme || {};
@@ -305,14 +325,11 @@ function FlightTable(props){
                 onRow={record => {
                     return {
                       onClick: (event) => {// 点击行
-                        console.log(record);
-                        const popoverDom = document.getElementsByClassName("ant-popover");
-                        if( popoverDom.length === 0 ){
-                            const fid = event.currentTarget.getAttribute("data-row-key")
-                            flightTableData.toggleSelectFlight(fid);
-                        }
-                        
+                        handleRow(event, record);
                       }, 
+                      onContextMenu: (event) => {// 点击行
+                        handleRow(event, record);
+                      },
 
                     };
                   }}

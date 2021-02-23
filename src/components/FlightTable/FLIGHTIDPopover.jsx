@@ -1,13 +1,13 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-04 17:14:11
+ * @LastEditTime: 2021-02-22 15:34:37
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
  */
 import { message as antdMessage, message, Popover, Button, Tooltip} from "antd";
-import React,{ useCallback, useState, useEffect } from "react";
+import React,{ useCallback, useState, useEffect, useMemo } from "react";
 import {  isValidVariable } from 'utils/basic-verify'
 import { FlightCoordination, PriorityList } from 'utils/flightcoordination.js'
 import { request } from 'utils/request'
@@ -15,16 +15,12 @@ import { CollaborateUrl, CollaborateIP } from 'utils/request-urls'
 import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
 import {observer, inject} from "mobx-react";
 import FmeToday from "utils/fmetoday";
-
+import { useTip } from './CustomUses'
 //航班号右键协调框
 let FLIGHTIDPopover = (props) => {
     const [ exemptLoad, setExemptLoad ] = useState(false);
     const [ poolLoad, setPoolLoad ] = useState(false);
-    const [ tipObj, setTipObj] = useState({
-        visible: false,
-        title: "",
-        color: ""
-    });
+    const [ tipObj, setTipObj] = useTip(2500);
     //数据提交失败回调
     const requestErr =useCallback( (err, content) => {
         setTipObj({
@@ -75,7 +71,7 @@ let FLIGHTIDPopover = (props) => {
         if( isValidVariable(urlKey) ){
             const userId = props.systemPage.user.id || '14';
             const fid = orgFlight.flightid;
-
+            const schemeId = props.schemeListData.activeScheme.id || ""; //方案id
             const opt = {
                 url: CollaborateIP + urlKey,
                 method: 'POST',
@@ -84,7 +80,7 @@ let FLIGHTIDPopover = (props) => {
                     flightCoordination: orgFlight,
                     comment: "",
                     taskId: "",
-                    
+                    tacticId: schemeId,
                 },
                 resFunc: (data)=> requestSuccess(data, fid+title),
                 errFunc: (err, msg)=> {
@@ -114,27 +110,21 @@ let FLIGHTIDPopover = (props) => {
             urlKey = "/flightOutPoolApply";
             // orgFlight.poolStatus = FlightCoordination.OUT_POOL; //0
         }
-        // else if( type === "unexempt"){
-        //     urlKey = "flightExemptCancel";
-        //     orgFlight.priority =FlightCoordination.PRIORITY_NORMAL; //0
-        // }
-
-        //TODO测试
-        // props.flightTableData.updateSingleFlight( orgFlight );
-
+        
         if( isValidVariable(urlKey) ){
             // console.log(JSON.stringify(orgFlight));
             const userId = props.systemPage.user.id || '14';
             const fid = orgFlight.flightid;
-
+            const schemeId = props.schemeListData.activeScheme.id || ""; //方案id
             const opt = {
                 url: CollaborateIP + urlKey,
                 method: 'POST',
                 params: {
-                    userId: userId,
+                    userId,
                     flightCoordination: orgFlight,
                     comment: "",
                     taskId: "",
+                    tacticId: schemeId,
                 },
                 resFunc: (data)=> requestSuccess(data, fid+title),
                 errFunc: (err, msg)=> {
@@ -148,28 +138,44 @@ let FLIGHTIDPopover = (props) => {
             request(opt);
         }
 
-    });
+    },[props.systemPage.user, props.schemeListData.activeScheme.id]);
 
-    const {text, record } = props.opt;
-    let { orgdata } = record;
-    if( isValidVariable(orgdata) ){
-        orgdata = JSON.parse(orgdata);
-    }
-    let { priority } = orgdata;
-    const fmeToday = orgdata.fmeToday;
-    let hasAuth = false;
-    //航班状态验证
-    let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
-    let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
-    let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
-    let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
-    let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
+    const { text, priority, isInPoolFlight, hasAuth, colorClass } = useMemo( ()=>{
+        const {text, record } = props.opt;
+        let { orgdata } = record;
+        if( isValidVariable(orgdata) ){
+            orgdata = JSON.parse(orgdata);
+        }
+        let { priority } = orgdata;
+        const fmeToday = orgdata.fmeToday;
+        let hasAuth = false;
+        //航班状态验证
+        let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
+        let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
+        let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
+        let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
+        let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
 
-    //航班未起飞 且 在本区域内--
-    if ( !hadDEP && isInAreaFlight && hadFPL ) {
-        hasAuth = true;
-    }
-    const getContent = useCallback((opt)  =>{
+        //航班未起飞 且 在本区域内--
+        if ( !hadDEP && isInAreaFlight && hadFPL ) {
+            hasAuth = true;
+        }
+
+        let colorClass = "";
+        if( isValidVariable(priority) && priority*1 > 0 ){
+            colorClass = "priority_"+ priority;
+        }
+        if(isInPoolFlight){
+            const { record } = props.opt;
+            let { orgdata } = record;
+            colorClass += " in_pool " + orgdata.poolStatus;
+        }
+        
+        return { text, priority, isInPoolFlight, hasAuth, colorClass };
+    }, [props.opt])
+
+    
+    const content = useMemo(()  =>{
         return (
             <div className="clr_flightid">
                 <button className="c-btn c-btn-blue">查看航班详情</button>
@@ -197,33 +203,14 @@ let FLIGHTIDPopover = (props) => {
 
             </div>
         )
-    });
+    },[priority, isInPoolFlight, hasAuth]);
 
-    useEffect(function(){
-        if( tipObj.visible ){
-            setTimeout(function(){
-                setTipObj({
-                    ...tipObj,
-                    visible: false
-                });
-            }, 2500)
-        }
-
-    }, [tipObj.visible] )
-
-    let colorClass = "";
-    if( isValidVariable(priority) && priority*1 > 0 ){
-        colorClass = "priority_"+ priority;
-    }
-    if(isInPoolFlight){
-        colorClass += " in_pool " + orgdata.poolStatus;
-    }
     return(
         <Popover
             destroyTooltipOnHide ={ { keepParent: false  } }
             placement="rightTop"
             title={ text }
-            content={ getContent(props.opt) }
+            content={ content }
             trigger={[`contextMenu`]}
         >
             <Tooltip title={ tipObj.title } visible={ tipObj.visible } color={ tipObj.color }>
@@ -237,5 +224,5 @@ let FLIGHTIDPopover = (props) => {
         </Popover >
     )
 }
-export default inject("flightTableData", "systemPage")(observer(FLIGHTIDPopover))
+export default inject("flightTableData", "systemPage", "schemeListData")(observer(FLIGHTIDPopover))
 
