@@ -1,13 +1,13 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-22 19:34:30
+ * @LastEditTime: 2021-02-23 13:49:50
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
  */
 
-import React, {useState, useEffect, useCallback} from 'react'
+import React, {useState, useEffect, useCallback, useMemo} from 'react'
 import { inject, observer } from 'mobx-react'
 import {Table, Input, Checkbox, message } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
@@ -252,7 +252,7 @@ function FlightTable(props){
             return false
         } )
         return newArr
-    },[]);
+    },[searchVal]);
 
 
    
