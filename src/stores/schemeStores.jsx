@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-02-23 14:52:46
+ * @LastEditTime: 2021-02-23 17:10:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -87,14 +87,23 @@ class SchemeListData{
     // 更新方案-全部
     @action updateList( arr, generateTime){
         this.list = [];
+        let hasId = false;
         arr.map( item => {
             const itemIns = new SchemeItem(item);
-            if( item.id === this.schemeId){
+            let active = {};
+            let activeList = this.list.filter( todo => todo.active );
+            if( activeList.length > 0 ){
+                active = activeList[0];
+            }
+            if( item.id === this.schemeId ){
                 itemIns.active = true;
+                hasId = true;
             }
             this.list.push( itemIns );
-
         });
+        if( hasId === false ){
+            this.schemeId = "";
+        }
         this.generateTime = generateTime;
     }
 
@@ -141,24 +150,22 @@ class SchemeListData{
     }
     //激活选中方案，重置其他方案
     @action toggleSchemeActive( id ){
-        // console.log(id)
         let res = false;
-        this.list.map( todo => {
-            const todoid = todo.id;
-            const active = todo.active;
-            if( id === todoid ){
-                todo.toggleActive( !active );
-                if(active){
+        if( this.schemeId === id ){
+            this.schemeId = "";
+            this.list.map( todo => todo.toggleActive( false ) )
+        }else{
+            this.list.map( todo => {
+                const todoid = todo.id;
+                if( id === todoid ){
+                    todo.toggleActive( true );
                     this.schemeId = id;
+                    res = true;
                 }else{
-                    this.schemeId = "";
+                    todo.toggleActive( false );
                 }
-                
-                res = true;
-            }else{
-                todo.toggleActive( false );
-            }
-        } );
+            } );
+        }
         return res;
     }
 

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-20 18:07:12
+ * @LastEditTime: 2021-02-23 16:13:01
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -341,9 +341,8 @@ function WorkFlowList(props){
             }
 
             const userNameCn = processVariables.userNameCn || ""; //发起人
-            let endTime;
             let taskStatus = "进行中"; //流程状态
-            if( isValidVariable(endTime) ){
+            if( isValidVariable(hisInstance.endTime) ){
                 taskStatus = "已结束"
             }
             //获取第一个hisTasks对象
@@ -356,7 +355,7 @@ function WorkFlowList(props){
                 const name = hitem.name || "";
 
                 
-
+                let endTime;
                 if( hisTasksLen > 0 ){
                     let lastTaskKey = hisTasksKeys[hisTasksLen-1];
                     

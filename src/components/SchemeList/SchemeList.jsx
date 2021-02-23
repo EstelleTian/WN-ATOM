@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-02-23 14:48:57
+ * @LastEditTime: 2021-02-23 17:04:44
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -115,6 +115,7 @@ function SchemeList (props){
 
     //高亮方案并获取航班数据和KPI数据
     const handleActive = useCallback(( id, title, from ) => {
+        console.time("click");
         const res = props.schemeListData.toggleSchemeActive( id+"" );
         if( res ){
             //来自客户端定位，滚动到对应位置
@@ -132,8 +133,11 @@ function SchemeList (props){
                 });
             }
         }
-    },[props.schemeListData]);
-
+    },[]);
+    // DidMount 激活方案列表id变化后，处理自动滚动
+    useEffect(function(){
+        console.timeEnd("click");
+    }, [ props.schemeListData.activeScheme.id ] );
 
     // DidMount 重新处理方案列表定时器
     useEffect(function(){
@@ -146,11 +150,11 @@ function SchemeList (props){
             const timeoutid = setInterval(function(){
                 // console.log("方案列表开始请求:"+statusValues);
                 getSchemeList();
-            },15*1000);
-
+            }, 30*1000);
             props.schemeListData.timeoutId = timeoutid;
         }
     }, [firstLoadScheme] );
+
     // DidMount 第一次获取方案列表
     useEffect(function(){
         return function(){
@@ -167,6 +171,7 @@ function SchemeList (props){
             getSchemeList();
         }
     },[ props.schemeListData.statusValues ]);
+    
     useEffect(function(){
         // console.log("user.id变了 getSchemeList(true)：", statusValues, firstLoadScheme);
         const id = props.systemPage.user.id;

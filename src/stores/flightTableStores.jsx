@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-02-23 14:04:19
+ * @LastEditTime: 2021-02-23 15:17:35
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -73,45 +73,55 @@ class FlightTableData{
     }
     //更新航班数据-
     @action updateFlightsList( newList, generateTime, id ){
-
-        //上次获取航班的方案id和本次的id不一样，直接替换
-        if( id === "" || this.lastSchemeId !== id ){
-            this.list = [];
-            // const len = this.list.length;
-            let newFlightList = [];
-            newList.map( item => {
-                const itemIns = new FlightItem(item);
-                newFlightList.push( itemIns );
-            })
-            this.list = newFlightList;
-            this.lastSchemeId = id; //更新为本次方案id
-        }else{//上次获取航班的方案id和本次的id一样，航班逐一对比时间戳
-            if( this.lastSchemeId !== "" && id !=="" ){
-                //获取当前所有航班ids集合
-                let idsList = [];
-                this.list.map( item => {
-                    const id = item.id;
-                    if( idsList.indexOf(id) === -1 ){
-                        idsList.push( id );
-                    }
-                });
-                //遍历新航班集合
-                let newResList = [];
-                newList.map( newItem => {
-                    const nid = newItem.id;
-                    //该航班已存在
-                    const index = idsList.indexOf(nid);
-                    if( index > -1 ){
-                        //获取已存在航班实例
-                        const oldItem = this.list[index];
-                        oldItem.updateFlight( newItem );
-                    }else{
-                        const itemIns = new FlightItem(newItem);
-                        newResList.push( itemIns );
-                    }
-                });
-            }
-        }
+        id = id || "";
+        this.list = [];
+        // const len = this.list.length;
+        let newFlightList = [];
+        newList.map( item => {
+            const itemIns = new FlightItem(item);
+            newFlightList.push( itemIns );
+        })
+        this.list = newFlightList;
+        
+        // //上次获取航班的方案id和本次的id不一样，直接替换
+        // if( !isValidVariable(id) || this.lastSchemeId !== id ){
+        //     this.list = [];
+        //     // const len = this.list.length;
+        //     let newFlightList = [];
+        //     newList.map( item => {
+        //         const itemIns = new FlightItem(item);
+        //         newFlightList.push( itemIns );
+        //     })
+        //     this.list = newFlightList;
+        //     this.lastSchemeId = id; //更新为本次方案id
+        // }else{//上次获取航班的方案id和本次的id一样，航班逐一对比时间戳
+        //     if(  isValidVariable(this.lastSchemeId) && isValidVariable(id) ){
+        //         //获取当前所有航班ids集合
+        //         let idsList = [];
+        //         this.list.map( item => {
+        //             const id = item.id;
+        //             if( idsList.indexOf(id) === -1 ){
+        //                 idsList.push( id );
+        //             }
+        //         });
+        //         //遍历新航班集合
+        //         let newResList = [];
+        //         newList.map( newItem => {
+        //             const nid = newItem.id;
+        //             //该航班已存在
+        //             const index = idsList.indexOf(nid);
+        //             if( index > -1 ){
+        //                 //获取已存在航班实例
+        //                 const oldItem = this.list[index];
+        //                 oldItem.updateFlight( newItem );
+        //             }else{
+        //                 const itemIns = new FlightItem(newItem);
+        //                 newResList.push( itemIns );
+        //             }
+        //         });
+        //         this.list = newResList;
+        //     }
+        // }
         this.generateTime = generateTime;
     }
     //单条--航班更新
