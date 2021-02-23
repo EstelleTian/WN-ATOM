@@ -271,8 +271,6 @@ function RestrictionForm(props){
     // 处理表单提交数据
     const handleSubmitFormData = async () => {
         try {
-            // 重置
-            form.resetFields();
             // 触发表单验证取表单数据
             const values = await form.validateFields();
             setImportButtonDisable(true);
