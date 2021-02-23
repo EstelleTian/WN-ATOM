@@ -77,14 +77,14 @@ function ATOMUpdate(props){
                                 { marginLeft: '1rem'}
                             }
                             onClick={ function(e){
-                                sendMsgToClient(message)
+                                sendMsgToClient(message);
                                 window.close();
                                 e.stopPropagation()
                             } } >查看容流监控</Button>
                 </Row>
                 <ATOMDetail
                     flowData={ flowData }
-                    title="流控信息"
+                    title="变更流控信息"
                 />
                 <ATOMDetail
                     flowData={ flowData }
@@ -94,19 +94,16 @@ function ATOMUpdate(props){
             <Col span={12} className="res_right">
                 <Row className="title">
                     <span>流控导入</span>
-                    <FlowRelation
-                        setDisabledForm = {setDisabledForm}
-                        flowData={ flowData }
-                        disabledForm = {disabledForm}
-                        message={message}
-                    />
                 </Row>
                 <RestrictionForm
-                    pageType="IMPORT"
+                    operationType="IMPORT"
+                    operationDescription="流控导入"
+                    primaryButtonName="导入"
                     disabledForm = {disabledForm}
                     setDisabledForm = {setDisabledForm}
                     flowData={ flowData }
                     message={message}
+                    showEditBtn={true}
                     showIgnoreBtn={true}
                 />
             </Col>

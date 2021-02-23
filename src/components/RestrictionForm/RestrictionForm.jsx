@@ -271,6 +271,8 @@ function RestrictionForm(props){
     // 处理表单提交数据
     const handleSubmitFormData = async () => {
         try {
+            // 重置
+            form.resetFields();
             // 触发表单验证取表单数据
             const values = await form.validateFields();
             setImportButtonDisable(true);
@@ -471,7 +473,7 @@ function RestrictionForm(props){
         flowControlFlight.exemptionAircraftType = exemptionAircraftType.join(';');
         // 若为方案修改则追加formerId字段
         if(operationType === 'MODIFY'){
-            opt.formerId = basicTacticInfo.id;
+            basicTacticInfo.formerId = basicTacticInfo.id;
         }
 
         return opt;
@@ -739,6 +741,16 @@ function RestrictionForm(props){
         )
     };
 
+    const setPrimaryButtonClassName = ()=>{
+        if(operationType ==="MODIFY"){
+            return "btn_update"
+        }else if(operationType ==="CREATE"){
+            return "btn_create"
+        }else if(operationType ==="IMPORT"){
+            return "btn_import"
+        }
+    }
+
     /**
      * 操作栏
      * */
@@ -751,7 +763,7 @@ function RestrictionForm(props){
                 }
                 <div>
                     <Button
-                        className={(operationType ==="MODIFY")? "btn_create" : "r_btn btn_import"}
+                        className={ setPrimaryButtonClassName() }
                         type="primary"
                         onClick={handlePrimaryBtnClick}
                         disabled ={ importButtonDisable }

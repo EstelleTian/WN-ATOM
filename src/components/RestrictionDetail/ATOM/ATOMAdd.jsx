@@ -78,19 +78,16 @@ function ATOMAdd(props){
             <Col span={12} className="res_right">
                 <Row className="title">
                     <span>流控导入</span>
-                    <FlowRelation
-                        setDisabledForm = {setDisabledForm}
-                        flowData={ flowData }
-                        disabledForm = {disabledForm}
-                        message={message}
-                    />
                 </Row>
                 <RestrictionForm
-                    pageType="IMPORT"
+                    operationType="IMPORT"
+                    operationDescription="流控导入"
+                    primaryButtonName="导入"
                     disabledForm = {disabledForm}
                     setDisabledForm = {setDisabledForm}
                     flowData={ flowData }
                     message={message}
+                    showEditBtn={true}
                     showIgnoreBtn={true}
                 />
             </Col>

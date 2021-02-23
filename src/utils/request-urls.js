@@ -30,8 +30,8 @@ const ReqUrls = {
     userSubscribeCapacityFlowMonitorUnitDataUrl: 'http://192.168.194.20:28485/user-template-rest/template/user/',
 
     // 获取容流数据
-    capacityFlowMonitorDataUrl: 'http://192.168.194.22:28001/traffic-flow-monitor-server/monitor/v1/flow',
-    // capacityFlowMonitorDataUrl: 'http://192.168.243.216:28875/traffic-flow-capacity-restful/capacity/v1/flow',
+    // capacityFlowMonitorDataUrl: 'http://192.168.194.22:28001/traffic-flow-monitor-server/monitor/v1/flow',
+    capacityFlowMonitorDataUrl: 'http://192.168.194.22:28875/traffic-flow-capacity-restful/capacity/v1/flow',
     // capacityFlowMonitorDataUrl: 'http://192.168.243.191:28001/traffic-flow-monitor-server/monitor/v1/flow',
     //获取流控数据
     ATOMDataUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/restrictions/',
