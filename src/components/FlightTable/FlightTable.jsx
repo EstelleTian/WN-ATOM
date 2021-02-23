@@ -1,13 +1,13 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-23 13:49:50
+ * @LastEditTime: 2021-02-23 14:42:35
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
  */
 
-import React, {useState, useEffect, useCallback, useMemo} from 'react'
+import React, {useState, useEffect, useCallback, useRef} from 'react'
 import { inject, observer } from 'mobx-react'
 import {Table, Input, Checkbox, message } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
@@ -24,6 +24,7 @@ function FlightTable(props){
     let [searchVal, setSearchVal] = useState(""); //输入框过滤 输入内容
     let [sortKey, setSortKey] = useState("FFIXT"); //表格排序字段
     let [sortOrder, setSortOrder] = useState("ascend"); //表格排序 顺序  升序ascend/降序
+    let schemeId = useRef("");
     //设置表格行的 class
     const setRowClassName = useCallback((record, index) => {
         let FFIXT = record.FFIXT || "";
@@ -84,16 +85,30 @@ function FlightTable(props){
         });
     },[]);
     //获取--航班列表数据
-    const requestFlightTableData = useCallback( ( id, resolve, reject ) => {
+    const requestFlightTableData = useCallback( (  resolve, reject ) => {
         let url = "";
         let params = {};
-        if( isValidVariable(id) ){
-            url = ReqUrls.flightsDataUrl + id;
+        if( isValidVariable( schemeId.current ) ){
+            url = ReqUrls.flightsDataUrl + schemeId.current;
         }else{
+            let generateTime = props.schemeListData.generateTime || "";
             url = ReqUrls.flightsDataNoIdUrl + props.systemPage.user.id;
+            let baseTime = ""
+            if( generateTime !== "" ){
+                baseTime = generateTime.substring(0,8);
+            }else{
+                const date = new Date();
+                let year = date.getFullYear();
+                let month = date.getMonth() + 1;
+                let day = date.getDate();
+                year = '' + year;
+                month = month < 10 ? '0' + month : '' + month;
+                day = day < 10 ? '0' + day : '' + day;
+                baseTime =  year + "" + month + "" + day;
+            }
             params = {
-                startTime: '20210222000000',
-                endTime: '20210222235900',
+                startTime: baseTime + '000000',
+                endTime: baseTime+'235900',
             };
         }
         const opt = {
@@ -101,7 +116,7 @@ function FlightTable(props){
             method:'GET',
             params,
             resFunc: (data)=> {
-                updateFlightTableData(data, id);
+                updateFlightTableData(data, schemeId.current);
                 if( props.flightTableData.loading !== false){
                     props.flightTableData.toggleLoad(false);
                 }
@@ -109,7 +124,7 @@ function FlightTable(props){
                     resolve("success");
                 }
 
-            },
+            }, 
             errFunc: (err)=> {
                 requestErr(err, '航班列表数据获取失败');
                 props.flightTableData.toggleLoad(false);
@@ -122,33 +137,7 @@ function FlightTable(props){
         requestGet(opt);
         // }
 
-    }, [props.flightTableData]);
-
-    // DidMount 激活方案列表id变化后，重新处理航班定时器
-    useEffect(function(){
-        const id = props.schemeListData.activeScheme.id || "";
-        // console.log("航班列表 useEffect id变了:"+id);
-        // if( isValidVariable( props.schemeListData.activeScheme.id ) ){
-            // if( !isValidVariable(props.flightTableData.timeoutId) ){
-                props.flightTableData.toggleLoad(true);
-                requestFlightTableData(id);
-            // }
-            // console.log("航班列表 清空定时器:"+props.flightTableData.timeoutId);
-            clearInterval(props.flightTableData.timeoutId);
-            props.flightTableData.timeoutId = "";
-            //生成新定时器--轮询
-            const timeoutid = setInterval(function(){
-                requestFlightTableData(id)
-            },60 * 1000);
-            // console.log("航班列表 配置定时器:"+timeoutid);
-            props.flightTableData.timeoutId = timeoutid;
-        // }else{
-        //     clearInterval(props.flightTableData.timeoutId);
-        //     props.flightTableData.timeoutId = "";
-        //     props.flightTableData.updateFlightsList([], "", "");
-        // }
-    }, [ props.schemeListData.activeScheme.id ] );
-
+    }, [props.schemeListData.generateTime]);
 
     useEffect(() => {
         const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
@@ -192,17 +181,27 @@ function FlightTable(props){
 
     // DidMount 激活方案列表id变化后，处理自动滚动
     useEffect(function(){
-        if( isValidVariable( props.schemeListData.activeScheme.id ) ){
-            if( autoScroll ){
-                const { id } = props.flightTableData.getTargetFlight;
-                scrollTopById(id, "flight_canvas");
-            }
-        }
+        props.flightTableData.toggleLoad(true);
+        requestFlightTableData( );
 
+        if( autoScroll ){
+            const { id } = props.flightTableData.getTargetFlight;
+            scrollTopById(id, "flight_canvas");
+        }
+        schemeId.current = props.schemeListData.activeScheme.id
+        
     }, [ props.schemeListData.activeScheme.id ] );
 
-    // DidMount 第一次获取方案列表
+    // componentDidMount
     useEffect(function(){
+        clearInterval(props.flightTableData.timeoutId);
+        props.flightTableData.timeoutId = "";
+        //生成新定时器--轮询
+        const timeoutid = setInterval(function(){
+            requestFlightTableData()
+        },10 * 1000);
+        // console.log("航班列表 配置定时器:"+timeoutid);
+        props.flightTableData.timeoutId = timeoutid;
         return function(){
             // console.log("航班列表卸载");
             clearInterval(props.flightTableData.timeoutId);
@@ -214,17 +213,17 @@ function FlightTable(props){
         const id = props.systemPage.user.id;
         if( props.systemPage.pageRefresh && isValidVariable(id) ){
             const id = props.schemeListData.activeScheme.id || "";
-            if( isValidVariable( id ) ){
+            // if( isValidVariable( id ) ){
                 new Promise( function(resolve, reject) {
                     // 异步处理
                     // 处理结束后、调用resolve 或 reject
                     props.flightTableData.toggleLoad(true);
-                    requestFlightTableData(id, resolve, reject)
+                    requestFlightTableData(resolve, reject)
                 } ).then((values) => {
                     // console.log(values);
                     props.systemPage.pageRefresh = false;
                 });
-            }
+            // }
         }
     },[ props.systemPage.pageRefresh ]);
 

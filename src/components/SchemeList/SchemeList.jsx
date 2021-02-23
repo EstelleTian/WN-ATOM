@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-02-22 19:07:51
+ * @LastEditTime: 2021-02-23 14:48:57
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -146,7 +146,7 @@ function SchemeList (props){
             const timeoutid = setInterval(function(){
                 // console.log("方案列表开始请求:"+statusValues);
                 getSchemeList();
-            },30*1000);
+            },15*1000);
 
             props.schemeListData.timeoutId = timeoutid;
         }
