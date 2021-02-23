@@ -1,10 +1,12 @@
 import React, {useEffect, useState, Fragment} from 'react'
 import "moment/locale/zh-cn"
 import { Button, Radio, DatePicker, Card, Form, Input, Row, Col, Select, Tooltip } from 'antd'
+import { InfoCircleOutlined } from '@ant-design/icons';
+
 import ExemptCard from './ExemptCard'
 import LimitedCard from './LimitedCard'
 import  moment  from 'moment'
-import { formatTimeString, getDateFromString, isValidObject, isValidVariable } from '../../utils/basic-verify'
+import { formatTimeString, parseFullTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { REGEXP } from '../../utils/regExpUtil'
 
 const { Option } = Select;
@@ -132,6 +134,7 @@ function StaticInfoCard(props){
     };
 
     const updateEndTimeDisplay =(date) => {
+        console.log(date);
         if( props.hasOwnProperty("updateEndDateString") ){
             let dateString = moment(date).format("YYYYMMDDHHmm");
             props.updateEndDateString(dateString);
@@ -149,7 +152,7 @@ function StaticInfoCard(props){
 
     const handleRestrictionModeChange =(mode) => {
         // 更新表单限制方式字段数值
-        props.updateRestrictionMode(mode);
+        // props.updateRestrictionMode(mode);
         // 限制数值单位
         const unit = restrictionModeUnit[mode];
         // 更新限制数值单位
@@ -192,6 +195,82 @@ function StaticInfoCard(props){
         {"key":"MAJOR_SECURITY_ACTIVITIES", "text": "重大保障活动"},
         {"key":"OTHER", "text": "其它"},
     ]
+    /**
+     * 校验开始时间和结束时间大小
+     * */
+    const validateTimeRange = (getFieldValue)=>{
+        const validator =(rules, value)=> {
+            const startTime =  getFieldValue('startTime');
+            const startDate =  getFieldValue('startDate');
+            const endTime = getFieldValue('endTime');
+            const endDate =  getFieldValue('endDate');
+
+             if(isValidVariable(endDate)
+                && isValidVariable(endTime)
+                && isValidVariable(startDate)
+            ) {
+                const startDateString = moment(startDate).format("YYYYMMDDHHmm").substring(0,8);
+                const endDateString = moment(endDate).format("YYYYMMDDHHmm").substring(0,8);
+                const startDateTime = startDateString+startTime;
+                const endDateTime = endDateString+endTime;
+                const startDateTimeFormatValid = REGEXP.DATETTIME12.test(startDateTime);
+                const endDateTimeFormatValid = REGEXP.DATETTIME12.test(endDateTime);
+                if(startDateTimeFormatValid && endDateTimeFormatValid){
+                    if(parseFullTime(startDateTime).getTime() > parseFullTime(endDateTime).getTime()){
+                        return Promise.reject('结束时间不能早于开始时间');
+                    }else {
+                        return Promise.resolve();
+                    }
+                }
+            }
+            return Promise.resolve();
+        };
+        return ({
+            validator:validator,
+        })
+    };
+    /**
+     * 校验结束时间是否完整
+     * */
+    const validateEndTimeFormat = (getFieldValue)=>{
+        const validator =(rules, value)=> {
+            const endTime = getFieldValue('endTime');
+            const endDate =  getFieldValue('endDate');
+            if(isValidVariable(endDate) && !isValidVariable(endTime)) {
+                return Promise.reject('请输入结束时间');
+            }
+            return Promise.resolve();
+        };
+        return ({
+            validator:validator,
+        })
+    };
+    /**
+     * 校验结束日期是否完整
+     * */
+    const validateEndDateFormat = (getFieldValue)=>{
+        const validator =(rules, value)=> {
+            const endTime = getFieldValue('endTime');
+            const endDate =  getFieldValue('endDate');
+            if(!isValidVariable(endDate) && isValidVariable(endTime)) {
+                return Promise.reject('请选择结束日期');
+            }
+            return Promise.resolve();
+        };
+        return ({
+            validator:validator,
+        })
+    };
+
+    const  disabledStartDate=(currentDate) => {
+        return currentDate < moment().startOf('day') || currentDate > moment().add(2, 'day');
+    };
+
+    const disabledEndDate=(currentDate) => {
+        const startDate = form.getFieldsValue()['startDate'];
+        console.log(startDate)
+        return currentDate < startDate || currentDate > moment(startDate).add(2, 'day');
+    };
 
     return (
     <Fragment>
@@ -204,7 +283,7 @@ function StaticInfoCard(props){
                         required={true}
                         rules={[{ required: true }]}
                     >
-                        <Input disabled={ props.disabledForm }/>
+                        <Input  disabled={ props.disabledForm }/>
                     </Form.Item>
                 </Col>
                 {
@@ -258,7 +337,6 @@ function StaticInfoCard(props){
                                 name="basicStartTimeDisplay"
                             >
 
-
                                 <Input disabled={ props.disabledForm }/>
                             </Form.Item>
                         ) : (
@@ -271,16 +349,20 @@ function StaticInfoCard(props){
 
                                 <Form.Item
                                     name="startDate"
-                                    // rules={[{ required: true }]}
                                     className="date-picker-form"
-                                    rules={[{ required: true, message:'请选择开始日期' }]}
+                                    rules={[
+                                        { required: true, message:'请选择开始日期' },
+                                        ]}
                                 >
                                     <DatePicker
                                         onChange={ updateStartDateString }
                                         format={dateFormat}
+                                        disabledDate = { disabledStartDate }
                                         disabled={ props.disabledForm }
                                         placeholder={ dateFormat }
                                         className="date-picker-form"
+                                        showToday={false}
+                                        mode="date"
                                     />
                                 </Form.Item>
                                 <Form.Item
@@ -330,25 +412,34 @@ function StaticInfoCard(props){
                                 <Form.Item
                                     name="endDate"
                                     className="date-picker-form"
+                                    dependencies={['endTime']}
+                                    rules={[
+                                        ({ getFieldValue }) => validateEndDateFormat(getFieldValue),
+                                    ]}
                                 >
                                     <DatePicker
                                         onChange={ updateEndTimeDisplay }
                                         format={dateFormat}
+                                        disabledDate = { disabledEndDate }
                                         disabled={ props.disabledForm }
                                         placeholder={ dateFormat }
                                         className="date-picker-form"
+                                        showToday={false}
                                     />
                                 </Form.Item>
                                 <Form.Item
                                     name="endTime"
                                     label=""
                                     className="time-form"
+                                    dependencies={['endDate', 'startDate', 'startTime']}
                                     rules={[
                                         {
                                             type: 'string',
                                             pattern: REGEXP.TIMEHHmm,
                                             message: '请输入有效的结束时间',
                                         },
+                                        ({ getFieldValue }) => validateEndTimeFormat(getFieldValue),
+                                        ({ getFieldValue }) => validateTimeRange(getFieldValue),
                                     ]}
 
                                 >
