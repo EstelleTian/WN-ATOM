@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2020-12-24 19:07:22
+ * @LastEditTime: 2021-02-22 18:44:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -33,7 +33,12 @@ class SchemeItem{
     }
     // 方案状态激活
     @action toggleActive( flag ){
-        this.active = flag;
+        if( flag === 'toggle' ){
+            this.active = !this.active;
+        }else{
+            this.active = flag;
+        }
+        
     }
 
 }
@@ -146,7 +151,7 @@ class SchemeListData{
         this.list.map( todo => {
             const todoid = todo.id;
             if( id === todoid ){
-                todo.toggleActive( true );
+                todo.toggleActive("toggle");
                 this.schemeId = id;
                 res = true;
             }else{

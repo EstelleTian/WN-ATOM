@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-22 16:37:54
+ * @LastEditTime: 2021-02-22 19:34:30
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -14,7 +14,7 @@ import ModalBox from 'components/ModalBox/ModalBox'
 import { getColumns, formatSingleFlight, scrollTopById, highlightRowByDom} from 'components/FlightTable/TableColumns'
 import { isValidVariable, formatTimeString } from 'utils/basic-verify'
 import { ReqUrls } from 'utils/request-urls'
-import { request } from 'utils/request'
+import { request, requestGet } from 'utils/request'
 import './FlightTable.scss';
 
 function FlightTable(props){
@@ -85,10 +85,21 @@ function FlightTable(props){
     },[]);
     //获取--航班列表数据
     const requestFlightTableData = useCallback( ( id, resolve, reject ) => {
+        let url = "";
+        let params = {};
+        if( isValidVariable(id) ){
+            url = ReqUrls.flightsDataUrl + id;
+        }else{
+            url = ReqUrls.flightsDataNoIdUrl + props.systemPage.user.id;
+            params = {
+                startTime: '20210222000000',
+                endTime: '20210222235900',
+            };
+        }
         const opt = {
-            url: ReqUrls.flightsDataUrl + id,
+            url,
             method:'GET',
-            params:{},
+            params,
             resFunc: (data)=> {
                 updateFlightTableData(data, id);
                 if( props.flightTableData.loading !== false){
@@ -108,7 +119,7 @@ function FlightTable(props){
 
             } ,
         };
-        request(opt);
+        requestGet(opt);
         // }
 
     }, [props.flightTableData]);
@@ -117,7 +128,7 @@ function FlightTable(props){
     useEffect(function(){
         const id = props.schemeListData.activeScheme.id || "";
         // console.log("航班列表 useEffect id变了:"+id);
-        if( isValidVariable( props.schemeListData.activeScheme.id ) ){
+        // if( isValidVariable( props.schemeListData.activeScheme.id ) ){
             // if( !isValidVariable(props.flightTableData.timeoutId) ){
                 props.flightTableData.toggleLoad(true);
                 requestFlightTableData(id);
@@ -131,11 +142,11 @@ function FlightTable(props){
             },60 * 1000);
             // console.log("航班列表 配置定时器:"+timeoutid);
             props.flightTableData.timeoutId = timeoutid;
-        }else{
-            clearInterval(props.flightTableData.timeoutId);
-            props.flightTableData.timeoutId = "";
-            props.flightTableData.updateFlightsList([], "", "");
-        }
+        // }else{
+        //     clearInterval(props.flightTableData.timeoutId);
+        //     props.flightTableData.timeoutId = "";
+        //     props.flightTableData.updateFlightsList([], "", "");
+        // }
     }, [ props.schemeListData.activeScheme.id ] );
 
 
@@ -149,7 +160,6 @@ function FlightTable(props){
 
         let width = boxContent.offsetWidth;
         let height = boxContent.offsetHeight;
-        console.log("表格高度："+height );
         // height -= 40;//标题高度“航班列表”
         // height -= 45;//表头高度
         height -= tableHeader.offsetHeight;//表头高度

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-02-18 16:17:32
+ * @LastEditTime: 2021-02-22 19:07:51
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -193,26 +193,31 @@ function SchemeList (props){
         }
     },[ props.systemPage.pageRefresh ]);
 
+    // useEffect(function(){
+    //     // console.log("statusValues",statusValues);
+    //     const schemeListData = props.schemeListData;
+    //     const { sortedList } = schemeListData; //获取排序后的方案列表
+    //     if( sortedList.length > 0 ){
+    //         //获取 激活方案 对象
+    //         const activeScheme = schemeListData.activeScheme || {};
+    //         const id = activeScheme.id || "";
+    //         //检测 没有选中方案 则默认选中第一个方案
+    //         if( !isValidVariable(id)  && sortedList.length > 0 ){
+    //             let id = sortedList[0].id + "";
+    //             // console.log("未获取到id，选定第一个:",id);
+    //             handleActive(id);
+    //         }
+    //     }
+    
+    // },[props.schemeListData])
+
     useEffect(function(){
-        // console.log("statusValues",statusValues);
-        const schemeListData = props.schemeListData;
-        const { sortedList } = schemeListData; //获取排序后的方案列表
-        if( sortedList.length > 0 ){
-            //获取 激活方案 对象
-            const activeScheme = schemeListData.activeScheme || {};
-            const id = activeScheme.id || "";
-            //检测 没有选中方案 则默认选中第一个方案
-            if( !isValidVariable(id)  && sortedList.length > 0 ){
-                let id = sortedList[0].id + "";
-                // console.log("未获取到id，选定第一个:",id);
-                handleActive(id);
-            }
-        }
+        
         //手动更新方案按钮loading状态，如果是true，置为false，标志完成数据获取
         if( manualRefresh ){
             setManualRefresh(false);
         }
-    })
+    },[manualRefresh])
 
     //接收客户端传来方案id，用以自动切换到选中方案
     NWGlobal.setSchemeId = ( schemeId, title )  => {

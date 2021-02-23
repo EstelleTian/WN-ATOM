@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-22 16:22:18
+ * @LastEditTime: 2021-02-23 09:55:17
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -388,8 +388,8 @@ const TodoTable = (props) => {
     //数据提交成功回调
     const requestSuccess = useCallback( ( data, content, key ) => {
         console.log("协调成功：",data)
-        const { flightCoordination = {} } = data;
-        props.flightTableData.updateSingleFlight( flightCoordination );
+        // const { flightCoordination = {} } = data;
+        // props.flightTableData.updateSingleFlight( flightCoordination );
         //重新请求数据
         requestDatas(true);
 

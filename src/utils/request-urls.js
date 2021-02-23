@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-04 10:54:56
+ * @LastEditTime: 2021-02-22 19:28:30
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -20,6 +20,8 @@ const ReqUrls = {
     schemeListUrl: 'http://192.168.194.21:58189/implementTactics',
     //获取--航班列表数据
     flightsDataUrl: 'http://192.168.194.21:29890/tactic/',
+    //获取--航班列表数据(id为空)
+    flightsDataNoIdUrl: 'http://192.168.194.21:29890/influence/flights/',
     //获取--执行KPI数据
     kpiDataUrl: 'http://192.168.194.21:29890/performkpi/',
     //获取航班执行数据
