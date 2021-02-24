@@ -36,8 +36,11 @@ const ReqUrls = {
     // capacityFlowMonitorDataUrl: 'http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight',
     capacityFlowMonitorDataUrl: 'http://192.168.194.22:28875/traffic-flow-capacity-restful/capacity/v1/flow',
     // capacityFlowMonitorDataUrl: 'http://192.168.243.191:28001/traffic-flow-monitor-server/monitor/v1/flow',
-    //获取流控数据
-    ATOMDataUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/restrictions/',
+    //获取流控数据(ATOM新增)
+    ATOMCreateDataUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/restrictions/create/',
+    //获取流控数据(ATOM变更)
+    ATOMModifyDataUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/restrictions/modify/',
+
     //创建流控-数据提交
     createFlowUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/sim/',
     //获取工作流-办结列表

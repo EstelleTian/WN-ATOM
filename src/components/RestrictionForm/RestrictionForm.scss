@@ -3,6 +3,10 @@
   border-radius: 6px;
   margin-bottom: 10px;
   padding: 4px;
+  &.scheme_update_form {
+    border: none;
+    padding: 0;
+  }
   .ant-form-item{
     margin-bottom: 8px;
   }

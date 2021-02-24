@@ -94,7 +94,7 @@ const SchemeModal = (props) => {
                 >
                     <RestrictionForm
                         operationType="MODIFY"
-                        operationDescription="方案调整"
+                        operationDescription="方案调整保存"
                         primaryButtonName="保存修改"
                         setModalVisible={ setVisible }
                         flowData={ flowData }

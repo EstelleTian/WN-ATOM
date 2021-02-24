@@ -44,7 +44,7 @@ function ATOMAdd(props){
         user = JSON.parse(user);
         // 请求参数
         const opt = {
-            url: ReqUrls.ATOMDataUrl + id,
+            url: ReqUrls.ATOMCreateDataUrl + id,
             method:'GET',
             params:{
                 userId: user.id
@@ -73,7 +73,7 @@ function ATOMAdd(props){
                 <Row className="title">
                     <span>{ title }</span>
                 </Row>
-                <ATOMDetail flowData={ flowData } title="流控信息" />
+                <ATOMDetail flowType="ATOMData" flowData={ flowData } title="流控信息" />
             </Col>
             <Col span={12} className="res_right">
                 <Row className="title">

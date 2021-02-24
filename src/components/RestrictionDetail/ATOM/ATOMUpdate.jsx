@@ -44,7 +44,7 @@ function ATOMUpdate(props){
         user = JSON.parse(user);
         // 请求参数
         const opt = {
-            url: ReqUrls.ATOMDataUrl + id,
+            url: ReqUrls.ATOMModifyDataUrl + id,
             method:'GET',
             params:{
                 userId: user.id
@@ -83,10 +83,12 @@ function ATOMUpdate(props){
                             } } >查看容流监控</Button>
                 </Row>
                 <ATOMDetail
+                    flowType="ATOMData"
                     flowData={ flowData }
                     title="变更流控信息"
                 />
                 <ATOMDetail
+                    flowType="FormerATOMData"
                     flowData={ flowData }
                     title="原流控信息"
                 />

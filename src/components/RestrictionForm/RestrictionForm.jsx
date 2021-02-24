@@ -508,7 +508,11 @@ function RestrictionForm(props){
             content: `${operationDescription}成功`,
             // maskClosable:true,
             onOk: () =>{
-                window.close();
+                if(isValidVariable(setModalVisible)){
+                    setModalVisible(false)
+                }else {
+                    window.close();
+                }
             }
         });
         //发送到客户端
@@ -518,9 +522,6 @@ function RestrictionForm(props){
             handleImportControl(id, props.message.id);
         }else if(operationType === 'MODIFY'){
             handleImportControlForUpdate(oldId,id);
-            setTimeout(()=>{
-                setModalVisible(false)
-            }, 1000)
         }
     };
 
@@ -750,7 +751,7 @@ function RestrictionForm(props){
         }else if(operationType ==="IMPORT"){
             return "btn_import"
         }
-    }
+    };
 
     /**
      * 操作栏
@@ -810,7 +811,7 @@ function RestrictionForm(props){
                 onFinish={(values) => {
                     console.log(values);
                 }}
-                className="advanced_form"
+                className={ operationType ==="MODIFY"? "advanced_form scheme_update_form" :"advanced_form" }
             >
                 <StaticInfoCard
                     disabledForm={props.disabledForm}
