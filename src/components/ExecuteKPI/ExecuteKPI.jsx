@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 13:47:11
- * @LastEditTime: 2021-02-18 14:59:02
+ * @LastEditTime: 2021-02-24 13:04:22
  * @LastEditors: Please set LastEditors
  * @Description: 执行KPI
  * @FilePath: \WN-CDM\src\components\ExecuteKPI\ExecuteKPI.jsx
@@ -85,7 +85,7 @@ const ExecuteKPI = (props) => {
     useEffect(()=>{
         console.log("useEffect leftActiveName:",props.systemPage.leftActiveName);
         if(props.systemPage.leftActiveName === "kpi"){
-            const id = props.schemeListData.activeScheme.id || "";
+            const id = props.schemeListData.activeSchemeId || "";
             requestExecuteKPIData(id);
         }
         
@@ -93,9 +93,9 @@ const ExecuteKPI = (props) => {
 
         // DidMount 激活方案列表id变化后，重新处理执行KPI定时器
         useEffect(function(){
-            const id = props.schemeListData.activeScheme.id || "";
+            const id = props.schemeListData.activeSchemeId || "";
             // console.log("执行KPI useEffect id变了:"+id);
-            if( isValidVariable( props.schemeListData.activeScheme.id ) ){
+            if( isValidVariable( props.schemeListData.activeSchemeId ) ){
                 // if( !isValidVariable(props.executeKPIData.timeoutId) ){
                     props.executeKPIData.toggleLoad(true);
                     requestExecuteKPIData(id);
@@ -119,14 +119,14 @@ const ExecuteKPI = (props) => {
                 props.executeKPIData.timeoutId = "";
                 props.executeKPIData.updateExecuteKPIData({});
             }
-        }, [ props.schemeListData.activeScheme.id ] );
+        }, [ props.schemeListData.activeSchemeId ] );
     
 
     //监听全局刷新
     useEffect(function(){
         const id = props.systemPage.user.id;
         if( props.systemPage.pageRefresh && isValidVariable(id) ){
-            const id = props.schemeListData.activeScheme.id || "";
+            const id = props.schemeListData.activeSchemeId || "";
             let p3;
             if( isValidVariable( id ) ){
                 p3 = new Promise(function(resolve, reject) {

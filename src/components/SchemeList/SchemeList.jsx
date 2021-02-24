@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-02-23 17:04:44
+ * @LastEditTime: 2021-02-24 14:21:49
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -115,8 +115,9 @@ function SchemeList (props){
 
     //高亮方案并获取航班数据和KPI数据
     const handleActive = useCallback(( id, title, from ) => {
-        console.time("click");
+        console.time("点击了方案id")
         const res = props.schemeListData.toggleSchemeActive( id+"" );
+        props.flightTableData.toggleLoad(true);
         if( res ){
             //来自客户端定位，滚动到对应位置
             if( from === "client" ){
@@ -134,10 +135,6 @@ function SchemeList (props){
             }
         }
     },[]);
-    // DidMount 激活方案列表id变化后，处理自动滚动
-    useEffect(function(){
-        console.timeEnd("click");
-    }, [ props.schemeListData.activeScheme.id ] );
 
     // DidMount 重新处理方案列表定时器
     useEffect(function(){
@@ -205,7 +202,7 @@ function SchemeList (props){
     //     if( sortedList.length > 0 ){
     //         //获取 激活方案 对象
     //         const activeScheme = schemeListData.activeScheme || {};
-    //         const id = activeScheme.id || "";
+    //         const id = activeSchemeId || "";
     //         //检测 没有选中方案 则默认选中第一个方案
     //         if( !isValidVariable(id)  && sortedList.length > 0 ){
     //             let id = sortedList[0].id + "";
@@ -235,8 +232,9 @@ function SchemeList (props){
     };
 
     const schemeListData = props.schemeListData;
-    const { sortedList, statusValues } = schemeListData; //获取排序后的方案列表
+    const { sortedList, statusValues, activeSchemeId } = schemeListData; //获取排序后的方案列表
     const  length = sortedList.length;
+    console.log(schemeListData.list);
 
     return (
         <div className="scheme_list_canvas">
@@ -249,6 +247,7 @@ function SchemeList (props){
                         (length > 0) ?
                             sortedList.map( (item, index) => (
                                     <SchemeItem
+                                        activeSchemeId={activeSchemeId}
                                         item={item}
                                         handleActive={handleActive}
                                         key={index}
@@ -289,4 +288,4 @@ SchemeList.propTypes = {
 
 }
 
-export default inject("schemeListData", "systemPage")(observer(SchemeList))
+export default inject("schemeListData", "systemPage", "flightTableData")(observer(SchemeList))

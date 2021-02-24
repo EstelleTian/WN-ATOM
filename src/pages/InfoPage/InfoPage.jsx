@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-02-19 15:26:37
+ * @LastEditTime: 2021-02-24 13:17:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -46,7 +46,7 @@ function InfoPage(props){
                 const msgObj = JSON.parse(body);
                 const { message } = msgObj;
                 //工作流类别消息，不显示
-                let newMsg = message.filter( msg => ( "WFPI" !== msg.dataCode ) )
+                let newMsg = message.filter( msg => ( "WFPI" !== msg.dataType ) )
                 props.newsList.addNews(newMsg);
                 
                 openMessageDlg();

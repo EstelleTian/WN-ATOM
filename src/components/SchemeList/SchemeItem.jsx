@@ -52,16 +52,14 @@ const convertSatus = (status) => {
 function SchemeItem(props){
     const [window, setWindow] = useState("");
     const [windowClass, setWindowClass] = useState("");
-    const onChange = useCallback((e, id) => {
-        e.preventDefault();
-        e.stopPropagation();
-        props.handleActive( id );
-    });
-    let { item } = props;
+   
+    let { item, activeSchemeId } = props;
     let { id, tacticName , tacticStatus, tacticPublishUnit, basicTacticInfoReason, basicTacticInfoRemark,
         tacticTimeInfo: { startTime, endTime, publishTime, createTime, startCalculateTime =""},
         sourceFlowcontrol = {}, directionList = []
     } = item;
+    let isActive = ( activeSchemeId === id);
+
     basicTacticInfoRemark = basicTacticInfoRemark || "";
     if( sourceFlowcontrol === null ){
         sourceFlowcontrol = {};
@@ -94,24 +92,27 @@ function SchemeItem(props){
     if( behindUnits !== ""){
         behindUnits = behindUnits.substring(0, targetUnits.length-1);
     }
-    const showDetail = useCallback((id)=>{
+
+    const showDetail = useCallback((e)=>{
         props.toggleModalVisible(true, id);
         props.toggleModalType('DETAIL');
-    });
+        e.preventDefault();
+        e.stopPropagation();
+    },[id]);
 
-    const showModify = useCallback((id)=>{
+    const showModify = useCallback((e) => {
         props.toggleModalVisible(true, id);
         props.toggleModalType('MODIFY');
-    })
+        e.preventDefault();
+        e.stopPropagation();
+    },[id]);
 
 
-    const getSummaryText = useCallback(()=> {
-        return(
-            {
-
-            }
-        )
-    })
+    const onChange = useCallback((e) => {
+        props.handleActive( id );
+        e.preventDefault();
+        e.stopPropagation();
+    },[id]);
 
     //工作流详情
     const showWorkFlowDetail = useCallback((id) => {
@@ -158,28 +159,21 @@ function SchemeItem(props){
             <p>原因: {basicTacticInfoReasonZh} </p>
             <p>备注: {basicTacticInfoRemark}</p>
         </div>
-    ));
+    ), [publishTime, createTime, basicTacticInfoReasonZh, basicTacticInfoRemark ]);
 
     const menu = (
         <Menu>
           <Menu.Item>
-            <div className="menu_opt" onClick={ e =>{
-                  showDetail(id);
-                  e.stopPropagation();
-              } }>方案调整</div>
+            <div className="menu_opt" onClick={ showDetail }>方案调整</div>
           </Menu.Item>
-        
         </Menu>
       );
 
-
+   
 
     return (
-        <div className={`item_container layout-column ${item.active ? 'item_active' : ''}`}
-             onClick={(e)=>{
-                 onChange(e, id);
-                 e.stopPropagation();
-             } }
+        <div className={`item_container layout-column ${isActive ? 'item_active' : ''}`}
+             onClick={onChange}
         >
             <div className="layout-row">
                 <div className="left-column border-bottom layout-column justify-content-center">
@@ -254,10 +248,7 @@ function SchemeItem(props){
                     
                         {
                             (screenWidth > 1920) 
-                            ? <div className="opt" onClick={ e =>{
-                                showModify(id);
-                                e.stopPropagation();
-                            } }>方案调整</div>  
+                            ? <div className="opt" onClick={ showModify}>方案调整</div>  
                             : <div className="opt">
                                 <Dropdown overlay={menu}>
                                     <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>

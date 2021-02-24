@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-02-23 15:17:35
+ * @LastEditTime: 2021-02-24 14:38:13
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -73,15 +73,16 @@ class FlightTableData{
     }
     //更新航班数据-
     @action updateFlightsList( newList, generateTime, id ){
+        console.log("本次更新航班数据：",newList.length)
         id = id || "";
-        this.list = [];
+        let obj = {};
         // const len = this.list.length;
-        let newFlightList = [];
+        // let newFlightList = [];
         newList.map( item => {
             const itemIns = new FlightItem(item);
-            newFlightList.push( itemIns );
+            obj[item.id] = itemIns;
         })
-        this.list = newFlightList;
+        this.list = Object.values( obj );
         
         // //上次获取航班的方案id和本次的id不一样，直接替换
         // if( !isValidVariable(id) || this.lastSchemeId !== id ){

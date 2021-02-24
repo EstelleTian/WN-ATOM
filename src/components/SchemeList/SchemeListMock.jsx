@@ -170,9 +170,9 @@ function SchemeList (props){
 
     // DidMount 激活方案列表id变化后，重新处理航班定时器
     useEffect(function(){
-        const id = props.schemeListData.activeScheme.id || "";
+        const id = props.schemeListData.activeSchemeId || "";
         // console.log("航班列表 useEffect id变了:"+id);
-        if( isValidVariable( props.schemeListData.activeScheme.id ) ){
+        if( isValidVariable( props.schemeListData.activeSchemeId ) ){
             // console.log("航班列表 清空定时器:"+props.flightTableData.timeoutId);
             clearInterval(props.flightTableData.timeoutId);
             props.flightTableData.timeoutId = "";
@@ -185,13 +185,13 @@ function SchemeList (props){
             // console.log("航班列表 配置定时器:"+timeoutid);
             props.flightTableData.timeoutId = timeoutid;
         }
-    }, [ props.schemeListData.activeScheme.id ] );
+    }, [ props.schemeListData.activeSchemeId ] );
 
     // DidMount 激活方案列表id变化后，重新处理执行KPI定时器
     useEffect(function(){
-        const id = props.schemeListData.activeScheme.id || "";
+        const id = props.schemeListData.activeSchemeId || "";
         // console.log("执行KPI useEffect id变了:"+id);
-        if( isValidVariable( props.schemeListData.activeScheme.id ) ){
+        if( isValidVariable( props.schemeListData.activeSchemeId ) ){
             // console.log("执行KPI 清空定时器:"+props.flightTableData.timeoutId);
             clearInterval(props.executeKPIData.timeoutId);
             props.executeKPIData.timeoutId = "";
@@ -206,7 +206,7 @@ function SchemeList (props){
             // console.log("执行KPI 配置定时器:"+timeoutid);
             props.executeKPIData.timeoutId = timeoutid;
         }
-    }, [ props.schemeListData.activeScheme.id ] );
+    }, [ props.schemeListData.activeSchemeId ] );
 
     // DidMount 重新处理方案列表定时器
     useEffect(function(){
@@ -268,7 +268,7 @@ function SchemeList (props){
                 getSchemeList();
                 resolve("方案列表")
             } );
-            const id = props.schemeListData.activeScheme.id || "";
+            const id = props.schemeListData.activeSchemeId || "";
             let p2;
             let p3;
             if( isValidVariable( id ) ){
@@ -301,7 +301,7 @@ function SchemeList (props){
         if( sortedList.length > 0 ){
             //获取 激活方案 对象
             const activeScheme = schemeListData.activeScheme || {};
-            const id = activeScheme.id || "";
+            const id = activeSchemeId || "";
             //检测 没有选中方案 则默认选中第一个方案
             if( !isValidVariable(id)  && sortedList.length > 0 ){
                 let id = sortedList[0].id + "";

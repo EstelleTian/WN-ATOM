@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-02-23 17:10:16
+ * @LastEditTime: 2021-02-24 14:06:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -12,16 +12,13 @@ import { isValidVariable } from 'utils/basic-verify'
 
 // 单条方案对象
 class SchemeItem{
-    // 方案id
-    @observable id = ""
-    // 方案选中状态
-    @observable active = false
+    @observable id = "111"
     constructor( opt ){
         makeObservable(this)
         for( let key in opt ){
             this[key] = opt[key]
         }
-        this.active = false
+        this.id = opt.id;
     }
     // 方案数据更新
     @action update( opt ){
@@ -30,10 +27,6 @@ class SchemeItem{
                 this[key] = opt[key]
             }
         }
-    }
-    // 方案状态激活
-    @action toggleActive( flag ){
-        this.active = flag;
     }
 
 }
@@ -46,8 +39,8 @@ class SchemeListData{
     @observable list = [];
     //数据时间
     @observable generateTime = "";
-    //方案id
-    @observable schemeId = "";
+    //方案选中的id
+    @observable activeSchemeId = "";
     //定时器
     @observable timeoutId = "";
     //方案状态
@@ -86,25 +79,21 @@ class SchemeListData{
     }
     // 更新方案-全部
     @action updateList( arr, generateTime){
-        this.list = [];
+        const newList = new Set();
+        this.generateTime = generateTime;
         let hasId = false;
         arr.map( item => {
             const itemIns = new SchemeItem(item);
-            let active = {};
-            let activeList = this.list.filter( todo => todo.active );
-            if( activeList.length > 0 ){
-                active = activeList[0];
-            }
-            if( item.id === this.schemeId ){
-                itemIns.active = true;
+            if( item.id === this.activeSchemeId ){
                 hasId = true;
             }
-            this.list.push( itemIns );
+            newList.add( itemIns );
         });
+        this.list = Array.from(newList);
         if( hasId === false ){
-            this.schemeId = "";
+            this.activeSchemeId = "";
         }
-        this.generateTime = generateTime;
+        
     }
 
     // 更新方案-多条
@@ -113,7 +102,7 @@ class SchemeListData{
         arr.map( item => {
             const id = item.id;
             //检验list有没有同id的方案
-            let sameScheme = this.list.filter( todo => id === todo.id);
+            let sameScheme = this.list.filter( item => id === item.id);
             let hasScheme = sameScheme.length === 0 ? false : true;
 
             //没有同id的就添加一条
@@ -130,19 +119,11 @@ class SchemeListData{
             
         })
     }
-    //查找有没有激活的方案
-    @computed get hasActiveScheme(){
-        let len = this.list.filter( todo => todo.active).length;
-        if( len > 0 ){
-            return true
-        }else{
-            return false
-        }
-    } 
+
     //查找激活方案
     @computed get activeScheme(){
         let active = {};
-        let activeList = this.list.filter( todo => todo.active );
+        let activeList = this.list.filter( item => item.id === this.activeSchemeId );
         if( activeList.length > 0 ){
             active = activeList[0];
         }
@@ -150,23 +131,13 @@ class SchemeListData{
     }
     //激活选中方案，重置其他方案
     @action toggleSchemeActive( id ){
-        let res = false;
-        if( this.schemeId === id ){
-            this.schemeId = "";
-            this.list.map( todo => todo.toggleActive( false ) )
+        if( this.activeSchemeId === id ){
+            this.activeSchemeId = "";
         }else{
-            this.list.map( todo => {
-                const todoid = todo.id;
-                if( id === todoid ){
-                    todo.toggleActive( true );
-                    this.schemeId = id;
-                    res = true;
-                }else{
-                    todo.toggleActive( false );
-                }
-            } );
+            this.activeSchemeId = id;
         }
-        return res;
+       
+        // return res;
     }
 
     @computed get sortedList(){
