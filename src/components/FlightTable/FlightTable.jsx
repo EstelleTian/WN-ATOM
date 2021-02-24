@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-24 14:18:15
+ * @LastEditTime: 2021-02-24 14:39:46
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -30,7 +30,6 @@ function FlightTable(props){
 
     const { flightTableData = {}, schemeListData, systemPage } = props;
     const { list, loading, generateTime = "" } = flightTableData;
-    const activeSchemeId = schemeListData.activeSchemeId;
     const activeScheme = schemeListData.activeScheme || {};
     const tacticName = activeScheme.tacticName || "";
 
@@ -142,6 +141,8 @@ function FlightTable(props){
     const requestFlightTableData = useCallback( (  resolve, reject ) => {
         let url = "";
         let params = {};
+        const activeSchemeId = schemeListData.activeSchemeId;
+        console.log("本次方案id:", activeSchemeId)
         if( isValidVariable( activeSchemeId ) ){
             url = ReqUrls.flightsDataUrl + activeSchemeId;
         }else{
@@ -190,7 +191,7 @@ function FlightTable(props){
         requestGet(opt);
         // }
 
-    }, [generateTime, activeSchemeId]);
+    }, [generateTime, schemeListData.activeSchemeId]);
 
     useEffect(() => {
         const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
@@ -265,7 +266,12 @@ function FlightTable(props){
         flightTableData.timeoutId = "";
         //生成新定时器--轮询
         const timeoutid = setInterval(function(){
-            requestFlightTableData()
+            if( !flightTableData.loading ){
+                requestFlightTableData();
+            }else{
+                console.log("本次航班正在更新中")
+            }
+           
         }, 60 * 1000);
         // console.log("航班列表 配置定时器:"+timeoutid);
         flightTableData.timeoutId = timeoutid;
