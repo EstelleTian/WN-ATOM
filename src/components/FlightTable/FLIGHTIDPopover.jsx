@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-23 11:10:50
+ * @LastEditTime: 2021-02-24 13:06:36
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -72,7 +72,7 @@ let FLIGHTIDPopover = (props) => {
         if( isValidVariable(urlKey) ){
             const userId = props.systemPage.user.id || '14';
             const fid = orgFlight.flightid;
-            const schemeId = props.schemeListData.activeScheme.id || ""; //方案id
+            const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
             const opt = {
                 url: CollaborateIP + urlKey,
                 method: 'POST',
@@ -116,7 +116,7 @@ let FLIGHTIDPopover = (props) => {
             // console.log(JSON.stringify(orgFlight));
             const userId = props.systemPage.user.id || '14';
             const fid = orgFlight.flightid;
-            const schemeId = props.schemeListData.activeScheme.id || ""; //方案id
+            const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
             const opt = {
                 url: CollaborateIP + urlKey,
                 method: 'POST',
@@ -139,7 +139,7 @@ let FLIGHTIDPopover = (props) => {
             request(opt);
         }
 
-    },[props.systemPage.user, props.schemeListData.activeScheme.id]);
+    },[props.systemPage.user, props.schemeListData.activeSchemeId]);
 
     const { priority, isInPoolFlight, hasAuth, colorClass } = useMemo( ()=>{
         

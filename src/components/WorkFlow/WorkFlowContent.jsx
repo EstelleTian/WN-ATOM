@@ -70,7 +70,7 @@ const columns = [
         render: (text, record, index) => {
             let odata = JSON.parse( record.orgdata );
             const taskLocalVariables = odata.taskLocalVariables || {};
-            const agree = taskLocalVariables.agree || "";
+            const agree = taskLocalVariables.agree;
             let agreeCN = "";
             let agreeColor = "";
             if( agree === "false" || agree === false ){
@@ -244,7 +244,7 @@ const WorkFlowContent = (props) => {
                         pagination={false}
                         loading={ loading }
                         scroll={{
-                            y: 440
+                            y: 380
                         }}
                         locale={{
                             "emptyText" : "暂无数据",
