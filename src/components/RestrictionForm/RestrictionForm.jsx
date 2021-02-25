@@ -504,17 +504,10 @@ function RestrictionForm(props){
         const { id } = basicTacticInfo;
         setConfirmLoading(false);
         setIsModalVisible(false);
-        Modal.success({
-            content: `${operationDescription}成功`,
-            // maskClosable:true,
-            onOk: () =>{
-                if(isValidVariable(setModalVisible)){
-                    setModalVisible(false)
-                }else {
-                    window.close();
-                }
-            }
-        });
+        if(isValidVariable(setModalVisible)){
+            setModalVisible(false)
+        }
+
         //发送到客户端
         if(operationType ==='CREATE'){
             handleImportControl(id);
@@ -522,6 +515,19 @@ function RestrictionForm(props){
             handleImportControl(id, props.message.id);
         }else if(operationType === 'MODIFY'){
             handleImportControlForUpdate(oldId,id);
+        }
+        if(operationType !=='MODIFY'){
+            Modal.success({
+                content: `${operationDescription}成功`,
+                // maskClosable:true,
+                onOk: () =>{
+                    if(isValidVariable(setModalVisible)){
+                        setModalVisible(false)
+                    }else {
+                        window.close();
+                    }
+                }
+            });
         }
     };
 

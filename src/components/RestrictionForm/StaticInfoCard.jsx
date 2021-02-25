@@ -151,13 +151,19 @@ function StaticInfoCard(props){
     };
 
     const handleRestrictionModeChange =(mode) => {
-        // 更新表单限制方式字段数值
-        // props.updateRestrictionMode(mode);
         // 限制数值单位
         const unit = restrictionModeUnit[mode];
         // 更新限制数值单位
         setModeUnit(unit);
 
+    };
+    /**
+     *
+     * */
+    const setRestrictionModeValueRules =()=> {
+        if(restrictionMode ===""){
+
+        }
     };
 
     /**
@@ -479,7 +485,17 @@ function StaticInfoCard(props){
                     <Form.Item
                         name="restrictionModeValue"
                         label="限制值"
-                        rules={[{ required: true, message: '请输入限制值' }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: '请输入限制值'
+                            },
+                            {
+                                type: 'string',
+                                pattern: REGEXP.INTEGER0_999,
+                                message: '请输入0~999范围内的整数',
+                            },
+                            ]}
                     >
                         <Input
                             style={{ width: 150 }}

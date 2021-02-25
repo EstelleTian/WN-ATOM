@@ -164,7 +164,7 @@ function SchemeItem(props){
     const menu = (
         <Menu>
           <Menu.Item>
-            <div className="menu_opt" onClick={ showModify }>申请调整</div>
+            <div className="menu_opt" onClick={ showModify }>模拟方案调整</div>
           </Menu.Item>
         </Menu>
       );
@@ -236,7 +236,8 @@ function SchemeItem(props){
                         <div className="opt" onClick={ e =>{
                             showDetail(id);
                             e.stopPropagation();
-                        } }>方案详情</div>
+                        } }>详情</div>
+                        <div className="opt" onClick={ showModify}>调整</div>
                         <div className="opt" onClick={ e =>{
                             showWorkFlowDetail(id);
                             e.stopPropagation();
@@ -245,17 +246,18 @@ function SchemeItem(props){
                             openBaseSchemeFrame(id);
                             e.stopPropagation();
                         } }>决策依据</div>
+                        <div className="opt" onClick={ ()=>{}}>终止</div>
                     
                         {
-                            (screenWidth > 1920) 
-                            ? <div className="opt" onClick={ showModify}>申请调整</div>
-                            : <div className="opt">
-                                <Dropdown overlay={menu}>
-                                    <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                    <DownOutlined />
-                                    </a>
-                                </Dropdown>
-                            </div>
+                            // (screenWidth > 1920)
+                            // ? <div className="opt" onClick={ showModify}>调整</div>
+                            // : <div className="opt">
+                            //     <Dropdown overlay={menu}>
+                            //         <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                            //         <DownOutlined />
+                            //         </a>
+                            //     </Dropdown>
+                            // </div>
                         }
                         
                         
