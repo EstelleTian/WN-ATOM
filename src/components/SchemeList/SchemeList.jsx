@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-02-25 16:29:56
+ * @LastEditTime: 2021-02-25 16:48:52
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -30,6 +30,14 @@ const plainOptions = [
     { label: '自动终止', value: 'TERMINATED_AUTO' },
 ];
 
+//请求错误--处理
+const requestErr = (err, content) => {
+    message.error({
+        content,
+        duration: 4,
+    });
+}
+
 //方案请求 hook
 function useSchemeList(props){
     const { 
@@ -46,7 +54,7 @@ function useSchemeList(props){
     } = props;
     const curStatusValues = useRef();
     const timeoutId = useRef("");
-
+    
     //获取--方案列表 @nextRefresh 是否开启下一轮定时
     const getSchemeList = useCallback(( nextRefresh = false ) => {
         console.log("获取--方案列表，statusValues是:"+curStatusValues.current);
@@ -108,14 +116,6 @@ function useSchemeList(props){
         props.schemeListData.updateList(list, generateTime);
     }, []);
 
-     //请求错误--处理
-     const requestErr = useCallback((err, content) => {
-        message.error({
-            content,
-            duration: 4,
-        });
-    },[]);
-    
     useEffect( ()=>{
         if( isValidVariable(id) ){
             //获取方案列表--开启下一轮更新
@@ -234,6 +234,7 @@ function useFlightsList(props){
         })
 
     }, []);
+    
 
     useEffect( ()=>{
         props.flightTableData.toggleLoad(true);
