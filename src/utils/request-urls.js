@@ -24,6 +24,7 @@ const ReqUrls = {
     flightsDataNoIdUrl: 'http://192.168.194.21:29890/influence/flights/',
     //获取--执行KPI数据
     kpiDataUrl: 'http://192.168.194.21:29890/performkpi/',
+    kpiDataUrl: 'http://192.168.243.216:28779/kpi/',
     //获取航班执行数据
     performanceDataUrl: 'http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight',
     // performanceDataUrl: 'http://192.168.194.22:28001/traffic-flow-monitor-server/monitor/v1/flight',
@@ -43,6 +44,8 @@ const ReqUrls = {
 
     //创建流控-数据提交
     createFlowUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/sim/',
+    //修改方案-数据提交
+    updateSchemeUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/implementTactics/modify/',
     //获取工作流-办结列表
     hisTaskUrl: workflowIP+'/workflow/userHisTask/',
     //获取工作流-待办列表

@@ -26,7 +26,10 @@ function ImpactLevel(props){
     };
     const executeKPIData = props.executeKPIData || {};
     const KPIData = executeKPIData.KPIData || {};
-    let { impactDegree, dcb={}} = KPIData;
+    let tacticProcessInfo = KPIData.tacticProcessInfo || {};
+    let kpi = tacticProcessInfo.kpi || {};
+    let dcb = kpi.tacticDCB || {};
+    let { impactDegree} = KPIData;
     let level = levelData[impactDegree] || {}
     const label = level.label || "";
     const levelClassName = level.levelClassName || "";
