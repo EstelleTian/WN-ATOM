@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-02-24 14:06:07
+ * @LastEditTime: 2021-02-25 13:43:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -120,10 +120,10 @@ class SchemeListData{
         })
     }
 
-    //查找激活方案
-    @computed get activeScheme(){
+    //根据激活方案id查找方案对象
+    @action activeScheme( targetId ){
         let active = {};
-        let activeList = this.list.filter( item => item.id === this.activeSchemeId );
+        let activeList = this.list.filter( item => item.id === targetId );
         if( activeList.length > 0 ){
             active = activeList[0];
         }

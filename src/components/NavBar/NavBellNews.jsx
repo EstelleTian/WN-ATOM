@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-01-07 09:54:59
+ * @LastEditTime: 2021-02-24 19:03:24
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \WN-ATOM\src\components\NavBar\NavBellNews.jsx
+ */
 import {Badge, Button } from "antd";
 import {BellOutlined} from "@ant-design/icons";
 import React, {useEffect} from "react";
@@ -19,13 +27,13 @@ function NavBellNews(props){
         stompClient.heartbeat.incoming = 0;
         stompClient.debug = null;
         let on_connect = function (x) {
-            console.log("WebSocket连接成功:");
+            // console.log("WebSocket连接成功:");
             //收到限制消息
             const topic1 = "/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE_"+username;
             stompClient.subscribe( topic1, function (d) {
                 //收到消息
-                console.log("WebSocket收到消息:");
-                console.log(d.body);
+                // console.log("WebSocket收到消息:");
+                // console.log(d.body);
                 const body = d.body;
                 const msgObj = JSON.parse(body);
                 const { message } = msgObj;

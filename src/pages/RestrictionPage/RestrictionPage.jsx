@@ -8,7 +8,7 @@ import ATOMTermination  from 'components/RestrictionDetail/ATOM/ATOMTermination'
 
 import './RestrictionPage.scss'
 
-
+alert("流控详情页面更新了 1600版");
 //限制详情
 function RestrictionPage( props ) {
     // let [ messageStr, setMessageStr ] = useState("");

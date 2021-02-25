@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-23 16:29:49
+ * @LastEditTime: 2021-02-24 20:01:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -18,7 +18,7 @@ import RightMultiCanvas  from 'components/RightMultiCanvas/RightMultiCanvas'
 import {  isValidVariable  } from 'utils/basic-verify'
 import './FangxingPage.scss'
 
-const FlightTable = lazy(() => import('components/FlightTable/FlightTable') );
+const FlightTableModal = lazy(() => import('components/FlightTable/FlightTable') );
 
 //放行监控布局模块
 function FangxingPage(props){
@@ -54,7 +54,7 @@ function FangxingPage(props){
                     <div className="cont_left">
                         {/*<SchemeTitle />*/}
                         <div className="left_cont">
-                            {
+                            {/**/
                                 leftActiveName === "" ? ""
                                     :<div className="left_left">
                                         <LeftMultiCanvas/>
@@ -69,12 +69,12 @@ function FangxingPage(props){
                                             <FlightSearch />
                                         </ModalBox>
                                     </div>
-                            }
+                                }
 
                             <div className="left_right">
                                 {/***/}
                                 <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
-                                    <FlightTable />
+                                    <FlightTableModal />
                                 </Suspense>
                             </div>
                         </div>

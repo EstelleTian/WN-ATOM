@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-02-24 14:38:13
+ * @LastEditTime: 2021-02-25 16:00:52
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -9,6 +9,7 @@
 
 import { makeObservable, observable, action, computed } from 'mobx'
 import { isValidVariable, calculateStringTimeDiff } from 'utils/basic-verify.js'
+import { formatSingleFlight} from 'components/FlightTable/TableColumns'
 import { FlightCoordination } from 'utils/flightcoordination.js'
 import  FmeToday  from 'utils/fmetoday.js'
 
@@ -61,8 +62,14 @@ class FlightTableData{
     @observable list = [];
     //数据时间
     @observable generateTime = "";
-    //数据获取
+    //数据获取状态
     @observable loading = false;
+    //自动滚动状态
+    @observable autoScroll = true;
+    //快速查询内容
+    @observable searchVal = "";
+    //选中高亮的航班id
+    @observable selectFlightId = "";
     //定时器
     @observable timeoutId = "";
     //上一次请求的方案id
@@ -73,7 +80,6 @@ class FlightTableData{
     }
     //更新航班数据-
     @action updateFlightsList( newList, generateTime, id ){
-        console.log("本次更新航班数据：",newList.length)
         id = id || "";
         let obj = {};
         // const len = this.list.length;
@@ -83,7 +89,7 @@ class FlightTableData{
             obj[item.id] = itemIns;
         })
         this.list = Object.values( obj );
-        
+ 
         // //上次获取航班的方案id和本次的id不一样，直接替换
         // if( !isValidVariable(id) || this.lastSchemeId !== id ){
         //     this.list = [];
@@ -137,14 +143,19 @@ class FlightTableData{
     }
     //单条--航班高亮--航班id
     @action toggleSelectFlight( fid ){
-        this.list.map( item => {
-            const oldFId = item.id;
-            if( oldFId*1 === fid*1 ){
-                item.toggleSelected();
-            }else{
-                item.selected = false;
-            }
-        });
+        if( this.selectFlightId === fid ){
+            this.selectFlightId = ""
+        }else{
+            this.selectFlightId = fid;
+        }
+    }
+    //修改--航班列表-自动滚动状态
+    @action setAutoScroll(flag ){
+        this.autoScroll = flag;
+    }
+    //修改--航班列表-自动滚动状态
+    @action setSearchVal( values ){
+        this.searchVal = values;
     }
 
     //获取航班高亮航班对象
@@ -160,14 +171,36 @@ class FlightTableData{
         return resFlight;
     }
     
+    //获取真正展示的航班
+    @computed get getShowFlights(){
+        let showList = this.list.map( flight => formatSingleFlight(flight) );
+        const sVal = this.searchVal;
+        if( sVal !== "" ){
+            showList = showList.filter( flight => {
+                for(let key in flight){
+                    let val = flight[key] || ""
+                    val = val + ""
+                    val = val.toLowerCase();
+                    const sVal = sVal.toLowerCase();
+                    if( val.indexOf( sVal ) !== -1 ){
+                        return true
+                    }
+                }
+                return false
+            } );
+        } 
+        const targetFlight = this.getTargetFlight(showList);
+        console.log("targetFlight ", targetFlight)
+        return { showList, targetFlight }
+    }
+
     //获取和generatetime时间比最近的航班对象，用以自动滚动
-    @computed get getTargetFlight(){
+    getTargetFlight(newList){
         // console.log("list长度:" + this.list.length);
         let resFlight = {};
         let time_interval = -1;
-        this.list.map( flight => {
-            const ffixField = flight.ffixField || {};
-            let ffixt = ffixField.value || "";
+        newList.map( flight => {
+            let ffixt = flight.FFIXT || "";
             if( isValidVariable(ffixt) && ffixt.length >= 12 ){
                 ffixt = ffixt.substring(0,12);
                 // 计算计划时间和当前时间的绝对差值 返回毫秒值

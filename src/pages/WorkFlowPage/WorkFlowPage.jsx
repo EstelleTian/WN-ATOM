@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-01-21 09:01:10
+ * @LastEditTime: 2021-02-24 15:39:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -14,7 +14,7 @@ import NavBar  from 'components/NavBar/NavBar.jsx';
 // import Stomp from 'stompjs'
 import WorkFlowList from 'components/WorkFlow/WorkFlowList'
 import './WorkFlowPage.scss'
-
+alert("工作流更新了 1600版");
 //工作流导航
 let WorkFlowNav = inject("workFlowData")(observer((props) => {
     const handleClick = e => {

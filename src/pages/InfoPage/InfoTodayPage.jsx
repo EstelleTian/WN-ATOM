@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-01-22 16:09:16
- * @LastEditTime: 2021-01-26 11:27:29
+ * @LastEditTime: 2021-02-24 15:54:01
  * @LastEditors: Please set LastEditors
  * @Description: 消息当日全部数据
  * @FilePath: \WN-ATOM\src\pages\InfoPage\InfoListPage.jsx
  */
-import React, {useEffect, useState, useCallback } from 'react'
+import React, {useEffect, useState, useCallback, useMemo } from 'react'
 import { Layout, Tooltip, Spin, Input, Button } from 'antd'
 import { CloseOutlined} from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
@@ -15,7 +15,7 @@ import { isValidVariable, formatTimeString } from 'utils/basic-verify'
 import { closeMessageDlg } from 'utils/client'
 import InfoList from 'components/Info/InfoList'
 import './InfoPage.scss'
-
+alert("更多--消息模块页面更新了 1600版");
 //消息模块
 function InfoTodayPage(props){
     const [ login, setLogin ] = useState(false);
@@ -42,7 +42,8 @@ function InfoTodayPage(props){
                 const generateTime = data.generateTime || "";
                 const result = data.result || [];
                 if( result.length > 0 ){
-                    props.newsList.addAllNews(result, generateTime);
+                    let newMsg = result.filter( msg => ( "WFPI" !== msg.dataType ) )
+                    props.newsList.addAllNews(newMsg, generateTime);
                 }
                 setLoading(false);
                 setRefreshBtnLoading(false);
@@ -71,36 +72,27 @@ function InfoTodayPage(props){
             requestDatas();
         }
     }, [user.id]);
-    useEffect(function(){
-        console.log("newsList.list.length",newsList.list.length);
-        
-    },[ newsList.list.length ]);
 
     //根据输入框输入值，检索显示
-    const filterInput = useCallback((data,searchVal) => {
+    const resList = useMemo(() => {
         if( searchVal === "" ){
-            return data;
+            return newsList;
         }
-        let newArr = data.filter( item => {
+        const nList = newsList.list.filter( item => {
             for(let key in item){
                 let val = item[key] || ""
                 val = val + ""
                 val = val.toLowerCase();
                 const sVal = searchVal.toLowerCase();
-                if( val.indexOf( sVal ) !== -1 ){
-                    return true
-                }
+                return val.indexOf( sVal ) !== -1 
             }
-            return false
-        } )
-        return newArr
-    },[]);
+        } );
+        return {
+            ...newsList,
+            list: nList
+        };
+    },[ props.newsList.list.length, searchVal ]);
 
-    let data = filterInput(newsList.list, searchVal);
-    let obj = {
-        list: data
-    }
-    const len = obj.list.length || 0;
 
     return (
         <Layout className="layout">
@@ -108,7 +100,7 @@ function InfoTodayPage(props){
                 login ? <div className="info_canvas">
                     <div className="info_header">
                         <div className="title">
-                        {`消息记录(共 ${ len }条) `}
+                        {`消息记录(共 ${ resList.list.length || 0 }条) `}
                         &nbsp; &nbsp; 
                         {` 数据时间:${ formatTimeString(generateTime) }  `}
                         </div>
@@ -139,7 +131,8 @@ function InfoTodayPage(props){
 
                     </div>
                     <Spin spinning={loading} >
-                        <InfoList newsList={obj}/>
+                    { resList.list.length > 0 && <InfoList newsList={resList}/> }
+                        
                     </Spin>
                     
                 </div> : ""

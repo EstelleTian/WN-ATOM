@@ -164,7 +164,7 @@ function SchemeItem(props){
     const menu = (
         <Menu>
           <Menu.Item>
-            <div className="menu_opt" onClick={ showDetail }>方案调整</div>
+            <div className="menu_opt" onClick={ (e) => showDetail(e) }>方案调整</div>
           </Menu.Item>
         </Menu>
       );
@@ -234,7 +234,7 @@ function SchemeItem(props){
                 <div className="right-column2">
                     <div className="options-box layout-row">
                         <div className="opt" onClick={ e =>{
-                            showDetail(id);
+                            showDetail(e)
                             e.stopPropagation();
                         } }>方案详情</div>
                         <div className="opt" onClick={ e =>{
