@@ -3,6 +3,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import {  observer } from 'mobx-react'
 import ReactDom from "react-dom";
 import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
+import { handleStopControl } from 'utils/client'
+
 import { Window as WindowDHX } from "dhx-suite";
 import { openBaseSchemeFrame } from "utils/client"
 import WorkFlowContent from "components/WorkFlow/WorkFlowContent";
@@ -137,6 +139,10 @@ function SchemeItem(props){
             window.show();
         }
     })
+    //工作流详情
+    const stopControl = useCallback((id) => {
+        handleStopControl(id);
+    })
 
     useEffect(function(){
         if( window !== "" ){
@@ -246,7 +252,11 @@ function SchemeItem(props){
                             openBaseSchemeFrame(id);
                             e.stopPropagation();
                         } }>决策依据</div>
-                        <div className="opt" onClick={ ()=>{}}>终止</div>
+                        <div className="opt" onClick={ e=>{
+                            stopControl(id);
+                            e.stopPropagation();
+                        }
+                        }>终止</div>
                     
                         {
                             // (screenWidth > 1920)

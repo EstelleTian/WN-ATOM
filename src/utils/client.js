@@ -71,6 +71,15 @@ const handleImportControlForUpdate =(oldId, newId) => {
         console.error(error);
     }
 };
+//方案列表--点击方案终止
+const handleStopControl =(id) => {
+    try {
+        //传递被终止方案id
+        jsEntity.stopControlFlow(id);
+    }catch(error){
+        console.error(error);
+    }
+};
 //发送用户名-密码
 const saveUserInfo =(username, password) => {
     try {
@@ -129,5 +138,5 @@ const openTimeSlotFrameWithFlightId =(schemeId = "", flightId = "") => {
 export {
     sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
-    openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate
+    openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl
 }
