@@ -164,7 +164,7 @@ function SchemeItem(props){
     const menu = (
         <Menu>
           <Menu.Item>
-            <div className="menu_opt" onClick={ showDetail }>方案调整</div>
+            <div className="menu_opt" onClick={ showModify }>申请调整</div>
           </Menu.Item>
         </Menu>
       );
@@ -248,7 +248,7 @@ function SchemeItem(props){
                     
                         {
                             (screenWidth > 1920) 
-                            ? <div className="opt" onClick={ showModify}>方案调整</div>  
+                            ? <div className="opt" onClick={ showModify}>申请调整</div>
                             : <div className="opt">
                                 <Dropdown overlay={menu}>
                                     <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>

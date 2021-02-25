@@ -78,7 +78,7 @@ const SchemeModal = (props) => {
         }else if(modalType === "MODIFY") {
             return(
                 <Modal
-                    title={`方案调整 - ${tacticName} `}
+                    title={`方案调整申请 - ${tacticName} `}
                     centered
                     visible={ visible }
                     onOk={() => setVisible(false)}
@@ -94,8 +94,8 @@ const SchemeModal = (props) => {
                 >
                     <RestrictionForm
                         operationType="MODIFY"
-                        operationDescription="方案调整保存"
-                        primaryButtonName="保存修改"
+                        operationDescription="方案调整申请提交"
+                        primaryButtonName="提交"
                         setModalVisible={ setVisible }
                         flowData={ flowData }
                     />

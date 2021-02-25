@@ -469,9 +469,9 @@ function RestrictionForm(props){
         flowControlFlight.exemptionAbility = exemptionAbility.join(';');
         // 更新流控交通流-不包含-受控机型
         flowControlFlight.exemptionAircraftType = exemptionAircraftType.join(';');
-        // 若为方案修改则追加formerId字段
+        // 若为方案修则设置basicTacticInfo.id为null;
         if(operationType === 'MODIFY'){
-            basicTacticInfo.formerId = basicTacticInfo.id;
+            basicTacticInfo.id = null;
         }
 
         return opt;
