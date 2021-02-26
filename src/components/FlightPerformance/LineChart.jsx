@@ -68,7 +68,7 @@ const LineChart =(props) => {
 
         const option = {
             backgroundColor: "#00000000",
-            color: ["#267ba4", "#1b9acd", "#446683", ],
+            color: [ "#1b9acd", "#44d4e6","#6e95f7", ],
             animation: false ,
             tooltip: {
                 trigger: 'axis',
