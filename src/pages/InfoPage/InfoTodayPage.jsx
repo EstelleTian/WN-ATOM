@@ -15,7 +15,7 @@ import { isValidVariable, formatTimeString } from 'utils/basic-verify'
 import { closeMessageDlg } from 'utils/client'
 import InfoList from 'components/Info/InfoList'
 import './InfoPage.scss'
-alert("更多--消息模块页面更新了 1600版");
+
 //消息模块
 function InfoTodayPage(props){
     const [ login, setLogin ] = useState(false);

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-02-25 15:53:54
+ * @LastEditTime: 2021-02-26 10:02:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -16,7 +16,7 @@ import Stomp from 'stompjs'
 import InfoList from 'components/Info/InfoList'
 import './InfoPage.scss'
 
-alert("消息页面更新了 1600版");
+
 //消息模块
 function InfoPage(props){
     const [ login, setLogin ] = useState(false);

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-25 16:42:49
+ * @LastEditTime: 2021-02-25 19:42:14
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -9,7 +9,7 @@
 
 import React, {memo, useState, useEffect, useCallback, useRef, useMemo} from 'react'
 import { inject, observer } from 'mobx-react'
-import {Table, Input, Checkbox, message } from 'antd'
+import {Table, Input, Checkbox, message, Spin } from 'antd'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { getColumns, formatSingleFlight, scrollTopById, highlightRowByDom} from 'components/FlightTable/TableColumns'
 import { isValidVariable, formatTimeString } from 'utils/basic-verify'
@@ -71,52 +71,52 @@ function FTable(props){
     let [sortOrder, setSortOrder] = useState("ascend"); //表格排序 顺序  升序ascend/降序
 
     const { flightTableData = {}, schemeListData } = props;
-    const { loading, getShowFlights, autoScroll } = flightTableData;
+    const {  getShowFlights, autoScroll } = flightTableData;
     const { showList, targetFlight }= getShowFlights;
     
     const handleRow = useCallback((event, record) => {// 点击行
         highlightRowByDom(event.currentTarget)
     },[])
     
-    const { schemeStartTime, schemeEndTime } = useMemo(() => {
-        const activeScheme = schemeListData.activeScheme(schemeListData.activeSchemeId) || {};
-        const { tacticTimeInfo = {} } = activeScheme;
-        const { schemeStartTime, schemeEndTime } = tacticTimeInfo
-        return { schemeStartTime, schemeEndTime };
-    }, [schemeListData.activeSchemeId]);
+    // const { schemeStartTime, schemeEndTime } = useMemo(() => {
+    //     const activeScheme = schemeListData.activeScheme(schemeListData.activeSchemeId) || {};
+    //     const { tacticTimeInfo = {} } = activeScheme;
+    //     const { schemeStartTime, schemeEndTime } = tacticTimeInfo
+    //     return { schemeStartTime, schemeEndTime };
+    // }, [schemeListData.activeSchemeId]);
  
-    //设置表格行的 class
-    const setRowClassName = useCallback((record, index) => {
-        let FFIXT = record.FFIXT || "";
-        let id = record.id || "";
-        if( sortKey === "FFIXT" ) {
-            if( isValidVariable(FFIXT) && FFIXT.length >= 12 ){
-                FFIXT = FFIXT.substring(0, 12);
-            }
-            if( isValidVariable(schemeStartTime) && schemeStartTime.length >= 12 ){
-                schemeStartTime = schemeStartTime.substring(0, 12);
-            }
-            // console.log("FFIXT",FFIXT,"startTime",startTime,"schemeEndTime",schemeEndTime);
-            if (schemeStartTime * 1 <= FFIXT * 1) {
-                if (isValidVariable(schemeEndTime)) {
-                    schemeEndTime = schemeEndTime.substring(0, 12);
-                    if (FFIXT * 1 <= schemeEndTime * 1) {
-                        id += " in_range"
-                    }
-                } else {
-                    id += " in_range";
-                }
-            }
-        }
-        // if( id.indexOf("in_range") === -1){
-            if( index % 2 === 0 ){
-                id += " even";
-            }else{
-                id += " odd";
-            }
-        // }
-        return id;
-    },[schemeStartTime, schemeEndTime]);
+    // //设置表格行的 class
+    // const setRowClassName = useCallback((record, index) => {
+    //     let FFIXT = record.FFIXT || "";
+    //     let id = record.id || "";
+    //     if( sortKey === "FFIXT" ) {
+    //         if( isValidVariable(FFIXT) && FFIXT.length >= 12 ){
+    //             FFIXT = FFIXT.substring(0, 12);
+    //         }
+    //         if( isValidVariable(schemeStartTime) && schemeStartTime.length >= 12 ){
+    //             schemeStartTime = schemeStartTime.substring(0, 12);
+    //         }
+    //         // console.log("FFIXT",FFIXT,"startTime",startTime,"schemeEndTime",schemeEndTime);
+    //         if (schemeStartTime * 1 <= FFIXT * 1) {
+    //             if (isValidVariable(schemeEndTime)) {
+    //                 schemeEndTime = schemeEndTime.substring(0, 12);
+    //                 if (FFIXT * 1 <= schemeEndTime * 1) {
+    //                     id += " in_range"
+    //                 }
+    //             } else {
+    //                 id += " in_range";
+    //             }
+    //         }
+    //     }
+    //     // if( id.indexOf("in_range") === -1){
+    //         if( index % 2 === 0 ){
+    //             id += " even";
+    //         }else{
+    //             id += " odd";
+    //         }
+    //     // }
+    //     return id;
+    // },[schemeStartTime, schemeEndTime]);
 
     const onChange = useCallback((pagination, filters, sorter, extra) => {
         // console.log('params', pagination, filters, sorter, extra);
@@ -131,7 +131,6 @@ function FTable(props){
         }
     }, [ targetFlight.id ]);
 
-
     console.log("航班表格 render!!!")
     return (
         <Table
@@ -140,13 +139,12 @@ function FTable(props){
             size="small"
             bordered
             pagination={false}
-            loading={ loading }
             scroll={{
                 x: tableWidth,
                 y: tableHeight
             }}
             onChange={onChange}
-            rowClassName={ setRowClassName }
+            // rowClassName={ setRowClassName }
             onRow={record => {
                 return {
                     onClick: (event) => {// 点击行
@@ -158,10 +156,24 @@ function FTable(props){
                 };
             }}
         />
+            
+        
     )
 }
 const FlightTable = inject("flightTableData", "schemeListData")(observer(FTable));
 /** end *****航班表格 纯表格************/
+
+const TSpin = inject("flightTableData")(observer((props) => {
+    const { flightTableData = {} } = props;
+    const { loading } = flightTableData;
+    console.log("航班loading render!!!")
+    return (
+        <Spin spinning={ loading }>
+            <FlightTable/>
+        </Spin>
+    )
+        
+}))
 
 const AutoScrollBtn = inject("flightTableData")(observer((props) => {
     return (
@@ -221,8 +233,8 @@ function FlightTableModal(props){
                 <SearchInput/>
                 <TotalDom/>
             </div>
-                
-            <FlightTable/>
+            <TSpin />
+            
         </ModalBox>
     )
 }

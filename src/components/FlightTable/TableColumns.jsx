@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-02-25 15:31:38
+ * @LastEditTime: 2021-02-26 10:07:37
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -51,6 +51,7 @@ const highlightRowByDom = targetDom => {
     let tClass = targetDom.getAttribute("class");
     const trs = targetDom.parentElement.children;
     clearHighlightRowByDom(trs);
+    console.log("active_row")
     targetDom.setAttribute("class", tClass+" active_row");  
 }
 
@@ -60,7 +61,7 @@ const clearHighlightRowByDom = trs => {
     for(let i = 0; i < len; i++){
         let trDom = trs[i];
         let trClass = trDom.getAttribute("class");
-        trClass = trClass.replace("active_row", "");
+        trClass = trClass.replace(/active_row/g, "");
         trDom.setAttribute("class", trClass);
     } 
 }

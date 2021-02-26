@@ -32,7 +32,7 @@ const CapacityFlowMonitor = lazy(() => import('components/CapacityFlowMonitor/Ca
 
 const { Header, Footer, Sider, Content } = Layout;
 
-alert("总体监控更新了 1600版");
+
 //总体监控布局模块
 function TodoPage (props){
 
