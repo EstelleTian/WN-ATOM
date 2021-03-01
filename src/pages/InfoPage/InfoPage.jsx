@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-02-26 10:02:37
+ * @LastEditTime: 2021-02-26 13:46:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -14,13 +14,15 @@ import { isValidVariable } from 'utils/basic-verify'
 import { closeMessageDlg, openMessageDlg } from 'utils/client'
 import Stomp from 'stompjs'
 import InfoList from 'components/Info/InfoList'
-import './InfoPage.scss'
+import './InfoPage.scss';
+
 
 
 //消息模块
 function InfoPage(props){
     const [ login, setLogin ] = useState(false);
     const [ scrollChecked, setScrollChecked ] = useState(true);
+    const [ autoOpen, setAutoOpen] = useState(true);
     const stompClient = ( username = "" ) => {
         if( !isValidVariable(username) ){
             return;
@@ -49,8 +51,10 @@ function InfoPage(props){
                 //工作流类别消息，不显示
                 let newMsg = message.filter( msg => ( "WFPI" !== msg.dataType ) )
                 props.newsList.addNews(newMsg);
+                if( autoOpen ) {
+                    openMessageDlg();
+                }
                 
-                openMessageDlg();
             })
         }
 
@@ -100,7 +104,7 @@ function InfoPage(props){
 
     useEffect(function(){
         //收到消息后，如果滚屏，自动置顶
-        console.log("scrollChecked",scrollChecked);
+        // console.log("scrollChecked",scrollChecked);
         if( newsList.list.length > 1 && scrollChecked ){
             const listDom = document.getElementsByClassName("todo-list");
             if( listDom.length > 0 ){
@@ -116,6 +120,13 @@ function InfoPage(props){
                 login ? <div className="info_canvas">
                     <div className="info_header">
                         <div className="title">消息推送(共{ len }条，最多100条)</div>
+
+                        <div className="scroll">
+                            <Checkbox checked={ autoOpen } onChange={ e => {
+                                setAutoOpen(e.target.checked);
+                            }}>消息推送</Checkbox>
+                        </div>
+
                         <div className="scroll">
                             <Checkbox checked={ scrollChecked } onChange={ e => {
                                 setScrollChecked(e.target.checked);

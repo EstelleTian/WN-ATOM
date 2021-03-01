@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-02-25 19:47:36
+ * @LastEditTime: 2021-03-01 13:22:51
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react'
 import {message, Checkbox, Empty, Spin} from 'antd'
 import { requestGet } from 'utils/request'
-import { isValidVariable } from 'utils/basic-verify'
+import { isValidVariable, isValidObject } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
 import  SchemeModal  from "./SchemeModal";
 import { ReqUrls } from 'utils/request-urls'
@@ -178,7 +178,6 @@ function useFlightsList(props){
 
     //获取--航班列表数据
     const getFlightTableData = useCallback( (nextRefresh) => {
-        // console.log("requestFlightTableData requestFlightTableData")
         const p = new Promise( (resolve, reject) => {
             let url = "";
             let params = {};
@@ -225,7 +224,7 @@ function useFlightsList(props){
                 errFunc: (err)=> {
                     requestErr(err, '航班列表数据获取失败');
                     if( props.flightTableData.loading ){
-                        // props.flightTableData.toggleLoad(false);
+                        props.flightTableData.toggleLoad(false);
                     }
                     resolve("error");
                 } ,
@@ -240,6 +239,10 @@ function useFlightsList(props){
         props.flightTableData.toggleLoad(true);
         let flag = (timeoutId.current === "");
         getFlightTableData(flag);
+        return function(){
+            timeoutId.current = "";
+            clearTimeout(timeoutId.current);
+        }
     }, [activeSchemeId]);
 
     //监听全局刷新
@@ -251,6 +254,87 @@ function useFlightsList(props){
         }
     },[ pageRefresh, id ]);
     
+}
+//KPI请求 hook
+function useKPIData(props){
+    const { schemeListData, executeKPIData, systemPage } = props;
+    const { activeSchemeId, generateTime = "" } = schemeListData;
+    const { 
+        pageRefresh,
+        leftActiveName,
+        user: 
+        { 
+            id = ""
+        } = {} 
+    } = systemPage;
+    
+    //更新--执行KPI store数据
+    const updateKPIData = useCallback( data => {
+        console.log(data)
+        if( isValidObject(data) ){
+            executeKPIData.updateExecuteKPIData(data)
+        }else{
+            executeKPIData.updateExecuteKPIData({});
+            message.error({
+                content:"获取的KPI数据为空",
+                duration: 4,
+            });
+
+        }
+    },[]);
+    //获取--执行KPI数据
+    const getKPIData = useCallback( nextRefresh => {
+        console.log("执行KPI数据 getKPIData")
+        if(leftActiveName === "kpi"){
+            const p = new Promise( (resolve, reject) => {
+                const opt = {
+                    url: ReqUrls.kpiDataUrl + id,
+                    method:'GET',
+                    params:{},
+                    resFunc: (data)=> {
+                        updateKPIData(data)
+                        executeKPIData.toggleLoad(false);
+                        //开启定时
+                        if( nextRefresh ){
+                            executeKPIData.timeoutId = setTimeout( ()=>{
+                                console.log("执行KPI数据 定时器-下一轮更新开始")
+                                getKPIData( true );
+                            }, 60*1000);
+                        }
+                        resolve("success")
+                    },
+                    errFunc: (err)=> {
+                        requestErr(err, 'KPI数据获取失败');
+                        if( executeKPIData.loading ){
+                            executeKPIData.toggleLoad(false);
+                        }
+                        resolve("error");
+                    } ,
+                };
+                requestGet(opt);
+            })
+        }
+    },[leftActiveName]);
+
+    useEffect( ()=>{
+        console.log("执行KPI数据 activeSchemeId, leftActiveName", activeSchemeId, leftActiveName)
+        if( isValidVariable(activeSchemeId) && (leftActiveName === "kpi") ){
+            executeKPIData.toggleLoad(true);
+            let flag = ( executeKPIData.timeoutId === "");
+            getKPIData(flag);
+        }
+    }, [activeSchemeId, leftActiveName]);
+
+    //监听全局刷新
+    useEffect(function(){
+        if( pageRefresh && isValidVariable(id) ){
+            // console.log("全局刷新开启")
+            executeKPIData.toggleLoad(true);
+            getKPIData( false );
+        }
+    },[ pageRefresh, id ]);
+
+
 }
 
 const useSchemeModal = () =>{
@@ -280,6 +364,8 @@ const useSchemeModal = () =>{
     }
 }
 
+
+
 //方案头
 const STitle = (props) => {
     const { schemeListData } = props;
@@ -306,6 +392,7 @@ const SchemeTitle = inject("schemeListData")(observer(STitle))
 function SList (props){
     const getSchemeList = useSchemeList(props);
     useFlightsList(props);
+    useKPIData(props);
     const {
         visible,
         modalId,
@@ -387,7 +474,7 @@ function SList (props){
     )
 }
 
-const SchemeList = inject("schemeListData", "flightTableData", "systemPage")(observer(SList))
+const SchemeList = inject("schemeListData", "flightTableData", "executeKPIData", "systemPage")(observer(SList))
 
 const SchemeListModal = () => {
     return (
