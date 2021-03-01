@@ -1,6 +1,6 @@
 .ant-table-wrapper{
     min-height: 100px;
-    max-height: 800px;
+    // max-height: 800px;
 }
 .ant-table-container{
     @include display_flex(column);

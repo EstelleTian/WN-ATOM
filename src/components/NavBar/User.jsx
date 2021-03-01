@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-02-05 14:59:57
+ * @LastEditTime: 2021-02-26 15:18:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\User.jsx
@@ -34,11 +34,12 @@ function User(props){
     const pathname = location.pathname || "";
     useEffect(function(){
         const user = localStorage.getItem("user");
+        
         if( isValidVariable(user) ){
             props.systemPage.setUserData( JSON.parse(user) );
         }
         else{
-            props.history.push('/')
+            // props.history.push('/')
         }
     }, []);
     //放行监控页面

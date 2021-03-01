@@ -138,7 +138,7 @@ function LoginPage(props){
                     
                 </Col>
             </Row>
-            <div className="copyright">Copyright ADCC 民航数据通信有限责任公司</div>
+            <div className="copyright"> ADCC 民航数据通信有限责任公司</div>
 
         </div>
     )
