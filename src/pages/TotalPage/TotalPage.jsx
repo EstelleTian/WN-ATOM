@@ -37,7 +37,7 @@ const { Header, Footer, Sider, Content } = Layout;
 function TodoPage (props){
 
     const capacityFlowMonitorUnitData = {
-        'NWALL': {
+        'NW': {
             CN_name: '西北全区',
             data: {
                 AP: {
@@ -45,19 +45,15 @@ function TodoPage (props){
                     units: {
                         ZLXY: {
                             CN_name: '西安机场',
-                            order: 0,
                         },
                         ZLLL: {
                             CN_name: '兰州机场',
-                            order: 0,
                         },
                         ZLXN: {
                             CN_name: '西宁机场',
-                            order: 0,
                         },
                         ZLIC: {
                             CN_name: '银川机场',
-                            order: 0,
                         },
                     },
                 },
@@ -66,99 +62,75 @@ function TodoPage (props){
                     units: {
                         ZLXYAR01: {
                             CN_name: '西安01扇区',
-                            order: 0,
                         },
                         ZLXYAR02: {
                             CN_name: '西安02扇区',
-                            order: 1,
                         },
                         ZLXYAR03: {
                             CN_name: '西安03扇区',
-                            order: 2,
                         },
                         ZLXYAR04: {
                             CN_name: '西安04扇区',
-                            order: 3,
                         },
                         ZLXYAR05: {
                             CN_name: '西安05扇区',
-                            order: 4,
                         },
                         ZLXYAR06: {
                             CN_name: '西安06扇区',
-                            order: 5,
                         },
                         ZLXYAR07: {
                             CN_name: '西安07扇区',
-                            order: 6,
                         },
                         ZLXYAR08: {
                             CN_name: '西安08扇区',
-                            order: 7,
                         },
                         ZLXYAR09: {
                             CN_name: '西安09扇区',
-                            order: 8,
                         },
                         ZLXYAR10: {
                             CN_name: '西安10扇区',
-                            order: 9,
                         },
                         ZLXYAR11: {
                             CN_name: '西安11扇区',
-                            order: 10,
                         },
                         ZLXYAR12: {
                             CN_name: '西安12扇区',
-                            order: 11,
                         },
                         ZLXYAR13: {
                             CN_name: '西安13扇区',
-                            order: 12,
                         },
                         ZLLLAR01: {
                             CN_name: '兰州01扇区',
-                            order: 13,
                         },
                         ZLLLAR02: {
                             CN_name: '兰州02扇区',
-                            order: 14,
                         },
                         ZLLLAR03: {
                             CN_name: '兰州03扇区',
-                            order: 15,
                         },
                         ZLLLAR04: {
                             CN_name: '兰州0扇4区',
-                            order: 16,
                         },
                         ZLLLAR05: {
                             CN_name: '兰州05扇区',
-                            order: 17,
                         },
                         ZLLLAR06: {
                             CN_name: '兰州06扇区',
-                            order: 18,
                         },
                         ZLLLAR07: {
                             CN_name: '兰州07扇区',
-                            order: 19,
                         },
                         ZLLLAR08: {
                             CN_name: '兰州08扇区',
-                            order: 20,
                         },
                         ZLLLAR09: {
                             CN_name: '兰州09扇区',
-                            order: 21,
                         },
                         ZLLLAR11: {
                             CN_name: '兰州11扇区',
-                            order: 22,
                         },
                         ZLLLAR12: {
                             CN_name: '兰州12扇区',
-                            order: 23,
                         },
                     }
                 }
@@ -173,7 +145,6 @@ function TodoPage (props){
                     units: {
                         ZLXY: {
                             CN_name: '西安机场',
-                            order: 0,
                         },
                     },
                 },
@@ -182,55 +153,42 @@ function TodoPage (props){
                     units: {
                         ZLXYAR01: {
                             CN_name: '西安01扇区',
-                            order: 0,
                         },
                         ZLXYAR02: {
                             CN_name: '西安02扇区',
-                            order: 1,
                         },
                         ZLXYAR03: {
                             CN_name: '西安03扇区',
-                            order: 2,
                         },
                         ZLXYAR04: {
                             CN_name: '西安04扇区',
-                            order: 3,
                         },
                         ZLXYAR05: {
                             CN_name: '西安05扇区',
-                            order: 4,
                         },
                         ZLXYAR06: {
                             CN_name: '西安06扇区',
-                            order: 5,
                         },
                         ZLXYAR07: {
                             CN_name: '西安07扇区',
-                            order: 6,
                         },
                         ZLXYAR08: {
                             CN_name: '西安08扇区',
-                            order: 7,
                         },
                         ZLXYAR09: {
                             CN_name: '西安09扇区',
-                            order: 8,
                         },
                         ZLXYAR10: {
                             CN_name: '西安10扇区',
-                            order: 9,
                         },
                         ZLXYAR11: {
                             CN_name: '西安11扇区',
-                            order: 10,
                         },
                         ZLXYAR12: {
                             CN_name: '西安12扇区',
-                            order: 11,
                         },
                         ZLXYAR13: {
                             CN_name: '西安13扇区',
-                            order: 12,
                         },
                     }
                 }
@@ -245,7 +203,6 @@ function TodoPage (props){
                     units: {
                         ZLLL: {
                             CN_name: '兰州机场',
-                            order: 0,
                         }
                     },
                 },
@@ -254,54 +211,43 @@ function TodoPage (props){
                     units: {
                         ZLLLAR01: {
                             CN_name: '兰州01扇区',
-                            order: 13,
                         },
                         ZLLLAR02: {
                             CN_name: '兰州02扇区',
-                            order: 14,
                         },
                         ZLLLAR03: {
                             CN_name: '兰州03扇区',
-                            order: 15,
                         },
                         ZLLLAR04: {
                             CN_name: '兰州0扇4区',
-                            order: 16,
                         },
                         ZLLLAR05: {
                             CN_name: '兰州05扇区',
-                            order: 17,
                         },
                         ZLLLAR06: {
                             CN_name: '兰州06扇区',
-                            order: 18,
                         },
                         ZLLLAR07: {
                             CN_name: '兰州07扇区',
-                            order: 19,
                         },
                         ZLLLAR08: {
                             CN_name: '兰州08扇区',
-                            order: 20,
                         },
                         ZLLLAR09: {
                             CN_name: '兰州09扇区',
-                            order: 21,
                         },
                         ZLLLAR11: {
                             CN_name: '兰州11扇区',
-                            order: 22,
                         },
                         ZLLLAR12: {
                             CN_name: '兰州12扇区',
-                            order: 23,
                         },
                     }
                 }
             }
 
         },
-        'NINGXIABRANCH': {
+        'ZLIC': {
             CN_name: '宁夏分局',
             data: {
                 AP: {
@@ -309,13 +255,12 @@ function TodoPage (props){
                     units: {
                         ZLIC: {
                             CN_name: '银川机场',
-                            order: 0,
                         }
                     },
                 },
             }
         },
-        'QINGHAIBRANCH': {
+        'ZLXN': {
             CN_name: '青海分局',
             data: {
                 AP: {
@@ -323,13 +268,12 @@ function TodoPage (props){
                     units: {
                         ZLXN: {
                             CN_name: '西宁机场',
-                            order: 0,
                         }
                     },
                 },
             }
         },
-        'ZLXYTOWER': {
+        'ZLXY': {
             CN_name: 'ZLXY机场塔台',
             data: {
                 AP: {
@@ -337,13 +281,12 @@ function TodoPage (props){
                     units: {
                         ZLXY: {
                             CN_name: '西安机场',
-                            order: 0,
                         }
                     },
                 },
             }
         },
-        'ZLLLTOWER': {
+        'ZLLL': {
             CN_name: 'ZLLL机场塔台',
             data: {
                 AP: {
@@ -351,13 +294,13 @@ function TodoPage (props){
                     units: {
                         ZLLL: {
                             CN_name: '兰州机场',
-                            order: 0,
                         }
                     },
                 },
             }
         },
     };
+
 
     let [userSubscribeData, setUserSubscribeData] = useState({});
     let [templateId, setTemplateId] = useState(0);
@@ -436,6 +379,10 @@ function TodoPage (props){
         const value = e.target.value;
         const { systemPage, userSubscribeData={} } = props;
         let subscribeData = userSubscribeData.subscribeData || {};
+        console.log(subscribeData.monitorUnit);
+        // subscribeData.monitorUnit["NW"] = {};
+        // subscribeData.monitorUnit["NW"] = subscribeData.monitorUnit["NWALL"];
+        subscribeData.monitorUnit = capacityFlowMonitorUnitData;
         const user = systemPage.user || {};
         const userName= user.username;
         let data = {
@@ -457,6 +404,11 @@ function TodoPage (props){
             ... originalSubscribeData,
             value: JSON.stringify(data),
         };
+        // let params = {
+        //     ... originalSubscribeData,
+        //     value: "{\"focus\":\"NW\",\"monitorUnit\":{\"NW\":{\"CN_name\":\"西北全区\",\"data\":{\"AP\":{\"CN_name\":\"机场\",\"units\":{\"ZLXY\":{\"CN_name\":\"西安机场\",},\"ZLLL\":{\"CN_name\":\"兰州机场\",},\"ZLXN\":{\"CN_name\":\"西宁机场\",},\"ZLIC\":{\"CN_name\":\"银川机场\",}}},\"SECTOR\":{\"CN_name\":\"扇区\",\"units\":{\"ZLXYAR01\":{\"CN_name\":\"西安01扇区\",},\"ZLXYAR02\":{\"CN_name\":\"西安02扇区\",},\"ZLXYAR03\":{\"CN_name\":\"西安03扇区\",},\"ZLXYAR04\":{\"CN_name\":\"西安04扇区\",},\"ZLXYAR05\":{\"CN_name\":\"西安05扇区\",},\"ZLXYAR06\":{\"CN_name\":\"西安06扇区\",},\"ZLXYAR07\":{\"CN_name\":\"西安07扇区\",},\"ZLXYAR08\":{\"CN_name\":\"西安08扇区\",},\"ZLXYAR09\":{\"CN_name\":\"西安09扇区\",},\"ZLXYAR10\":{\"CN_name\":\"西安10扇区\",},\"ZLXYAR11\":{\"CN_name\":\"西安11扇区\",},\"ZLXYAR12\":{\"CN_name\":\"西安12扇区\",},\"ZLXYAR13\":{\"CN_name\":\"西安13扇区\",},\"ZLLLAR01\":{\"CN_name\":\"兰州01扇区\",},\"ZLLLAR02\":{\"CN_name\":\"兰州02扇区\",},\"ZLLLAR03\":{\"CN_name\":\"兰州03扇区\",},\"ZLLLAR04\":{\"CN_name\":\"兰州0扇4区\",},\"ZLLLAR05\":{\"CN_name\":\"兰州05扇区\",},\"ZLLLAR06\":{\"CN_name\":\"兰州06扇区\",},\"ZLLLAR07\":{\"CN_name\":\"兰州07扇区\",},\"ZLLLAR08\":{\"CN_name\":\"兰州08扇区\",},\"ZLLLAR09\":{\"CN_name\":\"兰州09扇区\",},\"ZLLLAR11\":{\"CN_name\":\"兰州11扇区\",},\"ZLLLAR12\":{\"CN_name\":\"兰州12扇区\",}}}}},\"ZLXYACC\":{\"CN_name\":\"西安管制区\",\"data\":{\"AP\":{\"CN_name\":\"机场\",\"units\":{\"ZLXY\":{\"CN_name\":\"西安机场\",}}},\"SECTOR\":{\"CN_name\":\"扇区\",\"units\":{\"ZLXYAR01\":{\"CN_name\":\"西安01扇区\",},\"ZLXYAR02\":{\"CN_name\":\"西安02扇区\",},\"ZLXYAR03\":{\"CN_name\":\"西安03扇区\",},\"ZLXYAR04\":{\"CN_name\":\"西安04扇区\",},\"ZLXYAR05\":{\"CN_name\":\"西安05扇区\",},\"ZLXYAR06\":{\"CN_name\":\"西安06扇区\",},\"ZLXYAR07\":{\"CN_name\":\"西安07扇区\",},\"ZLXYAR08\":{\"CN_name\":\"西安08扇区\",},\"ZLXYAR09\":{\"CN_name\":\"西安09扇区\",},\"ZLXYAR10\":{\"CN_name\":\"西安10扇区\",},\"ZLXYAR11\":{\"CN_name\":\"西安11扇区\",},\"ZLXYAR12\":{\"CN_name\":\"西安12扇区\",},\"ZLXYAR13\":{\"CN_name\":\"西安13扇区\",}}}}},\"ZLLLACC\":{\"CN_name\":\"兰州管制区\",\"data\":{\"AP\":{\"CN_name\":\"机场\",\"units\":{\"ZLLL\":{\"CN_name\":\"兰州机场\",}}},\"SECTOR\":{\"CN_name\":\"扇区\",\"units\":{\"ZLLLAR01\":{\"CN_name\":\"兰州01扇区\",},\"ZLLLAR02\":{\"CN_name\":\"兰州02扇区\",},\"ZLLLAR03\":{\"CN_name\":\"兰州03扇区\",},\"ZLLLAR04\":{\"CN_name\":\"兰州0扇4区\",},\"ZLLLAR05\":{\"CN_name\":\"兰州05扇区\",},\"ZLLLAR06\":{\"CN_name\":\"兰州06扇区\",},\"ZLLLAR07\":{\"CN_name\":\"兰州07扇区\",},\"ZLLLAR08\":{\"CN_name\":\"兰州08扇区\",},\"ZLLLAR09\":{\"CN_name\":\"兰州09扇区\",},\"ZLLLAR11\":{\"CN_name\":\"兰州11扇区\",},\"ZLLLAR12\":{\"CN_name\":\"兰州12扇区\",}}}}},\"ZLIC\":{\"CN_name\":\"宁夏分局\",\"data\":{\"AP\":{\"CN_name\":\"机场\",\"units\":{\"ZLIC\":{\"CN_name\":\"银川机场\",}}}}},\"ZLXN\":{\"CN_name\":\"青海分局\",\"data\":{\"AP\":{\"CN_name\":\"机场\",\"units\":{\"ZLXN\":{\"CN_name\":\"西宁机场\",}}}}},\"ZLXY\":{\"CN_name\":\"ZLXY机场塔台\",\"data\":{\"AP\":{\"CN_name\":\"机场\",\"units\":{\"ZLXY\":{\"CN_name\":\"西安机场\",}}}}},\"ZLLL\":{\"CN_name\":\"ZLLL机场塔台\",\"data\":{\"AP\":{\"CN_name\":\"机场\",\"units\":{\"ZLLL\":{\"CN_name\":\"兰州机场\",}}}}}}}",
+        // };
+        // params.operator = "DEFAULT";
         const opt = {
             url: ReqUrls.userSubscribeCapacityFlowMonitorUnitDataUrl,
             method:'PUT',
@@ -485,13 +437,13 @@ function TodoPage (props){
                                 value = {focus}
                                 buttonStyle="solid"
                                 size="large" >
-                                <Radio.Button value="NWALL">西北全区</Radio.Button>
+                                <Radio.Button value="NW">西北全区</Radio.Button>
                                 <Radio.Button value="ZLXYACC">西安管制区</Radio.Button>
                                 <Radio.Button value="ZLLLACC">兰州管制区</Radio.Button>
-                                <Radio.Button value="NINGXIABRANCH">宁夏分局</Radio.Button>
-                                <Radio.Button value="QINGHAIBRANCH">青海分局</Radio.Button>
-                                <Radio.Button value="ZLXYTOWER">ZLXY机场塔台</Radio.Button>
-                                <Radio.Button value="ZLLLTOWER">ZLLL机场塔台</Radio.Button>
+                                <Radio.Button value="ZLIC">宁夏分局</Radio.Button>
+                                <Radio.Button value="ZLXN">青海分局</Radio.Button>
+                                <Radio.Button value="ZLXY">ZLXY机场塔台</Radio.Button>
+                                <Radio.Button value="ZLLL">ZLLL机场塔台</Radio.Button>
                             </Radio.Group>
                         </div>
                     </div>

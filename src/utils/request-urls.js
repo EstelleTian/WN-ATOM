@@ -26,7 +26,7 @@ const ReqUrls = {
     kpiDataUrl: 'http://192.168.194.21:29890/performkpi/',
     kpiDataUrl: 'http://192.168.243.216:28779/kpi/',
     //获取航班执行数据
-    performanceDataUrl: 'http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight',
+    performanceDataUrl: 'http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname',
     // performanceDataUrl: 'http://192.168.194.22:28001/traffic-flow-monitor-server/monitor/v1/flight',
     // performanceDataUrl: 'http://192.168.243.191:28001/traffic-flow-monitor-server/monitor/v1/flight',
 

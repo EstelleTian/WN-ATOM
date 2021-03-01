@@ -48,6 +48,10 @@ const FlightPerformance =(props) => {
     const sOvfNum = flight.sOvfNum || 0;
     // 绩效情况
     const situation = flight.situation || "";
+    // 起飞正常率绩效情况
+    const depRatioSituation = flight.depRatioSituation || "";
+    // 离港流量绩效情况
+    const depFlowSituation = flight.depFlowSituation || "";
     // 起飞正常率
     const depRatio = flight.depRatio || 0;
     // 地面延误航班架次
@@ -208,7 +212,8 @@ const FlightPerformance =(props) => {
         let {monitorUnit, focus} = subscribeData;
         let arr = [];
         if(isValidObject(monitorUnit) && isValidVariable(focus)){
-            let areaData = monitorUnit[focus].data;
+            let area = monitorUnit[focus] || {};
+            let areaData = area.data;
             for( let type in areaData){
                 let data = areaData[type];
                 let units = data.units;
@@ -224,19 +229,26 @@ const FlightPerformance =(props) => {
     //获取--航班执行情况数据
     const requestFlightPerformanceData = useCallback(() => {
         //TODO 时间范围取值需要使用服务器时间，目前使用的终端时间
-        const now = getFullTime(new Date());
-        const nextDate = addStringTime(now, 1000*60*60*24).substring(0,8);
-        const nowDate = now.substring(0,8);
-        const start = nowDate+'050000';
-        const end =nextDate+'050000';
-        const monitorUnits = getMonitorUnits();
-        const units = monitorUnits.join(',');
-        if(!isValidVariable(units)){
-            return;
-        }
+        // const now = getFullTime(new Date());
+        // const nextDate = addStringTime(now, 1000*60*60*24).substring(0,8);
+        // const nowDate = now.substring(0,8);
+        // const start = nowDate+'050000';
+        // const end =nextDate+'050000';
+        // const monitorUnits = getMonitorUnits();
+        // const units = monitorUnits.join(',');
+        // if(!isValidVariable(units)){
+        //     return;
+        // }
 
+        const { userSubscribeData={} } = props;
+        let subscribeData = userSubscribeData.subscribeData || {};
+        // 区域
+        let { focus } = subscribeData;
+        if(!isValidVariable(focus)){
+           return;
+        }
         const opt = {
-            url: ReqUrls.performanceDataUrl + '?targets='+units+'&starttime='+ start+'&endtime='+end,
+            url: ReqUrls.performanceDataUrl + '?areaName='+focus,
             method:'GET',
             params:{},
             resFunc: (data)=> {
@@ -258,7 +270,6 @@ const FlightPerformance =(props) => {
         const nowDate = now.substring(0,8);
         const start = nowDate+'000000';
         const end =now;
-
         const opt = {
             url: ReqUrls.schemeListUrl + '/statistics?starttime='+ start+'&endtime='+end,
             method:'GET',
@@ -301,7 +312,13 @@ const FlightPerformance =(props) => {
                         </div>
                     </div>
                     <div className="performance_item module">
-                        <PerformanceItemHeader style={ {background:"#2d6b92", color:"#d4d4d4"}} title="绩效"  value={situation}  />
+                        <PerformanceItemHeader
+                            style={ {background:"#2d6b92", color:"#d4d4d4"}}
+                            title="绩效"
+                            value={situation}
+                            tooltipContent={(<div><p>起飞正常率绩效情况:{depRatioSituation}</p><p>离港流量绩效情况:{depFlowSituation}</p></div>)}
+
+                        />
                         <div className="content">
                             <List listData={performance}  />
                         </div>

@@ -7,19 +7,24 @@
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
 import React from 'react'
+import {  message, Col, Row, Spin, Tooltip } from 'antd'
+
 import './PerformanceItemHeader.scss'
 const PerformanceItemHeader =(props) => {
 
-    const { style={}, title="", value="", unit=""  } = props;
+    const { style={}, title="", value="", unit="", tooltipContent=""  } = props;
 
     return(
         <div className="header">
             <div className="title" style={ style }> { title }</div>
             <div className="description" style={{ color: style.color }}>
-                <div className="text-wrapper">
-                    <span className="value">{ value }</span>
-                    <span className="unit">{ unit }</span>
-                </div>
+
+                <Tooltip title={tooltipContent}>
+                    <div className="text-wrapper">
+                        <span className="value">{ value }</span>
+                        <span className="unit">{ unit }</span>
+                    </div>
+                </Tooltip>
 
             </div>
         </div>

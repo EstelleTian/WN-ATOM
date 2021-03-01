@@ -139,7 +139,7 @@ const LineChart =(props) => {
                     stack: '架次',
                     smooth: true,
                     lineStyle: {
-                        width: 0
+                        width: 1
                     },
                     showSymbol: false,
                     areaStyle: {},
@@ -152,7 +152,7 @@ const LineChart =(props) => {
                     stack: '架次',
                     smooth: true,
                     lineStyle: {
-                        width: 0
+                        width: 1
                     },
                     showSymbol: false,
                     areaStyle: {},
@@ -164,7 +164,7 @@ const LineChart =(props) => {
                     stack: '架次',
                     smooth: true,
                     lineStyle: {
-                        width: 0
+                        width: 1
                     },
                     showSymbol: false,
                     areaStyle: {},
