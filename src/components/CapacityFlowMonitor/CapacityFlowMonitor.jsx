@@ -27,7 +27,9 @@ const CapacityFlowMonitor =(props) => {
     const monitorData = capacityFlowMonitorData.monitorData || {};
     const generateTime = monitorData.generateTime || "";
     const describedMap = monitorData.selfDescribedMap || {};
-    const flow = monitorData.flow || {}
+    const flow = monitorData.flow || {};
+    let  capacityFlowMonitorWeatherData = props.capacityFlowMonitorWeatherData || {};
+    const weatherData = capacityFlowMonitorWeatherData.weatherData || [];
     const monitorUnitsCNName = {
         "ZLXY": "西安机场",
         "ZLLL": "兰州机场",
@@ -58,6 +60,15 @@ const CapacityFlowMonitor =(props) => {
         "ZLLLAR11": "兰州11扇区",
         "ZLLLAR12": "兰州12扇区"
     };
+
+    const formatWeatherData = ()=> {
+        let obj = {}
+        weatherData.map((item)=>{
+            obj[item.airport] = item.weatherCH || "";
+        })
+        return obj;
+    };
+
     /**
      * 更新单条容流数据的描述数据
      * */
@@ -98,6 +109,7 @@ const CapacityFlowMonitor =(props) => {
         // 进近
         'APP': {},
     };
+    let weatherDataObj =  formatWeatherData();
     // 进行分类
     getClassifiedData(typeData, describedMap);
 
@@ -110,8 +122,9 @@ const CapacityFlowMonitor =(props) => {
         let arr=[];
         // 遍历并取monitorData数据中对应的容流数据
         for( let d in typeDataMap){
-            let CN_Name = monitorUnitsCNName[d];
+            // let CN_Name = monitorUnitsCNName[d];
             let obj = {
+                key: d,
                 id: d,
                 // title: `${d}-${CN_Name}`,
                 title: d,
@@ -201,7 +214,7 @@ const CapacityFlowMonitor =(props) => {
                             </div>
                         </div>
                         <div className="monitor-content">
-                            <AirportMonitor data={ item.data }  />
+                            <AirportMonitor data={ item.data } weatherData={ weatherDataObj[item.key]}  />
                         </div>
 
                     </ModalBox>
@@ -217,6 +230,19 @@ const CapacityFlowMonitor =(props) => {
             props.capacityFlowMonitorData.updateCapacityFlowMonitorData({});
             message.error({
                 content:"获取的航班执行数据为空",
+                duration: 4,
+            });
+
+        }
+    });
+    // 更新--气象 store数据
+    const updateCapacityFlowMonitorWeatherData = useCallback(weatherData => {
+        if( isValidObject(weatherData) && isValidVariable(weatherData.result) ){
+            props.capacityFlowMonitorWeatherData.updateCapacityFlowMonitorWeatherData(weatherData.result)
+        }else{
+            props.capacityFlowMonitorWeatherData.updateCapacityFlowMonitorWeatherData({});
+            message.error({
+                content:"获取的气象数据为空",
                 duration: 4,
             });
 
@@ -250,13 +276,19 @@ const CapacityFlowMonitor =(props) => {
         props.capacityFlowMonitorData.toggleLoad(true);
         // 获取数据
         requestCapacityFlowMonitorData();
+        // 获取气象数据
+        requestWeatherData();
         // 清除定时
         clearInterval(props.capacityFlowMonitorData.timeoutId);
+        clearInterval(props.capacityFlowMonitorWeatherData.timeoutId);
         // 开启定时获取数据
         props.capacityFlowMonitorData.timeoutId = setInterval(requestCapacityFlowMonitorData, 60*1000);
+        props.capacityFlowMonitorWeatherData.timeoutId = setInterval(requestWeatherData, 60*1000);
         return function(){
             clearInterval(props.capacityFlowMonitorData.timeoutId);
+            clearInterval(props.capacityFlowMonitorWeatherData.timeoutId);
             props.capacityFlowMonitorData.timeoutId = "";
+            props.capacityFlowMonitorWeatherData.timeoutId = "";
         }
     },[props.userSubscribeData.subscribeData])
 
@@ -283,6 +315,25 @@ const CapacityFlowMonitor =(props) => {
         }
         return arr;
     };
+
+    const getAPMonitorUnits =()=> {
+        const { userSubscribeData={} } = props;
+        let subscribeData = userSubscribeData.subscribeData || {};
+        let {monitorUnit, focus} = subscribeData;
+        let arr = [];
+        if(isValidObject(monitorUnit) && isValidVariable(focus)){
+            let area = monitorUnit[focus] || {};
+            let areaData = area.data;
+            let APUnitsData = areaData['AP'];
+            let units = APUnitsData.units;
+            for( let unit in units){
+                arr.push(unit);
+            }
+        }
+        return arr;
+    };
+
+
     // 获取容流数据
     const requestCapacityFlowMonitorData = useCallback(() => {
         const now = getFullTime(new Date());
@@ -311,6 +362,29 @@ const CapacityFlowMonitor =(props) => {
         request(opt);
     });
 
+    // 获取天气数据
+    const requestWeatherData = useCallback(() => {
+        const now = getFullTime(new Date());
+        const nowDate = now.substring(0,8);
+        const monitorUnits = getAPMonitorUnits();
+        const units = monitorUnits.join(',');
+        if(!isValidVariable(units)){
+            return;
+        }
+        const opt = {
+            url: ReqUrls.capacityFlowMonitorWeatherDataUrl+'?time='+nowDate+'&airport='+ units,
+            method:'GET',
+            params:{},
+            resFunc: (data)=> {
+                updateCapacityFlowMonitorWeatherData(data);
+            },
+            errFunc: (err)=> {
+                requestErr(err, '气象数据获取失败')
+            } ,
+        };
+        request(opt);
+    });
+
     return(
         <Spin spinning={loading} >
         <div className="capacity_flow_monitor_container no-scrollbar">
@@ -326,4 +400,4 @@ const CapacityFlowMonitor =(props) => {
     )
 }
 
-export default inject("userSubscribeData","capacityFlowMonitorData","systemPage")(observer(CapacityFlowMonitor))
+export default inject("userSubscribeData","capacityFlowMonitorData","capacityFlowMonitorWeatherData","systemPage")(observer(CapacityFlowMonitor))

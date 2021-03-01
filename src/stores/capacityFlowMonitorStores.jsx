@@ -9,7 +9,7 @@
 
 import { makeObservable, observable, action, computed } from 'mobx'
 
-// 单个方案执行KPI数据
+// 容流监控数据
 class CapacityFlowMonitorData {
     constructor(){
         makeObservable(this)
@@ -34,6 +34,24 @@ class CapacityFlowMonitorData {
 }
 
 let capacityFlowMonitorData = new CapacityFlowMonitorData();
+// 容流监控气象数据
+class CapacityFlowMonitorWeatherData {
+    constructor(){
+        makeObservable(this)
+    }
+    // 列表
+    @observable weatherData = [];
+    //数据时间
+    @observable generateTime = "";
+    //定时器
+    @observable timeoutId = "";
 
+    //更新航班数据
+    @action updateCapacityFlowMonitorWeatherData( weatherData ){
+        this.weatherData = weatherData;
+    }
+}
 
-export { capacityFlowMonitorData }
+let capacityFlowMonitorWeatherData = new CapacityFlowMonitorWeatherData();
+
+export { capacityFlowMonitorData, capacityFlowMonitorWeatherData }

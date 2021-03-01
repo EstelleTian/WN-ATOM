@@ -34,9 +34,10 @@ const ReqUrls = {
     userSubscribeCapacityFlowMonitorUnitDataUrl: 'http://192.168.194.20:28485/user-template-rest/template/user/',
 
     // 获取容流数据
-    // capacityFlowMonitorDataUrl: 'http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight',
     capacityFlowMonitorDataUrl: 'http://192.168.194.22:28875/traffic-flow-capacity-restful/capacity/v1/flow',
-    // capacityFlowMonitorDataUrl: 'http://192.168.243.191:28001/traffic-flow-monitor-server/monitor/v1/flow',
+    // 获取容流气象数据
+    capacityFlowMonitorWeatherDataUrl: 'http://192.168.210.131:28280/atom-airport-weather-collect-server/airport/weather/search/nw',
+    // capacityFlowMonitorWeatherDataUrl: 'http://192.168.210.131:28280/atom-airport-weather-collect-server/airport/weather/search/nw',
     //获取流控数据(ATOM新增)
     ATOMCreateDataUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/restrictions/create/',
     //获取流控数据(ATOM变更)
