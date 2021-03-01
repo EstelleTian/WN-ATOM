@@ -15,5 +15,10 @@ body{
   height: 100vh;
   margin-left: 0!important; 
   margin-right: 0!important;
+  .res_left, .res_right {
+    .title {
+      height: 34px;
+    }
+  }
 }
 
