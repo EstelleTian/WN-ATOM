@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-02-25 16:00:52
+ * @LastEditTime: 2021-02-26 11:59:19
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -174,14 +174,14 @@ class FlightTableData{
     //获取真正展示的航班
     @computed get getShowFlights(){
         let showList = this.list.map( flight => formatSingleFlight(flight) );
-        const sVal = this.searchVal;
-        if( sVal !== "" ){
+        const oVal = this.searchVal;
+        if( oVal !== "" ){
             showList = showList.filter( flight => {
                 for(let key in flight){
                     let val = flight[key] || ""
                     val = val + ""
                     val = val.toLowerCase();
-                    const sVal = sVal.toLowerCase();
+                    const sVal = oVal.toLowerCase();
                     if( val.indexOf( sVal ) !== -1 ){
                         return true
                     }

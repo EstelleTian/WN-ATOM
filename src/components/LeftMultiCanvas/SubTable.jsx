@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-05 10:54:22
+ * @LastEditTime: 2021-02-26 12:04:31
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -148,7 +148,7 @@ function SubTable(props){
         (record, index) => {
             let { FFIXT, orgdata, id } = record;
             if( sortKey === "FFIXT" ) {
-                const activeScheme = props.schemeListData.activeScheme;
+                const activeScheme = props.schemeListData.activeScheme(props.schemeListData.activeSchemeId) ;
                 let {startTime, endTime} = activeScheme.tacticTimeInfo;
                 if( isValidVariable(FFIXT) && FFIXT.length > 12 ){
                     FFIXT = FFIXT.substring(0, 12);
@@ -176,7 +176,7 @@ function SubTable(props){
         },
         [],
     );
-    const activeScheme = props.schemeListData.activeScheme || {};
+    const activeScheme = props.schemeListData.activeScheme(props.schemeListData.activeSchemeId) || {};
     const tacticName = activeScheme.tacticName || "";
     const getTitle = () => {
         return <span>
