@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 11:08:47
- * @LastEditTime: 2021-02-18 15:04:42
+ * @LastEditTime: 2021-03-01 14:33:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\ExecuteKPI\ExecuteKPIModal.jsx
@@ -14,27 +14,44 @@
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
-import React, { lazy, Suspense} from 'react';
+import React, { lazy, Suspense, useMemo} from 'react';
 import {inject, observer} from "mobx-react";
 import {Spin} from "antd";
 import ExecuteKPI  from 'components/ExecuteKPI/ExecuteKPI'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { isValidVariable, formatTimeString } from 'utils/basic-verify'
 
+/** start *****航班表格标题************/
+function TTitle(props){
+    const { executeKPIData = {}, schemeListData } = props;
+    
+    const generateTime = useMemo(() => {
+        return executeKPIData.KPIData.generateTime || "";
+    }, [executeKPIData.KPIData.generateTime]);
+
+    const tacticName = useMemo(() => {
+        const activeScheme = schemeListData.activeScheme(schemeListData.activeSchemeId) || {};
+        return activeScheme.tacticName || "";
+    }, [schemeListData.activeSchemeId]);
+
+    return (<span>
+         <span>执行KPI({formatTimeString(props.executeKPIData.KPIData.generateTime)})</span>
+         —
+         <span style={{ color: "#36a5da"}}>{tacticName}</span>
+    </span>)
+}
+const TableTitle = inject("executeKPIData", "schemeListData")(observer(TTitle));
+/** end *****航班表格标题************/
+
+
 function ExecuteKPIModal(props){
     const activeScheme = props.schemeListData.activeScheme || {};
     const tacticName = activeScheme.tacticName || "";
-    const getTitle = () => {
-        return <span>
-            <span>执行KPI({formatTimeString(props.executeKPIData.KPIData.generateTime)})</span>
-            —
-            <span style={{ color: "#36a5da"}}>{tacticName}</span>
-        </span>
-    }
+
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <ModalBox
-                title={ getTitle() }
+                title={ <TableTitle /> }
                 showDecorator = {false}
                 className="kpi"
             >

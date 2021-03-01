@@ -150,9 +150,9 @@ function RightNav(props){
                 <Radio.Button value="system">参数设置</Radio.Button>
             </Radio.Group>
             {/*消息*/}
-            <Radio.Group buttonStyle="solid" size="large">
+            {/*<Radio.Group buttonStyle="solid" size="large">
                 <Radio.Button value="news"><NavBellNews /></Radio.Button>
-            </Radio.Group>
+            </Radio.Group>*/}
             {/*用户*/}
             <Radio.Group buttonStyle="solid" size="large">
                 <Radio.Button value="users"><User /></Radio.Button>
