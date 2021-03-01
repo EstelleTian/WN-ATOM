@@ -1,5 +1,5 @@
-import React from "react";
-import {Button, Radio, Badge} from "antd";
+import React,{useState,} from "react";
+import {Modal, Radio, Badge,Button} from "antd";
 import {observer, inject} from "mobx-react";
 import User from "./User";
 // import WinBtn from "./WinBtn";
@@ -8,6 +8,7 @@ import './RightNav.scss'
 
 
 function RightNav(props){
+    const [myApplicationModalVisible, setMyApplicationModalVisible] = useState(false);
     const groupRightChange = (e) => {
         const value = e.target.value;
         props.systemPage.setLeftActiveName(value);
@@ -17,6 +18,20 @@ function RightNav(props){
         const value = e.target.value;
         props.systemPage.setRightActiveName(value);
         console.log(e.target.value)
+    }
+    /**
+     * 显示【我的申请】模态框
+     * */
+    const showMyApplicationModal = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setMyApplicationModalVisible(true);
+    }
+    /**
+     * 关闭【我的申请】模态框
+     * */
+    const closeMyApplicationModal = (e) => {
+        setMyApplicationModalVisible(false);
     }
 
     const { flightTableData, todoList } = props;
@@ -93,10 +108,40 @@ function RightNav(props){
                         }
                     </Radio.Button>
 
+
                     {/*<WinBtn btnTitle="豁免航班" type="exempt" />*/}
                     {/*<WinBtn btnTitle="等待池" type="pool" />*/}
                 </Radio.Group>
             </div>
+            <Button
+                type={myApplicationModalVisible ? "primary" : "default"}
+                size="large"
+                onClick={showMyApplicationModal}
+            >我的申请
+                <Badge
+                    className="site-badge-count-109"
+                    count={ 20 }
+                    style={{ backgroundColor: 'rgb(61, 132, 36)' }}
+                />
+            </Button>
+
+            <Modal
+                title="我的申请"
+                centered
+                visible={ myApplicationModalVisible }
+                onOk={() => closeMyApplicationModal()}
+                onCancel={() => closeMyApplicationModal()}
+                width={1000}
+                // maskClosable={false}
+                destroyOnClose = { true }
+                footer = {
+                    <div>
+                        <Button type="primary" onClick={ closeMyApplicationModal }>确认</Button>
+                    </div>
+                }
+            >
+                sdfefef
+            </Modal>
             <Radio.Group value={props.systemPage.rightActiveName} buttonStyle="solid" size="large" onChange={ groupRightChange2 } >
                 <Radio.Button value="scheme">方案列表</Radio.Button>
                 <Radio.Button value="outer_scheme">外部流控</Radio.Button>
