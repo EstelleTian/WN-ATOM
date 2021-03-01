@@ -134,10 +134,13 @@ function StaticInfoCard(props){
     };
 
     const updateEndTimeDisplay =(date) => {
-        console.log(date);
         if( props.hasOwnProperty("updateEndDateString") ){
-            let dateString = moment(date).format("YYYYMMDDHHmm");
-            props.updateEndDateString(dateString);
+            if(isValidObject(date)){
+                let dateString = moment(date).format("YYYYMMDDHHmm");
+                props.updateEndDateString(dateString);
+            }else {
+                props.updateEndDateString("");
+            }
         }
 
     };
@@ -274,7 +277,6 @@ function StaticInfoCard(props){
 
     const disabledEndDate=(currentDate) => {
         const startDate = form.getFieldsValue()['startDate'];
-        console.log(startDate)
         return currentDate < startDate || currentDate > moment(startDate).add(2, 'day');
     };
 
