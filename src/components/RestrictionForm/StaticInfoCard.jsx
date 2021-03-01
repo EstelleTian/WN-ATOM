@@ -142,13 +142,51 @@ function StaticInfoCard(props){
                 props.updateEndDateString("");
             }
         }
-
     };
-
+    /**
+     * 自动填充结束日期
+     * */
+    const autoFillInEndDate =( value ) => {
+        const startTime =  form.getFieldsValue()['startTime'];
+        const startDate =  form.getFieldsValue()['startDate'];
+        const endTime = form.getFieldsValue()['endTime'];
+        const endDate =  form.getFieldsValue()['endDate'];
+        const startDateString = moment(startDate).format("YYYYMMDDHHmm").substring(0,8);
+        const startDateTime = startDateString+startTime;
+        const startDateTimeFormatValid = REGEXP.DATETTIME12.test(startDateTime);
+        if(startDateTimeFormatValid && value.length === 4 && !isValidVariable(endDate)){
+            if(value*1 < startTime*1 || value*1 === startTime*1){
+                const nextDate = moment(startDate).add(1, 'day');
+                form.setFieldsValue({'endDate': moment(nextDate)})
+                let dateString = moment(nextDate).format("YYYYMMDDHHmm");
+                props.updateEndDateString(dateString);
+            }else {
+                form.setFieldsValue({'endDate': moment(startDate)})
+                let dateString = moment(startDate).format("YYYYMMDDHHmm");
+                props.updateEndDateString(dateString);
+            }
+        }
+    }
 
     const updateEndTimeString =( { target: { value } } ) => {
+        // 更新结束时间
         if( props.hasOwnProperty("updateEndTimeString") ){
             props.updateEndTimeString(value);
+        }
+        // 自动填充结束日期
+        autoFillInEndDate(value);
+    };
+
+    const onOpenEndDatePickerChange =( open ) => {
+        const startTime =  form.getFieldsValue()['startTime'];
+        const startDate =  form.getFieldsValue()['startDate'];
+        const endTime = form.getFieldsValue()['endTime'];
+        const endDate =  form.getFieldsValue()['endDate'];
+        if(open && isValidVariable(startDate) && !isValidVariable(endDate)) {
+            form.setFieldsValue({'endDate': moment(startDate)});
+            let dateString = moment(startDate).format("YYYYMMDDHHmm");
+            console.log(dateString)
+            props.updateEndDateString(dateString);
         }
 
     };
@@ -433,6 +471,7 @@ function StaticInfoCard(props){
                                         placeholder={ dateFormat }
                                         className="date-picker-form"
                                         showToday={false}
+                                        onOpenChange={ onOpenEndDatePickerChange }
                                     />
                                 </Form.Item>
                                 <Form.Item
