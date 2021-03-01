@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-01 13:02:01
+ * @LastEditTime: 2021-03-01 13:22:51
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -257,7 +257,6 @@ function useFlightsList(props){
 }
 //KPI请求 hook
 function useKPIData(props){
-    const timeoutId = useRef("");
     const { schemeListData, executeKPIData, systemPage } = props;
     const { activeSchemeId, generateTime = "" } = schemeListData;
     const { 
@@ -297,7 +296,7 @@ function useKPIData(props){
                         executeKPIData.toggleLoad(false);
                         //开启定时
                         if( nextRefresh ){
-                            timeoutId.current = setTimeout( ()=>{
+                            executeKPIData.timeoutId = setTimeout( ()=>{
                                 console.log("执行KPI数据 定时器-下一轮更新开始")
                                 getKPIData( true );
                             }, 60*1000);
@@ -321,7 +320,7 @@ function useKPIData(props){
         console.log("执行KPI数据 activeSchemeId, leftActiveName", activeSchemeId, leftActiveName)
         if( isValidVariable(activeSchemeId) && (leftActiveName === "kpi") ){
             executeKPIData.toggleLoad(true);
-            let flag = (timeoutId.current === "");
+            let flag = ( executeKPIData.timeoutId === "");
             getKPIData(flag);
         }
     }, [activeSchemeId, leftActiveName]);
@@ -335,14 +334,7 @@ function useKPIData(props){
         }
     },[ pageRefresh, id ]);
 
-    // DidMount 
-    useEffect(function(){
-        return function(){
-            console.log("KPI 卸载")
-            timeoutId.current = "";
-            clearTimeout(timeoutId.current);
-        }
-    },[]);
+
 }
 
 const useSchemeModal = () =>{
