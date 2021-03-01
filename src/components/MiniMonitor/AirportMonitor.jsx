@@ -7,7 +7,7 @@
  * @FilePath: \WN-CDM\src\components\MiniMonitor\AirportMonitor.jsx
  */
 import React from 'react'
-import {Col, Progress, Row} from "antd";
+import {Col, Progress, Tooltip } from "antd";
 
 import {getFullTime, addStringTime, isValidVariable} from 'utils/basic-verify'
 
@@ -20,6 +20,11 @@ function AirportMonitor(props) {
     const weather = data.weather || "";
     // 起飞正常率
     const depRatio = data.depRatio || 0;
+    // 超容量
+    const overCapacity = data.overCapacity;
+    // 总流量
+    const totalFlows = data.totalFlows;
+
     const getTimeAxis = function () {
         let arr = [];
         // 以执行起降数据为基础遍历时间
@@ -199,16 +204,6 @@ function AirportMonitor(props) {
                     type: 'bar',
                     stack: 'flow',
                     data: notOverflowData,
-                    // markPoint: {
-                    //     symbolSize: 40,
-                    //     itemStyle: {
-                    //         color:'#866216'
-                    //     },
-                    //     label:{
-                    //         fontSize: 16,
-                    //     },
-                    //     data: weatherData,
-                    // }
                 },
                 {
                     name: 'overflow',
@@ -289,19 +284,22 @@ function AirportMonitor(props) {
                 <MiniMonitor {...props} className="airport_monitor" option={getOption()}/>
             </div>
             <div className="options">
-                <div className="normal-rate">
-                    <div className="rate-progress">
-                        <Progress
-                            percent={ (depRatio*100).toFixed(0) }
-                            showInfo={false}
-                            strokeColor="#35a5da"
-                            trailColor="#2d6b92"
-                        />
+
+                    <div className="normal-rate">
+                        <Tooltip title={(<div><p>超容量: {overCapacity}</p><p>总流量: {totalFlows}</p></div>)}>
+                        <div className="rate-progress">
+                            <Progress
+                                percent={ (depRatio*100).toFixed(0) }
+                                showInfo={false}
+                                strokeColor="#35a5da"
+                                trailColor="#2d6b92"
+                            />
+                        </div>
+                        </Tooltip>
+                        <div className="rate-text">
+                            {`正常率 ${(depRatio*100).toFixed(0)}%`}
+                        </div>
                     </div>
-                    <div className="rate-text">
-                        {`正常率 ${(depRatio*100).toFixed(0)}%`}
-                    </div>
-                </div>
 
                 { isValidVariable(weather) ? <div className="weather">
                     <div className="text">{weather}</div>
