@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-15 15:12:48
- * @LastEditTime: 2021-02-23 14:14:50
+ * @LastEditTime: 2021-03-02 16:41:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\utils\basic-verify.js
@@ -121,6 +121,9 @@ const getFullTime = (date, type) => {
     }
     if( type === 3 ){
         fullTime = hour  + mins ;
+    }
+    if( type === 4 ){
+        fullTime = year  + month  + day ;
     }
     return fullTime;
 };

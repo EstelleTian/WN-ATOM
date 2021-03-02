@@ -41,6 +41,9 @@
         .dynamic_modal, .static_cap_modal{
             margin: 0.5rem;
             width: 750px;
+            .ant-form-item-control-input{
+                min-height: inherit!important;
+            }
             .ant-table-thead{
                 th{
                     font-size: 1rem;

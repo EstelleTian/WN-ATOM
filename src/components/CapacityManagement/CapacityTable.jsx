@@ -1,19 +1,21 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-02 13:58:41
+ * @LastEditTime: 2021-03-02 17:08:03
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
  */
 
-import React, { useContext, useState, useEffect, useRef, useCallback, useMemo } from "react";
+import React, { useContext, useState, useEffect, useRef, useCallback, useMemo, Suspense } from "react";
 import {inject, observer} from 'mobx-react'
-import { AlertOutlined  } from '@ant-design/icons';
-import { Table, Input, Button, Popconfirm, Form } from "antd";
-import { getFullTime, isValidVariable, formatTimeString, millisecondToDate } from 'utils/basic-verify'
+import { message } from 'antd';
+import { request } from 'utils/request'
+import { ReqUrls } from 'utils/request-urls'
+import { Table, Input, Button, Popconfirm, Form, Spin  } from "antd";
+import { isValidVariable, getFullTime } from 'utils/basic-verify'
 import { REGEXP } from 'utils/regExpUtil'
-import { data1, data24 } from '../../mockdata/static'
+// import { data1, data24 } from '../../mockdata/static'
 import './CapacityTable.scss'
 const EditableContext = React.createContext(null);
 
@@ -36,8 +38,9 @@ const rules  = [
     }
 ];
 
-const EditableRow = ({ index, ...props }) => {
+const EditableRow = (props) => {
     const [form] = Form.useForm();
+
     return (
         <Form form={form} component={false}>
             <EditableContext.Provider value={form}>
@@ -56,7 +59,12 @@ const EditableCell = ({
       handleSave,
       ...restProps
   }) => {
+    const orgData = useRef();
     const form = useContext(EditableContext);
+
+    useEffect(()=>{
+        orgData.current = record || {};
+    },[ editing ])
 
     if(editing){
         form.setFieldsValue({
@@ -72,14 +80,16 @@ const EditableCell = ({
             
         }
     };
-
-    let flag = false;
-    if( isValidVariable(record) ){
-        const recordObj = JSON.parse( record.time ) || {};
-        const orgVal = recordObj[dataIndex]*1;
-        const curVal = record[dataIndex]*1;
-        flag = ( orgVal > 0 ) && ( curVal > 0 ) && ( orgVal != curVal )
+    
+    let orgVal = "";
+    if( isValidVariable(orgData.current) && orgData.current.hasOwnProperty(dataIndex) ){
+        orgVal = orgData.current[dataIndex]*1;
     }
+    let curVal = "";
+    if( isValidVariable(record) &&  record[dataIndex] ){
+        curVal = record[dataIndex]*1;
+    }
+    let flag = ( orgVal > 0 ) && ( curVal > 0 ) && ( orgVal != curVal )
 
     const inputNode = <Input onBlur={ save }/>;
     return (
@@ -113,7 +123,7 @@ const EditableCell = ({
             fixed: 'left',
             width: (screenWidth > 1920) ? 30 : 30,
             render: (text, record, index) => {
-                if( text === "24" ){
+                if( text === "BASE" ){
                     return <span>全天</span>;
                 }
                 return <span>{text}点</span>
@@ -182,19 +192,24 @@ const EditableCell = ({
     ];
     return cColumns
 }
-
+//请求错误--处理
+const requestErr = (err, content) => {
+    message.error({
+        content,
+        duration: 10,
+    });
+}
 //动态容量配置
 const CapacityTable = (props) => {
     const [ loading, setLoading ] = useState(false); 
     const [ tableData, setTableData ] = useState([]); 
-    
     let [ tableHeight, setTableHeight ] = useState(0);
     let [ editable, setEditable] = useState(false);
-    const [ form ] = Form.useForm();
+
     const { kind, capacity } = props;
 
     const handleSave = (row) => {
-        console.log("保存row", row);
+        
         const newData = [...tableData];
         const index = newData.findIndex((item) => row.key === item.key);
         const item = newData[index];
@@ -203,30 +218,62 @@ const CapacityTable = (props) => {
 
     };
 
-    const updateOrgTableDatas = () => {
-        let newTableData = [];
-        tableData.map( item => {
-            let values = item;
-            let timeObj = JSON.parse(values.time);
-            values.time = timeObj.time;
-            const newStr = JSON.stringify(values);
-            values.time = newStr;
-            newTableData.push(values);
-        })
-        setTableData(newTableData);
+    const updateOrgTableDatas = (kind) => {
+        props.capacity.updateDatas( kind, tableData );
+        //发送保存请求
+        let url = ReqUrls.capacityBaseUrl;
+        //传参
+        let params = [];
+        if( kind === "default" || kind === "static"){
+            url += "static/updateCapacityStatic"
+            params = Object.values(props.capacity.staticData)
+        }else if( kind === "dynamic"){
+            url += "dynamic/updateCapacity"
+            params = Object.values(props.capacity.dynamicData)
+        }
+            
+        const opt = {
+            url,
+            method: 'POST',
+            params: params,
+            resFunc: (data)=> {
+                console.log(data);
+                const { resultMap } = data;
+                for(let name in resultMap){
+                    const dataArr = resultMap[name];
+                    if( dataArr.length > 0 ){
+                      props.capacity.updateDatas( kind, dataArr );
+                    }
+                }
+                const msgStyle = {
+                    top: '100px',
+                    position: 'relative',
+                    fontSize: '1.2rem',
+                }
+                message.success({
+                    content: "容量保存成功",
+                    duration: 6,
+                    style: msgStyle
+                });
+            },
+            errFunc: (err, msg)=> {
+               console.log(err)
+            },
+        };
+        request(opt);
+
+        
+       
     }
 
-    const resetOrgTableDatas = () => {
-        let newTableData = [];
-        tableData.map( item => {
-            let obj = {};
-            let timeStr = item.time;
-            let timeObj = JSON.parse(timeStr);
-            obj = {...item, ...timeObj};
-            obj.time = timeStr;
-            newTableData.push(obj);
-        })
-        setTableData(newTableData);
+    const resetOrgTableDatas = (kind) => {
+        if( kind === "default" ){
+            setTableData( props.capacity.defaultStaticData );
+        }else if(kind === "static"){
+            setTableData( props.capacity.customStaticData );
+        }else if(kind === "dynamic"){
+            setTableData( props.capacity.customDynamicData );
+        }
     }
 
     const mergedColumns = getColumns().map((col) => {
@@ -241,25 +288,26 @@ const CapacityTable = (props) => {
                 dataIndex: col.dataIndex,
                 title: col.title,
                 editing: editable,
-                handleSave,
+                handleSave
             }),
         };
     });
     
     useEffect(() => {
-        console.log("tableData", kind, props.capacity.staticData)
         if( kind === "default" ){
             setTableData( props.capacity.defaultStaticData );
         }else if(kind === "static"){
             setTableData( props.capacity.customStaticData );
+        }else if(kind === "dynamic"){
+            setTableData( props.capacity.customDynamicData );
         }
-    }, [kind, props.capacity.staticData]);
+    }, [kind, props.capacity.staticData, props.capacity.dynamicData ]);
 
     useEffect(() => {
         if( props.type === "line1" ){
             setTableHeight(80)
          }else if( props.type === "line24" ){
-            const dom = document.getElementsByClassName("static_cap_modal_24")
+            const dom = document.getElementsByClassName("modal_"+kind)
             const boxContent = dom[0].getElementsByClassName("box_content")
             let height = boxContent[0].offsetHeight - 65;
             setTableHeight( height );
@@ -269,48 +317,53 @@ const CapacityTable = (props) => {
     
     
     return (
-        <div className="table_cont">
-            <div className="opt_btns">
+        <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+            <div className="table_cont">
+                <div className="opt_btns">
+                    {
+                        !editable
+                            ? <Button className="" size="small" type="primary" onClick={e =>{
+                                setEditable(true);
+                            }}>修改 </Button>
+                            : <span>
+                                <Button className="" size="small" type="primary"  onClick={e =>{
+                                    setEditable(false);
+                                    //更新初始化数据
+                                    updateOrgTableDatas(kind)
+                                }}>保存 </Button>
+                                <Button className="reset" size="small" onClick={ e =>{
+                                    setEditable(false);
+                                    resetOrgTableDatas(kind);
+                                } }> 取消 </Button>
+                            </span>
+                    }
+
+                </div>
                 {
-                    !editable
-                        ? <Button className="" size="small" type="primary" onClick={e =>{
-                            setEditable(true);
-                        }}>修改 </Button>
-                        : <span>
-                            <Button className="" size="small" type="primary"  onClick={e =>{
-                                setEditable(false);
-                                //更新初始化数据
-                                updateOrgTableDatas()
-                            }}>保存 </Button>
-                            <Button className="reset" size="small" onClick={ e =>{
-                                setEditable(false);
-                                resetOrgTableDatas();
-                            } }> 取消 </Button>
-                        </span>
+                    tableData.length > 0 
+                    && <Table
+                            components={{
+                                body: {
+                                    row: EditableRow,
+                                    cell: EditableCell,
+                                },
+                            }}
+                            loading={loading}
+                            columns={ mergedColumns }
+                            dataSource={ tableData }
+                            size="small"
+                            bordered
+                            pagination={false}
+                            scroll={{
+                                x: 350,
+                                y: tableHeight
+                            }}
+                            className="capacity_number_table"
+                        />
                 }
-
+                   
             </div>
-                <Table
-                    components={{
-                        body: {
-                            row: EditableRow,
-                            cell: EditableCell,
-                        },
-                    }}
-                    loading={loading}
-                    columns={ mergedColumns }
-                    dataSource={ tableData }
-                    size="small"
-                    bordered
-                    pagination={false}
-                    scroll={{
-                        x: 350,
-                        y: tableHeight
-                    }}
-                    className="capacity_number_table"
-                />
-
-        </div>
+        </Suspense>
       );
 
 }

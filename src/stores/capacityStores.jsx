@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-03-02 13:41:33
+ * @LastEditTime: 2021-03-02 16:35:04
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -28,10 +28,10 @@ import { isValidVariable } from 'utils/basic-verify'
      ];
 
      //静态容量数据
-     @observable staticData = [];
+     @observable staticData = {};
 
      //动态容量 
-     @observable dynamicData = [];
+     @observable dynamicData = {};
 
      //添加pane
      @action setPane(title, key, type){
@@ -106,11 +106,17 @@ import { isValidVariable } from 'utils/basic-verify'
 
      //更新 静态data
     @action setStaticData(data){
-        this.staticData = data;
+        let obj = {};
+        data.map( item => {
+            const capacityTime = item.capacityTime;
+            item["key"] = capacityTime;
+            obj[ capacityTime ] = item;
+        })
+        this.staticData = obj;
     }
     //默认静态data
     @computed get defaultStaticData(){
-        return this.staticData.filter( item => {
+        return Object.values(this.staticData).filter( item => {
             if( item.capacityTime === "BASE" ){
                 return true
             }else{
@@ -120,7 +126,7 @@ import { isValidVariable } from 'utils/basic-verify'
     }
     //24小时 静态data
     @computed get customStaticData(){
-        return this.staticData.filter( item => {
+        return Object.values(this.staticData).filter( item => {
             if( item.capacityTime !== "BASE" ){
                 return true
             }else{
@@ -131,8 +137,47 @@ import { isValidVariable } from 'utils/basic-verify'
 
     //更新 动态data
     @action setDynamicData(data){
-        this.dynamicData = data;
+        let obj = {};
+        data.map( item => {
+            const capacityTime = item.capacityTime;
+            item["key"] = capacityTime;
+            obj[ capacityTime ] = item;
+        })
+        this.dynamicData = obj;
     }
+
+    //24小时 动态data
+    @computed get customDynamicData(){
+        return Object.values(this.dynamicData).filter( item => {
+            if( item.capacityTime !== "BASE" ){
+                return true
+            }else{
+                return false;
+            }
+        })
+    }
+
+    //根据kind类型更新data
+    @action updateDatas( kind, data ){
+        switch (kind) {
+            case "default":
+            case "static":
+                data.map( item => {
+                    const capacityTime = item.capacityTime;
+                    this.staticData[capacityTime] = item;
+                } )
+                break;
+        
+            case "dynamic":
+                data.map( item => {
+                    const capacityTime = item.capacityTime;
+                    this.dynamicData[capacityTime] = item;
+                } )
+                break;
+        }
+        console.log( this.staticData )
+    }
+    
 
     
  }
