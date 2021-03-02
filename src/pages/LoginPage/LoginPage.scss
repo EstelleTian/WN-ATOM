@@ -1,15 +1,21 @@
+html,body{
+  overflow: hidden;
+  font-size: 10px!important;
+}
 
 .login{
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-position: center;
-  background: url('../../images/11.jpg');
-  background-size: cover;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
+  width: 500px;
+  height: 300px;
+  // min-height: 100vh;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // background-position: center;
+  // background: url('../../images/11.jpg');
+  // background-size: cover;
+  // -webkit-background-size: cover;
+  // -moz-background-size: cover;
+  // -o-background-size: cover;
 
   .head {
     background: url('../../images/logo.png');
@@ -35,13 +41,15 @@
 .login_form{
   .ant-form-item{
     font-size: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2rem!important;
   }
   .ant-form-item-with-help {
     margin-bottom: 1.9rem;
   }
   .ant-form-item-children, .ant-input, .login_button > span {
-    font-size: 1rem;
+    font-size: 2rem;
+    line-height: 2rem;
+    position: relative;
   }
   .ant-form-item.has-err {
     margin-bottom: 0;
@@ -50,14 +58,14 @@
   .title{
     color: $c-white-100;
     text-align: center;
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 400;
     margin: 0 0 1.5rem 0;
   }
   .form_input{
-    font-size: 1.5rem;
+    font-size: 2rem;
     input{
-      height:2.4rem;
+      height:4rem;
     }
   }
   .login-form-by-ip{
@@ -98,7 +106,7 @@
   }
   .ant-input-affix-wrapper .ant-input:not(:first-child){
     padding-left: 1rem;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
   }
   .ant-form-item-control-wrapper .anticon {
     font-size: 1.525rem;

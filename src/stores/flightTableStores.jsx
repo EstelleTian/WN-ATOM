@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-02-26 11:59:19
+ * @LastEditTime: 2021-03-01 18:07:42
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -74,7 +74,7 @@ class FlightTableData{
     @observable timeoutId = "";
     //上一次请求的方案id
     @observable lastSchemeId = "";
-    //更新表格loading状态
+    //更新表格loading显示
     @action toggleLoad( load ){
         this.loading = load;
     }
@@ -190,7 +190,6 @@ class FlightTableData{
             } );
         } 
         const targetFlight = this.getTargetFlight(showList);
-        console.log("targetFlight ", targetFlight)
         return { showList, targetFlight }
     }
 
