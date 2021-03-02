@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-02 13:48:02
+ * @LastEditTime: 2021-03-02 13:58:41
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -186,39 +186,20 @@ const EditableCell = ({
 //动态容量配置
 const CapacityTable = (props) => {
     const [ loading, setLoading ] = useState(false); 
+    const [ tableData, setTableData ] = useState([]); 
     
     let [ tableHeight, setTableHeight ] = useState(0);
     let [ editable, setEditable] = useState(false);
     const [ form ] = Form.useForm();
     const { kind, capacity } = props;
 
-    let tableData = useMemo( ()=>{
-        if( kind === "default" ){
-            return props.capacity.defaultStaticData;
-        }else if(kind === "static"){
-            return props.capacity.customStaticData;
-        }
-    }, [ props.capacity.defaultStaticData, props.capacity.customStaticData ])
-
-    useEffect(() => {
-        if( props.type === "line1" ){
-            setTableHeight(80)
-         }else if( props.type === "line24" ){
-            const dom = document.getElementsByClassName("static_cap_modal_24")
-            const boxContent = dom[0].getElementsByClassName("box_content")
-            let height = boxContent[0].offsetHeight - 65;
-            setTableHeight( height );
-        }
-
-    }, [tableHeight]);
-
     const handleSave = (row) => {
-        
+        console.log("保存row", row);
         const newData = [...tableData];
         const index = newData.findIndex((item) => row.key === item.key);
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
-        console.log("保存", newData);
+        setTableData(newData)
 
     };
 
@@ -264,6 +245,29 @@ const CapacityTable = (props) => {
             }),
         };
     });
+    
+    useEffect(() => {
+        console.log("tableData", kind, props.capacity.staticData)
+        if( kind === "default" ){
+            setTableData( props.capacity.defaultStaticData );
+        }else if(kind === "static"){
+            setTableData( props.capacity.customStaticData );
+        }
+    }, [kind, props.capacity.staticData]);
+
+    useEffect(() => {
+        if( props.type === "line1" ){
+            setTableHeight(80)
+         }else if( props.type === "line24" ){
+            const dom = document.getElementsByClassName("static_cap_modal_24")
+            const boxContent = dom[0].getElementsByClassName("box_content")
+            let height = boxContent[0].offsetHeight - 65;
+            setTableHeight( height );
+        }
+    }, [tableHeight]);
+
+    
+    
     return (
         <div className="table_cont">
             <div className="opt_btns">
