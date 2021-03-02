@@ -1,17 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-02 13:42:18
+ * @LastEditTime: 2021-03-02 16:41:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
  */
-import React, { Suspense, useEffect, useCallback} from 'react'
-import { Spin } from 'antd';
+import React, { useEffect, useCallback} from 'react'
 import {inject, observer} from 'mobx-react'
 import { requestGet } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import ModalBox from 'components/ModalBox/ModalBox'
+import { isValidVariable, getFullTime } from 'utils/basic-verify'
 import CapacityTable from './CapacityTable';
 
 import "./CapacityCont.scss"
@@ -46,7 +46,7 @@ function CapacityCont (props){
         const type = pane.type.toUpperCase();
         const airportName = pane.key;
         const opt = {
-            url: ReqUrls.capacityBaseUrl+ "dynamic/"+ airportName + "/" + type + '/' + '20210301' ,
+            url: ReqUrls.capacityBaseUrl+ "dynamic/"+ airportName + "/" + type + '/' + getFullTime( new Date(), 4) ,
             method:'GET',
             params:{},
             resFunc: (data)=> {
@@ -72,7 +72,7 @@ function CapacityCont (props){
 
    
     return (
-        <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+        
             <div style={{ overflowX: 'auto'}}>
                 <div className="cap_set_canvas">
                     <div className="set_top">
@@ -87,27 +87,26 @@ function CapacityCont (props){
                             >
                                 <CapacityTable type="line1" kind="default"/>
                             </ModalBox>
-                            <ModalBox
+                           {/* */}<ModalBox
                                 title="静态容量——时段配置"
                                 showDecorator = {true}
-                                className="static_cap_modal static_cap_modal_24"
+                                className="static_cap_modal static_cap_modal_24 modal_static"
                             >
                                 <CapacityTable  type="line24" kind="static"/>
                             </ModalBox>
                         </div>
-                        <div className="right_wrapper">
+                        {/**/}   <div className="right_wrapper">
                             <ModalBox
                                 title="动态容量——时段配置"
                                 showDecorator = {true}
-                                className="static_cap_modal static_cap_modal_24"
+                                className="static_cap_modal static_cap_modal_24 modal_dynamic"
                             >
                                 <CapacityTable  type="line24" kind="dynamic"/>
                             </ModalBox>
-                        </div>                    
+                        </div>                 
                     </div>
                 </div>
             </div>
-        </Suspense>
         
     )
 }
