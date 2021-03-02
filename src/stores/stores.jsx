@@ -11,7 +11,7 @@ import { newsList } from './newsStores'
 import { flightTableData } from './flightTableStores'
 import { executeKPIData } from './executeKPIStores'
 import { flightPerformanceData } from './flightPerformanceStores'
-import { capacityFlowMonitorData } from './capacityFlowMonitorStores'
+import { capacityFlowMonitorData, capacityFlowMonitorWeatherData } from './capacityFlowMonitorStores'
 import { systemPage } from './pageStores'
 import { workFlowData } from './workFlowStores'
 import { implementTacticsReasonData } from './implementTacticsReasonStores'
@@ -27,6 +27,7 @@ export {
     systemPage,
     flightPerformanceData,
     capacityFlowMonitorData,
+    capacityFlowMonitorWeatherData,
     workFlowData,
     implementTacticsReasonData,
     infoHistoryData,

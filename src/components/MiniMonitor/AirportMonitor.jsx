@@ -17,7 +17,7 @@ function AirportMonitor(props) {
     const data = props.data || {};
     const flowMap = data.flowMap || {};
     // 天气
-    const weather = data.weather || "";
+    const weather = props.weatherData || "";
     // 起飞正常率
     const depRatio = data.depRatio || 0;
     // 超容量
