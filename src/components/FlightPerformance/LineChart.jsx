@@ -16,6 +16,8 @@ const LineChart =(props) => {
     const executeData = props.executeData || {};
     // 执行起降
     const executeDAMap = executeData.executeDAMap || {};
+    // 区内空中
+    const currentInAreaSkyMap = executeData.currentInAreaSkyMap || {};
     // 执行区域飞越
     const executeAOvfMap = executeData.executeAOvfMap || {};
     // 执行国际飞越
@@ -44,7 +46,7 @@ const LineChart =(props) => {
 
     let Axis = getTimeAxis();
 
-    const  randomValue = function (value) {
+    const  formatValue = function (value) {
         let arr = [];
 
         Axis.map((item, index)=> {
@@ -68,7 +70,7 @@ const LineChart =(props) => {
 
         const option = {
             backgroundColor: "#00000000",
-            color: [ "#1b9acd", "#44d4e6","#6e95f7", ],
+            color: [ "#1b9acd", "#44d4e6","#6e95f7", "#f6a748", ],
             animation: false ,
             tooltip: {
                 trigger: 'axis',
@@ -81,7 +83,7 @@ const LineChart =(props) => {
                 // }
             },
             legend: {
-                data: ['起降',  '飞越本区', '国际飞越'],
+                data: ['起降', '区内空中', '飞越本区', '国际飞越'],
                 icon: 'circle'
             },
             grid: {
@@ -143,7 +145,19 @@ const LineChart =(props) => {
                     },
                     showSymbol: false,
                     areaStyle: {},
-                    data: randomValue(executeDAMap)
+                    data: formatValue(executeDAMap)
+                },
+                {
+                    name: '区内空中',
+                    type: 'line',
+                    stack: '架次',
+                    smooth: true,
+                    lineStyle: {
+                        width: 1
+                    },
+                    showSymbol: false,
+                    areaStyle: {},
+                    data: formatValue(currentInAreaSkyMap)
                 },
 
                 {
@@ -156,7 +170,7 @@ const LineChart =(props) => {
                     },
                     showSymbol: false,
                     areaStyle: {},
-                    data: randomValue(executeAOvfMap)
+                    data: formatValue(executeAOvfMap)
                 },
                 {
                     name: '国际飞越',
@@ -168,7 +182,7 @@ const LineChart =(props) => {
                     },
                     showSymbol: false,
                     areaStyle: {},
-                    data: randomValue(executeOvfMap)
+                    data: formatValue(executeOvfMap)
                 },
             ]
         };
