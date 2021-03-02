@@ -4,8 +4,10 @@
    width: 157px;
 }
 //去掉antd form下边距
-.ant-form-item{
-  margin-bottom: 0!important;
+.ffixt_form{
+  .ant-form-item{
+    margin-bottom: 0!important;
+  }
 }
 
 //航班号右键

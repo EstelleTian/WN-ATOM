@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-02 08:44:11
+ * @LastEditTime: 2021-03-02 13:42:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -68,14 +68,6 @@ function CapacityCont (props){
         //获取数据
         requestStaticData();
         requestDynamicData();
-
-        window.addEventListener('storage', function (e) {
-            if (e.key === 'user') {
-                const data = e.newValue;
-                console.log('[Storage I] receive message:', data );
-            }
-        });
-        
     }, []);
 
    
@@ -93,14 +85,14 @@ function CapacityCont (props){
                                 showDecorator = {true}
                                 className="static_cap_modal"
                             >
-                                <CapacityTable type="line1"/>
+                                <CapacityTable type="line1" kind="default"/>
                             </ModalBox>
                             <ModalBox
                                 title="静态容量——时段配置"
                                 showDecorator = {true}
                                 className="static_cap_modal static_cap_modal_24"
                             >
-                                <CapacityTable  type="line24"/>
+                                <CapacityTable  type="line24" kind="static"/>
                             </ModalBox>
                         </div>
                         <div className="right_wrapper">
@@ -109,7 +101,7 @@ function CapacityCont (props){
                                 showDecorator = {true}
                                 className="static_cap_modal static_cap_modal_24"
                             >
-                                <CapacityTable  type="line24"/>
+                                <CapacityTable  type="line24" kind="dynamic"/>
                             </ModalBox>
                         </div>                    
                     </div>

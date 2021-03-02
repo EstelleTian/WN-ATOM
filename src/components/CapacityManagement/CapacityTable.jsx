@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-02-05 16:09:34
+ * @LastEditTime: 2021-03-02 13:48:02
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -100,107 +100,106 @@ const EditableCell = ({
         </td>
     );
 };
+
+
+ //处理列配置
+ const getColumns = () => {
+    let cColumns = [
+        {
+            title: "时间",
+            dataIndex: "capacityTime",
+            align: 'center',
+            key: "capacityTime",
+            fixed: 'left',
+            width: (screenWidth > 1920) ? 30 : 30,
+            render: (text, record, index) => {
+                if( text === "24" ){
+                    return <span>全天</span>;
+                }
+                return <span>{text}点</span>
+            }
+        },
+        {
+            title: "小时最大起降架次",
+            dataIndex: "capacityDepArr60",
+            align: 'center',
+            key: "capacityDepArr60",
+            editable: true,
+            width: (screenWidth > 1920) ? 50 : 50,
+            
+            
+        },
+        {
+            title: "小时最大起飞架次",
+            dataIndex: "capacityDep60",
+            align: 'center',
+            key: "capacityDep60",
+            editable: true,
+            width: (screenWidth > 1920) ? 50 : 50,
+            
+            
+        },
+        {
+            title: "小时最大降落架次",
+            dataIndex: "capacityArr60",
+            align: 'center',
+            key: "capacityArr60",
+            editable: true,
+            width: (screenWidth > 1920) ? 50 : 50,
+
+            
+        },
+        {
+            title: "15分钟最大起降架次",
+            dataIndex: "capacityDepArr15",
+            align: 'center',
+            key: "capacityDepArr15",
+            editable: true,
+            width: (screenWidth > 1920) ? 50 : 50,
+
+            
+        },
+        {
+            title: "15分钟最大起飞架次",
+            dataIndex: "capacityDep15",
+            align: 'center',
+            key: "capacityDep15",
+            editable: true,
+            width: (screenWidth > 1920) ? 50 : 50,
+
+            
+        },
+        {
+            title: "15分钟最大降落架次",
+            dataIndex: "capacityArr15",
+            align: 'center',
+            key: "capacityArr15",
+            editable: true,
+            width: (screenWidth > 1920) ? 50 : 50,
+
+            
+        },
+    ];
+    return cColumns
+}
+
 //动态容量配置
 const CapacityTable = (props) => {
     const [ loading, setLoading ] = useState(false); 
-    const [ tableData, setTableData ] = useState([]); 
     
     let [ tableHeight, setTableHeight ] = useState(0);
     let [ editable, setEditable] = useState(false);
     const [ form ] = Form.useForm();
-    const { capacity } = props;
+    const { kind, capacity } = props;
 
-     //处理列配置
-    const getColumns = () => {
-        let cColumns = [
-            {
-                title: "时间",
-                dataIndex: "time",
-                align: 'center',
-                key: "time",
-                fixed: 'left',
-                width: (screenWidth > 1920) ? 30 : 30,
-                render: (text, record, index) => {
-                    const time = JSON.parse( record.time );
-                    const val = time.time || "全天";
-                    if( val === "全天" ){
-                        return <span>{val}</span>;
-                    }
-                    return <span>{val}点</span>
-                }
-            },
-            {
-                title: "小时最大起降架次",
-                dataIndex: "hourMaxDEPARR",
-                align: 'center',
-                key: "hourMaxDEPARR",
-                editable: true,
-                width: (screenWidth > 1920) ? 50 : 50,
-                
-                
-            },
-            {
-                title: "小时最大起飞架次",
-                dataIndex: "hourMaxDEP",
-                align: 'center',
-                key: "hourMaxDEP",
-                editable: true,
-                width: (screenWidth > 1920) ? 50 : 50,
-                
-                
-            },
-            {
-                title: "小时最大降落架次",
-                dataIndex: "hourMaxARR",
-                align: 'center',
-                key: "hourMaxARR",
-                editable: true,
-                width: (screenWidth > 1920) ? 50 : 50,
-
-                
-            },
-            {
-                title: "15分钟最大起降架次",
-                dataIndex: "quarterMaxDEPARR",
-                align: 'center',
-                key: "quarterMaxDEPARR",
-                editable: true,
-                width: (screenWidth > 1920) ? 50 : 50,
-
-                
-            },
-            {
-                title: "15分钟最大起飞架次",
-                dataIndex: "quarterMaxDEP",
-                align: 'center',
-                key: "quarterMaxDEP",
-                editable: true,
-                width: (screenWidth > 1920) ? 50 : 50,
-
-                
-            },
-            {
-                title: "15分钟最大降落架次",
-                dataIndex: "quarterMaxARR",
-                align: 'center',
-                key: "quarterMaxARR",
-                editable: true,
-                width: (screenWidth > 1920) ? 50 : 50,
-
-                
-            },
-        ];
-        return cColumns
-    }
-
-    //获取数据
-    useEffect(() => {
-         if( props.type === "line1" ){
-            setTableData( data1.list || []);
-         }else if( props.type === "line24" ){
-            setTableData( data24.list || []);
+    let tableData = useMemo( ()=>{
+        if( kind === "default" ){
+            return props.capacity.defaultStaticData;
+        }else if(kind === "static"){
+            return props.capacity.customStaticData;
         }
-    }, [])
+    }, [ props.capacity.defaultStaticData, props.capacity.customStaticData ])
+
     useEffect(() => {
         if( props.type === "line1" ){
             setTableHeight(80)
@@ -214,12 +213,12 @@ const CapacityTable = (props) => {
     }, [tableHeight]);
 
     const handleSave = (row) => {
-        console.log("保存row", row);
+        
         const newData = [...tableData];
         const index = newData.findIndex((item) => row.key === item.key);
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
-        setTableData(newData)
+        console.log("保存", newData);
 
     };
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-03-01 21:52:57
+ * @LastEditTime: 2021-03-02 13:41:33
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -108,7 +108,7 @@ import { isValidVariable } from 'utils/basic-verify'
     @action setStaticData(data){
         this.staticData = data;
     }
-
+    //默认静态data
     @computed get defaultStaticData(){
         return this.staticData.filter( item => {
             if( item.capacityTime === "BASE" ){
@@ -118,7 +118,7 @@ import { isValidVariable } from 'utils/basic-verify'
             }
         })
     }
-
+    //24小时 静态data
     @computed get customStaticData(){
         return this.staticData.filter( item => {
             if( item.capacityTime !== "BASE" ){
