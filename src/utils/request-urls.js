@@ -15,7 +15,7 @@ const ReqUrls = {
     //缩略地图
     mapUrl: "http://192.168.194.40:8081/#/map",
     //根据modalId获取方案详情
-    schemeDetailByIdUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/implementTactics/',
+    schemeDetailByIdUrl: 'http://192.168.194.21:58190/scheme-flow-server/implementTactics/',
     //获取--方案列表
     schemeListUrl: 'http://192.168.194.21:58189/implementTactics',
     //获取--航班列表数据
@@ -39,14 +39,15 @@ const ReqUrls = {
     capacityFlowMonitorWeatherDataUrl: 'http://192.168.210.131:28280/atom-airport-weather-collect-server/airport/weather/search/nw',
     // capacityFlowMonitorWeatherDataUrl: 'http://192.168.210.131:28280/atom-airport-weather-collect-server/airport/weather/search/nw',
     //获取流控数据(ATOM新增)
-    ATOMCreateDataUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/restrictions/create/',
+    ATOMCreateDataUrl: 'http://192.168.194.21:58190/scheme-flow-server/restrictions/create/',
     //获取流控数据(ATOM变更)
-    ATOMModifyDataUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/restrictions/modify/',
+    ATOMModifyDataUrl: 'http://192.168.194.21:58190/scheme-flow-server/restrictions/modify/',
 
     //创建流控-数据提交
-    createFlowUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/simulationTactics/import/sim/',
+    createFlowUrl: 'http://192.168.194.21:58190/scheme-flow-server/simulationTactics/import/sim/',
+    // createFlowUrl: 'http://192.168.243.138:58190/scheme-flow-server/simulationTactics/import/sim/',
     //修改方案-数据提交
-    updateSchemeUrl: 'http://192.168.194.21:58189/hydrogen-scheme-flow-server/implementTactics/modify/',
+    updateSchemeUrl: 'http://192.168.194.21:58190/scheme-flow-server/implementTactics/modify/',
     //获取工作流-办结列表
     hisTaskUrl: workflowIP+'/workflow/userHisTask/',
     //获取工作流-待办列表
