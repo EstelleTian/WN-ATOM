@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-22 15:14:52
+ * @LastEditTime: 2021-03-01 16:52:16
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -110,7 +110,6 @@ const TOBTPopover = (props) => {
     }else{
         //TODO 模拟测试，展示批复窗口，此处为判断是否展示批复逻辑
         if( source === "TOBT_MANUAL_APPLY" ){
-            debugger
             return(
                 <PopoverTip title={ title } textDom={textDom} opt={opt} approve={{ flag: true, tasks: {} }}  />
             )

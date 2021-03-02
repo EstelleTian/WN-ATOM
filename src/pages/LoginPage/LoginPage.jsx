@@ -7,7 +7,7 @@ import { ReqUrls } from 'utils/request-urls'
 import { saveUserInfo } from 'utils/client';
 import './LoginPage.scss'
 const msgStyle = {
-    top: '200px',
+    top: '10px',
     position: 'relative',
     fontSize: '1.2rem',
 }
@@ -97,11 +97,14 @@ function LoginPage(props){
             updateUserInfo(params);
         }
     })
-
+    // className="login bc-image-11"
     return (
-        <div className="login bc-image-11">
-            <Row type="flex" justify="center" align="middle">
-                <Col xs={{ span: 14}}  md={{ span: 11}} lg={{ span: 9}}  xl={{ span: 7}} xxl={{ span: 6}} >
+        <div className="login">
+            {/**<Row type="flex" justify="center" align="middle">
+            <Col xs={{ span: 14}}  md={{ span: 11}} lg={{ span: 9}}  xl={{ span: 7}} xxl={{ span: 6}} >
+        */}
+            <Row>
+            <Col span={24} >
                     <div className="content">
                         <Form
                             form={form}
@@ -138,7 +141,7 @@ function LoginPage(props){
                     
                 </Col>
             </Row>
-            <div className="copyright"> ADCC 民航数据通信有限责任公司</div>
+            {/**<div className="copyright"> ADCC 民航数据通信有限责任公司</div>*/}
 
         </div>
     )

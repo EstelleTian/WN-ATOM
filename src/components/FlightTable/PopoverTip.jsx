@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-02-22 15:19:34
+ * @LastEditTime: 2021-03-01 18:18:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -362,6 +362,7 @@ const PopoverTip = ( props ) => {
             content={  content  }
             trigger={[`contextMenu`]}
             getContainer={false}
+            // visible={true}
             onVisibleChange = {(visible) => {
                 if( visible && col === "TOBT" && approve.flag !== true ){
                     let { COBT, CTOT, CTO } = record;

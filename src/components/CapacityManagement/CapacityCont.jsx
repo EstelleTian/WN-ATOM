@@ -1,17 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-02-02 17:31:45
+ * @LastEditTime: 2021-03-02 08:44:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
  */
-import React, {useState, useEffect, useCallback} from 'react'
+import React, { Suspense, useEffect, useCallback} from 'react'
+import { Spin } from 'antd';
 import {inject, observer} from 'mobx-react'
-import { Button } from 'antd'
+import { requestGet } from 'utils/request'
+import { ReqUrls } from 'utils/request-urls'
 import ModalBox from 'components/ModalBox/ModalBox'
-// import DynamicTable from './DynamicTable'
-// import StaticSetting from './StaticSetting';
 import CapacityTable from './CapacityTable';
 
 import "./CapacityCont.scss"
@@ -19,146 +19,104 @@ import "./CapacityCont.scss"
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 //容量管理内容页
 function CapacityCont (props){
+    const { capacity, pane } = props;
     
-    const requestData = useCallback(
-        () => {
-            // let user = localStorage.getItem("user");
-            // user = JSON.parse(user);
-            // const userId = user.id || "";
-            // if( isValidVariable(userId) ){
-    
-            // }
-    
-        },
-        [],
-    )
+    const requestStaticData = useCallback(() => {
+        const type = pane.type.toUpperCase(); //类型
+        const airportName = pane.key;//机场名称
+        const opt = {
+            url: ReqUrls.capacityBaseUrl+ "static/"+ airportName + "/" + type ,
+            method:'GET',
+            params:{},
+            resFunc: (data)=> {
+                console.log(data);
+                const { resultMap } = data;
+                props.capacity.setStaticData( resultMap[airportName] );
+            },
+            errFunc: (err)=> {
+                requestErr(err, '静态容量数据获取失败');
+            } ,
+        };
+
+        requestGet(opt);
+
+    },[]);
+
+    const requestDynamicData = useCallback(() => {
+        const type = pane.type.toUpperCase();
+        const airportName = pane.key;
+        const opt = {
+            url: ReqUrls.capacityBaseUrl+ "dynamic/"+ airportName + "/" + type + '/' + '20210301' ,
+            method:'GET',
+            params:{},
+            resFunc: (data)=> {
+                console.log(data);
+                const { resultMap } = data;
+                props.capacity.setDynamicData( resultMap[airportName] );
+            },
+            errFunc: (err)=> {
+                requestErr(err, '静态容量数据获取失败');
+            } ,
+        };
+
+        requestGet(opt);
+
+    },[])
 
     useEffect( function(){
         const { pane } = props;
         //获取数据
-        requestData();
+        requestStaticData();
+        requestDynamicData();
+
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'user') {
+                const data = e.newValue;
+                console.log('[Storage I] receive message:', data );
+            }
+        });
+        
     }, []);
 
-    const { capacity, pane } = props;
+   
     return (
-        <div style={{ overflowX: 'auto'}}>
+        <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+            <div style={{ overflowX: 'auto'}}>
+                <div className="cap_set_canvas">
+                    <div className="set_top">
+                        <div className="left_wrapper">
+                            <ModalBox
+                                title="静态容量——默认配置"
+                                style={{
+                                    height: 140
+                                }}
+                                showDecorator = {true}
+                                className="static_cap_modal"
+                            >
+                                <CapacityTable type="line1"/>
+                            </ModalBox>
+                            <ModalBox
+                                title="静态容量——时段配置"
+                                showDecorator = {true}
+                                className="static_cap_modal static_cap_modal_24"
+                            >
+                                <CapacityTable  type="line24"/>
+                            </ModalBox>
+                        </div>
+                        <div className="right_wrapper">
+                            <ModalBox
+                                title="动态容量——时段配置"
+                                showDecorator = {true}
+                                className="static_cap_modal static_cap_modal_24"
+                            >
+                                <CapacityTable  type="line24"/>
+                            </ModalBox>
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+        </Suspense>
         
-            <div className="line_canvas">
-                {/*<div className="radio_sel date_sel">
-                    <span>日期:</span>
-                    <Radio.Group
-                        optionType="button"
-                        buttonStyle="solid"
-                        onChange={e => {
-                            capacity.updateDateSel( pane.key ,e.target.value );
-                        }} 
-                        value={pane.date}
-                        options={[
-                            { label: '昨日', value: '-1' },
-                            { label: '今日', value: '0' },
-                            { label: '明日', value: '1' }
-                        ]}
-                    >
-                    </Radio.Group>
-                </div>
-                <div className="radio_sel type_sel">
-                    <span>航班类别:</span>
-                    <Radio.Group 
-                        optionType="button"
-                        buttonStyle="solid"
-                        onChange={e => {
-                            capacity.updateKindSel( pane.key ,e.target.value );
-                        }} 
-                        value={pane.kind}
-                        options={[
-                            { label: '进港', value: 'arr' },
-                            { label: '出港', value: 'dep' },
-                            { label: '进出港', value: 'all' }
-                        ]}
-                    >
-                    </Radio.Group>
-                </div>
-                <div className="radio_sel interval_sel">
-                    <span>时间间隔:</span>
-                    <Radio.Group 
-                        optionType="button"
-                        buttonStyle="solid"
-                        onChange={e => {
-                            capacity.updateTimeIntervalSel( pane.key ,e.target.value );
-                        }} 
-                        value={pane.timeInterval}
-                        options={[
-                            { label: '15分钟', value: '15' },
-                            { label: '30分钟', value: '30' },
-                            { label: '60分钟', value: '60' }
-                        ]}
-                    >
-                    </Radio.Group>
-                </div>
-                <Button type="primary" 
-                    // loading = { refreshBtnLoading } 
-                    className="refresh_btn"
-                    onClick = { e => {
-                        
-                    }}
-                >
-                        刷新
-                </Button>*/}
-            </div>
-           
-            <div className="cap_set_canvas">
-               <div className="set_top">
-                     {/*<ModalBox
-                        title="静态容量配置"
-                        style={{
-                            height: 330
-                        }}
-                        showDecorator = {true}
-                        className="static_modal"
-                    >
-                        <StaticSetting pane={pane}/>
-                    </ModalBox>*/}
-                    <div className="left_wrapper">
-                        <ModalBox
-                            title="静态容量——默认配置"
-                            style={{
-                                height: 140
-                            }}
-                            showDecorator = {true}
-                            className="static_cap_modal"
-                        >
-                            <CapacityTable type="line1"/>
-                        </ModalBox>
-                        <ModalBox
-                            title="静态容量——时段配置"
-                            // style={{
-                            //     height: (screenWidth > 1920) ? 1040 : 820,
-                            // }}
-                            showDecorator = {true}
-                            className="static_cap_modal static_cap_modal_24"
-                        >
-                            <CapacityTable  type="line24"/>
-                        </ModalBox>
-                    </div>
-                   <div className="right_wrapper">
-                        <ModalBox
-                            title="动态容量——时段配置"
-                            // style={{
-                            //     height: (screenWidth > 1920) ? 1040 : 820,
-                            // }}
-                            showDecorator = {true}
-                            className="static_cap_modal static_cap_modal_24"
-                        >
-                            <CapacityTable  type="line24"/>
-                        </ModalBox>
-                    </div>
-                   
-                </div>
-            
-                {/* <div className="cap_part alert_setting"></div>*/}
-
-            </div>
-        </div>
     )
 }
 

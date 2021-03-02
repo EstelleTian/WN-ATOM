@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-01-27 17:36:12
+ * @LastEditTime: 2021-03-01 21:52:57
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -27,11 +27,11 @@ import { isValidVariable } from 'utils/basic-verify'
          }
      ];
 
-     //动态容量 columns
-     @observable dynamicTableColumns = [];
+     //静态容量数据
+     @observable staticData = [];
 
-     //动态容量 table数据
-     @observable dynamicTableDatas = [];
+     //动态容量 
+     @observable dynamicData = [];
 
      //添加pane
      @action setPane(title, key, type){
@@ -92,15 +92,6 @@ import { isValidVariable } from 'utils/basic-verify'
             }
         })
     }
-    //更新 动态columns 
-    @action setDynamicTableColumns(columns){
-        this.dynamicTableColumns = columns;
-    }
-
-    //更新 动态tableDatas 
-    @action setDynamicTableDatas(tableDatas){
-        this.dynamicTableDatas = tableDatas;
-    }
 
      //获取 激活状态 pane
      @computed get getActivePane(){
@@ -113,38 +104,37 @@ import { isValidVariable } from 'utils/basic-verify'
         return res;
      }
 
-     //获取 动态columns
-     @computed get getDynamicTableColumns(){
-        let res = [];
-        let pane = this.getActivePane[0];
-        const timeInterval = pane.timeInterval || ""
-        this.dynamicTableColumns.map( col => {
-            let objCol = Object.assign({}, col)
-            const dataIndex = objCol.dataIndex || "";
-            if( dataIndex === "time" ){
-                res.push(objCol);
+     //更新 静态data
+    @action setStaticData(data){
+        this.staticData = data;
+    }
+
+    @computed get defaultStaticData(){
+        return this.staticData.filter( item => {
+            if( item.capacityTime === "BASE" ){
+                return true
             }else{
-                if( timeInterval === "60" ){
-                    if( dataIndex.substring(2,4) === "00" ){
-                        res.push(objCol);
-                    }
-                     
-                }else if( timeInterval === "30" ){
-                    if( dataIndex.substring(2,4) === "00" || dataIndex.substring(2,4) === "30" ){
-                        res.push(objCol);
-                    }
-                }else{
-                    res.push(objCol);
-                }
+                return false;
             }
-        });
-        console.log("getDynamicTableColumns", res);
-        return res;
-     }
+        })
+    }
 
+    @computed get customStaticData(){
+        return this.staticData.filter( item => {
+            if( item.capacityTime !== "BASE" ){
+                return true
+            }else{
+                return false;
+            }
+        })
+    }
 
+    //更新 动态data
+    @action setDynamicData(data){
+        this.dynamicData = data;
+    }
 
-     
+    
  }
 
  const capacity = new Capacity();

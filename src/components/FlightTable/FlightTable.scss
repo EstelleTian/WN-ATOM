@@ -8,6 +8,34 @@
         @include flex();
     }
 }
+.tactic_title_span{
+    >span{
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 5px;
+    }
+    @media screen and ( max-width: 1680px) {
+        .tactic_name{
+            max-width: 200px;
+        }
+    }
+    @media screen and ( max-width: 1920px) and ( min-width: 1681px){
+        .tactic_name{
+            max-width: 400px;
+        }
+    }
+    @media screen and ( min-width: 1921px){
+        .tactic_name{
+            max-width: 700px;
+        }
+    }
+    .tactic_name{
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+
 
 .flight_canvas{
     position: relative;

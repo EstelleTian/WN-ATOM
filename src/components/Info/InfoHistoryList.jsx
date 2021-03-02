@@ -56,9 +56,9 @@ function InfoHistoryList(props){
         if( isValidVariable(user) ){
             props.systemPage.setUserData( JSON.parse(user) );
         }
-        else{
-            props.history.push('/')
-        }
+        // else{
+        //     props.history.push('/')
+        // }
 
     }, []);
     const columns = [

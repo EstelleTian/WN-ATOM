@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-01 13:22:51
+ * @LastEditTime: 2021-03-01 18:36:04
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -57,7 +57,7 @@ function useSchemeList(props){
     
     //获取--方案列表 @nextRefresh 是否开启下一轮定时
     const getSchemeList = useCallback(( nextRefresh = false ) => {
-        console.log("获取--方案列表，statusValues是:"+curStatusValues.current);
+        // console.log("获取--方案列表，statusValues是:"+curStatusValues.current);
         const p = new Promise( (resolve, reject) => {
             const opt = {
                 url: ReqUrls.schemeListUrl,
@@ -77,7 +77,7 @@ function useSchemeList(props){
                     //开启定时
                     if( nextRefresh ){
                         timeoutId.current = setTimeout( ()=>{
-                            console.log("方案列表定时器-下一轮更新开始")
+                            // console.log("方案列表定时器-下一轮更新开始")
                             getSchemeList( true );
                         }, 30*1000);
                     }
@@ -120,7 +120,7 @@ function useSchemeList(props){
         if( isValidVariable(id) ){
             //获取方案列表--开启下一轮更新
             curStatusValues.current = statusValues;
-            console.log("statusValues:"+statusValues)
+            // console.log("statusValues:"+statusValues)
             props.schemeListData.toggleLoad(true);
             let flag = (timeoutId.current === "");
             getSchemeList(flag);
@@ -134,7 +134,7 @@ function useSchemeList(props){
     //监听全局刷新
     useEffect(function(){
         if( pageRefresh && isValidVariable(id) ){
-            console.log("全局刷新开启")
+            // console.log("全局刷新开启")
             props.schemeListData.toggleLoad(true);
             getSchemeList( false );
         }
@@ -166,18 +166,24 @@ function useFlightsList(props){
 
     //更新--航班列表 store数据
     const updateFlightTableData = useCallback( ( flightData, id )  => {
-        let  { flights, generateTime } = flightData;
-        if( flights !== null ){
-            flightTableData.updateFlightsList(flights, generateTime, id);
-            sessionStorage.setItem("flightTableGenerateTime", generateTime);
+        if( id === props.schemeListData.activeSchemeId ){
+            let  { flights, generateTime } = flightData;
+            if( flights !== null ){
+                flightTableData.updateFlightsList(flights, generateTime, id);
+                sessionStorage.setItem("flightTableGenerateTime", generateTime);
+            }else{
+                flightTableData.updateFlightsList([], generateTime, id);
+            }
         }else{
-            flightTableData.updateFlightsList([], generateTime, id);
+            console.log("请求前后方案id不一致，跳过本次更新:id:", id , +" activeSchemeId:"+props.schemeListData.activeSchemeId)
         }
+        
     },[]);
 
 
     //获取--航班列表数据
     const getFlightTableData = useCallback( (nextRefresh) => {
+
         const p = new Promise( (resolve, reject) => {
             let url = "";
             let params = {};
@@ -202,6 +208,8 @@ function useFlightsList(props){
                     endTime: baseTime+'235900',
                     id: activeSchemeId
                 };
+            //开始获取数据，修改状态
+            props.flightTableData.isLoaded = true;
             const opt = {
                 url,
                 method:'GET',
@@ -216,9 +224,10 @@ function useFlightsList(props){
                         timeoutId.current = setTimeout( ()=>{
                             // console.log("航班列表定时器-下一轮更新开始")
                             getFlightTableData( true );
-                        }, 60*1000);
+                        }, 20*1000);
                     }
-                    resolve("success")
+
+                    resolve("success");
     
                 }, 
                 errFunc: (err)=> {
@@ -270,7 +279,7 @@ function useKPIData(props){
     
     //更新--执行KPI store数据
     const updateKPIData = useCallback( data => {
-        console.log(data)
+        // console.log(data)
         if( isValidObject(data) ){
             executeKPIData.updateExecuteKPIData(data)
         }else{
@@ -284,7 +293,7 @@ function useKPIData(props){
     },[]);
     //获取--执行KPI数据
     const getKPIData = useCallback( nextRefresh => {
-        console.log("执行KPI数据 getKPIData")
+        // console.log("执行KPI数据 getKPIData")
         if(leftActiveName === "kpi"){
             const p = new Promise( (resolve, reject) => {
                 const opt = {
@@ -297,7 +306,7 @@ function useKPIData(props){
                         //开启定时
                         if( nextRefresh ){
                             executeKPIData.timeoutId = setTimeout( ()=>{
-                                console.log("执行KPI数据 定时器-下一轮更新开始")
+                                // console.log("执行KPI数据 定时器-下一轮更新开始")
                                 getKPIData( true );
                             }, 60*1000);
                         }
@@ -317,7 +326,7 @@ function useKPIData(props){
     },[leftActiveName]);
 
     useEffect( ()=>{
-        console.log("执行KPI数据 activeSchemeId, leftActiveName", activeSchemeId, leftActiveName)
+        // console.log("执行KPI数据 activeSchemeId, leftActiveName", activeSchemeId, leftActiveName)
         if( isValidVariable(activeSchemeId) && (leftActiveName === "kpi") ){
             executeKPIData.toggleLoad(true);
             let flag = ( executeKPIData.timeoutId === "");

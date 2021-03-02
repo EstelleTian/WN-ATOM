@@ -34,6 +34,7 @@
     "react-dom": "^16.4.0",
     "react-highcharts": "^16.0.2",
     "react-resizable": "^1.11.0",
+    "react-rnd": "^10.2.4",
     "react-scripts": "1.1.4",
     "react-sticky": "^6.0.3",
     "react-stomp": "^4.1.1",

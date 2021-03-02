@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-02-19 14:09:43
+ * @LastEditTime: 2021-03-01 17:36:02
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -128,7 +128,7 @@ const openConfirmFrame =(schemeId = "") => {
 //工作流-主办-跳转到放行监控页面
 const openTimeSlotFrameWithFlightId =(schemeId = "", flightId = "") => {
     try {
-        // alert("跳转到放行监控页面openTimeSlotFrameWithFlightId=>schemeId:" +schemeId+"  flightId:"+flightId);
+        alert("跳转到放行监控页面openTimeSlotFrameWithFlightId=>schemeId:" +schemeId+"  flightId:"+flightId);
         jsEntity.openTimeSlotFrameWithFlightId(schemeId, flightId);
     }catch(error){
         console.error(error);

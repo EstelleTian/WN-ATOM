@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-26 10:54:27
+ * @LastEditTime: 2021-03-01 18:35:46
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -32,9 +32,10 @@ function TTitle(props){
     }, [schemeListData.activeSchemeId]);
 
     
-    return (<span>
-        <span>航班列表({ formatTimeString(generateTime) })</span>—
-         <span style={{ color: "#36a5da"}}>{tacticName}</span>
+    return (<span className="tactic_title_span">
+        <span>航班列表({ formatTimeString(generateTime) })</span>
+        <span>—</span>
+        <span style={{ color: "#36a5da"}} className="tactic_name">{tacticName}</span>
     </span>)
 }
 const TableTitle = inject("flightTableData", "schemeListData")(observer(TTitle));
@@ -44,7 +45,7 @@ function useAutoSize(){
     let [tableWidth, setWidth] = useState(0);
     let [tableHeight, setHeight] = useState(0);
     useEffect(() => {
-        console.log("tableWidth, tableHeight: ",tableWidth, tableHeight)
+        // console.log("tableWidth, tableHeight: ",tableWidth, tableHeight)
         const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
         const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
         const tableHeader = flightCanvas.getElementsByClassName("ant-table-header")[0];
@@ -75,7 +76,11 @@ function FTable(props){
     const { showList, targetFlight }= getShowFlights;
     
     const handleRow = useCallback((event, record) => {// 点击行
-        highlightRowByDom(event.currentTarget)
+        const dom = event.currentTarget;
+        // const refVal = dom.getAttribute("data-row-key");
+        // flightTableData.toggleSelectFlight(refVal);
+        // console.log("toggleSelectFlight", refVal)
+        highlightRowByDom(dom)
     },[])
     
     const { schemeStartTime, schemeEndTime } = useMemo(() => {
@@ -87,6 +92,17 @@ function FTable(props){
             schemeEndTime: endTime 
         };
     }, [schemeListData.activeSchemeId]);
+
+    // useEffect(() => {
+    //     const flightCanvas = document.getElementsByClassName("flight_canvas");
+    //     const boxContent = flightCanvas[0].getElementsByClassName("box_content");
+    //     const tr = boxContent[0].getElementsByClassName( props.flightTableData.selectFlightId );
+    //     console.log("自动选回高亮dom",  props.flightTableData.selectFlightId)
+    //     if( tr.length > 0 ){
+    //         highlightRowByDom(tr);
+    //     }
+        
+    // }, [schemeListData.activeSchemeId]);
  
     //设置表格行的 class
     const setRowClassName = useCallback((record, index) => {
@@ -136,7 +152,7 @@ function FTable(props){
         }
     }, [ targetFlight.id ]);
 
-    console.log("航班表格 render!!!",schemeStartTime, schemeEndTime)
+    // console.log("航班表格 render!!!",schemeStartTime, schemeEndTime)
     return (
         <Table
             columns={ columns }
@@ -171,7 +187,7 @@ const FlightTable = inject("flightTableData", "schemeListData")(observer(FTable)
 const TSpin = inject("flightTableData")(observer((props) => {
     const { flightTableData = {} } = props;
     const { loading } = flightTableData;
-    console.log("航班loading render!!!")
+    // console.log("航班loading render!!!")
     return (
         <Spin spinning={ loading }>
             <FlightTable/>
@@ -231,7 +247,7 @@ function FlightTableModal(props){
         <ModalBox
             className="flight_canvas" 
             title={ <TableTitle /> }
-            showDecorator = {true}
+            showDecorator = {false}
         >
             <div className="statistics">
                 <AutoScrollBtn/>
