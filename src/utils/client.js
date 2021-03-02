@@ -66,7 +66,7 @@ const handleImportControlForUpdate =(oldId, newId) => {
     try {
 
         //传递被修改方案id和修改后的新方案id
-        jsEntity.importControlForUpdate(oldId, oldId);
+        jsEntity.importControlForUpdate(oldId, newId);
     }catch(error){
         console.error(error);
     }
