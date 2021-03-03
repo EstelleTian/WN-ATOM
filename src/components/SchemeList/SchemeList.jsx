@@ -309,7 +309,7 @@ function useKPIData(props){
         if(leftActiveName === "kpi"){
             const p = new Promise( (resolve, reject) => {
                 const opt = {
-                    url: ReqUrls.kpiDataUrl + id,
+                    url: ReqUrls.kpiDataUrl + schemeListData.activeSchemeId,
                     method:'GET',
                     params:{},
                     resFunc: (data)=> {
