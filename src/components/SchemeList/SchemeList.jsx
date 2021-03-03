@@ -483,22 +483,22 @@ function SList (props){
         }
     } , 350),[]);
 
-    useEffect(()=>{
-        return ()=>{
-            if( isValidVariable(schemeTimeoutId.current) ){
-                schemeTimeoutId.current = "";
-                clearTimeout(schemeTimeoutId.current);
-            }
-            if( isValidVariable(flightsTimeoutId.current) ){
-                flightsTimeoutId.current = "";
-                clearTimeout(flightsTimeoutId.current);
-            }
-            if( isValidVariable(KPITimeoutId.current) ){
-                KPITimeoutId.current = "";
-                clearTimeout(KPITimeoutId.current);
-            }
-        }
-    },[])
+    // useEffect(()=>{
+    //     return ()=>{
+    //         if( isValidVariable(schemeTimeoutId.current) ){
+    //             schemeTimeoutId.current = "";
+    //             clearTimeout(schemeTimeoutId.current);
+    //         }
+    //         if( isValidVariable(flightsTimeoutId.current) ){
+    //             flightsTimeoutId.current = "";
+    //             clearTimeout(flightsTimeoutId.current);
+    //         }
+    //         if( isValidVariable(KPITimeoutId.current) ){
+    //             KPITimeoutId.current = "";
+    //             clearTimeout(KPITimeoutId.current);
+    //         }
+    //     }
+    // },[])
 
     // console.log("方案列表 render")
    

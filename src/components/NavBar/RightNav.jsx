@@ -2,9 +2,9 @@ import React,{useState,} from "react";
 import {Modal, Radio, Badge,Button, Avatar} from "antd";
 import { UserOutlined, SearchOutlined, RedoOutlined } from '@ant-design/icons'
 import {observer, inject} from "mobx-react";
-import MyApplication from 'components/MyApplication/MyApplication'
-// import DraggableModal from 'components/DraggableModal/DraggableModal'
+import DraggableModal from 'components/DraggableModal/DraggableModal'
 import RefreshBtn from "components/SchemeList/RefreshBtn";
+import MyApplicationButton from "components/MyApplication/MyApplicationButton";
 import User from "./User";
 // import WinBtn from "./WinBtn";
 import NavBellNews from "./NavBellNews";
@@ -118,54 +118,8 @@ function RightNav(props){
                     {/*<WinBtn btnTitle="等待池" type="pool" />*/}
                 </Radio.Group>
             </div>
-            <Button
-                type={myApplicationModalVisible ? "primary" : "default"}
-                size="large"
-                onClick={showMyApplicationModal}
-            >我的申请
-                <Badge
-                    className="site-badge-count-109"
-                    count={ myApplicationLen }
-                    style={{ backgroundColor: 'rgb(61, 132, 36)' }}
-                />
-            </Button>
-            {/*<Modal*/}
-                {/*title="我的申请"*/}
-                {/*// centered*/}
-                {/*style={{ top: 100, height: 800 }}*/}
-                {/*visible={ myApplicationModalVisible }*/}
-                {/*onOk={() => closeMyApplicationModal()}*/}
-                {/*onCancel={() => closeMyApplicationModal()}*/}
-                {/*width={(screenWidth > 1920) ? 1280: 1080}*/}
-                {/*// maskClosable={false}*/}
-                {/*destroyOnClose = { true }*/}
-                {/*footer = {*/}
-                    {/*<div>*/}
+            <MyApplicationButton />
 
-                    {/*</div>*/}
-                {/*}*/}
-            {/*>*/}
-                {/*<MyApplication></MyApplication>*/}
-            {/*</Modal>*/}
-            {/*<DraggableModal
-                title="我的申请"
-                // centered
-                style={{ top: 100, height: 800 }}
-                visible={ myApplicationModalVisible }
-                handleOk={() => closeMyApplicationModal()}
-                handleCancel={() => closeMyApplicationModal()}
-                width={(screenWidth > 1920) ? 1280: 1080}
-                maskClosable={false}
-                mask={false}
-                destroyOnClose = { true }
-                footer = {
-                    <div>
-
-                    </div>
-                }
-            >
-                <MyApplication></MyApplication>
-            </DraggableModal>*/}
             <Radio.Group value={props.systemPage.rightActiveName} buttonStyle="solid" size="large" onChange={ groupRightChange2 } >
                 <Radio.Button value="scheme">方案列表</Radio.Button>
                 <Radio.Button value="outer_scheme">外部流控</Radio.Button>

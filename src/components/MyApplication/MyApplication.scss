@@ -1,0 +1,14 @@
+
+.advanced-search-filters {
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    .advanced-search-base-input-filter {
+        flex: 1;
+    }
+    .advanced-search-button-refresh {
+        width: 8rem;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
