@@ -19,6 +19,7 @@ import { infoHistoryData } from './infoHistoryStores'
 import { capacity } from './capacityStores'
 import { userSubscribeData } from './totalPageStores'
 import { todoList } from './todoListStores'
+import { myApplicationList } from './myApplicationListStores'
 
 export { 
     schemeListData,
@@ -33,7 +34,8 @@ export {
     infoHistoryData,
     capacity,
     todoList,
-    userSubscribeData
+    userSubscribeData,
+    myApplicationList
 
  };
 
