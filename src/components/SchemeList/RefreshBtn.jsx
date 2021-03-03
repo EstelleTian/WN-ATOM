@@ -7,15 +7,27 @@
  * @FilePath: RefreshBtn.jsx
  */
 import React from 'react'
+import { UserOutlined, SearchOutlined, RedoOutlined } from '@ant-design/icons'
 import {inject, observer} from "mobx-react";
 import { Button } from 'antd'
 //顶部导航模块
 function RefreshBtn(props){
-    const pageRefresh = props.systemPage.pageRefresh;
+    // const pageRefresh = props.systemPage.pageRefresh;
+    const pageRefresh = ()=> {
+        // 刷新页面
+        window.location.reload()
+    };
+
     return (
-        <Button value="a" loading={pageRefresh}  size="large" style={{ fontSize: "0.75rem" }} onClick={()=>{
-            props.systemPage.pageRefresh = true;
-        }}>刷新 </Button>
+        <Button
+            icon={<RedoOutlined />}
+            size="large"
+            // style={{fontSize: "0.75rem"}}
+            onClick={() => {
+                pageRefresh()
+            }}>
+            刷新
+        </Button>
     )
 }
 

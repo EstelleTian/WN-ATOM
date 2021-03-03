@@ -1,8 +1,9 @@
 import React,{useState,} from "react";
 import {Modal, Radio, Badge,Button, Avatar} from "antd";
-import { UserOutlined } from '@ant-design/icons'
+import { UserOutlined, SearchOutlined, RedoOutlined } from '@ant-design/icons'
 import {observer, inject} from "mobx-react";
 import MyApplication from 'components/MyApplication/MyApplication'
+import RefreshBtn from "components/SchemeList/RefreshBtn";
 import User from "./User";
 // import WinBtn from "./WinBtn";
 import NavBellNews from "./NavBellNews";
@@ -152,6 +153,14 @@ function RightNav(props){
             <Radio.Group buttonStyle="solid" size="large">
                 <Radio.Button value="system">参数设置</Radio.Button>
             </Radio.Group>
+            <Button
+                type="default"
+                size="large"
+                icon={<SearchOutlined />}
+                // onClick={showMyApplicationModal}
+            >航班查询 </Button>
+            <RefreshBtn />
+
             {/*消息*/}
             {/*<Radio.Group buttonStyle="solid" size="large">
                 <Radio.Button value="news"><NavBellNews /></Radio.Button>
