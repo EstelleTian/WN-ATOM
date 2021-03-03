@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 16:26:46
+ * @LastEditTime: 2021-03-03 17:21:54
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -425,11 +425,12 @@ const TodoTable = (props) => {
             if(type === "agree"){
                 //TOBT同意
                 url = CollaborateIP+"/flight/updateTobtApprove";
-                title = "同意"+typeCn
+                title = "同意"+typeCn;
+                // params["tobtValue"] = 
             }else if(type === "refuse"){
                 //TOBT拒绝
                 url = CollaborateIP+"/flight/denyTobtApprove";
-                title = "拒绝"+typeCn
+                title = "拒绝"+typeCn;
             }
         }else if(flightCoorType === "INPOOL"){
             if(type === "agree"){

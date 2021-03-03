@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-03-03 16:30:07
+ * @LastEditTime: 2021-03-03 17:33:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -129,12 +129,15 @@ const PopoverTip = ( props ) => {
                   urlKey = "/flight/updateTobtApply";
                   url = CollaborateIP + urlKey; 
               }
+              
+            const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
               //传参
               let params = {
                   userId: userId,
                   flightCoordination: orgFlight, //航班原fc
                   comment: values.comment,  //备注
-                  taskId: ""
+                  taskId: "",
+                  tacticId: schemeId,
               }
               if( col === "TOBT"){
                 params["tobtValue"] = timestr;
@@ -386,4 +389,4 @@ const PopoverTip = ( props ) => {
 
 }
 
-export default inject( "systemPage", "flightTableData")(observer(PopoverTip));
+export default inject( "systemPage", "flightTableData", "schemeListData")(observer(PopoverTip));

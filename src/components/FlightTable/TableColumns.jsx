@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-03-03 15:44:29
+ * @LastEditTime: 2021-03-03 17:49:48
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -222,6 +222,7 @@ let render = (opt)  => {
     return obj;
 }
 
+
 //生成表配置
 const getColumns = ( names = defaultNames ) => {
     if( !isValidVariable( names )){
@@ -260,8 +261,7 @@ const getColumns = ( names = defaultNames ) => {
                 }
             }
         }
-        //排序
-        tem["sorter"] = (a,b) => {
+        const sortFunc = (a,b) => {
             let data1 = a[en] + "";
             if( data1.length >= 12 ){
                 data1 = data1.substring(0,12)
@@ -282,6 +282,37 @@ const getColumns = ( names = defaultNames ) => {
             }
             return 0;
         }
+        //排序
+        tem["sorter"] = sortFunc;
+        //特殊处理排序，FFIXT+EOBT
+        if( en === "FFIXT"  ){
+            const sorFunc2 = ( a, b, sortName ) => {
+                let data1 = a[sortName] + "";
+                if( data1.length >= 12 ){
+                    data1 = data1.substring(0,12)
+                }
+                let data2 = b[sortName] + "";
+                if( data2.length >= 12 ){
+                    data2 = data2.substring(0,12)
+                }
+                if (isValidVariable(data1) && isValidVariable(data2)) {
+                    let res = data1.localeCompare(data2);
+                    if (0 !== res) {
+                        return res;
+                    }
+                } else if (isValidVariable(data1)) {
+                    return -1;
+                } else if (isValidVariable(data2)) {
+                    return 1;
+                } else{
+                    return sorFunc2( a, b, "EOBT" )
+                }
+            }
+            tem["sorter"] = (a,b) => {
+                return sorFunc2( a, b, "FFIXT" );
+            }
+        }
+
         //默认排序
         if( en === "FFIX" || en === "EAW" || en === "OAW" ){
             tem["width"] = (screenWidth > 1920) ? 95 : 65

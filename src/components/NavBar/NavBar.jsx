@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 16:44:57
+ * @LastEditTime: 2021-03-03 17:51:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\NavBar\NavBar.jsx
@@ -29,11 +29,11 @@ function NavBar(props){
         if( pathname === "/fangxing" ){
             return <div className="layout-row space-between multi_nav">
                 <div className="layout-nav-left layout-row">
-                    <div className="seat ">
+                    {/*<div className="seat ">
                         <Radio.Group defaultValue="a" buttonStyle="solid" size="large" >
                             <Radio.Button value="a">ZLXY</Radio.Button>
                         </Radio.Group>
-                    </div>
+                    </div>*/}
                     {/*<div className="time-range">*/}
                         <Radio.Group defaultValue="a" buttonStyle="solid" size="large" >
                             <Radio.Button value="a">计划范围
