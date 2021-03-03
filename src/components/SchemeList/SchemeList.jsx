@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-02 13:19:35
+ * @LastEditTime: 2021-03-03 08:41:00
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -88,6 +88,13 @@ function useSchemeList(props){
                     requestErr(err, '方案列表数据获取失败' );
                     if( props.schemeListData.loading ){
                         props.schemeListData.toggleLoad(false);
+                    }
+                    //开启定时
+                    if( nextRefresh ){
+                        timeoutId.current = setTimeout( ()=>{
+                            // console.log("方案列表定时器-下一轮更新开始")
+                            getSchemeList( true );
+                        }, 30*1000);
                     }
                     reject("error")
                 },
@@ -224,16 +231,21 @@ function useFlightsList(props){
                         timeoutId.current = setTimeout( ()=>{
                             // console.log("航班列表定时器-下一轮更新开始")
                             getFlightTableData( true );
-                        }, 20*1000);
+                        }, 10*1000);
                     }
-
                     resolve("success");
-    
                 }, 
                 errFunc: (err)=> {
                     requestErr(err, '航班列表数据获取失败');
                     if( props.flightTableData.loading ){
                         props.flightTableData.toggleLoad(false);
+                    }
+                    //开启定时
+                    if( nextRefresh ){
+                        timeoutId.current = setTimeout( ()=>{
+                            // console.log("航班列表定时器-下一轮更新开始")
+                            getFlightTableData( true );
+                        }, 30*1000);
                     }
                     resolve("error");
                 } ,
@@ -316,6 +328,13 @@ function useKPIData(props){
                         requestErr(err, 'KPI数据获取失败');
                         if( executeKPIData.loading ){
                             executeKPIData.toggleLoad(false);
+                        }
+                        //开启定时
+                        if( nextRefresh ){
+                            executeKPIData.timeoutId = setTimeout( ()=>{
+                                // console.log("执行KPI数据 定时器-下一轮更新开始")
+                                getKPIData( true );
+                            }, 60*1000);
                         }
                         resolve("error");
                     } ,
@@ -420,6 +439,12 @@ function SList (props){
          //主动获取一次
         getSchemeList().then( function(data) {
             handleActive( schemeId, title, 'client' );
+            if( isValidVariable(title) ){
+                message.warning({
+                    content: "暂未获取到方案，方案名称是：" + title ,
+                    duration: 15,
+                });
+            }
         });
     },[]);
     
@@ -436,13 +461,6 @@ function SList (props){
                 const canvas = document.getElementsByClassName("scheme_list_canvas")[0];
                 const boxContent = canvas.getElementsByClassName("list_container")[0];
                 boxContent.scrollTop = 0;
-            }
-        }else{
-            if( isValidVariable(title) ){
-                message.warning({
-                    content: "暂未获取到方案，方案名称是：" + title ,
-                    duration: 15,
-                });
             }
         }
     } , 350),[]);

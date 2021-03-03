@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-01 19:33:36
+ * @LastEditTime: 2021-03-03 09:46:07
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -339,9 +339,9 @@ const TodoTable = (props) => {
        for(let key in backLogTasks){
            const backLogTask = backLogTasks[key] || {}; //流水号
            const flight = backLogTask.flight || {};
+           const authorities = backLogTask.authorities || {};
            const flightid = flight.flightid || "";
-           const task = backLogTask.task || {};
-           const instance = task.instance || {};
+           const instance = backLogTask.instance || {};
            const processVariables = instance.processVariables || {};
            const agree = processVariables.agree || false;
            const flightCoorType = processVariables.flightCoorType || "";
@@ -350,20 +350,13 @@ const TodoTable = (props) => {
            const businessName = processVariables.businessName || "";
            const startUserName = instance.startUserName || "";
            let startTime = instance.startTime || "";
-           
-           let taskId = "";
-           const instanceTasks = task.instanceTasks || {};
-           const instanceTasksKeys = Object.keys( instanceTasks );
-           if( instanceTasksKeys.length > 0 ){
-             taskId = instanceTasksKeys[0] || "";
-           }
-           
-
+           let taskId = instance.id || "";
            let options = {
                 key,
                 flightCoorType,
                 agree,
                 flight,
+                authorities,
                 taskId
            }
            
@@ -381,6 +374,7 @@ const TodoTable = (props) => {
             }
             tableData.push(obj);
        }
+       console.log(tableData)
        props.todoList.updateTodosData(tableData);
     },[]);
 
@@ -589,10 +583,12 @@ const TodoTable = (props) => {
                 // tem["fixed"] = 'right'
                 tem["render"] = (text, record, index) => {
                     const { TYPE, OPTIONS="{}" } = record;
+                    const dataObj = JSON.parse(OPTIONS);
+                    const flight = dataObj.flight || {};
+                    const authorities = dataObj.authorities || {};
+                    const { agree, confirm, refuse } = authorities;
                     let TOBTFlag = false;
                     if( TYPE === "TOBT" ){
-                        const dataObj = JSON.parse(OPTIONS);
-                        const flight = dataObj.flight || {};
                         const curTime = generateTime.current || 0;
                         const tobtTime = flight.tobtFiled.value || 0;
                         if( isValidVariable(curTime) && isValidVariable(tobtTime) ){
@@ -601,26 +597,45 @@ const TodoTable = (props) => {
                             }
                         }
                     }
-                    
-                    return (
-                        <div>
-                            {
-                                TOBTFlag
-                                ?  <TOBTPop setTobtModalVisible={setTobtModalVisible} record={JSON.parse(OPTIONS)} setTobtFlight={setTobtFlight} >
-                                        <Button size="small" className="todo_opt_btn todo_agree c-btn-blue">同意</Button>
-                                    </TOBTPop> 
-                                : <OptionBtn type="agree" text="同意" callback = {
+
+                    let agreeBtn = function(){
+                        if(agree){
+                            if(TOBTFlag){
+                                return 
+                                <TOBTPop setTobtModalVisible={setTobtModalVisible} record={JSON.parse(OPTIONS)} setTobtFlight={setTobtFlight} >
+                                    <Button size="small" className="todo_opt_btn todo_agree c-btn-blue">同意</Button>
+                                </TOBTPop> 
+                            }else{
+                                return <OptionBtn type="agree" text="同意" callback = {
                                     (setLoad)=>{ 
                                         sendResultRequest("agree", text, setLoad) 
                                     }
                                 } />
-                                
                             }
-                            <OptionBtn type="refuse" text="拒绝" callback = {
+                        }
+                        return ""
+                    }
+                    
+                    return (
+                        <div>
+                        {
+                            agreeBtn()
+                        }
+                        {
+                            refuse ?<OptionBtn type="refuse" text="拒绝" callback = {
                                 (setLoad)=>{ 
                                     sendResultRequest("refuse", text, setLoad) 
                                 }
-                            } />
+                            } />:""
+                        }
+                        {
+                            confirm ?<OptionBtn type="confirm" text="确认" callback = {
+                                (setLoad)=>{ 
+                                    sendResultRequest("confirm", text, setLoad) 
+                                }
+                            } />:""
+                        }
+                            
                         </div>
                     );
                 }
