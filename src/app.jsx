@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-02-01 15:23:11
+ * @LastEditTime: 2021-03-03 11:02:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\app.jsx
@@ -9,13 +9,19 @@
 import React from "react";
 import ReactDom from 'react-dom';
 import Routes from './routes/route';
-import { ConfigProvider  } from 'antd';
+import { ConfigProvider, notification  } from 'antd';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 import 'normalize.css'
 import "dhx-suite/codebase/suite.min.css";
 import './custom-ant-theme.less'
 import './app.less';
+
+notification.config({
+    placement: 'bottomLeft',
+    duration: null,
+    maxCount: 1
+  });
 
 const root = document.createElement("div");
 root.className = "root";

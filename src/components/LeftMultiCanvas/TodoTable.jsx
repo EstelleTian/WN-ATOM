@@ -1,18 +1,19 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 09:46:07
+ * @LastEditTime: 2021-03-03 13:58:07
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
 import React, {  Suspense, useCallback, useState, useEffect, useMemo, useRef} from 'react';
-import { Table, Spin, message, Popconfirm, Form, Modal, Button, Input, DatePicker, Row, Col  } from 'antd';
+import { Table, Spin, Popconfirm, Form, Modal, Button, Input, DatePicker, Row, Col } from 'antd';
 import {inject, observer} from "mobx-react";
 import { DoubleLeftOutlined, DoubleRightOutlined, SyncOutlined } from '@ant-design/icons';
 import ModalBox from 'components/ModalBox/ModalBox';
 import { REGEXP } from 'utils/regExpUtil'
 import { ReqUrls, CollaborateIP } from "utils/request-urls";
+import { customNotice } from 'utils/common-funcs'
 import { requestGet, request  } from "utils/request";
 import { getFullTime, getDayTimeFromString, isValidVariable, formatTimeString  } from "utils/basic-verify";
 import { FlightCoordination  } from "utils/flightcoordination";
@@ -307,6 +308,7 @@ const TodoTable = (props) => {
             url,
             method: 'GET',
             resFunc: (data)=> {
+                
                 //更新工作流数据
                 handleTasksData(data);
                 setLoading(false);
@@ -324,9 +326,9 @@ const TodoTable = (props) => {
 
     //请求错误处理
     const requestErr = useCallback((err, content) => {
-        message.error({
-            content,
-            duration: 4,
+        notification({
+            type: "error",
+            message: content,
         });
     },[]);
     
@@ -350,7 +352,7 @@ const TodoTable = (props) => {
            const businessName = processVariables.businessName || "";
            const startUserName = instance.startUserName || "";
            let startTime = instance.startTime || "";
-           let taskId = instance.id || "";
+           let taskId = key;
            let options = {
                 key,
                 flightCoorType,
@@ -374,7 +376,7 @@ const TodoTable = (props) => {
             }
             tableData.push(obj);
        }
-       console.log(tableData)
+    //    console.log(tableData)
        props.todoList.updateTodosData(tableData);
     },[]);
 
@@ -386,9 +388,10 @@ const TodoTable = (props) => {
         //重新请求数据
         requestDatas(true);
 
-        message.success({
-            content,
-            duration: 4,
+        customNotice({
+            type: 'success',
+            message: content,
+            duration: 8
         });
 
     });
@@ -414,7 +417,10 @@ const TodoTable = (props) => {
 
         let url = "";
         let title = "";
-        if(flightCoorType === "TOBT"){
+        if(type === "confirm"){
+            url = CollaborateIP+"/confirmFlight";
+            title = "发起人确认"
+        }else if(flightCoorType === "TOBT"){
             if(type === "agree"){
                 //TOBT同意
                 url = CollaborateIP+"/flight/updateTobtApprove";
@@ -442,9 +448,6 @@ const TodoTable = (props) => {
                 //TODO 要验证TOBT和当前时间比较
                 params["type"] = "";
                 params["tobt"] = "";
-
-                
-
             }else if(type === "refuse"){
                 //出等待池拒绝
                 url = CollaborateIP+"/flightOutPoolDown";
@@ -617,7 +620,7 @@ const TodoTable = (props) => {
                     }
                     
                     return (
-                        <div>
+                        <div style={{ textAlign: 'right'}}>
                         {
                             agreeBtn()
                         }

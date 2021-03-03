@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-22 15:40:02
- * @LastEditTime: 2021-02-22 16:20:05
+ * @LastEditTime: 2021-03-03 13:57:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\LeftMultiCanvas\OptionBtn.jsx
@@ -29,8 +29,10 @@ import {Button} from 'antd'
     const classStr = useMemo( ()=>{
         if( type === "agree" ){
             return "todo_opt_btn todo_agree c-btn-blue";
-        }else{
+        }else if( type === "refuse" ){
             return "todo_opt_btn todo_refuse c-btn-red";
+        }else{
+            return "todo_opt_btn todo_confirm c-btn-green";
         }
     }, [type])
     

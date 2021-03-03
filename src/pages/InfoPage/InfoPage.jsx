@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-02-26 13:46:47
+ * @LastEditTime: 2021-03-03 10:33:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
  */
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import { Layout, Tooltip, Checkbox, Button } from 'antd'
 import { DeleteOutlined, CloseOutlined} from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
@@ -22,7 +22,8 @@ import './InfoPage.scss';
 function InfoPage(props){
     const [ login, setLogin ] = useState(false);
     const [ scrollChecked, setScrollChecked ] = useState(true);
-    const [ autoOpen, setAutoOpen] = useState(true);
+    const [ autoOpen, setAutoOpen ] = useState(true);
+    const autoOpenRef = useRef(true);
     const stompClient = ( username = "" ) => {
         if( !isValidVariable(username) ){
             return;
@@ -44,14 +45,15 @@ function InfoPage(props){
             stompClient.subscribe( topic1, function (d) {
                 //收到消息
                 console.log(topic1 + "  WebSocket收到消息:");
-                console.log(d.body);
+                // console.log(d.body);
                 const body = d.body;
                 const msgObj = JSON.parse(body);
                 const { message } = msgObj;
                 //工作流类别消息，不显示
                 let newMsg = message.filter( msg => ( "WFPI" !== msg.dataType ) )
                 props.newsList.addNews(newMsg);
-                if( autoOpen ) {
+                // console.log("autoOpen", autoOpenRef.current);
+                if( autoOpenRef.current ) {
                     openMessageDlg();
                 }
                 
@@ -123,6 +125,7 @@ function InfoPage(props){
 
                         <div className="scroll">
                             <Checkbox checked={ autoOpen } onChange={ e => {
+                                autoOpenRef.current = e.target.checked;
                                 setAutoOpen(e.target.checked);
                             }}>消息推送</Checkbox>
                         </div>

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-03-01 13:48:29
+ * @LastEditTime: 2021-03-03 14:17:51
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -34,7 +34,6 @@ const scrollTopById = (id, classStr ) => {
         const flightCanvas = document.getElementsByClassName(classStr);
         const boxContent = flightCanvas[0].getElementsByClassName("box_content");
         const contentH = boxContent[0].clientHeight; //表格外框高度
-        const tableBody = boxContent[0].getElementsByClassName("ant-table-body");
         const tableTBody = boxContent[0].getElementsByClassName("ant-table-tbody");
         const tableTBodyH = tableTBody[0].clientHeight; //表格总高度
         // console.log("目标定位航班[contentH]是：",contentH, "tableBodyH:", tableBodyH );
@@ -42,17 +41,8 @@ const scrollTopById = (id, classStr ) => {
             //计算定位航班
             const tr = boxContent[0].getElementsByClassName( id );
             if( tr.length > 0 ){
-                const trHeight = tr[0].clientHeight;
-                const rowIndex = tr[0].firstElementChild.innerHTML; //当前航班所在行号
-                let mtop = rowIndex *  trHeight;
-                // console.log("目标定位航班是：",tr , trHeight, rowIndex, mtop);
-                if( contentH/2 < mtop ){
-                    const scrollTop = Math.floor( mtop - contentH/2 );
-                    // console.log("目标定位航班  滚动高度是：", scrollTop);
-                    tableBody[0].scrollTop = scrollTop;
-                }
+                tr[0].scrollIntoView({block:"center"});
             }
-            
         }
     }
 }
@@ -60,8 +50,8 @@ const scrollTopById = (id, classStr ) => {
 const highlightRowByDom = targetDom => {
     let tClass = targetDom.getAttribute("class");
     const trs = targetDom.parentElement.children;
-    clearHighlightRowByDom(trs);
-    console.log("active_row")
+    clearHighlightRowByDom(trs)
+
     targetDom.setAttribute("class", tClass+" active_row");  
 }
 
@@ -71,7 +61,7 @@ const clearHighlightRowByDom = trs => {
     for(let i = 0; i < len; i++){
         let trDom = trs[i];
         let trClass = trDom.getAttribute("class");
-        trClass = trClass.replace(/active_row/g, "");
+        trClass = trClass.replace("active_row", "");
         trDom.setAttribute("class", trClass);
     } 
 }

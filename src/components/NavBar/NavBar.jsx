@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-02 14:24:55
+ * @LastEditTime: 2021-03-03 14:18:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\NavBar\NavBar.jsx
@@ -51,7 +51,7 @@ function NavBar(props){
                     {/*</div>*/}
 
                 </div>
-                <h4 style={{ color: 'red'}}>web自动更新 3/2/1430 </h4>
+                <h4 style={{ color: 'red'}}>web自动更新 3/3/1420 </h4>
                 <RightNav/>
             </div>
         }else {
