@@ -14,7 +14,6 @@ import { UserOutlined } from '@ant-design/icons'
 import RightNav from "./RightNav";
 import User from "./User";
 import NavBellNews from "./NavBellNews";
-import RefreshBtn from "components/SchemeList/RefreshBtn";
 
 import './NavBar.scss'
 
@@ -45,9 +44,7 @@ function NavBar(props){
                         </Radio.Group>
                     {/*</div>*/}
                     {/*<div className="">*/}
-                        <Radio.Group  buttonStyle="solid" size="large" >
-                            <RefreshBtn />
-                        </Radio.Group>
+
                     {/*</div>*/}
 
                 </div>

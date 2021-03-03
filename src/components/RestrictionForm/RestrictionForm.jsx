@@ -23,7 +23,7 @@ function RestrictionForm(props){
     // 方案数据对象
     const { tacticProcessInfo={} } = flowData;
     const { basicTacticInfo={} } = tacticProcessInfo;
-    let { tacticName, tacticPublishUnit, tacticPublishUser, id, tacticTimeInfo={}, sourceFlowcontrol={}, directionList=[] } = basicTacticInfo;
+    let { tacticName, tacticPublishUnit, tacticPublishUser, id, tacticTimeInfo={}, basicFlowcontrol={}, directionList=[] } = basicTacticInfo;
 
     // 方案开始时间(12位字符串)
     let basicStartTime = tacticTimeInfo.startTime;
@@ -47,7 +47,7 @@ function RestrictionForm(props){
 
 
 
-    const { flowControlName, flowControlTimeInfo={}, flowControlMeasure={}, TrafficFlowDomainMap={},  flowControlPublishType, flowControlReason,} = sourceFlowcontrol; // 流控信息对象
+    const { flowControlName, flowControlTimeInfo={}, flowControlMeasure={}, TrafficFlowDomainMap={},  flowControlPublishType, flowControlReason,} = basicFlowcontrol; // 流控信息对象
     // 流控开始时间(12位字符串)
     let flowControlStartTime = flowControlTimeInfo.startTime;
     // 流控开始时间(12位字符串)
@@ -60,7 +60,7 @@ function RestrictionForm(props){
     const directionListData = directionList[0] || {};
     const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptbehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = directionListData;
     // 流控航班类型条件
-    const flowControlFlight = isValidObject(sourceFlowcontrol.flowControlFlight) ? sourceFlowcontrol.flowControlFlight : {};
+    const flowControlFlight = isValidObject(basicFlowcontrol.flowControlFlight) ? basicFlowcontrol.flowControlFlight : {};
 
     const { flowControlFlightId ="", wakeFlowLevel="", airlineType="", missionType="", auType ="",
         task="", organization="", ability="",aircraftType="",
@@ -346,30 +346,30 @@ function RestrictionForm(props){
         }
 
         // 方案流控领域对象
-        let sourceFlowcontrol = basicTacticInfo.sourceFlowcontrol;
-        if(!isValidObject(sourceFlowcontrol)){
-            basicTacticInfo.sourceFlowcontrol= {};
-            sourceFlowcontrol = basicTacticInfo.sourceFlowcontrol
+        let basicFlowcontrol = basicTacticInfo.basicFlowcontrol;
+        if(!isValidObject(basicFlowcontrol)){
+            basicTacticInfo.basicFlowcontrol= {};
+            basicFlowcontrol = basicTacticInfo.basicFlowcontrol
         }
 
         // 方案流控航班类型条件数据对象
-        let flowControlFlight = sourceFlowcontrol.flowControlFlight;
+        let flowControlFlight = basicFlowcontrol.flowControlFlight;
         if(!isValidObject(flowControlFlight)){
-            sourceFlowcontrol.flowControlFlight= {};
-            flowControlFlight = sourceFlowcontrol.flowControlFlight
+            basicFlowcontrol.flowControlFlight= {};
+            flowControlFlight = basicFlowcontrol.flowControlFlight
         }
 
         // 方案流控限制措施信息对象
-        let flowControlMeasure = sourceFlowcontrol.flowControlMeasure;
+        let flowControlMeasure = basicFlowcontrol.flowControlMeasure;
         if(!isValidObject(flowControlMeasure)){
-            sourceFlowcontrol.flowControlMeasure= {};
-            flowControlMeasure = sourceFlowcontrol.flowControlMeasure
+            basicFlowcontrol.flowControlMeasure= {};
+            flowControlMeasure = basicFlowcontrol.flowControlMeasure
         }
         // 方案流控时间信息对象
-        let flowControlTimeInfo = sourceFlowcontrol.flowControlTimeInfo;
+        let flowControlTimeInfo = basicFlowcontrol.flowControlTimeInfo;
         if(!isValidObject(flowControlTimeInfo)){
-            sourceFlowcontrol.flowControlTimeInfo= {};
-            flowControlTimeInfo = sourceFlowcontrol.flowControlTimeInfo
+            basicFlowcontrol.flowControlTimeInfo= {};
+            flowControlTimeInfo = basicFlowcontrol.flowControlTimeInfo
         }
 
         // 表单字段数据
@@ -417,11 +417,11 @@ function RestrictionForm(props){
         directionListData.exemptArrAp = exemptArrAp;
 
         // 更新流控名称
-        sourceFlowcontrol.flowControlName = flowControlName;
+        basicFlowcontrol.flowControlName = flowControlName;
         // 更新流控限制原因
-        sourceFlowcontrol.flowControlReason = flowControlReason;
+        basicFlowcontrol.flowControlReason = flowControlReason;
         // 更新流控发布类型
-        sourceFlowcontrol.flowControlPublishType = flowControlPublishType;
+        basicFlowcontrol.flowControlPublishType = flowControlPublishType;
         // 更新流控备注
         flowControlMeasure.restrictionRemark = restrictionRemark;
 

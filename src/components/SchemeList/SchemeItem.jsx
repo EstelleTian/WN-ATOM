@@ -58,15 +58,15 @@ function SchemeItem(props){
     let { item, activeSchemeId } = props;
     let { id, tacticName , tacticStatus, tacticPublishUnit, basicTacticInfoReason, basicTacticInfoRemark,
         tacticTimeInfo: { startTime, endTime, publishTime, createTime, startCalculateTime =""},
-        sourceFlowcontrol = {}, directionList = []
+        basicFlowcontrol = {}, directionList = []
     } = item;
     let isActive = ( activeSchemeId === id);
 
     basicTacticInfoRemark = basicTacticInfoRemark || "";
-    if( sourceFlowcontrol === null ){
-        sourceFlowcontrol = {};
+    if( basicFlowcontrol === null ){
+        basicFlowcontrol = {};
     }
-    let { flowControlMeasure = {} } = sourceFlowcontrol;
+    let { flowControlMeasure = {} } = basicFlowcontrol;
     if( flowControlMeasure === null ){
         flowControlMeasure = {};
     }

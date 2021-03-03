@@ -66,6 +66,8 @@ const FlightPerformance =(props) => {
 
     // 执行起降
     const executeDAMap = isValidObject(flight.executeDAMap) ? flight.executeDAMap : {};
+    // 执行区内空中
+    const currentInAreaSkyMap = isValidObject(flight.currentInAreaSkyMap) ? flight.currentInAreaSkyMap : {};
     // 执行区域飞越
     const executeAOvfMap = isValidObject(flight.executeAOvfMap) ? flight.executeAOvfMap : {};
     // 执行国际飞越
@@ -78,6 +80,7 @@ const FlightPerformance =(props) => {
         executeDAMap,
         executeAOvfMap,
         executeOvfMap,
+        currentInAreaSkyMap,
     }
 
     const planData = [
@@ -316,7 +319,7 @@ const FlightPerformance =(props) => {
                             style={ {background:"#2d6b92", color:"#d4d4d4"}}
                             title="绩效"
                             value={situation}
-                            tooltipContent={(<div><p>起飞正常率绩效情况:{depRatioSituation}</p><p>离港流量绩效情况:{depFlowSituation}</p></div>)}
+                            tooltipContent={(<div><p>起飞正常率: {depRatioSituation}</p><p>离港流量: {depFlowSituation}</p></div>)}
 
                         />
                         <div className="content">

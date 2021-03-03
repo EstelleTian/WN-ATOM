@@ -17,7 +17,7 @@
         padding: 0 0.75rem;
     }
     .user-name{
-        padding: 0 0.75rem;
+        padding-right: 0.5rem;
         font-size: 1rem;
     }
     /*
@@ -43,6 +43,7 @@
     .ant-btn-lg{
         height: 36px;
         border-radius: 0;
+        padding: 4.4px 13.5px;
     }
     //去掉圆角
     .ant-radio-button-wrapper:first-child {
@@ -72,8 +73,15 @@
         position: relative;
         top:3px;
     }
+
+
+}
+.single_user{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     .user_icon{
-        margin: -1px 10px 0 30px;
+        margin: 0 10px;
     }
 }
 
@@ -108,13 +116,5 @@
     border: 1px solid #5d5d5d;
     .single_bell{
         margin-right: 1.5rem;
-    }
-    .single_user{
-        .user_icon{
-            position: relative;
-            top: -2px;
-            right: 3px;
-        }
-
     }
 }

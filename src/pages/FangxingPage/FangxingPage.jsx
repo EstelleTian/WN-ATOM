@@ -58,16 +58,16 @@ function FangxingPage(props){
                                 leftActiveName === "" ? ""
                                     :<div className="left_left">
                                         <LeftMultiCanvas/>
-                                        <ModalBox
-                                            title="航班查询"
-                                            style={{
-                                                height: 330
-                                            }}
-                                            showDecorator = {true}
-                                            className="flight_search"
-                                        >
-                                            <FlightSearch />
-                                        </ModalBox>
+                                        {/*<ModalBox*/}
+                                            {/*title="航班查询"*/}
+                                            {/*style={{*/}
+                                                {/*height: 330*/}
+                                            {/*}}*/}
+                                            {/*showDecorator = {true}*/}
+                                            {/*className="flight_search"*/}
+                                        {/*>*/}
+                                            {/*<FlightSearch />*/}
+                                        {/*</ModalBox>*/}
                                     </div>
                                 }
 

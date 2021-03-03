@@ -316,8 +316,8 @@ function TodoPage (props){
         }else{
             props.userSubscribeData.updateUserSubscribeData({});
             message.error({
-                content:"获取的航班执行数据为空",
-                duration: 4,
+                content:"获取的订阅容流监控单元数据为空",
+                duration: 8,
             });
         }
     });
@@ -339,7 +339,7 @@ function TodoPage (props){
                     <span>{errMsg}</span>
                 </span>
             ),
-            duration: 4,
+            duration: 8,
         });
     });
 

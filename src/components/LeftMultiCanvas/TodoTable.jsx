@@ -712,14 +712,14 @@ const TodoTable = (props) => {
                 showDecorator = {true}
                 className={`sub_table_modal todo_canvas todo`}
             >
-                <div className='refresh_icon'
-                    onClick = { () => {
-                        requestDatas(true)  
-                        setRefreshBtnLoading(true);
-                    } } 
-                >
-                    <SyncOutlined title="刷新待办列表" spin={ refreshBtnLoading }  />
-                </div>
+                {/*<div className='refresh_icon'*/}
+                    {/*onClick = { () => {*/}
+                        {/*requestDatas(true)  */}
+                        {/*setRefreshBtnLoading(true);*/}
+                    {/*} } */}
+                {/*>*/}
+                    {/*<SyncOutlined title="刷新待办列表" spin={ refreshBtnLoading }  />*/}
+                {/*</div>*/}
                 
                 <OutLineIcon tableTotalWidth={tableTotalWidth.current}/>
                 <Table
@@ -739,7 +739,7 @@ const TodoTable = (props) => {
                     <TOBTModal 
                         userId={userId}
                         record={tobtFlight} 
-                        setTobtModalVisible={setTobtModalVisible} 
+                        // setTobtModalVisible={setTobtModalVisible}
                         tobtModalVisible={tobtModalVisible} 
                         generateTime = {generateTime.current}
                         setTobtModalVisible = {setTobtModalVisible}
