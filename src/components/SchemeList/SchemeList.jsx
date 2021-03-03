@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-03 13:50:25
+ * @LastEditTime: 2021-03-03 14:57:45
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -10,7 +10,7 @@ import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react'
 import debounce from 'lodash/debounce'
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react'
-import { Checkbox, Empty, Spin } from 'antd'
+import { Checkbox, Empty, Spin, notification } from 'antd'
 import { requestGet } from 'utils/request'
 import { isValidVariable, isValidObject } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
@@ -80,6 +80,7 @@ function useSchemeList(props){
                             getSchemeList( true );
                         }, 30*1000);
                     }
+                    notification.destroy();
                     resolve("success")
     
                 },
@@ -224,6 +225,7 @@ function useFlightsList(props){
                             getFlightTableData( true );
                         }, 30*1000);
                     }
+                    notification.destroy();
                     resolve("success");
                 }, 
                 errFunc: (err)=> {
@@ -314,6 +316,7 @@ function useKPIData(props){
                                 getKPIData( true );
                             }, 60*1000);
                         }
+                        notification.destroy();
                         resolve("success")
                     },
                     errFunc: (err)=> {

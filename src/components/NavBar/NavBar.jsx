@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 14:19:56
+ * @LastEditTime: 2021-03-03 14:44:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\NavBar\NavBar.jsx
@@ -40,7 +40,9 @@ function NavBar(props){
                     </div>
                     {/*<div className="time-range">*/}
                         <Radio.Group defaultValue="a" buttonStyle="solid" size="large" >
-                            <Radio.Button value="a">计划范围 <Tag color="#3d8424">29/00-29/23</Tag></Radio.Button>
+                            <Radio.Button value="a">计划范围
+                             {/*<Tag color="#3d8424">29/00-29/23</Tag>*/}
+                             </Radio.Button>
                         </Radio.Group>
                     {/*</div>*/}
                     {/*<div className="">*/}
@@ -48,7 +50,7 @@ function NavBar(props){
                     {/*</div>*/}
 
                 </div>
-                <h4 style={{ color: 'red'}}>web自动更新 3/3/1430 </h4>
+                <h4 style={{ color: 'red'}}>web自动更新 3/3/1445 </h4>
                 <RightNav/>
             </div>
         }else {

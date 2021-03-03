@@ -3,7 +3,7 @@ import {Modal, Radio, Badge,Button, Avatar} from "antd";
 import { UserOutlined, SearchOutlined, RedoOutlined } from '@ant-design/icons'
 import {observer, inject} from "mobx-react";
 import MyApplication from 'components/MyApplication/MyApplication'
-import DraggableModal from 'components/DraggableModal/DraggableModal'
+// import DraggableModal from 'components/DraggableModal/DraggableModal'
 import RefreshBtn from "components/SchemeList/RefreshBtn";
 import User from "./User";
 // import WinBtn from "./WinBtn";
@@ -147,7 +147,7 @@ function RightNav(props){
             {/*>*/}
                 {/*<MyApplication></MyApplication>*/}
             {/*</Modal>*/}
-            <DraggableModal
+            {/*<DraggableModal
                 title="我的申请"
                 // centered
                 style={{ top: 100, height: 800 }}
@@ -165,7 +165,7 @@ function RightNav(props){
                 }
             >
                 <MyApplication></MyApplication>
-            </DraggableModal>
+            </DraggableModal>*/}
             <Radio.Group value={props.systemPage.rightActiveName} buttonStyle="solid" size="large" onChange={ groupRightChange2 } >
                 <Radio.Button value="scheme">方案列表</Radio.Button>
                 <Radio.Button value="outer_scheme">外部流控</Radio.Button>
