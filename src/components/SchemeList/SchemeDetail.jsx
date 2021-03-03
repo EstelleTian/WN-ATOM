@@ -39,7 +39,7 @@ function SchemeDetail(props) {
     // 方案时间信息对象
     let tacticTimeInfo = isValidObject(basicTacticInfo.tacticTimeInfo) ? basicTacticInfo.tacticTimeInfo :{};
     // 方案原始流控
-    let sourceFlowcontrol = isValidObject(basicTacticInfo.sourceFlowcontrol) ? basicTacticInfo.sourceFlowcontrol :{};
+    let basicFlowcontrol = isValidObject(basicTacticInfo.basicFlowcontrol) ? basicTacticInfo.basicFlowcontrol :{};
     // 方案方向信息
     let directionList = isValidVariable(basicTacticInfo.directionList) ? basicTacticInfo.directionList : [];
 
@@ -58,8 +58,8 @@ function SchemeDetail(props) {
     const basicTacticInfoReasonZh = reasonType[basicTacticInfoReason] || "";
 
 
-    let sourceFlowcontrolList = [];
-    sourceFlowcontrolList.push(sourceFlowcontrol)
+    let basicFlowcontrolList = [];
+    basicFlowcontrolList.push(basicFlowcontrol)
 
 
     return (
@@ -252,7 +252,7 @@ function SchemeDetail(props) {
 
 
 
-            <FlowcontrolDetailCard flowcontrolDataList={ sourceFlowcontrolList } title="基础流控信息" > </FlowcontrolDetailCard>
+            <FlowcontrolDetailCard flowcontrolDataList={ basicFlowcontrolList } title="基础流控信息" > </FlowcontrolDetailCard>
             <FlowcontrolDetailCard  flowcontrolDataList={ flowcontrolList } title="流控信息"  showBadge={ true }  ></FlowcontrolDetailCard>
             {/*<Divider orientation="left"> {`流控信息`}</Divider>*/}
 
