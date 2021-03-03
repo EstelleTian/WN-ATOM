@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-02 17:08:03
+ * @LastEditTime: 2021-03-03 19:34:38
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -15,6 +15,7 @@ import { ReqUrls } from 'utils/request-urls'
 import { Table, Input, Button, Popconfirm, Form, Spin  } from "antd";
 import { isValidVariable, getFullTime } from 'utils/basic-verify'
 import { REGEXP } from 'utils/regExpUtil'
+import { customNotice } from 'utils/common-funcs'
 // import { data1, data24 } from '../../mockdata/static'
 import './CapacityTable.scss'
 const EditableContext = React.createContext(null);
@@ -222,14 +223,17 @@ const CapacityTable = (props) => {
         props.capacity.updateDatas( kind, tableData );
         //发送保存请求
         let url = ReqUrls.capacityBaseUrl;
+        let title = "";
         //传参
         let params = [];
         if( kind === "default" || kind === "static"){
             url += "static/updateCapacityStatic"
-            params = Object.values(props.capacity.staticData)
+            params = Object.values(props.capacity.staticData);
+            title = "静态容量"
         }else if( kind === "dynamic"){
             url += "dynamic/updateCapacity"
-            params = Object.values(props.capacity.dynamicData)
+            params = Object.values(props.capacity.dynamicData);
+            title = "动态容量"
         }
             
         const opt = {
@@ -245,19 +249,17 @@ const CapacityTable = (props) => {
                       props.capacity.updateDatas( kind, dataArr );
                     }
                 }
-                const msgStyle = {
-                    top: '100px',
-                    position: 'relative',
-                    fontSize: '1.2rem',
-                }
-                message.success({
-                    content: "容量保存成功",
-                    duration: 6,
-                    style: msgStyle
-                });
+                customNotice({
+                    type: 'success',
+                    message: title+'保存成功',
+                    duration: 10,
+                })
             },
             errFunc: (err, msg)=> {
-               console.log(err)
+                customNotice({
+                    type: 'error',
+                    message: title+'保存失败'
+                })
             },
         };
         request(opt);

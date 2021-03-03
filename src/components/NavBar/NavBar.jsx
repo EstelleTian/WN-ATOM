@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 16:44:57
+ * @LastEditTime: 2021-03-03 20:36:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\NavBar\NavBar.jsx
@@ -12,6 +12,7 @@ import { withRouter } from 'react-router-dom';
 import { Layout,  Avatar, Radio, Tag, Button } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import RightNav from "./RightNav";
+import LeftNav from "./LeftNav";
 import User from "./User";
 import NavBellNews from "./NavBellNews";
 
@@ -28,25 +29,8 @@ function NavBar(props){
         //放行监控页面
         if( pathname === "/fangxing" ){
             return <div className="layout-row space-between multi_nav">
-                <div className="layout-nav-left layout-row">
-                    <div className="seat ">
-                        <Radio.Group defaultValue="a" buttonStyle="solid" size="large" >
-                            <Radio.Button value="a">ZLXY</Radio.Button>
-                        </Radio.Group>
-                    </div>
-                    {/*<div className="time-range">*/}
-                        <Radio.Group defaultValue="a" buttonStyle="solid" size="large" >
-                            <Radio.Button value="a">计划范围
-                             {/*<Tag color="#3d8424">29/00-29/23</Tag>*/}
-                             </Radio.Button>
-                        </Radio.Group>
-                    {/*</div>*/}
-                    {/*<div className="">*/}
-
-                    {/*</div>*/}
-
-                </div>
-                <h4 style={{ color: 'red'}}>web自动更新 3/3/1445 </h4>
+                <LeftNav/>
+                <h4 style={{ color: 'red'}}>web自动更新 3/3/1800 </h4>
                 <RightNav/>
             </div>
         }else {

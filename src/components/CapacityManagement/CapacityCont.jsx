@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-02 16:41:57
+ * @LastEditTime: 2021-03-03 19:32:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -13,7 +13,7 @@ import { ReqUrls } from 'utils/request-urls'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { isValidVariable, getFullTime } from 'utils/basic-verify'
 import CapacityTable from './CapacityTable';
-
+import { customNotice } from 'utils/common-funcs'
 import "./CapacityCont.scss"
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
@@ -34,7 +34,10 @@ function CapacityCont (props){
                 props.capacity.setStaticData( resultMap[airportName] );
             },
             errFunc: (err)=> {
-                requestErr(err, '静态容量数据获取失败');
+                customNotice({
+                    type: 'error',
+                    message: '静态容量数据获取失败'
+                })
             } ,
         };
 
@@ -55,7 +58,10 @@ function CapacityCont (props){
                 props.capacity.setDynamicData( resultMap[airportName] );
             },
             errFunc: (err)=> {
-                requestErr(err, '静态容量数据获取失败');
+                customNotice({
+                    type: 'error',
+                    message: '动态容量数据获取失败'
+                })
             } ,
         };
 

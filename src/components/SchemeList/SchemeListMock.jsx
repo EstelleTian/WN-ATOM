@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2020-12-24 19:19:24
+ * @LastEditTime: 2021-03-03 21:23:45
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -140,33 +140,33 @@ function SchemeList (props){
 
 
     //高亮方案并获取航班数据和KPI数据
-    const handleActive = useCallback(( id, title, from ) => {
-        // if( props.schemeListData.schemeId != id ){
-        const res = props.schemeListData.toggleSchemeActive( id+"" );
-        if( res ){
-            props.flightTableData.toggleLoad(true);
-            props.executeKPIData.toggleLoad(true);
-            requestFlightTableData(id+"");
-            requestExecuteKPIData(id+"");
-            //来自客户端定位，滚动到对应位置
-            if( from === "client" ){
-                // 滚动条滚动到顶部
-                const canvas = document.getElementsByClassName("scheme_list_canvas")[0];
-                const boxContent = canvas.getElementsByClassName("list_container")[0];
-                boxContent.scrollTop = 0;
-            }
-        }else{
-            if( isValidVariable(title) ){
-                message.warning({
-                    content: "暂未获取到方案，方案名称是：" + title ,
-                    duration: 15,
-                });
-            }
-        }
+    // const handleActive = useCallback(( id, title, from ) => {
+    //     // if( props.schemeListData.schemeId != id ){
+    //     const res = props.schemeListData.toggleSchemeActive( id+"" );
+    //     if( res ){
+    //         props.flightTableData.toggleLoad(true);
+    //         props.executeKPIData.toggleLoad(true);
+    //         requestFlightTableData(id+"");
+    //         requestExecuteKPIData(id+"");
+    //         //来自客户端定位，滚动到对应位置
+    //         if( from === "client" ){
+    //             // 滚动条滚动到顶部
+    //             const canvas = document.getElementsByClassName("scheme_list_canvas")[0];
+    //             const boxContent = canvas.getElementsByClassName("list_container")[0];
+    //             boxContent.scrollTop = 0;
+    //         }
+    //     }else{
+    //         if( isValidVariable(title) ){
+    //             message.warning({
+    //                 content: "暂未获取到方案，方案名称是：" + title ,
+    //                 duration: 15,
+    //             });
+    //         }
+    //     }
 
-        // }
+    //     // }
 
-    });
+    // });
 
     // DidMount 激活方案列表id变化后，重新处理航班定时器
     useEffect(function(){

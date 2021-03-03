@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 14:09:38
+ * @LastEditTime: 2021-03-03 20:50:59
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -27,8 +27,14 @@ function TTitle(props){
     }, [flightTableData.generateTime]);
 
     const tacticName = useMemo(() => {
-        const activeScheme = schemeListData.activeScheme(schemeListData.activeSchemeId) || {};
-        return activeScheme.tacticName || "";
+        console.log(schemeListData.activeSchemeId)
+        if( isValidVariable( schemeListData.activeSchemeId ) ){
+            const activeScheme = schemeListData.activeScheme(schemeListData.activeSchemeId) || {};
+            return activeScheme.tacticName;
+        }else{
+            return ""
+        }
+        
     }, [schemeListData.activeSchemeId]);
  
     return (
