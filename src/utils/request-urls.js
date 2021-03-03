@@ -17,7 +17,7 @@ const ReqUrls = {
     //根据modalId获取方案详情
     schemeDetailByIdUrl: 'http://192.168.194.21:58190/scheme-flow-server/implementTactics/',
     //获取--方案列表
-    schemeListUrl: 'http://192.168.194.21:58189/implementTactics',
+    schemeListUrl: 'http://192.168.194.21:58190/implementTactics',
     //获取--航班列表数据
     flightsDataUrl: 'http://192.168.194.21:29890/tactic/',
     //获取--航班列表数据(id为空)
@@ -58,6 +58,8 @@ const ReqUrls = {
     searchFlightUrl: 'http://192.168.194.20:38188/hydrogen-flight-plan-server/flightPlan/retrieveDataByFlightId/',
     //待办航班列表-放行监控页面中的
     todoListUrl: 'http://192.168.194.21:29891/flight/backlog/task/',
+    //我的申请列表-放行监控页面中的
+    myApplicationListUrl: 'http://192.168.194.20:28087/workflow/procInst/',
 
     //容量管理-基础接口
     capacityBaseUrl: 'http://192.168.194.20:28482/flow-capacity-rest/capacity/',
