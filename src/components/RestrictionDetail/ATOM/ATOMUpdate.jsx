@@ -72,15 +72,15 @@ function ATOMUpdate(props){
             <Col span={12} className="res_left">
                 <Row className="title">
                     <span>{ title }</span>
-                    <Button type="primary" className="info_btn btn_blue"
-                            style={
-                                { marginLeft: '1rem'}
-                            }
-                            onClick={ function(e){
-                                sendMsgToClient(message);
-                                window.close();
-                                e.stopPropagation()
-                            } } >查看容流监控</Button>
+                    {/*<Button type="primary" className="info_btn btn_blue"*/}
+                            {/*style={*/}
+                                {/*{ marginLeft: '1rem'}*/}
+                            {/*}*/}
+                            {/*onClick={ function(e){*/}
+                                {/*sendMsgToClient(message);*/}
+                                {/*window.close();*/}
+                                {/*e.stopPropagation()*/}
+                            {/*} } >查看容流监控</Button>*/}
                 </Row>
                 <ATOMDetail
                     flowType="ATOMData"
