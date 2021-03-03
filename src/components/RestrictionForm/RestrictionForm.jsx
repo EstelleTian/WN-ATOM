@@ -22,9 +22,11 @@ function RestrictionForm(props){
 
     // 方案数据对象
     const { tacticProcessInfo={} } = flowData;
+    const { formerTacticProcessInfo={} } = flowData;
     const { basicTacticInfo={} } = tacticProcessInfo;
     let { tacticName, tacticPublishUnit, tacticPublishUser, id, tacticTimeInfo={}, basicFlowcontrol={}, directionList=[] } = basicTacticInfo;
-
+    const formerBasicTacticInfo = formerTacticProcessInfo.basicTacticInfo || {};
+    const formerId = formerBasicTacticInfo.id || "";
     // 方案开始时间(12位字符串)
     let basicStartTime = tacticTimeInfo.startTime;
     // 方案结束时间(12位字符串)
@@ -515,6 +517,8 @@ function RestrictionForm(props){
             handleImportControl(id, props.message.id);
         }else if(operationType === 'MODIFY'){
             handleImportControlForUpdate(oldId,id);
+        }else if(operationType === 'IMPORTWITHFORMER'){
+            handleImportControlForUpdate(formerId,id);
         }
         if(operationType !=='MODIFY'){
             Modal.success({
@@ -755,6 +759,8 @@ function RestrictionForm(props){
         }else if(operationType ==="CREATE"){
             return "btn_create"
         }else if(operationType ==="IMPORT"){
+            return "btn_import"
+        }else if(operationType ==="IMPORTWITHFORMER"){
             return "btn_import"
         }
     };

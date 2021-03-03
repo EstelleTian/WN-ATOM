@@ -98,7 +98,7 @@ function ATOMUpdate(props){
                     <span>流控导入</span>
                 </Row>
                 <RestrictionForm
-                    operationType="IMPORT"
+                    operationType="IMPORTWITHFORMER"
                     operationDescription="流控导入"
                     primaryButtonName="导入"
                     disabledForm = {disabledForm}
