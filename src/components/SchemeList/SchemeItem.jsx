@@ -4,7 +4,6 @@ import {  observer } from 'mobx-react'
 import ReactDom from "react-dom";
 import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
 import { handleStopControl } from 'utils/client'
-
 import { Window as WindowDHX } from "dhx-suite";
 import { openBaseSchemeFrame } from "utils/client"
 import WorkFlowContent from "components/WorkFlow/WorkFlowContent";
@@ -185,7 +184,7 @@ function SchemeItem(props){
                 <div className="left-column border-bottom layout-column justify-content-center">
                     <div className="name">
                         <div className="cell">
-                            <span className="tactic-name" title={`方案名称: ${tacticName} `}>{tacticName}</span>
+                            <span className="tactic-name" title={`方案名称: ${tacticName} ID:${id} `}>{tacticName}</span>
                         </div>
                     </div>
                     <div className="state">

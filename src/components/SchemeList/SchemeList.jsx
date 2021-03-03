@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-03 16:38:01
+ * @LastEditTime: 2021-03-03 21:40:35
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -154,11 +154,12 @@ function useSchemeList(props){
             getSchemeList( false );
         }
     },[ pageRefresh, id ]);
+    
     return getSchemeList;
 }
 //航班请求 hook
 function useFlightsList(props){
-    const flightsTimeoutId = useRef("");
+    const flightsTimeoutId = useRef([]);
 
     const { schemeListData, flightTableData, systemPage } = props;
     const { activeSchemeId, generateTime = "" } = schemeListData;
@@ -180,6 +181,7 @@ function useFlightsList(props){
             }else{
                 flightTableData.updateFlightsList([], generateTime, id);
             }
+        
         }else{
             console.log("请求前后方案id不一致，跳过本次更新:id:", id , +" activeSchemeId:"+props.schemeListData.activeSchemeId)
         }
@@ -188,94 +190,108 @@ function useFlightsList(props){
 
 
     //获取--航班列表数据
-    const getFlightTableData = useCallback( (nextRefresh) => {
+    const getFlightTableData = useCallback( (nextRefresh, showLoad = false ) => {
 
         const p = new Promise( (resolve, reject) => {
             let url = "";
             let params = {};
-            const activeSchemeId = schemeListData.activeSchemeId;
+            let activeSchemeId = schemeListData.activeSchemeId;
             // console.log("本次方案id:", activeSchemeId)
             url = ReqUrls.flightsDataNoIdUrl + systemPage.user.id;
-                let baseTime = ""
-                if( generateTime !== "" ){
-                    baseTime = generateTime.substring(0,8);
-                }else{
-                    const date = new Date();
-                    let year = date.getFullYear();
-                    let month = date.getMonth() + 1;
-                    let day = date.getDate();
-                    year = '' + year;
-                    month = month < 10 ? '0' + month : '' + month;
-                    day = day < 10 ? '0' + day : '' + day;
-                    baseTime =  year + "" + month + "" + day;
+            let baseTime = ""
+            if( generateTime !== "" ){
+                baseTime = generateTime.substring(0,8);
+            }else{
+                const date = new Date();
+                let year = date.getFullYear();
+                let month = date.getMonth() + 1;
+                let day = date.getDate();
+                year = '' + year;
+                month = month < 10 ? '0' + month : '' + month;
+                day = day < 10 ? '0' + day : '' + day;
+                baseTime =  year + "" + month + "" + day;
+            } 
+            if( activeSchemeId.indexOf("focus") > -1 ){
+                activeSchemeId = "";
+            }
+            params = {
+                startTime: baseTime + '000000',
+                endTime: baseTime+'235900',
+                id: activeSchemeId
+            };
+            const timerFunc = function(){
+                //开启定时
+                if( nextRefresh ){
+                    if( isValidVariable(flightsTimeoutId.current) ){
+                        // console.log(" success 航班列表定时器-清理:"+flightsTimeoutId.current)
+                        flightsTimeoutId.current.map( t => {
+                            flightsTimeoutId.current = [];
+                            clearTimeout(t);
+                        })
+                        
+                        
+                    }
+                    const timer = setTimeout( ()=>{
+                        if( !props.flightTableData.dataLoaded ){
+                            // console.log(" success 航班列表定时器-执行:"+flightsTimeoutId.current)
+                            getFlightTableData( true );
+                        }
+                    }, 30*1000);
+                    flightsTimeoutId.current.push(timer);
                 }
-                params = {
-                    startTime: baseTime + '000000',
-                    endTime: baseTime+'235900',
-                    id: activeSchemeId
-                };
+            }
             //开始获取数据，修改状态
-            props.flightTableData.isLoaded = true;
             const opt = {
                 url,
                 method:'GET',
                 params,
                 resFunc: (data)=> {
                     updateFlightTableData(data, activeSchemeId);
-                    if( props.flightTableData.loading ){
-                        props.flightTableData.toggleLoad(false);
-                    }
-                    //开启定时
-                    if( nextRefresh ){
-                        if( isValidVariable(flightsTimeoutId.current) ){
-                            flightsTimeoutId.current = "";
-                            clearTimeout(flightsTimeoutId.current);
-                        }
-                        flightsTimeoutId.current = setTimeout( ()=>{
-                            // console.log(" success 航班列表定时器-下一轮更新开始")
-                            getFlightTableData( true );
-                        }, 30*1000);
-                    }
-                    notification.destroy();
+                    timerFunc();
+                    customNotice({
+                        type: 'success',
+                        message: '航班列表数据获取成功',
+                        duration: 5
+                    })
+                    props.flightTableData.toggleLoad(false, false);
                     resolve("success");
                 }, 
                 errFunc: (err)=> {
                     requestErr(err, '航班列表数据获取失败');
-                    if( props.flightTableData.loading ){
-                        props.flightTableData.toggleLoad(false);
-                    }
                     //开启定时
-                    if( nextRefresh ){
-                        if( isValidVariable(flightsTimeoutId.current) ){
-                            flightsTimeoutId.current = "";
-                            clearTimeout(flightsTimeoutId.current);
-                        }
-                        flightsTimeoutId.current = setTimeout( ()=>{
-                            // console.log(" error 航班列表定时器-下一轮更新开始")
-                            getFlightTableData( true );
-                        }, 30*1000);
-                        
-                    }
+                    timerFunc();
+
+                    props.flightTableData.toggleLoad(false, false);
                     resolve("error");
                 } ,
             };
-            requestGet(opt);
+           
+            if( !props.flightTableData.dataLoaded ){
+                requestGet(opt);
+                props.flightTableData.toggleLoad(showLoad, true);
+            }
+            
+            
         })
 
     }, []);
     
 
     useEffect( ()=>{
-        props.flightTableData.toggleLoad(true);
-        getFlightTableData(true);
-        
+        if( isValidVariable(activeSchemeId) ){
+            flightsTimeoutId.current.map( t => {
+                flightsTimeoutId.current = [];
+                clearTimeout(t);
+            })
+            getFlightTableData(true, true);
+        }
     }, [activeSchemeId]);
 
     //监听全局刷新
     useEffect(function(){
         if( pageRefresh && isValidVariable(id) ){
             // console.log("全局刷新开启")
-            props.flightTableData.toggleLoad(true);
+            props.flightTableData.toggleLoad(true, true);
             getFlightTableData( false );
         }
     },[ pageRefresh, id ]);
@@ -469,19 +485,40 @@ function SList (props){
 
     //高亮方案并获取航班数据和KPI数据
     const handleActive = useCallback( debounce( ( id, title, from ) => {
-        // console.time("点击了方案id")
-        // console.log("handleActive 方案")
-        const res = schemeListData.toggleSchemeActive( id+"" );
-        if( res ){
-            //来自客户端定位，滚动到对应位置
-            if( from === "client" ){
-                // 滚动条滚动到顶部
-                const canvas = document.getElementsByClassName("scheme_list_canvas")[0];
-                const boxContent = canvas.getElementsByClassName("list_container")[0];
-                boxContent.scrollTop = 0;
+        console.log("handleActive 方案:",id)
+        if( (!props.flightTableData.dataLoaded) || ( from === "init" ) ){
+            const res = schemeListData.toggleSchemeActive( id+"" );
+            props.systemPage.setLeftNavSelectedName("");
+            if( res ){
+                //来自客户端定位，滚动到对应位置
+                if( from === "client" ){
+                    // 滚动条滚动到顶部
+                    const canvas = document.getElementsByClassName("scheme_list_canvas")[0];
+                    const boxContent = canvas.getElementsByClassName("list_container")[0];
+                    boxContent.scrollTop = 0;
+                }
+            }
+        }else{
+            customNotice({
+                type: 'warning',
+                message: '航班数据请求中,请稍后再试',
+                duration: 10
+            });
+            if( isValidVariable(title) ){
+                message.warning({
+                    content: "暂未获取到方案，方案名称是：" + title ,
+                    duration: 15,
+                });
             }
         }
-    } , 350),[]);
+        
+    } , 500),[]);
+
+    useEffect(() => {
+         if( activeSchemeId === "" && sortedList.length > 0 ){
+            handleActive( sortedList[0].id, "", "init")
+        }
+    }, [sortedList, activeSchemeId])
 
     useEffect(()=>{
         return ()=>{

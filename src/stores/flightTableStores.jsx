@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-03-01 18:07:42
+ * @LastEditTime: 2021-03-03 19:05:36
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -62,8 +62,10 @@ class FlightTableData{
     @observable list = [];
     //数据时间
     @observable generateTime = "";
-    //数据获取状态
+    //是否显示loading
     @observable loading = false;
+    //数据获取状态
+    @observable dataLoaded = false;
     //自动滚动状态
     @observable autoScroll = true;
     //快速查询内容
@@ -75,9 +77,11 @@ class FlightTableData{
     //上一次请求的方案id
     @observable lastSchemeId = "";
     //更新表格loading显示
-    @action toggleLoad( load ){
-        this.loading = load;
+    @action toggleLoad( showLoad, dataLoaded ){
+        this.loading = showLoad;
+        this.dataLoaded = dataLoaded;
     }
+     
     //更新航班数据-
     @action updateFlightsList( newList, generateTime, id ){
         id = id || "";
