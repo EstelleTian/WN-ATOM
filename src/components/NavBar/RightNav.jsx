@@ -1,12 +1,14 @@
 import React,{useState,} from "react";
-import {Modal, Radio, Badge,Button} from "antd";
+import {Modal, Radio, Badge,Button, Avatar} from "antd";
+import { UserOutlined } from '@ant-design/icons'
 import {observer, inject} from "mobx-react";
+import MyApplication from 'components/MyApplication/MyApplication'
 import User from "./User";
 // import WinBtn from "./WinBtn";
 import NavBellNews from "./NavBellNews";
 import './RightNav.scss'
 
-
+let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 function RightNav(props){
     const [myApplicationModalVisible, setMyApplicationModalVisible] = useState(false);
     const groupRightChange = (e) => {
@@ -34,12 +36,13 @@ function RightNav(props){
         setMyApplicationModalVisible(false);
     }
 
-    const { flightTableData, todoList } = props;
+    const { flightTableData, todoList, myApplicationList  } = props;
     const exemptLen = flightTableData.getExemptFlights.length || 0;
     const poolLen = flightTableData.getPoolFlights.length || 0;
     const specialLen = flightTableData.getSpecialFlights.length || 0;
     const expiredLen = flightTableData.getExpiredFlights.length || 0;
     const todoLen = todoList.todos.length || 0;
+    const myApplicationLen = myApplicationList.myApplication.length || 0;
 
     return (
         <div className="layout-nav-right layout-row nav_right">
@@ -120,27 +123,27 @@ function RightNav(props){
             >我的申请
                 <Badge
                     className="site-badge-count-109"
-                    count={ 20 }
+                    count={ myApplicationLen }
                     style={{ backgroundColor: 'rgb(61, 132, 36)' }}
                 />
             </Button>
-
             <Modal
                 title="我的申请"
-                centered
+                // centered
+                style={{ top: 100, height: 800 }}
                 visible={ myApplicationModalVisible }
                 onOk={() => closeMyApplicationModal()}
                 onCancel={() => closeMyApplicationModal()}
-                width={1000}
+                width={(screenWidth > 1920) ? 1280: 1080}
                 // maskClosable={false}
                 destroyOnClose = { true }
                 footer = {
                     <div>
-                        <Button type="primary" onClick={ closeMyApplicationModal }>确认</Button>
+
                     </div>
                 }
             >
-                sdfefef
+                <MyApplication></MyApplication>
             </Modal>
             <Radio.Group value={props.systemPage.rightActiveName} buttonStyle="solid" size="large" onChange={ groupRightChange2 } >
                 <Radio.Button value="scheme">方案列表</Radio.Button>
@@ -154,13 +157,18 @@ function RightNav(props){
                 <Radio.Button value="news"><NavBellNews /></Radio.Button>
             </Radio.Group>*/}
             {/*用户*/}
-            <Radio.Group buttonStyle="solid" size="large">
-                <Radio.Button value="users"><User /></Radio.Button>
-            </Radio.Group>
+            {/*<Radio.Group buttonStyle="solid" size="large">*/}
+                {/*<Radio.Button value="users"><User /></Radio.Button>*/}
+            {/*</Radio.Group>*/}
+            <div className="single_user">
+                <Avatar className="user_icon" icon={<UserOutlined />} />
+                <User />
+            </div>
+
 
 
         </div>
     )
 }
 
-export  default  inject("systemPage", "flightTableData", "todoList")( observer(RightNav))
+export  default  inject("systemPage", "flightTableData", "todoList", "myApplicationList")( observer(RightNav))
