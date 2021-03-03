@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 14:44:03
+ * @LastEditTime: 2021-03-03 16:44:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\NavBar\NavBar.jsx
@@ -31,11 +31,7 @@ function NavBar(props){
                 <div className="layout-nav-left layout-row">
                     <div className="seat ">
                         <Radio.Group defaultValue="a" buttonStyle="solid" size="large" >
-                            <Radio.Button value="a">全部席位</Radio.Button>
-                            <Radio.Button value="b">席位1</Radio.Button>
-                            <Radio.Button value="c">席位2</Radio.Button>
-                            <Radio.Button value="d">席位3</Radio.Button>
-                            <Radio.Button value="e">席位4</Radio.Button>
+                            <Radio.Button value="a">ZLXY</Radio.Button>
                         </Radio.Group>
                     </div>
                     {/*<div className="time-range">*/}

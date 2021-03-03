@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-02-25 13:43:56
+ * @LastEditTime: 2021-03-03 16:52:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -132,17 +132,16 @@ class SchemeListData{
     //激活选中方案，重置其他方案
     @action toggleSchemeActive( id ){
         if( this.activeSchemeId === id ){
-            this.activeSchemeId = "";
+            // this.activeSchemeId = "";
         }else{
             this.activeSchemeId = id;
         }
-       
-        // return res;
     }
 
     @computed get sortedList(){
+        let newList = [];
         if( this.list.length > 0 ){
-            let newList = this.list.slice() .sort( (a,b) => {
+            newList = this.list.slice() .sort( (a,b) => {
                 const data1 = a.tacticTimeInfo.publishTime;
                 const data2 = b.tacticTimeInfo.publishTime;
                 if (isValidVariable(data1) && isValidVariable(data2)) {
@@ -157,10 +156,14 @@ class SchemeListData{
                 }
                 return 0;
             })
-            return newList
         }else{
-            return this.list;
+            newList = this.list;
         }
+
+        if( this.activeSchemeId === "" && this.list.length > 0 ){
+            this.activeSchemeId = newList[0].id
+        }
+        return newList;
 
     }
 }
