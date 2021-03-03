@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-03-01 13:48:29
+ * @LastEditTime: 2021-03-03 15:44:29
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -60,8 +60,7 @@ const scrollTopById = (id, classStr ) => {
 const highlightRowByDom = targetDom => {
     let tClass = targetDom.getAttribute("class");
     const trs = targetDom.parentElement.children;
-    clearHighlightRowByDom(trs);
-    console.log("active_row")
+    clearHighlightRowByDom(trs)
     targetDom.setAttribute("class", tClass+" active_row");  
 }
 

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-01 18:35:46
+ * @LastEditTime: 2021-03-03 14:09:38
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -30,13 +30,14 @@ function TTitle(props){
         const activeScheme = schemeListData.activeScheme(schemeListData.activeSchemeId) || {};
         return activeScheme.tacticName || "";
     }, [schemeListData.activeSchemeId]);
-
-    
-    return (<span className="tactic_title_span">
-        <span>航班列表({ formatTimeString(generateTime) })</span>
-        <span>—</span>
-        <span style={{ color: "#36a5da"}} className="tactic_name">{tacticName}</span>
-    </span>)
+ 
+    return (
+        <span className="tactic_title_span">
+            <span>航班列表({ formatTimeString(generateTime)})</span> 
+            { tacticName !== "" && <span>—</span> }
+            { tacticName !== "" && <span style={{ color: "#36a5da"}} className="tactic_name">{tacticName}</span> }
+        </span>
+    )
 }
 const TableTitle = inject("flightTableData", "schemeListData")(observer(TTitle));
 /** end *****航班表格标题************/
