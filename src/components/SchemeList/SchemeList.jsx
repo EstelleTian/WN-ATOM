@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-03 14:57:45
+ * @LastEditTime: 2021-03-03 16:38:01
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
  * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
@@ -75,6 +75,10 @@ function useSchemeList(props){
                     }
                     //开启定时
                     if( nextRefresh ){
+                        if( isValidVariable(schemeTimeoutId.current) ){
+                            schemeTimeoutId.current = "";
+                            clearTimeout(schemeTimeoutId.current);
+                        }
                         schemeTimeoutId.current = setTimeout( ()=>{
                             // console.log("方案列表定时器-下一轮更新开始")
                             getSchemeList( true );
@@ -91,6 +95,10 @@ function useSchemeList(props){
                     }
                     //开启定时
                     if( nextRefresh ){
+                        if( isValidVariable(schemeTimeoutId.current) ){
+                            schemeTimeoutId.current = "";
+                            clearTimeout(schemeTimeoutId.current);
+                        }
                         schemeTimeoutId.current = setTimeout( ()=>{
                             // console.log("方案列表定时器-下一轮更新开始")
                             getSchemeList( true );
@@ -127,14 +135,14 @@ function useSchemeList(props){
         if( isValidVariable(id) ){
             //获取方案列表--开启下一轮更新
             curStatusValues.current = statusValues;
-            clearTimeout( schemeTimeoutId.current );
-            schemeTimeoutId.current = "";
             props.schemeListData.toggleLoad(true);
             getSchemeList(true);
         }else{
             //没有user id 清定时器
-            clearTimeout( schemeTimeoutId.current );
-            schemeTimeoutId.current = "";
+            if( isValidVariable(schemeTimeoutId.current) ){
+                schemeTimeoutId.current = "";
+                clearTimeout(schemeTimeoutId.current);
+            }
         }
     }, [ id, statusValues ]);
 
@@ -219,7 +227,10 @@ function useFlightsList(props){
                     }
                     //开启定时
                     if( nextRefresh ){
-                        clearTimeout(flightsTimeoutId.current);
+                        if( isValidVariable(flightsTimeoutId.current) ){
+                            flightsTimeoutId.current = "";
+                            clearTimeout(flightsTimeoutId.current);
+                        }
                         flightsTimeoutId.current = setTimeout( ()=>{
                             // console.log(" success 航班列表定时器-下一轮更新开始")
                             getFlightTableData( true );
@@ -235,6 +246,10 @@ function useFlightsList(props){
                     }
                     //开启定时
                     if( nextRefresh ){
+                        if( isValidVariable(flightsTimeoutId.current) ){
+                            flightsTimeoutId.current = "";
+                            clearTimeout(flightsTimeoutId.current);
+                        }
                         flightsTimeoutId.current = setTimeout( ()=>{
                             // console.log(" error 航班列表定时器-下一轮更新开始")
                             getFlightTableData( true );
@@ -252,9 +267,6 @@ function useFlightsList(props){
 
     useEffect( ()=>{
         props.flightTableData.toggleLoad(true);
-        // clearTimeout(flightsTimeoutId.current);
-        // console.log("111 flightsTimeoutId.current:", flightsTimeoutId.current)
-        // flightsTimeoutId.current = "";
         getFlightTableData(true);
         
     }, [activeSchemeId]);
@@ -311,6 +323,10 @@ function useKPIData(props){
                         executeKPIData.toggleLoad(false);
                         //开启定时
                         if( nextRefresh ){
+                            if( isValidVariable(KPITimeoutId.current) ){
+                                KPITimeoutId.current = "";
+                                clearTimeout(KPITimeoutId.current);
+                            }
                             KPITimeoutId.current = setTimeout( ()=>{
                                 // console.log("执行KPI数据 定时器-下一轮更新开始")
                                 getKPIData( true );
@@ -326,6 +342,10 @@ function useKPIData(props){
                         }
                         //开启定时
                         if( nextRefresh ){
+                            if( isValidVariable(KPITimeoutId.current) ){
+                                KPITimeoutId.current = "";
+                                clearTimeout(KPITimeoutId.current);
+                            }
                             KPITimeoutId.current = setTimeout( ()=>{
                                 // console.log("执行KPI数据 定时器-下一轮更新开始")
                                 getKPIData( true );
@@ -343,8 +363,6 @@ function useKPIData(props){
         // console.log("执行KPI数据 activeSchemeId, leftActiveName", activeSchemeId, leftActiveName)
         // && (leftActiveName === "kpi"
         if( isValidVariable(activeSchemeId) ){
-            KPITimeoutId.current = "";
-            clearTimeout(KPITimeoutId.current);
             executeKPIData.toggleLoad(true);
             getKPIData(true);
         }
@@ -467,12 +485,18 @@ function SList (props){
 
     useEffect(()=>{
         return ()=>{
-            schemeTimeoutId.current = "";
-            clearTimeout(schemeTimeoutId.current);
-            flightsTimeoutId.current = "";
-            clearTimeout(flightsTimeoutId.current);
-            KPITimeoutId.current = "";
-            clearTimeout(KPITimeoutId.current);
+            if( isValidVariable(schemeTimeoutId.current) ){
+                schemeTimeoutId.current = "";
+                clearTimeout(schemeTimeoutId.current);
+            }
+            if( isValidVariable(flightsTimeoutId.current) ){
+                flightsTimeoutId.current = "";
+                clearTimeout(flightsTimeoutId.current);
+            }
+            if( isValidVariable(KPITimeoutId.current) ){
+                KPITimeoutId.current = "";
+                clearTimeout(KPITimeoutId.current);
+            }
         }
     },[])
 

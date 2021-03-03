@@ -4,6 +4,7 @@ import { message, Button, Table, Spin } from "antd";
 import { openConfirmFrame, openTimeSlotFrameWithFlightId } from 'utils/client'
 import { requestGet } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
+import { customNotice } from 'utils/common-funcs'
 import { getFullTime, isValidVariable, formatTimeString, millisecondToDate } from 'utils/basic-verify'
 import './WorkFlowContent.scss'
 
@@ -43,19 +44,15 @@ const columns = [
             return (
                 <div className="handler">
                     <div className="handler_1">
-                        <span style={{color: '#ec4747'}}>{text} </span>
+                        <span style={{color: '#d89614'}}>{text} </span>
                             {
-                                isValidVariable(endTime) ? <span className=""  style={{color: 'green'}}>[用时：{ millisecondToDate(durationInMillis) } ]</span> : ""
+                                isValidVariable(endTime) ? <span className=""  style={{color: '#3a9c3a'}}>[用时：{ millisecondToDate(durationInMillis) } ]</span> : ""
                             }
                         
 
                     </div>
                     <div className="handler_2">开始于：{ getFullTime( new Date(startTime), 1 ) }</div>
-                    {
-                        index === 3
-                            ? ""
-                            : <div className="handler_3">结束于：{  isValidVariable(endTime) ? getFullTime(new Date(endTime), 1) : "" }</div>
-                    }
+                    <div className="handler_3">结束于：{  isValidVariable(endTime) ? getFullTime(new Date(endTime), 1) : "" }</div>
 
                 </div>
             )
@@ -156,10 +153,10 @@ const WorkFlowContent = (props) => {
     })
     //请求错误处理
     const requestErr = useCallback((err, content) => {
-        message.error({
-            content,
-            duration: 4,
-        });
+        customNotice({
+            type: 'error',
+            message: content
+        })
     })
     //根据modalId获取工作流详情
     const requestSchemeDetail = useCallback(( modalId ) => {

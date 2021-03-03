@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-03 09:25:23
+ * @LastEditTime: 2021-03-03 15:27:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -25,7 +25,7 @@ function CapacityManagement (props){
         <Layout className="capacity-page">
             {/*<Header>Header</Header>*/}
             <Layout className="capacity-page-layout">
-                <Sider width="360">
+                {/*<Sider width="360">
                     <div className="sider-content">
                         <div className="search-box">
                             <SearchWidget></SearchWidget>
@@ -38,7 +38,7 @@ function CapacityManagement (props){
                             </FilterList>
                         </div>
                     </div>
-                </Sider>
+                </Sider>*/}
                 <Content>
                     <div className="content-wrapper">
                         <CapacityTabs/>

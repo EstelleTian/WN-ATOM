@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 13:58:07
+ * @LastEditTime: 2021-03-03 16:26:46
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -16,7 +16,7 @@ import { ReqUrls, CollaborateIP } from "utils/request-urls";
 import { customNotice } from 'utils/common-funcs'
 import { requestGet, request  } from "utils/request";
 import { getFullTime, getDayTimeFromString, isValidVariable, formatTimeString  } from "utils/basic-verify";
-import { FlightCoordination  } from "utils/flightcoordination";
+import { FlightCoordination, TodoType  } from "utils/flightcoordination";
 import { OptionBtn  } from "./OptionBtn";
 import moment from "moment";
 import './TodoTable.scss';
@@ -326,7 +326,7 @@ const TodoTable = (props) => {
 
     //请求错误处理
     const requestErr = useCallback((err, content) => {
-        notification({
+        customNotice({
             type: "error",
             message: content,
         });
@@ -347,7 +347,7 @@ const TodoTable = (props) => {
            const processVariables = instance.processVariables || {};
            const agree = processVariables.agree || false;
            const flightCoorType = processVariables.flightCoorType || "";
-           const sourceVal = processVariables.sourceVal || "";
+           const sourceVal = processVariables.sourceVal;
            const targetVal = processVariables.targetVal || "";
            const businessName = processVariables.businessName || "";
            const startUserName = instance.startUserName || "";
@@ -417,61 +417,62 @@ const TodoTable = (props) => {
 
         let url = "";
         let title = "";
+        let typeCn = TodoType[flightCoorType] || flightCoorType;
         if(type === "confirm"){
             url = CollaborateIP+"/confirmFlight";
-            title = "发起人确认"
+            title = typeCn+"确认"
         }else if(flightCoorType === "TOBT"){
             if(type === "agree"){
                 //TOBT同意
                 url = CollaborateIP+"/flight/updateTobtApprove";
-                title = "同意TOBT申请"
+                title = "同意"+typeCn
             }else if(type === "refuse"){
                 //TOBT拒绝
                 url = CollaborateIP+"/flight/denyTobtApprove";
-                title = "拒绝TOBT申请"
+                title = "拒绝"+typeCn
             }
         }else if(flightCoorType === "INPOOL"){
             if(type === "agree"){
                 //入等待池同意
                 url = CollaborateIP+"/flightPutPoolConsent";
-                title = "同意入池申请"
+                title = "同意"+typeCn
             }else if(type === "refuse"){
                 //入等待池拒绝
                 url = CollaborateIP+"/flightPutPoolDown";
-                title = "拒绝入池申请"
+                title = "拒绝"+typeCn
             }
         }else if(flightCoorType === "OUTPOOL"){
             if(type === "agree"){
                 //出等待池同意
                 url = CollaborateIP+"/flightOutPoolConsent";
-                title = "同意出池申请"
+                title = "同意"+typeCn
                 //TODO 要验证TOBT和当前时间比较
                 params["type"] = "";
                 params["tobt"] = "";
             }else if(type === "refuse"){
                 //出等待池拒绝
                 url = CollaborateIP+"/flightOutPoolDown";
-                title = "拒绝出池申请"
+                title = "拒绝"+typeCn
             }
         }else if(flightCoorType === "EXEMPT"){
             if(type === "agree"){
                 //豁免同意
                 url = CollaborateIP+"/flightPriorityApproveRest";
-                title = "同意豁免申请"
+                title = "同意"+typeCn
             }else if(type === "refuse"){
                 //豁免拒绝
                 url = CollaborateIP+"/flightPriorityRefuseRest";
-                title = "拒绝豁免申请"
+                title = "拒绝"+typeCn
             }
         }else if(flightCoorType === "UNEXEMPT"){
             if(type === "agree"){
                 //取消豁免同意
                 url = CollaborateIP+"/flightPriorityApproveRest";
-                title = "flightCancelAgree"
+                title = "同意"+typeCn
             }else if(type === "refuse"){
                 //取消豁免拒绝
                 url = CollaborateIP+"/flightCancelRefused";
-                title = "拒绝取消豁免申请"
+                title = "拒绝"+typeCn
             }
         }
 
@@ -540,14 +541,8 @@ const TodoTable = (props) => {
             if( en === "TYPE" ){
                 // tem["fixed"] = 'left'
                 tem["render"] = (text, record, index) => {
-                    let type = text;
-                    switch( text ){
-                        case "EXEMPT": type = "申请豁免"; break;
-                        case "UNEXEMPT": type = "取消申请豁免"; break;
-                        case "INPOOL": type = "申请入池"; break;
-                        case "OUTPOOL": type = "申请出池"; break;
-                        case "TOBT": type = "申请TOBT"; break;
-                    }
+                    let type = TodoType[text] || text;
+
                     return <div title={type}>{ type }</div>;
                 }
             }
@@ -563,7 +558,7 @@ const TodoTable = (props) => {
                 tem["render"] = (text, record, index) => {
                     const { TYPE } = record;
                     if( TYPE === 'TOBT' ){
-                        if( text.length >= 12 && text*1 > 0){
+                        if( isValidVariable(text) && text.length >= 12 && text*1 > 0){
                             return <div title={text}>{getDayTimeFromString(text)}</div>
                         }
                     }else if( TYPE === 'EXEMPT' ||  TYPE === 'UNEXEMPT' ){
@@ -571,7 +566,7 @@ const TodoTable = (props) => {
                     }else if( TYPE === 'INPOOL' ||  TYPE === 'OUTPOOL' ){
                         return <div title={text}>{ FlightCoordination.getPoolStatusZh(text) }</div>
                     }else{
-                        if( text.length >= 12 && text*1 > 0){
+                        if( isValidVariable(text) && text.length >= 12 && text*1 > 0){
                             return <div title={text}>{getDayTimeFromString(text)}</div>
                         }
                     }
@@ -593,7 +588,8 @@ const TodoTable = (props) => {
                     let TOBTFlag = false;
                     if( TYPE === "TOBT" ){
                         const curTime = generateTime.current || 0;
-                        const tobtTime = flight.tobtFiled.value || 0;
+                        const tobtFiled = flight.tobtFiled || {};
+                        const tobtTime = tobtFiled.value || 0;
                         if( isValidVariable(curTime) && isValidVariable(tobtTime) ){
                             if( tobtTime*1 < curTime*1 ){
                                 TOBTFlag = true;
@@ -601,28 +597,32 @@ const TodoTable = (props) => {
                         }
                     }
 
-                    let agreeBtn = function(){
-                        if(agree){
-                            if(TOBTFlag){
-                                return 
-                                <TOBTPop setTobtModalVisible={setTobtModalVisible} record={JSON.parse(OPTIONS)} setTobtFlight={setTobtFlight} >
-                                    <Button size="small" className="todo_opt_btn todo_agree c-btn-blue">同意</Button>
-                                </TOBTPop> 
-                            }else{
-                                return <OptionBtn type="agree" text="同意" callback = {
-                                    (setLoad)=>{ 
-                                        sendResultRequest("agree", text, setLoad) 
-                                    }
-                                } />
-                            }
-                        }
-                        return ""
-                    }
+                    // let agreeBtn = function(){
+                    //     if(agree){
+                    //         if(TOBTFlag){
+                    //             return (
+                    //             <TOBTPop setTobtModalVisible={setTobtModalVisible} record={JSON.parse(OPTIONS)} setTobtFlight={setTobtFlight} >
+                    //                 <Button size="small" className="todo_opt_btn todo_agree c-btn-blue">同意</Button>
+                    //             </TOBTPop> )
+                    //         }else{
+                    //             return ( <OptionBtn type="agree" text="同意" callback = {
+                    //                 (setLoad)=>{ 
+                    //                     sendResultRequest("agree", text, setLoad) 
+                    //                 }
+                    //             } />)
+                    //         }
+                    //     }
+                    //     return ""
+                    // }
                     
                     return (
                         <div style={{ textAlign: 'right'}}>
                         {
-                            agreeBtn()
+                            agree && <OptionBtn type="agree" text="同意" callback = {
+                                (setLoad)=>{ 
+                                    sendResultRequest("agree", text, setLoad) 
+                                }
+                            } />
                         }
                         {
                             refuse ?<OptionBtn type="refuse" text="拒绝" callback = {

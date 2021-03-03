@@ -1542,5 +1542,13 @@ const FmeStatusList = {
     "6": "CNL"
 };
 
+//待办航班列表-待办类型
+const TodoType = {
+    "EXEMPT": "申请豁免",
+    "UNEXEMPT": "取消申请豁免",
+    "INPOOL": "申请入池",
+    "OUTPOOL": "申请出池",
+    "TOBT": "申请TOBT",
+};
 
-export { FlightCoordination, AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList, };
+export { FlightCoordination, AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList, TodoType };
