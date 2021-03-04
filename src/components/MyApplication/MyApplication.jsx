@@ -98,6 +98,15 @@ const MyApplication = (props) => {
     const updateFilterTimeRange = (value)=> {
         props.myApplicationList.setFilterTimeRange(value)
     }
+    useEffect(function(){
+        return function(){
+            if(myApplicationList.filterKey){
+                // 清空快速过滤关键字
+                props.myApplicationList.setFilterKey("")
+            }
+            
+        }
+    },[]);
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <div className="advanced-search-filters">

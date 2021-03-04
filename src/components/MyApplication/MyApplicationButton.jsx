@@ -42,6 +42,8 @@ const MyApplicationButton = (props) => {
      * */
     const closeMyApplicationModal = (e) => {
         setMyApplicationModalVisible(false);
+        // 清空快速过滤关键字
+        // props.myApplicationList.setFilterKey("")
     };
     //请求错误处理
     const requestErr = useCallback((err, content) => {
@@ -144,6 +146,7 @@ const MyApplicationButton = (props) => {
                 width={(screenWidth > 1920) ? 1280: 1080}
                 maskClosable={false}
                 mask={false}
+                // destroyOnClose设置为true,每次打开模态框子组件挂载，关闭模态框子组件卸载 
                 destroyOnClose = { true }
                 footer = {
                     <div className="modal-footer my-application-list">
