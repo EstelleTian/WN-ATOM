@@ -23,15 +23,45 @@ class MyApplicationList {
     //定时器
     @observable timeoutId = "";
 
+    //过滤关键字
+    @observable filterKey = "";
+    //过滤时间范围
+    @observable filterTimeRange = "";
+
     //更新待办列表数据
     @action updateMyApplicationListData( data ){
         this.myApplication = data;
+    }
+    @action updateGenerateTime( time ){
+        this.generateTime = time;
     }
     //更新loading状态
     @action toggleLoad( load ){
         this.loading = load;
     }
+    //更新过滤关键字
+    @action setFilterKey( key ){
+        this.filterKey = key;
+    }
+    //更新过滤关键字
+    @action setFilterTimeRange(timeRange){
+        this.filterTimeRange = timeRange;
+    }
 
+    @computed get filterData () {
+        const mapKey = (item) =>{
+            for(const name in item ){
+                let val = item[name] || "";
+                val = val.toString().toUpperCase();
+                if(val.includes(this.filterKey)){
+                    return true;
+                }
+            }
+            return false
+        };
+        let filterData = this.myApplication.filter(item => mapKey(item));
+        return filterData;
+    }
 }
 
 let myApplicationList = new MyApplicationList();

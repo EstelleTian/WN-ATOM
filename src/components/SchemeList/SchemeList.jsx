@@ -1,6 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
+ * @LastEditTime: 2021-03-03 21:40:35
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -78,6 +79,7 @@ function useSchemeList(props){
                         if( isValidVariable(schemeTimeoutId.current) ){
                             clearTimeout(schemeTimeoutId.current);
                             schemeTimeoutId.current = "";
+                            clearTimeout(schemeTimeoutId.current);
                         }
                         schemeTimeoutId.current = setTimeout( ()=>{
                             // console.log("方案列表定时器-下一轮更新开始")
@@ -98,6 +100,7 @@ function useSchemeList(props){
                         if( isValidVariable(schemeTimeoutId.current) ){
                             clearTimeout(schemeTimeoutId.current);
                             schemeTimeoutId.current = "";
+                            clearTimeout(schemeTimeoutId.current);
                         }
                         schemeTimeoutId.current = setTimeout( ()=>{
                             // console.log("方案列表定时器-下一轮更新开始")
@@ -142,6 +145,7 @@ function useSchemeList(props){
             if( isValidVariable(schemeTimeoutId.current) ){
                 clearTimeout(schemeTimeoutId.current);
                 schemeTimeoutId.current = "";
+                clearTimeout(schemeTimeoutId.current);
             }
         }
     }, [ id, statusValues ]);
@@ -226,11 +230,13 @@ function useFlightsList(props){
             } 
             let reqId = activeSchemeId;
             if( activeSchemeId.indexOf("focus") > -1 ){
+                activeSchemeId = "";
                 reqId = "";
             }
             params = {
                 startTime: baseTime + '000000',
                 endTime: baseTime+'235900',
+                id: activeSchemeId
                 id: reqId
             };
             const timerFunc = function(){
@@ -239,8 +245,11 @@ function useFlightsList(props){
                     if( isValidVariable(flightsTimeoutId.current) ){
                         // console.log(" success 航班列表定时器-清理:"+flightsTimeoutId.current)
                         flightsTimeoutId.current.map( t => {
+                            flightsTimeoutId.current = [];
                             clearTimeout(t);
                         })
+                        
+                        
                         flightsTimeoutId.current = [];
                     }
                     const timer = setTimeout( ()=>{
@@ -248,6 +257,7 @@ function useFlightsList(props){
                             // console.log(" success 航班列表定时器-执行:"+flightsTimeoutId.current)
                             getFlightTableData( true );
                         }
+                    }, 30*1000);
                     }, 10*1000);
                     flightsTimeoutId.current.push(timer);
                 }
@@ -292,6 +302,7 @@ function useFlightsList(props){
     useEffect( ()=>{
         if( isValidVariable(activeSchemeId) ){
             flightsTimeoutId.current.map( t => {
+                flightsTimeoutId.current = [];
                 clearTimeout(t);
             })
             flightsTimeoutId.current = [];
@@ -367,6 +378,7 @@ function useKPIData(props){
                             if( isValidVariable(KPITimeoutId.current) ){
                                 clearTimeout(KPITimeoutId.current);
                                 KPITimeoutId.current = "";
+                                clearTimeout(KPITimeoutId.current);
                             }
                             KPITimeoutId.current = setTimeout( ()=>{
                                 // console.log("执行KPI数据 定时器-下一轮更新开始")
@@ -386,6 +398,7 @@ function useKPIData(props){
                             if( isValidVariable(KPITimeoutId.current) ){
                                 clearTimeout(KPITimeoutId.current);
                                 KPITimeoutId.current = "";
+                                clearTimeout(KPITimeoutId.current);
                             }
                             KPITimeoutId.current = setTimeout( ()=>{
                                 // console.log("执行KPI数据 定时器-下一轮更新开始")
@@ -553,7 +566,38 @@ function SList (props){
         }
     }, [sortedList, activeSchemeId])
 
+    useEffect(()=>{
+        return ()=>{
+            if( isValidVariable(schemeTimeoutId.current) ){
+                schemeTimeoutId.current = "";
+                clearTimeout(schemeTimeoutId.current);
+            }
+            if( isValidVariable(flightsTimeoutId.current) ){
+                flightsTimeoutId.current = "";
+                clearTimeout(flightsTimeoutId.current);
+            }
+            if( isValidVariable(KPITimeoutId.current) ){
+                KPITimeoutId.current = "";
+                clearTimeout(KPITimeoutId.current);
+            }
+        }
+    },[])
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // console.log("方案列表 render")
    
