@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 18:04:52
+ * @LastEditTime: 2021-03-04 17:20:56
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -243,6 +243,11 @@ const names = {
         "cn":"航班号",
         width: (screenWidth > 1920) ? 125 : 90,
     },
+    "DEPAP":{
+        "en":"DEPAP",
+        "cn":"起飞机场",
+        width: 110,
+    },
     "TYPE":{
         "en":"TYPE",
         "cn":"待办类型",
@@ -258,39 +263,34 @@ const names = {
         "cn":"协调值",
         width: (screenWidth > 1920) ? 100 : 90,
     },
-    "USER":{
-        "en":"USER",
-        "cn":"发起人",
-        width: (screenWidth > 1920) ? 210 : 180,
-    },
     "TIMESTAMP":{
         "en":"TIMESTAMP",
-        "cn":"发起时间",
+        "cn":"提交时间",
         width: 110,
     },
-    "COMMENT":{
-        "en":"COMMENT",
-        "cn":"备注",
-        width: (screenWidth > 1920) ? 260 : 220,
+    "USER":{
+        "en":"USER",
+        "cn":"提交人",
+        width: (screenWidth > 1920) ? 210 : 180,
     },
-    
 }
 const TodoTable = (props) => {
     const [tableWidth, setWidth] = useState(0);
     const [tableHeight, setHeight] = useState(0);
-    const [ loading, setLoading ] = useState(false);
 
     const [ tobtModalVisible, setTobtModalVisible] = useState(false); //TOBT修改确认框
     const [ tobtFlight, setTobtFlight] = useState({}); //TOBT record
     
-    const [ refreshBtnLoading, setRefreshBtnLoading ] = useState(false);
+    // const [ refreshBtnLoading, setRefreshBtnLoading ] = useState(false);
     
     const generateTime = useRef(0);
-    const timerId = useRef();
+
     const tableTotalWidth = useRef();
 
-    const user = props.systemPage.user || {};
+    const { systemPage = {}, todoList } = props;
+    const user = systemPage.user || {};
     const userId = user.id || '';
+    const loading = todoList.loading || '';
 
 
     //获取待办工作请求
@@ -299,7 +299,7 @@ const TodoTable = (props) => {
             return;
         }
         if( triggerLoading ){
-            setLoading(true);
+            todoList.toggleLoad(true);
         }
        
         let url = ReqUrls.todoListUrl+user.username;
@@ -311,13 +311,13 @@ const TodoTable = (props) => {
                 
                 //更新工作流数据
                 handleTasksData(data);
-                setLoading(false);
-                setRefreshBtnLoading(false);
+                todoList.toggleLoad(false);
+                // setRefreshBtnLoading(false);
             },
             errFunc: (err)=> {
                 requestErr(err, '待办工作数据获取失败' );
-                setLoading(false);
-                setRefreshBtnLoading(false);
+                todoList.toggleLoad(false);
+                // setRefreshBtnLoading(false);
 
             },
         };
@@ -343,6 +343,7 @@ const TodoTable = (props) => {
            const flight = backLogTask.flight || {};
            const authorities = backLogTask.authorities || {};
            const flightid = flight.flightid || "";
+           const depap = flight.depap || "";
            const instance = backLogTask.instance || {};
            const processVariables = instance.processVariables || {};
            const agree = processVariables.agree || false;
@@ -372,6 +373,7 @@ const TodoTable = (props) => {
                 VALUE: targetVal,
                 USER: startUserName,
                 TIMESTAMP: startTime,
+                DEPAP: depap,
                 COMMENT: businessName,
                 OPTIONS: JSON.stringify(options),    
             }
@@ -660,16 +662,16 @@ const TodoTable = (props) => {
         return columns;
     }, []);
 
-    useEffect(()=>{
-        requestDatas(true);
-        timerId.current = setInterval(()=>{
-            requestDatas(false);
-        }, 60*1000);
-        return () => {
-            clearInterval(timerId.current)
-            timerId.current = null;
-        }
-    },[])
+    // useEffect(()=>{
+    //     requestDatas(true);
+    //     timerId.current = setInterval(()=>{
+    //         requestDatas(false);
+    //     }, 60*1000);
+    //     return () => {
+    //         clearInterval(timerId.current)
+    //         timerId.current = null;
+    //     }
+    // },[])
 
     useEffect(() => {
         const flightCanvas = document.getElementsByClassName("todo_canvas")[0];

@@ -65,6 +65,10 @@
 .layout-nav-left, .layout-nav-right {
     padding-left: 10px;
     padding-right: 10px;
+    .nav_btn{
+        position: relative;
+        top: 2px;
+    }
 }
 .nav_right{
     float: right;

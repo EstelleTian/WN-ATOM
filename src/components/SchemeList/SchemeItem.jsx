@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, memo } from 'react'
 import {  observer } from 'mobx-react'
 import ReactDom from "react-dom";
 import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
@@ -7,7 +7,7 @@ import { handleStopControl } from 'utils/client'
 import { Window as WindowDHX } from "dhx-suite";
 import { openBaseSchemeFrame } from "utils/client"
 import WorkFlowContent from "components/WorkFlow/WorkFlowContent";
-import {Tooltip,Menu, Dropdown  } from 'antd'
+import { Tag, Menu, Dropdown  } from 'antd'
 import { DownOutlined } from '@ant-design/icons';
 
 //获取屏幕宽度，适配 2k
@@ -48,6 +48,42 @@ const convertSatus = (status) => {
     }
     return newStatus;
 }
+
+const SummaryCell = memo(( {
+    publishTime,
+    createTime,
+    basicTacticInfoReasonZh,
+    basicTacticInfoRemark
+} ) => {
+    const [ visible, setVisible ] = useState( false );
+
+    const handleVisibleChange = flag => {
+        setVisible(flag);
+    };
+    
+    const menu = (
+        <Menu>
+          <Menu.Item key="2">创建时间: {getTimeFromString(createTime)}</Menu.Item>
+          <Menu.Item key="3">原因: {basicTacticInfoReasonZh}</Menu.Item>
+          <Menu.Item key="4">备注: {basicTacticInfoRemark}</Menu.Item>
+        </Menu>
+      );
+      return (
+        <Dropdown
+            overlay={menu}
+            onVisibleChange={handleVisibleChange}
+            visible={visible}
+        >
+            <span className="ant-dropdown-link">
+                <span style={{
+                    padding: '0 10px',
+                    fontSize: '0.8rem',
+                }}>发布时间:</span>{getTimeFromString(publishTime)} <DownOutlined />
+            </span>
+        </Dropdown>
+      )
+
+})
 
 //单条方案
 function SchemeItem(props){
@@ -156,15 +192,7 @@ function SchemeItem(props){
 
     },[window]);
 
-    let summaryText = `发布时间:${getTimeFromString(publishTime)} 创建时间:${getTimeFromString(createTime)} 原因:${basicTacticInfoReasonZh} 备注: ${basicTacticInfoRemark}`;
-    let summaryTextForTootip = useCallback(()=>(
-        <div className="scheme-summary">
-            <p>发布时间: {getTimeFromString(publishTime)} </p>
-            <p>创建时间: {getTimeFromString(createTime)}</p>
-            <p>原因: {basicTacticInfoReasonZh} </p>
-            <p>备注: {basicTacticInfoRemark}</p>
-        </div>
-    ), [publishTime, createTime, basicTacticInfoReasonZh, basicTacticInfoRemark ]);
+
 
     const menu = (
         <Menu>
@@ -210,31 +238,24 @@ function SchemeItem(props){
                         </div>
                         <div className="layout-row">
                             <div className="column-box">
-                                <div className="cell" title={`限制值: ${interVal}`}>{interVal}</div>
+                                <div className="cell" style={{ color: '#f5f5f5'}} title={`限制值: ${interVal}`}>{interVal}</div>
                             </div>
                             <div className="column-box">
-                                <div className="cell" title={`基准单元: ${targetUnits}`}>{targetUnits}</div>
+                                <div className="cell" style={{ color: '#f5f5f5'}} title={`基准单元: ${targetUnits}`}>{targetUnits}</div>
                             </div>
-                            {/*<div className="column-box">*/}
-                            {/*    <div className="cell" title={`后续单元: ${behindUnits} `}>{behindUnits}</div>*/}
-                            {/*</div>*/}
                         </div>
                     </div>
 
                 </div>
             </div>
             <div className="layout-row">
-                <div className="left-column">
-                    <div className="summary">
-                        <Tooltip
-                            placement="left"
-                            destroyTooltipOnHide={true}
-                            title={summaryTextForTootip()}>
-                            <div className="cell">
-                                <span>{summaryText}</span>
-                            </div>
-                        </Tooltip>
-                    </div>
+                <div className="summary">
+                    <SummaryCell 
+                        publishTime= {publishTime}
+                        createTime= {createTime}
+                        basicTacticInfoReasonZh= {basicTacticInfoReasonZh}
+                        basicTacticInfoRemark= {basicTacticInfoRemark}
+                    />
                 </div>
                 <div className="right-column2">
                     <div className="options-box layout-row">
@@ -256,7 +277,6 @@ function SchemeItem(props){
                             e.stopPropagation();
                         }
                         }>终止</div>
-                    
                         {
                             // (screenWidth > 1920)
                             // ? <div className="opt" onClick={ showModify}>调整</div>
@@ -274,28 +294,7 @@ function SchemeItem(props){
 
                 </div>
             </div>
-            {/*<Row>*/}
-            {/*<Col span={14}>{tacticName}</Col>*/}
-            {/*<Col span={5}>{tacticPublishUnit}</Col>*/}
-            {/*<Col span={5}>{getTimeFromString(startTime)} - {getTimeFromString(endTime)}</Col>*/}
-            {/*</Row>*/}
-            {/*<Row>*/}
-            {/*<Col span={8}>{ convertSatus(tacticStatus) } - { startCalculateTime == "" ? "计算中" : "已计算"}</Col>*/}
-            {/*<Col span={5}>{restrictionMITValue}</Col>*/}
-            {/*<Col span={5}>{targetUnits}</Col>*/}
-            {/*<Col span={6}>{behindUnits}</Col>*/}
-            {/*</Row>*/}
-            {/*<Row>*/}
-            {/*<Col span={18}>*/}
-            {/*创建时间:<span>{getTimeFromString(publishTime)}</span>*/}
-            {/*原因:<span>{basicTacticInfoReason}</span>*/}
-            {/*备注:<span>{basicTacticInfoRemark}</span>*/}
-            {/*</Col>*/}
-            {/*<Col span={6}>*/}
-            {/*/!*<span className="opt detail">详情</span>*!/*/}
-            {/*<span className="opt effect">影响</span>*/}
-            {/*</Col>*/}
-            {/*</Row>*/}
+            
         </div>
     )
 }

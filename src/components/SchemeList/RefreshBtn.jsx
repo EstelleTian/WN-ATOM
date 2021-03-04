@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-03 09:28:13
+ * @LastEditTime: 2021-03-04 17:01:25
  * @LastEditors: Please set LastEditors
  * @Description:  全局刷新按钮
  * @FilePath: RefreshBtn.jsx
@@ -22,7 +22,7 @@ function RefreshBtn(props){
         <Button
             icon={<RedoOutlined />}
             size="large"
-            // style={{fontSize: "0.75rem"}}
+            className="nav_btn"
             onClick={() => {
                 pageRefresh()
             }}>

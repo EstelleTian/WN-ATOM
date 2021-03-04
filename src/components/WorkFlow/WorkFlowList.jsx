@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-23 16:13:01
+ * @LastEditTime: 2021-03-04 17:54:38
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -123,9 +123,6 @@ function WorkFlowList(props){
     const [ searchVal, setSearchVal ] = useState("");
     const [ loading, setLoading ] = useState(false);
     const [ refreshBtnLoading, setRefreshBtnLoading ] = useState(false);
-    const [ workFlowModalId, setWorkFlowModalId ] = useState(""); //当前选中工作流工作流的id，不一定和激活工作流id一样
-
-    const [ expandable, setExpandable ] = useState(false);
 
     const timerId = useRef();
 
@@ -149,10 +146,6 @@ function WorkFlowList(props){
         if( isValidVariable(user) ){
             props.systemPage.setUserData( JSON.parse(user) );
         }
-        // else{
-        //     props.history.push('/')
-        // }
-
     }, []);
     const commonColumns = [
         {
@@ -160,38 +153,25 @@ function WorkFlowList(props){
         dataIndex: "sid",
         align: 'center',
         key: "sid",
-        width: (screenWidth > 1920) ? 35 : 35,
+        width: 35,
     },
         {
             title: "工作名称",
             dataIndex: "businessName",
             align: 'left',
             key: "businessName",
-            width: (screenWidth > 1920) ? 150 : 150, 
+            width: 150, 
         
 
-        },
-        {
-            title: "我经办的步骤",
-            dataIndex: "steps",
+        },{
+            title: "流程类型",
+            dataIndex: "type",
             align: 'left',
-            key: "steps",
-            // width: (screenWidth > 1920) ? 70 : 70,
-            width: (screenWidth > 1920) ? 70 : 70,
-            // render: (text, record, index) => {
-            //     return (
-            //         <div className="steps_cell">{text}</div>
-            //     )
-            // }
+            key: "type",
+            width: 70, 
+        },
 
-        },
-        {
-            title: "发起人",
-            dataIndex: "userNameCn",
-            align: 'left',
-            key: "userNameCn",
-            width: (screenWidth > 1920) ? 60 : 60,
-        }];
+    ];
 
     const optColumn = {
         title: "操作",
@@ -217,14 +197,21 @@ function WorkFlowList(props){
 
     //办结列配置
     const finishedColumns = [
+        optColumn,
         ...commonColumns,
+        {
+            title: "我已办结",
+            dataIndex: "finishedName",
+            align: 'left',
+            key: "finishedName",
+            width: 70, 
+        },
         {
             title: "办结时间",
             dataIndex: "createTime",
-
             align: 'center',
             key: "createTime",
-            width: (screenWidth > 1920) ? 70 : 70,
+            width: 70,
             showSorterTooltip: false,
             defaultSortOrder: 'descend',
             sorter: (a, b) => {
@@ -236,19 +223,21 @@ function WorkFlowList(props){
                 }else {
                     return getFullTime(new Date(text), 1)
                 }
-                // if( text === "" ){
-                //     return <span>{text}</span>
-                // }else {
-                //     return <span title={`${getFullTime(new Date(text), 1)}`}>{getFullTime(new Date(text), 2)}</span>
-                // }
             }
         },
         {
-            title: "流程状态",
+            title: "提交人",
+            dataIndex: "userNameCn",
+            align: 'left',
+            key: "userNameCn",
+            width:60,
+        },
+        {
+            title: "工作状态",
             dataIndex: "taskStatus",
             align: 'center',
             key: "taskStatus",
-            width: (screenWidth > 1920) ? 40 : 40,
+            width: 40,
             render: (text, record, index) => {
                 let textClass = ""
                 if(text === "已结束"){
@@ -264,32 +253,40 @@ function WorkFlowList(props){
                 )
             }
         },
-        optColumn,
+        {
+            title: "工作所处环节",
+            dataIndex: "taskStatusName",
+            align: 'center',
+            key: "taskStatusName",
+            width: 60,
+            render: (text, record, index) => {
+                return text
+            }
+        },
+        
 
     ];
     //待办列配置
     const todoColumns = [
+        optColumn,
         ...commonColumns,
         {
-            title: "状态", //没有结束时间 为进行中 HisProcessInstance.endTime
-            dataIndex: "taskStatus",
-            align: 'center',
-            key: "taskStatus",
-            width: (screenWidth > 1920) ? 40 : 40,
-            render: (text, record, index) => {
-                let textClass = ""
-                if(text === "处理中"){
-                    textClass = "green";
-                }
-                return (
-                    <span style={{ color: textClass}}>
-                        {text}
-                    </span>
-                )
-            }
+            title: "待办环节",
+            dataIndex: "steps",
+            align: 'left',
+            key: "steps",
+            width: 80,
         },
         {
-            title: "到达时间",
+            title: "提交人",
+            dataIndex: "userNameCn",
+            align: 'left',
+            key: "userNameCn",
+            width:60,
+        },
+    
+        {
+            title: "任务到达时间",
             dataIndex: "createTime",
             align: 'center',
             key: "createTime",
@@ -298,31 +295,15 @@ function WorkFlowList(props){
             sorter: (a, b) => {
                 return a.createTime - b.createTime
             },
-            width: (screenWidth > 1920) ? 70 : 70,
+            width: 70,
             render: (text, record, index) => {
                 if( text === "" ){
                     return text
                 }else {
-                    return getFullTime(new Date(text), 1)
+                    return <span>{getFullTime(new Date(text), 1)}</span>
                 }
             }
-        },
-        // {
-        //     title: "已停留",
-        //     dataIndex: "stopTime",
-        //     align: 'center',
-        //     key: "stopTime",
-        //     width: (screenWidth > 1920) ? 60 : 40,
-        //     render: (text, record, index) => {
-        //         if( text === "" ){
-        //             return text
-        //         }else {
-        //             return getFullTime(new Date(text), 1)
-        //         }
-        //     }
-        // },
-        optColumn,
-
+        }
     ];
     //办结数据转换
     const convertFinishedData = useCallback((tasks) => {
@@ -335,12 +316,9 @@ function WorkFlowList(props){
             const processVariables = hisInstance.processVariables || {};
             let businessName = processVariables.businessName || ""; //工作名称
             const processDefinitionName = hisInstance.processDefinitionName || ""; 
-            businessName = processDefinitionName + "("+businessName+")";
-            if(businessName === "()"){
-                businessName = "";
-            }
 
-            const userNameCn = processVariables.userNameCn || ""; //发起人
+            const userNameCn = hisInstance.startUserName || ""; //提交人
+            const taskStatusName = hisInstance.activityName || ""; //工作所处环节
             let taskStatus = "进行中"; //流程状态
             if( isValidVariable(hisInstance.endTime) ){
                 taskStatus = "已结束"
@@ -354,22 +332,25 @@ function WorkFlowList(props){
                 const hitem = hisTasks[hid] || {};
                 const name = hitem.name || "";
 
-                
-                let endTime;
+                let endTime = "";
+                let finishedName = "";
                 if( hisTasksLen > 0 ){
-                    let lastTaskKey = hisTasksKeys[hisTasksLen-1];
-                    
-                    endTime = hisTasks[lastTaskKey].endTime || "";
+                    const lastTaskKey = hisTasksKeys[hisTasksLen-1];
+                    const lastTask = hisTasks[lastTaskKey] || {};
+                    endTime = lastTask.endTime || "";
+                    finishedName = lastTask.name || "";
                 }
                 let obj = {
                     key: sid,
                     sid: sid,
                     businessName,
-                    // steps: "第"+(hisTasksLen)+"步:"+name,
+                    finishedName,
+                    type:processDefinitionName,
                     steps: name,
                     userNameCn,
                     createTime: endTime,
                     taskStatus,
+                    taskStatusName,
                     opt: "",
                     orgdata: JSON.stringify( item )
                 };
@@ -389,11 +370,11 @@ function WorkFlowList(props){
             const processVariables = instance.processVariables || {};
             let businessName = processVariables.businessName || ""; //工作名称
             const processDefinitionName = instance.processDefinitionName || ""; 
-            businessName = processDefinitionName + "("+businessName+")";
-            if(businessName === "()"){
-                businessName = "";
-            }
-            const userNameCn = processVariables.userNameCn || ""; //发起人
+            // businessName = processDefinitionName + "("+businessName+")";
+            // if(businessName === "()"){
+            //     businessName = "";
+            // }
+            const userNameCn = instance.startUserName || ""; //发起人
             let taskStatus = "处理中"; //流程状态
             //获取第一个hisTasks对象
             const hisTasksKeys = Object.keys( instanceTasks );
@@ -408,7 +389,7 @@ function WorkFlowList(props){
                     key: sid,
                     sid: sid,
                     businessName,
-                    // steps: "第"+(hisTasksLen)+"步:"+name,
+                    type: processDefinitionName,
                     steps: name,
                     userNameCn,
                     createTime,
@@ -556,6 +537,12 @@ function WorkFlowList(props){
     // } );
 
     let columns = getColumns();
+    useEffect(() => {
+        
+        return () => {
+            console.log(11111)
+        }
+    }, [])
     
     return (
         <div className="work_cont">
