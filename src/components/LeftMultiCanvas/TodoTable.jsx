@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-04 14:25:08
+ * @LastEditTime: 2021-03-04 17:20:56
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -277,19 +277,20 @@ const names = {
 const TodoTable = (props) => {
     const [tableWidth, setWidth] = useState(0);
     const [tableHeight, setHeight] = useState(0);
-    const [ loading, setLoading ] = useState(false);
 
     const [ tobtModalVisible, setTobtModalVisible] = useState(false); //TOBT修改确认框
     const [ tobtFlight, setTobtFlight] = useState({}); //TOBT record
     
-    const [ refreshBtnLoading, setRefreshBtnLoading ] = useState(false);
+    // const [ refreshBtnLoading, setRefreshBtnLoading ] = useState(false);
     
     const generateTime = useRef(0);
-    const timerId = useRef();
+
     const tableTotalWidth = useRef();
 
-    const user = props.systemPage.user || {};
+    const { systemPage = {}, todoList } = props;
+    const user = systemPage.user || {};
     const userId = user.id || '';
+    const loading = todoList.loading || '';
 
 
     //获取待办工作请求
@@ -298,7 +299,7 @@ const TodoTable = (props) => {
             return;
         }
         if( triggerLoading ){
-            setLoading(true);
+            todoList.toggleLoad(true);
         }
        
         let url = ReqUrls.todoListUrl+user.username;
@@ -310,13 +311,13 @@ const TodoTable = (props) => {
                 
                 //更新工作流数据
                 handleTasksData(data);
-                setLoading(false);
-                setRefreshBtnLoading(false);
+                todoList.toggleLoad(false);
+                // setRefreshBtnLoading(false);
             },
             errFunc: (err)=> {
                 requestErr(err, '待办工作数据获取失败' );
-                setLoading(false);
-                setRefreshBtnLoading(false);
+                todoList.toggleLoad(false);
+                // setRefreshBtnLoading(false);
 
             },
         };
@@ -661,16 +662,16 @@ const TodoTable = (props) => {
         return columns;
     }, []);
 
-    useEffect(()=>{
-        requestDatas(true);
-        timerId.current = setInterval(()=>{
-            requestDatas(false);
-        }, 60*1000);
-        return () => {
-            clearInterval(timerId.current)
-            timerId.current = null;
-        }
-    },[])
+    // useEffect(()=>{
+    //     requestDatas(true);
+    //     timerId.current = setInterval(()=>{
+    //         requestDatas(false);
+    //     }, 60*1000);
+    //     return () => {
+    //         clearInterval(timerId.current)
+    //         timerId.current = null;
+    //     }
+    // },[])
 
     useEffect(() => {
         const flightCanvas = document.getElementsByClassName("todo_canvas")[0];

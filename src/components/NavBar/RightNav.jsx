@@ -1,18 +1,15 @@
-import React,{useState,} from "react";
-import {Modal, Radio, Badge,Button, Avatar} from "antd";
-import { UserOutlined, SearchOutlined, RedoOutlined } from '@ant-design/icons'
+import React from "react";
+import { Radio, Badge,Button, Avatar} from "antd";
+import { UserOutlined, SearchOutlined } from '@ant-design/icons'
 import {observer, inject} from "mobx-react";
-import DraggableModal from 'components/DraggableModal/DraggableModal'
+import TodoNav from './TodoNav'
 import RefreshBtn from "components/SchemeList/RefreshBtn";
 import MyApplicationButton from "components/MyApplication/MyApplicationButton";
 import User from "./User";
-// import WinBtn from "./WinBtn";
-import NavBellNews from "./NavBellNews";
 import './RightNav.scss'
 
-let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
+
 function RightNav(props){
-    const [myApplicationModalVisible, setMyApplicationModalVisible] = useState(false);
     const groupRightChange = (e) => {
         const value = e.target.value;
         props.systemPage.setLeftActiveName(value);
@@ -23,32 +20,23 @@ function RightNav(props){
         props.systemPage.setRightActiveName(value);
         console.log(e.target.value)
     }
-    /**
-     * 显示【我的申请】模态框
-     * */
-    const showMyApplicationModal = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        setMyApplicationModalVisible(true);
-    }
-    /**
-     * 关闭【我的申请】模态框
-     * */
-    const closeMyApplicationModal = (e) => {
-        setMyApplicationModalVisible(false);
-    }
 
-    const { flightTableData, todoList, myApplicationList  } = props;
+    const { flightTableData } = props;
     const exemptLen = flightTableData.getExemptFlights.length || 0;
     const poolLen = flightTableData.getPoolFlights.length || 0;
     const specialLen = flightTableData.getSpecialFlights.length || 0;
     const expiredLen = flightTableData.getExpiredFlights.length || 0;
-    const todoLen = todoList.todos.length || 0;
-    const myApplicationLen = myApplicationList.myApplication.length || 0;
 
     return (
         <div className="layout-nav-right layout-row nav_right">
             <div className="radio-area">
+                <RefreshBtn />
+                <Button
+                    type="default"
+                    size="large"
+                    className="nav_btn"
+                    icon={<SearchOutlined />}
+                >航班查询 </Button>
                 <Radio.Group value={props.systemPage.leftActiveName} buttonStyle="solid" size="large" onChange={ groupRightChange } >
                     <Radio.Button value="kpi">执行KPI</Radio.Button>
                     <Radio.Button value="exempt">
@@ -100,22 +88,7 @@ function RightNav(props){
                                 : ""
                         }
                     </Radio.Button>
-                    <Radio.Button value="todo">
-                        待办事项
-                        {
-                            todoLen > 0 ?
-                                <Badge
-                                    className="site-badge-count-109"
-                                    count={ todoLen }
-                                    style={{ backgroundColor: 'rgb(61, 132, 36)' }}
-                                />
-                                : ""
-                        }
-                    </Radio.Button>
-
-
-                    {/*<WinBtn btnTitle="豁免航班" type="exempt" />*/}
-                    {/*<WinBtn btnTitle="等待池" type="pool" />*/}
+                    <TodoNav />
                 </Radio.Group>
             </div>
             <MyApplicationButton />
@@ -127,22 +100,6 @@ function RightNav(props){
             <Radio.Group buttonStyle="solid" size="large">
                 <Radio.Button value="system">参数设置</Radio.Button>
             </Radio.Group>
-            <Button
-                type="default"
-                size="large"
-                icon={<SearchOutlined />}
-                // onClick={showMyApplicationModal}
-            >航班查询 </Button>
-            <RefreshBtn />
-
-            {/*消息*/}
-            {/*<Radio.Group buttonStyle="solid" size="large">
-                <Radio.Button value="news"><NavBellNews /></Radio.Button>
-            </Radio.Group>*/}
-            {/*用户*/}
-            {/*<Radio.Group buttonStyle="solid" size="large">*/}
-                {/*<Radio.Button value="users"><User /></Radio.Button>*/}
-            {/*</Radio.Group>*/}
             <div className="single_user">
                 <Avatar className="user_icon" icon={<UserOutlined />} />
                 <User />
@@ -154,4 +111,4 @@ function RightNav(props){
     )
 }
 
-export  default  inject("systemPage", "flightTableData", "todoList", "myApplicationList")( observer(RightNav))
+export  default  inject("systemPage", "flightTableData")( observer(RightNav))

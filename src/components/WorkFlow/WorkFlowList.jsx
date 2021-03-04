@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-04 15:15:16
+ * @LastEditTime: 2021-03-04 17:54:38
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -316,12 +316,9 @@ function WorkFlowList(props){
             const processVariables = hisInstance.processVariables || {};
             let businessName = processVariables.businessName || ""; //工作名称
             const processDefinitionName = hisInstance.processDefinitionName || ""; 
-            // businessName = processDefinitionName + "("+businessName+")";
-            // if(businessName === "()"){
-            //     businessName = "";
-            // }
 
-            const userNameCn = processVariables.userNameCn || ""; //发起人
+            const userNameCn = hisInstance.startUserName || ""; //提交人
+            const taskStatusName = hisInstance.activityName || ""; //工作所处环节
             let taskStatus = "进行中"; //流程状态
             if( isValidVariable(hisInstance.endTime) ){
                 taskStatus = "已结束"
@@ -335,13 +332,13 @@ function WorkFlowList(props){
                 const hitem = hisTasks[hid] || {};
                 const name = hitem.name || "";
 
-                
                 let endTime = "";
                 let finishedName = "";
                 if( hisTasksLen > 0 ){
                     const lastTaskKey = hisTasksKeys[hisTasksLen-1];
                     const lastTask = hisTasks[lastTaskKey] || {};
                     endTime = lastTask.endTime || "";
+                    finishedName = lastTask.name || "";
                 }
                 let obj = {
                     key: sid,
@@ -353,7 +350,7 @@ function WorkFlowList(props){
                     userNameCn,
                     createTime: endTime,
                     taskStatus,
-                    taskStatusName: "",
+                    taskStatusName,
                     opt: "",
                     orgdata: JSON.stringify( item )
                 };
@@ -377,7 +374,7 @@ function WorkFlowList(props){
             // if(businessName === "()"){
             //     businessName = "";
             // }
-            const userNameCn = processVariables.userNameCn || ""; //发起人
+            const userNameCn = instance.startUserName || ""; //发起人
             let taskStatus = "处理中"; //流程状态
             //获取第一个hisTasks对象
             const hisTasksKeys = Object.keys( instanceTasks );
@@ -393,7 +390,6 @@ function WorkFlowList(props){
                     sid: sid,
                     businessName,
                     type: processDefinitionName,
-                    // steps: "第"+(hisTasksLen)+"步:"+name,
                     steps: name,
                     userNameCn,
                     createTime,
