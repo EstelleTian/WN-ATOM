@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-03-03 21:33:40
+ * @LastEditTime: 2021-03-04 13:57:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -81,13 +81,20 @@ class SchemeListData{
     @action updateList( arr, generateTime){
         const newList = new Set();
         this.generateTime = generateTime;
+        let hasId = false;
         arr.map( item => {
             const itemIns = new SchemeItem(item);
             if( item.id === this.activeSchemeId ){
                 this.activeSchemeId = item.id;
+                hasId = true;
             }
             newList.add( itemIns );
         });
+        //如果更新的方案，没有之前选中的,置为空
+        if( !hasId && ( this.activeSchemeId.indexOf("focus") == -1) ){
+            this.activeSchemeId = "";
+        }
+        //数组赋值
         this.list = Array.from(newList);
         
         

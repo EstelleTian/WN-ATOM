@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 18:04:52
+ * @LastEditTime: 2021-03-04 14:25:08
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -243,6 +243,11 @@ const names = {
         "cn":"航班号",
         width: (screenWidth > 1920) ? 125 : 90,
     },
+    "DEPAP":{
+        "en":"DEPAP",
+        "cn":"起飞机场",
+        width: 110,
+    },
     "TYPE":{
         "en":"TYPE",
         "cn":"待办类型",
@@ -258,22 +263,16 @@ const names = {
         "cn":"协调值",
         width: (screenWidth > 1920) ? 100 : 90,
     },
-    "USER":{
-        "en":"USER",
-        "cn":"发起人",
-        width: (screenWidth > 1920) ? 210 : 180,
-    },
     "TIMESTAMP":{
         "en":"TIMESTAMP",
-        "cn":"发起时间",
+        "cn":"提交时间",
         width: 110,
     },
-    "COMMENT":{
-        "en":"COMMENT",
-        "cn":"备注",
-        width: (screenWidth > 1920) ? 260 : 220,
+    "USER":{
+        "en":"USER",
+        "cn":"提交人",
+        width: (screenWidth > 1920) ? 210 : 180,
     },
-    
 }
 const TodoTable = (props) => {
     const [tableWidth, setWidth] = useState(0);
@@ -343,6 +342,7 @@ const TodoTable = (props) => {
            const flight = backLogTask.flight || {};
            const authorities = backLogTask.authorities || {};
            const flightid = flight.flightid || "";
+           const depap = flight.depap || "";
            const instance = backLogTask.instance || {};
            const processVariables = instance.processVariables || {};
            const agree = processVariables.agree || false;
@@ -372,6 +372,7 @@ const TodoTable = (props) => {
                 VALUE: targetVal,
                 USER: startUserName,
                 TIMESTAMP: startTime,
+                DEPAP: depap,
                 COMMENT: businessName,
                 OPTIONS: JSON.stringify(options),    
             }

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-02-26 14:23:56
+ * @LastEditTime: 2021-03-04 14:42:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -10,7 +10,6 @@ import React  from 'react'
 import {observer, inject} from "mobx-react";
 import { Layout, Menu} from 'antd'
 import { ClockCircleOutlined, CheckOutlined } from '@ant-design/icons';
-import NavBar  from 'components/NavBar/NavBar.jsx';
 // import Stomp from 'stompjs'
 import WorkFlowList from 'components/WorkFlow/WorkFlowList'
 import './WorkFlowPage.scss'
@@ -24,10 +23,10 @@ let WorkFlowNav = inject("workFlowData")(observer((props) => {
     return (
         <Menu onClick={handleClick} selectedKeys={[props.workFlowData.activeTab]} mode="horizontal" className="work_menu">
             <Menu.Item key="todo" icon={<ClockCircleOutlined />}>
-                待办工作
+                我的待办
             </Menu.Item>
             <Menu.Item key="finished"  icon={<CheckOutlined />}>
-                办结工作
+                我已办结
             </Menu.Item>
             {/*<Menu.Item key="guanzhu"  icon={<StarOutlined />}>*/}
             {/*    关注工作*/}
