@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-03 21:40:35
+ * @LastEditTime: 2021-03-04 16:12:18
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -236,7 +236,6 @@ function useFlightsList(props){
             params = {
                 startTime: baseTime + '000000',
                 endTime: baseTime+'235900',
-                id: activeSchemeId
                 id: reqId
             };
             const timerFunc = function(){
@@ -258,7 +257,6 @@ function useFlightsList(props){
                             getFlightTableData( true );
                         }
                     }, 30*1000);
-                    }, 10*1000);
                     flightsTimeoutId.current.push(timer);
                 }
             }

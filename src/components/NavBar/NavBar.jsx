@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 20:36:06
+ * @LastEditTime: 2021-03-04 16:23:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\NavBar\NavBar.jsx
@@ -30,7 +30,7 @@ function NavBar(props){
         if( pathname === "/fangxing" ){
             return <div className="layout-row space-between multi_nav">
                 <LeftNav/>
-                <h4 style={{ color: 'red'}}>web自动更新 3/3/1800 </h4>
+                <h4 style={{ color: 'red'}}>web自动更新 3/4/1430 </h4>
                 <RightNav/>
             </div>
         }else {
