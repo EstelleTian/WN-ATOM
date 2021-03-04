@@ -177,6 +177,19 @@ function StaticInfoCard(props){
         autoFillInEndDate(value);
     };
 
+    const onOpenStartDatePickerChange =( open ) => {
+        const startTime =  form.getFieldsValue()['startTime'];
+        // 当前终端时间
+        let now = new Date();
+        const startDate =  form.getFieldsValue()['startDate'];
+        if(open && !isValidVariable(startDate)) {
+            form.setFieldsValue({'startDate': moment(now)});
+            let dateString = moment(now).format("YYYYMMDDHHmm");
+            props.updateStartDateString(dateString);
+        }
+
+    };
+
     const onOpenEndDatePickerChange =( open ) => {
         const startTime =  form.getFieldsValue()['startTime'];
         const startDate =  form.getFieldsValue()['startDate'];
@@ -409,6 +422,7 @@ function StaticInfoCard(props){
                                         className="date-picker-form"
                                         showToday={false}
                                         mode="date"
+                                        onOpenChange={ onOpenStartDatePickerChange }
                                     />
                                 </Form.Item>
                                 <Form.Item
