@@ -5,10 +5,21 @@
     flex-direction: row;
     .advanced-search-base-input-filter {
         flex: 1;
+        justify-content: center;
+        align-items: center;
+    }
+    .advanced-search-base-radio-filter {
+        line-height: 32px;
+        padding: 0 10px;
     }
     .advanced-search-button-refresh {
         width: 8rem;
         display: flex;
         justify-content: flex-end;
+    }
+    .input-filter-key {
+        .ant-input {
+            text-transform: uppercase;
+        }
     }
 }

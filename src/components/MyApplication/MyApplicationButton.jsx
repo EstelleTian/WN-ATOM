@@ -22,13 +22,13 @@ const MyApplicationButton = (props) => {
     const [myApplicationModalVisible, setMyApplicationModalVisible] = useState(false);
     const [ tableLoading, setTableLoading ] = useState(false);
     const [ refreshBtnLoading, setRefreshBtnLoading ] = useState(false);
-    const generateTime = useRef(0);
     const timerId = useRef();
 
     const { myApplicationList, systemPage  } = props;
     const user = systemPage.user || {};
     const userId = user.id || '';
     const myApplicationLen = myApplicationList.myApplication.length || 0;
+    const generateTime = myApplicationList.generateTime || "";
     /**
      * 显示【我的申请】模态框
      * */
@@ -54,9 +54,8 @@ const MyApplicationButton = (props) => {
     //处理 我的申请 数据
     const handleMyApplicationData = useCallback((data) => {
         let tableData = [];
+        const generateTime = data.generateTime || "";
         const instances = data.instances || {};
-        const gTime = data.generateTime || "";
-        generateTime.current = gTime;
         for(let key in instances){
             const itemObj = instances[key];
             const processVariables = itemObj.processVariables || {};
@@ -81,11 +80,12 @@ const MyApplicationButton = (props) => {
             tableData.push(obj);
         }
         props.myApplicationList.updateMyApplicationListData(tableData);
+        props.myApplicationList.updateGenerateTime(generateTime);
     },[]);
 
     //获取我的申请
     const requestMyApplicationDatas = useCallback((triggerLoading) => {
-        if( !isValidVariable(user.id) ){
+        if( !isValidVariable(userId)){
             return;
         }
         if( triggerLoading ){
@@ -130,6 +130,7 @@ const MyApplicationButton = (props) => {
             >我的申请
                 <Badge
                     className="site-badge-count-109"
+                    overflowCount={9999}
                     count={ myApplicationLen }
                     style={{ backgroundColor: 'rgb(61, 132, 36)' }}
                 />
@@ -145,7 +146,9 @@ const MyApplicationButton = (props) => {
                 mask={false}
                 destroyOnClose = { true }
                 footer = {
-                    <div></div>
+                    <div className="modal-footer my-application-list">
+                        <div className="generateTime">数据时间: { formatTimeString(generateTime) }</div>
+                    </div>
                 }
             >
                 <MyApplication

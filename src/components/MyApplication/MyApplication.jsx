@@ -7,8 +7,9 @@
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
 import React, {  Suspense, useCallback, useState, useEffect, useMemo, useRef} from 'react';
-import { Table, Spin, message, Popconfirm, Form, Modal, Button, Input, DatePicker, Row, Col  } from 'antd';
+import { Table, Spin,  Button, Input, Radio, Select  } from 'antd';
 import {inject, observer} from "mobx-react";
+import debounce from 'lodash/debounce'
 import { DoubleLeftOutlined, DoubleRightOutlined, SyncOutlined } from '@ant-design/icons';
 import { ReqUrls, CollaborateIP } from "utils/request-urls";
 import { requestGet, request  } from "utils/request";
@@ -17,7 +18,7 @@ import { FlightCoordination  } from "utils/flightcoordination";
 import moment from "moment";
 import './MyApplication.scss';
 
-
+const { Option } = Select;
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 //根据key识别列表列配置columns
@@ -81,15 +82,41 @@ const MyApplication = (props) => {
     const [tableHeight, setHeight] = useState(800);
     const { tableLoading, requestMyApplicationDatas, refreshBtnLoading, generateTime, myApplicationList } = props;
     const myApplication = myApplicationList.myApplication || [];
+    const { filterData } = myApplicationList;
+    const dataList = filterData;
     const refreshData = ()=> {
         requestMyApplicationDatas(true);
     };
+
+    const updateFilterKey = useCallback(
+        debounce((value) => {
+            props.myApplicationList.setFilterKey(value.trim().toUpperCase())
+            console.log(value)
+        }, 500,{'leading': true,}),
+        []
+    )
+    const updateFilterTimeRange = (value)=> {
+        props.myApplicationList.setFilterTimeRange(value)
+    }
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <div className="advanced-search-filters">
                 <div className="advanced-search-base-input-filter">
-                    <Input allowClear placeholder="请输入要查询的关键字" onChange={()=>{}} />
+                    <Input
+                        allowClear
+                        className="input-filter-key"
+                        placeholder="请输入要查询的关键字"
+                        onChange={(e)=> { updateFilterKey(e.target.value) }}
+                    />
                 </div>
+                {/*<div className="advanced-search-base-radio-filter">
+                    <Radio.Group value="ALL" onChange={(e)=> { updateFilterTimeRange(e.target.value) }}>
+                        <Radio value="ALL">全部时段</Radio>
+                        <Radio value="TODAY">今日</Radio>
+                        <Radio value="WEEK">最近一周</Radio>
+                        <Radio value="ONEMONTH">最近一个月</Radio>
+                    </Radio.Group>
+                </div>*/}
                 <div className="advanced-search-button-refresh">
                     <Button type="primary" loading = { refreshBtnLoading } style={{ marginLeft: "1rem" }}
                             onClick = { e => { refreshData()  }}
@@ -97,13 +124,11 @@ const MyApplication = (props) => {
                         刷新
                     </Button>
                 </div>
-
-
             </div>
             <div>
                 <Table
                     columns={ columns }
-                    dataSource={ myApplication }
+                    dataSource={ dataList }
                     size="small"
                     bordered
                     pagination={false}
