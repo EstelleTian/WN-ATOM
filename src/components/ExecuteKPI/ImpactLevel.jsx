@@ -2,6 +2,7 @@ import React from 'react'
 import {Col, Empty, Row, Spin} from "antd";
 import {AlertOutlined, WarningOutlined, BulbOutlined} from "@ant-design/icons";
 import ReactEcharts from "echarts-for-react";
+import { inject, observer } from 'mobx-react'
 import {isValidVariable} from "../../utils/basic-verify";
 
 //影响程度
@@ -156,4 +157,4 @@ function DCBLineChart(props){
         )
 }
 
-export default ImpactLevel;
+export default inject("executeKPIData")(observer(ImpactLevel));

@@ -1,6 +1,7 @@
 import React from 'react'
 import {Col, Progress, Row} from "antd";
-import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
+import { inject, observer } from 'mobx-react'
+import { isValidVariable } from 'utils/basic-verify'
 
 
 //正常率
@@ -146,4 +147,4 @@ function PreDelay(props){
     </Col>
 }
 
-export default PreDelay;
+export default inject("executeKPIData")(observer(PreDelay));

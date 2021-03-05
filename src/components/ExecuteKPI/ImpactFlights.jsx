@@ -1,13 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-01-07 20:19:37
- * @LastEditTime: 2021-01-28 15:31:36
+ * @LastEditTime: 2021-03-05 11:00:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\ExecuteKPI\ImpactFlights.jsx
  */
 import React from 'react'
 import {Col, Row} from "antd";
+import { inject, observer } from 'mobx-react'
 
 
 //影响航班
@@ -85,4 +86,4 @@ function ImpactFlights(props){
    </Row>
 }
 
-export default ImpactFlights;
+export default inject("executeKPIData")(observer(ImpactFlights));

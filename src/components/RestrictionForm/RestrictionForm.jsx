@@ -24,7 +24,13 @@ function RestrictionForm(props){
     const { tacticProcessInfo={} } = flowData;
     const { formerTacticProcessInfo={} } = flowData;
     const { basicTacticInfo={} } = tacticProcessInfo;
-    let { tacticName, tacticPublishUnit, tacticPublishUser, id, tacticTimeInfo={}, basicFlowcontrol={}, directionList=[] } = basicTacticInfo;
+    let { tacticName, tacticPublishUnit, tacticPublishUser, id }
+     = basicTacticInfo;
+
+    let basicFlowcontrol = basicTacticInfo.basicTacticInfo || {};
+    let tacticTimeInfo = basicTacticInfo.tacticTimeInfo || {};
+    let directionList = basicTacticInfo.directionList || [];
+
     const formerBasicTacticInfo = formerTacticProcessInfo.basicTacticInfo || {};
     const formerId = formerBasicTacticInfo.id || "";
     // 方案开始时间(12位字符串)
@@ -48,9 +54,8 @@ function RestrictionForm(props){
         endDate = basicEndTime.substring(0,8);
     }
 
-
-
-    const { flowControlName, flowControlTimeInfo={}, flowControlMeasure={}, TrafficFlowDomainMap={},  flowControlPublishType, flowControlReason,} = basicFlowcontrol; // 流控信息对象
+    const { flowControlName, flowControlTimeInfo={}, flowControlMeasure={},  flowControlPublishType, flowControlReason } 
+    = basicFlowcontrol; // 流控信息对象
     // 流控开始时间(12位字符串)
     let flowControlStartTime = flowControlTimeInfo.startTime;
     // 流控开始时间(12位字符串)

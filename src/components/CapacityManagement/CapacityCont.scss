@@ -53,6 +53,8 @@
                 font-size: 1.25rem;
             }
         }
+        
+        
         .static_cap_modal_24{
             @include flex();
         }
@@ -61,18 +63,32 @@
         @include flex();
     }
 }
+
+.static_cap_modal{
+    .ant-table-cell{
+        color: #c3c3c3;
+    }
+    //偶数行 底色
+    .even > td{
+        background-color: #272626;
+    }
+}
+
 .alarm{
     font-size: 1.25rem;
     padding-left: 0.25rem;
 }
 .alarm_yellow{
-    color: yellow;
+    color: rgb(138, 138, 49);
 }
 .alarm_orange{
-    color: orange;
+    color: rgb(149, 111, 39);
 }
 .alarm_red{
-    color: red;
+    color: rgb(170, 38, 38);
+}
+.alarm_green{
+    color: rgb(21, 110, 21);
 }
 
 @media screen and ( max-width: 1920px) and ( min-width: 1681px){

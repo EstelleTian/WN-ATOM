@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-03 19:34:38
+ * @LastEditTime: 2021-03-05 13:28:33
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -9,10 +9,9 @@
 
 import React, { useContext, useState, useEffect, useRef, useCallback, useMemo, Suspense } from "react";
 import {inject, observer} from 'mobx-react'
-import { message } from 'antd';
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
-import { Table, Input, Button, Popconfirm, Form, Spin  } from "antd";
+import { message, Table, Input, Button, Popconfirm, Form, Spin  } from "antd";
 import { isValidVariable, getFullTime } from 'utils/basic-verify'
 import { REGEXP } from 'utils/regExpUtil'
 import { customNotice } from 'utils/common-funcs'
@@ -127,7 +126,10 @@ const EditableCell = ({
                 if( text === "BASE" ){
                     return <span>全天</span>;
                 }
-                return <span>{text}点</span>
+                if( text*1 < 10){
+                    text = '0'+text;
+                }
+                return <span>{text}时</span>
             }
         },
         {
@@ -199,6 +201,40 @@ const requestErr = (err, content) => {
         content,
         duration: 10,
     });
+}
+
+const SaveBtn = function(props){
+    const { save } = props;
+    const [visible, setVisible] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+  
+    const showPopconfirm = () => {
+      setVisible(true);
+    };
+  
+    const handleOk = () => {
+      setConfirmLoading(true);
+      setTimeout(() => {
+        setVisible(false);
+        setConfirmLoading(false);
+      }, 2000);
+    };
+  
+    const handleCancel = () => {
+      console.log('Clicked cancel button');
+      setVisible(false);
+    };
+    return (
+        <Popconfirm
+        title="是否保存以下修改值"
+        visible={visible}
+        onConfirm={handleOk}
+        okButtonProps={{ loading: confirmLoading }}
+        onCancel={handleCancel}
+        >
+            <Button className="" size="small" type="primary" onClick={showPopconfirm}>保存 </Button>
+        </Popconfirm>
+    )
 }
 //动态容量配置
 const CapacityTable = (props) => {
@@ -294,6 +330,26 @@ const CapacityTable = (props) => {
             }),
         };
     });
+
+    //设置表格行的 class
+    const setRowClassName = useCallback((record, index) => {
+        let classStr = "";
+        if( index % 2 === 0 ){
+            classStr += " even";
+        }else{
+            classStr += " odd";
+        }
+        return classStr;
+    },[]);
+
+    const save = useCallback(
+        (e) =>{
+            setEditable(false);
+            //更新初始化数据
+            updateOrgTableDatas(kind)
+        },
+        [],
+    )
     
     useEffect(() => {
         if( kind === "default" ){
@@ -328,11 +384,7 @@ const CapacityTable = (props) => {
                                 setEditable(true);
                             }}>修改 </Button>
                             : <span>
-                                <Button className="" size="small" type="primary"  onClick={e =>{
-                                    setEditable(false);
-                                    //更新初始化数据
-                                    updateOrgTableDatas(kind)
-                                }}>保存 </Button>
+                                <SaveBtn save={save}/>
                                 <Button className="reset" size="small" onClick={ e =>{
                                     setEditable(false);
                                     resetOrgTableDatas(kind);
@@ -360,6 +412,7 @@ const CapacityTable = (props) => {
                                 x: 350,
                                 y: tableHeight
                             }}
+                            rowClassName={ setRowClassName }
                             className="capacity_number_table"
                         />
                 }
