@@ -91,7 +91,7 @@ class SchemeListData{
             newList.add( itemIns );
         });
         //如果更新的方案，没有之前选中的,置为空
-        if( !hasId && ( this.activeSchemeId.indexOf("focus") == -1) ){
+        if( !hasId && ( this.activeSchemeId.indexOf("focus") === -1) ){
             this.activeSchemeId = "";
         }
         //数组赋值
