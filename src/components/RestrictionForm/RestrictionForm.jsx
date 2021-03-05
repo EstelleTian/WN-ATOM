@@ -5,7 +5,7 @@ import "moment/locale/zh-cn"
 import {Button, Modal, Form} from 'antd'
 import StaticInfoCard from './StaticInfoCard'
 import { handleImportControl, closeCreateDlg, closeControlDetail, handleImportControlForUpdate } from 'utils/client'
-import { getFullTime, formatTimeString, isValidObject, isValidVariable } from '../../utils/basic-verify'
+import { getFullTime, formatTimeString,addStringTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import './RestrictionForm.scss'
@@ -39,8 +39,9 @@ function RestrictionForm(props){
     let basicEndTime = tacticTimeInfo.endTime;
     // 当前终端时间
     let now = getFullTime( new Date());
+    now = addStringTime(now,1000*60*5);
 
-    let startTimeString = now.substring(8,12) ;
+    let startTimeString = now.substring(8,12);
     let startDate = now.substring(0,8);
     let endTimeString = "" ;
     let endDate ="";
@@ -476,9 +477,11 @@ function RestrictionForm(props){
         flowControlFlight.exemptionAbility = exemptionAbility.join(';');
         // 更新流控交通流-不包含-受控机型
         flowControlFlight.exemptionAircraftType = exemptionAircraftType.join(';');
-        // 若为方案修则设置basicTacticInfo.id为null;
+        
         if(operationType === 'MODIFY'){
+            // 若为方案修以下字段设置为null
             basicTacticInfo.id = null;
+            basicTacticInfo.tacticTimeInfo.createTime = null;
         }
 
         return opt;
