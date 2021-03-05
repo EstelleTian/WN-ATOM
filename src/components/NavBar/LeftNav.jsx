@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-03-03 20:37:17
+ * @LastEditTime: 2021-03-05 10:26:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -15,9 +15,14 @@ import { Radio } from 'antd'
 function LeftNav(props){
     const groupNameChange = (e) => {
         const value = e.target.value;
-        props.systemPage.setLeftNavSelectedName(value);
-        props.schemeListData.toggleSchemeActive(value);
-        console.log(e.target.value)
+        console.log(e.target.value);
+        if( props.systemPage.leftNavSelectedName !== value ){
+            props.systemPage.setLeftNavSelectedName(value);
+            props.schemeListData.toggleSchemeActive(value);
+        }else{
+            props.systemPage.setLeftNavSelectedName("");
+            props.schemeListData.toggleSchemeActive("");
+        }
     }
     return (
         <div className="layout-nav-left layout-row">
@@ -25,9 +30,9 @@ function LeftNav(props){
                 value={props.systemPage.leftNavSelectedName} 
                 buttonStyle="solid" 
                 size="large"
-                onChange={ groupNameChange } 
+                
              >
-                <Radio.Button value="focus-ZLXY">ZLXY</Radio.Button>
+                <Radio.Button value="focus-ZLXY" onClick={ groupNameChange } >ZLXY</Radio.Button>
             </Radio.Group>
 
             {/*<div className="time-range">*/}

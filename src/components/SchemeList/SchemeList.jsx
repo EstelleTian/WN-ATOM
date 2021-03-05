@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-04 17:51:30
+ * @LastEditTime: 2021-03-05 10:14:41
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -163,6 +163,8 @@ function useSchemeList(props){
                 clearTimeout(schemeTimeoutId.current);
                 schemeTimeoutId.current = "";
             }
+            props.schemeListData.updateList([], "");
+            props.schemeListData.toggleSchemeActive("");
         }
     },[])
     
@@ -260,11 +262,13 @@ function useFlightsList(props){
                 resFunc: (data)=> {
                     updateFlightTableData(data);
                     timerFunc();
-                    customNotice({
-                        type: 'success',
-                        message: '航班列表数据获取成功',
-                        duration: 5
-                    })
+                    if( props.flightTableData.loading ){
+                        customNotice({
+                            type: 'success',
+                            message: '航班列表数据获取成功',
+                            duration: 5
+                        })
+                    }
                     props.flightTableData.toggleLoad(false, false);
                     resolve("success");
                 }, 
@@ -316,6 +320,7 @@ function useFlightsList(props){
                 })
                 flightsTimeoutId.current = [];
             }
+            flightTableData.updateFlightsList([], "");
         }
     },[])
    
@@ -340,7 +345,7 @@ function useKPIData(props){
     const updateKPIData = useCallback( data => {
         // console.log(data)
         if( isValidObject(data) ){
-            executeKPIData.updateExecuteKPIData(data)
+            executeKPIData.updateExecuteKPIData(data )
         }else{
             executeKPIData.updateExecuteKPIData({});
             customNotice({
@@ -425,6 +430,7 @@ function useKPIData(props){
                 clearTimeout(KPITimeoutId.current);
                 KPITimeoutId.current = "";
             }
+            executeKPIData.updateExecuteKPIData({});
         }
     },[])
 

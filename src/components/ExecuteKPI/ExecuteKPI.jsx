@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 13:47:11
- * @LastEditTime: 2021-03-01 13:22:35
+ * @LastEditTime: 2021-03-05 11:01:38
  * @LastEditors: Please set LastEditors
  * @Description: 执行KPI
  * @FilePath: \WN-CDM\src\components\ExecuteKPI\ExecuteKPI.jsx
@@ -20,22 +20,15 @@ import './ExecuteKPI.scss'
 const ExecuteKPI = (props) => {
     const executeKPIData = props.executeKPIData;
     const { loading } = executeKPIData; 
-    // DidMount 
-    useEffect(function(){
-        return function(){
-            console.log("KPI 卸载")
-            executeKPIData.timeoutId = "";
-            clearTimeout(executeKPIData.timeoutId);
-        }
-    },[]);
+
     return (
         <Spin spinning={loading} >
             <div className="kpi_canvas">
-                <ImpactFlights executeKPIData={ executeKPIData } />
-                <ImpactLevel executeKPIData={ executeKPIData }  />
+                <ImpactFlights />
+                <ImpactLevel />
                 <Row className="ant-row-no-wrap"></Row>
-                <CTOTRate executeKPIData={ executeKPIData }  />
-                <PreDelay executeKPIData={ executeKPIData }  />
+                <CTOTRate  />
+                <PreDelay/>
             </div>
 
         </Spin>

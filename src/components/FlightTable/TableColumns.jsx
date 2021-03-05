@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-03-03 17:49:48
+ * @LastEditTime: 2021-03-05 11:07:42
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -387,7 +387,6 @@ const formatSingleFlight = flight => {
     taskField = taskField || {};
     eapField = eapField || {};
     oapField = oapField || {};
-    tobtField = tobtField || {};
     tobtField = tobtField || {};
     cobtField = cobtField || {};
     ctotField = ctotField || {};

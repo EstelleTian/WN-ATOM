@@ -1,6 +1,7 @@
 import React from 'react'
 import {Col, Row} from "antd";
-import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
+import { inject, observer } from 'mobx-react'
+import { isValidVariable, isValidObject } from 'utils/basic-verify'
 
 import CTOTPieChart from "./CTOTChart";
 
@@ -206,4 +207,4 @@ function CTOTRate(props){
     </Col>
 }
 
-export default CTOTRate;
+export default inject("executeKPIData")(observer(CTOTRate));
