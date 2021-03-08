@@ -14,13 +14,13 @@ import {inject, observer} from "mobx-react";
 //表单整体
 function RestrictionForm(props){
     const flowData = props.flowData || {}; 
-    const showIgnoreBtn = props.showIgnoreBtn || {}; 
-    const showEditBtn = props.showEditBtn || {}; 
+    const showIgnoreBtn = props.showIgnoreBtn || false; 
+    const showEditBtn = props.showEditBtn || false; 
     const systemPage = props.systemPage || {}; 
-    const primaryButtonName = props.primaryButtonName || {}; 
+    const primaryButtonName = props.primaryButtonName || ""; 
     const setModalVisible = props.setModalVisible || {}; 
-    const operationType = props.operationType || {}; 
-    const operationDescription = props.operationDescription || {}; 
+    const operationType = props.operationType || ""; 
+    const operationDescription = props.operationDescription || ""; 
 
     const user = systemPage.user || {};
     let userDescriptionCN = user.descriptionCN ||　"";
@@ -526,7 +526,7 @@ function RestrictionForm(props){
         const { id } = basicTacticInfo;
         setConfirmLoading(false);
         setIsModalVisible(false);
-        if(isValidVariable(setModalVisible)){
+        if(isValidObject(setModalVisible)){
             setModalVisible(false)
         }
 
@@ -545,7 +545,7 @@ function RestrictionForm(props){
                 content: `${operationDescription}成功`,
                 // maskClosable:true,
                 onOk: () =>{
-                    if(isValidVariable(setModalVisible)){
+                    if(isValidObject(setModalVisible)){
                         setModalVisible(false)
                     }else {
                         window.close();
