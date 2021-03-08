@@ -9,9 +9,9 @@
 import React from 'react'
 import { Layout, Spin } from 'antd'
 import { withRouter } from 'react-router-dom';
-import SearchWidget  from 'components/CapacityManagement/SearchWidget'
-import FilterWidget  from 'components/CapacityManagement/FilterWidget'
-import FilterList  from 'components/CapacityManagement/FilterList'
+// import SearchWidget  from 'components/CapacityManagement/SearchWidget'
+// import FilterWidget  from 'components/CapacityManagement/FilterWidget'
+// import FilterList  from 'components/CapacityManagement/FilterList'
 import CapacityTabs  from 'components/CapacityManagement/CapacityTabs'
 
 // import DHXWindow from 'components/SimpleMap/DHXWindow'

@@ -75,20 +75,20 @@
 }
 
 .alarm{
-    font-size: 1.25rem;
-    padding-left: 0.25rem;
+    width: 90px;
+    display: inline-block;
 }
 .alarm_yellow{
-    color: rgb(138, 138, 49);
+    background-color: rgb(138, 138, 49);
 }
 .alarm_orange{
-    color: rgb(149, 111, 39);
+    background-color: rgb(149, 111, 39);
 }
 .alarm_red{
-    color: rgb(170, 38, 38);
+    background-color: rgb(170, 38, 38);
 }
 .alarm_green{
-    color: rgb(21, 110, 21);
+    background-color: rgb(21, 110, 21);
 }
 
 @media screen and ( max-width: 1920px) and ( min-width: 1681px){
