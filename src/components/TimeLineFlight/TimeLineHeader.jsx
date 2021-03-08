@@ -15,7 +15,7 @@ function TimeLineHeader(props){
     let [standardTime, setStandardTime] = useState(now)
 
     const setTimeRange = ( type ) => {
-        if( type == "reset" ){
+        if( type === "reset" ){
             let now = new Date();
             now = getFullTime(now);
             setStandardTime( now  )

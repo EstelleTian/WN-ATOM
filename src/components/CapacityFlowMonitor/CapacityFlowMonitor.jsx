@@ -98,16 +98,17 @@ const CapacityFlowMonitor =(props) => {
     const typeData = {
         // 机场
         'AP': {},
+        // 扇区
+        'SECTOR': {},
+        // 进近
+        'APP': {},
         // 航路点
         'POINT': {},
         // 航路
         'ROUTE': {},
         // 管制区
         'ACC': {},
-        // 扇区
-        'SECTOR': {},
-        // 进近
-        'APP': {},
+        
     };
     let weatherDataObj =  formatWeatherData();
     // 进行分类
@@ -122,7 +123,7 @@ const CapacityFlowMonitor =(props) => {
         let arr=[];
         // 遍历并取monitorData数据中对应的容流数据
         for( let d in typeDataMap){
-            // let CN_Name = monitorUnitsCNName[d];
+            
             let obj = {
                 key: d,
                 id: d,
@@ -133,6 +134,7 @@ const CapacityFlowMonitor =(props) => {
             };
             arr.push(obj);
         }
+
 
         // 排序 按order字段值升序
         let sortArr = arr.sort((item1,item2)=>{
@@ -303,14 +305,11 @@ const CapacityFlowMonitor =(props) => {
         let {monitorUnit, focus} = subscribeData;
         let arr = [];
         if(isValidObject(monitorUnit) && isValidVariable(focus)){
-            let area = monitorUnit[focus] || {};
-            let areaData = area.data;
-            for( let type in areaData){
-                let data = areaData[type];
-                let units = data.units;
-                for( let unit in units){
-                    arr.push(unit);
-                }
+            let focusArea= monitorUnit[focus] || {};
+            let focusAreaData = focusArea.data;
+            for( let type in focusAreaData){
+                let units = focusAreaData[type];
+                arr = [...arr, ...units];
             }
         }
         return arr;
@@ -321,15 +320,12 @@ const CapacityFlowMonitor =(props) => {
         let subscribeData = userSubscribeData.subscribeData || {};
         let {monitorUnit, focus} = subscribeData;
         let arr = [];
-        if(isValidObject(monitorUnit) && isValidVariable(focus)){
-            let area = monitorUnit[focus] || {};
-            let areaData = area.data;
-            let APUnitsData = areaData['AP'];
-            let units = APUnitsData.units;
-            for( let unit in units){
-                arr.push(unit);
-            }
-        }
+        /* if(isValidObject(monitorUnit) && isValidVariable(focus)){
+            let focusArea= monitorUnit[focus] || {};
+            let focusAreaData = focusArea.data;
+            let APUnitsData = focusAreaData['AP'];
+            arr = APUnitsData;
+        } */
         return arr;
     };
 
@@ -388,13 +384,13 @@ const CapacityFlowMonitor =(props) => {
     return(
         <Spin spinning={loading} >
         <div className="capacity_flow_monitor_container no-scrollbar">
-            <List
+            {/* <List
                 grid={{ gutter: 6, column: 10 }}
                 dataSource={monitorDataist}
                 renderItem={item => (
                     listItemData(item)
                 )}
-            />
+            /> */}A
         </div>
         </Spin>
     )

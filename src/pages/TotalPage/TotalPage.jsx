@@ -37,269 +37,72 @@ const { Header, Footer, Sider, Content } = Layout;
 function TodoPage (props){
 
     const capacityFlowMonitorUnitData = {
-        'NW': {
+        "NW": {
             CN_name: '西北全区',
             data: {
-                AP: {
-                    CN_name: '机场',
-                    units: {
-                        ZLXY: {
-                            CN_name: '西安机场',
-                        },
-                        ZLLL: {
-                            CN_name: '兰州机场',
-                        },
-                        ZLXN: {
-                            CN_name: '西宁机场',
-                        },
-                        ZLIC: {
-                            CN_name: '银川机场',
-                        },
-                    },
-                },
-                SECTOR: {
-                    CN_name: '扇区',
-                    units: {
-                        ZLXYAR01: {
-                            CN_name: '西安01扇区',
-                        },
-                        ZLXYAR02: {
-                            CN_name: '西安02扇区',
-                        },
-                        ZLXYAR03: {
-                            CN_name: '西安03扇区',
-                        },
-                        ZLXYAR04: {
-                            CN_name: '西安04扇区',
-                        },
-                        ZLXYAR05: {
-                            CN_name: '西安05扇区',
-                        },
-                        ZLXYAR06: {
-                            CN_name: '西安06扇区',
-                        },
-                        ZLXYAR07: {
-                            CN_name: '西安07扇区',
-                        },
-                        ZLXYAR08: {
-                            CN_name: '西安08扇区',
-                        },
-                        ZLXYAR09: {
-                            CN_name: '西安09扇区',
-                        },
-                        ZLXYAR10: {
-                            CN_name: '西安10扇区',
-                        },
-                        ZLXYAR11: {
-                            CN_name: '西安11扇区',
-                        },
-                        ZLXYAR12: {
-                            CN_name: '西安12扇区',
-                        },
-                        ZLXYAR13: {
-                            CN_name: '西安13扇区',
-                        },
-                        ZLLLAR01: {
-                            CN_name: '兰州01扇区',
-                        },
-                        ZLLLAR02: {
-                            CN_name: '兰州02扇区',
-                        },
-                        ZLLLAR03: {
-                            CN_name: '兰州03扇区',
-                        },
-                        ZLLLAR04: {
-                            CN_name: '兰州0扇4区',
-                        },
-                        ZLLLAR05: {
-                            CN_name: '兰州05扇区',
-                        },
-                        ZLLLAR06: {
-                            CN_name: '兰州06扇区',
-                        },
-                        ZLLLAR07: {
-                            CN_name: '兰州07扇区',
-                        },
-                        ZLLLAR08: {
-                            CN_name: '兰州08扇区',
-                        },
-                        ZLLLAR09: {
-                            CN_name: '兰州09扇区',
-                        },
-                        ZLLLAR11: {
-                            CN_name: '兰州11扇区',
-                        },
-                        ZLLLAR12: {
-                            CN_name: '兰州12扇区',
-                        },
-                    }
-                }
+                AP:["ZLXY","ZLLL","ZLXN","ZLIC"],
+                SECTOR: ["ZLXYAR01","ZLXYAR02","ZLXYAR03","ZLXYAR04","ZLXYAR05","ZLXYAR06","ZLXYAR07","ZLXYAR08","ZLXYAR09","ZLXYAR10","ZLXYAR11","ZLXYAR12","ZLXYAR13","ZLLLAR01","ZLLLAR02","ZLLLAR03","ZLLLAR04","ZLLLAR05","ZLLLAR06","ZLLLAR07","ZLLLAR08","ZLLLAR09","ZLLLAR11","ZLLLAR12",],
+                APP: [],
             }
-
         },
-        'ZLXYACC': {
+        "ZLXYACC": {
             CN_name: '西安管制区',
             data: {
-                AP: {
-                    CN_name: '机场',
-                    units: {
-                        ZLXY: {
-                            CN_name: '西安机场',
-                        },
-                    },
-                },
-                SECTOR: {
-                    CN_name: '扇区',
-                    units: {
-                        ZLXYAR01: {
-                            CN_name: '西安01扇区',
-                        },
-                        ZLXYAR02: {
-                            CN_name: '西安02扇区',
-                        },
-                        ZLXYAR03: {
-                            CN_name: '西安03扇区',
-                        },
-                        ZLXYAR04: {
-                            CN_name: '西安04扇区',
-                        },
-                        ZLXYAR05: {
-                            CN_name: '西安05扇区',
-                        },
-                        ZLXYAR06: {
-                            CN_name: '西安06扇区',
-                        },
-                        ZLXYAR07: {
-                            CN_name: '西安07扇区',
-                        },
-                        ZLXYAR08: {
-                            CN_name: '西安08扇区',
-                        },
-                        ZLXYAR09: {
-                            CN_name: '西安09扇区',
-                        },
-                        ZLXYAR10: {
-                            CN_name: '西安10扇区',
-                        },
-                        ZLXYAR11: {
-                            CN_name: '西安11扇区',
-                        },
-                        ZLXYAR12: {
-                            CN_name: '西安12扇区',
-                        },
-                        ZLXYAR13: {
-                            CN_name: '西安13扇区',
-                        },
-                    }
-                }
+                AP:["ZLXY"],
+                SECTOR: ["ZLXYAR01","ZLXYAR02","ZLXYAR03","ZLXYAR04","ZLXYAR05","ZLXYAR06","ZLXYAR07","ZLXYAR08","ZLXYAR09","ZLXYAR10","ZLXYAR11","ZLXYAR12","ZLXYAR13"],
+                APP: ["ZLXYAP"],
             }
 
         },
-        'ZLLLACC': {
+        "ZLLLACC": {
             CN_name: '兰州管制区',
             data: {
-                AP: {
-                    CN_name: '机场',
-                    units: {
-                        ZLLL: {
-                            CN_name: '兰州机场',
-                        }
-                    },
-                },
-                SECTOR: {
-                    CN_name: '扇区',
-                    units: {
-                        ZLLLAR01: {
-                            CN_name: '兰州01扇区',
-                        },
-                        ZLLLAR02: {
-                            CN_name: '兰州02扇区',
-                        },
-                        ZLLLAR03: {
-                            CN_name: '兰州03扇区',
-                        },
-                        ZLLLAR04: {
-                            CN_name: '兰州0扇4区',
-                        },
-                        ZLLLAR05: {
-                            CN_name: '兰州05扇区',
-                        },
-                        ZLLLAR06: {
-                            CN_name: '兰州06扇区',
-                        },
-                        ZLLLAR07: {
-                            CN_name: '兰州07扇区',
-                        },
-                        ZLLLAR08: {
-                            CN_name: '兰州08扇区',
-                        },
-                        ZLLLAR09: {
-                            CN_name: '兰州09扇区',
-                        },
-                        ZLLLAR11: {
-                            CN_name: '兰州11扇区',
-                        },
-                        ZLLLAR12: {
-                            CN_name: '兰州12扇区',
-                        },
-                    }
-                }
+                AP:["ZLLL","ZLXN","ZLIC"],
+                SECTOR: ["ZLLLAR01","ZLLLAR02","ZLLLAR03","ZLLLAR04","ZLLLAR05","ZLLLAR06","ZLLLAR07","ZLLLAR08","ZLLLAR09","ZLLLAR11","ZLLLAR12",],
+                APP: ["ZLLLAP","ZLXNAP","ZLICAP"],
             }
-
         },
-        'ZLIC': {
+        "ZLIC": {
             CN_name: '宁夏分局',
             data: {
-                AP: {
-                    CN_name: '机场',
-                    units: {
-                        ZLIC: {
-                            CN_name: '银川机场',
-                        }
-                    },
-                },
+                AP:["ZLIC"],
+                SECTOR: [],
+                APP: ["ZLICAP"],
             }
         },
-        'ZLXN': {
+        "ZLXN": {
             CN_name: '青海分局',
             data: {
-                AP: {
-                    CN_name: '机场',
-                    units: {
-                        ZLXN: {
-                            CN_name: '西宁机场',
-                        }
-                    },
-                },
+                AP:["ZLXN"],
+                SECTOR: [],
+                APP: ["ZLXNAP"],
             }
         },
-        'ZLXY': {
+        "ZLXY": {
             CN_name: 'ZLXY机场塔台',
             data: {
-                AP: {
-                    CN_name: '机场',
-                    units: {
-                        ZLXY: {
-                            CN_name: '西安机场',
-                        }
-                    },
-                },
+                AP:["ZLXY"],
+                SECTOR: [],
+                APP: ["ZLXYAP"],
             }
         },
-        'ZLLL': {
+        "ZLLL": {
             CN_name: 'ZLLL机场塔台',
             data: {
-                AP: {
-                    CN_name: '机场',
-                    units: {
-                        ZLLL: {
-                            CN_name: '兰州机场',
-                        }
-                    },
-                },
+                data: {
+                    AP:["ZLLL"],
+                    SECTOR: [],
+                    APP: ["ZLLLAP"],
+                }
             }
         },
     };
+    const obj = {
+        "focus":"NW",
+        "monitorUnit": capacityFlowMonitorUnitData
+    }
+
+    console.log(JSON.stringify(obj))
 
 
     let [userSubscribeData, setUserSubscribeData] = useState({});
@@ -311,6 +114,7 @@ function TodoPage (props){
     const updateUserSubscribeData = useCallback(data => {
         let userTemplateList = data.userTemplateList || [];
         let subscribeData = userTemplateList[0];
+        subscribeData.value = JSON.stringify(obj);
         if( isValidObject(subscribeData) ){
             props.userSubscribeData.updateUserSubscribeData(subscribeData)
         }else{

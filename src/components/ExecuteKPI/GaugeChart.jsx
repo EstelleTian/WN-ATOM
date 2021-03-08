@@ -26,7 +26,7 @@ const GaugeChart = (props) => {
             },
         };
 
-        if(size == "small"){
+        if(size === "small"){
             option.series= [
                 {
                     name: '',

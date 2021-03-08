@@ -90,7 +90,7 @@ function RestrictionForm(props){
     // 依据流控限制方式取流控限制数值方法
     const  getRestrictionModeValue = () => {
         const { restrictionMode,  restrictionMITValue, restrictionAFPValueSequence} = flowControlMeasure;
-        if(restrictionMode == "MIT"){
+        if(restrictionMode == "MIT"){        
             return restrictionMITValue;
         }else if(restrictionMode == "AFP"){
             return restrictionAFPValueSequence;
@@ -190,6 +190,7 @@ function RestrictionForm(props){
         restrictionMode: restrictionMode || "MIT",
         // 流控限制数值
         restrictionModeValue: restrictionModeValue,
+        
 
         // 包含-航班号
         flowControlFlightId: isValidVariable(flowControlFlightId) ? flowControlFlightId.split(';') : [],
@@ -319,7 +320,7 @@ function RestrictionForm(props){
 
     // 转换为大写
     const  upperCaseValue = (values) => {
-        if(typeof values == 'string'){
+        if(typeof values === 'string'){
             return values.toUpperCase();
         }else if(Array.isArray(values)){
             return values.join(',').toUpperCase().split(',')

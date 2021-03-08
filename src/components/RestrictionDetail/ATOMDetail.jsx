@@ -37,13 +37,13 @@ function ATOMDetail(props){
     } = flowInfo;
 
     const checkedVal = [];
-    if(sameHeight == "Y"){
+    if(sameHeight === "Y"){
         checkedVal.push(sameHeight);
     }
-    if(takeoffApply == "Y"){
+    if(takeoffApply === "Y"){
         checkedVal.push(takeoffApply);
     }
-    if(noFly == "Y"){
+    if(noFly === "Y"){
         checkedVal.push(noFly);
     }
 
