@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-01 17:51:45
+ * @LastEditTime: 2021-03-05 14:41:21
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -62,7 +62,8 @@ const ReqUrls = {
     myApplicationListUrl: 'http://192.168.194.20:28087/workflow/procInst/',
 
     //容量管理-基础接口
-    capacityBaseUrl: 'http://192.168.194.20:28482/flow-capacity-rest/capacity/',
+    capacityBaseUrl: 'http://192.168.243.200:28482/flow-capacity-rest/capacity/',
+    // capacityBaseUrl: 'http://192.168.194.20:28482/flow-capacity-rest/capacity/',
     
 };
 //协调ip

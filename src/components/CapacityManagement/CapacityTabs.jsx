@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-01-26 16:41:49
+ * @LastEditTime: 2021-03-08 10:08:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -11,9 +11,14 @@ import React, {useState, useEffect, useCallback} from 'react'
 import {inject, observer} from 'mobx-react'
 import {Tabs} from 'antd';
 import CapacityCont from './CapacityCont.jsx';
+import { NWGlobal } from 'utils/global';
 
 const { TabPane } = Tabs;
 
+NWGlobal.setCapacityPane = function( str ){
+    const obj = JSON.parse(str) || {};
+    
+}
   
 //容量管理tab页
 function CapacityTabs (props){

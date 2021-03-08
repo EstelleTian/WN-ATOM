@@ -7,6 +7,14 @@
     position: absolute;
     right: 1rem;
     top: -30px;
+    button{
+      line-height: 1;
+      span{
+        font-size: 1rem;
+        line-height: 1;
+      }
+    }
+    
     .reset{
       margin-left: 1rem;
     }
@@ -16,6 +24,15 @@
       background: rgb(146, 133, 16);
     }
     
+  }
+  .cap_icon{
+    font-size: 0.9rem;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    &:hover{
+      cursor: pointer;
+    }
   }
   
   
@@ -41,5 +58,16 @@
       font-family: Microsoft Yahei;
     }
   }
+}
+.ant-popover-message{
+  > .anticon{
+    top: 11.0005px;
+    font-size: 20px;
+    left: -5px;
+  }
+  .ant-popover-message-title{
+    font-size: 20px;
+  }
+
 }
 

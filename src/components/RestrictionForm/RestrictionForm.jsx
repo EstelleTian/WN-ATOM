@@ -13,21 +13,26 @@ import {inject, observer} from "mobx-react";
 
 //表单整体
 function RestrictionForm(props){
-    const  {
-        flowData = {}, showIgnoreBtn=false, showEditBtn= false, systemPage,
-        primaryButtonName, setModalVisible,  operationType, operationDescription
-    } = props;
-    const  { user={} } = systemPage;
+    const flowData = props.flowData || {}; 
+    const showIgnoreBtn = props.showIgnoreBtn || {}; 
+    const showEditBtn = props.showEditBtn || {}; 
+    const systemPage = props.systemPage || {}; 
+    const primaryButtonName = props.primaryButtonName || {}; 
+    const setModalVisible = props.setModalVisible || {}; 
+    const operationType = props.operationType || {}; 
+    const operationDescription = props.operationDescription || {}; 
+
+    const user = systemPage.user || {};
     let userDescriptionCN = user.descriptionCN ||　"";
 
     // 方案数据对象
-    const { tacticProcessInfo={} } = flowData;
-    const { formerTacticProcessInfo={} } = flowData;
-    const { basicTacticInfo={} } = tacticProcessInfo;
-    let { tacticName, tacticPublishUnit, tacticPublishUser, id }
-     = basicTacticInfo;
+    const tacticProcessInfo = flowData.tacticProcessInfo || {};
+    const formerTacticProcessInfo = flowData.formerTacticProcessInfo || {};
+    const basicTacticInfo = tacticProcessInfo.basicTacticInfo || {};
 
-    let basicFlowcontrol = basicTacticInfo.basicTacticInfo || {};
+    let { tacticName = "", tacticPublishUnit = "", tacticPublishUser = "", id = "" } = basicTacticInfo;
+
+    let basicFlowcontrol = basicTacticInfo.basicFlowcontrol || {};
     let tacticTimeInfo = basicTacticInfo.tacticTimeInfo || {};
     let directionList = basicTacticInfo.directionList || [];
 
@@ -54,8 +59,14 @@ function RestrictionForm(props){
         endDate = basicEndTime.substring(0,8);
     }
 
-    const { flowControlName, flowControlTimeInfo={}, flowControlMeasure={},  flowControlPublishType, flowControlReason } 
-    = basicFlowcontrol; // 流控信息对象
+     // 流控信息对象
+    let flowControlTimeInfo = basicFlowcontrol.flowControlTimeInfo || {};
+    let flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
+    let flowControlName = basicFlowcontrol.flowControlName || "";
+    let flowControlPublishType = basicFlowcontrol.flowControlPublishType || "";
+    let flowControlReason = basicFlowcontrol.flowControlReason || "";
+
+
     // 流控开始时间(12位字符串)
     let flowControlStartTime = flowControlTimeInfo.startTime;
     // 流控开始时间(12位字符串)

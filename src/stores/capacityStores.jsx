@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-03-02 16:35:04
+ * @LastEditTime: 2021-03-05 16:54:52
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -106,13 +106,11 @@ import { isValidVariable } from 'utils/basic-verify'
 
      //更新 静态data
     @action setStaticData(data){
-        let obj = {};
-        data.map( item => {
-            const capacityTime = item.capacityTime;
-            item["key"] = capacityTime;
-            obj[ capacityTime ] = item;
-        })
-        this.staticData = obj;
+        for(let key in data){
+            const item = data[key] || {};
+            item["key"] = key;
+        }
+        this.staticData = data;
     }
     //默认静态data
     @computed get defaultStaticData(){
@@ -137,13 +135,11 @@ import { isValidVariable } from 'utils/basic-verify'
 
     //更新 动态data
     @action setDynamicData(data){
-        let obj = {};
-        data.map( item => {
-            const capacityTime = item.capacityTime;
-            item["key"] = capacityTime;
-            obj[ capacityTime ] = item;
-        })
-        this.dynamicData = obj;
+        for(let key in data){
+            const item = data[key] || {};
+            item["key"] = key;
+        }
+        this.dynamicData = data;
     }
 
     //24小时 动态data
@@ -162,17 +158,11 @@ import { isValidVariable } from 'utils/basic-verify'
         switch (kind) {
             case "default":
             case "static":
-                data.map( item => {
-                    const capacityTime = item.capacityTime;
-                    this.staticData[capacityTime] = item;
-                } )
+                this.setStaticData(data);
                 break;
         
             case "dynamic":
-                data.map( item => {
-                    const capacityTime = item.capacityTime;
-                    this.dynamicData[capacityTime] = item;
-                } )
+                this.setDynamicData(data);
                 break;
         }
         console.log( this.staticData )

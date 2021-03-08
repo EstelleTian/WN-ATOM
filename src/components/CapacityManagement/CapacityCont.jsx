@@ -1,14 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-03 19:32:03
+ * @LastEditTime: 2021-03-05 17:41:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
  */
 import React, { useEffect, useCallback} from 'react'
 import {inject, observer} from 'mobx-react'
-import { requestGet } from 'utils/request'
+import { requestGet, request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { isValidVariable, getFullTime } from 'utils/basic-verify'
@@ -25,13 +25,19 @@ function CapacityCont (props){
         const type = pane.type.toUpperCase(); //类型
         const airportName = pane.key;//机场名称
         const opt = {
-            url: ReqUrls.capacityBaseUrl+ "static/"+ airportName + "/" + type ,
-            method:'GET',
-            params:{},
+            url: ReqUrls.capacityBaseUrl+ "static/retrieveCapacityStatic" ,
+            method:'POST',
+            params:{
+                date: getFullTime( new Date(), 4),
+                elementName: airportName,
+                routeName: "",
+                firId: "",
+                elementType: type
+            },
             resFunc: (data)=> {
-                console.log(data);
-                const { resultMap } = data;
-                props.capacity.setStaticData( resultMap[airportName] );
+                // console.log(data);
+                const { capacityMap, generateTime } = data;
+                props.capacity.setStaticData( capacityMap[airportName] );
             },
             errFunc: (err)=> {
                 customNotice({
@@ -41,7 +47,7 @@ function CapacityCont (props){
             } ,
         };
 
-        requestGet(opt);
+        request(opt);
 
     },[]);
 
@@ -49,13 +55,19 @@ function CapacityCont (props){
         const type = pane.type.toUpperCase();
         const airportName = pane.key;
         const opt = {
-            url: ReqUrls.capacityBaseUrl+ "dynamic/"+ airportName + "/" + type + '/' + getFullTime( new Date(), 4) ,
-            method:'GET',
-            params:{},
+            url: ReqUrls.capacityBaseUrl+ "dynamic/retrieveCapacityDynamic",
+            method:'POST',
+            params:{
+                date: getFullTime( new Date(), 4),
+                elementName: airportName,
+                routeName: "",
+                firId: "",
+                elementType: type
+            },
             resFunc: (data)=> {
-                console.log(data);
-                const { resultMap } = data;
-                props.capacity.setDynamicData( resultMap[airportName] );
+                // console.log(data);
+                const { capacityMap, generateTime } = data;
+                props.capacity.setDynamicData( capacityMap[airportName] );
             },
             errFunc: (err)=> {
                 customNotice({
@@ -65,7 +77,7 @@ function CapacityCont (props){
             } ,
         };
 
-        requestGet(opt);
+        request(opt);
 
     },[])
 
@@ -76,7 +88,15 @@ function CapacityCont (props){
         requestDynamicData();
     }, []);
 
-   
+    //用户信息获取
+    useEffect(function(){
+        const user = localStorage.getItem("user");
+        if( isValidVariable(user) ){
+            props.systemPage.setUserData( JSON.parse(user) );
+        }else{
+            alert("请先登录");
+        }
+    }, []);
     return (
         
             <div style={{ overflowX: 'auto'}}>
@@ -93,7 +113,7 @@ function CapacityCont (props){
                             >
                                 <CapacityTable type="line1" kind="default"/>
                             </ModalBox>
-                           {/* */}<ModalBox
+                           <ModalBox
                                 title="静态容量——时段配置"
                                 showDecorator = {true}
                                 className="static_cap_modal static_cap_modal_24 modal_static"
@@ -101,7 +121,7 @@ function CapacityCont (props){
                                 <CapacityTable  type="line24" kind="static"/>
                             </ModalBox>
                         </div>
-                        {/**/}   <div className="right_wrapper">
+                          <div className="right_wrapper">
                             <ModalBox
                                 title="动态容量——时段配置"
                                 showDecorator = {true}
@@ -117,4 +137,4 @@ function CapacityCont (props){
     )
 }
 
-export default inject( "capacity" )(observer(CapacityCont));
+export default inject( "capacity", "systemPage" )(observer(CapacityCont));
