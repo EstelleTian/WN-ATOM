@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-08 10:51:48
+ * @LastEditTime: 2021-03-08 11:06:29
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -126,12 +126,12 @@ const EditableCell = ({
                 }
                 case "2" : {
                     bgClass = "alarm alarm_orange";
-                    title = "小于同比静态容量值 10%";
+                    title = "小于同比静态容量值 20%以下";
                     break;
                 }
                 case "3" : {
                     bgClass = "alarm alarm_red";
-                    title = "小于同比静态容量值 20%";
+                    title = "小于同比静态容量值 20%以上";
                     break;
                 }
                 case "wait" : {
@@ -150,9 +150,9 @@ const EditableCell = ({
             }
         }
         return <span className={bgClass} >
-                <Tooltip title={title} color="">
+                <Tooltip title={title} color="#164c69">
                     <span>{ showVal || ""}</span>
-                   { bgClass !== "" && <QuestionCircleOutlined className="cap_icon" style={{ fontSize: '0.9rem'}}/>} 
+                   { bgClass !== "" && <QuestionCircleOutlined className="cap_icon" />} 
                 </Tooltip>
             </span>
     }
