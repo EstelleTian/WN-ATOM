@@ -30,37 +30,8 @@ const CapacityFlowMonitor =(props) => {
     const flow = monitorData.flow || {};
     let  capacityFlowMonitorWeatherData = props.capacityFlowMonitorWeatherData || {};
     const weatherData = capacityFlowMonitorWeatherData.weatherData || [];
-    const monitorUnitsCNName = {
-        "ZLXY": "西安机场",
-        "ZLLL": "兰州机场",
-        "ZLXN": "西宁机场",
-        "ZLIC": "银川机场",
-        "ZLXYAR01": "西安01扇区",
-        "ZLXYAR02": "西安02扇区",
-        "ZLXYAR03": "西安03扇区",
-        "ZLXYAR04": "西安04扇区",
-        "ZLXYAR05": "西安05扇区",
-        "ZLXYAR06": "西安06扇区",
-        "ZLXYAR07": "西安07扇区",
-        "ZLXYAR08": "西安08扇区",
-        "ZLXYAR09": "西安09扇区",
-        "ZLXYAR10": "西安10扇区",
-        "ZLXYAR11": "西安11扇区",
-        "ZLXYAR12": "西安12扇区",
-        "ZLXYAR13": "西安13扇区",
-        "ZLLLAR01": "兰州01扇区",
-        "ZLLLAR02": "兰州02扇区",
-        "ZLLLAR03": "兰州03扇区",
-        "ZLLLAR04": "兰州0扇4区",
-        "ZLLLAR05": "兰州05扇区",
-        "ZLLLAR06": "兰州06扇区",
-        "ZLLLAR07": "兰州07扇区",
-        "ZLLLAR08": "兰州08扇区",
-        "ZLLLAR09": "兰州09扇区",
-        "ZLLLAR11": "兰州11扇区",
-        "ZLLLAR12": "兰州12扇区"
-    };
-
+    
+    console.log(describedMap)
     const formatWeatherData = ()=> {
         let obj = {}
         weatherData.map((item)=>{
@@ -173,17 +144,18 @@ const CapacityFlowMonitor =(props) => {
 
     // 机场类型数据
     let APMonitorData = getSingleTypeData('AP', flow);
-    // 管制区
-    let ACCMonitorData = getSingleTypeData('ACC', flow);
-    // 扇区类型数据
-    let SECTORMonitorData = getSingleTypeData('SECTOR', flow);
+    
     // 进近
     let APPMonitorData = getSingleTypeData('APP', flow);
+    // 扇区类型数据
+    let SECTORMonitorData = getSingleTypeData('SECTOR', flow);
+    // 管制区
+    let ACCMonitorData = getSingleTypeData('ACC', flow);
     // 航路
     let ROUTEMonitorData = getSingleTypeData('ROUTE', flow);
     // 航路点
     let POINTonitorData = getSingleTypeData('POINT', flow);
-    monitorDataist = APMonitorData.concat(ACCMonitorData).concat(SECTORMonitorData);
+    monitorDataist = APMonitorData.concat(ACCMonitorData).concat(APPMonitorData).concat(SECTORMonitorData);
 
     const appendAddMonitorCard = (arrData) => {
         let addData = {
@@ -304,11 +276,12 @@ const CapacityFlowMonitor =(props) => {
         let subscribeData = userSubscribeData.subscribeData || {};
         let {monitorUnit, focus} = subscribeData;
         let arr = [];
+        
         if(isValidObject(monitorUnit) && isValidVariable(focus)){
             let focusArea= monitorUnit[focus] || {};
             let focusAreaData = focusArea.data;
             for( let type in focusAreaData){
-                let units = focusAreaData[type];
+                let units = focusAreaData[type] || [];
                 arr = [...arr, ...units];
             }
         }
@@ -320,12 +293,12 @@ const CapacityFlowMonitor =(props) => {
         let subscribeData = userSubscribeData.subscribeData || {};
         let {monitorUnit, focus} = subscribeData;
         let arr = [];
-        /* if(isValidObject(monitorUnit) && isValidVariable(focus)){
+        if(isValidObject(monitorUnit) && isValidVariable(focus)){
             let focusArea= monitorUnit[focus] || {};
             let focusAreaData = focusArea.data;
-            let APUnitsData = focusAreaData['AP'];
+            let APUnitsData = focusAreaData['AP'] || [];
             arr = APUnitsData;
-        } */
+        }
         return arr;
     };
 
@@ -384,13 +357,13 @@ const CapacityFlowMonitor =(props) => {
     return(
         <Spin spinning={loading} >
         <div className="capacity_flow_monitor_container no-scrollbar">
-            {/* <List
+            <List
                 grid={{ gutter: 6, column: 10 }}
                 dataSource={monitorDataist}
                 renderItem={item => (
                     listItemData(item)
                 )}
-            /> */}A
+            />
         </div>
         </Spin>
     )

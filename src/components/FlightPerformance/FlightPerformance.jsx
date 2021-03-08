@@ -141,6 +141,22 @@ const FlightPerformance =(props) => {
             value:cplNum,
             unit: "架次"
         },
+        {
+            id:"goAround",
+            iconType: 'return',
+            // color:"#f04864",
+            des:"复飞架次",
+            value:cplNum,
+            unit: "架次"
+        },
+        {
+            id:"Hovering",
+            iconType: 'return',
+            // color:"#f04864",
+            des:"盘旋架次",
+            value:cplNum,
+            unit: "架次"
+        },
     ]
 
 
@@ -319,7 +335,7 @@ const FlightPerformance =(props) => {
                             style={ {background:"#2d6b92", color:"#d4d4d4"}}
                             title="绩效"
                             value={situation}
-                            tooltipContent={(<div><p>起飞正常率: {depRatioSituation}</p><p>离港流量: {depFlowSituation}</p></div>)}
+                            tooltipContent={(<div className="performance-tooltip-content-box"><div className="content-row"><div className="label">起飞正常率:</div> {depRatioSituation}</div><div className="content-row"><div className="label">离港流量:</div> {depFlowSituation}</div></div>)}
 
                         />
                         <div className="content">

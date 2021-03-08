@@ -46,3 +46,16 @@
 
 
 }
+.performance-tooltip-content-box {
+  display: flex;
+  flex-direction: column;
+  .content-row {
+    display: flex;
+    flex-direction: row;
+  }
+  .label {
+    min-width: 4rem;
+    text-align: right;
+    margin-right: 4px;
+  }
+}
