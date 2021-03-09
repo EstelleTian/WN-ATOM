@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-22 15:40:02
- * @LastEditTime: 2021-03-03 13:57:07
+ * @LastEditTime: 2021-03-09 14:27:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\LeftMultiCanvas\OptionBtn.jsx
@@ -12,6 +12,7 @@ import {Button} from 'antd'
      const {
          type,
          text,
+         size = "",
          callback
      } = props;
 
@@ -37,7 +38,7 @@ import {Button} from 'antd'
     }, [type])
     
     return(
-        <Button size="small" loading={load} className={classStr} onClick={ handleClick }>
+        <Button size={size} loading={load} className={classStr} onClick={ handleClick }>
             { text }
         </Button>  
     )

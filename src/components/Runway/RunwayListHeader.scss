@@ -1,0 +1,41 @@
+.runway-list-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    border: 1px solid #5d5d5d;
+    border-radius: 3px;
+    margin: 0 5px;
+    font-size: 0.85rem;
+    color: #9e9e9e;
+    background: #313131;
+    z-index: 1;
+    .left-column {
+        flex: 1 1 40%;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .right-column {
+        flex: 1 1 60%;
+        overflow: hidden;
+        white-space: nowrap;
+        .layout-column {
+            @include flex();
+        }
+    }
+    .cell {
+        padding: 5px 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .border-bottom{
+        border-bottom: 1px solid #5d5d5d;
+    }
+    .column-box {
+        flex: 1;
+        overflow: hidden;
+        border-left: 1px solid #5d5d5d;
+        justify-content: center;
+        text-align: center;
+    }
+}

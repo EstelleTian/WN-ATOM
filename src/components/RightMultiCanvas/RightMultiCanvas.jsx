@@ -17,6 +17,8 @@ import './RightMultiCanvas.scss'
 const SchemeListModal = lazy(() => import('components/SchemeList/SchemeList') );
 //TODO 本地模拟数据，用于无接口调试样式
 // const SchemeList = lazy(() => import('components/SchemeList/SchemeListMock') );
+const RunwayList = lazy(() => import('components/Runway/RunwayList') );
+
 
 function RightMultiCanvas(props){
     const { systemPage } = props;
@@ -45,6 +47,20 @@ function RightMultiCanvas(props){
                     >
 
                         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color:"#fff"}} />
+                    </ModalBox>
+                    : ""
+            }
+            {
+                rightActiveName === "runway"
+                ? <ModalBox
+                        // title="方案列表"
+                        title={`跑道列表 (数据时间:${ formatTimeString(props.schemeListData.generateTime) })`}
+                        showDecorator = {true}
+                    >
+                    <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
+                        <RunwayList />
+                    </Suspense>
+
                     </ModalBox>
                     : ""
             }

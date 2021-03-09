@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-08 11:06:29
+ * @LastEditTime: 2021-03-09 14:39:10
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -48,6 +48,36 @@ const EditableCell = ({
   }) => {
     const orgData = useRef();
     const form = useContext(EditableContext);
+    let cellClass = useMemo(function(){
+        if(editing){
+            let bgClass = "";
+            const obj = record[dataIndex] || {};
+            const source = obj.source || "";
+            switch( source ){
+                case "1" : {
+                    bgClass = "alarm alarm_green";
+                    break;
+                }
+                case "2" : {
+                    bgClass = "alarm alarm_orange";
+                    break;
+                }
+                case "3" : {
+                    bgClass = "alarm alarm_red";
+                    break;
+                }
+                case "wait" : {
+                    bgClass = "alarm alarm_yellow";
+                    break;
+                }
+                default: break;
+            }
+            return bgClass
+        }else{
+            return "";
+        }
+    },[editing,record]);
+    
 
     useEffect(()=>{
         const obj = record[dataIndex] || {};
@@ -80,7 +110,8 @@ const EditableCell = ({
 
     const inputNode = <Input onBlur={ save }/>;
     return (
-        <td {...restProps}>
+        <td{...restProps}>
+            <div className={cellClass} >
             {
             editing 
                 ? (
@@ -104,6 +135,7 @@ const EditableCell = ({
                     children
                 )
             }
+            </div>
         </td>
     );
 };
@@ -121,17 +153,17 @@ const EditableCell = ({
             switch( source ){
                 case "1" : {
                     bgClass = "alarm alarm_green";
-                    title = "大于同比静态容量值";
+                    title = "同比大于静态容量值";
                     break;
                 }
                 case "2" : {
                     bgClass = "alarm alarm_orange";
-                    title = "小于同比静态容量值 20%以下";
+                    title = "同比静态容量值 小于等于20%";
                     break;
                 }
                 case "3" : {
                     bgClass = "alarm alarm_red";
-                    title = "小于同比静态容量值 20%以上";
+                    title = "同比静态容量值 大于20%";
                     break;
                 }
                 case "wait" : {
@@ -139,9 +171,9 @@ const EditableCell = ({
                     showVal = text.originalValue || "";
                     title = (
                         <span>
-                            <div>容量待审核</div>
-                            <div>原值:{text.value}</div>
-                            <div>待审核值:{text.originalValue}</div>
+                            <div>待审核值对比</div>
+                            <div>原&nbsp;&nbsp;&nbsp;&nbsp;值:{text.originalValue}</div>
+                            <div>申请值:{text.value}</div>
                         </span>
                     );
                     break;
@@ -446,7 +478,9 @@ const CapacityTable = (props) => {
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <div className="table_cont">
-                <div className="opt_btns">
+                {
+                    kind === "dynamic" &&
+                    <div className="opt_btns">
                     {
                         !editable
                             ? <Button className="" type="primary" onClick={e =>{
@@ -462,6 +496,8 @@ const CapacityTable = (props) => {
                     }
 
                 </div>
+                }
+                
                 {
                     tableData.length > 0 
                     && <Table

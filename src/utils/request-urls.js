@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-05 14:41:21
+ * @LastEditTime: 2021-03-09 14:36:30
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -24,7 +24,7 @@ const ReqUrls = {
     flightsDataNoIdUrl: 'http://192.168.194.21:29890/influence/flights/',
     //获取--执行KPI数据
     // kpiDataUrl: 'http://192.168.194.21:29890/performkpi/',
-    kpiDataUrl: 'http://192.168.194.22:28787//kpi/',
+    kpiDataUrl: 'http://192.168.194.22:28787/kpi/',
     //获取航班执行数据
     performanceDataUrl: 'http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname',
     // performanceDataUrl: 'http://192.168.194.22:28001/traffic-flow-monitor-server/monitor/v1/flight',
@@ -63,7 +63,6 @@ const ReqUrls = {
 
     //容量管理-基础接口
     capacityBaseUrl: 'http://192.168.243.200:28482/flow-capacity-rest/capacity/',
-    // capacityBaseUrl: 'http://192.168.194.20:28482/flow-capacity-rest/capacity/',
     // 跑道列表接口
     runwayListUrl: 'http://192.168.194.21:50012/runway/defaulat/and/dynamic/retrieve/new/'
     

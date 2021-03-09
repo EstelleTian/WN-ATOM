@@ -141,6 +141,52 @@
     position: relative;
     top: -2px;
 }
+.alarm_cell{
+    overflow: hidden;
+    .alarm-tag{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .alarm_pos_1{
+        left: 10px;
+    }
+    .alarm_pos_2{
+        left: 42px;
+    }
+    .alarm_pos_3{
+        left: 74px;
+    }
+}
+.status_flag{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-top: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+//区内
+.inArea{
+    color: #3d8424;
+    // border-top: 8px solid #5aa35a;
+    // border-right: 8px solid #5aa35a;
+}
+//区外
+.outArea{
+    // border-top: 8px solid #dbdbdb;
+    // border-right: 8px solid #eeeeee;
+}
+//空中
+.inAir{
+    border-bottom: 8px solid #87d4df;
+    border-right: 8px solid #87d4df;
+}
+//地面
+.inGround{
+    border-bottom: 8px solid #907c44;
+    border-right: 8px solid #907c44;
+}
+
 //航班范围外 奇数行 底色
 .odd>td{
     background-color: #3d3b3b;

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-03-05 16:54:52
+ * @LastEditTime: 2021-03-08 20:26:16
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -33,6 +33,14 @@ import { isValidVariable } from 'utils/basic-verify'
      //动态容量 
      @observable dynamicData = {};
 
+     //动态容量 工作流
+     @observable dynamicWorkFlowData = {};
+
+
+    //动态容量 工作流-添加数据
+    @action updateDynamicWorkFlowData(obj){
+        this.dynamicWorkFlowData = obj;
+    }
      //添加pane
      @action setPane(title, key, type){
         this.panes.map( pane => {

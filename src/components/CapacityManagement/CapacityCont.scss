@@ -28,8 +28,11 @@
         @include flex();
         .left_wrapper,.right_wrapper{
             @include display_flex(column);
-            @include flex();
+            @include flex(3);
             align-items: center;
+        }
+        .dynamic_workflow{
+            @include flex(1);
         }
         .static_modal{
             width: 280px;
@@ -79,10 +82,10 @@
     display: inline-block;
 }
 .alarm_yellow{
-    background-color: rgb(138, 138, 49);
+    background-color: rgb(138, 117, 49);
 }
 .alarm_orange{
-    background-color: rgb(149, 111, 39);
+    background-color: rgb(197, 109, 8);
 }
 .alarm_red{
     background-color: rgb(170, 38, 38);

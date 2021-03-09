@@ -22,7 +22,6 @@ function RefreshBtn(props){
         <Button
             icon={<RedoOutlined />}
             size="large"
-            className="nav_btn"
             onClick={() => {
                 pageRefresh()
             }}>

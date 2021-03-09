@@ -6,6 +6,9 @@
     .multi_nav{
         padding: 8px 0 !important;
         margin: 9px 11px;
+        .ant-btn{
+            border-right: none;
+        }
     }
     >span{
         font-size: 1.57rem;
@@ -36,14 +39,14 @@
         border-right: 1px solid rgba(255, 255, 255, 0.3);
     }
     //调整按钮组高度
-    .ant-radio-group-large .ant-radio-button-wrapper{
-        height: 36px;
-        line-height: 34px;
-    }
+    // .ant-radio-group-large .ant-radio-button-wrapper{
+    //     height: 36px;
+    //     line-height: 34px;
+    // }
     .ant-btn-lg{
-        height: 36px;
+        // height: 36px;
         border-radius: 0;
-        padding: 4.4px 13.5px;
+        // padding: 4.4px 13.5px;
     }
     //去掉圆角
     .ant-radio-button-wrapper:first-child {
@@ -66,10 +69,6 @@
     padding-left: 10px;
     padding-right: 10px;
     align-items: center;
-    .nav_btn{
-        position: relative;
-        top: 2px;
-    }
 }
 .nav_right{
     float: right;

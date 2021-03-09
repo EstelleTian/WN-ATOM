@@ -20,6 +20,7 @@ import { capacity } from './capacityStores'
 import { userSubscribeData } from './totalPageStores'
 import { todoList } from './todoListStores'
 import { myApplicationList } from './myApplicationListStores'
+import { runwayListData } from './runwayStores'
 
 export { 
     schemeListData,
@@ -35,7 +36,7 @@ export {
     capacity,
     todoList,
     userSubscribeData,
-    myApplicationList
-
+    myApplicationList,
+    runwayListData
  };
 

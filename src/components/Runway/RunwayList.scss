@@ -1,0 +1,147 @@
+.runway_list_canvas{
+    @include display_flex(column);
+    @include flex();
+    .ant-spin-nested-loading, .ant-spin-container{
+        @include display_flex(column);
+        @include flex();
+    }
+    .runway-filter {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+        margin-top: 0.2rem;
+    }
+    .list_container{
+        font-size: 1rem;
+        overflow-y: auto;
+        //height: calc( 100% - 32px );
+        //方案列表-单个方案模块
+        .item_container{
+            background-color: #343434;
+            border: 1px solid #5d5d5d;
+            border-radius: 3px;
+            margin: 10px 5px;
+            cursor: pointer;
+            color: #9e9e9e;
+            .left-column {
+                flex: 1 1 40%;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+            .right-column {
+                flex: 1 1 60%;
+                overflow: hidden;
+                white-space: nowrap;
+                .layout-column {
+                    @include flex();
+                }
+            }
+            
+            .right-column2 {
+                flex: 1 1 60%;
+                overflow: hidden;
+                white-space: nowrap;
+                @include display_flex();
+                
+            }
+            .border-bottom{
+                border-bottom: 1px solid #5d5d5d;
+            }
+            .border-left{
+                border-left: 1px solid #5d5d5d;
+            }
+            
+            .column-box {
+                @include flex();
+                border-left: 1px solid #5d5d5d;
+                justify-content: center;
+                text-align: center;
+            }
+            .double-column-box  {
+                @include flex(2);
+            }
+
+            .cell {
+                padding: 5px 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+            }
+            .options-box {
+                border-left: 1px solid #5d5d5d;
+                padding: 0 10px;
+                @include flex();
+                @include display_flex();
+            }
+            .opt{
+                font-size: 0.85rem;
+                color: #36a5da;
+                padding-right: 10px;
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                padding-right: 10px;
+                .ant-dropdown-link{
+                    color: #36a5da;
+                    // color: #ff8c1f;
+                }
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+            .tactic-name, .status {
+                color: #36a5da;
+            }
+            .FUTURE{
+                color: #10e99a;
+            }
+            .TERMINATED, .TERMINATED_MANUAL, .STOP, .FINISHED, .DISCARD{
+                color: #e95354;
+            }
+
+            .runway-name {
+                font-weight: 900;
+            }
+            .summary {
+                padding: 3px 0;
+                flex: 1 1 40%;
+                overflow: hidden;
+                 white-space: nowrap;
+            }
+            .status, .calculate {
+                padding-right: 10px;
+                font-size: 0.9rem;
+            }
+            &:hover{
+                -webkit-filter: brightness(1.2);
+                filter: brightness(1.2);
+            }
+        }
+    }
+    //状态过滤按钮组
+    .ant-checkbox-group{
+        margin: .5rem .5rem 0;
+        .ant-checkbox-group-item{
+            font-size: 0.75rem;
+            margin-right: 0.35rem;
+            .ant-checkbox + span {
+                padding-right: .3rem;
+                padding-left: .3rem;
+            }
+        }
+    }
+
+}
+.scheme-summary {
+    p {
+        margin-bottom: 4px;
+    }
+}
+
+.menu_opt{
+    font-size: 0.75rem;
+    color: #36a5da;
+}
+.scheme-modify {
+    visibility: hidden;
+}
