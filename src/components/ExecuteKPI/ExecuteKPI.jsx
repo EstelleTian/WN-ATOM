@@ -26,9 +26,9 @@ const ExecuteKPI = (props) => {
             <div className="kpi_canvas">
                 <ImpactFlights />
                 <ImpactLevel />
-                <Row className="ant-row-no-wrap"></Row>
-                <CTOTRate  />
                 <PreDelay/>
+                <CTOTRate  />
+                
             </div>
 
         </Spin>
