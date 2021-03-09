@@ -666,15 +666,23 @@ function RestrictionForm(props){
                 'targetUnit',
                 'restrictionMode',
                 'restrictionModeValue',
-                'startDate',
-                'startTime',
+                'arrAp',
             ];
             // 触发表单验证取表单数据
             const values = await form.validateFields(fields);
-            const { startTime, targetUnit, restrictionMode, restrictionModeValue, } = values;
+            let {  targetUnit, restrictionMode, restrictionModeValue, arrAp } = values;
+            let name = "";
             unit = restrictionModeUnit[restrictionMode];
-            // 拼接名称
-            const name = `${startTime}-${targetUnit.toUpperCase()}-${restrictionMode}-${restrictionModeValue} ${unit} `;
+            if(isValidVariable(arrAp)){
+                arrAp = arrAp.toUpperCase();
+                // 拼接名称
+                name = `${targetUnit.toUpperCase()} ${arrAp} ${restrictionModeValue} ${unit}`;
+            }else {
+                // 拼接名称
+                name = `${targetUnit.toUpperCase()} ${restrictionModeValue} ${unit} `;
+            }
+
+            
             // 更新
             form.setFieldsValue({'tacticName': name});
 
