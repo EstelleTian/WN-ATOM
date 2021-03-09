@@ -213,42 +213,50 @@ const FlightCoordination = {
         let zh = "";
         let color="";
         let descriptions="";
+        let pos="";
         let s = parseInt(alarm, 10);
         switch (s) {
             case FlightCoordination.ALARM_TYPE_DELAY:
                 zh = '延';
                 color="#9a7c4d";
                 descriptions="延误";
+                pos = 1;
                 break;
             case FlightCoordination.ALARM_TYPE_CRITICAL:
                 zh = '临';
                 color="rgb(138 94 148)";
                 descriptions="临界";
+                pos = 1;
                 break;
             case FlightCoordination.ALARM_TYPE_EXEMPTION:
                 zh = '豁';
                 color="rgba(139, 68, 88, 0.76)";
                 descriptions="豁免";
+                pos = 2;
                 break;
             case FlightCoordination.ALARM_TYPE_HALF:
                 zh = '半';
                 color="#007bbb";
                 descriptions="半数";
+                pos = 2;
                 break;
             case FlightCoordination.ALARM_TYPE_INPOOL:
                 zh = '池';
                 color="#ff6600";
                 descriptions="入池";
+                pos = 3;
                 break;
             case FlightCoordination.ALARM_TYPE_EXCHANGE:
                 zh = '换';
                 color="#02794f";
                 descriptions="时隙交换";
+                pos = 3;
                 break;
             case FlightCoordination.ALARM_TYPE_DEXIT_SLOT:
                 zh = '退';
                 color="#769e28";
                 descriptions="退出时隙分配";
+                pos = 3;
                 break;
             default:
                 break;
@@ -257,7 +265,8 @@ const FlightCoordination = {
             key: s,
             zh,
             color,
-            descriptions
+            descriptions,
+            pos
         };
     },
 

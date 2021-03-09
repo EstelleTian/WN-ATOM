@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-03-04 17:44:37
+ * @LastEditTime: 2021-03-09 13:13:15
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -118,7 +118,7 @@ class FlightTableData{
     }
     //修改--航班列表-自动滚动状态
     @action setSearchVal( values ){
-        this.searchVal = values;
+        this.searchVal = values.trim();
     }
 
     //获取航班高亮航班对象
@@ -137,19 +137,19 @@ class FlightTableData{
     //获取真正展示的航班
     @computed get getShowFlights(){
         let showList = this.list.map( flight => formatSingleFlight(flight) );
-        const oVal = this.searchVal;
-        if( oVal !== "" ){
+        const searchVal = this.searchVal.toLowerCase();
+        if( searchVal !== "" ){
             showList = showList.filter( flight => {
-                for(let key in flight){
-                    let val = flight[key] || ""
-                    val = val + ""
-                    val = val.toLowerCase();
-                    const sVal = oVal.toLowerCase();
-                    if( val.indexOf( sVal ) !== -1 ){
-                        return true
-                    }
+                let FLIGHTID = flight.FLIGHTID || "";
+                FLIGHTID = FLIGHTID.toLowerCase() || "";
+                let FFIX = flight.FFIX || "";
+                FFIX = FFIX.toLowerCase() || "";
+                if( FLIGHTID.indexOf( searchVal ) !== -1 || FFIX.indexOf( searchVal ) !== -1 ){
+                    return true
+                }else{
+                    return false;
                 }
-                return false
+                
             } );
         } 
         const targetFlight = this.getTargetFlight(showList);

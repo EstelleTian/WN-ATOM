@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-04 17:20:56
+ * @LastEditTime: 2021-03-09 14:28:03
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -624,14 +624,14 @@ const TodoTable = (props) => {
                     return (
                         <div style={{ textAlign: 'right'}}>
                         {
-                            agree && <OptionBtn type="agree" text="同意" callback = {
+                            agree && <OptionBtn type="agree" size="small" text="同意" callback = {
                                 (setLoad)=>{ 
                                     sendResultRequest("agree", text, setLoad) 
                                 }
                             } />
                         }
                         {
-                            refuse ?<OptionBtn type="refuse" text="拒绝" callback = {
+                            refuse ?<OptionBtn type="refuse" size="small" text="拒绝" callback = {
                                 (setLoad)=>{ 
                                     sendResultRequest("refuse", text, setLoad) 
                                 }

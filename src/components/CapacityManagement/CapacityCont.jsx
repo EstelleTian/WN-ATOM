@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-05 17:41:43
+ * @LastEditTime: 2021-03-09 14:14:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -13,6 +13,7 @@ import { ReqUrls } from 'utils/request-urls'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { isValidVariable, getFullTime } from 'utils/basic-verify'
 import CapacityTable from './CapacityTable';
+import DynamicWorkSteps from './DynamicWorkSteps';
 import { customNotice } from 'utils/common-funcs'
 import "./CapacityCont.scss"
 //获取屏幕宽度，适配 2k
@@ -20,6 +21,7 @@ let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 //容量管理内容页
 function CapacityCont (props){
     const { capacity, pane } = props;
+    let user;
     
     const requestStaticData = useCallback(() => {
         const type = pane.type.toUpperCase(); //类型
@@ -90,7 +92,7 @@ function CapacityCont (props){
 
     //用户信息获取
     useEffect(function(){
-        const user = localStorage.getItem("user");
+        user = localStorage.getItem("user");
         if( isValidVariable(user) ){
             props.systemPage.setUserData( JSON.parse(user) );
         }else{
@@ -98,7 +100,6 @@ function CapacityCont (props){
         }
     }, []);
     return (
-        
             <div style={{ overflowX: 'auto'}}>
                 <div className="cap_set_canvas">
                     <div className="set_top">
@@ -121,7 +122,7 @@ function CapacityCont (props){
                                 <CapacityTable  type="line24" kind="static"/>
                             </ModalBox>
                         </div>
-                          <div className="right_wrapper">
+                        <div className="right_wrapper">
                             <ModalBox
                                 title="动态容量——时段配置"
                                 showDecorator = {true}
@@ -129,7 +130,10 @@ function CapacityCont (props){
                             >
                                 <CapacityTable  type="line24" kind="dynamic"/>
                             </ModalBox>
-                        </div>                 
+                            
+                        </div>
+                        <DynamicWorkSteps pane={pane}></DynamicWorkSteps>   
+                                   
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-05 11:33:01
+ * @LastEditTime: 2021-03-09 13:14:35
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -236,7 +236,7 @@ const SearchInput = inject("flightTableData")(observer((props) => {
             allowClear
             style={{ width: '200px', marginRight: '15px' }}
             defaultValue={ searchVal }
-            placeholder="请输入要查询的关键字"
+            placeholder="请输入航班号或航路点"
             onPressEnter={ e => handleInputVal( e.target.value) }
             onChange={ e => handleInputVal( e.target.value) }
         />

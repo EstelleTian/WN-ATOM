@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-03-05 11:07:42
+ * @LastEditTime: 2021-03-09 11:25:52
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -21,7 +21,7 @@ import { Tag, Tooltip } from "antd";
 const randerAlarmCellChildren =(opt)=> {
     const {text, record, index, col, colCN} = opt;
     // 置空title属性,解决title显示[object,object]问题
-    return <div className="alarm" title="">{text}</div>
+    return <div className="alarm_cell" title="">{text}</div>
 }
 
 /**
@@ -405,10 +405,9 @@ const formatSingleFlight = flight => {
         key: flight.id,
         id: flight.id,
         FLIGHTID: flight.flightid,
-        // ALARM: alarms.join("-"),
         ALARM: formatAlarmValue(alarms).map((item)=>(
             <Tooltip key={item.key} title={item.descriptions}>
-                <Tag className={`alarm-tag alarm_${item.key} `}  key={item.key} color={item.color}>{item.zh}</Tag>
+                <Tag className={`alarm-tag alarm_${item.key} alarm_pos_${item.pos} `}  key={item.key} color={item.color}>{item.zh}</Tag>
             </Tooltip>
         )),
         TASK: taskVal,

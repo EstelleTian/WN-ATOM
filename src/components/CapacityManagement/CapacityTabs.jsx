@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-03-08 10:08:56
+ * @LastEditTime: 2021-03-08 11:32:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -15,10 +15,7 @@ import { NWGlobal } from 'utils/global';
 
 const { TabPane } = Tabs;
 
-NWGlobal.setCapacityPane = function( str ){
-    const obj = JSON.parse(str) || {};
-    
-}
+
   
 //容量管理tab页
 function CapacityTabs (props){
@@ -29,6 +26,19 @@ function CapacityTabs (props){
         activeKey = getActivePane[0].key;
     }
     
+    NWGlobal.setCapacityPane = function( str ){
+        const obj = JSON.parse(str) || {
+            title: "ZLXY-西安/咸阳",
+            key: "ZLXY",
+            type: "airport",
+            active: true,
+            date: "0", 
+            kind: 'all',
+            timeInterval: "60"
+         };
+        props.capacity.setPane(obj);
+    }
+
     const onChange = useCallback(aKey => {
         props.capacity.activePane(aKey);
     },[]);

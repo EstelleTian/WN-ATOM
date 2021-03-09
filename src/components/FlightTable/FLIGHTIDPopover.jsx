@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-02-24 13:06:36
+ * @LastEditTime: 2021-03-09 13:42:30
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -141,7 +141,7 @@ let FLIGHTIDPopover = (props) => {
 
     },[props.systemPage.user, props.schemeListData.activeSchemeId]);
 
-    const { priority, isInPoolFlight, hasAuth, colorClass } = useMemo( ()=>{
+    const { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP } = useMemo( ()=>{
         
         let { orgdata } = record;
         if( isValidVariable(orgdata) ){
@@ -172,7 +172,7 @@ let FLIGHTIDPopover = (props) => {
             colorClass += " in_pool " + orgdata.poolStatus;
         }
         
-        return { priority, isInPoolFlight, hasAuth, colorClass };
+        return { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP };
     }, [props.opt])
 
     
@@ -215,10 +215,16 @@ let FLIGHTIDPopover = (props) => {
             trigger={[`contextMenu`]}
         >
             <Tooltip title={ tipObj.title } visible={ tipObj.visible } color={ tipObj.color }>
-                <div className={colorClass}  >
-                    <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${ PriorityList[priority] }`}>
-                        <span className="">{ text }</span>
+                
+                <div className={`${colorClass}`}  >
+                    <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${ PriorityList[priority] } ${isInAreaFlight ? "区内" : "区外"} ${hadDEP ? "空中" : "地面"}`}>
+                        <span className={`${isInAreaFlight ? "inArea" : "outArea"}`}>{ text }</span>
                     </div>
+                    {/* <div 
+                        title={`${isInAreaFlight ? "区内" : "区外"} ${hadDEP ? "空中" : "地面"}`} 
+                        className={`status_flag ${isInAreaFlight ? "inArea" : "outArea"} ${hadDEP ? "inAir" : "inGround"}`}
+                    ></div> */}
+                    <div title={`${hadDEP ? "空中" : "地面"}`} className={`status_flag ${hadDEP ? "inAir" : "inGround"}`}></div>
                 </div>
             </Tooltip>
 
