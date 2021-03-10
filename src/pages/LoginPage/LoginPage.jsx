@@ -37,7 +37,7 @@ function LoginPage(props){
                     resFunc: (data)=> {
                         // updateUserInfoData(data)
                         console.log(data);
-                        const { status, user } = data;
+                        const { status, user={}, userConcernTrafficList={} } = data;
                         if( status*1 === 200){
                             message.success({
                                 content: "登录成功",
@@ -46,6 +46,7 @@ function LoginPage(props){
                             });
                 
                             localStorage.setItem("user", JSON.stringify(user) );
+                            localStorage.setItem("userConcernTrafficList", JSON.stringify(userConcernTrafficList) );
                             saveUserInfo(username, password);
                         }else{
                             const err = data.error;

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-09 14:39:10
+ * @LastEditTime: 2021-03-10 10:31:42
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -13,7 +13,7 @@ import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { message, Table, Input, Button, Popconfirm, Tooltip, Form, Spin  } from "antd";
-import { isValidVariable, isValidObject, getFullTime } from 'utils/basic-verify'
+import { isValidVariable, isValidObject, formatTimeString } from 'utils/basic-verify';
 import { REGEXP } from 'utils/regExpUtil'
 import { customNotice } from 'utils/common-funcs'
 // import { data1, data24 } from '../../mockdata/static'
@@ -84,7 +84,10 @@ const EditableCell = ({
         orgData.current = obj.value*1 || "";
         if(editing){
             const obj = record[dataIndex] || {};
-            const val = obj.value*1 || "";
+            let val = obj.value*1;
+            if( val === -1){
+                val = "-"
+            }
             
             form.setFieldsValue({
                 [dataIndex]: val,
@@ -147,6 +150,9 @@ const EditableCell = ({
         let bgClass = "";
         let title = "";
         let showVal = text.value || "";
+        if( showVal === -1){
+            showVal = "-"
+        }
         if( text.hasOwnProperty("source") ){
             const source = text.source || "";
             
@@ -178,7 +184,7 @@ const EditableCell = ({
                     );
                     break;
                 }
-                default: break;
+                default: bgClass = "";  break;
             }
         }
         return <span className={bgClass} >
@@ -521,6 +527,7 @@ const CapacityTable = (props) => {
                             className="capacity_number_table"
                         />
                 }
+                
                    
             </div>
         </Suspense>

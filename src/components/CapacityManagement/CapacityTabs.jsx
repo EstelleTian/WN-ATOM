@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-03-08 11:32:46
+ * @LastEditTime: 2021-03-10 09:00:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -60,7 +60,10 @@ function CapacityTabs (props){
         >
             { panes.map(pane => (
                 <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
-                    <CapacityCont pane={pane}/>
+                    {
+                        activeKey === pane.key && <CapacityCont pane={pane}/> 
+                    }
+                    
                 </TabPane>
             ))}
       </Tabs>

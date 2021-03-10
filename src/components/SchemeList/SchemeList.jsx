@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-05 10:14:41
+ * @LastEditTime: 2021-03-10 09:39:11
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -226,14 +226,18 @@ function useFlightsList(props){
                 baseTime =  year + "" + month + "" + day;
             } 
             let reqId = activeSchemeId;
+            let trafficId = "";
             if( activeSchemeId.indexOf("focus") > -1 ){
+                trafficId = activeSchemeId.replace(/focus-/g, "");
                 activeSchemeId = "";
                 reqId = "";
+                
             }
             params = {
                 startTime: baseTime + '000000',
                 endTime: baseTime+'235900',
-                id: reqId
+                id: reqId,
+                trafficId,
             };
             const timerFunc = function(){
                 //开启定时
@@ -360,8 +364,12 @@ function useKPIData(props){
         // console.log("执行KPI数据 getKPIData")
         if(leftActiveName === "kpi"){
             const p = new Promise( (resolve, reject) => {
+                let activeSchemeId = schemeListData.activeSchemeId;
+                if( activeSchemeId.indexOf("focus") > -1 ){
+                    activeSchemeId = activeSchemeId.replace(/focus-/g, "");
+                }
                 const opt = {
-                    url: ReqUrls.kpiDataUrl + schemeListData.activeSchemeId,
+                    url: ReqUrls.kpiDataUrl + activeSchemeId,
                     method:'GET',
                     params:{},
                     resFunc: (data)=> {

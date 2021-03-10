@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-03-05 10:26:40
+ * @LastEditTime: 2021-03-10 09:40:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -24,6 +24,9 @@ function LeftNav(props){
             props.schemeListData.toggleSchemeActive("");
         }
     }
+    let userConcernTrafficListStr = localStorage.getItem("userConcernTrafficList");
+    let userConcernTrafficList = JSON.parse(userConcernTrafficListStr) || [];
+
     return (
         <div className="layout-nav-left layout-row">
             <Radio.Group 
@@ -32,7 +35,12 @@ function LeftNav(props){
                 size="large"
                 
              >
-                <Radio.Button value="focus-ZLXY" onClick={ groupNameChange } >ZLXY</Radio.Button>
+                 {
+                     userConcernTrafficList.map( item => (
+                        <Radio.Button key={item.concernTrafficId} value={`focus-${item.concernTrafficId}`} onClick={ groupNameChange } >{item.concernTrafficName}</Radio.Button>
+                     ))
+                 }
+                
             </Radio.Group>
 
             {/*<div className="time-range">*/}

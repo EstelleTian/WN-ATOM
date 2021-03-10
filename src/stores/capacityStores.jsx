@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-03-08 20:26:16
+ * @LastEditTime: 2021-03-10 10:29:13
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -19,8 +19,26 @@ import { isValidVariable } from 'utils/basic-verify'
          {
             title: "ZLXY-西安/咸阳",
             key: "ZLXY",
-            type: "airport",
+            type: "AIRPORT",
             active: true,
+            date: "0", 
+            kind: 'all',
+            timeInterval: "60"
+         },
+         {
+            title: "ZLXYAR01",
+            key: "ZLXYAR01",
+            type: "AREA",
+            active: false,
+            date: "0", 
+            kind: 'all',
+            timeInterval: "60"
+         },
+         {
+            title: "ZLXYAR02+ZLXYAR03",
+            key: "ZLXYAR02+ZLXYAR03",
+            type: "AREA",
+            active: false,
             date: "0", 
             kind: 'all',
             timeInterval: "60"
@@ -32,6 +50,7 @@ import { isValidVariable } from 'utils/basic-verify'
 
      //动态容量 
      @observable dynamicData = {};
+     @observable dynamicDataGenerateTime = '';
 
      //动态容量 工作流
      @observable dynamicWorkFlowData = {};
@@ -142,12 +161,13 @@ import { isValidVariable } from 'utils/basic-verify'
     }
 
     //更新 动态data
-    @action setDynamicData(data){
+    @action setDynamicData(data, time){
         for(let key in data){
             const item = data[key] || {};
             item["key"] = key;
         }
         this.dynamicData = data;
+        this.dynamicDataGenerateTime = time;
     }
 
     //24小时 动态data

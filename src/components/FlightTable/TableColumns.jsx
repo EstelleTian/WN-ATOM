@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-03-09 11:25:52
+ * @LastEditTime: 2021-03-09 15:32:15
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -86,10 +86,10 @@ let defaultNames = {
         "en":"ALARM",
         "cn":"告警",
     },
-    "TASK":{
-        "en":"TASK",
-        "cn":"优先级"
-    },
+    // "TASK":{
+    //     "en":"TASK",
+    //     "cn":"优先级"
+    // },
     "FFIX":{
         "en":"FFIX",
         "cn":"基准点"
