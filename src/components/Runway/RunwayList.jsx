@@ -2,18 +2,14 @@
 import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react';
 import debounce from 'lodash/debounce'
 import { inject, observer } from 'mobx-react'
-import { Checkbox, Empty, Spin, notification, Radio } from 'antd'
-import { requestGet } from 'utils/request'
-import { isValidVariable, isValidObject } from 'utils/basic-verify'
+import {  Empty, Spin,  Radio } from 'antd'
+import { request } from 'utils/request'
+import {getFullTime, isValidVariable, isValidObject } from 'utils/basic-verify'
 import { ReqUrls } from 'utils/request-urls'
 import { customNotice } from 'utils/common-funcs'
 import  RunwayItem  from "./RunwayItem";
 import  RunwayListHeader  from "./RunwayListHeader";
-
 import './RunwayList.scss'
-
-
-
 
 const Filter = (props) => {
     const { runwayListData = {} } = props;
@@ -37,23 +33,58 @@ const FilterBar = inject("runwayListData")(observer(Filter))
 //跑道列表
 function List(props) {
     const { runwayListData, systemPage } = props;
-    const {  loading } = runwayListData;
+    const { filterList, loading } = runwayListData;
     const userId = systemPage.user.id || ""
-    const sortedList = []
+    const sortedList = filterList;
+
+    //更新跑道列表数据
+    const updateRunwayListData = data => {
+        runwayListData.toggleLoad(false);
+        const generateTime = data.generateTime || "";
+        // let obj = {"ZLXY":{"rwGapDefaultMap":{"149796":[{"id":8825,"apName":"ZLXY","rwName":"05L/23R","logicRWDef":"05L","logicRWNameA":"05L","logicRWNameB":"23R","logicRWValueA":2.0,"logicRWTaxitimeA":5,"isDepRW":2,"wayPoint":"P17,P35,P54,NSH,SHX,WJC,TEBIB,OTHER","fromId":8801,"generateTime":"202103100251","startTime":"202103100251","endTime":"202103102359","groupId":149796,"type":1,"userName":"zlxydev","status":1,"isExecuting":2,"operationmode":200},{"id":8826,"apName":"ZLXY","rwName":"05R/23L","logicRWDef":"23L","logicRWNameA":"05R","logicRWNameB":"23L","logicRWValueA":12.0,"logicRWTaxitimeA":13,"isDepRW":0,"fromId":8802,"generateTime":"202103100251","startTime":"202103100251","endTime":"202103102359","groupId":149796,"type":1,"userName":"zlxydev","status":1,"isExecuting":2,"operationmode":200}]},"rwDynamicMap":{"149794":[{"id":8821,"apName":"ZLXY","rwName":"05L/23R","logicRWDef":"05L","logicRWNameA":"05L","logicRWNameB":"23R","logicRWValueA":1.0,"logicRWTaxitimeA":5,"isDepRW":1,"wayPoint":"P17,P35,P54,NSH,SHX,WJC,TEBIB,OTHER","generateTime":"202103100234","startTime":"202103100234","endTime":"202103101032","groupId":149794,"type":2,"userName":"zlxydev","status":1,"isExecuting":1,"operationmode":200},{"id":8822,"apName":"ZLXY","rwName":"05R/23L","logicRWDef":"23L","logicRWNameA":"05R","logicRWNameB":"23L","logicRWTaxitimeA":13,"isDepRW":-1,"generateTime":"202103100234","startTime":"202103100234","endTime":"202103101032","groupId":149794,"type":2,"userName":"zlxydev","status":1,"isExecuting":2,"operationmode":200}],"149795":[{"id":8823,"apName":"ZLXY","rwName":"05L/23R","logicRWDef":"23R","logicRWNameA":"05L","logicRWNameB":"23R","logicRWValueB":3.0,"logicRWTaxitimeA":5,"logicRWTaxitimeB":4,"isDepRW":2,"wayPoint":"P17,P35,P54,NSH,SHX,WJC,TEBIB,OTHER","generateTime":"202103100234","startTime":"202103101130","endTime":"202103101530","groupId":149795,"type":2,"userName":"zlxydev","status":1,"isExecuting":2,"operationmode":200},{"id":8824,"apName":"ZLXY","rwName":"05R/23L","logicRWDef":"05R","logicRWNameA":"05R","logicRWNameB":"23L","logicRWTaxitimeB":25,"isDepRW":-1,"generateTime":"202103100234","startTime":"202103101130","endTime":"202103101530","groupId":149795,"type":2,"userName":"zlxydev","status":1,"isExecuting":2,"operationmode":200}]},"rwGapDefaultMapTodayAll":{"149796":[{"id":8825,"apName":"ZLXY","rwName":"05L/23R","logicRWDef":"05L","logicRWNameA":"05L","logicRWNameB":"23R","logicRWValueA":2.0,"logicRWTaxitimeA":5,"isDepRW":2,"wayPoint":"P17,P35,P54,NSH,SHX,WJC,TEBIB,OTHER","fromId":8801,"generateTime":"202103100251","startTime":"202103100251","endTime":"202103102359","groupId":149796,"type":1,"userName":"zlxydev","status":1,"isExecuting":2,"operationmode":200},{"id":8826,"apName":"ZLXY","rwName":"05R/23L","logicRWDef":"23L","logicRWNameA":"05R","logicRWNameB":"23L","logicRWValueA":12.0,"logicRWTaxitimeA":13,"isDepRW":0,"fromId":8802,"generateTime":"202103100251","startTime":"202103100251","endTime":"202103102359","groupId":149796,"type":1,"userName":"zlxydev","status":1,"isExecuting":2,"operationmode":200}],"149750":[{"id":8801,"apName":"ZLXY","rwName":"05L/23R","logicRWDef":"05L","logicRWNameA":"05L","logicRWNameB":"23R","logicRWValueA":2.0,"logicRWTaxitimeA":5,"isDepRW":2,"wayPoint":"WJC,TEBIB","fromId":8781,"generateTime":"202103090000","startTime":"202103090000","endTime":"202103092359","groupId":149750,"type":1,"userName":"zlxydev","updateTime":"202103100250","status":0,"isExecuting":2,"operationmode":200},{"id":8802,"apName":"ZLXY","rwName":"05R/23L","logicRWDef":"23L","logicRWNameA":"05R","logicRWNameB":"23L","logicRWValueA":12.0,"logicRWValueB":2.0,"logicRWTaxitimeA":13,"logicRWTaxitimeB":25,"isDepRW":2,"wayPoint":"P17,P35,P54,NSH,SHX,OTHER","fromId":8782,"generateTime":"202103090000","startTime":"202103090000","endTime":"202103092359","groupId":149750,"type":1,"userName":"zlxydev","updateTime":"202103100250","status":0,"isExecuting":2,"operationmode":200}]},"rwDynamicMapTodayAll":{"149794":[{"id":8821,"apName":"ZLXY","rwName":"05L/23R","logicRWDef":"05L","logicRWNameA":"05L","logicRWNameB":"23R","logicRWValueA":1.0,"logicRWTaxitimeA":5,"isDepRW":1,"wayPoint":"P17,P35,P54,NSH,SHX,WJC,TEBIB,OTHER","generateTime":"202103100234","startTime":"202103100234","endTime":"202103101032","groupId":149794,"type":2,"userName":"zlxydev","status":1,"isExecuting":1,"operationmode":200},{"id":8822,"apName":"ZLXY","rwName":"05R/23L","logicRWDef":"23L","logicRWNameA":"05R","logicRWNameB":"23L","logicRWTaxitimeA":13,"isDepRW":-1,"generateTime":"202103100234","startTime":"202103100234","endTime":"202103101032","groupId":149794,"type":2,"userName":"zlxydev","status":1,"operationmode":200}],"149795":[{"id":8823,"apName":"ZLXY","rwName":"05L/23R","logicRWDef":"23R","logicRWNameA":"05L","logicRWNameB":"23R","logicRWValueB":3.0,"logicRWTaxitimeA":5,"logicRWTaxitimeB":4,"isDepRW":2,"wayPoint":"P17,P35,P54,NSH,SHX,WJC,TEBIB,OTHER","generateTime":"202103100234","startTime":"202103101130","endTime":"202103101530","groupId":149795,"type":2,"userName":"zlxydev","status":1,"isExecuting":2,"operationmode":200},{"id":8824,"apName":"ZLXY","rwName":"05R/23L","logicRWDef":"05R","logicRWNameA":"05R","logicRWNameB":"23L","logicRWTaxitimeB":25,"isDepRW":-1,"generateTime":"202103100234","startTime":"202103101130","endTime":"202103101530","groupId":149795,"type":2,"userName":"zlxydev","status":1,"isExecuting":2,"operationmode":200}]}}}
+        const result = data.result || {};
+        runwayListData.updateRunwayList(result, generateTime)
+    };
+
+    // 请求跑道列表数据失败
+    const requestErr = (err, content) => {
+        customNotice({
+            type: 'error',
+            message: content
+        })
+    };
+
+    // 请求方案数据
+    const requestRunwayListData = () => {
+        const now = getFullTime(new Date());
+        const nowDate = now.substring(0,8);
+        const start = nowDate+'0000';
+        const end = nowDate+'2359';
+        // 请求参数
+        const opt = {
+            url: ReqUrls.runwayListUrl + userId +'?airportStr='+'ZLXY'+'&startTime='+ start+'&endTime='+end,
+            method:'GET',
+            params:{},
+            resFunc: (data)=> updateRunwayListData(data),
+            errFunc: (err)=> requestErr(err, '跑道数据获取失败' ),
+        };
+        // 发送请求
+        request(opt);
+    };
 
     useEffect(function(){
         // 初次获取数据启用loading
-        // props.runwayListData.toggleLoad(true);
+        props.runwayListData.toggleLoad(true);
         // 获取数据
-        // requestRunwayListDataData();
+        requestRunwayListData();
         // 清除定时
-        // clearInterval(props.runwayListData.timeoutId);
+        clearInterval(props.runwayListData.timeoutId);
         // 开启定时获取数据
-        // props.runwayListData.timeoutId = setInterval(runwayListData, 60*1000);
-        // return function(){
-        //     clearInterval(props.runwayListData.timeoutId);
-        //     props.runwayListData.timeoutId = "";
-        // }
+        props.runwayListData.timeoutId = setInterval(runwayListData, 60*1000);
+        return function(){
+            clearInterval(props.runwayListData.timeoutId);
+            props.runwayListData.timeoutId = "";
+        }
     },[props.systemPage.userId])
     return (
         <Spin spinning={loading} >
@@ -63,8 +94,8 @@ function List(props) {
                     (sortedList.length > 0) ?
                         sortedList.map((item, index) => (
                             <RunwayItem
-                                item={item}
-                                key={index}
+                                singleGroupRunwayData={item}
+                                key={item.id}
                                 // toggleModalVisible={toggleModalVisible}
                                 // toggleModalType={toggleModalType}
                             >
