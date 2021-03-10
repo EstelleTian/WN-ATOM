@@ -1,11 +1,9 @@
-.advanced_form{
-  border: solid 1px #9e9e9e;
-  border-radius: 6px;
+.advanced_form {
+  padding-top: 10px;
+  position: relative;
   margin-bottom: 10px;
-  padding: 4px;
-  &.scheme_update_form {
-    border: none;
-    padding: 0;
+  &.bordered-form {
+    border: solid 1px #9e9e9e;
   }
   .ant-form-item{
     margin-bottom: 8px;
@@ -43,10 +41,6 @@
   }
   .ant-col.ant-form-item-label{
      min-width: 100px;
-  }
-  .ant-input-disabled{
-    //border: none;
-    //background: $c-white-50;
   }
   .ant-input-group-addon {
     border: none;
@@ -90,51 +84,25 @@
     background-color: #177ddc !important;
     border-color: #177ddc !important;
   }
-
-
   .ant-input-disabled .ant-picker-suffix,
   .ant-select-disabled .ant-select-arrow {
     visibility: hidden;
+  }
+  .operation-bar {
+    z-index: 1;
+    position: absolute;
+    top: 8px;
+    display: flex;
+    width: 100%;
+    padding: 0 3rem;
+    padding-left: 123px;
+    .button-container {
+      margin-right: 2rem;
+    }
   }
   .hidden-label {
     .ant-form-item-label{
       visibility: hidden
     }
   }
-
-
-}
-//.footer {
-//  display: flex;
-//  height: 52px;
-//  border-top: 1px solid #424242;
-//  justify-content: flex-end;
-//  background: #363636;
-//  padding: 10px 20px;
-//}
-.btn_edit, .btn_save_edit{
-  position: absolute;
-  top: 0;
-  left: 90px;
-}
-.btn_import{
-  position: absolute;
-  top: 0;
-  left: 190px;
-}
-
-.btn_ignore{
-  position: absolute;
-  top: 0;
-  left: 290px;
-}
-.btn_update{
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
-}
-.btn_create{
-  position: absolute;
-  top: 4px;
-  left: 150px;
 }

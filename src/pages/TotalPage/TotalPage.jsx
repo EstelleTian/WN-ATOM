@@ -100,9 +100,6 @@ function TodoPage (props){
         "monitorUnit": capacityFlowMonitorUnitData
     }
 
-    console.log(JSON.stringify(obj))
-
-
     let [userSubscribeData, setUserSubscribeData] = useState({});
     let [templateId, setTemplateId] = useState(0);
 
@@ -180,7 +177,6 @@ function TodoPage (props){
         const value = e.target.value;
         const { systemPage, userSubscribeData={} } = props;
         let subscribeData = userSubscribeData.subscribeData || {};
-        console.log(subscribeData.monitorUnit);
         // subscribeData.monitorUnit["NW"] = {};
         // subscribeData.monitorUnit["NW"] = subscribeData.monitorUnit["NWALL"];
         // subscribeData.monitorUnit = capacityFlowMonitorUnitData;
@@ -221,7 +217,6 @@ function TodoPage (props){
 
     let { subscribeData} = props.userSubscribeData;
     let focus = subscribeData.focus || "";
-    console.log(userSubscribeData)
 
     return (
         <Layout>

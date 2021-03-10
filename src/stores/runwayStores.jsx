@@ -36,7 +36,7 @@ class RunwayListData{
         makeObservable(this)
     }
     // 跑道列表
-    @observable list = [];
+    @observable runwayMap = {};
     //数据时间
     @observable generateTime = "";
     //定时器
@@ -76,24 +76,10 @@ class RunwayListData{
         this.list.remove( RunwayItem );
     }
     // 更新跑道-全部
-    @action updateRunwayList( arr, generateTime){
-        const newList = new Set();
-        this.generateTime = generateTime;
-        let hasId = false;
-        arr.map( item => {
-            const itemIns = new RunwayItem(item);
-            if( item.id === this.activeSchemeId ){
-                this.activeSchemeId = item.id;
-                hasId = true;
-            }
-            newList.add( itemIns );
-        });
-        //如果更新的跑道，没有之前选中的,置为空
-        if( !hasId && ( this.activeSchemeId.indexOf("focus") === -1) ){
-            this.activeSchemeId = "";
-        }
+    @action updateRunwayList( map, generateTime){
         //数组赋值
-        this.list = Array.from(newList);
+        this.runwayMap = map;
+        this.generateTime = generateTime;
     }
 
     // 更新跑道-多条
@@ -120,28 +106,89 @@ class RunwayListData{
         })
     }
 
-    @computed get sortedList(){
-        let newList = [];
-        if( this.list.length > 0 ){
-            newList = this.list.slice() .sort( (a,b) => {
-                const data1 = a.tacticTimeInfo.publishTime;
-                const data2 = b.tacticTimeInfo.publishTime;
-                if (isValidVariable(data1) && isValidVariable(data2)) {
-                    let res = data1.localeCompare(data2);
-                    if (0 !== res) {
-                        return res*(-1);
-                    }
-                } else if (isValidVariable(data1)) {
-                    return -1;
-                } else if (isValidVariable(data2)) {
-                    return 1;
+    @computed get filterList(){
+        
+        let groupRunwayList = [];
+        // 获取正在生效的跑道集合
+        const getEffectiveRunwayMap = ()=>{
+            const result = {};
+            for( let ap in this.runwayMap){
+                let apData = this.runwayMap[ap] || {};
+                let obj = {
+                    defaultMap: apData.rwGapDefaultMap || {},
+                    dynamicMap: apData.rwDynamicMap || {},
                 }
-                return 0;
-            })
-        }else{
-            newList = this.list;
+                result[ap] = obj;
+            }
+            return result;
         }
-        return newList;
+        // 获取今日全部的跑道集合
+        const getAllRunwayMap = ()=>{
+            const result = {};
+            for( let ap in this.runwayMap){
+                let apData = this.runwayMap[ap] || {};
+                let obj = {
+                    dynamicMap: apData.rwDynamicMapTodayAll || {},
+                    defaultMap: apData.rwGapDefaultMapTodayAll || {}
+                }
+                result[ap] = obj;
+            }
+            return result;
+        }
+        // 获取默认跑道集合
+        const getDefaultRunwayMap = (data)=>{
+            const result = {};
+            for( let ap in data){
+                let apData = data[ap] || {};
+                let obj = apData.defaultMap || {}
+                result[ap] = obj;
+            }
+            return result;
+        }
+        // 获取动态跑道集合
+        const getDdynamicRunwayMap = (data)=>{
+            const result = {};
+            for( let ap in data){
+                let apData = data[ap] || {};
+                let obj = apData.dynamicMap || {}
+                result[ap] = obj;
+            }
+            return result;
+        }
+        // 获取指定类型的跑道列表
+        const getGroupRunwayList = (data, type)=>{
+            const arr = [];
+            for( let ap in data){
+                let apData = data[ap] || {};
+                for(let group in apData){
+                    let runway = apData[group] || {};
+                    let groupData = {
+                        id: group,
+                        airportName: ap,
+                        type: type,
+                        runway:runway
+                    }
+                    arr.push(groupData);
+                }
+            }
+            return arr;
+        }
+
+        let effectiveMap = getEffectiveRunwayMap();
+        let allMap = getAllRunwayMap();
+        let map = {}
+        if(this.filterKey ==="EFFECTIVE"){
+            map = effectiveMap;
+        }else if(this.filterKey ==="ALL"){
+            map = allMap;
+        }
+        
+        let defaultMap = getDefaultRunwayMap(map);
+        let dynamicMap = getDdynamicRunwayMap(map);
+        let defaultList = getGroupRunwayList(defaultMap,'default');
+        let dynamicList = getGroupRunwayList(dynamicMap,'dynamic');
+        groupRunwayList = [...defaultList, ...dynamicList];
+        return groupRunwayList;
     }
 }
 
