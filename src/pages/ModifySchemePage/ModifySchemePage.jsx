@@ -10,7 +10,6 @@ function ModifySchemePage(props){
     let [flowData, setFlowData] = useState({});
     //  方案表单禁用状态
     let [ disabledForm, setDisabledForm] = useState(true);
-    
 
     //更新方案数据
     const updateSchemeData = data => {
@@ -29,10 +28,10 @@ function ModifySchemePage(props){
     // 请求方案数据
     const requestSchemeData = () => {
         // 获取方案ID
-        let schemeID = props.location.search;
+        let schemeID = props.location.search.replace(/\?/g, "");
         // 请求参数
         const opt = {
-            url: ReqUrls.ATOMCreateDataUrl + schemeID,
+            url: ReqUrls.simulationSchemeDetailUrl + schemeID,
             method:'GET',
             params:{},
             resFunc: (data)=> updateSchemeData(data),
@@ -44,7 +43,7 @@ function ModifySchemePage(props){
 
     useEffect(() => {
         // 请求方案数据
-        // requestSchemeData();
+        requestSchemeData();
     }, []);
 
     return (
@@ -53,7 +52,7 @@ function ModifySchemePage(props){
                 <RestrictionForm
                     operationType="MODIFYSIM" // MODIFYSIM:修改模拟方案
                     operationDescription="修改方案"
-                    primaryButtonName="修改方案"
+                    primaryButtonName="提交"
                     flowData = {flowData}
                     disabledForm = {disabledForm}
                     setDisabledForm = {setDisabledForm}

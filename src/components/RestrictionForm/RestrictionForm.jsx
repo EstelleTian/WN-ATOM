@@ -724,7 +724,7 @@ function RestrictionForm(props){
      * */
     const drawEditBtn = ()=> {
         return(
-            <div>
+            <div className="button-container">
                 {
                     props.disabledForm ?
                         <Button
@@ -749,7 +749,7 @@ function RestrictionForm(props){
      * */
     const drawIgnoreBtn = ()=> {
         return (
-            <div>
+            <div className="button-container">
                 <Button
                     className="r_btn btn_ignore"
                     onClick={()=>{
@@ -798,12 +798,12 @@ function RestrictionForm(props){
      * */
     const drawOperation = ()=> {
         return (
-            <div className="footer" style={{width:props.width}}>
+            <div className="operation-bar" style={{width:props.width}}>
 
                 {
                     showEditBtn ? (drawEditBtn()) : ""
                 }
-                <div>
+                <div className="button-container">
                     <Button
                         className={ setPrimaryButtonClassName() }
                         type="primary"
@@ -845,14 +845,18 @@ function RestrictionForm(props){
 
     return (
         <div>
+            
             <Form
                 form={form}
                 initialValues={initialValues}
                 onFinish={(values) => {
                     console.log(values);
                 }}
-                className={ operationType ==="MODIFY"? "advanced_form scheme_update_form" :"advanced_form" }
+                className={ props.bordered ?  `advanced_form bordered-form` :"advanced_form" }
             >
+                {
+                    drawOperation()
+                }
                 <StaticInfoCard
                     disabledForm={props.disabledForm}
                     updateStartDateString={updateStartDateString }
@@ -866,9 +870,6 @@ function RestrictionForm(props){
                 />
 
             </Form>
-            {
-                drawOperation()
-            }
         </div>
     )
 }

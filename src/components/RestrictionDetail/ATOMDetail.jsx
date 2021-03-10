@@ -53,7 +53,7 @@ function ATOMDetail(props){
         <Row>
             <Col span={24}>
                 <Form
-                    className="advanced_form ATOM__detail_form"
+                    className="advanced_form ATOM__detail_form bordered-form"
                     colon={false}
                     labelAlign="left"
                 >

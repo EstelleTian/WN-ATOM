@@ -86,18 +86,15 @@ const SchemeModal = (props) => {
                     width={1200}
                     // maskClosable={false}
                     destroyOnClose = { true }
-                    footer = {
-                        <div>
-                            <Button type="primary" className="scheme-modify">保存修改</Button>
-                        </div>
-                    }
+                    footer={null}
                 >
                     <RestrictionForm
                         operationType="MODIFY"
                         operationDescription="模拟方案调整"
-                        primaryButtonName="模拟方案调整"
+                        primaryButtonName="提交"
                         setModalVisible={ setVisible }
                         flowData={ flowData }
+                        bordered = {true}
                     />
                 </Modal>
             )

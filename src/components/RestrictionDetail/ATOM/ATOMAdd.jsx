@@ -89,6 +89,7 @@ function ATOMAdd(props){
                     message={message}
                     showEditBtn={true}
                     showIgnoreBtn={true}
+                    bordered={ true }
                 />
             </Col>
         </Row>
