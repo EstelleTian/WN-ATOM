@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-10 10:31:42
+ * @LastEditTime: 2021-03-10 15:46:50
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -27,7 +27,6 @@ let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 
 const EditableRow = (props) => {
     const [form] = Form.useForm();
-
     return (
         <Form form={form} component={false}>
             <EditableContext.Provider value={form}>
@@ -86,7 +85,7 @@ const EditableCell = ({
             const obj = record[dataIndex] || {};
             let val = obj.value*1;
             if( val === -1){
-                val = "-"
+                val = ""
             }
             
             form.setFieldsValue({
@@ -94,13 +93,22 @@ const EditableCell = ({
             });
         }
     },[ editing ])
-
+    useEffect(() => {
+        return ()=>{
+            orgData.current = -1;
+        }
+    }, []);
     
-    const save = async () => {
+    const save = async() => {
         let subvalues = await form.validateFields();
             for(let key in subvalues){
                 let resObj = record[key];
-                resObj["value"] = subvalues[key]*1;
+                if( subvalues[key] === -1 || subvalues[key] === ""){
+                    resObj["value"] = -1;
+                }else{
+                    resObj["value"] = subvalues[key]*1;
+                }
+                
             }
             handleSave(record);
     };
@@ -109,7 +117,7 @@ const EditableCell = ({
     if( isValidObject(record) &&  record[dataIndex].value ){
         curVal = record[dataIndex].value*1;
     }
-    let flag = ( orgData.current > 0 ) && ( curVal > 0 ) && ( orgData.current !== curVal )
+    let flag = ( orgData.current > 0 ) && ( curVal > 0 ) && ( orgData.current !== curVal );
 
     const inputNode = <Input onBlur={ save }/>;
     return (
@@ -153,8 +161,9 @@ const EditableCell = ({
         if( showVal === -1){
             showVal = "-"
         }
+        let source = "";
         if( text.hasOwnProperty("source") ){
-            const source = text.source || "";
+             source = text.source || "";
             
             switch( source ){
                 case "1" : {
@@ -188,10 +197,19 @@ const EditableCell = ({
             }
         }
         return <span className={bgClass} >
+            {
+                source === 'wait' 
+                ? ( showVal !== '-' && showVal !== -1 ) ?
+                  <span> {text.originalValue} -&gt; { text.value || ""} </span> 
+                  : <span>{ showVal || ""}</span> 
+                  
+                : 
                 <Tooltip title={title} color="#164c69">
                     <span>{ showVal || ""}</span>
                    { bgClass !== "" && <QuestionCircleOutlined className="cap_icon" />} 
                 </Tooltip>
+            }
+                
             </span>
     }
     let cColumns = [
@@ -296,7 +314,7 @@ const SaveBtn = function(props){
     const handleOk = () => {
       setConfirmLoading(true);
       save().then( res => {
-           console.log("保存响应:",res);
+        //    console.log("保存响应:",res);
            setConfirmLoading(false);
            setVisible(false);
            props.setEditable(false);
@@ -312,13 +330,13 @@ const SaveBtn = function(props){
     };
     return (
         <Popconfirm
-            title="是否保存以下修改值"
+            title="是否提交以下修改值"
             visible={visible}
             onConfirm={handleOk}
             okButtonProps={{ loading: confirmLoading }}
             onCancel={handleCancel}
         >
-            <Button className="" type="primary" onClick={showPopconfirm}>保存 </Button>
+            <Button className="" type="primary" onClick={showPopconfirm}>提交 </Button>
         </Popconfirm>
     )
 }
@@ -341,7 +359,7 @@ const CapacityTable = (props) => {
     let [ tableHeight, setTableHeight ] = useState(0);
     let [ editable, setEditable] = useState(false);
 
-    const { kind, capacity } = props;
+    const { kind, airportName  } = props;
 
     const handleSave = (row) => {
         const newData = [...tableData];
@@ -352,8 +370,6 @@ const CapacityTable = (props) => {
     };
 
     const updateOrgTableDatas = (kind, resolve, reject) => {
-        
-            // props.capacity.updateDatas( kind, tableData );
             let tableDataObj = {};
             tableData.map( item => {
                 const key = item.capacityTime || "";
@@ -378,20 +394,23 @@ const CapacityTable = (props) => {
                 capacityData = props.capacity.dynamicData;
                 title = "动态容量"
             }
-                
+            
             const opt = {
                 url,
                 method: 'POST',
                 params: {
-                    elementName: "ZLXY",
+                    elementName: airportName,
                     capacityMap: tableDataObj
                 },
                 resFunc: (data)=> {
-                    console.log(data);
+                    // console.log(data);
                     const { capacityMap } = data;
                     for(let name in capacityMap){
                         const res = capacityMap[name] || {};
+                        console.log("更新表格数据 ",airportName)
                         props.capacity.updateDatas( kind, res );
+                        //
+                        props.capacity.forceUpdateDynamicWorkFlowData = true;
                     }
                     customNotice({
                         type: 'success',
@@ -401,9 +420,14 @@ const CapacityTable = (props) => {
                     resolve("success")
                 },
                 errFunc: (err, msg)=> {
+                    if( isValidVariable(err) ){
+                        title = err
+                    }else{
+                        title = title+'保存失败'
+                    }
                     customNotice({
                         type: 'error',
-                        message: title+'保存失败'
+                        message: title
                     });
                     resetOrgTableDatas();
                     reject("error")
@@ -432,7 +456,6 @@ const CapacityTable = (props) => {
         const dataArr = JSON.parse( JSON.stringify(obj)).data || [];
         setTableData( dataArr );
         
-        // console.log("222", newData, props.capacity.defaultStaticData)
     }
 
     const mergedColumns = getColumns().map((col) => {
@@ -465,7 +488,6 @@ const CapacityTable = (props) => {
     
     useEffect(() => {
         resetOrgTableDatas();
-        
     }, [kind, props.capacity.staticData, props.capacity.dynamicData ]);
 
     useEffect(() => {
@@ -475,12 +497,17 @@ const CapacityTable = (props) => {
             const dom = document.getElementsByClassName("modal_"+kind)
             const boxContent = dom[0].getElementsByClassName("box_content")
             let height = boxContent[0].offsetHeight - 65;
-            setTableHeight( height );
+            if( tableHeight !== height ){
+                setTableHeight( height );
+            }
+            
         }
     }, [tableHeight]);
 
-    
-    
+    useEffect(()=>{
+        props.capacity.setDynamicData( {}, "" );
+    },[])
+
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <div className="table_cont">

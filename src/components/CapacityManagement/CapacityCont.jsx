@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-10 10:41:11
+ * @LastEditTime: 2021-03-10 16:06:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -16,18 +16,6 @@ import CapacityTable from './CapacityTable';
 import DynamicWorkSteps from './DynamicWorkSteps';
 import { customNotice } from 'utils/common-funcs'
 import "./CapacityCont.scss"
-//获取屏幕宽度，适配 2k
-let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
-
-const TimeDiv = function(props){
-    const { capacity } = props;
-    const generateTime = capacity.dynamicDataGenerateTime || "";
-    return (
-        <div className="generateTime">数据时间：{formatTimeString(generateTime)}</div>
-    )
-}
-const TimeDom = inject( "capacity", "systemPage" )(observer(TimeDiv));
-
 
 //容量管理内容页
 function CapacityCont (props){
@@ -35,6 +23,7 @@ function CapacityCont (props){
     let user;
     let staticTimer = useRef();
     let dynamicTimer = useRef();
+    const generateTime = capacity.dynamicDataGenerateTime || "";
     
     const requestStaticData = useCallback(() => {
         const type = pane.type.toUpperCase(); //类型
@@ -128,18 +117,16 @@ function CapacityCont (props){
         }
     }, []);
     useEffect( function(){
-       
         return ()=>{
             console.log("卸载")
             clearTimeout(staticTimer.current);
             staticTimer.current = "";
             clearTimeout(dynamicTimer.current);
             dynamicTimer.current = "";
-
         }
     }, []);
 
-    
+
     return (
             <div style={{ overflowX: 'auto'}}>
                 <div className="cap_set_canvas">
@@ -165,13 +152,12 @@ function CapacityCont (props){
                         </div> */}
                         <div className="right_wrapper">
                             <ModalBox
-                                title="动态容量——时段配置"
+                                title={`动态容量——时段配置(${formatTimeString(generateTime)})`}
                                 showDecorator = {true}
                                 className="static_cap_modal static_cap_modal_24 modal_dynamic"
                             >
-                                <CapacityTable  type="line24" kind="dynamic"/>
-                                <TimeDom ></TimeDom>
-                                
+                                <CapacityTable  type="line24" kind="dynamic" airportName={pane.key}/>
+
                             </ModalBox>
                             <DynamicWorkSteps pane={pane}></DynamicWorkSteps>  
                         </div>

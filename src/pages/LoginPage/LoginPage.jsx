@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Form, Icon, Input, Button, Alert, Row, Col, message} from 'antd'
+import {Form, Icon, Input, Button, Alert, Row, Col, message, Radio} from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import md5 from 'js-md5'
 import { requestGet } from 'utils/request';
@@ -13,7 +13,13 @@ const msgStyle = {
 }
 function LoginPage(props){
     const [form] = Form.useForm();
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [value, setValue] = useState(1);
+
+    const onChange = e => {
+        console.log('radio checked', e.target.value);
+        setValue(e.target.value);
+    };
     // 点击登录按钮登录
     const handleSubmit = useCallback( () => {
         setLoading(true);
@@ -44,10 +50,16 @@ function LoginPage(props){
                                 duration: 4,
                                 style: msgStyle
                             });
+
+                            let obj = {};
+                            userConcernTrafficList.map( item => {
+                                const name = item.concernTrafficName;
+                                obj[name] = item;
+                            })
                 
                             localStorage.setItem("user", JSON.stringify(user) );
-                            localStorage.setItem("userConcernTrafficList", JSON.stringify(userConcernTrafficList) );
-                            saveUserInfo(username, password);
+                            localStorage.setItem("userConcernTrafficList", JSON.stringify(Object.values(obj)) );
+                            saveUserInfo(username, password, value+"");
                         }else{
                             const err = data.error;
                             const msg = err.message;
@@ -102,42 +114,51 @@ function LoginPage(props){
     return (
         <div className="login bc-image-11">
             <Row type="flex" justify="center" align="middle">
-                <Col xs={{ span: 14}}  md={{ span: 11}} lg={{ span: 9}}  xl={{ span: 7}} xxl={{ span: 6}} >
-                    <div className="content">
-                        <Form
-                            form={form}
-                              size="small"
-                              onFinish={ (e)=>{
-                                  // e.preventDefault();
-                                  handleSubmit(e)
-                              } }
-                              className="login_form"
-                        >
-                            <h2 className="title">空中交通运行放行监控系统</h2>
-                            <Form.Item
-                                name="username"
-                                rules={[{ required: true, message: '用户名不能为空' }]}
+                <Row className="content">
+                        <Col span={10}>
+                            <Radio.Group onChange={onChange} value={value} className="model_tabs">
+                                <Radio value={1}>总体态势监控</Radio>
+                                <Radio value={2}>容流管理</Radio>
+                                <Radio value={3}>放行监控</Radio>
+                                <Radio value={4}>工作流</Radio>
+                                <Radio value={5}>容量管理</Radio>
+                                <Radio value={6}>方案创建</Radio>
+                            </Radio.Group>
+                        </Col>
+                        <Col span={14}>
+                            <Form
+                                form={form}
+                                size="small"
+                                onFinish={ (e)=>{
+                                    // e.preventDefault();
+                                    handleSubmit(e)
+                                } }
+                                className="login_form"
                             >
-                                <Input  className="form_input" prefix={<UserOutlined />} placeholder="用户名"/>
-                            </Form.Item>
-                            <Form.Item
-                                name="password"
-                                rules={[{ required: true, message: '密码不能为空' }]}
-                            >
-                                <Input type="password" className="form_input" prefix={<LockOutlined />} placeholder="密码"/>
-                            </Form.Item>
-                            <div className="login_btn  justify-content-center">
-                                <Button loading={loading} type="primary" htmlType="submit" size={'large'}
-                                        className="login_button">
-                                    登录
-                                </Button>
-                            </div>
+                                <h2 className="title">空中交通运行放行监控系统</h2>
+                                <Form.Item
+                                    name="username"
+                                    rules={[{ required: true, message: '用户名不能为空' }]}
+                                >
+                                    <Input  className="form_input" prefix={<UserOutlined />} placeholder="用户名"/>
+                                </Form.Item>
+                                <Form.Item
+                                    name="password"
+                                    rules={[{ required: true, message: '密码不能为空' }]}
+                                >
+                                    <Input type="password" className="form_input" prefix={<LockOutlined />} placeholder="密码"/>
+                                </Form.Item>
+                                <div className="login_btn  justify-content-center">
+                                    <Button loading={loading} type="primary" htmlType="submit" size={'large'}
+                                            className="login_button">
+                                        登录
+                                    </Button>
+                                </div>
 
-                        </Form>
+                            </Form>
 
-                    </div>
-                    
-                </Col>
+                        </Col>
+                </Row>
             </Row>
             <div className="copyright"> ADCC 民航数据通信有限责任公司</div>
 

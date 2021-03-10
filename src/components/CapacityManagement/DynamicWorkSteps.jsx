@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-03-10 10:42:49
+ * @LastEditTime: 2021-03-10 16:05:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -135,6 +135,9 @@ function DynamicWorkSteps (props){
                 props.capacity.updateDynamicWorkFlowData( data );
                 setDataLoaded(false);
                 setLoading(false);
+                if( props.capacity.forceUpdateDynamicWorkFlowData ){
+                    props.capacity.forceUpdateDynamicWorkFlowData = false;
+                }
                 timerFunc();
             },
             errFunc: (err)=> {
@@ -144,6 +147,9 @@ function DynamicWorkSteps (props){
                 });
                 setDataLoaded(false);
                 setLoading(false);
+                if( props.capacity.forceUpdateDynamicWorkFlowData ){
+                    props.capacity.forceUpdateDynamicWorkFlowData = false;
+                }
                 timerFunc();
             } ,
         };
@@ -232,7 +238,6 @@ function DynamicWorkSteps (props){
             setLoading(true);
             //获取数据
             requestDynamicWorkFlowData( true );
-            // requestDynamicWorkFlowData( false );
         }
         return ()=>{
             clearTimeout(timer.current);
@@ -240,12 +245,27 @@ function DynamicWorkSteps (props){
         }
     }, [username]);
 
+    useEffect( function(){
+        if( props.capacity.forceUpdateDynamicWorkFlowData){
+            setLoading(true);
+            //获取数据
+            requestDynamicWorkFlowData( false );
+        }
+    }, [props.capacity.forceUpdateDynamicWorkFlowData]);
+
+    useEffect( function(){
+        return ()=>{
+            clearTimeout(timer.current);
+            timer.current = "";
+        }
+    }, []);
+
     return <div className="dynamic_workflow">
         {
             hisTasks.length > 0 &&
             (
                 <ModalBox
-                    title={`工作流详情`}
+                    title={`待办工作流(${formatTimeString(generateTime)})`}
                     showDecorator = {false}
                     className="static_cap_modal"
                 >
@@ -277,7 +297,6 @@ function DynamicWorkSteps (props){
                             
                         </div>
                     </Spin>
-                    <div className="generateTime">数据时间：{formatTimeString(generateTime)}</div>
                 </ModalBox>
             )
         }

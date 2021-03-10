@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-09 16:38:22
+ * @LastEditTime: 2021-03-10 15:55:32
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -473,7 +473,7 @@ const TodoTable = (props) => {
         }else if(flightCoorType === "UNEXEMPT"){
             if(type === "agree"){
                 //取消豁免同意
-                url = CollaborateIP+"/flightPriorityApproveRest";
+                url = CollaborateIP+"/flightCancelAgree";
                 title = "同意"+typeCn
             }else if(type === "refuse"){
                 //取消豁免拒绝
@@ -638,7 +638,7 @@ const TodoTable = (props) => {
                             } />:""
                         }
                         {
-                            confirm ?<OptionBtn type="confirm" text="确认" callback = {
+                            confirm ?<OptionBtn type="confirm" size="small" text="确认" callback = {
                                 (setLoad)=>{ 
                                     sendResultRequest("confirm", text, setLoad) 
                                 }

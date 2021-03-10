@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-03-01 17:36:02
+ * @LastEditTime: 2021-03-10 16:00:46
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -81,10 +81,11 @@ const handleStopControl =(id) => {
     }
 };
 //发送用户名-密码
-const saveUserInfo =(username, password) => {
+const saveUserInfo =(username, password, name) => {
     try {
         // alert("用户名："+username+"  密码："+password)
         //传递方案id
+        // jsEntity.saveUserInfo(username, password, name);
         jsEntity.saveUserInfo(username, password);
     }catch(error){
         console.error(error);

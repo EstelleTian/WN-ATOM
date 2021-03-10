@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:28
- * @LastEditTime: 2021-03-10 08:37:10
+ * @LastEditTime: 2021-03-10 14:53:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\utils\request.js
@@ -66,7 +66,6 @@ const request = ( parameters ) => {
             resFunc( data );
         } else if( typeof errFunc == 'function' ){
             if(isValidObject(data) && isValidObject(data.error) && isValidVariable(data.error.message)){
-                debugger
                 errFunc( data.error.message );
             } else {
                 errFunc("");

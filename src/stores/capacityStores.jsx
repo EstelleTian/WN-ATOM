@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-03-10 10:29:13
+ * @LastEditTime: 2021-03-10 15:46:42
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -21,6 +21,15 @@ import { isValidVariable } from 'utils/basic-verify'
             key: "ZLXY",
             type: "AIRPORT",
             active: true,
+            date: "0", 
+            kind: 'all',
+            timeInterval: "60"
+         },
+         {
+            title: "ZLIC-银川/河东",
+            key: "ZLIC",
+            type: "AIRPORT",
+            active: false,
             date: "0", 
             kind: 'all',
             timeInterval: "60"
@@ -54,7 +63,7 @@ import { isValidVariable } from 'utils/basic-verify'
 
      //动态容量 工作流
      @observable dynamicWorkFlowData = {};
-
+     @observable forceUpdateDynamicWorkFlowData = false;
 
     //动态容量 工作流-添加数据
     @action updateDynamicWorkFlowData(obj){
@@ -172,13 +181,16 @@ import { isValidVariable } from 'utils/basic-verify'
 
     //24小时 动态data
     @computed get customDynamicData(){
-        return Object.values(this.dynamicData).filter( item => {
-            if( item.capacityTime !== "BASE" ){
-                return true
-            }else{
-                return false;
-            }
-        })
+        if( isValidVariable(this.dynamicData) ){
+            return Object.values(this.dynamicData).filter( item => {
+                if( item.capacityTime !== "BASE" ){
+                    return true
+                }else{
+                    return false;
+                }
+            })
+        }
+        return []
     }
 
     //根据kind类型更新data
