@@ -26,12 +26,10 @@ const CapacityFlowMonitor =(props) => {
     const { loading } = capacityFlowMonitorData;
     const monitorData = capacityFlowMonitorData.monitorData || {};
     const generateTime = monitorData.generateTime || "";
-    const describedMap = monitorData.selfDescribedMap || {};
     const flow = monitorData.flow || {};
     let  capacityFlowMonitorWeatherData = props.capacityFlowMonitorWeatherData || {};
     const weatherData = capacityFlowMonitorWeatherData.weatherData || [];
-    
-    console.log(describedMap)
+    // 格式化处理天气数据
     const formatWeatherData = ()=> {
         let obj = {}
         weatherData.map((item)=>{
@@ -39,74 +37,24 @@ const CapacityFlowMonitor =(props) => {
         })
         return obj;
     };
+    let weatherDataObj =  formatWeatherData();
 
-    /**
-     * 更新单条容流数据的描述数据
-     * */
-    const updateSingleDataDescription =(key, descriptionData) => {
-        if(isValidObject(flow) && isValidObject(flow[key])){
-            flow[key].description = descriptionData;
-        }
-    };
-
-    /**
-     * 分类
-     * */
-    const getClassifiedData = (typeData, describedMap)=> {
-        for( let key in describedMap){
-            let data = describedMap[key];
-            updateSingleDataDescription(key, data);
-            let type = data['type'];
-            for(let t in typeData){
-                if(type === t){
-                    typeData[type][key] = data;
-                }
+    const getSingleTypeData = (type) => {
+        let arr=[];
+        // 遍历并取监控数据中对应类型的容流数据
+        for( let d in flow){
+            let singleData = flow[d];
+            if(type === singleData.type){
+                let obj = {
+                    key: d,
+                    id: d,
+                    title: d,
+                    generateTime: generateTime,
+                    data: singleData,
+                };
+                arr.push(obj);
             }
         }
-    };
-
-    // 分类数据
-    const typeData = {
-        // 机场
-        'AP': {},
-        // 扇区
-        'SECTOR': {},
-        // 进近
-        'APP': {},
-        // 航路点
-        'POINT': {},
-        // 航路
-        'ROUTE': {},
-        // 管制区
-        'ACC': {},
-        
-    };
-    let weatherDataObj =  formatWeatherData();
-    // 进行分类
-    getClassifiedData(typeData, describedMap);
-
-    const getSingleTypeData = (type, monitorData) => {
-        const { userSubscribeData={} } = props;
-        let subscribeData = userSubscribeData.subscribeData || {};
-        let { monitorUnit } = subscribeData;
-        // 取出已分类数据对象中该类数据
-        let typeDataMap = typeData[type];
-        let arr=[];
-        // 遍历并取monitorData数据中对应的容流数据
-        for( let d in typeDataMap){
-            
-            let obj = {
-                key: d,
-                id: d,
-                // title: `${d}-${CN_Name}`,
-                title: d,
-                generateTime: generateTime,
-                data: monitorData[d],
-            };
-            arr.push(obj);
-        }
-
-
         // 排序 按order字段值升序
         let sortArr = arr.sort((item1,item2)=>{
             if(isValidObject(item1)
@@ -141,22 +89,21 @@ const CapacityFlowMonitor =(props) => {
 
     // 容流列表
     let monitorDataist = [];
-
     // 机场类型数据
-    let APMonitorData = getSingleTypeData('AP', flow);
-    
+    let APMonitorData = getSingleTypeData('AIRPORT');
     // 进近
-    let APPMonitorData = getSingleTypeData('APP', flow);
+    let APPMonitorData = getSingleTypeData('APP');
     // 扇区类型数据
-    let SECTORMonitorData = getSingleTypeData('SECTOR', flow);
+    let SECTORMonitorData = getSingleTypeData('SECTOR');
     // 管制区
-    let ACCMonitorData = getSingleTypeData('ACC', flow);
+    let ACCMonitorData = getSingleTypeData('ACC');
     // 航路
-    let ROUTEMonitorData = getSingleTypeData('ROUTE', flow);
+    let ROUTEMonitorData = getSingleTypeData('ROUTE');
     // 航路点
-    let POINTonitorData = getSingleTypeData('POINT', flow);
+    let POINTonitorData = getSingleTypeData('POINT');
+    // 获取机场、进近、扇区监控单元集合
     monitorDataist = APMonitorData.concat(ACCMonitorData).concat(APPMonitorData).concat(SECTORMonitorData);
-
+    // 追加新增监控卡片
     const appendAddMonitorCard = (arrData) => {
         let addData = {
             id: 'ADD',
@@ -166,7 +113,7 @@ const CapacityFlowMonitor =(props) => {
         return arrData;
     };
     monitorDataist = appendAddMonitorCard(monitorDataist);
-
+    // 绘制单个监控单元数据卡片
     const  listItemData = (item)=> {
         if(item.id ==='ADD'){
             return (
@@ -269,7 +216,7 @@ const CapacityFlowMonitor =(props) => {
 
 
     /**
-     * 获取监控单元
+     * 获取当前区域内的监控单元
      * */
     const getMonitorUnits =()=> {
         const { userSubscribeData={} } = props;
@@ -288,6 +235,7 @@ const CapacityFlowMonitor =(props) => {
         return arr;
     };
 
+    // 获取当前区域内的机场类型的监控单元
     const getAPMonitorUnits =()=> {
         const { userSubscribeData={} } = props;
         let subscribeData = userSubscribeData.subscribeData || {};
@@ -301,7 +249,6 @@ const CapacityFlowMonitor =(props) => {
         }
         return arr;
     };
-
 
     // 获取容流数据
     const requestCapacityFlowMonitorData = useCallback(() => {
