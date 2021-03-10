@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-09 13:14:35
+ * @LastEditTime: 2021-03-10 10:44:50
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -81,9 +81,9 @@ function FTable(props){
     const { flightTableData = {}, schemeListData } = props;
     const {  getShowFlights, autoScroll } = flightTableData;
     const { showList, targetFlight }= getShowFlights;
-    if( showList.length < 3){
-        console.log(showList)
-    }
+    // if( showList.length < 3){
+    //     console.log(showList)
+    // }
     
     const handleRow = useCallback((event, record) => {// 点击行
         const dom = event.currentTarget;

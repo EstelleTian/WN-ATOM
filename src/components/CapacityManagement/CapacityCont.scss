@@ -26,13 +26,25 @@
     .set_top{
         @include display_flex();
         @include flex();
-        .left_wrapper,.right_wrapper{
+        .left_wrapper{
             @include display_flex(column);
             @include flex(3);
             align-items: center;
         }
+        .right_wrapper{
+            @include display_flex();
+            // @include flex(3);
+            margin: 0 auto 20px;
+            // align-items: center;
+        }
         .dynamic_workflow{
-            @include flex(1);
+            width: 350px;
+            position: relative;
+            left: 1rem;
+            // margin-bottom: 18px;
+            .static_cap_modal{
+                width: inherit;
+            }
         }
         .static_modal{
             width: 280px;
@@ -65,6 +77,15 @@
     .cap_part{
         @include flex();
     }
+    .box_content{
+        position: relative;
+        .generateTime{
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+        }
+    }
+    
 }
 
 .static_cap_modal{
@@ -100,5 +121,8 @@
     }
   }
 
-  
+  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #72bde1;
+    font-weight: 500;
+}
 
