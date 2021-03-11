@@ -680,10 +680,10 @@ function RestrictionForm(props) {
             if (isValidVariable(arrAp)) {
                 arrAp = arrAp.toUpperCase();
                 // 拼接名称
-                name = `${targetUnit.toUpperCase()} ${arrAp} ${restrictionModeValue} ${unit}`;
+                name = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
             } else {
                 // 拼接名称
-                name = `${targetUnit.toUpperCase()} ${restrictionModeValue} ${unit} `;
+                name = `${targetUnit.toUpperCase()}-${restrictionModeValue}${unit} `;
             }
 
 
