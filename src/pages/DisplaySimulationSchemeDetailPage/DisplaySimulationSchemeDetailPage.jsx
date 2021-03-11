@@ -1,5 +1,5 @@
 /* 
-* 模拟状态的方案显示页面
+* 模拟状态的方案详情显示页面
 */
 import React , {useEffect, useState}from "react";
 import { request } from 'utils/request'
@@ -8,7 +8,7 @@ import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
 import { customNotice } from 'utils/common-funcs'
 
 
-function ModifySchemePage(props){
+function DisplaySimulationSchemeDetailPage(props){
     //  方案数据
     let [flowData, setFlowData] = useState({});
     //  方案表单禁用状态
@@ -61,4 +61,4 @@ function ModifySchemePage(props){
         </div>
     )
 }
-export default ModifySchemePage;
+export default DisplaySimulationSchemeDetailPage;
