@@ -15,7 +15,6 @@ import { ReqUrls } from 'utils/request-urls'
 import {inject, observer} from "mobx-react";
 
 import ModalBox from 'components/ModalBox/ModalBox'
-import NavBellNews from 'components/NavBar/NavBellNews'
 import User from 'components/NavBar/User'
 
 // import NavBar  from 'components/NavBar/NavBar.jsx'
@@ -240,9 +239,6 @@ function TodoPage (props){
                         </div>
                     </div>
                     <div className="layout-nav-right layout-row">
-                        <div className="single_bell">
-                            <NavBellNews />
-                        </div>
                         <div className="single_user">
                             <Avatar className="user_icon" icon={<UserOutlined />} />
                             <User />
