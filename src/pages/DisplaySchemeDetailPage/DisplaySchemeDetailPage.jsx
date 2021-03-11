@@ -1,5 +1,5 @@
 /* 
-* 生效状态的方案显示页面
+* 正式方案详情显示页面
 */
 import React , {useEffect, useState}from "react";
 import { request } from 'utils/request'
