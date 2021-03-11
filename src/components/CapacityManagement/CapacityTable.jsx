@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-11 14:13:15
+ * @LastEditTime: 2021-03-11 15:50:36
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -9,7 +9,7 @@
 
 import React, { useContext, useState, useEffect, useRef, useCallback, useMemo, Suspense } from "react";
 import {inject, observer} from 'mobx-react'
-import { request } from 'utils/request'
+import { request, requestGet } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { message, Table, Input, Button, Popconfirm, Tooltip, Form, Spin  } from "antd";
@@ -180,17 +180,17 @@ const EditableCell = ({
             switch( source ){
                 case "1" : {
                     bgClass = "alarm alarm_green";
-                    title = "同比大于静态容量值";
+                    title = "大于静态容量值";
                     break;
                 }
                 case "2" : {
                     bgClass = "alarm alarm_orange";
-                    title = "同比静态容量值 小于等于20%";
+                    title = "小于静态容量值20%以内";
                     break;
                 }
                 case "3" : {
                     bgClass = "alarm alarm_red";
-                    title = "同比静态容量值 大于20%";
+                    title = "小于静态容量值20%以上";
                     break;
                 }
                 case "wait" : {
@@ -699,6 +699,25 @@ const CapacityTable = (props) => {
         return [];
     }, [props.capacity.dynamicWorkFlowData])
 
+    const validateUpdateBtn = useCallback(() => {
+            const opt = {
+                url: ReqUrls.capacityBaseUrl + "simulationTactics/judge/"+username,
+                method: 'GET',
+                params: {
+                    elementName: airportName,
+                },
+                resFunc: (data)=> {
+                    setEditable(true);
+                },
+                errFunc: (err)=> {
+                    customNotice({
+                        type: 'error',
+                        message: err
+                    });
+                },
+            };
+            requestGet(opt);
+    }, [])
     
     useEffect(() => {
         resetOrgTableDatas();
@@ -785,9 +804,7 @@ const CapacityTable = (props) => {
                 
                 {
                     ( !authMap.AGREE && !authMap.REFUSE && !authMap.REBACK && !editable ) &&
-                    <Button className="" type="primary" onClick={e =>{
-                        setEditable(true);
-                    }}>修改 </Button>
+                    <Button className="" type="primary" onClick={ validateUpdateBtn }>修改 </Button>
                 }
                 {
                     ( !authMap.AGREE && !authMap.REFUSE && !authMap.REBACK && editable ) &&

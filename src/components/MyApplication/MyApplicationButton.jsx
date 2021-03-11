@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-01 19:33:36
+ * @LastEditTime: 2021-03-11 15:04:05
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -127,7 +127,7 @@ const MyApplicationButton = (props) => {
         <Fragment>
             <Button
                 type={myApplicationModalVisible ? "primary" : "default"}
-                size="large"
+                // size="large"
                 onClick={showMyApplicationModal}
             >我的申请
                 <Badge

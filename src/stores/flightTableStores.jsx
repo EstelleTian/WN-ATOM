@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-03-09 13:13:15
+ * @LastEditTime: 2021-03-11 14:53:11
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -179,7 +179,7 @@ class FlightTableData{
     }
 
     //获取豁免航班
-    @computed get getExemptFlights(){
+    @action getExemptFlights(){
         const filterFlights = this.list.filter( flight => {
             if( isValidVariable(flight.priority) && flight.priority === FlightCoordination.PRIORITY_EXEMPT ){
                 return true;
@@ -191,7 +191,7 @@ class FlightTableData{
         // return this.list;
     }
     //获取等待池航班
-    @computed get getPoolFlights(){
+    @action getPoolFlights(){
         const filterFlights = this.list.filter( flight => {
             // if ( !isValidVariable(flight)  || !isValidVariable(flight.fmeToday) ) {
             //     return false;
@@ -216,7 +216,7 @@ class FlightTableData{
         return filterFlights;
     }
     //获取特殊航班
-    @computed get getSpecialFlights(){
+    @action getSpecialFlights(){
         const filterFlights = this.list.filter( flight => {
             if (!isValidVariable(flight) || !isValidVariable(flight.fmeToday)) {
                 return false;
@@ -234,7 +234,7 @@ class FlightTableData{
         return filterFlights;
     }
     //获取失效航班
-    @computed get getExpiredFlights(){
+    @action getExpiredFlights(){
         const filterFlights = this.list.filter( flight => {
             if (!isValidVariable(flight) || !isValidVariable(flight.fmeToday)) {
                 return false;
@@ -252,7 +252,7 @@ class FlightTableData{
         return filterFlights;
     }
     //获取待办航班
-    @computed get getTodoFlights(){
+    @action getTodoFlights(){
         const filterFlights = this.list.filter( flight => {
             if (!isValidVariable(flight) || !isValidVariable(flight.fmeToday)) {
                 return false;

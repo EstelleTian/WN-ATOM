@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-11 13:51:45
+ * @LastEditTime: 2021-03-11 14:24:31
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -19,7 +19,7 @@ import PopoverTip from "./PopoverTip";
 //TOBT 右键协调框 通过 opt.col 列名 区分
 const TOBTPopover = (props) => {
     const { opt, systemPage } = props;
-    const {text, record, col, userHasAuth} = opt;
+    const { text, record, col } = opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
@@ -30,7 +30,7 @@ const TOBTPopover = (props) => {
     if( col === "TOBT"){
         field = orgdata.tobtField || {};
         title = "TOBT申请变更";
-        hasAuth = systemPage.user.userHasAuth( 13407 );
+        hasAuth = systemPage.userHasAuth( 13407 );
         
     }
     let source = field.source || "";
@@ -106,7 +106,7 @@ const TOBTPopover = (props) => {
     
     
     //航班已起飞或者不在本区域内--不显示
-    if ( hadDEP || hadARR || !hadFPL || !isInAreaFlight ) {
+    if ( hadDEP || hadARR || !hadFPL || !isInAreaFlight || !hasAuth ) {
         return (
             <CellTip title={title}>
                 {textDom}

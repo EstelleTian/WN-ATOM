@@ -90,7 +90,7 @@ function SchemeItem(props){
     const [window, setWindow] = useState("");
     const [windowClass, setWindowClass] = useState("");
    
-    let { item, activeSchemeId } = props;
+    let { item, activeSchemeId, userHasAuth } = props;
     let { id, tacticName , tacticStatus, tacticPublishUnit, basicTacticInfoReason, basicTacticInfoRemark,
         tacticTimeInfo: { startTime, endTime, publishTime, createTime, startCalculateTime =""},
         basicFlowcontrol = {}, directionList = []
