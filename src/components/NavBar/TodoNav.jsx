@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-03-04 18:01:19
+ * @LastEditTime: 2021-03-11 19:14:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -40,7 +40,7 @@ function TodoNav(props){
             const flightCoorType = processVariables.flightCoorType || "";
             const sourceVal = processVariables.sourceVal;
             let targetVal = processVariables.targetVal;
-            console.log("targetVal", targetVal)
+            // console.log("targetVal", targetVal)
             const businessName = processVariables.businessName || "";
             const startUserName = instance.startUserName || "";
             let startTime = instance.startTime || "";

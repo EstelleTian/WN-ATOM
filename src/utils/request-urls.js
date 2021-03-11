@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-11 17:29:33
+ * @LastEditTime: 2021-03-11 19:15:56
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -67,6 +67,7 @@ const ReqUrls = {
 
     //容量管理-基础接口
     capacityBaseUrl: 'http://192.168.243.200:28482/flow-capacity-rest/capacity/',
+    // capacityBaseUrl: 'http://192.168.194.20:28087/flow-capacity-rest/capacity/',
     // 跑道列表接口
     runwayListUrl: 'http://192.168.194.21:50012/runway/defaulat/and/dynamic/retrieve/new/'
     
