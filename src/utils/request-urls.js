@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-11 10:28:37
+ * @LastEditTime: 2021-03-11 17:29:33
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -17,7 +17,7 @@ const ReqUrls = {
     //根据modalId获取方案详情
     schemeDetailByIdUrl: 'http://192.168.194.21:58190/scheme-flow-server/implementTactics/',
     //获取--方案列表
-    schemeListUrl: 'http://192.168.194.21:58190/implementTactics',
+    schemeListUrl: 'http://192.168.194.21:29890/implementTactics',
     //获取--模拟方案详情
     simulationSchemeDetailUrl:'http://192.168.194.21:58190/simulationTactics/id/',
     //获取--航班列表数据

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-03-09 15:32:15
+ * @LastEditTime: 2021-03-11 16:52:40
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -236,7 +236,7 @@ const getColumns = ( names = defaultNames ) => {
         dataIndex: "rowNum",
         align: 'center',
         key: "rowNum",
-        width: (screenWidth > 1920) ? 50 : 40,
+        width: (screenWidth > 1920) ? 70 : 60,
         fixed: 'left',
         render: (text, record, index) => `${index+1}`
     }];

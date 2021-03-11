@@ -307,9 +307,9 @@ const FlightCoordination = {
             case this.PRIORITY_NORMAL:
                 // 飞往香港（VHHH）、澳门（VMMC）、台湾（RC开头）的航班，在优先级列显示为“地区”航班
                 if (isValidVariable(arrap)
-                    && ( arrap == 'VHHH'
-                    || arrap == 'VMMC'
-                    || arrap.substring(0, 2) == 'RC')) {
+                    && ( arrap === 'VHHH'
+                    || arrap === 'VMMC'
+                    || arrap.substring(0, 2) === 'RC')) {
                     zh = '地区';
                 } else {
                     zh = '普通';
@@ -722,12 +722,13 @@ const FlightCoordination = {
      * @returns
      */
     getPoolStatusZh: (status) => {
+        status += ""
         let zh = '';
-        if (status == '0') {
+        if (status === '0') {
             zh = '出池';
-        } else if (status == '1') {
+        } else if (status === '1') {
             zh = '系统入池';
-        } else if (status == '2') {
+        } else if (status ==='2') {
             zh = '协调入池';
         }
         return zh;
@@ -739,16 +740,17 @@ const FlightCoordination = {
      * @returns
      */
     getSlotStatusZh: ( status ) => {
+        status += ""
         let zh = '';
-        if (status == '1') {
+        if (status === '1') {
             zh = '自动';
-        } else if (status == '2') {
+        } else if (status === '2') {
             zh = '锁定';
-        } else if (status == '3') {
+        } else if (status === '3') {
             zh = '预锁';
-        } else if (status == '4') {
+        } else if (status === '4') {
             zh = '人工';
-        } else if (status == '5') {
+        } else if (status === '5') {
             zh = '不参加';
         }
         return zh;

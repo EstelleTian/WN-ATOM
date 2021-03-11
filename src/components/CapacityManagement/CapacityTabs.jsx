@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-03-10 09:00:06
+ * @LastEditTime: 2021-03-11 17:28:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -19,7 +19,7 @@ const { TabPane } = Tabs;
   
 //容量管理tab页
 function CapacityTabs (props){
-    const { capacity } = props;
+    const { capacity, activeName } = props;
     const { panes, getActivePane, activePane, delPane } = capacity;
     let activeKey = "";
     if( getActivePane.length > 0){
@@ -47,6 +47,11 @@ function CapacityTabs (props){
     const remove = useCallback( targetKey => {
         props.capacity.delPane(targetKey);
     },[]);
+    useEffect(()=>{
+        if( activeName !== ""){
+            props.capacity.activePane(activeName);
+        }
+    },[])
     
     return (
         <Tabs

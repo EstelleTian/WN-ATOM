@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-03 15:27:51
+ * @LastEditTime: 2021-03-11 17:27:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -21,6 +21,10 @@ const { Header, Footer, Sider, Content } = Layout;
 
 //容量管理模块
 function CapacityManagement (props){
+    const { match } = props;
+    const params = match.params || {};
+    const name = params.name || "";
+    console.log("激活的tab是：", name)
     return (
         <Layout className="capacity-page">
             {/*<Header>Header</Header>*/}
@@ -41,7 +45,7 @@ function CapacityManagement (props){
                 </Sider>*/}
                 <Content>
                     <div className="content-wrapper">
-                        <CapacityTabs/>
+                        <CapacityTabs activeName = {name}/>
                     </div>
                 </Content>
             </Layout>

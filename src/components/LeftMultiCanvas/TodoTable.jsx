@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-10 15:55:32
+ * @LastEditTime: 2021-03-11 17:49:40
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -349,7 +349,8 @@ const TodoTable = (props) => {
            const agree = processVariables.agree || false;
            const flightCoorType = processVariables.flightCoorType || "";
            const sourceVal = processVariables.sourceVal;
-           const targetVal = processVariables.targetVal || "";
+           let targetVal = processVariables.targetVal;
+        //    console.log("targetVal", targetVal)
            const businessName = processVariables.businessName || "";
            const startUserName = instance.startUserName || "";
            let startTime = instance.startTime || "";
@@ -559,8 +560,6 @@ const TodoTable = (props) => {
             }
 
             if( en === "ORIGINAL" || en === "VALUE" ){
-                // tem["fixed"] = 'right'
-                
                 tem["render"] = (text, record, index) => {
                     const { TYPE } = record;
                     if( TYPE === 'TOBT' ){
@@ -568,6 +567,7 @@ const TodoTable = (props) => {
                             return <div title={text}>{getDayTimeFromString(text)}</div>
                         }
                     }else if( TYPE === 'EXEMPT' ||  TYPE === 'UNEXEMPT' ){
+                        // console.log(text)
                         return <div title={text}>{ FlightCoordination.getPriorityZh(text) }</div>
                     }else if( TYPE === 'INPOOL' ||  TYPE === 'OUTPOOL' ){
                         return <div title={text}>{ FlightCoordination.getPoolStatusZh(text) }</div>
@@ -576,9 +576,6 @@ const TodoTable = (props) => {
                             return <div title={text}>{getDayTimeFromString(text)}</div>
                         }
                     }
-                    
-                    
-
                     return <div title={text}>{text}</div>;
                 }
             }

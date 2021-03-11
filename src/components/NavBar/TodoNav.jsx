@@ -39,7 +39,8 @@ function TodoNav(props){
             const agree = processVariables.agree || false;
             const flightCoorType = processVariables.flightCoorType || "";
             const sourceVal = processVariables.sourceVal;
-            const targetVal = processVariables.targetVal || "";
+            let targetVal = processVariables.targetVal;
+            console.log("targetVal", targetVal)
             const businessName = processVariables.businessName || "";
             const startUserName = instance.startUserName || "";
             let startTime = instance.startTime || "";
