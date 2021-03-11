@@ -117,12 +117,12 @@ function LoginPage(props){
                 <Row className="content">
                         <Col span={10}>
                             <Radio.Group onChange={onChange} value={value} className="model_tabs">
-                                <Radio value={1}>总体态势监控</Radio>
-                                <Radio value={2}>容流管理</Radio>
-                                <Radio value={3}>放行监控</Radio>
-                                <Radio value={4}>工作流</Radio>
-                                <Radio value={5}>容量管理</Radio>
-                                <Radio value={6}>方案创建</Radio>
+                                <Radio value={1}>总体监控</Radio>
+                                <Radio value={2}>态势监控</Radio>
+                                <Radio value={3}>运行监控</Radio>
+                                <Radio value={4}>容流监控</Radio>
+                                <Radio value={5}>放行监控</Radio>
+                                <Radio value={6}>飞行计划查询</Radio>
                             </Radio.Group>
                         </Col>
                         <Col span={14}>

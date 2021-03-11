@@ -9,6 +9,7 @@
     top: -36px;
     button{
       line-height: 1;
+      margin-left: 0.5rem;
       span{
         font-size: 1rem;
         line-height: 1;
@@ -34,7 +35,11 @@
       cursor: pointer;
     }
   }
-  
+  .ant-input[disabled] {
+    color: rgba(255, 255, 255, 0.85);
+    background: transparent;
+    border: none;
+}
   
 }
 .capacity_number_table{
@@ -45,10 +50,11 @@
       font-size: 1.6rem;
       padding: 4px 0;
       line-height: 1;
+      // line-height: 36px;
       .ant-input{
         width: 50px;
         text-align: center;
-        font-size: 1.3rem;
+        font-size: 1.6rem;
         padding: 0;
         line-height: 0.75;
       }
@@ -62,12 +68,18 @@
 .ant-popover-message{
   > .anticon{
     top: 11.0005px;
-    font-size: 20px;
+    font-size: 1.3rem;
     left: -5px;
   }
   .ant-popover-message-title{
-    font-size: 20px;
+    font-size: 1.3rem;
   }
 
+}
+.ant-popover-buttons{
+  overflow: hidden;
+  button {
+    float: right;
+}
 }
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-10 16:06:24
+ * @LastEditTime: 2021-03-10 19:12:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -88,6 +88,10 @@ function CapacityCont (props){
                 // console.log(data);
                 const { capacityMap, generateTime } = data;
                 props.capacity.setDynamicData( capacityMap[airportName], generateTime );
+                if( props.capacity.forceUpdateDynamicData ){
+                    //获取数据
+                    props.capacity.forceUpdateDynamicData = false;
+                }
                 timerFunc();
             },
             errFunc: (err)=> {
@@ -95,13 +99,18 @@ function CapacityCont (props){
                     type: 'error',
                     message: '动态容量数据获取失败'
                 });
+                if( props.capacity.forceUpdateDynamicData ){
+                    //获取数据
+                    props.capacity.forceUpdateDynamicData = false;
+                }
                 timerFunc();
             } ,
         };
 
         request(opt);
 
-    },[])
+    },[]);
+    
     //用户信息获取
     useEffect(function(){
         user = localStorage.getItem("user");
@@ -116,6 +125,7 @@ function CapacityCont (props){
             alert("请先登录");
         }
     }, []);
+
     useEffect( function(){
         return ()=>{
             console.log("卸载")
@@ -125,6 +135,13 @@ function CapacityCont (props){
             dynamicTimer.current = "";
         }
     }, []);
+
+    useEffect( function(){
+        if( props.capacity.forceUpdateDynamicData ){
+            //获取数据
+            requestDynamicData( false );
+        }
+    }, [ props.capacity.forceUpdateDynamicData ]);
 
 
     return (
@@ -156,7 +173,7 @@ function CapacityCont (props){
                                 showDecorator = {true}
                                 className="static_cap_modal static_cap_modal_24 modal_dynamic"
                             >
-                                <CapacityTable  type="line24" kind="dynamic" airportName={pane.key}/>
+                                <CapacityTable type="line24" kind="dynamic" airportName={pane.key} paneType={pane.type} />
 
                             </ModalBox>
                             <DynamicWorkSteps pane={pane}></DynamicWorkSteps>  
