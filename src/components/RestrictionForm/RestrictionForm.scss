@@ -96,6 +96,9 @@
     width: 100%;
     padding: 0 3rem;
     padding-left: 123px;
+    &.outside {
+      top: -38px;
+    }
     .button-container {
       margin-right: 2rem;
     }

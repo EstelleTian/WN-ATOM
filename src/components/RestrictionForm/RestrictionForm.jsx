@@ -491,7 +491,7 @@ function RestrictionForm(props){
         flowControlFlight.exemptionAircraftType = exemptionAircraftType.join(';');
         
         if(operationType === 'MODIFY'){
-            // 若为方案修以下字段设置为null
+            // 若为方案修改，则以下字段设置为null
             basicTacticInfo.id = null;
             basicTacticInfo.tacticTimeInfo.createTime = null;
         }
@@ -511,6 +511,11 @@ function RestrictionForm(props){
             resFunc: (data)=> requestSuccess(id,data),
             errFunc: (err)=> requestErr(err ),
         };
+        // 若为模拟状态的方案修改，则使用modifySchemeUrl
+        if(operationType === "MODIFYSIM"){
+            opt.url = ReqUrls.modifySchemeUrl + user.id ;
+            opt.method = "PUT";
+        }
         request(opt);
         //发送到客户端
         // handleImportControl(JSON.stringify(data));
@@ -529,7 +534,17 @@ function RestrictionForm(props){
         if(isValidObject(setModalVisible)){
             setModalVisible(false)
         }
-
+        Modal.success({
+            content: `${operationDescription}成功`,
+            // maskClosable:true,
+            onOk: () =>{
+                if(isValidObject(setModalVisible)){
+                    setModalVisible(false)
+                }else {
+                    window.close();
+                }
+            }
+        });
         //发送到客户端
         if(operationType ==='CREATE'){
             handleImportControl(id);
@@ -539,19 +554,6 @@ function RestrictionForm(props){
             handleImportControlForUpdate(oldId,id);
         }else if(operationType === 'IMPORTWITHFORMER'){
             handleImportControlForUpdate(formerId,id);
-        }
-        if(operationType !=='MODIFY'){
-            Modal.success({
-                content: `${operationDescription}成功`,
-                // maskClosable:true,
-                onOk: () =>{
-                    if(isValidObject(setModalVisible)){
-                        setModalVisible(false)
-                    }else {
-                        window.close();
-                    }
-                }
-            });
         }
     };
 
@@ -578,7 +580,6 @@ function RestrictionForm(props){
                     <span>{ `${operationDescription}失败`}</span>
                     <br/>
                     <span>{errMsg}</span>
-
                 </span>
             ),
         });
@@ -798,7 +799,7 @@ function RestrictionForm(props){
      * */
     const drawOperation = ()=> {
         return (
-            <div className="operation-bar" style={{width:props.width}}>
+            <div className={props.operationBarClassName ? `operation-bar ${props.operationBarClassName}` : "operation-bar"}>
 
                 {
                     showEditBtn ? (drawEditBtn()) : ""

@@ -16,6 +16,7 @@ const RestrictionPage = lazy(() => import('../pages/RestrictionPage/RestrictionP
 const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
 const CreateFlowPage = lazy(() => import('../pages/CreateFlowPage/CreateFlowPage'));
 const ModifySchemePage = lazy(() => import('../pages/ModifySchemePage/ModifySchemePage'));
+const DisplaySimulationSchemeDetailPage = lazy(() => import('../pages/DisplaySimulationSchemeDetailPage/DisplaySimulationSchemeDetailPage'));
 
 const WorkFlowPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowPage'));
 const WorkFlowDetailPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowDetailPage'));
@@ -70,6 +71,12 @@ export default [
         component: withRouter(ModifySchemePage),
         exact: true,
         title: '方案修改',
+    },
+    {
+        path: '/displaySchemeDetail',
+        component: withRouter(DisplaySimulationSchemeDetailPage),
+        exact: true,
+        title: '方案详情',
     },
     {
         path: '/workflow',

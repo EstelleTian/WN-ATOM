@@ -47,9 +47,9 @@ const ReqUrls = {
 
     //创建流控-数据提交
     createFlowUrl: 'http://192.168.194.21:58190/scheme-flow-server/simulationTactics/import/sim/',
-    // createFlowUrl: 'http://192.168.243.138:58190/scheme-flow-server/simulationTactics/import/sim/',
-    //修改方案-数据提交
-    updateSchemeUrl: 'http://192.168.194.21:58190/scheme-flow-server/implementTactics/modify/',
+    
+    //修改模拟方案-数据提交
+    modifySchemeUrl: 'http://192.168.194.21:58190/simulationTactics/modifyScheme/',
     //获取工作流-办结列表
     hisTaskUrl: workflowIP+'/workflow/userHisTask/',
     //获取工作流-待办列表

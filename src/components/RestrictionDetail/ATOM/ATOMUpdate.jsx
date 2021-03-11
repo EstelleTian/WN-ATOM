@@ -108,6 +108,7 @@ function ATOMUpdate(props){
                     showEditBtn={true}
                     showIgnoreBtn={true}
                     bordered={ true }
+                    operationBarClassName="outside"
                 />
             </Col>
         </Row>
