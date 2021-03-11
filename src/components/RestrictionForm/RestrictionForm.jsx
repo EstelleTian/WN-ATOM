@@ -517,8 +517,6 @@ function RestrictionForm(props) {
             opt.method = "PUT";
         }
         request(opt);
-        //发送到客户端
-        // handleImportControl(JSON.stringify(data));
     };
 
     /**
@@ -553,7 +551,6 @@ function RestrictionForm(props) {
         } else if (operationType === 'IMPORTWITHFORMER') { //  外区流控导入方案，且已有关联的方案
             handleImportControlForUpdate(formerId, id);
         } else if (operationType === 'MODIFYSIM') { // 模拟的方案进行修改操作
-            // handleImportControlForUpdate(formerId,id);
             handleUpdateFlowControl(id);
         }
     };

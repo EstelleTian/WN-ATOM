@@ -196,7 +196,7 @@ function LimitedCard(props){
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="flowControlHeight"
+                        name="flowControlAltitude"
                         label="受控高度"
                     >
                         <Select
