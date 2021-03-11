@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-02-22 13:36:39
+ * @LastEditTime: 2021-03-11 10:58:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -82,6 +82,18 @@ function InfoCard(props){
                             {/*{*/}
                             {/*    dataType === "FCDM" ? <Button className="info_btn btn_blue" size="small" onClick={ function(e){ openTimeSlotFrame(message) } }>查看放行监控</Button> : ""*/}
                             {/*}*/}
+                            {
+                                (dataType === "DCVM") ?
+                                    <Button className="info_btn btn_blue" size="small" onClick={ function(e){
+                                        console.log(message);
+                                        let { data } = message;
+                                        data = JSON.parse( data );
+                                        const elementName = data.elementName || "";
+                                        console.log(elementName)
+                                        e.stopPropagation()
+                                    } } >查看容量管理</Button>
+                                    :""
+                            }
                             {
                                 (dataType === "OPEI" || dataType === "PROI") ?
                                     <Button className="info_btn btn_blue" size="small" onClick={ function(e){

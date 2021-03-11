@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-03-10 16:05:11
+ * @LastEditTime: 2021-03-10 18:34:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -272,7 +272,7 @@ function DynamicWorkSteps (props){
                     <Spin spinning={loading} >
                         <StepsList user={user} hisTasks={hisTasks} generateTime={generateTime} hisInstance={hisInstance}/>
                         <div className="btn_opts">
-                            {
+                            {/* {
                                 authMap.AGREE && <OptionBtn  type="agree" text="同意" callback = {
                                     (setLoad)=>{ 
                                         sendResultRequest("agree", setLoad) 
@@ -285,7 +285,7 @@ function DynamicWorkSteps (props){
                                         sendResultRequest("refuse", setLoad) 
                                     }
                                 } />
-                            }
+                            } */}
                             {
                                 authMap.CONFIRM && <OptionBtn type="agree"  text="确认" callback = {
                                     (setLoad)=>{ 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-03-10 15:46:42
+ * @LastEditTime: 2021-03-10 18:58:08
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -60,6 +60,7 @@ import { isValidVariable } from 'utils/basic-verify'
      //动态容量 
      @observable dynamicData = {};
      @observable dynamicDataGenerateTime = '';
+     @observable forceUpdateDynamicData = false;
 
      //动态容量 工作流
      @observable dynamicWorkFlowData = {};
