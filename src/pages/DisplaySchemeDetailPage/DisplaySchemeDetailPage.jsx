@@ -1,5 +1,5 @@
 /* 
-* 模拟状态的方案详情显示页面
+* 正式方案详情显示页面
 */
 import React , {useEffect, useState}from "react";
 import { request } from 'utils/request'
@@ -8,7 +8,7 @@ import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
 import { customNotice } from 'utils/common-funcs'
 
 
-function DisplaySimulationSchemeDetailPage(props){
+function DisplaySchemeDetailPage(props){
     //  方案数据
     let [flowData, setFlowData] = useState({});
     //  方案表单禁用状态
@@ -34,7 +34,7 @@ function DisplaySimulationSchemeDetailPage(props){
         let schemeID = props.location.search.replace(/\?/g, "");
         // 请求参数
         const opt = {
-            url: ReqUrls.simulationSchemeDetailUrl + schemeID,
+            url: ReqUrls.schemeDetailByIdUrl + schemeID,
             method:'GET',
             params:{},
             resFunc: (data)=> updateSchemeData(data),
@@ -61,4 +61,4 @@ function DisplaySimulationSchemeDetailPage(props){
         </div>
     )
 }
-export default DisplaySimulationSchemeDetailPage;
+export default DisplaySchemeDetailPage;

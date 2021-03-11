@@ -77,7 +77,7 @@ function RestrictionForm(props) {
 
     // 流控方向领域对象
     const directionListData = directionList[0] || {};
-    const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptbehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = directionListData;
+    const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = directionListData;
     // 流控航班类型条件
     const flowControlFlight = isValidObject(basicFlowcontrol.flowControlFlight) ? basicFlowcontrol.flowControlFlight : {};
 
@@ -110,7 +110,7 @@ function RestrictionForm(props) {
         "formerUnit",
         "behindUnit",
         "exemptFormerUnit",
-        "exemptbehindUnit",
+        "exemptBehindUnit",
         "flowControlFlightId",
         "aircraftType",
         "exemptFlightId",
@@ -153,7 +153,7 @@ function RestrictionForm(props) {
         // 豁免前序
         exemptFormerUnit: exemptFormerUnit,
         // 豁免后序
-        exemptbehindUnit: exemptbehindUnit,
+        exemptBehindUnit: exemptBehindUnit,
         // 限制高度
         highLimit: highLimit,
         // 豁免高度
@@ -394,7 +394,7 @@ function RestrictionForm(props) {
 
         // 表单字段数据
         const { tacticName, tacticPublishUnit, tacticPublishUser,
-            targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptbehindUnit, highLimit, exemptHeight,
+            targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight,
             depAp, arrAp, exemptDepAp, exemptArrAp,
             flowControlName, flowControlReason, flowControlPublishType, restrictionRemark,
             restrictionMode, restrictionModeValue,
@@ -422,7 +422,7 @@ function RestrictionForm(props) {
         // 更新豁免前序
         directionListData.exemptFormerUnit = exemptFormerUnit;
         // 更新豁免后序
-        directionListData.exemptbehindUnit = exemptbehindUnit;
+        directionListData.exemptBehindUnit = exemptBehindUnit;
         // 更新限制高度
         directionListData.highLimit = highLimit;
         // 更新豁免高度
@@ -505,12 +505,17 @@ function RestrictionForm(props) {
     const submitFormData = (data) => {
         const id = basicTacticInfo.id;
         const opt = {
-            url: ReqUrls.createFlowUrl + user.id,
+            url: ReqUrls.importSchemeUrl + user.id,
             method: 'POST',
             params: JSON.stringify(data),
             resFunc: (data) => requestSuccess(id, data),
             errFunc: (err) => requestErr(err),
         };
+
+        // 若为手动创建或修改方案操作，则使用createSchemeUrl
+        // if(operationType === "MODIFY" || operationType === "CREATE"){
+        //     opt.url = ReqUrls.createSchemeUrl + user.id;
+        // }
         // 若为模拟状态的方案修改，则使用modifySchemeUrl
         if (operationType === "MODIFYSIM") {
             opt.url = ReqUrls.modifySchemeUrl + user.id;
