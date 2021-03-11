@@ -45,10 +45,12 @@ const ReqUrls = {
     //获取流控数据(ATOM变更)
     ATOMModifyDataUrl: 'http://192.168.194.21:58190/scheme-flow-server/restrictions/modify/',
 
-    //创建流控-数据提交
-    createFlowUrl: 'http://192.168.194.21:58190/scheme-flow-server/simulationTactics/import/sim/',
-    
-    //修改模拟方案-数据提交
+    //创建方案(外区流控导入)-数据提交
+    importSchemeUrl: 'http://192.168.194.21:58190/scheme-flow-server/simulationTactics/import/sim/',
+    // 创建和修改方案-数据提交
+    createSchemeUrl: 'http://192.168.194.21:58190/scheme-flow-server/simulationTactics/save/manual/',
+
+    //修改模拟状态的方案-数据提交
     modifySchemeUrl: 'http://192.168.194.21:58190/simulationTactics/modifyScheme/',
     //获取工作流-办结列表
     hisTaskUrl: workflowIP+'/workflow/userHisTask/',

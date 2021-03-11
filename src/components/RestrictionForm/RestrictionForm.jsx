@@ -505,12 +505,17 @@ function RestrictionForm(props) {
     const submitFormData = (data) => {
         const id = basicTacticInfo.id;
         const opt = {
-            url: ReqUrls.createFlowUrl + user.id,
+            url: ReqUrls.importSchemeUrl + user.id,
             method: 'POST',
             params: JSON.stringify(data),
             resFunc: (data) => requestSuccess(id, data),
             errFunc: (err) => requestErr(err),
         };
+
+        // 若为手动创建或修改方案操作，则使用createSchemeUrl
+        // if(operationType === "MODIFY" || operationType === "CREATE"){
+        //     opt.url = ReqUrls.createSchemeUrl + user.id;
+        // }
         // 若为模拟状态的方案修改，则使用modifySchemeUrl
         if (operationType === "MODIFYSIM") {
             opt.url = ReqUrls.modifySchemeUrl + user.id;
