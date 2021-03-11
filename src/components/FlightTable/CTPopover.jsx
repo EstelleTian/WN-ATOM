@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-01-21 12:06:06
+ * @LastEditTime: 2021-03-11 13:45:26
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -24,6 +24,7 @@ const CTPopover = (props) => {
     }
     let field = {};
     let title = "";
+    let hasAuth = true;
     if( col === "COBT"){
         field = orgdata.cobtField || {};
         title = "COBT时间变更";
@@ -36,6 +37,7 @@ const CTPopover = (props) => {
     }else if( col === "TOBT"){
         field = orgdata.tobtField || {};
         title = "TOBT申请变更";
+        
     }
     let source = field.source || "";
     let sourceCN = FlightCoordination.getSourceZh( source );

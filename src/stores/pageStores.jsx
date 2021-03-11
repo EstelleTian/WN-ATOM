@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-03-04 16:58:20
+ * @LastEditTime: 2021-03-11 13:23:57
  * @LastEditors: Please set LastEditors
  * @Description: 页面相关store
  * @FilePath: \WN-CDM\src\stores\pageStores.jsx
@@ -73,6 +73,26 @@ class SystemPage{
     @action setUserData( user ){
         const userinfo = new UserInfo(user);
         this.user = userinfo;
+    }
+
+    //用户信息-赋值
+    @action userHasAuth( authCode ){
+        const roles = this.user.roles || [];
+        if( roles.length > 0 ){
+            roles.map( role => {
+                const authorities = role.authorities || [];
+                if( authorities.length > 0 ){
+                    authorities.map( authority => {
+                        const code = authority.code || "";
+                        if( authCode*1 > 0 && code*1 > 0 && authCode*1 === code*1 ){
+                            return true;
+                        }
+                        
+                    })
+                }
+            })
+        }
+        return false;
     }
 }
 

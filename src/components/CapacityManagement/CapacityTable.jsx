@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-10 19:13:07
+ * @LastEditTime: 2021-03-11 14:13:15
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -397,7 +397,7 @@ const SaveBtn = function(props){
         <Popconfirm
             title={(<div>
                 <div>动态容量修改</div>
-                <div style={{ fontSize: '1.2rem' }}>备注:</div>
+                <div style={{ fontSize: '1.2rem' }}>原因:</div>
                 <Input.TextArea size="small" rows={3} value={inputVal} onChange={ onChange }
                     style={{
                         width: '300px',
@@ -428,7 +428,6 @@ const ApproveBtn = function(props){
     };
     //数据提交成功回调
     const requestSuccess = useCallback( ( data, content, key ) => {
-        console.log("协调成功：",data);
         //重新请求数据
         updateWorkFlow();
         
@@ -458,7 +457,6 @@ const ApproveBtn = function(props){
             taskId,  //任务id
             comment,
         }
-        debugger
         let title = "动态容量调整";
         if(type === "agree"){
             //容量审核同意
@@ -466,6 +464,9 @@ const ApproveBtn = function(props){
         }else if(type === "refuse"){
             //容量审核拒绝
             url = ReqUrls.capacityBaseUrl + "simulationTactics/refuse/"+username;
+        }else if(type === "reback"){
+            //容量审核撤回
+            url = ReqUrls.capacityBaseUrl + "simulationTactics/withdraw/"+username;
         }
         if( isValidVariable(url) ){
             const opt = {
@@ -607,7 +608,7 @@ const CapacityTable = (props) => {
                     const { capacityMap } = data;
                     for(let name in capacityMap){
                         const res = capacityMap[name] || {};
-                        console.log("更新表格数据 ",airportName)
+                        // console.log("更新表格数据 ",airportName)
                         props.capacity.updateDatas( kind, res );
                         //
                         props.capacity.forceUpdateDynamicWorkFlowData = true;
@@ -763,15 +764,33 @@ const CapacityTable = (props) => {
                     </ApproveBtn>
             
                 }
+                {
+                    authMap.REBACK && <ApproveBtn username={username} hisTasks={hisTasks} hisInstance={hisInstance}
+                        updateWorkFlow={()=>{
+                            props.capacity.forceUpdateDynamicWorkFlowData = true;
+                            props.capacity.forceUpdateDynamicData = true;
+                        }}
+                        type="reback">
+                        {
+                            (showPopconfirm)=>{
+                                return <Button type="primary" text="撤回"
+                                className="todo_opt_btn todo_reback c-btn-blue"
+                                onClick={showPopconfirm} >撤回</Button>
+                            }
+                        }
+                        
+                    </ApproveBtn>
+            
+                }
                 
                 {
-                    ( !authMap.AGREE && !authMap.REFUSE && !editable ) &&
+                    ( !authMap.AGREE && !authMap.REFUSE && !authMap.REBACK && !editable ) &&
                     <Button className="" type="primary" onClick={e =>{
                         setEditable(true);
                     }}>修改 </Button>
                 }
                 {
-                    ( !authMap.AGREE && !authMap.REFUSE && editable ) &&
+                    ( !authMap.AGREE && !authMap.REFUSE && !authMap.REBACK && editable ) &&
                     <span>
                         <SaveBtn save={save} setEditable={setEditable}/>
                         <Button className="reset" onClick={ e =>{
@@ -783,7 +802,7 @@ const CapacityTable = (props) => {
             </div>
             )
         }
-        console.log(tableData)
+
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <div className="table_cont">
