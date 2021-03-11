@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-09 13:42:30
+ * @LastEditTime: 2021-03-11 14:47:28
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -21,7 +21,8 @@ let FLIGHTIDPopover = (props) => {
     const [ exemptLoad, setExemptLoad ] = useState(false);
     const [ poolLoad, setPoolLoad ] = useState(false);
     const [ tipObj, setTipObj] = useTip(2500);
-    const {text, record } = props.opt;
+    const { opt, systemPage } = props;
+    const { text, record } = opt;
     //数据提交失败回调
     const requestErr =useCallback( (err, content) => {
         setTipObj({
@@ -191,12 +192,12 @@ let FLIGHTIDPopover = (props) => {
                         : ""
                 }
                 {
-                    ( !isInPoolFlight && hasAuth )
+                    ( !isInPoolFlight && hasAuth && systemPage.userHasAuth(13404) )
                         ? <Button loading={poolLoad} className="c-btn c-btn-green" onClick={ () => { handlePool("direct-in-pool", record, "申请入池") } }>申请入池</Button>
                         : ""
                 }
                 {
-                    ( isInPoolFlight && hasAuth )
+                    ( isInPoolFlight && hasAuth && systemPage.userHasAuth(13404) )
                         ? <Button loading={poolLoad} className="c-btn c-btn-red" onClick={ () => { handlePool("direct-out-pool", record, "申请出池") } }>申请出池</Button>
                         : ""
                 }

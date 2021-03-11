@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-03-10 11:27:12
+ * @LastEditTime: 2021-03-11 15:03:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -42,7 +42,6 @@ function LeftNav(props){
             <Radio.Group 
                 value={props.systemPage.leftNavSelectedName} 
                 buttonStyle="solid" 
-                size="large"
                 
              >
                  {
@@ -54,7 +53,7 @@ function LeftNav(props){
             </Radio.Group>
 
             {/*<div className="time-range">*/}
-                <Radio.Group defaultValue="a" buttonStyle="solid" size="large" >
+                <Radio.Group defaultValue="a" buttonStyle="solid"  >
                     <Radio.Button value="a">计划范围
                         {/*<Tag color="#3d8424">29/00-29/23</Tag>*/}
                         </Radio.Button>

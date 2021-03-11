@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-01 16:52:16
+ * @LastEditTime: 2021-03-11 14:24:31
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -9,7 +9,7 @@
 import React  from "react";
 import {  isValidVariable, getDayTimeFromString, getTimeAndStatus } from 'utils/basic-verify'
 import { FlightCoordination } from 'utils/flightcoordination.js'
-
+import { inject, observer } from 'mobx-react'
 import CellTip from "./CellTip";
 import FmeToday from "utils/fmetoday";
 
@@ -18,17 +18,19 @@ import PopoverTip from "./PopoverTip";
 
 //TOBT 右键协调框 通过 opt.col 列名 区分
 const TOBTPopover = (props) => {
-    const { opt } = props;
-    const {text, record, col} = opt;
+    const { opt, systemPage } = props;
+    const { text, record, col } = opt;
     let { orgdata } = record;
     if( isValidVariable(orgdata) ){
         orgdata = JSON.parse(orgdata);
     }
     let field = {};
     let title = "";
+    let hasAuth = true;
     if( col === "TOBT"){
         field = orgdata.tobtField || {};
         title = "TOBT申请变更";
+        hasAuth = systemPage.userHasAuth( 13407 );
         
     }
     let source = field.source || "";
@@ -71,6 +73,9 @@ const TOBTPopover = (props) => {
         }
         title = "非本区域航班";
         subTitle = "非本区域";
+    }else if( !hasAuth ){
+        title = "无申请权限";
+        subTitle = "无申请权限";
     }
     let textDom = '';
     if( col === "FFIXT"){
@@ -101,7 +106,7 @@ const TOBTPopover = (props) => {
     
     
     //航班已起飞或者不在本区域内--不显示
-    if ( hadDEP || hadARR || !hadFPL || !isInAreaFlight ) {
+    if ( hadDEP || hadARR || !hadFPL || !isInAreaFlight || !hasAuth ) {
         return (
             <CellTip title={title}>
                 {textDom}
@@ -123,5 +128,5 @@ const TOBTPopover = (props) => {
 
 }
 
-
-export default TOBTPopover
+export default inject( "systemPage" )(observer(TOBTPopover))
+// export default TOBTPopover
