@@ -17,8 +17,12 @@ function ImpactFlights(props){
     const executeKPIData = props.executeKPIData || {};
     const KPIData = executeKPIData.KPIData || {};
     let { impactFlights, criticalFlights, coordinationFlights, inPoolFlights, closeWaitFlights } = KPIData;
+    let tacticProcessInfo = KPIData.tacticProcessInfo || {};
+    let kpi = tacticProcessInfo.kpi || {};
+    let impactFlightCount = kpi.impactFlightCount || {};
+    let impactALL = impactFlightCount['ALL'];
     // 影响
-    const impact = Array.isArray(impactFlights) ? impactFlights.length : "N/A";
+    const impact = Array.isArray(impactALL) ? impactALL.length : "N/A";
     // 临界
     const critical = Array.isArray(criticalFlights) ? criticalFlights.length : "N/A";
     // coordination
