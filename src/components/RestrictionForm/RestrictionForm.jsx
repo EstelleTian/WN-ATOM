@@ -1,29 +1,29 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
-import  moment  from 'moment'
+import moment from 'moment'
 import "moment/locale/zh-cn"
-import {Button, Modal, Form} from 'antd'
+import { Button, Modal, Form } from 'antd'
 import StaticInfoCard from './StaticInfoCard'
-import { handleImportControl, closeCreateDlg, closeControlDetail, handleImportControlForUpdate } from 'utils/client'
-import { getFullTime, formatTimeString,addStringTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
+import { handleImportControl, closeCreateDlg, closeControlDetail, handleImportControlForUpdate, handleUpdateFlowControl } from 'utils/client'
+import { getFullTime, formatTimeString, addStringTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import './RestrictionForm.scss'
-import {inject, observer} from "mobx-react";
+import { inject, observer } from "mobx-react";
 
 //表单整体
-function RestrictionForm(props){
-    const flowData = props.flowData || {}; 
-    const showIgnoreBtn = props.showIgnoreBtn || false; 
-    const showEditBtn = props.showEditBtn || false; 
-    const systemPage = props.systemPage || {}; 
-    const primaryButtonName = props.primaryButtonName || ""; 
-    const setModalVisible = props.setModalVisible || {}; 
-    const operationType = props.operationType || ""; 
-    const operationDescription = props.operationDescription || ""; 
+function RestrictionForm(props) {
+    const flowData = props.flowData || {};
+    const showIgnoreBtn = props.showIgnoreBtn || false;
+    const showEditBtn = props.showEditBtn || false;
+    const systemPage = props.systemPage || {};
+    const primaryButtonName = props.primaryButtonName || "";
+    const setModalVisible = props.setModalVisible || {};
+    const operationType = props.operationType || "";
+    const operationDescription = props.operationDescription || "";
 
     const user = systemPage.user || {};
-    let userDescriptionCN = user.descriptionCN ||　"";
+    let userDescriptionCN = user.descriptionCN || "";
 
     // 方案数据对象
     const tacticProcessInfo = flowData.tacticProcessInfo || {};
@@ -43,23 +43,23 @@ function RestrictionForm(props){
     // 方案结束时间(12位字符串)
     let basicEndTime = tacticTimeInfo.endTime;
     // 当前终端时间
-    let now = getFullTime( new Date());
-    now = addStringTime(now,1000*60*5);
+    let now = getFullTime(new Date());
+    now = addStringTime(now, 1000 * 60 * 5);
 
-    let startTimeString = now.substring(8,12);
-    let startDate = now.substring(0,8);
-    let endTimeString = "" ;
-    let endDate ="";
-    if(isValidVariable(basicStartTime)){
-        startTimeString = basicStartTime.substring(8,12);
-        startDate = basicStartTime.substring(0,8);
+    let startTimeString = now.substring(8, 12);
+    let startDate = now.substring(0, 8);
+    let endTimeString = "";
+    let endDate = "";
+    if (isValidVariable(basicStartTime)) {
+        startTimeString = basicStartTime.substring(8, 12);
+        startDate = basicStartTime.substring(0, 8);
     }
-    if(isValidVariable(basicEndTime)){
-        endTimeString = basicEndTime.substring(8,12);
-        endDate = basicEndTime.substring(0,8);
+    if (isValidVariable(basicEndTime)) {
+        endTimeString = basicEndTime.substring(8, 12);
+        endDate = basicEndTime.substring(0, 8);
     }
 
-     // 流控信息对象
+    // 流控信息对象
     let flowControlTimeInfo = basicFlowcontrol.flowControlTimeInfo || {};
     let flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
     let flowControlName = basicFlowcontrol.flowControlName || "";
@@ -81,30 +81,30 @@ function RestrictionForm(props){
     // 流控航班类型条件
     const flowControlFlight = isValidObject(basicFlowcontrol.flowControlFlight) ? basicFlowcontrol.flowControlFlight : {};
 
-    const { flowControlFlightId ="", wakeFlowLevel="", airlineType="", missionType="", auType ="",
-        task="", organization="", ability="",aircraftType="",
-        exemptFlightId="", exemptionWakeFlowLevel="", exemptionAirlineType="", exemptionMissionType="", exemptionAuType,
-        exemptionTask="", exemptionOrganization="", exemptionAbility="", exemptionAircraftType="",
+    const { flowControlFlightId = "", wakeFlowLevel = "", airlineType = "", missionType = "", auType = "",
+        task = "", organization = "", ability = "", aircraftType = "",
+        exemptFlightId = "", exemptionWakeFlowLevel = "", exemptionAirlineType = "", exemptionMissionType = "", exemptionAuType,
+        exemptionTask = "", exemptionOrganization = "", exemptionAbility = "", exemptionAircraftType = "",
     } = flowControlFlight;
 
     // 依据流控限制方式取流控限制数值方法
-    const  getRestrictionModeValue = () => {
-        const { restrictionMode,  restrictionMITValue, restrictionAFPValueSequence} = flowControlMeasure;
-        if(restrictionMode == "MIT"){        
+    const getRestrictionModeValue = () => {
+        const { restrictionMode, restrictionMITValue, restrictionAFPValueSequence } = flowControlMeasure;
+        if (restrictionMode == "MIT") {
             return restrictionMITValue;
-        }else if(restrictionMode == "AFP"){
+        } else if (restrictionMode == "AFP") {
             return restrictionAFPValueSequence;
         }
     };
 
     // 依据流控限制方式取流控限制数值方法
-   const restrictionModeData = {
+    const restrictionModeData = {
         "MIT": "restrictionMITValue",
         "AFP": "restrictionAFPValueSequence",
     };
 
     // 需要将数值转换为大写的字段
-    const upperFields=[
+    const upperFields = [
         "tacticPublishUser",
         "targetUnit",
         "formerUnit",
@@ -123,12 +123,12 @@ function RestrictionForm(props){
     ];
 
 
-    if( operationType === "CREATE"){
-        tacticPublishUser =  tacticPublishUser || userDescriptionCN;
+    if (operationType === "CREATE") {
+        tacticPublishUser = tacticPublishUser || userDescriptionCN;
     }
 
     // 流控限制数值
-    let restrictionModeValue =getRestrictionModeValue();
+    let restrictionModeValue = getRestrictionModeValue();
 
     // 日期组件格式化方式
     const dateFormat = 'YYYY-MM-DD HHmm';
@@ -143,7 +143,7 @@ function RestrictionForm(props){
         // 方案发布单位
         tacticPublishUnit: tacticPublishUnit || "流量室",
         // 方案发布用户
-        tacticPublishUser:  tacticPublishUser,
+        tacticPublishUser: tacticPublishUser,
         // 基准单元
         targetUnit: targetUnit,
         // 前序单元
@@ -168,7 +168,7 @@ function RestrictionForm(props){
         exemptArrAp: exemptArrAp,
 
         // 方案开始日期(DatePicker组件使用)
-        startDate: isValidVariable(basicStartTime) ? moment(basicStartTime, dateFormat) :  moment(now, dateFormat) ,
+        startDate: isValidVariable(basicStartTime) ? moment(basicStartTime, dateFormat) : moment(now, dateFormat),
         // 方案开始时间
         startTime: startTimeString,
         // 方案结束日期(DatePicker组件使用)
@@ -177,7 +177,7 @@ function RestrictionForm(props){
         endTime: endTimeString,
 
         // 方案开始时间(非编辑状态下显示)
-        basicStartTimeDisplay: isValidVariable(basicStartTime) ?  formatTimeString(basicStartTime) : "",
+        basicStartTimeDisplay: isValidVariable(basicStartTime) ? formatTimeString(basicStartTime) : "",
         // 方案结束时间(非编辑状态下显示)
         basicEndTimeDisplay: isValidVariable(basicEndTime) ? formatTimeString(basicEndTime) : "",
 
@@ -190,12 +190,12 @@ function RestrictionForm(props){
         restrictionMode: restrictionMode || "MIT",
         // 流控限制数值
         restrictionModeValue: restrictionModeValue,
-        
+
 
         // 包含-航班号
         flowControlFlightId: isValidVariable(flowControlFlightId) ? flowControlFlightId.split(';') : [],
         // 包含-尾流类型
-        wakeFlowLevel: isValidVariable(wakeFlowLevel) ? wakeFlowLevel.split(';') : [] ,
+        wakeFlowLevel: isValidVariable(wakeFlowLevel) ? wakeFlowLevel.split(';') : [],
         // 包含-运营人
         auType: isValidVariable(auType) ? auType.split(';') : [],
         // 包含-航班类型
@@ -224,43 +224,43 @@ function RestrictionForm(props){
         // 不包含-任务类型
         exemptionTask: isValidVariable(exemptionTask) ? exemptionTask.split(';') : [],
         // 不包含-军民航
-        exemptionOrganization: isValidVariable(exemptionOrganization) ?  exemptionOrganization.split(';') : [],
+        exemptionOrganization: isValidVariable(exemptionOrganization) ? exemptionOrganization.split(';') : [],
         // 不包含-限制资质
-        exemptionAbility:isValidVariable(exemptionAbility) ? exemptionAbility.split(';') : [],
+        exemptionAbility: isValidVariable(exemptionAbility) ? exemptionAbility.split(';') : [],
         // 不包含-受控机型
-        exemptionAircraftType:  isValidVariable(exemptionAircraftType) ? exemptionAircraftType.split(';') : [],
+        exemptionAircraftType: isValidVariable(exemptionAircraftType) ? exemptionAircraftType.split(';') : [],
 
     };
 
     // 模态框显隐变量
-    let [ isModalVisible, setIsModalVisible] = useState(false);
+    let [isModalVisible, setIsModalVisible] = useState(false);
     // 主要操作按钮禁用变量
-    let [ importButtonDisable, setImportButtonDisable] = useState(false);
+    let [importButtonDisable, setImportButtonDisable] = useState(false);
     // 模态框确定按钮loading变量
-    let [ confirmLoading, setConfirmLoading] = useState(false);
+    let [confirmLoading, setConfirmLoading] = useState(false);
 
     // 方案开始日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [ startDateString, setStartDateString] = useState(startDate);
+    let [startDateString, setStartDateString] = useState(startDate);
     // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [ endDateString, setEndDateString] = useState(endDate);
+    let [endDateString, setEndDateString] = useState(endDate);
 
     // 方案开始日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [ startTime, setStartTime] = useState(startDate);
+    let [startTime, setStartTime] = useState(startDate);
     // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [ endTime, setEndTime] = useState(endDate);
+    let [endTime, setEndTime] = useState(endDate);
 
     // 忽略模态框显隐变量
-    let [ isIgnoreModalVisible, setIsIgnoreModalVisible] = useState(false);
+    let [isIgnoreModalVisible, setIsIgnoreModalVisible] = useState(false);
 
     const [form] = Form.useForm();
-    useEffect(function(){
+    useEffect(function () {
         form.resetFields();//重置，用以表单初始值赋值
         // 更新表单各时间数值
         updateDataTime();
-    },[id, user.id]);
+    }, [id, user.id]);
 
 
-    const updateDataTime =() => {
+    const updateDataTime = () => {
         // 更新方案开始日期
         setStartDateString(startDate);
         // 更新方案结束日期
@@ -270,7 +270,7 @@ function RestrictionForm(props){
     };
 
     // 主要操作按钮事件
-    const  handlePrimaryBtnClick = async () => {
+    const handlePrimaryBtnClick = async () => {
         try {
             // 触发表单验证取表单数据
             const values = await form.validateFields();
@@ -282,7 +282,7 @@ function RestrictionForm(props){
     };
 
     // 模态框取消回调
-    const  handleCancel = () => {
+    const handleCancel = () => {
         // 隐藏模态框显示
         setIsModalVisible(false);
         setConfirmLoading(false);
@@ -294,7 +294,7 @@ function RestrictionForm(props){
             // 触发表单验证取表单数据
             const values = await form.validateFields();
             setImportButtonDisable(true);
-            if( props.hasOwnProperty("setDisabledForm")){
+            if (props.hasOwnProperty("setDisabledForm")) {
                 props.setDisabledForm(true);
             }
             setConfirmLoading(true);
@@ -309,9 +309,9 @@ function RestrictionForm(props){
 
 
     // 将数值批量转换为大写
-    const  toUpperCaseValues =(values) =>{
-        for( var v in values){
-            if(upperFields.includes(v)){
+    const toUpperCaseValues = (values) => {
+        for (var v in values) {
+            if (upperFields.includes(v)) {
                 values[v] = upperCaseValue(values[v]);
             }
         }
@@ -319,10 +319,10 @@ function RestrictionForm(props){
     };
 
     // 转换为大写
-    const  upperCaseValue = (values) => {
-        if(typeof values === 'string'){
+    const upperCaseValue = (values) => {
+        if (typeof values === 'string') {
             return values.toUpperCase();
-        }else if(Array.isArray(values)){
+        } else if (Array.isArray(values)) {
             return values.join(',').toUpperCase().split(',')
         }
     }
@@ -332,7 +332,7 @@ function RestrictionForm(props){
      * @param {Object} 表单数据对象
      * @return {Object}  融合后的数据对象
      * */
-    const handleSubmitData =(values) =>{
+    const handleSubmitData = (values) => {
 
         values = toUpperCaseValues(values);
 
@@ -341,54 +341,54 @@ function RestrictionForm(props){
         let opt = JSON.parse(JSON.stringify(tacticProcessInfo));
         // 方案基本信息数据对象
         let basicTacticInfo = opt.basicTacticInfo;
-        if(!isValidObject(basicTacticInfo)){
-            opt.basicTacticInfo= {};
+        if (!isValidObject(basicTacticInfo)) {
+            opt.basicTacticInfo = {};
             basicTacticInfo = opt.basicTacticInfo
         }
         // 方案时间信息对象
         let tacticTimeInfo = basicTacticInfo.tacticTimeInfo;
-        if(!isValidObject(tacticTimeInfo)){
-            basicTacticInfo.tacticTimeInfo= {};
+        if (!isValidObject(tacticTimeInfo)) {
+            basicTacticInfo.tacticTimeInfo = {};
             tacticTimeInfo = basicTacticInfo.tacticTimeInfo
         }
 
         // 方案方向信息集合
         let directionList = basicTacticInfo.directionList;
-        if(!isValidVariable(directionList)){
-            basicTacticInfo.directionList= [];
+        if (!isValidVariable(directionList)) {
+            basicTacticInfo.directionList = [];
             directionList = basicTacticInfo.directionList
         }
         // 方案方向信息第一个数据项
         let directionListData = directionList[0];
-        if(!isValidVariable(directionListData)){
+        if (!isValidVariable(directionListData)) {
             directionList[0] = {};
             directionListData = directionList[0]
         }
 
         // 方案流控领域对象
         let basicFlowcontrol = basicTacticInfo.basicFlowcontrol;
-        if(!isValidObject(basicFlowcontrol)){
-            basicTacticInfo.basicFlowcontrol= {};
+        if (!isValidObject(basicFlowcontrol)) {
+            basicTacticInfo.basicFlowcontrol = {};
             basicFlowcontrol = basicTacticInfo.basicFlowcontrol
         }
 
         // 方案流控航班类型条件数据对象
         let flowControlFlight = basicFlowcontrol.flowControlFlight;
-        if(!isValidObject(flowControlFlight)){
-            basicFlowcontrol.flowControlFlight= {};
+        if (!isValidObject(flowControlFlight)) {
+            basicFlowcontrol.flowControlFlight = {};
             flowControlFlight = basicFlowcontrol.flowControlFlight
         }
 
         // 方案流控限制措施信息对象
         let flowControlMeasure = basicFlowcontrol.flowControlMeasure;
-        if(!isValidObject(flowControlMeasure)){
-            basicFlowcontrol.flowControlMeasure= {};
+        if (!isValidObject(flowControlMeasure)) {
+            basicFlowcontrol.flowControlMeasure = {};
             flowControlMeasure = basicFlowcontrol.flowControlMeasure
         }
         // 方案流控时间信息对象
         let flowControlTimeInfo = basicFlowcontrol.flowControlTimeInfo;
-        if(!isValidObject(flowControlTimeInfo)){
-            basicFlowcontrol.flowControlTimeInfo= {};
+        if (!isValidObject(flowControlTimeInfo)) {
+            basicFlowcontrol.flowControlTimeInfo = {};
             flowControlTimeInfo = basicFlowcontrol.flowControlTimeInfo
         }
 
@@ -399,8 +399,8 @@ function RestrictionForm(props){
             flowControlName, flowControlReason, flowControlPublishType, restrictionRemark,
             restrictionMode, restrictionModeValue,
             flowControlFlightId, wakeFlowLevel, auType, airlineType, missionType,
-            task, organization, ability,aircraftType,
-            exemptFlightId, exemptionWakeFlowLevel, exemptionAirlineType,exemptionAuType,  exemptionMissionType,
+            task, organization, ability, aircraftType,
+            exemptFlightId, exemptionWakeFlowLevel, exemptionAirlineType, exemptionAuType, exemptionMissionType,
             exemptionTask, exemptionOrganization, exemptionAbility, exemptionAircraftType,
         } = values;
         // 更新方案名称
@@ -410,7 +410,7 @@ function RestrictionForm(props){
         // 更新方案发布用户
         basicTacticInfo.tacticPublishUser = tacticPublishUser;
         // 更新方案开始时间
-        tacticTimeInfo.startTime = startDateString+ startTime;
+        tacticTimeInfo.startTime = startDateString + startTime;
         // 更新方案结束时间
         tacticTimeInfo.endTime = endDateString + endTime;
         // 更新基准单元
@@ -489,9 +489,9 @@ function RestrictionForm(props){
         flowControlFlight.exemptionAbility = exemptionAbility.join(';');
         // 更新流控交通流-不包含-受控机型
         flowControlFlight.exemptionAircraftType = exemptionAircraftType.join(';');
-        
-        if(operationType === 'MODIFY'){
-            // 若为方案修以下字段设置为null
+
+        if (operationType === 'MODIFY') {
+            // 若为方案修改，则以下字段设置为null
             basicTacticInfo.id = null;
             basicTacticInfo.tacticTimeInfo.createTime = null;
         }
@@ -506,52 +506,52 @@ function RestrictionForm(props){
         const id = basicTacticInfo.id;
         const opt = {
             url: ReqUrls.createFlowUrl + user.id,
-            method:'POST',
-            params:JSON.stringify(data),
-            resFunc: (data)=> requestSuccess(id,data),
-            errFunc: (err)=> requestErr(err ),
+            method: 'POST',
+            params: JSON.stringify(data),
+            resFunc: (data) => requestSuccess(id, data),
+            errFunc: (err) => requestErr(err),
         };
+        // 若为模拟状态的方案修改，则使用modifySchemeUrl
+        if (operationType === "MODIFYSIM") {
+            opt.url = ReqUrls.modifySchemeUrl + user.id;
+            opt.method = "PUT";
+        }
         request(opt);
-        //发送到客户端
-        // handleImportControl(JSON.stringify(data));
     };
 
     /**
      * 数据提交成功回调
      * */
-    const requestSuccess =(oldId, data) => {
+    const requestSuccess = (oldId, data) => {
 
-        const { tacticProcessInfo={} } = data;
-        const { basicTacticInfo={} } = tacticProcessInfo;
+        const { tacticProcessInfo = {} } = data;
+        const { basicTacticInfo = {} } = tacticProcessInfo;
         const { id } = basicTacticInfo;
         setConfirmLoading(false);
         setIsModalVisible(false);
-        if(isValidObject(setModalVisible)){
-            setModalVisible(false)
-        }
 
-        //发送到客户端
-        if(operationType ==='CREATE'){
-            handleImportControl(id);
-        }else if(operationType === 'IMPORT'){
-            handleImportControl(id, props.message.id);
-        }else if(operationType === 'MODIFY'){
-            handleImportControlForUpdate(oldId,id);
-        }else if(operationType === 'IMPORTWITHFORMER'){
-            handleImportControlForUpdate(formerId,id);
-        }
-        if(operationType !=='MODIFY'){
-            Modal.success({
-                content: `${operationDescription}成功`,
-                // maskClosable:true,
-                onOk: () =>{
-                    if(isValidObject(setModalVisible)){
-                        setModalVisible(false)
-                    }else {
-                        window.close();
-                    }
+        Modal.success({
+            content: `${operationDescription}成功`,
+            // maskClosable:true,
+            onOk: () => {
+                if (typeof (setModalVisible) === 'function') {
+                    setModalVisible(false)
+                } else {
+                    window.close();
                 }
-            });
+            }
+        });
+        //发送到客户端
+        if (operationType === 'CREATE') { // 方案创建
+            handleImportControl(id);
+        } else if (operationType === 'IMPORT') { // 外区流控导入方案 
+            handleImportControl(id, props.message.id);
+        } else if (operationType === 'MODIFY') { // 正式方案进行模拟修改操作
+            handleImportControlForUpdate(oldId, id);
+        } else if (operationType === 'IMPORTWITHFORMER') { //  外区流控导入方案，且已有关联的方案
+            handleImportControlForUpdate(formerId, id);
+        } else if (operationType === 'MODIFYSIM') { // 模拟的方案进行修改操作
+            handleUpdateFlowControl(id);
         }
     };
 
@@ -559,7 +559,7 @@ function RestrictionForm(props){
      * 数据提交失败回调
      * */
     const requestErr = (err) => {
-        if( props.hasOwnProperty("setDisabledForm") ){
+        if (props.hasOwnProperty("setDisabledForm")) {
             props.setDisabledForm(false);
         }
 
@@ -567,18 +567,17 @@ function RestrictionForm(props){
         setConfirmLoading(false);
         setIsModalVisible(false);
         let errMsg = "";
-        if(isValidObject(err) && isValidVariable(err.message)){
+        if (isValidObject(err) && isValidVariable(err.message)) {
             errMsg = err.message;
-        }else if(isValidVariable(err)){
+        } else if (isValidVariable(err)) {
             errMsg = err;
         }
         Modal.error({
             content: (
                 <span>
-                    <span>{ `${operationDescription}失败`}</span>
-                    <br/>
+                    <span>{`${operationDescription}失败`}</span>
+                    <br />
                     <span>{errMsg}</span>
-
                 </span>
             ),
         });
@@ -588,12 +587,12 @@ function RestrictionForm(props){
      * 更新方案开始日期
      *
      * */
-    const  updateStartDateString =(dateString) => {
+    const updateStartDateString = (dateString) => {
         const startTime = form.getFieldsValue()['startTime'];
-        const startDate = dateString.substring(0,4) +'-'+ dateString.substring(4,6) +'-' + dateString.substring(6,8);
-        form.setFieldsValue({basicStartTimeDisplay: `${startDate} ${startTime}`});
+        const startDate = dateString.substring(0, 4) + '-' + dateString.substring(4, 6) + '-' + dateString.substring(6, 8);
+        form.setFieldsValue({ basicStartTimeDisplay: `${startDate} ${startTime}` });
         // 更新方案开始日期
-        setStartDateString(dateString.substring(0,8));
+        setStartDateString(dateString.substring(0, 8));
     };
 
 
@@ -601,11 +600,11 @@ function RestrictionForm(props){
      * 更新方案开始时间
      *
      * */
-    const  updateStartTimeString =(timeString) => {
-        const startDate =  form.getFieldsValue()['startDate'];
-        const startDateString = moment(startDate).format("YYYYMMDDHHmm").substring(0,8);
-        const date = startDateString.substring(0,4) +'-'+ startDateString.substring(4,6) +'-' + startDateString.substring(6,8);
-        form.setFieldsValue({basicStartTimeDisplay: `${date} ${timeString}`});
+    const updateStartTimeString = (timeString) => {
+        const startDate = form.getFieldsValue()['startDate'];
+        const startDateString = moment(startDate).format("YYYYMMDDHHmm").substring(0, 8);
+        const date = startDateString.substring(0, 4) + '-' + startDateString.substring(4, 6) + '-' + startDateString.substring(6, 8);
+        form.setFieldsValue({ basicStartTimeDisplay: `${date} ${timeString}` });
         setStartTime(timeString);
     };
 
@@ -613,12 +612,12 @@ function RestrictionForm(props){
      * 更新方案结束日期
      *
      * */
-    const  updateEndDateString =(dateString) => {
+    const updateEndDateString = (dateString) => {
         const endTime = form.getFieldsValue()['endTime'];
-        const endDate = dateString.substring(0,4) +'-'+ dateString.substring(4,6) +'-' + dateString.substring(6,8);
-        form.setFieldsValue({basicEndTimeDisplay: `${endDate} ${endTime}`});
+        const endDate = dateString.substring(0, 4) + '-' + dateString.substring(4, 6) + '-' + dateString.substring(6, 8);
+        form.setFieldsValue({ basicEndTimeDisplay: `${endDate} ${endTime}` });
         // 更新方案结束日期
-        setEndDateString(dateString.substring(0,8))
+        setEndDateString(dateString.substring(0, 8))
 
     };
 
@@ -627,11 +626,11 @@ function RestrictionForm(props){
      * 更新方案结束时间
      *
      * */
-    const  updateEndTimeString =(timeString) => {
-        const endDate =  form.getFieldsValue()['endDate'];
-        const endDateString = moment(endDate).format("YYYYMMDDHHmm").substring(0,8);
-        const date = endDateString.substring(0,4) +'-'+ endDateString.substring(4,6) +'-' + endDateString.substring(6,8);
-        form.setFieldsValue({basicEndTimeDisplay: `${date} ${timeString}`});
+    const updateEndTimeString = (timeString) => {
+        const endDate = form.getFieldsValue()['endDate'];
+        const endDateString = moment(endDate).format("YYYYMMDDHHmm").substring(0, 8);
+        const date = endDateString.substring(0, 4) + '-' + endDateString.substring(4, 6) + '-' + endDateString.substring(6, 8);
+        form.setFieldsValue({ basicEndTimeDisplay: `${date} ${timeString}` });
         setEndTime(timeString)
     };
 
@@ -640,7 +639,7 @@ function RestrictionForm(props){
      * 更新流控发布类型
      *
      * */
-    const updateFormAirportFieldValue =(field, value) => {
+    const updateFormAirportFieldValue = (field, value) => {
         let data = {};
         data[field] = value;
         // 更新表单中流控发布类型
@@ -656,13 +655,13 @@ function RestrictionForm(props){
         try {
             // 限制数值单位集合
             const restrictionModeUnit = {
-                "MIT":"分钟一架",
-                "AFP":"架",
+                "MIT": "分钟一架",
+                "AFP": "架",
             };
             // 限制数值单位
             let unit = "";
             // 必要校验字段
-            const fields =[
+            const fields = [
                 'targetUnit',
                 'restrictionMode',
                 'restrictionModeValue',
@@ -670,21 +669,21 @@ function RestrictionForm(props){
             ];
             // 触发表单验证取表单数据
             const values = await form.validateFields(fields);
-            let {  targetUnit, restrictionMode, restrictionModeValue, arrAp } = values;
+            let { targetUnit, restrictionMode, restrictionModeValue, arrAp } = values;
             let name = "";
             unit = restrictionModeUnit[restrictionMode];
-            if(isValidVariable(arrAp)){
+            if (isValidVariable(arrAp)) {
                 arrAp = arrAp.toUpperCase();
                 // 拼接名称
                 name = `${targetUnit.toUpperCase()} ${arrAp} ${restrictionModeValue} ${unit}`;
-            }else {
+            } else {
                 // 拼接名称
                 name = `${targetUnit.toUpperCase()} ${restrictionModeValue} ${unit} `;
             }
 
-            
+
             // 更新
-            form.setFieldsValue({'tacticName': name});
+            form.setFieldsValue({ 'tacticName': name });
 
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
@@ -693,8 +692,8 @@ function RestrictionForm(props){
     /**
      * 打开编辑
      * */
-    const handleOpenEdit =()=> {
-        if( props.hasOwnProperty("setDisabledForm")){
+    const handleOpenEdit = () => {
+        if (props.hasOwnProperty("setDisabledForm")) {
             props.setDisabledForm(false);
         }
     };
@@ -707,7 +706,7 @@ function RestrictionForm(props){
         try {
             // 触发表单验证取表单数据
             const values = await form.validateFields();
-            if( props.hasOwnProperty("setDisabledForm")){
+            if (props.hasOwnProperty("setDisabledForm")) {
                 props.setDisabledForm(true);
             }
         } catch (errorInfo) {
@@ -722,21 +721,21 @@ function RestrictionForm(props){
      * 编辑按钮
      *
      * */
-    const drawEditBtn = ()=> {
-        return(
+    const drawEditBtn = () => {
+        return (
             <div className="button-container">
                 {
                     props.disabledForm ?
                         <Button
                             className="btn_edit"
                             type="primary"
-                            onClick={ handleOpenEdit }>
+                            onClick={handleOpenEdit}>
                             编辑
                         </Button>
                         : <Button
                             className="btn_save_edit"
                             type="primary"
-                            onClick={ handleSaveEdit } >
+                            onClick={handleSaveEdit} >
                             保存编辑
                          </Button>
                 }
@@ -747,33 +746,33 @@ function RestrictionForm(props){
      * 忽略
      *
      * */
-    const drawIgnoreBtn = ()=> {
+    const drawIgnoreBtn = () => {
         return (
             <div className="button-container">
                 <Button
                     className="r_btn btn_ignore"
-                    onClick={()=>{
+                    onClick={() => {
                         setIsIgnoreModalVisible(true)
                     }}
-                    disabled ={ isIgnoreModalVisible }
+                    disabled={isIgnoreModalVisible}
                 >
                     忽略
                 </Button>
                 <Modal
-                    title={ "忽略" }
+                    title={"忽略"}
                     visible={isIgnoreModalVisible}
                     maskClosable={false}
                     centered
-                    onOk ={ e=>{
+                    onOk={e => {
                         // 隐藏模态框显示
                         setIsIgnoreModalVisible(false);
                         window.close();
-                    } }
-                    onCancel={e=>{
+                    }}
+                    onCancel={e => {
                         // 隐藏模态框显示
                         setIsIgnoreModalVisible(false);
                     }}
-                    confirmLoading = { false }
+                    confirmLoading={false}
                 >
                     确定忽略当前流控?
                 </Modal>
@@ -781,14 +780,14 @@ function RestrictionForm(props){
         )
     };
 
-    const setPrimaryButtonClassName = ()=>{
-        if(operationType ==="MODIFY"){
+    const setPrimaryButtonClassName = () => {
+        if (operationType === "MODIFY") {
             return "btn_update"
-        }else if(operationType ==="CREATE"){
+        } else if (operationType === "CREATE") {
             return "btn_create"
-        }else if(operationType ==="IMPORT"){
+        } else if (operationType === "IMPORT") {
             return "btn_import"
-        }else if(operationType ==="IMPORTWITHFORMER"){
+        } else if (operationType === "IMPORTWITHFORMER") {
             return "btn_import"
         }
     };
@@ -796,34 +795,37 @@ function RestrictionForm(props){
     /**
      * 操作栏
      * */
-    const drawOperation = ()=> {
+    const drawOperation = () => {
         return (
-            <div className="operation-bar" style={{width:props.width}}>
+            <div className={props.operationBarClassName ? `operation-bar ${props.operationBarClassName}` : "operation-bar"}>
 
                 {
                     showEditBtn ? (drawEditBtn()) : ""
                 }
-                <div className="button-container">
-                    <Button
-                        className={ setPrimaryButtonClassName() }
-                        type="primary"
-                        onClick={handlePrimaryBtnClick}
-                        disabled ={ importButtonDisable }
-                    >
-                        { primaryButtonName }
-                    </Button>
-                    <Modal
-                        title={ primaryButtonName }
-                        visible={isModalVisible}
-                        maskClosable={false}
-                        centered
-                        onOk ={ handleSubmitFormData }
-                        onCancel={handleCancel}
-                        confirmLoading = { confirmLoading }
-                    >
-                        <p>{`确定${primaryButtonName}?`}</p>
-                    </Modal>
-                </div>
+                {
+                    isValidVariable(primaryButtonName) ? <div className="button-container">
+                        <Button
+                            className={setPrimaryButtonClassName()}
+                            type="primary"
+                            onClick={handlePrimaryBtnClick}
+                            disabled={importButtonDisable}
+                        >
+                            {primaryButtonName}
+                        </Button>
+                        <Modal
+                            title={primaryButtonName}
+                            visible={isModalVisible}
+                            maskClosable={false}
+                            centered
+                            onOk={handleSubmitFormData}
+                            onCancel={handleCancel}
+                            confirmLoading={confirmLoading}
+                        >
+                            <p>{`确定${primaryButtonName}?`}</p>
+                        </Modal>
+                    </div> : ""
+                }
+
                 {
                     showIgnoreBtn ? (drawIgnoreBtn()) : ""
                 }
@@ -832,10 +834,10 @@ function RestrictionForm(props){
     };
 
 
-    useEffect(function(){
+    useEffect(function () {
         const user = localStorage.getItem("user");
-        if( isValidVariable(user) ){
-            props.systemPage.setUserData( JSON.parse(user) );
+        if (isValidVariable(user)) {
+            props.systemPage.setUserData(JSON.parse(user));
         }
         // else{
         //     props.history.push('/')
@@ -845,27 +847,27 @@ function RestrictionForm(props){
 
     return (
         <div>
-            
+
             <Form
                 form={form}
                 initialValues={initialValues}
                 onFinish={(values) => {
                     console.log(values);
                 }}
-                className={ props.bordered ?  `advanced_form bordered-form` :"advanced_form" }
+                className={props.bordered ? `advanced_form bordered-form` : "advanced_form"}
             >
                 {
                     drawOperation()
                 }
                 <StaticInfoCard
                     disabledForm={props.disabledForm}
-                    updateStartDateString={updateStartDateString }
-                    updateStartTimeString={updateStartTimeString }
-                    updateEndDateString={updateEndDateString }
-                    updateEndTimeString ={ updateEndTimeString }
-                    updateFormAirportFieldValue={updateFormAirportFieldValue }
-                    autofillTacticName={autofillTacticName }
-                    form = { form}
+                    updateStartDateString={updateStartDateString}
+                    updateStartTimeString={updateStartTimeString}
+                    updateEndDateString={updateEndDateString}
+                    updateEndTimeString={updateEndTimeString}
+                    updateFormAirportFieldValue={updateFormAirportFieldValue}
+                    autofillTacticName={autofillTacticName}
+                    form={form}
 
                 />
 
@@ -874,4 +876,4 @@ function RestrictionForm(props){
     )
 }
 
-export default withRouter( inject("newsList", "systemPage")(observer(RestrictionForm)) );
+export default withRouter(inject("newsList", "systemPage")(observer(RestrictionForm)));

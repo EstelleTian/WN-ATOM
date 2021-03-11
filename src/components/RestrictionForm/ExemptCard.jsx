@@ -194,7 +194,7 @@ function ExemptCard(props){
                 </Col>
                 <Col span={24}>
                     <Form.Item
-                        name="exemptHeight"
+                        name="exemptAltitude"
                         label="受控高度"
                     >
                         <Select

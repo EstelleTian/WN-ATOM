@@ -90,8 +90,8 @@ const SchemeModal = (props) => {
                 >
                     <RestrictionForm
                         operationType="MODIFY"
-                        operationDescription="模拟方案调整"
-                        primaryButtonName="提交"
+                        operationDescription="提交模拟方案调整"
+                        primaryButtonName="提交修改"
                         setModalVisible={ setVisible }
                         flowData={ flowData }
                         bordered = {true}

@@ -1,5 +1,5 @@
 /* 
-* 模拟状态的方案修改页面
+* 模拟状态的方案显示页面
 */
 import React , {useEffect, useState}from "react";
 import { request } from 'utils/request'
@@ -53,15 +53,9 @@ function ModifySchemePage(props){
         <div className="modify-scheme-container">
             <div className="content">
                 <RestrictionForm
-                    operationType="MODIFYSIM" // MODIFYSIM:修改模拟方案
-                    operationDescription="提交修改方案"
-                    primaryButtonName="提交修改"
                     flowData = {flowData}
                     disabledForm = {disabledForm}
                     setDisabledForm = {setDisabledForm}
-                    flowData={ flowData }
-                    showEditBtn={true}
-                    showIgnoreBtn={false}
                 />
             </div>
         </div>

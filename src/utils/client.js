@@ -71,6 +71,17 @@ const handleImportControlForUpdate =(oldId, newId) => {
         console.error(error);
     }
 };
+
+//模拟状态的方案调整
+const handleUpdateFlowControl =(id) => {
+    try {
+        jsEntity.updateFlowControl(id);
+    }catch(error){
+        console.error(error);
+    }
+};
+
+
 //方案列表--点击方案终止
 const handleStopControl =(id) => {
     try {
@@ -139,5 +150,5 @@ const openTimeSlotFrameWithFlightId =(schemeId = "", flightId = "") => {
 export {
     sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
-    openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl
+    openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl
 }
