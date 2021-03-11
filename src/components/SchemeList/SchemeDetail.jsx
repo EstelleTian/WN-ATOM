@@ -249,21 +249,8 @@ function SchemeDetail(props) {
                 </div>
 
             </Card>
-
-
-
-            <FlowcontrolDetailCard flowcontrolDataList={ basicFlowcontrolList } title="基础流控信息" > </FlowcontrolDetailCard>
+            <FlowcontrolDetailCard  flowcontrolDataList={ basicFlowcontrolList } title="基础流控信息" > </FlowcontrolDetailCard>
             <FlowcontrolDetailCard  flowcontrolDataList={ flowcontrolList } title="流控信息"  showBadge={ true }  ></FlowcontrolDetailCard>
-            {/*<Divider orientation="left"> {`流控信息`}</Divider>*/}
-
-            {/*{*/}
-                {/*flowcontrolList.map( (item, index) => (*/}
-                    {/*<FlowcontrolDetailCard key={index} flowcontrolData={ item }  showBadge={ true } index={ index +1 } ></FlowcontrolDetailCard>*/}
-                    {/*)*/}
-                {/*)*/}
-
-            {/*}*/}
-
             </Form>
             </Col>
         </Row>

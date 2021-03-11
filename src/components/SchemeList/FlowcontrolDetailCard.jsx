@@ -13,7 +13,7 @@ import { formatTimeString, isValidVariable, isValidObject} from '../../utils/bas
 function FlowcontrolDetailCard(props) {
 
     // 流控信息对象
-    const {flowcontrolDataList=[], title="", index, showBadge } = props;
+    const {flowcontrolDataList=[], title="", index, showBadge, } = props;
 
 
     // 依据流控限制方式取流控限制数值方法
@@ -44,7 +44,7 @@ function FlowcontrolDetailCard(props) {
         }
     }
 
-    const drawSingleFlowcontrolData = (flowcontrolData)=> {
+    const drawSingleFlowcontrolData = (flowcontrolData, index)=> {
         const {flowControlName, flowControlTimeInfo = {}, flowControlMeasure = {},
             TrafficFlowDomainMap = {}, flowControlPublishType, flowControlReason, id,
         } = flowcontrolData;
@@ -63,10 +63,10 @@ function FlowcontrolDetailCard(props) {
         let restrictionModeValue = flowControlMeasure[restrictionModeKey] || "";
         // 流控限制数值单位
         let restrictionModeUnit = modeData.unit || "";
-
+        console.log(id);
 
         return(
-            <div className="info-content flowcontrol-list" data-id={id} key={id}>
+            <div className="info-content flowcontrol-list" data-id={id} key={index}>
                 <Row className="info-row">
                     <Col span={24}>
                         <div className="ant-row ant-form-item">
@@ -141,22 +141,16 @@ function FlowcontrolDetailCard(props) {
         )
     }
 
-
-
-
     return (
 
         <Col span={24}>
             <Card title={ title } size="small" className="advanced-card" bordered={false}>
 
                 {
-                    flowcontrolDataList.map((item) =>{
-                       return drawSingleFlowcontrolData(item);
+                    flowcontrolDataList.map((item, index) =>{
+                       return drawSingleFlowcontrolData(item, index);
                     })
                 }
-
-
-
 
             </Card>
 
