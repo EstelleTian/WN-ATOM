@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-11 19:15:56
+ * @LastEditTime: 2021-03-12 09:07:21
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -17,7 +17,8 @@ const ReqUrls = {
     //根据modalId获取方案详情
     schemeDetailByIdUrl: 'http://192.168.194.21:58190/scheme-flow-server/implementTactics/',
     //获取--方案列表
-    schemeListUrl: 'http://192.168.194.21:29890/implementTactics',
+    // schemeListUrl: 'http://192.168.194.21:29890/implementTactics',
+    schemeListUrl: 'http://192.168.194.21:58190/implementTactics',
     //获取--模拟方案详情
     simulationSchemeDetailUrl:'http://192.168.194.21:58190/simulationTactics/id/',
     //获取--航班列表数据
@@ -66,8 +67,8 @@ const ReqUrls = {
     myApplicationListUrl: 'http://192.168.194.20:28087/workflow/procInst/',
 
     //容量管理-基础接口
-    capacityBaseUrl: 'http://192.168.243.200:28482/flow-capacity-rest/capacity/',
-    // capacityBaseUrl: 'http://192.168.194.20:28087/flow-capacity-rest/capacity/',
+    // capacityBaseUrl: 'http://192.168.243.200:28482/flow-capacity-rest/capacity/',
+    capacityBaseUrl: 'http://192.168.194.20:28482/flow-capacity-rest/capacity/',
     // 跑道列表接口
     runwayListUrl: 'http://192.168.194.21:50012/runway/defaulat/and/dynamic/retrieve/new/'
     
