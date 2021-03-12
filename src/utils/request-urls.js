@@ -31,6 +31,9 @@ const ReqUrls = {
     performanceDataUrl: 'http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname',
     // performanceDataUrl: 'http://192.168.194.22:28001/traffic-flow-monitor-server/monitor/v1/flight',
     // performanceDataUrl: 'http://192.168.243.191:28001/traffic-flow-monitor-server/monitor/v1/flight',
+    // 总体监控-获取限制数据
+    restrictionDataUrl: 'http://192.168.194.21:58190/implementTactics/statistics',
+
 
     // 获取用户订阅的容流监控单元数据
     userSubscribeCapacityFlowMonitorUnitDataUrl: 'http://192.168.194.20:28485/user-template-rest/template/user/',

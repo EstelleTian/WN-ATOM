@@ -290,7 +290,7 @@ const FlightPerformance =(props) => {
         const start = nowDate+'000000';
         const end =now;
         const opt = {
-            url: ReqUrls.schemeListUrl + '/statistics?starttime='+ start+'&endtime='+end,
+            url: ReqUrls.restrictionDataUrl + '?starttime='+ start+'&endtime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> {
