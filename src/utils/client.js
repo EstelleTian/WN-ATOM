@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-03-10 16:00:46
+ * @LastEditTime: 2021-03-15 13:44:14
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
  */
-//点击容流监控按钮-发送消息
+//消息模块-【查看容流监控】
 const sendMsgToClient = (str) => {
     try{
         // 内容监控按钮点击发送
@@ -15,7 +15,7 @@ const sendMsgToClient = (str) => {
         console.error(e);
     }
 }
-//点击放行监控按钮点击-发送消息
+//消息模块-【查看放行监控】
 const openTimeSlotFrame = (str) => {
     try{
         // 放行监控按钮点击发送
@@ -24,6 +24,16 @@ const openTimeSlotFrame = (str) => {
         console.error(e);
     }
 }
+//消息模块-【查看容量管理】
+const openTclientFrame =( name = "") => {
+    try {
+        //方案id
+        alert("跳转到容量管理=>name:" +name);
+        jsEntity.openTclientFrame(name);
+    }catch(error){
+        console.error(error);
+    }
+};
 //点击关闭按钮
 const closeMessageDlg = (str) => {
     try{
@@ -148,7 +158,7 @@ const openTimeSlotFrameWithFlightId =(schemeId = "", flightId = "") => {
 };
 
 export {
-    sendMsgToClient, openTimeSlotFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
+    sendMsgToClient, openTimeSlotFrame, openTclientFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-22 16:09:16
- * @LastEditTime: 2021-02-24 15:54:01
+ * @LastEditTime: 2021-03-15 14:04:34
  * @LastEditors: Please set LastEditors
  * @Description: 消息当日全部数据
  * @FilePath: \WN-ATOM\src\pages\InfoPage\InfoListPage.jsx
@@ -14,6 +14,7 @@ import { requestGet } from 'utils/request'
 import { isValidVariable, formatTimeString } from 'utils/basic-verify'
 import { closeMessageDlg } from 'utils/client'
 import InfoList from 'components/Info/InfoList'
+import debounce from 'lodash/debounce' 
 import './InfoPage.scss'
 
 //消息模块
@@ -78,13 +79,17 @@ function InfoTodayPage(props){
         if( searchVal === "" ){
             return newsList;
         }
-        const nList = newsList.list.filter( item => {
+        const sVal = searchVal.toLowerCase();
+        let nList = [];
+        newsList.list.map( item => {
             for(let key in item){
                 let val = item[key] || ""
                 val = val + ""
                 val = val.toLowerCase();
-                const sVal = searchVal.toLowerCase();
-                return val.indexOf( sVal ) !== -1 
+                if( val.indexOf( sVal ) !== -1  ){
+                    nList.push(item);
+                    return;
+                }
             }
         } );
         return {
@@ -93,6 +98,12 @@ function InfoTodayPage(props){
         };
     },[ props.newsList.list.length, searchVal ]);
 
+    const handleInputVal = useCallback(
+        debounce((values) => {
+            setSearchVal( values )
+        },300),
+        []
+    )
 
     return (
         <Layout className="layout">
@@ -109,10 +120,9 @@ function InfoTodayPage(props){
                             style={{ width: '200px', marginRight: '15px' }}
                             defaultValue={searchVal}
                             placeholder="请输入要查询的关键字"
-                            onChange={(e)=>{
-                                console.log(e.target.value);
-                                setSearchVal( e.target.value )
-                            }}
+                            onChange={ e =>{ 
+                                handleInputVal(e.target.value) 
+                            } }
                         />
                         <Button type="primary" loading = { refreshBtnLoading } style={{ margin: "0 0.25rem" }}
                             onClick = { e => {

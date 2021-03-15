@@ -40,6 +40,7 @@
     "react-stomp": "^4.1.1",
     "react-transition-group": "^4.4.1",
     "react-websocket": "^2.0.1",
+    "react-window": "^1.8.6",
     "sass-resources-loader": "^2.1.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack-merge": "^5.7.3",

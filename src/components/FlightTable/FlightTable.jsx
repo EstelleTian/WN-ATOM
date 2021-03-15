@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-10 10:44:50
+ * @LastEditTime: 2021-03-15 14:06:31
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -14,6 +14,7 @@ import ModalBox from 'components/ModalBox/ModalBox'
 import { getColumns, formatSingleFlight, scrollTopById, highlightRowByDom} from 'components/FlightTable/TableColumns'
 import { isValidVariable, formatTimeString } from 'utils/basic-verify'
 import debounce from 'lodash/debounce' 
+// import VTable from './VirtualTable'
 import './FlightTable.scss';
 
 let columns = getColumns();
@@ -201,6 +202,8 @@ const TSpin = inject("flightTableData")(observer((props) => {
     return (
         <Spin spinning={ loading }>
             <FlightTable/>
+            {/* <VTable /> */}
+            
         </Spin>
     )
         

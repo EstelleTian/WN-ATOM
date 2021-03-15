@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-15 09:22:45
+ * @LastEditTime: 2021-03-15 13:40:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -12,8 +12,8 @@ import { withRouter } from 'react-router-dom';
 // import SearchWidget  from 'components/CapacityManagement/SearchWidget'
 // import FilterWidget  from 'components/CapacityManagement/FilterWidget'
 // import FilterList  from 'components/CapacityManagement/FilterList'
-import CapacityTabs  from 'components/CapacityManagement/CapacityTabs'
-
+// import CapacityTabs  from 'components/CapacityManagement/CapacityTabs'
+import CapacityCont from 'components/CapacityManagement/CapacityCont.jsx';
 // import DHXWindow from 'components/SimpleMap/DHXWindow'
 
 import './CapacityManagementPage.scss'
@@ -24,7 +24,6 @@ function CapacityManagement (props){
     const { match } = props;
     const params = match.params || {};
     const name = params.name || "";
-    const title = params.title || "";
     const type = params.type || "";
     console.log("激活的tab是：", params)
     return (
@@ -47,7 +46,16 @@ function CapacityManagement (props){
                 </Sider>*/}
                 <Content>
                     <div className="content-wrapper">
-                        <CapacityTabs activeName = {name}/>
+                        <CapacityCont pane={{
+                            title: "",
+                            key: name,
+                            type,
+                            active: true,
+                            date: "0", 
+                            kind: 'all',
+                            timeInterval: "60"
+                        }}/> 
+                        {/* <CapacityTabs activeName = {name}/> */}
                     </div>
                 </Content>
             </Layout>
