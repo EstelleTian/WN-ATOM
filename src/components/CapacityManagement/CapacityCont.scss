@@ -21,7 +21,7 @@
 .cap_set_canvas{
     @include display_flex(column);
     @include flex();
-    margin: 0 auto;
+    margin: 2rem auto 0;
     width: 100%;
     .set_top{
         @include display_flex();

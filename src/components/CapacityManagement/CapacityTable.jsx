@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-12 10:16:08
+ * @LastEditTime: 2021-03-15 15:57:11
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -638,7 +638,10 @@ const CapacityTable = (props) => {
         
     }
 
-    const resetOrgTableDatas = () => {
+    const resetOrgTableDatas = ( from = "" ) => {
+        if( from === "" && editable ){
+            return;
+        }
         const { capacity } = props;
         let obj = {};
         if( kind === "default" ){
@@ -814,7 +817,7 @@ const CapacityTable = (props) => {
                     <span>
                         <SaveBtn save={save} setEditable={setEditable}/>
                         <Button className="reset" onClick={ e =>{
-                            resetOrgTableDatas();
+                            resetOrgTableDatas( "cancel");
                             setEditable(false);
                         } }> 取消 </Button>
                     </span>

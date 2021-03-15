@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-15 13:40:57
+ * @LastEditTime: 2021-03-15 16:00:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -25,7 +25,7 @@ function CapacityManagement (props){
     const params = match.params || {};
     const name = params.name || "";
     const type = params.type || "";
-    console.log("激活的tab是：", params)
+    // alert("激活的tab是："+ name+"   "+type)
     return (
         <Layout className="capacity-page">
             {/*<Header>Header</Header>*/}

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-03-15 13:44:14
+ * @LastEditTime: 2021-03-15 15:44:32
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -28,7 +28,7 @@ const openTimeSlotFrame = (str) => {
 const openTclientFrame =( name = "") => {
     try {
         //方案id
-        alert("跳转到容量管理=>name:" +name);
+        // alert("跳转到容量管理=>name:" +name);
         jsEntity.openTclientFrame(name);
     }catch(error){
         console.error(error);

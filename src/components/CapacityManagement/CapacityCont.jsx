@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-12 16:21:50
+ * @LastEditTime: 2021-03-15 16:18:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -20,19 +20,24 @@ import "./CapacityCont.scss"
 //容量管理内容页
 function CapacityCont (props){
     const { capacity, pane } = props;
+    const elementName = pane.key || "";
+    const elementType = pane.type || "";
     let user;
     let staticTimer = useRef();
     let dynamicTimer = useRef();
     const generateTime = capacity.dynamicDataGenerateTime || "";
     
     const requestStaticData = useCallback(() => {
-        const type = pane.type.toUpperCase(); //类型
-        const airportName = pane.key;//机场名称
+        if( !isValidVariable(elementName) || !isValidVariable(elementType) ){
+            return;
+        }
         const timerFunc = function(){
             if(nextRefresh){
+                
                 staticTimer.current = setTimeout( function(){
                     requestStaticData(nextRefresh)
                 }, 30*1000)
+                
             }
         }
         const opt = {
@@ -40,15 +45,15 @@ function CapacityCont (props){
             method:'POST',
             params:{
                 date: getFullTime( new Date(), 4),
-                elementName: airportName,
+                elementName,
                 routeName: "",
                 firId: "",
-                elementType: type
+                elementType
             },
             resFunc: (data)=> {
                 // console.log(data);
                 const { capacityMap, generateTime } = data;
-                props.capacity.setStaticData( capacityMap[airportName] );
+                props.capacity.setStaticData( capacityMap[elementName] );
                 timerFunc();
             },
             errFunc: (err)=> {
@@ -65,16 +70,15 @@ function CapacityCont (props){
     },[]);
 
     const requestDynamicData = useCallback((nextRefresh) => {
-        const type = pane.type.toUpperCase();
-        const airportName = pane.key;
-        if( capacity.getActivePane.length >0 && capacity.getActivePane[0].key !== airportName ){
+        if( !isValidVariable(elementName) || !isValidVariable(elementType) ){
             return;
         }
         const timerFunc = function(){
             if(nextRefresh){
                 dynamicTimer.current = setTimeout( function(){
                     requestDynamicData(nextRefresh)
-                }, 5*1000)
+                }, 30*1000)
+                // console.log("dynamicTimer.current:"+dynamicTimer.current)
             }
         }
         const opt = {
@@ -82,15 +86,15 @@ function CapacityCont (props){
             method:'POST',
             params:{
                 date: getFullTime( new Date(), 4),
-                elementName: airportName,
+                elementName,
                 routeName: "",
                 firId: "",
-                elementType: type
+                elementType
             },
             resFunc: (data)=> {
                 // console.log(data);
                 const { capacityMap, generateTime } = data;
-                props.capacity.setDynamicData( capacityMap[airportName], generateTime );
+                props.capacity.setDynamicData( capacityMap[elementName], generateTime );
                 if( props.capacity.forceUpdateDynamicData ){
                     //获取数据
                     props.capacity.forceUpdateDynamicData = false;
