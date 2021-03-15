@@ -25,11 +25,15 @@
                 width: 700px;
                 margin-right: 4px;
                 .map-container {
-                    display: flex;
+                    // display: flex;
                     flex: 1;
                     margin: 0 10px 10px;
+                    height: 100%;
                     //width: 820px;
                     //height: 600px;
+                    .ant-spin-nested-loading, .ant-spin-container{
+                        height: 100%;
+                    }
                     .map-frame {
                         border-radius: 8px;
                         border: 1px solid #6c6c6c;
@@ -37,6 +41,7 @@
                     }
                 }
             }
+            
             .right-container {
                 flex: 1 1 calc(100% - 700px);
                 width: calc(100% - 700px);
