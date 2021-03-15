@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import "moment/locale/zh-cn"
-import { Button, Modal, Form } from 'antd'
+import { Button, Modal, Form, Space } from 'antd'
 import StaticInfoCard from './StaticInfoCard'
 import { handleImportControl, closeCreateDlg, closeControlDetail, handleImportControlForUpdate, handleUpdateFlowControl } from 'utils/client'
 import { getFullTime, formatTimeString, addStringTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
@@ -21,17 +21,22 @@ function RestrictionForm(props) {
     const setModalVisible = props.setModalVisible || {};
     const operationType = props.operationType || "";
     const operationDescription = props.operationDescription || "";
-
+    // 用户信息
     const user = systemPage.user || {};
+    // 用户名
+    let username = user.username || "";
+    // 用户名中文
     let userDescriptionCN = user.descriptionCN || "";
+    // 用户
+    let userUnit = user.unit;
 
     // 方案数据对象
     const tacticProcessInfo = flowData.tacticProcessInfo || {};
     const formerTacticProcessInfo = flowData.formerTacticProcessInfo || {};
     const basicTacticInfo = tacticProcessInfo.basicTacticInfo || {};
 
-    let { tacticName = "", tacticPublishUnit = "", tacticPublishUser = "", id = "" } = basicTacticInfo;
-
+    let { tacticName = "", id = "", tacticPublishUnit="", tacticPublishUser="", tacticPublishUserCH="" } = basicTacticInfo;
+    
     let basicFlowcontrol = basicTacticInfo.basicFlowcontrol || {};
     let tacticTimeInfo = basicTacticInfo.tacticTimeInfo || {};
     let directionList = basicTacticInfo.directionList || [];
@@ -87,6 +92,26 @@ function RestrictionForm(props) {
         exemptionTask = "", exemptionOrganization = "", exemptionAbility = "", exemptionAircraftType = "",
     } = flowControlFlight;
 
+    // 模态框显隐变量
+    let [isModalVisible, setIsModalVisible] = useState(false);
+    // 主要操作按钮禁用变量
+    let [importButtonDisable, setImportButtonDisable] = useState(false);
+    // 模态框确定按钮loading变量
+    let [confirmLoading, setConfirmLoading] = useState(false);
+
+    // 方案开始日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
+    let [startDateString, setStartDateString] = useState(startDate);
+    // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
+    let [endDateString, setEndDateString] = useState(endDate);
+
+    // 方案开始日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
+    let [startTime, setStartTime] = useState(startDate);
+    // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
+    let [endTime, setEndTime] = useState(endDate);
+
+    // 忽略模态框显隐变量
+    let [isIgnoreModalVisible, setIsIgnoreModalVisible] = useState(false);
+
     // 依据流控限制方式取流控限制数值方法
     const getRestrictionModeValue = () => {
         const { restrictionMode, restrictionMITValue, restrictionAFPValueSequence } = flowControlMeasure;
@@ -105,7 +130,6 @@ function RestrictionForm(props) {
 
     // 需要将数值转换为大写的字段
     const upperFields = [
-        "tacticPublishUser",
         "targetUnit",
         "formerUnit",
         "behindUnit",
@@ -123,8 +147,10 @@ function RestrictionForm(props) {
     ];
 
 
-    if (operationType === "CREATE") {
-        tacticPublishUser = tacticPublishUser || userDescriptionCN;
+    if (operationType === "CREATE" || operationType ==="IMPORT" || operationType ==="IMPORTWITHFORMER" ) {
+        tacticPublishUnit = isValidVariable(tacticPublishUnit) ? tacticPublishUnit : userUnit;
+        tacticPublishUser = isValidVariable(tacticPublishUser) ? tacticPublishUser : username;
+        tacticPublishUserCH = isValidVariable(tacticPublishUserCH) ? tacticPublishUserCH : userDescriptionCN;
     }
 
     // 流控限制数值
@@ -141,9 +167,9 @@ function RestrictionForm(props) {
         // 流控信息中的流控名称
         flowControlName: flowControlName || "",
         // 方案发布单位
-        tacticPublishUnit: tacticPublishUnit || "流量室",
-        // 方案发布用户
-        tacticPublishUser: tacticPublishUser,
+        tacticPublishUnit: tacticPublishUnit || "",
+        // 方案发布用户中文(只显示不可编辑)
+        tacticPublishUserCH: tacticPublishUserCH,
         // 基准单元
         targetUnit: targetUnit,
         // 前序单元
@@ -232,25 +258,7 @@ function RestrictionForm(props) {
 
     };
 
-    // 模态框显隐变量
-    let [isModalVisible, setIsModalVisible] = useState(false);
-    // 主要操作按钮禁用变量
-    let [importButtonDisable, setImportButtonDisable] = useState(false);
-    // 模态框确定按钮loading变量
-    let [confirmLoading, setConfirmLoading] = useState(false);
-
-    // 方案开始日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [startDateString, setStartDateString] = useState(startDate);
-    // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [endDateString, setEndDateString] = useState(endDate);
-
-    // 方案开始日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [startTime, setStartTime] = useState(startDate);
-    // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
-    let [endTime, setEndTime] = useState(endDate);
-
-    // 忽略模态框显隐变量
-    let [isIgnoreModalVisible, setIsIgnoreModalVisible] = useState(false);
+    
 
     const [form] = Form.useForm();
     useEffect(function () {
@@ -265,8 +273,17 @@ function RestrictionForm(props) {
         setStartDateString(startDate);
         // 更新方案结束日期
         setEndDateString(endDate);
+        // 
         setStartTime(startTimeString);
+        // 
         setEndTime(endTimeString);
+        // 更新
+        // setTacticPublishUnit(tacticPublishUnit)
+        // 
+        // setTacticPublishUser(tacticPublishUser);
+        // 
+        // setTacticPublishUserCH(tacticPublishUserCH);
+
     };
 
     // 主要操作按钮事件
@@ -393,8 +410,7 @@ function RestrictionForm(props) {
         }
 
         // 表单字段数据
-        const { tacticName, tacticPublishUnit, tacticPublishUser,
-            targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight,
+        const { tacticName, targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight,
             depAp, arrAp, exemptDepAp, exemptArrAp,
             flowControlName, flowControlReason, flowControlPublishType, restrictionRemark,
             restrictionMode, restrictionModeValue,
@@ -405,10 +421,14 @@ function RestrictionForm(props) {
         } = values;
         // 更新方案名称
         basicTacticInfo.tacticName = tacticName;
-        // 更新方案发布单位
+        // 方案发布单位
         basicTacticInfo.tacticPublishUnit = tacticPublishUnit;
-        // 更新方案发布用户
+        // 方案发布用户
         basicTacticInfo.tacticPublishUser = tacticPublishUser;
+        // 方案发布用户中文
+        basicTacticInfo.tacticPublishUserCH = tacticPublishUserCH;
+
+        
         // 更新方案开始时间
         tacticTimeInfo.startTime = startDateString + startTime;
         // 更新方案结束时间
@@ -721,6 +741,41 @@ function RestrictionForm(props) {
         }
     };
 
+    /**
+     * 主按钮
+     *
+     * */
+    const drawprimaryBtn = () => {
+        //  若表单为不可编辑状态且为MODIFYSIM(模拟状态的方案修改)操作
+        if (props.disabledForm && operationType === "MODIFYSIM") {
+            return ""
+        } else {
+            return (
+                <div className="button-container">
+                    <Button
+                        className={setPrimaryButtonClassName()}
+                        type="primary"
+                        onClick={handlePrimaryBtnClick}
+                        disabled={importButtonDisable}
+                    >
+                        {primaryButtonName}
+                    </Button>
+                    <Modal
+                        title={primaryButtonName}
+                        visible={isModalVisible}
+                        maskClosable={false}
+                        centered
+                        onOk={handleSubmitFormData}
+                        onCancel={handleCancel}
+                        confirmLoading={confirmLoading}
+                    >
+                        <p>{`确定${primaryButtonName}?`}</p>
+                    </Modal>
+                </div>
+            )
+        }
+    };
+
 
     /**
      * 编辑按钮
@@ -728,23 +783,16 @@ function RestrictionForm(props) {
      * */
     const drawEditBtn = () => {
         return (
-            <div className="button-container">
-                {
-                    props.disabledForm ?
-                        <Button
-                            className="btn_edit"
-                            type="primary"
-                            onClick={handleOpenEdit}>
-                            编辑
-                        </Button>
-                        : <Button
-                            className="btn_save_edit"
-                            type="primary"
-                            onClick={handleSaveEdit} >
-                            保存编辑
-                         </Button>
-                }
-            </div>
+            props.disabledForm ?
+                <div className="button-container">
+                    <Button
+                        className="btn_edit"
+                        type="primary"
+                        onClick={handleOpenEdit}>
+                        编辑
+                    </Button>
+                </div>
+                : ""
         )
     };
     /**
@@ -803,37 +851,18 @@ function RestrictionForm(props) {
     const drawOperation = () => {
         return (
             <div className={props.operationBarClassName ? `operation-bar ${props.operationBarClassName}` : "operation-bar"}>
+                <Space>
+                    {
+                        showEditBtn ? (drawEditBtn()) : ""
+                    }
+                    {
+                        isValidVariable(primaryButtonName) ? (drawprimaryBtn() ): ""
+                    }
 
-                {
-                    showEditBtn ? (drawEditBtn()) : ""
-                }
-                {
-                    isValidVariable(primaryButtonName) ? <div className="button-container">
-                        <Button
-                            className={setPrimaryButtonClassName()}
-                            type="primary"
-                            onClick={handlePrimaryBtnClick}
-                            disabled={importButtonDisable}
-                        >
-                            {primaryButtonName}
-                        </Button>
-                        <Modal
-                            title={primaryButtonName}
-                            visible={isModalVisible}
-                            maskClosable={false}
-                            centered
-                            onOk={handleSubmitFormData}
-                            onCancel={handleCancel}
-                            confirmLoading={confirmLoading}
-                        >
-                            <p>{`确定${primaryButtonName}?`}</p>
-                        </Modal>
-                    </div> : ""
-                }
-
-                {
-                    showIgnoreBtn ? (drawIgnoreBtn()) : ""
-                }
+                    {
+                        showIgnoreBtn ? (drawIgnoreBtn()) : ""
+                    }
+                </Space>
             </div>
         )
     };
@@ -848,7 +877,7 @@ function RestrictionForm(props) {
         //     props.history.push('/')
         // }
     }, []);
-
+    
 
     return (
         <div>
