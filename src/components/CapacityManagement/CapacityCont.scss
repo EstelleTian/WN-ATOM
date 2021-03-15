@@ -114,15 +114,43 @@
 .alarm_green{
     background-color: rgb(21, 110, 21);
 }
-
-@media screen and ( max-width: 1920px) and ( min-width: 1681px){
-    .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-thead > tr > th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-small tfoot > tr > th, .ant-table.ant-table-small tfoot > tr > td {
-        padding: 4px 4px;
-    }
-  }
-
-  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
     color: #72bde1;
     font-weight: 500;
 }
 
+@media screen and ( max-width: 1920px) and ( min-width: 1681px){
+    
+    .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-thead > tr > th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-small tfoot > tr > th, .ant-table.ant-table-small tfoot > tr > td {
+        padding: 4px 4px;
+    }
+    .cap_set_canvas{
+        
+        .capacity_number_table .ant-table-body tr > td.ant-table-cell {
+            font-size: 1.8rem;
+        }
+        .capacity_number_table .ant-table-thead tr > th.ant-table-cell {
+            font-size: 1.4rem;
+        }
+        .box_header .title{
+            font-size: 1.3rem;
+        }
+    }
+  }
+
+
+
+@media screen and ( max-width: 1681px){
+    .cap_set_canvas{
+        
+        .capacity_number_table .ant-table-body tr > td.ant-table-cell {
+            font-size: 2.4rem;
+        }
+        .capacity_number_table .ant-table-thead tr > th.ant-table-cell {
+            font-size: 1.6rem;
+        }
+        .box_header .title{
+            font-size: 1.8rem;
+        }
+    }
+}

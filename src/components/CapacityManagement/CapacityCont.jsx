@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-15 16:18:46
+ * @LastEditTime: 2021-03-15 17:24:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -73,6 +73,9 @@ function CapacityCont (props){
         if( !isValidVariable(elementName) || !isValidVariable(elementType) ){
             return;
         }
+        if( !isValidVariable(user) ){
+            return;
+        }
         const timerFunc = function(){
             if(nextRefresh){
                 dynamicTimer.current = setTimeout( function(){
@@ -81,7 +84,9 @@ function CapacityCont (props){
                 // console.log("dynamicTimer.current:"+dynamicTimer.current)
             }
         }
+        let userObj = JSON.parse(user);
         const opt = {
+            // url: ReqUrls.capacityBaseUrl+ "dynamic/retrieveCapacityDynamic/" + userObj.username,
             url: ReqUrls.capacityBaseUrl+ "dynamic/retrieveCapacityDynamic",
             method:'POST',
             params:{
