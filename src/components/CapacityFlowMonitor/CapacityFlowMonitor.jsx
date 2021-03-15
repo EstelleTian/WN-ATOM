@@ -9,9 +9,11 @@
 import React, { useEffect, useCallback } from 'react'
 import { inject, observer } from 'mobx-react'
 import { request } from 'utils/request'
-import {  message, Spin, List, } from 'antd'
-import { CloseCircleOutlined } from '@ant-design/icons';
+import { message, Spin, List, Tooltip } from 'antd'
+import { CloseCircleOutlined, FileTextOutlined } from '@ant-design/icons';
 import { getFullTime, isValidObject, isValidVariable, formatTimeString, addStringTime } from 'utils/basic-verify'
+import { openCapacityFlowMonitorUnitTclientFrame } from 'utils/client'
+
 import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
 import { ReqUrls } from 'utils/request-urls'
 import AddMonitorCard from 'components/MiniMonitor/AddMonitorCard'
@@ -21,30 +23,30 @@ import "./CapacityFlowMonitor.scss"
 
 
 //容流略图模块
-const CapacityFlowMonitor =(props) => {
+const CapacityFlowMonitor = (props) => {
     const capacityFlowMonitorData = props.capacityFlowMonitorData || {};
     const { loading } = capacityFlowMonitorData;
     const monitorData = capacityFlowMonitorData.monitorData || {};
     const generateTime = monitorData.generateTime || "";
     const flow = monitorData.flow || {};
-    let  capacityFlowMonitorWeatherData = props.capacityFlowMonitorWeatherData || {};
+    let capacityFlowMonitorWeatherData = props.capacityFlowMonitorWeatherData || {};
     const weatherData = capacityFlowMonitorWeatherData.weatherData || [];
     // 格式化处理天气数据
-    const formatWeatherData = ()=> {
+    const formatWeatherData = () => {
         let obj = {}
-        weatherData.map((item)=>{
+        weatherData.map((item) => {
             obj[item.airport] = item.weatherCH || "";
         })
         return obj;
     };
-    let weatherDataObj =  formatWeatherData();
+    let weatherDataObj = formatWeatherData();
 
     const getSingleTypeData = (type) => {
-        let arr=[];
+        let arr = [];
         // 遍历并取监控数据中对应类型的容流数据
-        for( let d in flow){
+        for (let d in flow) {
             let singleData = flow[d];
-            if(type === singleData.type){
+            if (type === singleData.type) {
                 let obj = {
                     key: d,
                     id: d,
@@ -56,26 +58,26 @@ const CapacityFlowMonitor =(props) => {
             }
         }
         // 排序 按order字段值升序
-        let sortArr = arr.sort((item1,item2)=>{
-            if(isValidObject(item1)
+        let sortArr = arr.sort((item1, item2) => {
+            if (isValidObject(item1)
                 && isValidObject(item1.data)
                 && isValidVariable(item1.data.overCapacity)
                 && isValidObject(item2.data)
-                && isValidVariable(item2.data.overCapacity) ){
+                && isValidVariable(item2.data.overCapacity)) {
                 // 超容量
                 let overCapacityA = item1.data.overCapacity; // ignore upper and lowercase
                 let overCapacityB = item2.data.overCapacity; // ignore upper and lowercase
                 if (overCapacityA > overCapacityB) {
                     return -1;
-                }else if (overCapacityA < overCapacityB) {
+                } else if (overCapacityA < overCapacityB) {
                     return 1;
-                } else if(overCapacityA === overCapacityB){
+                } else if (overCapacityA === overCapacityB) {
                     // 总流量
                     let totalFlowsA = item1.data.totalFlows || 0; // ignore upper and lowercase
                     let totalFlowsB = item2.data.totalFlows || 0; // ignore upper and lowercase
                     if (totalFlowsA > totalFlowsB) {
                         return -1;
-                    }else if (totalFlowsA < totalFlowsB) {
+                    } else if (totalFlowsA < totalFlowsB) {
                         return 1;
                     } else {
                         return 0
@@ -114,43 +116,51 @@ const CapacityFlowMonitor =(props) => {
     };
     monitorDataist = appendAddMonitorCard(monitorDataist);
     // 绘制单个监控单元数据卡片
-    const  listItemData = (item)=> {
-        if(item.id ==='ADD'){
+    const listItemData = (item) => {
+        if (item.id === 'ADD') {
             return (
-                <List.Item className="moitor-col" key={item.key}>
-                    <ModalBox showDecorator = {false} title={item.title} className="monitor-box add-monitor-box">
+                <List.Item className="moitor-col" key={item.key} >
+                    <ModalBox showDecorator={false} title={item.title} className="monitor-box add-monitor-box">
                         <div className="monitor-content">
-                            <AddMonitorCard data={ item.data }  />
+                            <AddMonitorCard data={item.data} />
                         </div>
                     </ModalBox>
                 </List.Item>
             )
-        }else {
+        } else {
             return (
-                <List.Item className="moitor-col" key={item.key}>
-                    <ModalBox showDecorator = {false} title={item.title} data={item.data} className="monitor-box">
+                <List.Item className="moitor-col" key={item.key} onClick={() => { console.log(item.key) }}>
+                    <ModalBox showDecorator={false} title={item.title} data={item.data} className="monitor-box">
                         <div className="actions">
-                            <div onClick={()=>{console.log("sss")}} className="remove">
-                                <CloseCircleOutlined />
-                            </div>
+                            <Tooltip title="查看详情">
+                                <div onClick={() => { openCapacityFlowMonitorUnitTclientFrame(item.key)}} className="detail">
+
+                                    <FileTextOutlined />
+                                </div>
+                            </Tooltip>
+                            <Tooltip title="移除">
+                                <div onClick={() => { console.log("sss") }} className="remove">
+                                    <CloseCircleOutlined />
+                                </div>
+                            </Tooltip>
                         </div>
                         <div className="monitor-content">
-                            <AirportMonitor data={ item.data } weatherData={ weatherDataObj[item.key]}  />
+                            <AirportMonitor data={item.data} weatherData={weatherDataObj[item.key]} />
                         </div>
 
                     </ModalBox>
-                </List.Item>
+                </List.Item >
             )
         }
     }
     // 更新--执行KPI store数据
     const updateCapacityFlowMonitorData = useCallback(capacityFlowMonitorData => {
-        if( isValidObject(capacityFlowMonitorData) ){
+        if (isValidObject(capacityFlowMonitorData)) {
             props.capacityFlowMonitorData.updateCapacityFlowMonitorData(capacityFlowMonitorData)
-        }else{
+        } else {
             props.capacityFlowMonitorData.updateCapacityFlowMonitorData({});
             message.error({
-                content:"获取的航班执行数据为空",
+                content: "获取的航班执行数据为空",
                 duration: 4,
             });
 
@@ -158,12 +168,12 @@ const CapacityFlowMonitor =(props) => {
     });
     // 更新--气象 store数据
     const updateCapacityFlowMonitorWeatherData = useCallback(weatherData => {
-        if( isValidObject(weatherData) && isValidVariable(weatherData.result) ){
+        if (isValidObject(weatherData) && isValidVariable(weatherData.result)) {
             props.capacityFlowMonitorWeatherData.updateCapacityFlowMonitorWeatherData(weatherData.result)
-        }else{
+        } else {
             props.capacityFlowMonitorWeatherData.updateCapacityFlowMonitorWeatherData({});
             message.error({
-                content:"获取的气象数据为空",
+                content: "获取的气象数据为空",
                 duration: 4,
             });
 
@@ -173,17 +183,17 @@ const CapacityFlowMonitor =(props) => {
     // 请求错误处理
     const requestErr = useCallback((err, content) => {
         let errMsg = "";
-        if(isValidObject(err) && isValidVariable(err.message)){
+        if (isValidObject(err) && isValidVariable(err.message)) {
             errMsg = err.message;
-        }else if(isValidVariable(err)){
+        } else if (isValidVariable(err)) {
             errMsg = err;
         }
 
         message.error({
-            content:(
+            content: (
                 <span>
-                    <span>{ content }</span>
-                    <br/>
+                    <span>{content}</span>
+                    <br />
                     <span>{errMsg}</span>
                 </span>
             ),
@@ -192,7 +202,7 @@ const CapacityFlowMonitor =(props) => {
     });
 
 
-    useEffect(function(){
+    useEffect(function () {
         // 初次获取数据启用loading
         props.capacityFlowMonitorData.toggleLoad(true);
         // 获取数据
@@ -203,31 +213,31 @@ const CapacityFlowMonitor =(props) => {
         clearInterval(props.capacityFlowMonitorData.timeoutId);
         clearInterval(props.capacityFlowMonitorWeatherData.timeoutId);
         // 开启定时获取数据
-        props.capacityFlowMonitorData.timeoutId = setInterval(requestCapacityFlowMonitorData, 60*1000);
-        props.capacityFlowMonitorWeatherData.timeoutId = setInterval(requestWeatherData, 60*1000);
-        return function(){
+        props.capacityFlowMonitorData.timeoutId = setInterval(requestCapacityFlowMonitorData, 60 * 1000);
+        props.capacityFlowMonitorWeatherData.timeoutId = setInterval(requestWeatherData, 60 * 1000);
+        return function () {
             clearInterval(props.capacityFlowMonitorData.timeoutId);
             clearInterval(props.capacityFlowMonitorWeatherData.timeoutId);
             props.capacityFlowMonitorData.timeoutId = "";
             props.capacityFlowMonitorWeatherData.timeoutId = "";
         }
-    },[props.userSubscribeData.subscribeData])
+    }, [props.userSubscribeData.subscribeData])
 
 
 
     /**
      * 获取当前区域内的监控单元
      * */
-    const getMonitorUnits =()=> {
-        const { userSubscribeData={} } = props;
+    const getMonitorUnits = () => {
+        const { userSubscribeData = {} } = props;
         let subscribeData = userSubscribeData.subscribeData || {};
-        let {monitorUnit, focus} = subscribeData;
+        let { monitorUnit, focus } = subscribeData;
         let arr = [];
-        
-        if(isValidObject(monitorUnit) && isValidVariable(focus)){
-            let focusArea= monitorUnit[focus] || {};
+
+        if (isValidObject(monitorUnit) && isValidVariable(focus)) {
+            let focusArea = monitorUnit[focus] || {};
             let focusAreaData = focusArea.data;
-            for( let type in focusAreaData){
+            for (let type in focusAreaData) {
                 let units = focusAreaData[type] || [];
                 arr = [...arr, ...units];
             }
@@ -236,13 +246,13 @@ const CapacityFlowMonitor =(props) => {
     };
 
     // 获取当前区域内的机场类型的监控单元
-    const getAPMonitorUnits =()=> {
-        const { userSubscribeData={} } = props;
+    const getAPMonitorUnits = () => {
+        const { userSubscribeData = {} } = props;
         let subscribeData = userSubscribeData.subscribeData || {};
-        let {monitorUnit, focus} = subscribeData;
+        let { monitorUnit, focus } = subscribeData;
         let arr = [];
-        if(isValidObject(monitorUnit) && isValidVariable(focus)){
-            let focusArea= monitorUnit[focus] || {};
+        if (isValidObject(monitorUnit) && isValidVariable(focus)) {
+            let focusArea = monitorUnit[focus] || {};
             let focusAreaData = focusArea.data;
             let APUnitsData = focusAreaData['AP'] || [];
             arr = APUnitsData;
@@ -253,27 +263,27 @@ const CapacityFlowMonitor =(props) => {
     // 获取容流数据
     const requestCapacityFlowMonitorData = useCallback(() => {
         const now = getFullTime(new Date());
-        const nextDate = addStringTime(now, 1000*60*60*24).substring(0,8);
-        const nowDate = now.substring(0,8);
-        const start = nowDate+'050000';
-        const end =nextDate+'050000';
+        const nextDate = addStringTime(now, 1000 * 60 * 60 * 24).substring(0, 8);
+        const nowDate = now.substring(0, 8);
+        const start = nowDate + '050000';
+        const end = nextDate + '050000';
         const monitorUnits = getMonitorUnits();
         const units = monitorUnits.join(',');
-        if(!isValidVariable(units)){
+        if (!isValidVariable(units)) {
             return;
         }
         const opt = {
-            url: ReqUrls.capacityFlowMonitorDataUrl+'?targets='+units+'&starttime='+ start+'&endtime='+end,
-            method:'GET',
-            params:{},
-            resFunc: (data)=> {
+            url: ReqUrls.capacityFlowMonitorDataUrl + '?targets=' + units + '&starttime=' + start + '&endtime=' + end,
+            method: 'GET',
+            params: {},
+            resFunc: (data) => {
                 updateCapacityFlowMonitorData(data);
                 props.capacityFlowMonitorData.toggleLoad(false)
             },
-            errFunc: (err)=> {
+            errFunc: (err) => {
                 requestErr(err, '容流数据获取失败')
                 props.capacityFlowMonitorData.toggleLoad(false)
-            } ,
+            },
         };
         request(opt);
     });
@@ -281,39 +291,39 @@ const CapacityFlowMonitor =(props) => {
     // 获取天气数据
     const requestWeatherData = useCallback(() => {
         const now = getFullTime(new Date());
-        const nowDate = now.substring(0,8);
+        const nowDate = now.substring(0, 8);
         const monitorUnits = getAPMonitorUnits();
         const units = monitorUnits.join(',');
-        if(!isValidVariable(units)){
+        if (!isValidVariable(units)) {
             return;
         }
         const opt = {
-            url: ReqUrls.capacityFlowMonitorWeatherDataUrl+'?time='+nowDate+'&airport='+ units,
-            method:'GET',
-            params:{},
-            resFunc: (data)=> {
+            url: ReqUrls.capacityFlowMonitorWeatherDataUrl + '?time=' + nowDate + '&airport=' + units,
+            method: 'GET',
+            params: {},
+            resFunc: (data) => {
                 updateCapacityFlowMonitorWeatherData(data);
             },
-            errFunc: (err)=> {
+            errFunc: (err) => {
                 requestErr(err, '气象数据获取失败')
-            } ,
+            },
         };
         request(opt);
     });
 
-    return(
+    return (
         <Spin spinning={loading} >
-        <div className="capacity_flow_monitor_container no-scrollbar">
-            <List
-                grid={{ gutter: 6, column: 10 }}
-                dataSource={monitorDataist}
-                renderItem={item => (
-                    listItemData(item)
-                )}
-            />
-        </div>
+            <div className="capacity_flow_monitor_container no-scrollbar">
+                <List
+                    grid={{ gutter: 6, column: 10 }}
+                    dataSource={monitorDataist}
+                    renderItem={item => (
+                        listItemData(item)
+                    )}
+                />
+            </div>
         </Spin>
     )
 }
 
-export default inject("userSubscribeData","capacityFlowMonitorData","capacityFlowMonitorWeatherData","systemPage")(observer(CapacityFlowMonitor))
+export default inject("userSubscribeData", "capacityFlowMonitorData", "capacityFlowMonitorWeatherData", "systemPage")(observer(CapacityFlowMonitor))

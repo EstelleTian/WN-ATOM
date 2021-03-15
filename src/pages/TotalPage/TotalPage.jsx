@@ -8,15 +8,16 @@
  */
 import React, { Fragment, lazy, Suspense, useState, useEffect, useCallback } from 'react'
 import { Layout, Spin, Row, Col, Avatar, Radio, message, Button } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { UserOutlined, FileTextOutlined } from '@ant-design/icons'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
-
 import { inject, observer } from "mobx-react";
 
 import ModalBox from 'components/ModalBox/ModalBox'
 import User from 'components/NavBar/User'
 import LoadingIframe from 'components/LoadingIframe/LoadingIframe'
+import { openMapFrame, } from 'utils/client'
+
 
 
 // import NavBar  from 'components/NavBar/NavBar.jsx'
@@ -277,6 +278,12 @@ function TodoPage(props) {
                                 }}
                             >
                                 <div className="map-container">
+                                    <div className="actions">
+                                        <div className="detail" onClick={()=>{openMapFrame(focus)}} >
+                                            <FileTextOutlined />查看详情
+                                        </div>
+                                    </div>
+                                    
                                     {/* 虽然以下条件里的每个LoadingIframe一样，但一定要这样写，用于解决iframe src值变更后iframe页面内容不刷新问题  */}
                                     {
                                         focus === "NW" ? <LoadingIframe focus={focus} ></LoadingIframe> : ""
@@ -308,7 +315,7 @@ function TodoPage(props) {
                                 showDecorator={true}
                             >
                                 <Suspense fallback={<div className="load_spin"><Spin tip="加载中..." /></div>}>
-                                    <FlightPerformance />
+                                    <FlightPerformance onDoubleClick={() => console.log("on double click")} />
                                 </Suspense>
 
                             </ModalBox>
