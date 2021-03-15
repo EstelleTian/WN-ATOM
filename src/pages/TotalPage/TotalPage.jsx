@@ -229,9 +229,6 @@ function TodoPage(props) {
         console.log("load")
     }
 
-
-
-
     return (
         <Layout>
             <Header className="nav_header">

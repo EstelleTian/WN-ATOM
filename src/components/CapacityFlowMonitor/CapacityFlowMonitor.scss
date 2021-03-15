@@ -8,6 +8,28 @@
   }
   .ant-list-grid .ant-col > .ant-list-item.moitor-col {
     margin-bottom: 10px;
+    &.AIRPORT{
+      .box_header {
+        background-color: #2e93bb;
+      }
+    }
+    &.APP{
+      .box_header {
+        background-color: #156ea4;
+      }
+    }
+    &.SECTOR{
+      .box_header {
+        background-color: #008685;
+      }
+    }
+    &.APPSEC{
+      .box_header {
+        background-color: #005354;
+      }
+    }
+    
+    
   }
   //padding-top: 10px;
   .monitor-box {
@@ -47,7 +69,7 @@
     padding-left: 86px;
     padding-right: 10px;
     height: 0px;
-    color: $c-white-30;
+    color: $c-white-80;
     .remove, .detail{
       cursor: pointer;
       font-size: 20px;

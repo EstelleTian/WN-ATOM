@@ -57,6 +57,9 @@
                         .detail {
                             cursor: pointer;
                             font-size: 18px;
+                            &:hover {
+                                color: #266E90;
+                            }
                         }
                     }
                 }

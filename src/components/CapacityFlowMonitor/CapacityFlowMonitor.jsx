@@ -129,7 +129,7 @@ const CapacityFlowMonitor = (props) => {
             )
         } else {
             return (
-                <List.Item className="moitor-col" key={item.key} onClick={() => { console.log(item.key) }}>
+                <List.Item className={`moitor-col ${item.data.type}`} key={item.key}  >
                     <ModalBox showDecorator={false} title={item.title} data={item.data} className="monitor-box">
                         <div className="actions">
                             <Tooltip title="查看详情">
