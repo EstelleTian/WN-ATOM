@@ -22,15 +22,15 @@ const columns = [
         render: (text, record, index) => `第${index+1}步`
     },
     {
-        title: "处理步骤",
+        title: "工作环节",
         dataIndex: "handleStep",
         align: 'center',
         key: "handleStep",
-        width: (screenWidth > 1920) ? 100 : 100,
+        width: (screenWidth > 1920) ? 70 : 70,
 
     },
     {
-        title: "处理人",
+        title: "办理人",
         dataIndex: "handler",
         align: 'center',
         key: "handler",
@@ -57,6 +57,14 @@ const columns = [
                 </div>
             )
         }
+    },
+     {
+        title: "办理状态",
+        dataIndex: "handleStatus",
+        align: 'center',
+        key: "handleStatus",
+        width: (screenWidth > 1920) ? 40 : 40,
+
     },
     {
         title: "意见",
@@ -135,13 +143,20 @@ const WorkFlowContent = (props) => {
             hisTasks.map( (item, index) =>{
                 const name = item.name || "";
                 const assigneeName = item.assigneeName || "";
+                const endTime  = item.endTime  || "";
+                let handleStatus = "待办理";
+                if( isValidVariable(endTime) ){
+                    handleStatus = "已办理";
+                }
                 const taskLocalVariables = item.taskLocalVariables || {};
                 const comments = taskLocalVariables.comments || "";
+                
                 const obj =
                     {
                         key: index,
                         handleStep: name,
                         handler: assigneeName,
+                        handleStatus: handleStatus,
                         handleRes: comments,
                         orgdata: JSON.stringify(item)
                     };

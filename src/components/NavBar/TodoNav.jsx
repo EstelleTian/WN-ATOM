@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-03-11 19:14:34
+ * @LastEditTime: 2021-03-15 13:18:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -128,7 +128,7 @@ function TodoNav(props){
 
     return (
         <Radio.Button value="todo">
-            待办事项
+            航班协调
             {
                 todoLen > 0 ?
                     <Badge

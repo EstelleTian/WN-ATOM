@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-11 15:50:36
+ * @LastEditTime: 2021-03-12 10:16:08
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -700,6 +700,7 @@ const CapacityTable = (props) => {
     }, [props.capacity.dynamicWorkFlowData])
 
     const validateUpdateBtn = useCallback(() => {
+        if( isValidVariable(username) ){
             const opt = {
                 url: ReqUrls.capacityBaseUrl + "simulationTactics/judge/"+username,
                 method: 'GET',
@@ -717,7 +718,9 @@ const CapacityTable = (props) => {
                 },
             };
             requestGet(opt);
-    }, [])
+        }
+            
+    }, [username])
     
     useEffect(() => {
         resetOrgTableDatas();

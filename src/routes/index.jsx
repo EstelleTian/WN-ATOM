@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-03-11 17:20:28
+ * @LastEditTime: 2021-03-15 09:23:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -98,7 +98,7 @@ export default [
         title: '工作流详情',
     },
     {
-        path: '/capacity/:name?',
+        path: '/capacity/:name?/:type?',
         component: withRouter(CapacityManagementPage),
         exact: true,
         title: '容量管理',

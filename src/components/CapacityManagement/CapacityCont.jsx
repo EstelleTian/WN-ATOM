@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-10 19:12:53
+ * @LastEditTime: 2021-03-12 16:21:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -67,11 +67,14 @@ function CapacityCont (props){
     const requestDynamicData = useCallback((nextRefresh) => {
         const type = pane.type.toUpperCase();
         const airportName = pane.key;
+        if( capacity.getActivePane.length >0 && capacity.getActivePane[0].key !== airportName ){
+            return;
+        }
         const timerFunc = function(){
             if(nextRefresh){
                 dynamicTimer.current = setTimeout( function(){
                     requestDynamicData(nextRefresh)
-                }, 30*1000)
+                }, 5*1000)
             }
         }
         const opt = {

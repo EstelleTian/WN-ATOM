@@ -106,12 +106,13 @@ function RightNav(props) {
                         }
                     </Radio.Button>
                 }
+
                 {
                     systemPage.userHasAuth(	12505 ) && <TodoNav />
                 }
                 
-            </Radio.Group>
-            {
+                </Radio.Group>
+                {
                     systemPage.userHasAuth(	12511 ) && <MyApplicationButton />
                 }
                 
