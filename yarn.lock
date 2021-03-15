@@ -8883,6 +8883,11 @@ mem@^1.1.0:
   dependencies:
     mimic-fn "^1.0.0"
 
+"memoize-one@>=3.1.1 <6":
+  version "5.1.1"
+  resolved "https://registry.npm.taobao.org/memoize-one/download/memoize-one-5.1.1.tgz?cache=0&sync_timestamp=1613910932753&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmemoize-one%2Fdownload%2Fmemoize-one-5.1.1.tgz#047b6e3199b508eaec03504de71229b8eb1d75c0"
+  integrity sha1-BHtuMZm1COrsA1BN5xIpuOsddcA=
+
 memory-fs@^0.4.0, memory-fs@^0.4.1, memory-fs@~0.4.1:
   version "0.4.1"
   resolved "https://registry.npm.taobao.org/memory-fs/download/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"
@@ -11577,6 +11582,14 @@ react-websocket@^2.0.1:
   version "2.1.0"
   resolved "https://registry.npm.taobao.org/react-websocket/download/react-websocket-2.1.0.tgz#1150ce55aaa38e845f5711684266a823781ee2e4"
   integrity sha1-EVDOVaqjjoRfVxFoQmaoI3ge4uQ=
+
+react-window@^1.8.6:
+  version "1.8.6"
+  resolved "https://registry.npm.taobao.org/react-window/download/react-window-1.8.6.tgz#d011950ac643a994118632665aad0c6382e2a112"
+  integrity sha1-0BGVCsZDqZQRhjJmWq0MY4LioRI=
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    memoize-one ">=3.1.1 <6"
 
 react@^16.4.0:
   version "16.14.0"
