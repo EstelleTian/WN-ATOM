@@ -157,8 +157,27 @@ const openTimeSlotFrameWithFlightId =(schemeId = "", flightId = "") => {
     }
 };
 
+//总体监控-缩略地图-查看详情点击
+const openMapFrame =(area) => {
+    try {
+        jsEntity.openMapFrame(area);
+    }catch(error){
+        console.error(error);
+    }
+};
+
+//总体监控-容流监控单元-查看详情点击
+const openCapacityFlowMonitorUnitTclientFrame =(unit) => {
+    try {
+        jsEntity.openTclientFrame(unit);
+    }catch(error){
+        console.error(error);
+    }
+};
+
 export {
     sendMsgToClient, openTimeSlotFrame, openTclientFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
-    openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl
+    openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
+    openMapFrame, openCapacityFlowMonitorUnitTclientFrame
 }
