@@ -43,7 +43,7 @@ function SchemeDetail(props) {
     // 方案方向信息
     let directionList = isValidVariable(basicTacticInfo.directionList) ? basicTacticInfo.directionList : [];
 
-    const {tacticName, tacticPublishUnit, tacticPublishUser, id, basicTacticInfoReason,   } = basicTacticInfo;
+    const {tacticName, tacticPublishUnit, tacticPublishUser, tacticPublishUserCH, id, basicTacticInfoReason,  relationAp, relationArea } = basicTacticInfo;
     let flowcontrolList = [];
     if(isValidVariable(tacticProcessInfo.flowcontrolList)){
         flowcontrolList = tacticProcessInfo.flowcontrolList
@@ -90,6 +90,33 @@ function SchemeDetail(props) {
                         <Col span={8}>
                             <div className="ant-row ant-form-item">
                                 <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="方案关联机场">方案关联机场</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{relationAp}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={8}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="方案关联区域">方案关联区域</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{relationArea}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        
+                    </Row>
+                    <Row className="info-row">
+                        <Col span={8}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                     <label className="ant-form-item-no-colon" title="发布单位">发布单位</label>
                                 </div>
                                 <div className="ant-col ant-form-item-control">
@@ -106,7 +133,7 @@ function SchemeDetail(props) {
                                 </div>
                                 <div className="ant-col ant-form-item-control">
                                     <div className="ant-form-item-control-input">
-                                        <div className="ant-form-item-control-input-content">{tacticPublishUser}</div>
+                                        <div className="ant-form-item-control-input-content">{tacticPublishUserCH}</div>
                                     </div>
                                 </div>
                             </div>

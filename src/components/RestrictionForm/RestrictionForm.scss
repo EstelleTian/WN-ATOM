@@ -61,6 +61,25 @@
       }
     }
   }
+  .ant-form-item.MIT-mode-value-unit-form-compact {
+    margin-bottom: 0;
+    .ant-form-item-control {
+      .ant-form-item-control-input-content{
+        display: flex;
+        
+        .MIT-value-unit {
+          margin-left: 5px;
+        }
+        .symbol {
+          margin: 0 4px;
+          transform: scaleY(1.5);
+        }
+        .hidden {
+          visibility: hidden
+        }
+      }
+    }
+  }
   .flow-control-flight {
     .ant-card-head {
       border-color: #424242;
