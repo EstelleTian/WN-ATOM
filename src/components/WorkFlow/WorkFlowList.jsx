@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-05 13:23:55
+ * @LastEditTime: 2021-03-16 09:23:42
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -17,6 +17,7 @@ import { ReqUrls } from 'utils/request-urls'
 import { inject, observer } from 'mobx-react'
 import WorkFlowContent from "./WorkFlowContent";
 import {isValidVariable} from "utils/basic-verify";
+import debounce from 'lodash/debounce' 
 import { openConfirmFrame, openTimeSlotFrameWithFlightId } from 'utils/client'
 const { Search } = Input;
 //获取屏幕宽度，适配 2k
@@ -135,11 +136,12 @@ function WorkFlowList(props){
         // console.log(value);
         setSearchVal(value);
     }
-    const onChange = e => {
-        const value = e.target.value;
-        // console.log(e.target.value);
-        setSearchVal(value);
-    }
+    const onChange = useCallback(
+        debounce((values) => {
+            setSearchVal( values )
+        }, 500),
+        []
+    ) 
     //用户信息获取
     useEffect(function(){
         const user = localStorage.getItem("user");
@@ -509,19 +511,20 @@ function WorkFlowList(props){
         if( searchVal === "" ){
             return data;
         }
-        let newArr = data.filter( flight => {
-            for(let key in flight){
-                let val = flight[key] || ""
+        const sVal = searchVal.toLowerCase();
+        let nList = [];
+        data.map( item => {
+            for(let key in item){
+                let val = item[key] || ""
                 val = val + ""
                 val = val.toLowerCase();
-                const sVal = searchVal.toLowerCase();
-                if( val.indexOf( sVal ) !== -1 ){
-                    return true
+                if( val.indexOf( sVal ) !== -1  ){
+                    nList.push(item);
+                    return;
                 }
             }
-            return false
         } );
-        return newArr;
+        return nList;
     });
     //转换为表格数据
     let cdata = [];
@@ -548,7 +551,7 @@ function WorkFlowList(props){
     return (
         <div className="work_cont">
             <div className="work_search">
-                <Input allowClear placeholder="请输入要查询的关键字" onChange={onChange} style={{ width: 500 }} />
+                <Input allowClear placeholder="请输入要查询的关键字" onChange={e => onChange(e.target.value) } style={{ width: 500 }} />
                 <Button type="primary" loading = { refreshBtnLoading } style={{ marginLeft: "1rem" }}
                     onClick = { e => {
                         setRefreshBtnLoading(true);

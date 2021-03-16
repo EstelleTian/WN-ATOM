@@ -1,22 +1,16 @@
 .capacity-page {
-  .sider-content {
-    padding: 10px;
-    @include display_flex(column);
-    height: 100%;
-    .search-box {
-
-    }
-    .option-box {
-
-    }
-    .list-box {
-      padding: 10px 0;
-      overflow-y: auto;
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-    }
-  }
+  // .sider-content {
+  //   padding: 10px;
+  //   @include display_flex(column);
+  //   height: 100%;
+  //   .list-box {
+  //     padding: 10px 0;
+  //     overflow-y: auto;
+  //     display: flex;
+  //     flex: 1;
+  //     flex-direction: column;
+  //   }
+  // }
   .content-wrapper {
     // margin: 0.5rem;
     height: 100%;

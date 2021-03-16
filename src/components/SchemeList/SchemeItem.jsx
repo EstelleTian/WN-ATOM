@@ -5,7 +5,7 @@ import ReactDom from "react-dom";
 import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
 import { handleStopControl } from 'utils/client'
 import { Window as WindowDHX } from "dhx-suite";
-import { openBaseSchemeFrame } from "utils/client"
+import { openBaseSchemeFrame, openFilterFrame } from "utils/client"
 import WorkFlowContent from "components/WorkFlow/WorkFlowContent";
 import { Tag, Menu, Dropdown  } from 'antd'
 import { DownOutlined } from '@ant-design/icons';
@@ -275,8 +275,11 @@ function SchemeItem(props){
                         <div className="opt" onClick={ e=>{
                             stopControl(id);
                             e.stopPropagation();
-                        }
-                        }>终止</div>
+                        } }>终止</div>
+                        <div className="opt" onClick={ e=>{
+                            openFilterFrame(id);
+                            e.stopPropagation();
+                        } }>航图关联</div>
                         {
                             // (screenWidth > 1920)
                             // ? <div className="opt" onClick={ showModify}>调整</div>

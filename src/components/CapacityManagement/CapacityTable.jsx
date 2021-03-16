@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-15 15:57:11
+ * @LastEditTime: 2021-03-16 16:31:56
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -11,7 +11,7 @@ import React, { useContext, useState, useEffect, useRef, useCallback, useMemo, S
 import {inject, observer} from 'mobx-react'
 import { request, requestGet } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
-import { QuestionCircleOutlined } from '@ant-design/icons'
+import { QuestionCircleOutlined, ArrowRightOutlined } from '@ant-design/icons'
 import { message, Table, Input, Button, Popconfirm, Tooltip, Form, Spin  } from "antd";
 import { isValidVariable, isValidObject, formatTimeString } from 'utils/basic-verify';
 import { REGEXP } from 'utils/regExpUtil'
@@ -212,7 +212,7 @@ const EditableCell = ({
                 source === 'wait' 
                 ? ( showVal !== '-' && showVal !== -1 ) ?
                     <Tooltip title={title} color="#164c69">
-                    <span> {text.originalValue} -&gt; { text.value || ""} </span> 
+                    <span> {text.originalValue} <ArrowRightOutlined /> { text.value || ""} </span> 
                     </Tooltip>
                   : <span>{ showVal || ""}</span> 
                   
@@ -252,7 +252,8 @@ const EditableCell = ({
                 key: "capacityDetailsDepArr60",
                 editable: true,
                 width: (screenWidth > 1920) ? 50 : 50,
-                render: valRender
+                render: valRender,
+                
                 
                 
             },

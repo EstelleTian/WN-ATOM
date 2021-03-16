@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-22 16:09:16
- * @LastEditTime: 2021-03-15 14:04:34
+ * @LastEditTime: 2021-03-16 09:18:08
  * @LastEditors: Please set LastEditors
  * @Description: 消息当日全部数据
  * @FilePath: \WN-ATOM\src\pages\InfoPage\InfoListPage.jsx
@@ -101,7 +101,7 @@ function InfoTodayPage(props){
     const handleInputVal = useCallback(
         debounce((values) => {
             setSearchVal( values )
-        },300),
+        },500),
         []
     )
 
