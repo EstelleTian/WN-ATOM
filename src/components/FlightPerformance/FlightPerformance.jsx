@@ -58,6 +58,10 @@ const FlightPerformance =(props) => {
     const groundDelay = flight.groundDelay || 0;
     // 返航备降航班
     const cplNum = flight.cplNum || 0;
+    // 复飞航班
+    const reflySorties = flight.reflySorties || 0;
+    // 盘旋航班
+    const circlingSorties = flight.circlingSorties || 0;
     // 限制总数
     const restrictTotal = statisticsMap['ALL'] || 0;
     // 限制原因分类数据
@@ -142,19 +146,19 @@ const FlightPerformance =(props) => {
             unit: "架次"
         },
         {
-            id:"goAround",
+            id:"reflySorties",
             iconType: 'return',
             // color:"#f04864",
             des:"复飞架次",
-            value:cplNum,
+            value:reflySorties,
             unit: "架次"
         },
         {
-            id:"Hovering",
+            id:"circlingSorties",
             iconType: 'return',
             // color:"#f04864",
             des:"盘旋架次",
-            value:cplNum,
+            value:circlingSorties,
             unit: "架次"
         },
     ]

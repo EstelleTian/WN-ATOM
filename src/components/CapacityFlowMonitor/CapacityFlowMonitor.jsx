@@ -97,6 +97,8 @@ const CapacityFlowMonitor = (props) => {
     let APPMonitorData = getSingleTypeData('APP');
     // 扇区类型数据
     let SECTORMonitorData = getSingleTypeData('SECTOR');
+    // 进近扇区类型数据
+    let APPSECMonitorData = getSingleTypeData('APPSEC');
     // 管制区
     let ACCMonitorData = getSingleTypeData('ACC');
     // 航路
@@ -104,7 +106,7 @@ const CapacityFlowMonitor = (props) => {
     // 航路点
     let POINTonitorData = getSingleTypeData('POINT');
     // 获取机场、进近、扇区监控单元集合
-    monitorDataist = APMonitorData.concat(ACCMonitorData).concat(APPMonitorData).concat(SECTORMonitorData);
+    monitorDataist = APMonitorData.concat(ACCMonitorData).concat(APPMonitorData).concat(SECTORMonitorData).concat(APPSECMonitorData);
     // 追加新增监控卡片
     const appendAddMonitorCard = (arrData) => {
         let addData = {
@@ -254,7 +256,7 @@ const CapacityFlowMonitor = (props) => {
         if (isValidObject(monitorUnit) && isValidVariable(focus)) {
             let focusArea = monitorUnit[focus] || {};
             let focusAreaData = focusArea.data;
-            let APUnitsData = focusAreaData['AP'] || [];
+            let APUnitsData = focusAreaData['AIRPORT'] || [];
             arr = APUnitsData;
         }
         return arr;

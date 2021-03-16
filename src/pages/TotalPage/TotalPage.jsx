@@ -42,7 +42,7 @@ function TodoPage(props) {
         "NW": {
             CN_name: '西北全区',
             data: {
-                AP: ["ZLXY", "ZLLL", "ZLXN", "ZLIC"],
+                AIRPORT: ["ZLXY", "ZLLL", "ZLXN", "ZLIC"],
                 SECTOR: ["ZLXYAR01", "ZLXYAR02", "ZLXYAR03", "ZLXYAR04", "ZLXYAR05", "ZLXYAR06", "ZLXYAR07", "ZLXYAR08", "ZLXYAR09", "ZLXYAR10", "ZLXYAR11", "ZLXYAR12", "ZLXYAR13", "ZLLLAR01", "ZLLLAR02", "ZLLLAR03", "ZLLLAR04", "ZLLLAR05", "ZLLLAR06", "ZLLLAR07", "ZLLLAR08", "ZLLLAR09", "ZLLLAR11", "ZLLLAR12",],
                 APP: [],
             }
@@ -50,7 +50,7 @@ function TodoPage(props) {
         "ZLXYACC": {
             CN_name: '西安管制区',
             data: {
-                AP: ["ZLXY"],
+                AIRPORT: ["ZLXY"],
                 SECTOR: ["ZLXYAR01", "ZLXYAR02", "ZLXYAR03", "ZLXYAR04", "ZLXYAR05", "ZLXYAR06", "ZLXYAR07", "ZLXYAR08", "ZLXYAR09", "ZLXYAR10", "ZLXYAR11", "ZLXYAR12", "ZLXYAR13"],
                 APP: ["ZLXYAP"],
             }
@@ -59,7 +59,7 @@ function TodoPage(props) {
         "ZLLLACC": {
             CN_name: '兰州管制区',
             data: {
-                AP: ["ZLLL", "ZLXN", "ZLIC"],
+                AIRPORT: ["ZLLL", "ZLXN", "ZLIC"],
                 SECTOR: ["ZLLLAR01", "ZLLLAR02", "ZLLLAR03", "ZLLLAR04", "ZLLLAR05", "ZLLLAR06", "ZLLLAR07", "ZLLLAR08", "ZLLLAR09", "ZLLLAR11", "ZLLLAR12",],
                 APP: ["ZLLLAP", "ZLXNAP", "ZLICAP"],
             }
@@ -67,33 +67,37 @@ function TodoPage(props) {
         "ZLIC": {
             CN_name: '宁夏分局',
             data: {
-                AP: ["ZLIC"],
+                AIRPORT: ["ZLIC"],
                 SECTOR: [],
                 APP: ["ZLICAP"],
+                APPSEC: ["ZLICAP01","ZLICAP02","ZLICAP03","ZLICAP04"]
             }
         },
         "ZLXN": {
             CN_name: '青海分局',
             data: {
-                AP: ["ZLXN"],
+                AIRPORT: ["ZLXN"],
                 SECTOR: [],
                 APP: ["ZLXNAP"],
+                APPSEC: ["ZLXNAP01","ZLXNAP02","ZLXNAP03"]
             }
         },
         "ZLXY": {
-            CN_name: 'ZLXY机场塔台',
+            CN_name: '西安机场塔台',
             data: {
-                AP: ["ZLXY"],
+                AIRPORT: ["ZLXY"],
                 SECTOR: [],
                 APP: ["ZLXYAP"],
+                APPSEC: ["ZLXYAP01(05)","ZLXYAP01(23)","ZLXYAP02","ZLXYAP03","ZLXYAP04(05)","ZLXYAP04(23)","ZLXYAP05(05)","ZLXYAP05(23)",]
             }
         },
         "ZLLL": {
-            CN_name: 'ZLLL机场塔台',
+            CN_name: '兰州机场塔台',
             data: {
-                AP: ["ZLLL"],
+                AIRPORT: ["ZLLL"],
                 SECTOR: [],
                 APP: ["ZLLLAP"],
+                APPSEC: ["ZLLLAP01","ZLLLAP02","ZLLLAP03","ZLLLAP04","ZLLLAP05",]
             }
         },
     };
@@ -239,7 +243,7 @@ function TodoPage(props) {
                                 onChange={handleAreaChange}
                                 value={focus}
                                 buttonStyle="solid"
-                                size="large" >
+                                >
                                 <Radio.Button value="NW">西北全区</Radio.Button>
                                 <Radio.Button value="ZLXYACC">西安管制区</Radio.Button>
                                 <Radio.Button value="ZLLLACC">兰州管制区</Radio.Button>
