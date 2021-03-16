@@ -147,7 +147,7 @@ const FlightPerformance =(props) => {
         },
         {
             id:"reflySorties",
-            iconType: 'return',
+            iconType: 'refly',
             // color:"#f04864",
             des:"复飞架次",
             value:reflySorties,
@@ -155,7 +155,7 @@ const FlightPerformance =(props) => {
         },
         {
             id:"circlingSorties",
-            iconType: 'return',
+            iconType: 'circling',
             // color:"#f04864",
             des:"盘旋架次",
             value:circlingSorties,

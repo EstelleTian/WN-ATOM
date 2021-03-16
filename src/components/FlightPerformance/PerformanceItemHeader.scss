@@ -52,7 +52,7 @@
       align-items: center;
       display: flex;
       flex-direction: column;
-      width: 75%;
+      // width: 75%;
     }
 
     .list-item {
@@ -88,6 +88,7 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          margin-right: 1rem;
         }
         .value {
           color: #35a5da;

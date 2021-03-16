@@ -13,43 +13,44 @@
     height: 28px;
     width: 28px;
     background-position: center;
+    background-repeat: no-repeat;
   }
 
   // 计划起飞
   .takeoff {
-    background: url('../../images/FLIGHT_takeoff.png');
+    background-image: url('../../images/FLIGHT_takeoff.png');
   }
   //计划落地
   .landing {
-    background: url('../../images/FLIGHT_landing.png');
+    background-image: url('../../images/FLIGHT_landing.png');
   }
   //飞越本区
   .area-over {
-    background: url('../../images/FLIGHT_area_over.png');
+    background-image: url('../../images/FLIGHT_area_over.png');
   }
   //国际飞越
   .international-over {
-    background: url('../../images/FLIGHT_international_over.png');
+    background-image: url('../../images/FLIGHT_international_over.png');
   }
   //起飞正常
   .normal-takeoff {
-    background: url('../../images/FLIGHT_normal_takeoff.png');
+    background-image: url('../../images/FLIGHT_normal_takeoff.png');
   }
   //地面延误
   .ground-delay {
-    background: url('../../images/FLIGHT_ground_delay.png');
+    background-image: url('../../images/FLIGHT_ground_delay.png');
   }
   //返航备降
   .return {
-    background: url('../../images/FLIGHT_return.png');
+    background-image: url('../../images/FLIGHT_return.png');
   }
   // 复飞
   .refly{
-    background: url('../../images/FLIGHT_refly.png');
+    background-image: url('../../images/FLIGHT_refly.png');
   }
   // 盘旋
   .circling{
-    background: url('../../images/FLIGHT_circling.png');
+    background-image: url('../../images/FLIGHT_circling.png');
   }
   
 
