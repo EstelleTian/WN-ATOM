@@ -27,8 +27,10 @@ function RestrictionForm(props) {
     let username = user.username || "";
     // 用户名中文
     let userDescriptionCN = user.descriptionCN || "";
-    // 用户
-    let userUnit = user.unit;
+    // 用户所属单位
+    let userUnit = user.unit || "";
+    // 用户所属单位
+    let userUnitCn = user.unitCn || "";
 
     // 方案数据对象
     const tacticProcessInfo = flowData.tacticProcessInfo || {};
@@ -77,7 +79,7 @@ function RestrictionForm(props) {
     // 流控开始时间(12位字符串)
     let flowControlEndTime = flowControlTimeInfo.endTime;
     // 流控限制方式
-    const { restrictionMode, } = flowControlMeasure;
+    const { restrictionMode, restrictionMITValueUnit="T", restrictionMITTimeValue="" } = flowControlMeasure;
 
 
     // 流控方向领域对象
@@ -114,7 +116,7 @@ function RestrictionForm(props) {
 
     // 依据流控限制方式取流控限制数值方法
     const getRestrictionModeValue = () => {
-        const { restrictionMode, restrictionMITValue, restrictionAFPValueSequence } = flowControlMeasure;
+        const { restrictionMode, restrictionMITValue,  restrictionAFPValueSequence } = flowControlMeasure;
         if (restrictionMode == "MIT") {
             return restrictionMITValue;
         } else if (restrictionMode == "AFP") {
@@ -148,7 +150,7 @@ function RestrictionForm(props) {
 
 
     if (operationType === "CREATE" || operationType ==="IMPORT" || operationType ==="IMPORTWITHFORMER" ) {
-        tacticPublishUnit = isValidVariable(tacticPublishUnit) ? tacticPublishUnit : userUnit;
+        tacticPublishUnit = isValidVariable(tacticPublishUnit) ? tacticPublishUnit : userUnitCn;
         tacticPublishUser = isValidVariable(tacticPublishUser) ? tacticPublishUser : username;
         tacticPublishUserCH = isValidVariable(tacticPublishUserCH) ? tacticPublishUserCH : userDescriptionCN;
     }
@@ -216,6 +218,12 @@ function RestrictionForm(props) {
         restrictionMode: restrictionMode || "MIT",
         // 流控限制数值
         restrictionModeValue: restrictionModeValue,
+        //  MIT限制方式下的限制单位
+        restrictionMITValueUnit: restrictionMITValueUnit,
+        //  MIT限制方式下的时间方式数值
+        restrictionMITTimeValue : restrictionMITTimeValue,
+        // MIT限制方式下的速度值
+        distanceToTime: "12",
 
 
         // 包含-航班号
@@ -277,13 +285,7 @@ function RestrictionForm(props) {
         setStartTime(startTimeString);
         // 
         setEndTime(endTimeString);
-        // 更新
-        // setTacticPublishUnit(tacticPublishUnit)
-        // 
-        // setTacticPublishUser(tacticPublishUser);
-        // 
-        // setTacticPublishUserCH(tacticPublishUserCH);
-
+        
     };
 
     // 主要操作按钮事件
@@ -413,7 +415,7 @@ function RestrictionForm(props) {
         const { tacticName, targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight,
             depAp, arrAp, exemptDepAp, exemptArrAp,
             flowControlName, flowControlReason, flowControlPublishType, restrictionRemark,
-            restrictionMode, restrictionModeValue,
+            restrictionMode, restrictionModeValue, restrictionMITValueUnit, distanceToTime, restrictionMITTimeValue,
             flowControlFlightId, wakeFlowLevel, auType, airlineType, missionType,
             task, organization, ability, aircraftType,
             exemptFlightId, exemptionWakeFlowLevel, exemptionAirlineType, exemptionAuType, exemptionMissionType,
@@ -470,7 +472,15 @@ function RestrictionForm(props) {
         let modeKey = restrictionModeData[restrictionMode];
         // 更新流控限制方式相应的字段数值
         flowControlMeasure[modeKey] = restrictionModeValue;
-
+        // 若限制类型为MIT
+        if(restrictionMode === "MIT"){
+            // 更新MIT流控时间间隔字段数值
+            flowControlMeasure.restrictionMITTimeValue = restrictionMITTimeValue;
+            // 更新速度字段数值
+            flowControlMeasure.distanceToTime = distanceToTime;
+            // 更新MIT限制单位
+            flowControlMeasure.restrictionMITValueUnit = restrictionMITValueUnit;
+        }
 
         // 更新流控交通流-包含-航班号
         flowControlFlight.flowControlFlightId = flowControlFlightId.join(';');
@@ -510,12 +520,6 @@ function RestrictionForm(props) {
         // 更新流控交通流-不包含-受控机型
         flowControlFlight.exemptionAircraftType = exemptionAircraftType.join(';');
 
-        if (operationType === 'MODIFY') {
-            // 若为方案修改，则以下字段设置为null
-            basicTacticInfo.id = null;
-            basicTacticInfo.tacticTimeInfo.createTime = null;
-        }
-
         return opt;
     };
 
@@ -532,13 +536,13 @@ function RestrictionForm(props) {
             errFunc: (err) => requestErr(err),
         };
 
-        // 若为手动创建或修改方案操作，则使用createSchemeUrl
-        // if(operationType === "MODIFY" || operationType === "CREATE"){
-        //     opt.url = ReqUrls.createSchemeUrl + user.id;
-        // }
-        // 若为模拟状态的方案修改，则使用modifySchemeUrl
+        // 若为手动创建或修改正式的方案操作，则使用createSchemeUrl
+        if(operationType === "MODIFY" || operationType === "CREATE"){
+            opt.url = ReqUrls.createSchemeUrl + user.id;
+        }
+        // 若为模拟状态的方案修改，则使用modifySimulationSchemeUrl
         if (operationType === "MODIFYSIM") {
-            opt.url = ReqUrls.modifySchemeUrl + user.id;
+            opt.url = ReqUrls.modifySimulationSchemeUrl + user.id;
             opt.method = "PUT";
         }
         request(opt);
@@ -554,18 +558,7 @@ function RestrictionForm(props) {
         const { id } = basicTacticInfo;
         setConfirmLoading(false);
         setIsModalVisible(false);
-
-        Modal.success({
-            content: `${operationDescription}成功`,
-            // maskClosable:true,
-            onOk: () => {
-                if (typeof (setModalVisible) === 'function') {
-                    setModalVisible(false)
-                } else {
-                    window.close();
-                }
-            }
-        });
+        
         //发送到客户端
         if (operationType === 'CREATE') { // 方案创建
             handleImportControl(id);
@@ -578,6 +571,11 @@ function RestrictionForm(props) {
         } else if (operationType === 'MODIFYSIM') { // 模拟的方案进行修改操作
             handleUpdateFlowControl(id);
         }
+        // 关闭窗口
+        if (typeof (setModalVisible) === 'function') {
+            setModalVisible(false)
+        }
+        window.close();
     };
 
     /**
@@ -680,7 +678,6 @@ function RestrictionForm(props) {
         try {
             // 限制数值单位集合
             const restrictionModeUnit = {
-                "MIT": "分钟一架",
                 "AFP": "架",
             };
             // 限制数值单位
@@ -690,13 +687,21 @@ function RestrictionForm(props) {
                 'targetUnit',
                 'restrictionMode',
                 'restrictionModeValue',
+                'restrictionMITValueUnit',
                 'arrAp',
             ];
             // 触发表单验证取表单数据
             const values = await form.validateFields(fields);
-            let { targetUnit, restrictionMode, restrictionModeValue, arrAp } = values;
+            let { targetUnit, restrictionMode, restrictionModeValue, arrAp, restrictionMITValueUnit } = values;
             let name = "";
             unit = restrictionModeUnit[restrictionMode];
+            if(restrictionMode ==="MIT"){
+                if(restrictionMITValueUnit ==='T'){
+                    unit = '分钟'
+                }else if(restrictionMITValueUnit ==='D'){
+                    unit = '公里'
+                }
+            }
             if (isValidVariable(arrAp)) {
                 arrAp = arrAp.toUpperCase();
                 // 拼接名称
