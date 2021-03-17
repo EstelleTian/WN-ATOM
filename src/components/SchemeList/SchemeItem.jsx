@@ -106,7 +106,7 @@ function SchemeItem(props){
         flowControlMeasure = {};
     }
     let basicTacticInfoReasonZh = reasonType[basicTacticInfoReason] || "";
-    let { restrictionMITValue = "", restrictionAFPValueSequence ="", restrictionMode = ""} = flowControlMeasure;
+    let { restrictionMITValue = "", restrictionAFPValueSequence ="", restrictionMode = "", restrictionMITValueUnit=""} = flowControlMeasure;
     //限制值
     let interVal = "";
     if( restrictionMode === "MIT"){
@@ -114,6 +114,17 @@ function SchemeItem(props){
     }else if( restrictionMode === "AFP" ){
         interVal = restrictionAFPValueSequence;
     }
+    let unit = ""
+    if(restrictionMode ==="MIT" || restrictionMode ==="AH" ){
+        if(restrictionMITValueUnit ==="T"){
+            unit= "分钟"
+        }else if(restrictionMITValueUnit ==="D"){
+            unit= "公里"
+        }
+    }else if( restrictionMode === "AFP" ){
+        unit = "架次";
+    }
+
     let targetUnits = "";
     let behindUnits = "";
     if( !isValidVariable(directionList) ){
@@ -238,7 +249,7 @@ function SchemeItem(props){
                         </div>
                         <div className="layout-row">
                             <div className="column-box">
-                                <div className="cell" style={{ color: '#f5f5f5'}} title={`限制值: ${interVal}`}>{interVal}</div>
+                                <div className="cell" style={{ color: '#f5f5f5'}} title={`限制值: ${interVal}${unit}`}>{`${interVal}${unit}`}</div>
                             </div>
                             <div className="column-box">
                                 <div className="cell" style={{ color: '#f5f5f5'}} title={`基准单元: ${targetUnits}`}>{targetUnits}</div>

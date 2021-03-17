@@ -18,10 +18,15 @@ function FlowcontrolDetailCard(props) {
 
     // 依据流控限制方式取流控限制数值方法
     const restrictionModeData = {
+        "AH": {
+            label: "AH",
+            key: "restrictionMITValue",
+            unit: "",
+        },
         "MIT": {
             label: "MIT",
             key: "restrictionMITValue",
-            unit: "分钟",
+            unit: "",
         },
         "AFP": {
             label: "AFP",
@@ -45,7 +50,7 @@ function FlowcontrolDetailCard(props) {
     }
 
     const drawSingleFlowcontrolData = (flowcontrolData, index)=> {
-        const {flowControlName, flowControlTimeInfo = {}, flowControlMeasure = {},
+        const {flowControlName,  flowControlTimeInfo = {}, flowControlMeasure = {},
             TrafficFlowDomainMap = {}, flowControlPublishType, flowControlReason, id,
         } = flowcontrolData;
         // 流控开始时间(12位字符串)
@@ -53,8 +58,9 @@ function FlowcontrolDetailCard(props) {
         // 流控开始时间(12位字符串)
         let flowControlEndTime = flowControlTimeInfo.endTime || "";
 
-        const {restrictionMode = "",} = flowControlMeasure;
+        const {restrictionMode = "", restrictionMITValueUnit=""} = flowControlMeasure;
         let modeData = restrictionModeData[restrictionMode] || {};
+        
         // 流控限制方式
         let restrictionModeLable = modeData.label || "";
 
@@ -63,7 +69,15 @@ function FlowcontrolDetailCard(props) {
         let restrictionModeValue = flowControlMeasure[restrictionModeKey] || "";
         // 流控限制数值单位
         let restrictionModeUnit = modeData.unit || "";
-        console.log(id);
+        // MIT和AH限制类型的限制单位取值
+        if(restrictionMode ==="MIT" || restrictionMode ==="AH" ){
+            if(restrictionMITValueUnit ==="T"){
+                restrictionModeUnit= "分钟"
+            }else if(restrictionMITValueUnit ==="D"){
+                restrictionModeUnit= "公里"
+            }
+        }
+        
 
         return(
             <div className="info-content flowcontrol-list" data-id={id} key={index}>
@@ -75,7 +89,7 @@ function FlowcontrolDetailCard(props) {
                             </div>
                             <div className="ant-col ant-form-item-control">
                                 <div className="ant-form-item-control-input">
-                                    <div className="ant-form-item-control-input-content">{flowControlName}</div>
+                                    <div className="ant-form-item-control-input-content">{`${flowControlName} --${id}`}</div>
                                 </div>
                             </div>
                         </div>
