@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-17 09:06:09
+ * @LastEditTime: 2021-03-17 10:59:24
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -210,9 +210,10 @@ const EditableCell = ({
         return <span className={bgClass} >
             {
                 source === 'wait' 
-                ? ( showVal !== '-' && showVal !== -1 ) ?
+                // ? ( showVal !== '-' && showVal !== -1 ) ?
+                ? ( showVal !== '-'  ) ?
                     <Tooltip title={title} color="#164c69">
-                    <span> {text.originalValue} <ArrowRightOutlined /> { text.value || ""} </span> 
+                    <span> { text.originalValue === -1 ? "-" : text.originalValue } <ArrowRightOutlined /> { text.value || ""} </span> 
                     </Tooltip>
                   : <span>{ showVal || ""}</span> 
                   
@@ -701,7 +702,15 @@ const CapacityTable = (props) => {
             return  { hisInstance, hisTasks, generateTime, authMap };
         }
         return [];
-    }, [props.capacity.dynamicWorkFlowData])
+    }, [props.capacity.dynamicWorkFlowData]);
+
+    const SUBMIT = useMemo( ()=> {
+        const authMap = props.capacity.authMap || {};
+        const SUBMIT = authMap.SUBMIT;
+        return SUBMIT
+    }, [ props.capacity.authMap]);
+
+    
 
     const validateUpdateBtn = useCallback(() => {
         if( isValidVariable(username) ){
@@ -745,8 +754,9 @@ const CapacityTable = (props) => {
     }, [tableHeight]);
 
     useEffect(()=>{
-        props.capacity.setDynamicData( {}, "" );
+        props.capacity.setDynamicData( {} );
     },[])
+
 
     let authBtn = () => {
         return (
@@ -810,7 +820,7 @@ const CapacityTable = (props) => {
                 }
                 
                 {
-                    ( !authMap.AGREE && !authMap.REFUSE && !authMap.REBACK && !editable ) &&
+                    ( SUBMIT && !authMap.AGREE && !authMap.REFUSE && !authMap.REBACK && !editable ) &&
                     <Button className="" type="primary" onClick={ validateUpdateBtn }>修改 </Button>
                 }
                 {
