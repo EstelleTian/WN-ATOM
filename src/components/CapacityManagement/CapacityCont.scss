@@ -126,8 +126,13 @@
     }
     .cap_set_canvas{
         
-        .capacity_number_table .ant-table-body tr > td.ant-table-cell {
-            font-size: 1.8rem;
+        .capacity_number_table .ant-table-body tr  {
+            > td.ant-table-cell{
+                font-size: 1.8rem;
+            }
+            td.ant-table-cell:first-child{
+                font-size: 1.4rem;
+              }
         }
         .capacity_number_table .ant-table-thead tr > th.ant-table-cell {
             font-size: 1.4rem;
@@ -142,12 +147,22 @@
 
 @media screen and ( max-width: 1681px){
     .cap_set_canvas{
-        
-        .capacity_number_table .ant-table-body tr > td.ant-table-cell {
-            font-size: 2.4rem;
+    
+        .capacity_number_table .ant-table-body tr  {
+            > td.ant-table-cell{
+                padding: 2px 0;
+                font-size: 2.4rem;
+                .ant-input{
+                    font-size: 2.2rem;
+                }
+            }
+            td.ant-table-cell:first-child{
+                font-size: 1.8rem;
+              }
         }
         .capacity_number_table .ant-table-thead tr > th.ant-table-cell {
             font-size: 1.6rem;
+            
         }
         .box_header .title{
             font-size: 1.8rem;

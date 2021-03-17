@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-01-26 11:25:11
+ * @LastEditTime: 2021-03-16 09:24:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -16,6 +16,7 @@ import { requestGet } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import { inject, observer } from 'mobx-react'
 import {isValidVariable} from "utils/basic-verify";
+import debounce from 'lodash/debounce' 
 import './InfoHistoryList.scss'
 
 const { Search } = Input;
@@ -44,11 +45,12 @@ function InfoHistoryList(props){
         setSearchVal(value);
     }
 
-    const onChange = e => {
-        const value = e.target.value;
-        // console.log(e.target.value);
-        setSearchVal(value);
-    }
+    const onChange = useCallback(
+        debounce((values) => {
+            setSearchVal( values )
+        }, 500),
+        []
+    )
 
     //用户信息获取
     useEffect(function(){
@@ -162,19 +164,20 @@ function InfoHistoryList(props){
         if( searchVal === "" ){
             return data;
         }
-        let newArr = data.filter( flight => {
-            for(let key in flight){
-                let val = flight[key] || ""
+        const sVal = searchVal.toLowerCase();
+        let nList = [];
+        data.map( item => {
+            for(let key in item){
+                let val = item[key] || ""
                 val = val + ""
                 val = val.toLowerCase();
-                const sVal = searchVal.toLowerCase();
-                if( val.indexOf( sVal ) !== -1 ){
-                    return true
+                if( val.indexOf( sVal ) !== -1  ){
+                    nList.push(item);
+                    return;
                 }
             }
-            return false
         } );
-        return newArr;
+        return nList;
     });
     //根据输入框输入值，检索显示航班
     const converToData = useCallback((data) => {
@@ -220,7 +223,7 @@ function InfoHistoryList(props){
                     历史消息记录
                 </div>
                 <div className="search">
-                    <Input allowClear placeholder="请输入要查询的关键字" onChange={onChange} style={{ width: 300 }} />
+                    <Input allowClear placeholder="请输入要查询的关键字" onChange={e => onChange(e.target.value) } style={{ width: 300 }} />
                     <Button type="primary" loading = { refreshBtnLoading } style={{ marginLeft: "0.5rem" }}
                         onClick = { e => {
                             setRefreshBtnLoading(true);

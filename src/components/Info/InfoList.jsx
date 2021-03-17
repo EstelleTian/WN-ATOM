@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-03-15 13:46:43
+ * @LastEditTime: 2021-03-16 09:15:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -12,7 +12,7 @@ import { CloseOutlined} from '@ant-design/icons'
 import { Link } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { formatTimeString } from 'utils/basic-verify'
-import { sendMsgToClient, openTclientFrame } from 'utils/client'
+import { sendMsgToClient, openTclientFrameForMessage } from 'utils/client'
 
 const { Panel } = Collapse;
 
@@ -50,7 +50,7 @@ function InfoCard(props){
         },3000)
     },[])
     let { message, index } = props;
-    let {level, sendTime, content, dataType, dataCode, id,  name, data =""} = message;
+    let {level, sendTime, content, dataType, dataCode, id,  name, data ="", publishUser} = message;
     data = JSON.parse(data);
     let { sourceStatus, startTime, endTime, publishUnit } = data;
     let dataContent = data.content || "";
@@ -91,7 +91,7 @@ function InfoCard(props){
                                         const elementName = data.elementName || "";
                                         console.log(elementName);
                                         // window.open("/#/capacity/"+elementName);
-                                        openTclientFrame(elementName);
+                                        openTclientFrameForMessage(elementName);
                                         e.stopPropagation();
                                     } } >查看容量管理</Button>
                                     :""
@@ -149,7 +149,15 @@ function InfoCard(props){
                         </Tooltip>
                     </div>
                     {
-                        //||dataType === "PROI"
+                        dataType === "FCDM" && <div>
+                        <div className="text" style={{ "position": "absolute", "left": "220px"}}>
+                            {publishUser}
+                        </div>
+                        
+                    </div>
+                    }
+                    {
+                        
                         (dataType === "FTMI"  )
                             ? <div>
                                 <div className="text">

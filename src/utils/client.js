@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-03-15 15:44:32
+ * @LastEditTime: 2021-03-16 16:00:06
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -25,11 +25,11 @@ const openTimeSlotFrame = (str) => {
     }
 }
 //消息模块-【查看容量管理】
-const openTclientFrame =( name = "") => {
+const openTclientFrameForMessage =( name = "") => {
     try {
         //方案id
         // alert("跳转到容量管理=>name:" +name);
-        jsEntity.openTclientFrame(name);
+        jsEntity.openTclientFrameForMessage(name);
     }catch(error){
         console.error(error);
     }
@@ -129,6 +129,14 @@ const openBaseSchemeFrame =(id) => {
         console.error(error);
     }
 };
+//方案-航图关联
+const openFilterFrame =(id) => {
+    try {
+        jsEntity.openFilterFrame(id);
+    }catch(error){
+        console.error(error);
+    }
+};
 //忽略-按钮-点击
 const closeControlDetail =(id) => {
     try {
@@ -176,8 +184,8 @@ const openCapacityFlowMonitorUnitTclientFrame =(unit) => {
 };
 
 export {
-    sendMsgToClient, openTimeSlotFrame, openTclientFrame, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
+    sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
-    openMapFrame, openCapacityFlowMonitorUnitTclientFrame
+    openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame
 }

@@ -11,7 +11,7 @@
       line-height: 1;
       margin-left: 0.5rem;
       span{
-        font-size: 1rem;
+        font-size: 16px;
         line-height: 1;
       }
     }
@@ -35,8 +35,12 @@
       cursor: pointer;
     }
   }
-  .ant-input[disabled] {
+  .ant-input{
     color: rgba(255, 255, 255, 0.85);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+  }
+  .ant-input[disabled] {
+    color: #838282;
     background: transparent;
     border: none;
 }
@@ -50,7 +54,6 @@
       font-size: 1.6rem;
       padding: 4px 0;
       line-height: 1;
-      // line-height: 36px;
       .ant-input{
         width: 50px;
         text-align: center;
