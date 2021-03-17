@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-17 09:00:27
+ * @LastEditTime: 2021-03-17 09:06:09
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -173,7 +173,6 @@ const EditableCell = ({
         if( showVal === -1){
             showVal = "-"
         }
-        
         let source = "";
         if( text.hasOwnProperty("source") ){
              source = text.source || "";
