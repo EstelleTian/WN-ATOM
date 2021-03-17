@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-03-10 18:58:08
+ * @LastEditTime: 2021-03-17 10:52:17
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -60,6 +60,7 @@ import { isValidVariable } from 'utils/basic-verify'
      //动态容量 
      @observable dynamicData = {};
      @observable dynamicDataGenerateTime = '';
+     @observable authMap = {};
      @observable forceUpdateDynamicData = false;
 
      //动态容量 工作流
@@ -171,13 +172,17 @@ import { isValidVariable } from 'utils/basic-verify'
     }
 
     //更新 动态data
-    @action setDynamicData(data, time){
+    @action setDynamicData(data, time = "", authMap){
         for(let key in data){
             const item = data[key] || {};
             item["key"] = key;
         }
         this.dynamicData = data;
         this.dynamicDataGenerateTime = time;
+        if( authMap !== undefined ){
+            this.authMap = authMap;
+        }
+        
     }
 
     //24小时 动态data

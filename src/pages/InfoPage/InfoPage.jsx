@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-03-11 18:56:29
+ * @LastEditTime: 2021-03-17 09:41:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -107,13 +107,15 @@ function InfoPage(props){
     useEffect(function(){
         //收到消息后，如果滚屏，自动置顶
         // console.log("scrollChecked",scrollChecked);
-        if( newsList.list.length > 1 && scrollChecked ){
+        
+        if( newsList.list.length >= 1 && scrollChecked ){
             const listDom = document.getElementsByClassName("todo-list");
             if( listDom.length > 0 ){
                 listDom[0].scrollTop = 0;
             }
-            
         }
+        console.log("消息个数：",newsList.list.length);
+        //TODO 对接客户端方法，传递消息个数
     },[ newsList.list.length ]);
 
     return (
