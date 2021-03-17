@@ -627,7 +627,6 @@ function StaticInfoCard(props) {
                                                     pattern: REGEXP.TIMEHHmm,
                                                     message: '请输入有效的结束时间',
                                                 },
-                                                ({ getFieldValue }) => validateEndTimeFormat(getFieldValue),
                                                 ({ getFieldValue }) => validateTimeRange(getFieldValue),
                                             ]}
                                         >
