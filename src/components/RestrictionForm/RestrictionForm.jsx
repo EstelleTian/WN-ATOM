@@ -3,11 +3,15 @@ import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import "moment/locale/zh-cn"
 import { Button, Modal, Form, Space } from 'antd'
+import { InfoCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
+
 import StaticInfoCard from './StaticInfoCard'
 import { handleImportControl, closeCreateDlg, closeControlDetail, handleImportControlForUpdate, handleUpdateFlowControl } from 'utils/client'
 import { getFullTime, formatTimeString, addStringTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
+import { REGEXP } from '../../utils/regExpUtil'
+
 import './RestrictionForm.scss'
 import { inject, observer } from "mobx-react";
 
@@ -37,8 +41,8 @@ function RestrictionForm(props) {
     const formerTacticProcessInfo = flowData.formerTacticProcessInfo || {};
     const basicTacticInfo = tacticProcessInfo.basicTacticInfo || {};
 
-    let { tacticName = "", id = "", tacticPublishUnit="", tacticPublishUser="", tacticPublishUserCH="" } = basicTacticInfo;
-    
+    let { tacticName = "", id = "", tacticPublishUnit = "", tacticPublishUser = "", tacticPublishUserCH = "" } = basicTacticInfo;
+
     let basicFlowcontrol = basicTacticInfo.basicFlowcontrol || {};
     let tacticTimeInfo = basicTacticInfo.tacticTimeInfo || {};
     let directionList = basicTacticInfo.directionList || [];
@@ -79,7 +83,7 @@ function RestrictionForm(props) {
     // 流控开始时间(12位字符串)
     let flowControlEndTime = flowControlTimeInfo.endTime;
     // 流控限制方式
-    const { restrictionMode, restrictionMITValueUnit="T", restrictionMITTimeValue="" } = flowControlMeasure;
+    const { restrictionMode, restrictionMITValueUnit = "T", restrictionMITTimeValue = "" } = flowControlMeasure;
 
 
     // 流控方向领域对象
@@ -94,12 +98,12 @@ function RestrictionForm(props) {
         exemptionTask = "", exemptionOrganization = "", exemptionAbility = "", exemptionAircraftType = "",
     } = flowControlFlight;
 
-    // 模态框显隐变量
+    // 确认提交模态框显隐变量
     let [isModalVisible, setIsModalVisible] = useState(false);
+    // 确认提交模态框确定按钮loading变量
+    let [confirmLoading, setConfirmLoading] = useState(false);
     // 主要操作按钮禁用变量
     let [importButtonDisable, setImportButtonDisable] = useState(false);
-    // 模态框确定按钮loading变量
-    let [confirmLoading, setConfirmLoading] = useState(false);
 
     // 方案开始日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
     let [startDateString, setStartDateString] = useState(startDate);
@@ -116,7 +120,7 @@ function RestrictionForm(props) {
 
     // 依据流控限制方式取流控限制数值方法
     const getRestrictionModeValue = () => {
-        const { restrictionMode, restrictionMITValue,  restrictionAFPValueSequence } = flowControlMeasure;
+        const { restrictionMode, restrictionMITValue, restrictionAFPValueSequence } = flowControlMeasure;
         if (restrictionMode == "MIT") {
             return restrictionMITValue;
         } else if (restrictionMode == "AFP") {
@@ -149,7 +153,7 @@ function RestrictionForm(props) {
     ];
 
 
-    if (operationType === "CREATE" || operationType ==="IMPORT" || operationType ==="IMPORTWITHFORMER" ) {
+    if (operationType === "CREATE" || operationType === "IMPORT" || operationType === "IMPORTWITHFORMER") {
         tacticPublishUnit = isValidVariable(tacticPublishUnit) ? tacticPublishUnit : userUnitCn;
         tacticPublishUser = isValidVariable(tacticPublishUser) ? tacticPublishUser : username;
         tacticPublishUserCH = isValidVariable(tacticPublishUserCH) ? tacticPublishUserCH : userDescriptionCN;
@@ -221,7 +225,7 @@ function RestrictionForm(props) {
         //  MIT限制方式下的限制单位
         restrictionMITValueUnit: restrictionMITValueUnit,
         //  MIT限制方式下的时间方式数值
-        restrictionMITTimeValue : restrictionMITTimeValue,
+        restrictionMITTimeValue: restrictionMITTimeValue,
         // MIT限制方式下的速度值
         distanceToTime: "12",
 
@@ -266,7 +270,7 @@ function RestrictionForm(props) {
 
     };
 
-    
+
 
     const [form] = Form.useForm();
     useEffect(function () {
@@ -285,16 +289,16 @@ function RestrictionForm(props) {
         setStartTime(startTimeString);
         // 
         setEndTime(endTimeString);
-        
+
     };
 
     // 主要操作按钮事件
     const handlePrimaryBtnClick = async () => {
         try {
             // 触发表单验证取表单数据
-            const values = await form.validateFields();
-            // 开启确认模态框
-            setIsModalVisible(true);
+            const fieldData = await form.validateFields();
+            // 校验方案名称是否与限制条件相符
+            checkTacticName(fieldData);
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
         }
@@ -421,6 +425,10 @@ function RestrictionForm(props) {
             exemptFlightId, exemptionWakeFlowLevel, exemptionAirlineType, exemptionAuType, exemptionMissionType,
             exemptionTask, exemptionOrganization, exemptionAbility, exemptionAircraftType,
         } = values;
+        // 结束日期时间
+        let endDateTime = endDateString + endTime
+        // 校验结束日期时间格式
+        const endDateTimeFormatValid = REGEXP.DATETTIME12.test(endDateTime);
         // 更新方案名称
         basicTacticInfo.tacticName = tacticName;
         // 方案发布单位
@@ -430,11 +438,12 @@ function RestrictionForm(props) {
         // 方案发布用户中文
         basicTacticInfo.tacticPublishUserCH = tacticPublishUserCH;
 
-        
+
         // 更新方案开始时间
         tacticTimeInfo.startTime = startDateString + startTime;
+        
         // 更新方案结束时间
-        tacticTimeInfo.endTime = endDateString + endTime;
+        tacticTimeInfo.endTime = endDateTimeFormatValid ? endDateTime :"";
         // 更新基准单元
         directionListData.targetUnit = targetUnit;
         // 更新前序单元
@@ -473,7 +482,7 @@ function RestrictionForm(props) {
         // 更新流控限制方式相应的字段数值
         flowControlMeasure[modeKey] = restrictionModeValue;
         // 若限制类型为MIT
-        if(restrictionMode === "MIT"){
+        if (restrictionMode === "MIT") {
             // 更新MIT流控时间间隔字段数值
             flowControlMeasure.restrictionMITTimeValue = restrictionMITTimeValue;
             // 更新速度字段数值
@@ -537,7 +546,7 @@ function RestrictionForm(props) {
         };
 
         // 若为手动创建或修改正式的方案操作，则使用createSchemeUrl
-        if(operationType === "MODIFY" || operationType === "CREATE"){
+        if (operationType === "MODIFY" || operationType === "CREATE") {
             opt.url = ReqUrls.createSchemeUrl + user.id;
         }
         // 若为模拟状态的方案修改，则使用modifySimulationSchemeUrl
@@ -558,7 +567,7 @@ function RestrictionForm(props) {
         const { id } = basicTacticInfo;
         setConfirmLoading(false);
         setIsModalVisible(false);
-        
+
         //发送到客户端
         if (operationType === 'CREATE') { // 方案创建
             handleImportControl(id);
@@ -670,6 +679,9 @@ function RestrictionForm(props) {
         // setRenderNumber(renderNumber++);
     };
 
+
+    
+
     /**
      * 自动命名
      *
@@ -695,10 +707,10 @@ function RestrictionForm(props) {
             let { targetUnit, restrictionMode, restrictionModeValue, arrAp, restrictionMITValueUnit } = values;
             let name = "";
             unit = restrictionModeUnit[restrictionMode];
-            if(restrictionMode ==="MIT"){
-                if(restrictionMITValueUnit ==='T'){
+            if (restrictionMode === "MIT") {
+                if (restrictionMITValueUnit === 'T') {
                     unit = '分钟'
-                }else if(restrictionMITValueUnit ==='D'){
+                } else if (restrictionMITValueUnit === 'D') {
                     unit = '公里'
                 }
             }
@@ -708,13 +720,10 @@ function RestrictionForm(props) {
                 name = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
             } else {
                 // 拼接名称
-                name = `${targetUnit.toUpperCase()}-${restrictionModeValue}${unit} `;
+                name = `${targetUnit.toUpperCase()}-${restrictionModeValue}${unit}`;
             }
-
-
             // 更新
             form.setFieldsValue({ 'tacticName': name });
-
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
         }
@@ -729,22 +738,98 @@ function RestrictionForm(props) {
     };
 
     /**
-     * 保存编辑
+     * 方案名称检查
      *
      * */
-    const handleSaveEdit = async () => {
-        try {
-            // 触发表单验证取表单数据
-            const values = await form.validateFields();
-            if (props.hasOwnProperty("setDisabledForm")) {
-                props.setDisabledForm(true);
+    const checkTacticName = (fieldData) => {
+        // 方案名称
+        const tacticName = form.getFieldsValue()['tacticName'];
+        // 限制数值单位集合
+        const restrictionModeUnit = {
+            "AFP": "架",
+        };
+        // 限制数值单位
+        let unit = "";
+        let { targetUnit, restrictionMode, restrictionModeValue, arrAp, restrictionMITValueUnit } = fieldData;
+        let autoName = "";
+        unit = restrictionModeUnit[restrictionMode];
+        if (restrictionMode === "MIT") {
+            if (restrictionMITValueUnit === 'T') {
+                unit = '分钟'
+            } else if (restrictionMITValueUnit === 'D') {
+                unit = '公里'
             }
-        } catch (errorInfo) {
-
-            console.log('Failed:', errorInfo);
-
+        }
+        if (isValidVariable(arrAp)) {
+            arrAp = arrAp.toUpperCase();
+            // 拼接名称
+            autoName = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
+        } else {
+            // 拼接名称
+            autoName = `${targetUnit.toUpperCase()}-${restrictionModeValue}${unit}`;
+        }
+        if (autoName.trim() === tacticName.trim()) {
+            // 开启确认模态框
+            setIsModalVisible(true);
+        } else {
+            Modal.confirm({
+                title: '提示',
+                icon: <ExclamationCircleOutlined />,
+                centered: true,
+                closable: true,
+                content: <div><p>限制条件与方案名称不相符，</p><p>建议自动命名后提交</p></div>,
+                okText: '自动命名并提交',
+                cancelText: '直接提交',
+                onOk: ()=> { handleAutoFillTacticNameSubmitFormData(fieldData)},
+                onCancel: (close)=>{ 
+                    // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
+                    if(typeof close ==='function'){
+                        // 调用提交函数
+                        handleSubmitFormData();
+                        // 关闭模态框
+                        close();
+                    }
+                 },
+            });
         }
     };
+
+    /**
+     * 自动命名并提交方案
+     *
+     * */
+    const handleAutoFillTacticNameSubmitFormData = (fieldData) => {
+        let { targetUnit, restrictionMode, restrictionModeValue, arrAp, restrictionMITValueUnit } = fieldData;
+        // 限制数值单位
+        let unit = "";
+        // 限制数值单位集合
+        const restrictionModeUnit = {
+            "AFP": "架",
+        };
+        let autoName = "";
+        unit = restrictionModeUnit[restrictionMode];
+        if (restrictionMode === "MIT") {
+            if (restrictionMITValueUnit === 'T') {
+                unit = '分钟'
+            } else if (restrictionMITValueUnit === 'D') {
+                unit = '公里'
+            }
+        }
+        if (isValidVariable(arrAp)) {
+            arrAp = arrAp.toUpperCase();
+            // 拼接名称
+            autoName = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
+        } else {
+            // 拼接名称
+            autoName = `${targetUnit.toUpperCase()}-${restrictionModeValue}${unit}`;
+        }
+        // 更新方案名称
+        form.setFieldsValue({ 'tacticName': autoName });
+        // 提交
+        handleSubmitFormData();
+    }
+
+
 
     /**
      * 主按钮
@@ -861,7 +946,7 @@ function RestrictionForm(props) {
                         showEditBtn ? (drawEditBtn()) : ""
                     }
                     {
-                        isValidVariable(primaryButtonName) ? (drawprimaryBtn() ): ""
+                        isValidVariable(primaryButtonName) ? (drawprimaryBtn()) : ""
                     }
 
                     {
@@ -882,7 +967,7 @@ function RestrictionForm(props) {
         //     props.history.push('/')
         // }
     }, []);
-    
+
 
     return (
         <div>
