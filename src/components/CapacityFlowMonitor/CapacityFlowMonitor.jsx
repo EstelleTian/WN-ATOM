@@ -98,7 +98,7 @@ const CapacityFlowMonitor = (props) => {
     // 扇区类型数据
     let SECTORMonitorData = getSingleTypeData('SECTOR');
     // 进近扇区类型数据
-    let APPSECMonitorData = getSingleTypeData('APPSEC');
+    let APPSECMonitorData = getSingleTypeData('APP_SEC');
     // 管制区
     let ACCMonitorData = getSingleTypeData('ACC');
     // 航路
