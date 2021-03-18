@@ -225,7 +225,7 @@ function RestrictionForm(props) {
         //  MIT限制方式下的限制单位
         restrictionMITValueUnit: restrictionMITValueUnit,
         //  MIT限制方式下的时间方式数值
-        restrictionMITTimeValue: restrictionMITTimeValue,
+        restrictionMITTimeValue: restrictionMITTimeValue || restrictionModeValue ,
         // MIT限制方式下的速度值
         distanceToTime: "12",
 
@@ -481,6 +481,7 @@ function RestrictionForm(props) {
         let modeKey = restrictionModeData[restrictionMode];
         // 更新流控限制方式相应的字段数值
         flowControlMeasure[modeKey] = restrictionModeValue;
+        debugger
         // 若限制类型为MIT
         if (restrictionMode === "MIT") {
             // 更新MIT流控时间间隔字段数值
@@ -489,6 +490,13 @@ function RestrictionForm(props) {
             flowControlMeasure.distanceToTime = distanceToTime;
             // 更新MIT限制单位
             flowControlMeasure.restrictionMITValueUnit = restrictionMITValueUnit;
+        }else {
+            // 更新MIT流控时间间隔字段数值
+            // flowControlMeasure.restrictionMITTimeValue = null;
+            // 更新速度字段数值
+            // flowControlMeasure.distanceToTime = distanceToTime;
+            // 更新MIT限制单位
+            // flowControlMeasure.restrictionMITValueUnit = null;
         }
 
         // 更新流控交通流-包含-航班号
@@ -584,7 +592,7 @@ function RestrictionForm(props) {
         if (typeof (setModalVisible) === 'function') {
             setModalVisible(false)
         }
-        window.close();
+        // window.close();
     };
 
     /**
