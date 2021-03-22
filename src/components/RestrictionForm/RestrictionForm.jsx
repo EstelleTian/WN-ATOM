@@ -592,7 +592,7 @@ function RestrictionForm(props) {
         if (typeof (setModalVisible) === 'function') {
             setModalVisible(false)
         }
-        // window.close();
+        window.close();
     };
 
     /**
