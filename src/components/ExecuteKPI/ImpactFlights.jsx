@@ -20,7 +20,7 @@ function ImpactFlights(props){
     let tacticProcessInfo = KPIData.tacticProcessInfo || {};
     let kpi = tacticProcessInfo.kpi || {};
     let impactFlightCount = kpi.impactFlightCount || {};
-    let impactALL = impactFlightCount['ALL'];
+    let impactALL = impactFlightCount['AF'];
     // 影响
     const impact = Array.isArray(impactALL) ? impactALL.length : "N/A";
     // 临界
