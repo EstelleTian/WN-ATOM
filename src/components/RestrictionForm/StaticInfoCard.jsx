@@ -484,7 +484,7 @@ function StaticInfoCard(props) {
 
                     <Col span={8}>
                         <Form.Item
-                            name="tacticPublishUnit"
+                            name="tacticPublishUnitCH"
                             label="发布单位"
                         // required={true}
                         // rules={[{ required: true }]}

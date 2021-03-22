@@ -41,7 +41,7 @@ function RestrictionForm(props) {
     const formerTacticProcessInfo = flowData.formerTacticProcessInfo || {};
     const basicTacticInfo = tacticProcessInfo.basicTacticInfo || {};
 
-    let { tacticName = "", id = "", tacticPublishUnit = "", tacticPublishUser = "", tacticPublishUserCH = "" } = basicTacticInfo;
+    let { tacticName = "", id = "", tacticPublishUnit = "", tacticPublishUnitCH="", tacticPublishUser = "", tacticPublishUserCH = "" } = basicTacticInfo;
 
     let basicFlowcontrol = basicTacticInfo.basicFlowcontrol || {};
     let tacticTimeInfo = basicTacticInfo.tacticTimeInfo || {};
@@ -154,7 +154,9 @@ function RestrictionForm(props) {
 
 
     if (operationType === "CREATE" || operationType === "IMPORT" || operationType === "IMPORTWITHFORMER") {
-        tacticPublishUnit = isValidVariable(tacticPublishUnit) ? tacticPublishUnit : userUnitCn;
+        tacticPublishUnit = isValidVariable(tacticPublishUnit) ? tacticPublishUnit : userUnit;
+        tacticPublishUnitCH = isValidVariable(tacticPublishUnitCH) ? tacticPublishUnitCH : userUnitCn;
+        
         tacticPublishUser = isValidVariable(tacticPublishUser) ? tacticPublishUser : username;
         tacticPublishUserCH = isValidVariable(tacticPublishUserCH) ? tacticPublishUserCH : userDescriptionCN;
     }
@@ -172,8 +174,9 @@ function RestrictionForm(props) {
         basicFlowControlName: flowControlName || "",
         // 流控信息中的流控名称
         flowControlName: flowControlName || "",
-        // 方案发布单位
-        tacticPublishUnit: tacticPublishUnit || "",
+        
+        // 方案发布单位中文(只显示不可编辑)
+        tacticPublishUnitCH: tacticPublishUnitCH || "",
         // 方案发布用户中文(只显示不可编辑)
         tacticPublishUserCH: tacticPublishUserCH,
         // 基准单元
@@ -433,6 +436,9 @@ function RestrictionForm(props) {
         basicTacticInfo.tacticName = tacticName;
         // 方案发布单位
         basicTacticInfo.tacticPublishUnit = tacticPublishUnit;
+        // 方案发布单位中文
+        basicTacticInfo.tacticPublishUnitCH = tacticPublishUnitCH;
+        
         // 方案发布用户
         basicTacticInfo.tacticPublishUser = tacticPublishUser;
         // 方案发布用户中文
