@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-03-17 09:41:41
+ * @LastEditTime: 2021-03-17 16:25:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -11,7 +11,7 @@ import { Layout, Tooltip, Checkbox, Button } from 'antd'
 import { DeleteOutlined, CloseOutlined} from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
 import { isValidVariable } from 'utils/basic-verify'
-import { closeMessageDlg, openMessageDlg } from 'utils/client'
+import { closeMessageDlg, openMessageDlg, updateMessageNum } from 'utils/client'
 import Stomp from 'stompjs'
 import InfoList from 'components/Info/InfoList'
 import './InfoPage.scss';
@@ -52,7 +52,7 @@ function InfoPage(props){
                 //工作流类别消息，不显示
                 let newMsg = message.filter( msg => ( "WFPI" !== msg.dataType ) )
                 props.newsList.addNews(newMsg);
-                console.log("autoOpen", autoOpenRef.current);
+                // console.log("autoOpen", autoOpenRef.current);
                 if( autoOpenRef.current ) {
                     openMessageDlg();
                 }
@@ -116,6 +116,7 @@ function InfoPage(props){
         }
         console.log("消息个数：",newsList.list.length);
         //TODO 对接客户端方法，传递消息个数
+        updateMessageNum( newsList.list.length || 0);
     },[ newsList.list.length ]);
 
     return (

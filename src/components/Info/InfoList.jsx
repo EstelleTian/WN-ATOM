@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-03-16 09:15:12
+ * @LastEditTime: 2021-03-23 09:10:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -150,16 +150,33 @@ function InfoCard(props){
                     </div>
                     {
                         dataType === "FCDM" && <div>
-                        <div className="text" style={{ "position": "absolute", "left": "220px"}}>
-                            {publishUser}
+                            <div className="text" style={{ "position": "absolute", "left": "220px"}}>
+                                {publishUser}
+                            </div>
                         </div>
-                        
-                    </div>
+                    }
+                    {
+                        (dataType === "DCVM") ?
+                            <div>
+                                <div className="text">
+                                    { name }
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;
+                                    <span className="publishUnit">发布用户：{publishUser}</span>
+                                </div>
+                                <div className="text">
+                                    { content }
+
+                                </div>
+                            </div>
+                            :""
                     }
                     {
                         
                         (dataType === "FTMI"  )
-                            ? <div>
+                            && <div>
                                 <div className="text">
                                     <span className={`${sourceStatus} sourceStatus`}>{convertStatus(sourceStatus)}</span>-{ name }
                                     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -170,15 +187,17 @@ function InfoCard(props){
                                     { dataContent }
                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                     {formatTimeString(startTime)}- {formatTimeString(endTime)}
-                                    {/*&nbsp;&nbsp;&nbsp;&nbsp;*/}
 
                                 </div>
                             </div>
-                            : <div>
+                            
+                    }
+                    {
+                        ( dataType !== "FCDM" && (dataType === "DCVM") && (dataType === "FTMI"  ) ) &&
+                            <div>
                                 <div className="text">
                                     { name }
                                 </div>
-
                                 <div className="text">
                                     { content }
                                 </div>

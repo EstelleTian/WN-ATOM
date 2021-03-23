@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-03-11 14:12:36
+ * @LastEditTime: 2021-03-23 09:06:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -41,7 +41,7 @@ function stepsList (props){
                         const processVariables = task.processVariables || {};
                         const agree = taskLocalVariables.agree;
                         const comments = taskLocalVariables.comments || "";
-                        const comment = processVariables.comment || "";
+                        // const comment = processVariables.comment || "";
                         let resCn = "";
                         if( agree === undefined && comments != "" ){
                             resCn = (<span style={{color: '#ffffff', padding: '0 3px', backgroundColor: 'green'}}>{comments}</span>);
@@ -53,7 +53,7 @@ function stepsList (props){
                         const userNameCn = taskLocalVariables.userNameCn || "";
                         let desDom = (<div>
                             <div>{userNameCn} { endTime !== "" && `(${endTime})` } </div>
-                            <div> { comment != "" && `原因: ${ comment } ` }</div>
+                            <div> { comments != "" && `原因: ${ comments } ` }</div>
                             </div>
                         )
                         return  <Step key={task.id} icon={ endTime ==="" ?  <ClockCircleOutlined style={{ fontSize: '34px'}} /> : "" } title={name} subTitle = {resCn} description={desDom} />
