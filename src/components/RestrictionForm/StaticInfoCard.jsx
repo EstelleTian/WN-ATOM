@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import "moment/locale/zh-cn"
-import { Button, Radio, DatePicker, Card, Form, Input, Row, Col, Select } from 'antd'
+import { Space, Button, Radio, DatePicker, Card, Form, Input, Row, Col, Select, Tooltip,Tag } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons';
 
 import ExemptCard from './ExemptCard'
@@ -17,21 +17,15 @@ function StaticInfoCard(props) {
 
     const dateFormat = 'YYYY-MM-DD';
     const timeFormat = 'HHmm';
-
     const form = props.form;
+    const areaLabelAirport = props.areaLabelAirport || []
 
     // 限制数值单位集合
     const restrictionModeUnit = {
         "AFP": "架",
     };
-    /**
-     * 区域机场数据
-     *
-     * */
-    const areaAirportData = {
-        'ZLLL': 'ZBAL;ZBAR;ZBEN;ZBUH;ZLDH;ZLDL;ZLGL;ZLGM;ZLGY;ZLHB;ZLHX;ZLIC;ZLJC;ZLJQ;ZLLL;ZLLN;ZLTS;ZLXH;ZLXN;ZLYS;ZLZW;ZLZY',
-        'ZLXY': 'ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL',
-    };
+
+    
 
     // 限制方式
     let restrictionMode = "";
@@ -48,25 +42,25 @@ function StaticInfoCard(props) {
     }
 
     // 起飞机场
-    let depAp = "";
+    let depAp = [];
     if (isValidObject(form)) {
-        depAp = form.getFieldsValue()['depAp'] || '';
+        depAp = form.getFieldsValue()['depAp'] || [];
     }
     // 降落机场
-    let arrAp = "";
+    let arrAp = [];
     if (isValidObject(form)) {
-        arrAp = form.getFieldsValue()['arrAp'] || '';
+        arrAp = form.getFieldsValue()['arrAp'] || [];
     }
 
     // 豁免起飞机场
-    let exemptDepAp = "";
+    let exemptDepAp = [];
     if (isValidObject(form)) {
-        exemptDepAp = form.getFieldsValue()['exemptDepAp'] || '';
+        exemptDepAp = form.getFieldsValue()['exemptDepAp'] || [];
     }
     // 豁免降落机场
-    let exemptArrAp = "";
+    let exemptArrAp = [];
     if (isValidObject(form)) {
-        exemptArrAp = form.getFieldsValue()['exemptArrAp'] || '';
+        exemptArrAp = form.getFieldsValue()['exemptArrAp'] || [];
     }
 
     // 更新限制数值单位
@@ -84,28 +78,73 @@ function StaticInfoCard(props) {
     }, [])
 
 
-
-    function areaBlockChange(e) {
-        let value = e.target.value;
+    // 
+    function areaBlockChange(value) {
+        // let value = e.target.value;
         const arr = value.split('-');
         const field = arr[0];
         const val = arr[1];
-        let valueString = areaAirportData[val] || '';
-        updateFormAirportFieldValue(field, valueString);
+        let valueString =  filterAreaLabel(val);
+        let valueArr = [valueString];
+        updateFormAirportFieldValue(field, valueArr);
     }
 
     function areaBlock(field) {
         return (
-            <Radio.Group onChange={areaBlockChange} buttonStyle="solid">
-                <Radio.Button value={`${field}-ZLLL`}>兰州</Radio.Button>
-                <Radio.Button value={`${field}-ZLXY`}>西安</Radio.Button>
-                <Radio.Button value={`${field}-ZBSD`}>山东</Radio.Button>
-                <Radio.Button value={`${field}-MORE`}>更多</Radio.Button>
-            </Radio.Group>
+            <Space>
+                <Button size="small" onClick={()=>{areaBlockChange(`${field}-ZLLL`)}}>兰州</Button>
+                <Button size="small" onClick={()=>{areaBlockChange(`${field}-ZLXY`)}}>西安</Button>
+                <Button size="small" onClick={()=>{}}>山东</Button>
+                <Button size="small" onClick={()=>{}}>更多</Button>
+            </Space>
+            
+            // <Radio.Group onChange={areaBlockChange} value="" buttonStyle="solid">
+            //     <Radio.Button value={`${field}-ZLLL`}>兰州</Radio.Button>
+            //     <Radio.Button value={`${field}-ZLXY`}>西安</Radio.Button>
+            //     <Radio.Button value={`${field}-ZBSD`}>山东</Radio.Button>
+            //     <Radio.Button value={`${field}-MORE`}>更多</Radio.Button>
+            // </Radio.Group>
         )
     }
+    
+    // 过滤区域标签机场集合中指定标签对应的机场
+    const filterAreaAirport =(label)=> {
+        for(let i=0; i< areaLabelAirport.length; i++){
+            let item = areaLabelAirport[i];
+            if(item.label.trim() === label.trim()){
+                // 找到第一个匹配的则直接return
+                return item.airport;
+            }
+        }
+        return ''
+    }
+    // 过滤区域标签机场集合中指定code对应的label
+    const filterAreaLabel=(code)=> {
+        for(let i=0; i< areaLabelAirport.length; i++){
+            let item = areaLabelAirport[i];
+            if(item.code.trim() === code.trim()){
+                // 找到第一个匹配的则直接return
+                return item.label;
+            }
+        }
+        return ''
+    }
 
-
+    // 自定义 tag 内容 render
+    const tagRender = ({ label, closable, onClose , value })=>{
+        // 过滤出当前录入的标签下的机场集合
+        let airport = filterAreaAirport(value);
+        return (
+            <Tooltip title={airport}>
+             <Tag 
+                closable={closable} 
+                onClose={onClose} 
+            >
+                { label.props?  label.props.children : value }
+            </Tag>
+          </Tooltip>
+        )
+    }
 
     /**
      * 更新机场表单字段数值
@@ -114,15 +153,15 @@ function StaticInfoCard(props) {
         if (props.hasOwnProperty("updateFormAirportFieldValue")) {
             props.updateFormAirportFieldValue(field, value);
         }
-        if (field === 'depAp') {
-            setDepApValue(value);
-        } else if (field === 'arrAp') {
-            setArrApValue(value);
-        } else if (field === 'exemptDepAp') {
-            setExemptDepApValue(value)
-        } else if (field === 'exemptArrAp') {
-            setExemptArrApValue(value)
-        }
+        // if (field === 'depAp') {
+        //     setDepApValue(value);
+        // } else if (field === 'arrAp') {
+        //     setArrApValue(value);
+        // } else if (field === 'exemptDepAp') {
+        //     setExemptDepApValue(value)
+        // } else if (field === 'exemptArrAp') {
+        //     setExemptArrApValue(value)
+        // }
     };
 
     const updateStartDateString = (date) => {
@@ -237,7 +276,7 @@ function StaticInfoCard(props) {
             } else if (modeType === 'D') {
                 newValue = Math.ceil((parseInt(restrictionModeValue, 10)) / (parseInt(distanceToTime, 10)))
             }
-            form.setFieldsValue({ restrictionMITTimeValue: `${newValue}`});
+            form.setFieldsValue({ restrictionMITTimeValue: `${newValue}` });
         }
     };
     /* 
@@ -246,7 +285,7 @@ function StaticInfoCard(props) {
     const handleRestrictionModeValueChange = ({ target: { value } }) => {
         const restrictionMITValueUnit = form.getFieldsValue()['restrictionMITValueUnit'];
         // 若限制类型为MIT
-        if(restrictionMode ==='MIT'){
+        if (restrictionMode === 'MIT') {
             // 调用handleRestrictionMITValueUnitChange方法，用于更新restrictionMITTimeValue字段数值
             handleRestrictionMITValueUnitChange(restrictionMITValueUnit)
         }
@@ -454,7 +493,7 @@ function StaticInfoCard(props) {
                 >
                     <div className="">分钟/架次</div>
                 </Form.Item>
-                
+
             </Form.Item>
         )
     }
@@ -527,58 +566,58 @@ function StaticInfoCard(props) {
                                     <Input disabled={props.disabledForm} />
                                 </Form.Item>
                             ) : (
+                                <Form.Item
+                                    label="开始时间"
+                                    required={true}
+                                    className="date-time-form-compact"
+                                >
+
+
                                     <Form.Item
-                                        label="开始时间"
-                                        required={true}
-                                        className="date-time-form-compact"
+                                        name="startDate"
+                                        className="date-picker-form"
+                                        rules={[
+                                            { required: true, message: '请选择开始日期' },
+                                        ]}
                                     >
-
-
-                                        <Form.Item
-                                            name="startDate"
+                                        <DatePicker
+                                            onChange={updateStartDateString}
+                                            format={dateFormat}
+                                            disabledDate={disabledStartDate}
+                                            disabled={props.disabledForm}
+                                            placeholder={dateFormat}
                                             className="date-picker-form"
-                                            rules={[
-                                                { required: true, message: '请选择开始日期' },
-                                            ]}
-                                        >
-                                            <DatePicker
-                                                onChange={updateStartDateString}
-                                                format={dateFormat}
-                                                disabledDate={disabledStartDate}
-                                                disabled={props.disabledForm}
-                                                placeholder={dateFormat}
-                                                className="date-picker-form"
-                                                showToday={false}
-                                                mode="date"
-                                                onOpenChange={onOpenStartDatePickerChange}
-                                            />
-                                        </Form.Item>
-                                        <Form.Item
-                                            name="startTime"
-                                            label=""
-                                            className="time-form"
-                                            rules={[
-                                                {
-                                                    type: 'string',
-                                                    pattern: REGEXP.TIMEHHmm,
-                                                    message: '请输入有效的开始时间',
-                                                },
-                                                {
-                                                    required: true,
-                                                    message: '请输入开始时间',
-                                                },
-                                            ]}
-                                        >
-                                            <Input
-                                                placeholder={timeFormat}
-                                                onChange={updateStartTimeString}
-
-                                                disabled={props.disabledForm}
-
-                                            />
-                                        </Form.Item>
+                                            showToday={false}
+                                            mode="date"
+                                            onOpenChange={onOpenStartDatePickerChange}
+                                        />
                                     </Form.Item>
-                                )
+                                    <Form.Item
+                                        name="startTime"
+                                        label=""
+                                        className="time-form"
+                                        rules={[
+                                            {
+                                                type: 'string',
+                                                pattern: REGEXP.TIMEHHmm,
+                                                message: '请输入有效的开始时间',
+                                            },
+                                            {
+                                                required: true,
+                                                message: '请输入开始时间',
+                                            },
+                                        ]}
+                                    >
+                                        <Input
+                                            placeholder={timeFormat}
+                                            onChange={updateStartTimeString}
+
+                                            disabled={props.disabledForm}
+
+                                        />
+                                    </Form.Item>
+                                </Form.Item>
+                            )
                         }
 
                     </Col>
@@ -593,52 +632,52 @@ function StaticInfoCard(props) {
                                     <Input disabled={props.disabledForm} />
                                 </Form.Item>
                             ) : (
+                                <Form.Item
+                                    label="结束时间"
+                                    className="date-time-form-compact"
+                                >
                                     <Form.Item
-                                        label="结束时间"
-                                        className="date-time-form-compact"
+                                        name="endDate"
+                                        className="date-picker-form"
+                                        dependencies={['endTime']}
+                                        rules={[
+                                            ({ getFieldValue }) => validateEndDateFormat(getFieldValue),
+                                        ]}
                                     >
-                                        <Form.Item
-                                            name="endDate"
+                                        <DatePicker
+                                            onChange={updateEndTimeDisplay}
+                                            format={dateFormat}
+                                            disabledDate={disabledEndDate}
+                                            disabled={props.disabledForm}
+                                            placeholder={dateFormat}
                                             className="date-picker-form"
-                                            dependencies={['endTime']}
-                                            rules={[
-                                                ({ getFieldValue }) => validateEndDateFormat(getFieldValue),
-                                            ]}
-                                        >
-                                            <DatePicker
-                                                onChange={updateEndTimeDisplay}
-                                                format={dateFormat}
-                                                disabledDate={disabledEndDate}
-                                                disabled={props.disabledForm}
-                                                placeholder={dateFormat}
-                                                className="date-picker-form"
-                                                showToday={false}
-                                                onOpenChange={onOpenEndDatePickerChange}
-                                            />
-                                        </Form.Item>
-                                        <Form.Item
-                                            name="endTime"
-                                            label=""
-                                            className="time-form"
-                                            dependencies={['endDate', 'startDate', 'startTime']}
-                                            rules={[
-                                                {
-                                                    type: 'string',
-                                                    pattern: REGEXP.TIMEHHmm,
-                                                    message: '请输入有效的结束时间',
-                                                },
-                                                ({ getFieldValue }) => validateTimeRange(getFieldValue),
-                                            ]}
-                                        >
-                                            <Input
-                                                allowClear={true}
-                                                placeholder={timeFormat}
-                                                onChange={updateEndTimeString}
-                                                disabled={props.disabledForm}
-                                            />
-                                        </Form.Item>
+                                            showToday={false}
+                                            onOpenChange={onOpenEndDatePickerChange}
+                                        />
                                     </Form.Item>
-                                )
+                                    <Form.Item
+                                        name="endTime"
+                                        label=""
+                                        className="time-form"
+                                        dependencies={['endDate', 'startDate', 'startTime']}
+                                        rules={[
+                                            {
+                                                type: 'string',
+                                                pattern: REGEXP.TIMEHHmm,
+                                                message: '请输入有效的结束时间',
+                                            },
+                                            ({ getFieldValue }) => validateTimeRange(getFieldValue),
+                                        ]}
+                                    >
+                                        <Input
+                                            allowClear={true}
+                                            placeholder={timeFormat}
+                                            onChange={updateEndTimeString}
+                                            disabled={props.disabledForm}
+                                        />
+                                    </Form.Item>
+                                </Form.Item>
+                            )
                         }
 
 
@@ -752,7 +791,18 @@ function StaticInfoCard(props) {
                             name="depAp"
                             label="起飞机场"
                         >
-                            <Input title={depApValue} className="text-uppercase" disabled={props.disabledForm} />
+                            <Select
+                                disabled={props.disabledForm}
+                                mode="tags"
+                                style={{ width: '100%' }}
+                                placeholder=""
+                                open={false}
+                                // onChange={(val) => (console.log(val))}
+                                className="text-uppercase"
+                                allowClear={true}
+                                tagRender={tagRender}
+                            >
+                            </Select>
                         </Form.Item>
 
                     </Col>
@@ -769,7 +819,18 @@ function StaticInfoCard(props) {
                             name="arrAp"
                             label="降落机场"
                         >
-                            <Input title={arrApValue} className="text-uppercase" disabled={props.disabledForm} />
+                            <Select
+                                disabled={props.disabledForm}
+                                mode="tags"
+                                style={{ width: '100%' }}
+                                placeholder=""
+                                open={false}
+                                // onChange={(val) => (console.log(val))}
+                                className="text-uppercase"
+                                allowClear={true}
+                                tagRender={tagRender}
+                            >
+                            </Select>
                         </Form.Item>
                     </Col>
                 </Row>
@@ -804,7 +865,18 @@ function StaticInfoCard(props) {
                             name="exemptDepAp"
                             label="豁免起飞机场"
                         >
-                            <Input title={exemptDepApValue} className="text-uppercase" disabled={props.disabledForm} />
+                            <Select
+                                disabled={props.disabledForm}
+                                mode="tags"
+                                style={{ width: '100%' }}
+                                placeholder=""
+                                open={false}
+                                // onChange={(val) => (console.log(val))}
+                                className="text-uppercase"
+                                allowClear={true}
+                                tagRender={tagRender}
+                            >
+                            </Select>
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -820,7 +892,18 @@ function StaticInfoCard(props) {
                             name="exemptArrAp"
                             label="豁免降落机场"
                         >
-                            <Input title={exemptArrApValue} className="text-uppercase" disabled={props.disabledForm} />
+                            <Select
+                                disabled={props.disabledForm}
+                                mode="tags"
+                                style={{ width: '100%' }}
+                                placeholder=""
+                                open={false}
+                                // onChange={(val) => (console.log(val))}
+                                className="text-uppercase"
+                                allowClear={true}
+                                tagRender={tagRender}
+                            >
+                            </Select>
                         </Form.Item>
                     </Col>
                 </Row>
