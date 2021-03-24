@@ -777,7 +777,7 @@ function StaticInfoCard(props) {
                     </Col>
                     <Col span={8}>
                         <Form.Item
-                            name="exemptbehindUnit"
+                            name="exemptBehindUnit"
                             label="豁免后序"
                         >
                             <Input className="text-uppercase" disabled={props.disabledForm} />

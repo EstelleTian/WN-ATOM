@@ -99,22 +99,6 @@ function LimitedCard(props){
     // const index = props.index || "4";
 
 
-    const tagRender = ({ label, closable, onClose , value })=>{
-        console.log(label, value)
-        return (
-            <Tooltip title="prompt text">
-             <Tag 
-                closable={closable} 
-                onClose={onClose} 
-            >
-                { label.props?  label.props.children : value }
-            </Tag>
-          </Tooltip>
-           
-        )
-    }
-
-
     return (
         <Card className="inner-card" title={props.title} size="">
             <Row gutter={24}>
@@ -132,7 +116,6 @@ function LimitedCard(props){
                             onChange={ (val)=> (console.log(val))}
                             className="text-uppercase"
                             allowClear={ true }
-                            tagRender= { tagRender}
                         >
                         </Select>
                     </Form.Item>

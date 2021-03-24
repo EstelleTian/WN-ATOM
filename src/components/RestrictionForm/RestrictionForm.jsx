@@ -212,7 +212,10 @@ function RestrictionForm(props) {
     let restrictionModeValue = getRestrictionModeValue();
 
     let abc = 'ZBAL;ZLXY;AAAA;ZBAR;ZBEN;ZBUH;ZLDH;ZLDL;ZLGL;ZLGM;ZLGY;ZLHB;ZLHX;ZLIC;ZLJC;ZLJQ;ZLLL;ZLLN;ZLTS;ZLXH;ZLXN;ZLYS;ZLZW;ZLZY'.split(';');
-
+    let depApArray = isValidVariable(depAp) ? depAp.split(';') : [];
+    let arrApArray = isValidVariable(arrAp) ? arrAp.split(';') : [];
+    let exemptDepApArray = isValidVariable(exemptDepAp) ? exemptDepAp.split(';') : [];
+    let exemptArrApArray = isValidVariable(exemptArrAp) ? exemptArrAp.split(';') : [];
     // 日期组件格式化方式
     const dateFormat = 'YYYY-MM-DD HHmm';
     // 表单初始数值对象集合
@@ -242,14 +245,15 @@ function RestrictionForm(props) {
         highLimit: highLimit,
         // 豁免高度
         exemptHeight: exemptHeight,
+        
         // 起飞机场
-        depAp: isValidVariable(depAp) ? depAp.split(';') : [],
+        depAp: formatAreaLabel(areaLabelAirport, depApArray),
         // 降落机场
-        arrAp: isValidVariable(arrAp) ? arrAp.split(';') : [],
+        arrAp: formatAreaLabel(areaLabelAirport, arrApArray),
         // 豁免起飞机场
-        exemptDepAp: isValidVariable(exemptDepAp) ? exemptDepAp.split(';') : [],
+        exemptDepAp: formatAreaLabel(areaLabelAirport, exemptDepApArray),
         // 豁免降落机场
-        exemptArrAp: isValidVariable(exemptArrAp) ? exemptArrAp.split(';') : [],
+        exemptArrAp: formatAreaLabel(areaLabelAirport, exemptArrApArray),
 
         // 方案开始日期(DatePicker组件使用)
         startDate: isValidVariable(basicStartTime) ? moment(basicStartTime, dateFormat) : moment(now, dateFormat),
