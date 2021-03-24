@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-17 10:59:24
+ * @LastEditTime: 2021-03-17 14:42:35
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -463,12 +463,15 @@ const ApproveBtn = function(props){
         if(type === "agree"){
             //容量审核同意
             url = ReqUrls.capacityBaseUrl + "simulationTactics/approve/"+username;
+            title = "动态容量调整审批完成";
         }else if(type === "refuse"){
             //容量审核拒绝
             url = ReqUrls.capacityBaseUrl + "simulationTactics/refuse/"+username;
+            title = "动态容量调整拒绝完成";
         }else if(type === "reback"){
             //容量审核撤回
             url = ReqUrls.capacityBaseUrl + "simulationTactics/withdraw/"+username;
+            title = "动态容量调整撤回完成";
         }
         if( isValidVariable(url) ){
             const opt = {
@@ -476,7 +479,7 @@ const ApproveBtn = function(props){
                 method: 'POST',
                 params: params,
                 resFunc: (data)=> {
-                    requestSuccess(data, title + '成功')
+                    requestSuccess(data, title)
                     setConfirmLoading(false);
                     setVisible(false);
                 },
@@ -617,7 +620,7 @@ const CapacityTable = (props) => {
                     }
                     customNotice({
                         type: 'success',
-                        message: title+'保存成功',
+                        message: title+'调整申请成功',
                         duration: 10,
                     });
                     resolve("success")
@@ -626,7 +629,7 @@ const CapacityTable = (props) => {
                     if( isValidVariable(err) ){
                         title = err
                     }else{
-                        title = title+'保存失败'
+                        title = title+'调整申请失败'
                     }
                     customNotice({
                         type: 'error',

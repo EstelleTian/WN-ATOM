@@ -185,7 +185,7 @@ function SchemeItem(props){
             window.show();
         }
     })
-    //工作流详情
+    //终止 详情
     const stopControl = useCallback((id) => {
         handleStopControl(id);
     })
