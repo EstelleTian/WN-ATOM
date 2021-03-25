@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-03-25 11:00:05
+ * @LastEditTime: 2021-03-25 11:12:38
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -169,7 +169,7 @@ function TodoNav(props) {
 
     return (
         <Fragment>
-            <Radio.Group value={systemPage.leftActiveName} buttonStyle="solid"  onChange={groupRightChange} >
+            {/* <Radio.Group value={systemPage.leftActiveName} buttonStyle="solid"  onChange={groupRightChange} > */}
                 <Radio.Button value="todo">
                     航班协调
                 {
@@ -182,7 +182,7 @@ function TodoNav(props) {
                         : ""
                 }
                 </Radio.Button>
-            </Radio.Group>
+            {/* </Radio.Group> */}
             <Modal
                 width={1600}
                 style={{ marginTop: 50}}
