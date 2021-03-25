@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-11 14:47:28
+ * @LastEditTime: 2021-03-23 16:23:51
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -217,11 +217,11 @@ let FLIGHTIDPopover = (props) => {
         >
             <Tooltip title={ tipObj.title } visible={ tipObj.visible } color={ tipObj.color }>
                 
-                <div className={`${colorClass}`}  >
-                    <div className={`${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${ PriorityList[priority] } ${isInAreaFlight ? "区内" : "区外"} ${hadDEP ? "空中" : "地面"}`}>
+                <div className={` ${colorClass}`}  >
+                    <div className={`text_cell_center ${ isValidVariable(text) ? "" : "empty_cell" }`} title={`${text}-${ PriorityList[priority] } ${isInAreaFlight ? "区内" : "区外"} ${hadDEP ? "空中" : "地面"}`}>
                         <span className={`${isInAreaFlight ? "inArea" : "outArea"}`}>{ text }</span>
                     </div>
-                    {/* <div 
+                    {/* <div  
                         title={`${isInAreaFlight ? "区内" : "区外"} ${hadDEP ? "空中" : "地面"}`} 
                         className={`status_flag ${isInAreaFlight ? "inArea" : "outArea"} ${hadDEP ? "inAir" : "inGround"}`}
                     ></div> */}

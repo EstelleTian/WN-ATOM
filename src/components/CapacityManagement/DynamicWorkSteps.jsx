@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-03-23 09:06:01
+ * @LastEditTime: 2021-03-24 17:00:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -92,7 +92,8 @@ const StepCollapse = function(props){
 
 //容量管理-工作流详情
 function DynamicWorkSteps (props){
-    const {  pane = {} } = props;
+    const {  pane = {}, capacity, systemPage } = props;
+    const dateRange = capacity.dateRange;
     const user = props.systemPage.user || {};
     const username = user.username || "";
     const [ loading, setLoading ] = useState(false);
@@ -116,6 +117,7 @@ function DynamicWorkSteps (props){
     const requestDynamicWorkFlowData = useCallback(( nextRefresh ) => {
         const type = pane.type.toUpperCase();
         const airportName = pane.key;
+        const firId = pane.firId;
         const timerFunc = function(){
             if(nextRefresh){
                 timer.current = setTimeout( function(){
@@ -123,14 +125,16 @@ function DynamicWorkSteps (props){
                 }, 30*1000)
             }
         }
+        let date = capacity.getDate();
+        // let date = "";
         const opt = {
-            url: ReqUrls.capacityBaseUrl+ "simulationTactics/retrieveSchemeFlows/"+ username,
+            url: ReqUrls.capacityBaseUrl+ "simulationTactics/retrieveSchemeFlows/"+ systemPage.user.username,
             method: 'POST',
             params:{
-                "date": "",
+                date,
                 "elementName": airportName,
                 "routeName":"",
-                "firId":"",
+                firId,
                 "elementType": type
                     
                 },
@@ -163,7 +167,7 @@ function DynamicWorkSteps (props){
         }
        
 
-    },[username]);
+    },[]);
 
     //请求错误处理
     const requestErr = useCallback((err, content) => {
@@ -255,6 +259,11 @@ function DynamicWorkSteps (props){
             requestDynamicWorkFlowData( false );
         }
     }, [props.capacity.forceUpdateDynamicWorkFlowData]);
+
+    useEffect( function(){
+        //获取数据
+        requestDynamicWorkFlowData( false );
+    }, [ dateRange ]);
 
     useEffect( function(){
         return ()=>{

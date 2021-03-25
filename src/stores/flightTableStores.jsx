@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-03-11 14:53:11
+ * @LastEditTime: 2021-03-23 15:28:40
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -68,6 +68,10 @@ class FlightTableData{
     @observable dataLoaded = false;
     //自动滚动状态
     @observable autoScroll = true;
+    //快速过滤
+    @observable filterable = false;
+    //快速过滤参数
+    @observable filterValues = {};
     //快速查询内容
     @observable searchVal = "";
     //选中高亮的航班id
@@ -116,9 +120,23 @@ class FlightTableData{
     @action setAutoScroll(flag ){
         this.autoScroll = flag;
     }
-    //修改--航班列表-自动滚动状态
+    //航班列表-快速过滤-开启
+    @action setFilterable( flag ){
+        this.filterable = flag;
+    }
+    //修改--航班列表-查询
     @action setSearchVal( values ){
         this.searchVal = values.trim();
+    }
+    //修改--航班列表-快速过滤
+    @action setFilterValues( name, values ){
+        if( isValidVariable(name) ){
+            this.filterValues[name] = values;
+        }
+    }
+     //清空--航班列表-快速过滤
+     @action clearFilterValues(  ){
+        this.filterValues = {};
     }
 
     //获取航班高亮航班对象
@@ -138,7 +156,7 @@ class FlightTableData{
     @computed get getShowFlights(){
         let showList = this.list.map( flight => formatSingleFlight(flight) );
         const searchVal = this.searchVal.toLowerCase();
-        if( searchVal !== "" ){
+        if( isValidVariable(searchVal) ){
             showList = showList.filter( flight => {
                 let FLIGHTID = flight.FLIGHTID || "";
                 FLIGHTID = FLIGHTID.toLowerCase() || "";
@@ -149,9 +167,27 @@ class FlightTableData{
                 }else{
                     return false;
                 }
-                
             } );
         } 
+        const filterValues = this.filterValues;
+        const fValues = Object.keys(filterValues);
+        if( fValues.length > 0 ){
+            for(let en in filterValues){
+                const fVal = filterValues[en] || "";
+                if( isValidVariable(fVal) ){
+                    showList = showList.filter( flight => {
+                        let cellVal = flight[en] || "";
+                        cellVal = cellVal.toLowerCase() || "";
+                        if( cellVal.indexOf( fVal ) > -1  ){
+                            return true
+                        }else{
+                            return false;
+                        }
+                    } );
+                }
+            }
+        }
+
         const targetFlight = this.getTargetFlight(showList);
         return { showList, targetFlight }
     }

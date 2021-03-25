@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-03-23 09:10:32
+ * @LastEditTime: 2021-03-23 10:30:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -153,10 +153,16 @@ function InfoCard(props){
                             <div className="text" style={{ "position": "absolute", "left": "220px"}}>
                                 {publishUser}
                             </div>
+                                <div className="text">
+                                    { name }
+                                </div>
+                                <div className="text">
+                                    { content }
+                                </div>
                         </div>
                     }
                     {
-                        (dataType === "DCVM") ?
+                        (dataType === "DCVM") &&
                             <div>
                                 <div className="text">
                                     { name }
@@ -171,7 +177,7 @@ function InfoCard(props){
 
                                 </div>
                             </div>
-                            :""
+                            
                     }
                     {
                         
@@ -193,7 +199,7 @@ function InfoCard(props){
                             
                     }
                     {
-                        ( dataType !== "FCDM" && (dataType === "DCVM") && (dataType === "FTMI"  ) ) &&
+                        ( dataType !== "FCDM" && (dataType !== "DCVM") && (dataType !== "FTMI"  ) ) &&
                             <div>
                                 <div className="text">
                                     { name }

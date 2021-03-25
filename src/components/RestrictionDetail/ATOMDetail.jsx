@@ -20,7 +20,6 @@ function ATOMDetail(props){
         { label: '禁航', value: 'noFly' },
     ];
 
-    console.log(props);
     const { flowData = {}, flowType, title } = props;
     const { atomFlowInfo = {}, formerAtomFlowInfo={} } = flowData;
     let flowInfo = {};

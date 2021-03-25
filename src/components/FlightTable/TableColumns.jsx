@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-03-11 16:52:40
+ * @LastEditTime: 2021-03-23 15:44:01
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -13,7 +13,8 @@ import { ColorPopover } from  './CollaboratePopover'
 import FLIGHTIDPopover from  './FLIGHTIDPopover'
 import TOBTPopover from  './TOBTPopover'
 import CTPopover from  './CTPopover'
-import { Tag, Tooltip } from "antd";
+import debounce from 'lodash/debounce' 
+import { Tag, Tooltip, Input } from "antd";
 
 /**
  * 告警列单元格渲染格式化
@@ -182,7 +183,7 @@ let defaultNames = {
 let render = (opt)  => {
     const {text, record, index, col, colCN} = opt;
     let color = "";
-    let popover = <div title={text}>{text}</div>;
+    let popover = <div className="text_cell_center" title={text}>{text}</div>;
     if( col === "FLIGHTID" ){
         popover = <FLIGHTIDPopover opt={opt} />
     }
@@ -224,7 +225,7 @@ let render = (opt)  => {
 
 
 //生成表配置
-const getColumns = ( names = defaultNames ) => {
+const getColumns = ( names = defaultNames, sortable = false, onCellFilter = ()=>{} ) => {
     if( !isValidVariable( names )){
         names = defaultNames
     }
@@ -238,7 +239,7 @@ const getColumns = ( names = defaultNames ) => {
         key: "rowNum",
         width: (screenWidth > 1920) ? 70 : 60,
         fixed: 'left',
-        render: (text, record, index) => `${index+1}`
+        render: (text, record, index) => <div className="text_cell_center" >{index+1}</div>
     }];
     //生成表配置-全部
     for(let key in names){
@@ -261,6 +262,7 @@ const getColumns = ( names = defaultNames ) => {
                 }
             }
         }
+        
         const sortFunc = (a,b) => {
             let data1 = a[en] + "";
             if( data1.length >= 12 ){
@@ -366,8 +368,24 @@ const getColumns = ( names = defaultNames ) => {
             };
             return render(opt);
         }
-
-        columns.push(tem)
+        if(sortable){
+            const handleInputVal =
+                debounce((values) => {
+                    onCellFilter( en, values );
+                }, 500);
+            const doubleTem = {
+                title: <Input className="uppercase" onChange={ e => handleInputVal( e.target.value ) } />,
+                dataIndex: en,
+                align: 'center',
+                children: [
+                    {...tem}
+                ] 
+            }
+            columns.push(doubleTem);
+        }else{
+            columns.push(tem);
+        }
+        
     }
     return columns;
 }

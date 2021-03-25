@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-17 14:42:35
+ * @LastEditTime: 2021-03-24 17:26:52
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -44,7 +44,7 @@ const EditableCell = ({
       dataIndex,
       record = {},
       handleSave,
-      generateTime,
+      dateRange,
       ...restProps
   }) => {
     const orgData = useRef();
@@ -80,11 +80,13 @@ const EditableCell = ({
     },[editing, record]);
     
     let disabled = false;
-    // console.log("generateTime ", generateTime)
-    if( record.capacityTime*1 <= new Date().getHours() ){
+    if( dateRange*1 === -1){
         disabled = true
+    }else if( dateRange*1 === 0){
+        if( record.capacityTime*1 <= new Date().getHours() ){
+            disabled = true
+        }
     }
-    
     useEffect(()=>{
         const obj = record[dataIndex] || {};
         orgData.current = obj.value*1 || "";
@@ -560,10 +562,10 @@ const setRowClassName = (record, index) => {
 const CapacityTable = (props) => {
     const [ loading, setLoading ] = useState(false); 
     const [ tableData, setTableData ] = useState([]); 
-    let [ tableHeight, setTableHeight ] = useState(0);
-    let [ editable, setEditable] = useState(false);
 
-    const { kind, airportName, paneType } = props;
+    const { kind, airportName, paneType, capacity } = props;
+    const { editable, setEditable } = capacity;
+    // console.log(editable, setEditable)
     const username = props.systemPage.user.username;
 
     const handleSave = (row) => {
@@ -680,7 +682,7 @@ const CapacityTable = (props) => {
                 title: col.title,
                 editing: editable,
                 handleSave,
-                generateTime: props.capacity.generateTime
+                dateRange: props.capacity.dateRange
             }),
         };
     });
@@ -724,7 +726,7 @@ const CapacityTable = (props) => {
                     elementName: airportName,
                 },
                 resFunc: (data)=> {
-                    setEditable(true);
+                    props.capacity.setEditable(true);
                 },
                 errFunc: (err)=> {
                     customNotice({
@@ -742,19 +744,7 @@ const CapacityTable = (props) => {
         resetOrgTableDatas();
     }, [kind, props.capacity.staticData, props.capacity.dynamicData ]);
 
-    useEffect(() => {
-        if( props.type === "line1" ){
-            setTableHeight(80)
-         }else if( props.type === "line24" ){
-            const dom = document.getElementsByClassName("modal_"+kind)
-            const boxContent = dom[0].getElementsByClassName("box_content")
-            let height = boxContent[0].offsetHeight - 65;
-            if( tableHeight !== height ){
-                setTableHeight( height );
-            }
-            
-        }
-    }, [tableHeight]);
+
 
     useEffect(()=>{
         props.capacity.setDynamicData( {} );
@@ -829,10 +819,10 @@ const CapacityTable = (props) => {
                 {
                     ( !authMap.AGREE && !authMap.REFUSE && !authMap.REBACK && editable ) &&
                     <span>
-                        <SaveBtn save={save} setEditable={setEditable}/>
+                        <SaveBtn save={save} setEditable={ props.capacity.setEditable}/>
                         <Button className="reset" onClick={ e =>{
                             resetOrgTableDatas( "cancel");
-                            setEditable(false);
+                            props.capacity.setEditable(false);
                         } }> 取消 </Button>
                     </span>
                 }
@@ -863,10 +853,7 @@ const CapacityTable = (props) => {
                             size="small"
                             bordered
                             pagination={false}
-                            scroll={{
-                                x: 350,
-                                y: tableHeight
-                            }}
+                           
                             rowClassName={ setRowClassName }
                             className="capacity_number_table"
                         />

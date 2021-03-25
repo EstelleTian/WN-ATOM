@@ -18,6 +18,14 @@
         top: 8px;
     }
 }
+.filter_menu{
+        width: 140px;
+    margin-right: 1.5rem;
+    margin-top: 0.5rem;
+    .ant-menu{
+        border: 1px solid #5D5D5D;
+    }
+}
 .cap_set_canvas{
     @include display_flex(column);
     @include flex();
@@ -122,11 +130,11 @@
 @media screen and ( max-width: 1920px) and ( min-width: 1681px){
     
     .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-thead > tr > th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-small tfoot > tr > th, .ant-table.ant-table-small tfoot > tr > td {
-        padding: 4px 4px;
+        padding: 4px;
     }
     .cap_set_canvas{
         
-        .capacity_number_table .ant-table-body tr  {
+        .capacity_number_table .ant-table-tbody tr  {
             > td.ant-table-cell{
                 font-size: 1.8rem;
             }
@@ -148,9 +156,9 @@
 @media screen and ( max-width: 1681px){
     .cap_set_canvas{
     
-        .capacity_number_table .ant-table-body tr  {
+        .capacity_number_table .ant-table-tbody tr  {
             > td.ant-table-cell{
-                padding: 2px 0;
+                padding: 4px 0;
                 font-size: 2.4rem;
                 .ant-input{
                     font-size: 2.2rem;

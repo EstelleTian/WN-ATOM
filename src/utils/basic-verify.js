@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-15 15:12:48
- * @LastEditTime: 2021-03-04 14:57:35
+ * @LastEditTime: 2021-03-23 15:47:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\utils\basic-verify.js
@@ -165,7 +165,7 @@ const addStringTime = (time, addMillis) => {
  * @param addMillis
  * @returns {String}
  */
-const formatTimeString = ( str ) => {
+const formatTimeString = ( str, type ) => {
     if( isValidVariable(str) && ( str.length === 12 || str.length === 14 ) ){
         // 解析各个值
         const year = str.substring(0, 4);
