@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-03-11 15:40:12
+ * @LastEditTime: 2021-03-25 15:20:13
  * @LastEditors: Please set LastEditors
  * @Description: 页面相关store
  * @FilePath: \WN-CDM\src\stores\pageStores.jsx
@@ -26,12 +26,13 @@ class SystemPage{
     }
     //左上导航选中 模块名称
     @observable leftNavSelectedName = "";
-    //左上切换模块名称 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
-    // @observable leftActiveName = "";
+    //左上切换模块名称 执行kpi 
     @observable leftActiveName = "kpi";
     // @observable leftActiveName = "todo";
     //右侧切换模块名称 方案列表 外部流控
     @observable rightActiveName = "scheme";
+    //右侧切换模块名称 豁免、等待池、特殊、失效、航班协调
+    @observable modalActiveName = "";
     //左侧导航席位
     @observable xiwei = "";
     //左侧导航-时间范围
@@ -44,7 +45,7 @@ class SystemPage{
     @action setLeftNavSelectedName( name ){
         this.leftNavSelectedName = name;
     }
-    //左上切换模块名称 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
+    //左上切换模块名称 执行kpi 
     @action setLeftActiveName( name ){
         if( name === "" ){
             this.leftActiveName = name;
@@ -57,6 +58,10 @@ class SystemPage{
         if( isValidVariable(name) ){
             this.rightActiveName = name;
         }
+    }
+    //右侧切换模块名称 豁免、等待池、特殊、失效、航班协调
+    @action setModalActiveName( name ){
+        this.modalActiveName = name;
     }
     //左侧导航席位
     @action setXiwei( name ){
@@ -79,24 +84,26 @@ class SystemPage{
     //用户信息-赋值
     @action userHasAuth( authCode ){
         let flag = false;
-        const roles = this.user.roles || [];
-        if( roles.length > 0 ){
-            roles.map( role => {
-                if( !flag ){
-                    const authorities = role.authorities || [];
-                    if( authorities.length > 0 ){
-                        authorities.map( authority => {
-                            if( !flag ){
-                                const code = authority.code || "";
-                                if( authCode*1 > 0 && code*1 > 0 && authCode*1 === code*1 ){
-                                    flag = true;
+        // if( this.user.hasOwnProperty("roles") ){
+            const roles = this.user.roles || [];
+            if( roles.length > 0 ){
+                roles.map( role => {
+                    if( !flag ){
+                        const authorities = role.authorities || [];
+                        if( authorities.length > 0 ){
+                            authorities.map( authority => {
+                                if( !flag ){
+                                    const code = authority.code || "";
+                                    if( authCode*1 > 0 && code*1 > 0 && authCode*1 === code*1 ){
+                                        flag = true;
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        }
                     }
-                }
-            })
-        }
+                })
+            }
+        // }
         return flag;
     }
 }

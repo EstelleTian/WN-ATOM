@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-03-23 15:44:01
+ * @LastEditTime: 2021-03-25 15:02:19
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -233,7 +233,7 @@ const getColumns = ( names = defaultNames, sortable = false, onCellFilter = ()=>
     let screenWidth = document.getElementsByTagName("body")[0].offsetWidth
     //表格列配置-默认-计数列
     let columns = [{
-        title: "",
+        title: "行号",
         dataIndex: "rowNum",
         align: 'center',
         key: "rowNum",
