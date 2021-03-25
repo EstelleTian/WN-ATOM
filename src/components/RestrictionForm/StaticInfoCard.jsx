@@ -78,14 +78,25 @@ function StaticInfoCard(props) {
     }, [])
 
 
-    // 
+    // 区域标签快捷点选按钮点击
     function areaBlockChange(value) {
-        // let value = e.target.value;
+        // 拆分参数
         const arr = value.split('-');
+        // 字段名
         const field = arr[0];
-        const val = arr[1];
-        let valueString =  filterAreaLabel(val);
-        let valueArr = [valueString];
+        // 区域code
+        const code = arr[1];
+        // 获取区域集合中对应code的label值
+        let label = filterAreaLabel(code);
+        // 获取当前字段值
+        let fieldValue = form.getFieldValue(field);
+        // 若当前字段值中包含此标签label,则不作操作
+        if(fieldValue.indexOf(label) > -1){
+            return;
+        }
+        // 反之将当前label追加到当前字段值中去
+        let valueArr = [...fieldValue, label];
+        // 更新当前字段值
         updateFormAirportFieldValue(field, valueArr);
     }
 
@@ -153,15 +164,6 @@ function StaticInfoCard(props) {
         if (props.hasOwnProperty("updateFormAirportFieldValue")) {
             props.updateFormAirportFieldValue(field, value);
         }
-        // if (field === 'depAp') {
-        //     setDepApValue(value);
-        // } else if (field === 'arrAp') {
-        //     setArrApValue(value);
-        // } else if (field === 'exemptDepAp') {
-        //     setExemptDepApValue(value)
-        // } else if (field === 'exemptArrAp') {
-        //     setExemptArrApValue(value)
-        // }
     };
 
     const updateStartDateString = (date) => {

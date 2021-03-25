@@ -138,12 +138,12 @@ function RestrictionForm(props) {
         return sortedArray
     }
     // 筛选机场
-    function reducer  (accumulator, currentValue, index, array) {
+    function reducer(accumulator, currentValue, index, array) {
         let currentArr = currentValue.airport.split(';');
         let len = currentArr.length;
         let includesArr = currentArr.filter((v) => accumulator.includes(v));
         if (includesArr.length === len) {
-            accumulator = accumulator.flatMap((n) => (currentArr.includes(n)) ? [currentValue.label] : [n]);
+            accumulator =  accumulator.map((item)=>(currentArr.includes(item) ? currentValue.label : item  ))    
         }
         return accumulator
     }
@@ -755,7 +755,6 @@ function RestrictionForm(props) {
         data[field] = value;
         // 更新表单中流控发布类型
         form.setFieldsValue(data);
-        // setRenderNumber(renderNumber++);
     };
 
     /**
