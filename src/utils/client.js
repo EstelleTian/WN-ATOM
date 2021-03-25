@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-03-17 15:13:39
+ * @LastEditTime: 2021-03-25 16:18:48
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -139,9 +139,10 @@ const openBaseSchemeFrame =(id) => {
     }
 };
 //方案-航图关联
-const openFilterFrame =(id) => {
+const openFilterFrame =(id, tacticName, targetUnits, interVal) => {
+    // alert(id+"            "+ tacticName+"      "+ targetUnits+"            "+ interVal)
     try {
-        jsEntity.openFilterFrame(id);
+        jsEntity.openFilterFrame(id, tacticName, targetUnits, interVal);
     }catch(error){
         console.error(error);
     }

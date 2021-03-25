@@ -288,7 +288,8 @@ function SchemeItem(props){
                             e.stopPropagation();
                         } }>终止</div>
                         <div className="opt" onClick={ e=>{
-                            openFilterFrame(id);
+                            
+                            openFilterFrame(id, tacticName, targetUnits, interVal);
                             e.stopPropagation();
                         } }>航图关联</div>
                         {
