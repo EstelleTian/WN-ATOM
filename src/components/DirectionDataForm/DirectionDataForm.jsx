@@ -286,7 +286,18 @@ function DirectionDataForm(props) {
         // 提交
         handleSubmitFormData();
     }
-
+    // 另存为模板
+    const saveAsTemplate =()=> {
+        Modal.info({
+            title: '功能开发中',
+            content: (
+              <div>
+                <p>方向另存为模板功能开发中...</p>
+              </div>
+            ),
+            onOk() {},
+          });
+    }
 
     // 应用按钮点击事件
     const handleSubmitButtonClick = async () => {
@@ -924,8 +935,8 @@ function DirectionDataForm(props) {
                 </Fragment>
 
                 <footer className="footer-bar">
-                    <Space>
-                    <Button size="small" onClick={()=>{}}>另存为模板</Button>
+                    <Space size="middle">
+                    <Button size="small" onClick={saveAsTemplate}>另存为模板</Button>
                         <Button type="primary" size="small" onClick={handleSubmitButtonClick}>应用</Button>
                         <Button size="small" onClick={restFormData}>清空</Button>
                     </Space>
