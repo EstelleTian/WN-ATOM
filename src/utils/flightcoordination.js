@@ -1562,4 +1562,21 @@ const TodoType = {
     "TOBT": "申请TOBT",
 };
 
-export { FlightCoordination, AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList, TodoType };
+//最终状态
+const Status = {
+    "100": "进行中",
+    "200": "已同意",
+    "300": "已拒绝",
+   
+};
+
+//本席位处理状态
+const HandleStatus = {
+    "100": "未处理",
+    "200": "提交",
+    "300": "同意",
+    "400": "拒绝",
+    "500": "确认",
+};
+
+export { FlightCoordination, AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList, TodoType,Status,HandleStatus };

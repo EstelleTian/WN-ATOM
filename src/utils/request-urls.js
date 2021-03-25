@@ -70,6 +70,10 @@ const ReqUrls = {
     todoListUrl: 'http://192.168.194.21:29891/flight/backlog/task/',
     //我的申请列表-放行监控页面中的
     myApplicationListUrl: 'http://192.168.194.20:28087/workflow/procInst/',
+    //待办
+    runtaskTableUrl:"http://192.168.194.22:29891/flight/runtask/",
+    //已结
+    histaskTableUrl:"http://192.168.194.22:29891/flight/histask/",
 
     //容量管理-基础接口
     // capacityBaseUrl: 'http://192.168.243.200:28482/flow-capacity-rest/capacity/',

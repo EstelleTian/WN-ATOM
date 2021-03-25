@@ -125,7 +125,7 @@ const MyApplicationButton = (props) => {
     },[ user.id ]);
     return (
         <Fragment>
-            <Button
+            {/* <Button
                 type={myApplicationModalVisible ? "primary" : "default"}
                 // size="large"
                 onClick={showMyApplicationModal}
@@ -136,7 +136,7 @@ const MyApplicationButton = (props) => {
                     count={ myApplicationLen }
                     style={{ backgroundColor: 'rgb(61, 132, 36)' }}
                 />
-            </Button>
+            </Button> */}
             <DraggableModal
                 title="我的申请"
                 style={{ top: 100}}

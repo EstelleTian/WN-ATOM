@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState, useCallback, useRef } from "react";
 import { Radio, Badge, Button, Avatar, Dropdown, Menu } from "antd";
 import { UserOutlined, SearchOutlined, DownOutlined } from '@ant-design/icons'
 import { observer, inject } from "mobx-react";
@@ -16,10 +16,18 @@ function RightNav(props) {
     const poolLen = flightTableData.getPoolFlights().length || 0;
     const specialLen = flightTableData.getSpecialFlights().length || 0;
     const expiredLen = flightTableData.getExpiredFlights().length || 0;
+    const [todoModalVisible, setTodoModalVisible] = useState(false);
+
+
+
 
 
     const groupRightChange = (e) => {
         const value = e.target.value;
+
+        if(value === "todo"){
+            setTodoModalVisible(true)
+        }
         systemPage.setLeftActiveName(value);
         console.log(e.target.value)
     }
@@ -108,12 +116,12 @@ function RightNav(props) {
                 }
 
                 {
-                    systemPage.userHasAuth(	12505 ) && <TodoNav />
+                    systemPage.userHasAuth(	12505 ) && <TodoNav todoModalVisible={todoModalVisible} hidTodoModalVisible={setTodoModalVisible} />
                 }
                 
                 </Radio.Group>
                 {
-                    systemPage.userHasAuth(	12511 ) && <MyApplicationButton />
+                    // systemPage.userHasAuth(	12511 ) && <MyApplicationButton />
                 }
                 
             <Radio.Group value={systemPage.rightActiveName} buttonStyle="solid"  onChange={groupRightChange2} >

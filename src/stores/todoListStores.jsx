@@ -9,9 +9,9 @@
 import { makeObservable, observable, action, computed } from 'mobx'
 
 
- // 放行监控-待办列表-数据
+// 放行监控-待办列表-数据
 class TODOList {
-    constructor(){
+    constructor() {
         makeObservable(this)
     }
     // 列表
@@ -24,17 +24,45 @@ class TODOList {
     @observable timeoutId = "";
 
     //更新待办列表数据
-    @action updateTodosData( todos ){
+    @action updateTodosData(todos, generateTime) {
         this.todos = todos;
+        this.generateTime = generateTime;
+
     }
     //更新loading状态
-    @action toggleLoad( load ){
+    @action toggleLoad(load) {
         this.loading = load;
     }
 
 }
 
+// class MyApplicationList {
+//     constructor() {
+//         makeObservable(this)
+//     }
+//     // 列表
+//     @observable myApplications = [];
+//     //数据时间
+//     @observable generateTime = "";
+//     //数据获取
+//     @observable loading = false;
+//     //定时器
+//     @observable timeoutId = "";
+
+//     //更新待办列表数据
+//     @action updateMyApplicationsData(myApplications, generateTime) {
+//         this.myApplications = myApplications;
+//         this.generateTime = generateTime;
+
+//     }
+//     //更新loading状态
+//     @action toggleLoad(load) {
+//         this.loading = load;
+//     }
+
+// }
+
 let todoList = new TODOList();
+// let myApplicationList = new MyApplicationList();
 
-
-export { todoList }
+export { todoList,  }

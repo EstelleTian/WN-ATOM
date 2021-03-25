@@ -1,0 +1,52 @@
+.todo_opt_btn{
+    color: #36a5da;
+}
+.todo_agree{
+    margin-right: 10px;
+}
+.tobt_inner_lable{
+    .ant-form-item-label{
+        label{
+            width: 62px!important;
+        }
+    }
+    
+}
+.todo_canvas{
+    .box_content{
+        overflow-y: hidden!important;
+    }
+    .full_cell{
+        text-align: left;
+        padding-left: 6px;
+    }
+    .extend_icon{
+        position: absolute;
+        top: 10px;
+        right: 40px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+    .refresh_icon{
+        position: absolute;
+        top: 10px;
+        right: 80px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}
+.extend_canvas{
+    // width: 1280px;
+    z-index: 4;
+    overflow: inherit!important;
+    position: relative;
+    box-shadow: 10px 5px 10px #020202;
+    .extend_icon{
+        right: 10px;
+    }
+    .refresh_icon{
+        right: 50px;
+    }
+}
