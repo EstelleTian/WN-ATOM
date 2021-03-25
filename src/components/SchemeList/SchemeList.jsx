@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-25 10:27:02
+ * @LastEditTime: 2021-03-25 18:56:22
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -10,6 +10,7 @@
 import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react';
 import debounce from 'lodash/debounce'
 import PropTypes from 'prop-types';
+import Stomp from 'stompjs'
 import { inject, observer } from 'mobx-react'
 import { Checkbox, Empty, Spin, notification } from 'antd'
 import { requestGet } from 'utils/request'
@@ -184,6 +185,8 @@ function useFlightsList(props){
         } = {} 
     } = systemPage;
 
+    
+
     //更新--航班列表 store数据
     const updateFlightTableData = useCallback( ( flightData )  => {
         if( isValidVariable(props.schemeListData.activeSchemeId)  ){
@@ -296,7 +299,7 @@ function useFlightsList(props){
 
     }, []);
     
-
+   
     useEffect( ()=>{
         if( isValidVariable(activeSchemeId) ){
             flightsTimeoutId.current.map( t => {
@@ -310,13 +313,23 @@ function useFlightsList(props){
     //监听全局刷新
     useEffect(function(){
         if( pageRefresh && isValidVariable(id) ){
+            
             // console.log("全局刷新开启")
             props.flightTableData.toggleLoad(true, true);
             getFlightTableData( false );
         }
     },[ pageRefresh, id ]);
 
+    useEffect( ()=>{
+        if( flightTableData.forceUpdate ){
+            console.log("航班数据强制更新")
+            getFlightTableData( false );
+            flightTableData.setForceUpdate(false);
+        }
+    },[ flightTableData.forceUpdate ])
+
     useEffect(()=>{
+        
         return ()=>{
             if( isValidVariable(flightsTimeoutId.current) ){
                 flightsTimeoutId.current.map( t => {
@@ -328,7 +341,7 @@ function useFlightsList(props){
         }
     },[])
    
-    
+
     
 }
 //KPI请求 hook
@@ -562,8 +575,11 @@ function SList (props){
         }
         
     } , 500),[]);
+    
+    
 
     useEffect(() => {
+        
          if( activeSchemeId === "" && sortedList.length > 0 ){
             handleActive( sortedList[0].id, "", "init")
         }

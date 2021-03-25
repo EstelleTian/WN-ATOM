@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-03-25 15:08:39
+ * @LastEditTime: 2021-03-25 18:53:27
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -62,6 +62,8 @@ class FlightTableData{
     @observable list = [];
     //数据时间
     @observable generateTime = "";
+    //是否强制刷新
+    @observable forceUpdate = false;
     //是否显示loading
     @observable loading = false;
     //数据获取状态
@@ -119,6 +121,10 @@ class FlightTableData{
     //修改--航班列表-自动滚动状态
     @action setAutoScroll(flag ){
         this.autoScroll = flag;
+    }
+    //修改--航班列表-强制更新
+    @action setForceUpdate( flag ){
+        this.forceUpdate = flag;
     }
     //航班列表-快速过滤-开启
     @action setFilterable( flag ){

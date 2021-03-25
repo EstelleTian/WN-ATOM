@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-03-17 16:25:42
+ * @LastEditTime: 2021-03-25 19:30:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -24,7 +24,7 @@ function InfoPage(props){
     const [ scrollChecked, setScrollChecked ] = useState(true);
     const [ autoOpen, setAutoOpen ] = useState(true);
     const autoOpenRef = useRef(true);
-    const stompClient = ( username = "" ) => {
+    const stompClientFunc = ( username = "" ) => {
         if( !isValidVariable(username) ){
             return;
         }
@@ -63,6 +63,9 @@ function InfoPage(props){
         let on_error = function (error) {
             console.log("WebSocket连接失败:");
             console.log(error);
+            setTimeout(function(){
+                stompClientFunc(username);
+            }, 5000)
         }
         // 连接消息服务器
         stompClient.connect('guest', 'guest', on_connect, on_error, '/');
@@ -84,7 +87,7 @@ function InfoPage(props){
         const id = user.id;
         if( isValidVariable(id) ){
             setLogin(true);
-            stompClient(user.username);
+            stompClientFunc(user.username);
         }
         else{
             //TODO 测试用，正式去掉该else

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-01 17:42:11
+ * @LastEditTime: 2021-03-25 19:29:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -16,6 +16,7 @@ import ModalBox from 'components/ModalBox/ModalBox'
 import LeftMultiCanvas  from 'components/LeftMultiCanvas/LeftMultiCanvas'
 import RightMultiCanvas  from 'components/RightMultiCanvas/RightMultiCanvas'
 import {  isValidVariable  } from 'utils/basic-verify'
+import Stomp from 'stompjs'
 import './FangxingPage.scss'
 
 const FlightTableModal = lazy(() => import('components/FlightTable/FlightTable') );
@@ -25,6 +26,7 @@ function FangxingPage(props){
     const { systemPage } = props;
     const { leftActiveName, user = {} } = systemPage;
     const [ login, setLogin ] = useState(false);
+ 
     useEffect(function(){
         const id = user.id;
         if( isValidVariable(id) ){

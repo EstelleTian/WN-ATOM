@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-23 15:34:23
+ * @LastEditTime: 2021-03-25 19:04:07
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -27,7 +27,7 @@ function TTitle(props){
     }, [flightTableData.generateTime]);
 
     const tacticName = useMemo(() => {
-        console.log(schemeListData.activeSchemeId)
+        // console.log(schemeListData.activeSchemeId)
         if( isValidVariable( schemeListData.activeSchemeId ) ){
             const activeScheme = schemeListData.activeScheme(schemeListData.activeSchemeId) || {};
             return activeScheme.tacticName;
@@ -52,7 +52,7 @@ function useAutoSize(){
     let [tableWidth, setWidth] = useState(0);
     let [tableHeight, setHeight] = useState(0);
     useEffect(() => {
-        console.log("tableWidth, tableHeight: ",tableWidth, tableHeight)
+        // console.log("tableWidth, tableHeight: ",tableWidth, tableHeight)
         const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
         const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
         const tableHeader = flightCanvas.getElementsByClassName("ant-table-header")[0];

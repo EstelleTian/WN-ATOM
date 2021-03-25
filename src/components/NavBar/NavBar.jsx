@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-04 17:18:45
+ * @LastEditTime: 2021-03-25 19:34:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\NavBar\NavBar.jsx
@@ -38,9 +38,9 @@ function NavBar(props){
                             <span>{title}</span>
                         </div>
                         <div className="layout-nav-right layout-row">
-                            <div className="single_bell">
+                            {/* <div className="single_bell">
                                 <NavBellNews />
-                            </div>
+                            </div> */}
                             <div className="single_user">
                                 <Avatar className="user_icon" icon={<UserOutlined />} />
                                 <User />
