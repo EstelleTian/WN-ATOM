@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2020-12-22 18:35:41
+ * @LastEditTime: 2021-03-25 08:49:20
  * @LastEditors: Please set LastEditors
  * @Description: ATOM新增
  */
@@ -10,6 +10,7 @@ import React, {useEffect, useState} from 'react'
 import { Row, Col, message as antdMessage,  } from 'antd'
 import {getFullTime, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
 import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail'
+import NTFMDetail  from 'components/RestrictionDetail/NTFMDetail'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
 import FlowRelation  from 'components/RestrictionForm/FlowRelation'
 import { request } from 'utils/request'
@@ -17,7 +18,7 @@ import { ReqUrls } from 'utils/request-urls'
 import { sendMsgToClient } from 'utils/client'
 // ATOM新增导入生成方案
 function ATOMAdd(props){
-    const { title, setDisabledForm,  disabledForm} = props;
+    const { title, setDisabledForm,  disabledForm, pageType} = props;
     let [flowData, setFlowData] = useState({});
     let [ message, setMessage ] = useState({});
 
@@ -73,7 +74,19 @@ function ATOMAdd(props){
                 <Row className="title">
                     <span>{ title }</span>
                 </Row>
-                <ATOMDetail flowType="ATOMData" flowData={ flowData } title="流控信息" />
+                {
+                    //新增
+                    ( pageType === "ATOMAdd" ) &&
+                    // <ATOMDetail flowType="ATOMData" flowData={ flowData } title="流控信息" />
+                    //TODO 模拟NTFM用
+                    <NTFMDetail flowType="NTFMData" flowData={ flowData } title="流控信息" />
+                
+                }
+                {
+                    //新增
+                    ( pageType === "NTFMAdd" ) &&
+                    <NTFMDetail flowType="NTFMData" flowData={ flowData } title="流控信息" />
+                }
             </Col>
             <Col span={12} className="res_right">
                 <Row className="title">

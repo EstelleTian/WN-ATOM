@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-15 14:42:15
+ * @LastEditTime: 2021-03-23 15:34:23
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -17,7 +17,6 @@ import debounce from 'lodash/debounce'
 // import VTable from './VirtualTable'
 import './FlightTable.scss';
 
-let columns = getColumns();
 
 /** start *****航班表格标题************/
 function TTitle(props){
@@ -53,7 +52,7 @@ function useAutoSize(){
     let [tableWidth, setWidth] = useState(0);
     let [tableHeight, setHeight] = useState(0);
     useEffect(() => {
-        // console.log("tableWidth, tableHeight: ",tableWidth, tableHeight)
+        console.log("tableWidth, tableHeight: ",tableWidth, tableHeight)
         const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
         const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
         const tableHeader = flightCanvas.getElementsByClassName("ant-table-header")[0];
@@ -70,18 +69,19 @@ function useAutoSize(){
 
     }, [tableWidth, tableHeight]);
     
-    return { tableWidth, tableHeight }
+    return { tableWidth, tableHeight, setHeight }
 }
 
 /** start *****航班表格 纯表格************/
 function FTable(props){
-    const { tableWidth, tableHeight } = useAutoSize();
+    const { tableWidth, tableHeight, setHeight } = useAutoSize();
     let [sortKey, setSortKey] = useState("FFIXT"); //表格排序字段
     let [sortOrder, setSortOrder] = useState("ascend"); //表格排序 顺序  升序ascend/降序
+    
 
     const { flightTableData = {}, schemeListData } = props;
-    const {  getShowFlights, autoScroll } = flightTableData;
-    const { showList, targetFlight }= getShowFlights;
+    const {  getShowFlights, autoScroll, filterable } = flightTableData;
+    const { showList, targetFlight } = getShowFlights;
     // if( showList.length < 3){
     //     console.log(showList)
     // }
@@ -163,10 +163,26 @@ function FTable(props){
         }
     }, [ targetFlight.id ]);
 
-    // console.log("航班表格 render!!!",schemeStartTime, schemeEndTime)
+    // console.log("航班表格 render!!! filterable",filterable)
+
+    const onCellFilter = useCallback((name,value) => {
+        // console.log(name,value);
+        props.flightTableData.setFilterValues(name,value)
+    },[]);
+    
+    const columns = useMemo( () => {
+        if(filterable){
+            setHeight( tableHeight - 45 )
+            return getColumns("", true, onCellFilter);
+        }else{
+            setHeight( tableHeight + 45 )
+            return getColumns()
+        }
+    }, [filterable]);
+
     return (
         <Table
-            columns={ columns }
+            columns={ columns}
             dataSource={ showList }
             size="small"
             bordered
@@ -209,6 +225,7 @@ const TSpin = inject("flightTableData")(observer((props) => {
         
 }))
 
+//自动滚动
 const AutoScrollBtn = inject("flightTableData")(observer((props) => {
     return (
         <div className="auto_scroll">
@@ -224,7 +241,26 @@ const AutoScrollBtn = inject("flightTableData")(observer((props) => {
         </div>
     )
 }))
-
+//快速过滤
+const FilterBtn = inject("flightTableData")(observer((props) => {
+    return (
+        <div className="quick_filter">
+            <Checkbox.Group options={[{ label: '快速过滤', value: 'quick_filter' }]} 
+                onChange={(checkedValues)=>{
+                    console.log("filterable", checkedValues)
+                    if( checkedValues.indexOf("quick_filter") === -1 ){
+                        props.flightTableData.setFilterable( false );
+                        props.flightTableData.clearFilterValues(  );
+                        
+                    }else{
+                        props.flightTableData.setFilterable( true );
+                    }
+                }}
+            />
+        </div>
+    )
+}))
+//快捷过滤
 const SearchInput = inject("flightTableData")(observer((props) => {
     const { flightTableData = {} } = props;
     const { searchVal = "", setSearchVal } = flightTableData;
@@ -233,18 +269,20 @@ const SearchInput = inject("flightTableData")(observer((props) => {
         debounce((values) => {
             props.flightTableData.setSearchVal( values )
         },800),
-    [])
+    []);
+    
     return (
         <Input
             allowClear
             style={{ width: '200px', marginRight: '15px' }}
             defaultValue={ searchVal }
             placeholder="请输入航班号或航路点"
-            onPressEnter={ e => handleInputVal( e.target.value) }
-            onChange={ e => handleInputVal( e.target.value) }
+            onPressEnter={ e => handleInputVal( e.target.value ) }
+            onChange={ e => handleInputVal( e.target.value ) }
         />
     )
 }))
+//计数
 const TotalDom = inject("flightTableData")(observer((props) => {
     const { flightTableData = {} } = props;
     const { getShowFlights } = flightTableData;
@@ -263,9 +301,10 @@ function FlightTableModal(props){
             showDecorator = {false}
         >
             <div className="statistics">
-                <AutoScrollBtn/>
-                <SearchInput/>
-                <TotalDom/>
+                <FilterBtn />
+                <AutoScrollBtn />
+                <SearchInput />
+                <TotalDom />
             </div>
             <TSpin />
             

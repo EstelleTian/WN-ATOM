@@ -191,10 +191,19 @@ const openCapacityFlowMonitorUnitTclientFrame =(unit) => {
         console.error(error);
     }
 };
+//单个方向数据更新
+const handleUpdateDirectionData =(str) => {
+    try {
+        console.log(str);
+        jsEntity.openProjectModeling(str);
+    }catch(error){
+        console.error(error);
+    }
+};
 
 export {
     updateMessageNum, sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
-    openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame
+    openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData
 }

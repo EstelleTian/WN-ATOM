@@ -1,15 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-03-17 10:52:17
+ * @LastEditTime: 2021-03-24 17:23:45
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
  */
 
 import { observable, action, computed, makeObservable } from 'mobx'
-import { isValidVariable } from 'utils/basic-verify'
-
+import { isValidVariable, getFullTime,  } from 'utils/basic-verify'
  class Capacity{
      constructor(){
         makeObservable(this);
@@ -62,11 +61,15 @@ import { isValidVariable } from 'utils/basic-verify'
      @observable dynamicDataGenerateTime = '';
      @observable authMap = {};
      @observable forceUpdateDynamicData = false;
+     @observable editable = false;
 
      //动态容量 工作流
      @observable dynamicWorkFlowData = {};
      @observable forceUpdateDynamicWorkFlowData = false;
 
+     //动态容量 时间
+     @observable dateRange = 0;
+     
     //动态容量 工作流-添加数据
     @action updateDynamicWorkFlowData(obj){
         this.dynamicWorkFlowData = obj;
@@ -105,7 +108,18 @@ import { isValidVariable } from 'utils/basic-verify'
             }
         })
      }
-
+     //更新 表单是否在编辑状态
+     @action setEditable(flag){
+        this.editable = flag;
+     }
+     //更新pane 日期选择
+     @action getDate(){
+        let now = new Date();
+        let timeStamp = now.getTime() + ( this.dateRange * 24 * 60 * 60 *1000);
+        let newDate = getFullTime( new Date(timeStamp), 4);
+        return newDate;
+     }
+     
      //更新pane 日期选择
      @action updateDateSel(key, val){
         this.panes.map( pane => {

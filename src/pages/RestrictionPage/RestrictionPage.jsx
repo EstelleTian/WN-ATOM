@@ -108,11 +108,12 @@ function RestrictionPage( props ) {
             {/*<div>messageStr:{messageStr}</div>*/}          
             {
                 //新增
-                ( pageType === "ATOMAdd") ?
+                ( pageType === "ATOMAdd" || pageType === "NTFMAdd" ) ?
                     <ATOMAdd
                         title={ `${newTypeCn}(${source})` }
                         disabledForm={disabledForm}
                         setDisabledForm={setDisabledForm}
+                        pageType = {pageType}
                     />
                     : ""
             }
@@ -132,7 +133,6 @@ function RestrictionPage( props ) {
                     />
                     : ""
             }
-
         </Suspense>
 
     )

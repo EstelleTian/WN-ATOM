@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-03-15 09:23:56
+ * @LastEditTime: 2021-03-24 14:41:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -23,6 +23,9 @@ const WorkFlowPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowPage'));
 const WorkFlowDetailPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowDetailPage'));
 const CapacityManagementPage = lazy(() => import('../pages/CapacityManagementPage/CapacityManagementPage'));
 const InfoHistoryPage = lazy(() => import('../pages/InfoPage/InfoHistoryPage'));
+const EditDirectionDataPage = lazy(() => import('../pages/EditDirectionDataPage/EditDirectionDataPage'));
+
+
 
 export default [
     {
@@ -98,7 +101,7 @@ export default [
         title: '工作流详情',
     },
     {
-        path: '/capacity/:name?/:type?',
+        path: '/capacity/:name?/:type?/:firId?',
         component: withRouter(CapacityManagementPage),
         exact: true,
         title: '容量管理',
@@ -108,4 +111,11 @@ export default [
         exact: true,
         title: '消息历史',
     },
+    {
+        path: '/editDirection',
+        component: withRouter(EditDirectionDataPage),
+        exact: true,
+        title: '方向编辑',
+    },
+
 ];
