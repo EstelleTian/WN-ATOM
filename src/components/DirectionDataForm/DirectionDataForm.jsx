@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import "moment/locale/zh-cn"
-import { Button, Modal, Form, Space, Card, Row, Col, Input, Select, Tooltip, Tag, Divider } from 'antd'
+import { Button, Modal, Form, Space, Card, Row, Col, Input, Select, Tooltip, Tag, Divider,Spin } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import ExemptCard from 'components/RestrictionForm/ExemptCard'
 import LimitedCard from 'components/RestrictionForm/LimitedCard'
@@ -20,6 +20,9 @@ import { inject, observer } from "mobx-react";
 function DirectionDataForm(props) {
     // 方向数据对象
     let [directionData, setDirectionData] = useState({});
+    let [loading, setLoading] = useState(false);
+
+    
 
     NWGlobal.setEditDirectionData = function (str) {
 
@@ -34,7 +37,7 @@ function DirectionDataForm(props) {
         //         behindUnit: "HOU",
         //         exemptFormerUnit: "HUOQIAN",
         //         exemptBehindUnit: "HUOHOU",
-        //         depAp: "西安",
+        //         depAp: "ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL;ZBAA",
         //         arrAp: "ZLXY;ZLIC",
         //         exemptDepAp: "HUOQI",
         //         exemptArrAp: "HUOJIANG",
@@ -88,7 +91,7 @@ function DirectionDataForm(props) {
         let len = currentArr.length;
         let includesArr = currentArr.filter((v) => accumulator.includes(v));
         if (includesArr.length === len) {
-            accumulator = accumulator.flatMap((n) => (currentArr.includes(n)) ? [currentValue.label] : [n]);
+            accumulator = accumulator.map((item) => (currentArr.includes(item) ? currentValue.label : item))
         }
         return accumulator
     }
@@ -222,6 +225,115 @@ function DirectionDataForm(props) {
         form.resetFields();
     }, [user.id, directionData]);
 
+    // 拼接名称
+    const spliceName = (fieldData)=> {
+        let { targetUnit, formerUnit, behindUnit, depAp, arrAp } = fieldData;
+        let name = "";
+        if (isValidVariable(formerUnit)) {
+            // 前序-基准点
+            name = `${formerUnit.toUpperCase()}-${targetUnit.toUpperCase()}`;
+        } else if (isValidVariable(depAp) && isValidVariable(depAp.join(';'))) {
+            depAp = depAp.join(';').toUpperCase();
+            // 起飞机场-基准点
+            name = `${depAp}-${targetUnit.toUpperCase()}`;
+        } else if (isValidVariable(behindUnit)) {
+            // 基准点-后序
+            name = `${targetUnit.toUpperCase()}-${behindUnit.toUpperCase()}`;
+        } else if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
+            arrAp = arrAp.join(';').toUpperCase();
+            // 基准点-降落机场
+            name = `${targetUnit.toUpperCase()}-${arrAp}`;
+        } else {
+            // 基准点
+            name = `${targetUnit.toUpperCase()}`;
+        }
+        return name;
+    }
+
+
+
+    /**
+     * 自动命名
+     *
+     * */
+    const autofillName = async () => {
+        try {
+            // 必要校验字段
+            const fields = [
+                'targetUnit',
+            ];
+            // 触发表单验证取表单数据
+            const values = await form.validateFields(fields);
+            // 基准单元
+            let { targetUnit } = values;
+            let fieldsObj = form.getFieldsValue(['formerUnit', 'behindUnit', 'depAp', 'arrAp']);
+            let fieldData = {...fieldsObj, targetUnit}
+            let name = spliceName(fieldData);
+            // 更新
+            form.setFieldsValue({ 'directionName': name });
+        } catch (errorInfo) {
+            console.log('Failed:', errorInfo);
+        }
+    };
+    /**
+     * 自动命名并提交方向
+     *
+     * */
+     const handleAutoFillTacticNameSubmitFormData = (fieldData) => {
+        let name = spliceName(fieldData);
+        // 更新方向名称
+        form.setFieldsValue({ 'directionName': name });
+        // 提交
+        handleSubmitFormData();
+    }
+
+
+    // 应用按钮点击事件
+    const handleSubmitButtonClick = async () => {
+        try {
+            // 触发表单验证取表单数据
+            const fieldData = await form.validateFields();
+            // 校验方向名称是否与限制条件相符
+            checkTacticName(fieldData);
+        } catch (errorInfo) {
+            console.log('Failed:', errorInfo);
+        }
+    };
+
+    /**
+     * 方向名称检查
+     *
+     * */
+    const checkTacticName = (fieldData) => {
+        // 当前方向名称输入框数值
+        const directionName = form.getFieldValue('directionName');
+        let name = spliceName(fieldData);
+        if (name.trim() === directionName.trim()) {
+            // 调用提交函数
+            handleSubmitFormData();
+        } else {
+            Modal.confirm({
+                title: '提示',
+                icon: <ExclamationCircleOutlined />,
+                centered: true,
+                closable: true,
+                content: <div><p>限制条件与方向名称不相符，</p><p>建议自动命名后应用</p></div>,
+                okText: '自动命名并应用',
+                cancelText: '直接应用',
+                onOk: () => { handleAutoFillTacticNameSubmitFormData(fieldData) },
+                onCancel: (close) => {
+                    // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
+                    if (typeof close === 'function') {
+                        // 调用提交函数
+                        handleSubmitFormData();
+                        // 关闭模态框
+                        close();
+                    }
+                },
+            });
+        }
+    };
+
     // 处理表单提交数据
     const handleSubmitFormData = async () => {
         try {
@@ -235,10 +347,6 @@ function DirectionDataForm(props) {
             console.log('Failed:', errorInfo);
         }
     };
-
-    const closeWindow = () => {
-        window.close();
-    }
     // 清空表单数据,但保留与表单不相关的其他字段及数值
     const restFormData = () => {
         // 复制原数据
@@ -452,6 +560,8 @@ function DirectionDataForm(props) {
      * 数据提交
      * */
     const submitFormData = (data) => {
+        // 启用loading
+        setLoading(true);
         // 转换格式
         let dataString = JSON.stringify(data);
         // 调用客户端方法并传入数据
@@ -525,11 +635,23 @@ function DirectionDataForm(props) {
 
     // 区域标签快捷点选按钮点击
     function areaBlockChange(value) {
+        // 拆分参数
         const arr = value.split('-');
+        // 字段名
         const field = arr[0];
-        const val = arr[1];
-        let valueString = filterAreaLabel(val);
-        let valueArr = [valueString];
+        // 区域code
+        const code = arr[1];
+        // 获取区域集合中对应code的label值
+        let label = filterAreaLabel(code);
+        // 获取当前字段值
+        let fieldValue = form.getFieldValue(field);
+        // 若当前字段值中包含此标签label,则不作操作
+        if (fieldValue.indexOf(label) > -1) {
+            return;
+        }
+        // 反之将当前label追加到当前字段值中去
+        let valueArr = [...fieldValue, label];
+        // 更新当前字段值
         updateFormAirportFieldValue(field, valueArr);
     }
 
@@ -546,6 +668,7 @@ function DirectionDataForm(props) {
 
 
     return (
+        <Spin spinning={loading} >
         <div className="direction-edit-wrapper">
             <Form
                 form={form}
@@ -574,7 +697,7 @@ function DirectionDataForm(props) {
                             </Col>
                         </Row>
                     </Card>
-                    <Divider style={{margin: '0 0 6px'}} />
+                    <Divider style={{ margin: '0 0 6px' }} />
                     <Card bordered={false} className="flow-control-flight">
                         <Row gutter={24} >
                             <Col span={16}>
@@ -584,7 +707,12 @@ function DirectionDataForm(props) {
                                     required={true}
                                     rules={[{ required: true }]}
                                 >
-                                    <Input disabled={props.disabledForm} />
+                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                </Form.Item>
+                            </Col>
+                            <Col span={3}>
+                                <Form.Item >
+                                    <Button type="primary" onClick={autofillName} >自动命名</Button>
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -797,13 +925,14 @@ function DirectionDataForm(props) {
 
                 <footer className="footer-bar">
                     <Space>
-                        <Button type="primary" size="small" onClick={handleSubmitFormData}>应用</Button>
+                    <Button size="small" onClick={()=>{}}>另存为模板</Button>
+                        <Button type="primary" size="small" onClick={handleSubmitButtonClick}>应用</Button>
                         <Button size="small" onClick={restFormData}>清空</Button>
-                        <Button size="small" onClick={closeWindow}>关闭</Button>
                     </Space>
                 </footer>
             </Form>
         </div>
+        </Spin>
     )
 }
 
