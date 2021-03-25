@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-12 09:07:21
+ * @LastEditTime: 2021-03-25 09:54:28
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -71,7 +71,7 @@ const ReqUrls = {
     //我的申请列表-放行监控页面中的
     myApplicationListUrl: 'http://192.168.194.20:28087/workflow/procInst/',
     //待办
-    runtaskTableUrl:"http://192.168.194.22:29891/flight/runtask/",
+    runTaskTableUrl:"http://192.168.194.22:29891/flight/runtask/",
     //已结
     histaskTableUrl:"http://192.168.194.22:29891/flight/histask/",
 

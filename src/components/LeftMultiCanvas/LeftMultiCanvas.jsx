@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-02-05 11:15:22
+ * @LastEditTime: 2021-03-25 10:28:47
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -22,25 +22,25 @@ function LeftMultiCanvas(props){
             <div className='unfold_icon'
                  onClick={()=>{
                      props.systemPage.setLeftActiveName("")
-            }}><CloseOutlined /></div>
-            {
-                leftActiveName === "kpi" && 
-                <ExecuteKPIModal />
-            }
-            {
-                leftActiveName === "todo" && 
-                <TodoTable />
-            }
-            {
-                ( leftActiveName !== "todo" && leftActiveName !== "kpi") && 
-                <SubTable name={leftActiveName} key={leftActiveName} leftActiveName={leftActiveName} />
-            }
+                    }}
+            ><CloseOutlined /></div>
+            
+            <ExecuteKPIModal /> 
+            {/* {
+                leftActiveName === "kpi" ?  <ExecuteKPIModal /> : ""
+            } */}
+            {/* {
+                ( leftActiveName !== "kpi") 
+                ? <SubTable name={leftActiveName} key={leftActiveName} leftActiveName={leftActiveName} />
+                : <ExecuteKPIModal />
+            } */}
         </div>
     )
 
 }
 
 export default inject("systemPage")(observer(LeftMultiCanvas))
+
 
 
 

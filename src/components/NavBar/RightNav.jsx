@@ -16,31 +16,17 @@ function RightNav(props) {
     const poolLen = flightTableData.getPoolFlights().length || 0;
     const specialLen = flightTableData.getSpecialFlights().length || 0;
     const expiredLen = flightTableData.getExpiredFlights().length || 0;
-    const [todoModalVisible, setTodoModalVisible] = useState(false);
-
-
-
-
 
     const groupRightChange = (e) => {
         const value = e.target.value;
-
-        if(value === "todo"){
-            setTodoModalVisible(true)
-        }
         systemPage.setLeftActiveName(value);
-        console.log(e.target.value)
+
     }
     const groupRightChange2 = (e) => {
         const value = e.target.value;
         systemPage.setRightActiveName(value);
-        console.log(e.target.value)
-    }
-    const handleMenuClick = (e) => {
-        console.log(e)
-    }
 
-    console.log("systemPage.user", systemPage.user.id)
+    }
     return (
         <div className="layout-nav-right layout-row nav_right">
             {
@@ -48,7 +34,6 @@ function RightNav(props) {
             <RefreshBtn />
             <Button
                 type="default"
-                
                 icon={<SearchOutlined />}
             >航班查询 </Button>
             <Radio.Group value={systemPage.leftActiveName} buttonStyle="solid"  onChange={groupRightChange} >
@@ -114,15 +99,13 @@ function RightNav(props) {
                         }
                     </Radio.Button>
                 }
-
+                {/* 航班协调 */}
                 {
-                    systemPage.userHasAuth(	12505 ) && <TodoNav todoModalVisible={todoModalVisible} hidTodoModalVisible={setTodoModalVisible} />
+                    systemPage.userHasAuth(	12505 ) && <TodoNav />
                 }
                 
                 </Radio.Group>
-                {
-                    // systemPage.userHasAuth(	12511 ) && <MyApplicationButton />
-                }
+                
                 
             <Radio.Group value={systemPage.rightActiveName} buttonStyle="solid"  onChange={groupRightChange2} >
                 {

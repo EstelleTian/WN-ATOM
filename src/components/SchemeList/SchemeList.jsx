@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-15 15:44:14
+ * @LastEditTime: 2021-03-25 10:27:02
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -362,7 +362,7 @@ function useKPIData(props){
     //获取--执行KPI数据
     const getKPIData = useCallback( nextRefresh => {
         // console.log("执行KPI数据 getKPIData")
-        if(leftActiveName === "kpi"){
+        // if(leftActiveName === "kpi"){
             const p = new Promise( (resolve, reject) => {
                 let activeSchemeId = schemeListData.activeSchemeId;
                 if( activeSchemeId.indexOf("focus") > -1 ){
@@ -410,8 +410,9 @@ function useKPIData(props){
                 };
                 requestGet(opt);
             })
-        }
-    },[leftActiveName]);
+        // }
+    // },[leftActiveName]);
+    },[]);
 
     useEffect( ()=>{
         // console.log("执行KPI数据 activeSchemeId, leftActiveName", activeSchemeId, leftActiveName)
@@ -421,7 +422,8 @@ function useKPIData(props){
             getKPIData(true);
         }
 
-    }, [activeSchemeId, leftActiveName]);
+    // }, [activeSchemeId, leftActiveName]);
+    }, [activeSchemeId]);
 
     //监听全局刷新
     useEffect(function(){
