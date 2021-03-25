@@ -763,12 +763,6 @@ function RestrictionForm(props) {
      * */
     const autofillTacticName = async () => {
         try {
-            // 限制数值单位集合
-            const restrictionModeUnit = {
-                "AFP": "架",
-            };
-            // 限制数值单位
-            let unit = "";
             // 必要校验字段
             const fields = [
                 'targetUnit',
@@ -778,27 +772,10 @@ function RestrictionForm(props) {
                 'arrAp',
             ];
             // 触发表单验证取表单数据
-            const values = await form.validateFields(fields);
-            let { targetUnit, restrictionMode, restrictionModeValue, arrAp, restrictionMITValueUnit } = values;
-            let name = "";
-            unit = restrictionModeUnit[restrictionMode];
-            if (restrictionMode === "MIT") {
-                if (restrictionMITValueUnit === 'T') {
-                    unit = '分钟'
-                } else if (restrictionMITValueUnit === 'D') {
-                    unit = '公里'
-                }
-            }
-            if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
-                arrAp = arrAp.join(';').toUpperCase();
-                // 拼接名称
-                name = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
-            } else {
-                // 拼接名称
-                name = `${targetUnit.toUpperCase()}-${restrictionModeValue}${unit}`;
-            }
+            const fieldData = await form.validateFields(fields);
+            let autoName = spliceName(fieldData);
             // 更新
-            form.setFieldsValue({ 'tacticName': name });
+            form.setFieldsValue({ 'tacticName': autoName });
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
         }
@@ -811,14 +788,8 @@ function RestrictionForm(props) {
             props.setDisabledForm(false);
         }
     };
-
-    /**
-     * 方案名称检查
-     *
-     * */
-    const checkTacticName = (fieldData) => {
-        // 方案名称
-        const tacticName = form.getFieldsValue()['tacticName'];
+    // 拼接名称
+    const spliceName = (fieldData)=> {
         // 限制数值单位集合
         const restrictionModeUnit = {
             "AFP": "架",
@@ -843,6 +814,17 @@ function RestrictionForm(props) {
             // 拼接名称
             autoName = `${targetUnit.toUpperCase()}-${restrictionModeValue}${unit}`;
         }
+        return autoName;
+    }
+
+    /**
+     * 方案名称检查
+     *
+     * */
+    const checkTacticName = (fieldData) => {
+        // 方案名称
+        const tacticName = form.getFieldsValue()['tacticName'];
+        let autoName = spliceName(fieldData);
         if (autoName.trim() === tacticName.trim()) {
             // 开启确认模态框
             setIsModalVisible(true);
@@ -874,30 +856,7 @@ function RestrictionForm(props) {
      *
      * */
     const handleAutoFillTacticNameSubmitFormData = (fieldData) => {
-        let { targetUnit, restrictionMode, restrictionModeValue, arrAp, restrictionMITValueUnit } = fieldData;
-        // 限制数值单位
-        let unit = "";
-        // 限制数值单位集合
-        const restrictionModeUnit = {
-            "AFP": "架",
-        };
-        let autoName = "";
-        unit = restrictionModeUnit[restrictionMode];
-        if (restrictionMode === "MIT") {
-            if (restrictionMITValueUnit === 'T') {
-                unit = '分钟'
-            } else if (restrictionMITValueUnit === 'D') {
-                unit = '公里'
-            }
-        }
-        if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
-            arrAp = arrAp.join(';').toUpperCase();
-            // 拼接名称
-            autoName = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
-        } else {
-            // 拼接名称
-            autoName = `${targetUnit.toUpperCase()}-${restrictionModeValue}${unit}`;
-        }
+        let autoName = spliceName(fieldData);
         // 更新方案名称
         form.setFieldsValue({ 'tacticName': autoName });
         // 提交
