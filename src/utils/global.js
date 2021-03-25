@@ -11,7 +11,8 @@ let NWGlobal = {
     setMsg: function(){}, //回传消息对象
     setUserInfo: function(){}, //回传用户对象
     targetToFlight: function(){}, //放行监控  用于定位到航班  方案idsetSchemeId(方案id), flightId(航班id),
-    setCapacityPane: function(){}
+    setCapacityPane: function(){},
+    setEditDirectionData: function(){}, // 回传方向数据
 }
 window.NWGlobal = NWGlobal;
 

@@ -23,6 +23,9 @@ const WorkFlowPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowPage'));
 const WorkFlowDetailPage = lazy(() => import('../pages/WorkFlowPage/WorkFlowDetailPage'));
 const CapacityManagementPage = lazy(() => import('../pages/CapacityManagementPage/CapacityManagementPage'));
 const InfoHistoryPage = lazy(() => import('../pages/InfoPage/InfoHistoryPage'));
+const EditDirectionDataPage = lazy(() => import('../pages/EditDirectionDataPage/EditDirectionDataPage'));
+
+
 
 export default [
     {
@@ -108,4 +111,11 @@ export default [
         exact: true,
         title: '消息历史',
     },
+    {
+        path: '/editDirection',
+        component: withRouter(EditDirectionDataPage),
+        exact: true,
+        title: '方向编辑',
+    },
+
 ];

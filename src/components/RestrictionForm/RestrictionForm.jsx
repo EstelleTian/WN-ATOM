@@ -17,6 +17,19 @@ import { inject, observer } from "mobx-react";
 
 //表单整体
 function RestrictionForm(props) {
+    // 区域标签机场集合
+    const areaLabelAirport = [
+        {
+            label: '兰州',
+            airport: 'ZBAL;ZBAR;ZBEN;ZBUH;ZLDH;ZLDL;ZLGL;ZLGM;ZLGY;ZLHB;ZLHX;ZLIC;ZLJC;ZLJQ;ZLLL;ZLLN;ZLTS;ZLXH;ZLXN;ZLYS;ZLZW;ZLZY',
+            code:'ZLLL'
+        },
+        {
+            label: '西安',
+            airport: 'ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL',
+            code:'ZLXY'
+        },
+    ]
     const flowData = props.flowData || {};
     const showIgnoreBtn = props.showIgnoreBtn || false;
     const showEditBtn = props.showEditBtn || false;
@@ -118,6 +131,54 @@ function RestrictionForm(props) {
     // 忽略模态框显隐变量
     let [isIgnoreModalVisible, setIsIgnoreModalVisible] = useState(false);
 
+    // 转换成区域标签
+    function formatAreaLabel (labelData, airport) {
+        let array = labelData.reduce(reducer, airport);
+        let sortedArray = [...new Set(array)].sort((a, b) => a.localeCompare(b));
+        return sortedArray
+    }
+    // 筛选机场
+    function reducer  (accumulator, currentValue, index, array) {
+        let currentArr = currentValue.airport.split(';');
+        let len = currentArr.length;
+        let includesArr = currentArr.filter((v) => accumulator.includes(v));
+        if (includesArr.length === len) {
+            accumulator = accumulator.flatMap((n) => (currentArr.includes(n)) ? [currentValue.label] : [n]);
+        }
+        return accumulator
+    }
+
+    // 解析指定数值中的区域标签，转换为对应的机场
+    function parseAreaLabelAirport(arr){
+        let result = [];
+        if(Array.isArray(arr)){
+            if(arr.length == 0){
+                return result;
+            }
+            for(let i=0; i<arr.length; i++){
+                let label = arr[i];
+                let airports = findAreadLabelAirport(label);
+                if (isValidVariable(airports)) {
+                   result = result.concat(airports);
+                }else {
+                   result = result.concat(label)
+                }
+            }
+        }
+        return result;
+    }
+    // 查找指定区域标签对应的机场集合
+    function findAreadLabelAirport(label){
+        for(let i=0; i<areaLabelAirport.length; i++){
+            let data = areaLabelAirport[i];
+            let dataLabel = data.label.trim();
+            if(label === dataLabel){
+                let arr = data.airport.split(';');
+                return arr;
+            }
+        }
+    }
+
     // 依据流控限制方式取流控限制数值方法
     const getRestrictionModeValue = () => {
         const { restrictionMode, restrictionMITValue, restrictionAFPValueSequence } = flowControlMeasure;
@@ -142,7 +203,6 @@ function RestrictionForm(props) {
         "exemptFormerUnit",
         "exemptBehindUnit",
         "flowControlFlightId",
-        "aircraftType",
         "exemptFlightId",
         "aircraftType",
         "exemptionAircraftType",
@@ -164,6 +224,11 @@ function RestrictionForm(props) {
     // 流控限制数值
     let restrictionModeValue = getRestrictionModeValue();
 
+    let abc = 'ZBAL;ZLXY;AAAA;ZBAR;ZBEN;ZBUH;ZLDH;ZLDL;ZLGL;ZLGM;ZLGY;ZLHB;ZLHX;ZLIC;ZLJC;ZLJQ;ZLLL;ZLLN;ZLTS;ZLXH;ZLXN;ZLYS;ZLZW;ZLZY'.split(';');
+    let depApArray = isValidVariable(depAp) ? depAp.split(';') : [];
+    let arrApArray = isValidVariable(arrAp) ? arrAp.split(';') : [];
+    let exemptDepApArray = isValidVariable(exemptDepAp) ? exemptDepAp.split(';') : [];
+    let exemptArrApArray = isValidVariable(exemptArrAp) ? exemptArrAp.split(';') : [];
     // 日期组件格式化方式
     const dateFormat = 'YYYY-MM-DD HHmm';
     // 表单初始数值对象集合
@@ -193,14 +258,15 @@ function RestrictionForm(props) {
         highLimit: highLimit,
         // 豁免高度
         exemptHeight: exemptHeight,
+        
         // 起飞机场
-        depAp: depAp,
+        depAp: formatAreaLabel(areaLabelAirport, depApArray),
         // 降落机场
-        arrAp: arrAp,
+        arrAp: formatAreaLabel(areaLabelAirport, arrApArray),
         // 豁免起飞机场
-        exemptDepAp: exemptDepAp,
+        exemptDepAp: formatAreaLabel(areaLabelAirport, exemptDepApArray),
         // 豁免降落机场
-        exemptArrAp: exemptArrAp,
+        exemptArrAp: formatAreaLabel(areaLabelAirport, exemptArrApArray),
 
         // 方案开始日期(DatePicker组件使用)
         startDate: isValidVariable(basicStartTime) ? moment(basicStartTime, dateFormat) : moment(now, dateFormat),
@@ -465,13 +531,13 @@ function RestrictionForm(props) {
         // 更新豁免高度
         directionListData.exemptHeight = exemptHeight;
         // 起飞机场
-        directionListData.depAp = depAp;
+        directionListData.depAp = parseAreaLabelAirport(depAp).join(';');
         // 降落机场
-        directionListData.arrAp = arrAp;
+        directionListData.arrAp = parseAreaLabelAirport(arrAp).join(';');
         // 豁免起飞机场
-        directionListData.exemptDepAp = exemptDepAp;
+        directionListData.exemptDepAp = parseAreaLabelAirport(exemptDepAp).join(';');
         // 豁免降落机场
-        directionListData.exemptArrAp = exemptArrAp;
+        directionListData.exemptArrAp = parseAreaLabelAirport(exemptArrAp).join(';');
 
         // 更新流控名称
         basicFlowcontrol.flowControlName = flowControlName;
@@ -487,7 +553,6 @@ function RestrictionForm(props) {
         let modeKey = restrictionModeData[restrictionMode];
         // 更新流控限制方式相应的字段数值
         flowControlMeasure[modeKey] = restrictionModeValue;
-        debugger
         // 若限制类型为MIT
         if (restrictionMode === "MIT") {
             // 更新MIT流控时间间隔字段数值
@@ -682,7 +747,7 @@ function RestrictionForm(props) {
 
 
     /**
-     * 更新流控发布类型
+     * 更新指定机场字段数值
      *
      * */
     const updateFormAirportFieldValue = (field, value) => {
@@ -692,9 +757,6 @@ function RestrictionForm(props) {
         form.setFieldsValue(data);
         // setRenderNumber(renderNumber++);
     };
-
-
-    
 
     /**
      * 自动命名
@@ -728,8 +790,8 @@ function RestrictionForm(props) {
                     unit = '公里'
                 }
             }
-            if (isValidVariable(arrAp)) {
-                arrAp = arrAp.toUpperCase();
+            if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
+                arrAp = arrAp.join(';').toUpperCase();
                 // 拼接名称
                 name = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
             } else {
@@ -774,8 +836,8 @@ function RestrictionForm(props) {
                 unit = '公里'
             }
         }
-        if (isValidVariable(arrAp)) {
-            arrAp = arrAp.toUpperCase();
+        if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
+            arrAp = arrAp.join(';').toUpperCase();
             // 拼接名称
             autoName = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
         } else {
@@ -829,8 +891,8 @@ function RestrictionForm(props) {
                 unit = '公里'
             }
         }
-        if (isValidVariable(arrAp)) {
-            arrAp = arrAp.toUpperCase();
+        if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
+            arrAp = arrAp.join(';').toUpperCase();
             // 拼接名称
             autoName = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
         } else {
@@ -1006,6 +1068,7 @@ function RestrictionForm(props) {
                     updateFormAirportFieldValue={updateFormAirportFieldValue}
                     autofillTacticName={autofillTacticName}
                     form={form}
+                    areaLabelAirport = {areaLabelAirport}
 
                 />
 

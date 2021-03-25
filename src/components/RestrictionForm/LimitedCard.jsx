@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {Card, Checkbox, Col, DatePicker, Descriptions, Form, Input, Radio, Select, Row} from "antd";
+import {Card, Checkbox, Col, DatePicker, Descriptions, Form, Input, Radio, Select, Row, Tag, Tooltip  } from "antd";
 
 // 前序/后序表单
 function XuCard(props){
@@ -58,17 +58,17 @@ const auType = [
 
 //航班类型选项
 const airlineType = [
-    { label: '国内', value: 'DOMESTIC' },
-    { label: '国际', value: 'INTERNATIONAL' },
-    { label: '台湾地区', value: 'TAIWAN' },
-    { label: '港澳特区', value: 'HKANDMC' },
-    { label: '飞越', value: 'OVERFLY' },
+    { label: '国内', value: 'DOMESTIC_AIRLINE' },
+    { label: '国际', value: 'INTERNATIONAL_AIRLINE'},
+    { label: '台湾地区', value: 'TAIWAN_AIRLINE' },
+    { label: '港澳特区', value: 'HKANDMC_AIRLINE' },
+    { label: '飞越', value: 'OVERFLY_AIRLINE' },
     { label: '未知', value: 'UNKNOWN' },
 ];
 //客货类型选项
 const missionType = [
-    { label: '客班', value: 'AIRLINE' },
-    { label: '货班', value: 'CARGO' },
+    { label: '客班', value: 'AIRLINE_MISSION'},
+    { label: '货班', value: 'CARGO_MISSION' },
     { label: '未知', value: 'UNKNOWN' },
 ];
 //任务类型选项
@@ -77,7 +77,7 @@ const task = [
     { label: '补班', value: 'PATCH' },
     { label: '加班包机', value: 'PAXCHARTER' },
     { label: '调机', value: 'FERRY' },
-    { label: '校验', value: 'CHECK' },
+    { label: '校飞', value: 'CHECK' },
     { label: '急救', value: 'AMBULANCE' },
     { label: '公务机', value: 'BUSINESS' },
     { label: '其他', value: 'OTHER' },
