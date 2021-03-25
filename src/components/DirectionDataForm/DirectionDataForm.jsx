@@ -2,14 +2,14 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import "moment/locale/zh-cn"
-import { Button, Modal, Form, Space, Card, Row, Col, Input, Select, Tooltip, Tag } from 'antd'
+import { Button, Modal, Form, Space, Card, Row, Col, Input, Select, Tooltip, Tag, Divider } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import ExemptCard from 'components/RestrictionForm/ExemptCard'
 import LimitedCard from 'components/RestrictionForm/LimitedCard'
 import { handleUpdateDirectionData } from 'utils/client'
 import { isValidObject, isValidVariable } from '../../utils/basic-verify'
-import { request } from 'utils/request'
-import { ReqUrls } from 'utils/request-urls'
+const { Option } = Select;
+
 import { NWGlobal } from 'utils/global';
 
 
@@ -21,8 +21,8 @@ function DirectionDataForm(props) {
     // 方向数据对象
     let [directionData, setDirectionData] = useState({});
 
-    NWGlobal.setEditDirectionData = function( str ){
-        
+    NWGlobal.setEditDirectionData = function (str) {
+
         const data = JSON.parse(str);
 
         // const data = {
@@ -60,14 +60,14 @@ function DirectionDataForm(props) {
             code: 'ZLXY'
         },
     ]
-    
+
     const systemPage = props.systemPage || {};
     // 用户信息
     const user = systemPage.user || {};
 
 
-    const {directionName="", direction={},  flowControlFlight={}} = directionData;
-   
+    const { directionName = "", direction = {}, flowControlFlight = {} } = directionData;
+
     const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = direction;
 
     const { flowControlFlightId = "", wakeFlowLevel = "", airlineType = "", missionType = "", auType = "",
@@ -96,18 +96,18 @@ function DirectionDataForm(props) {
     // 解析指定数值中的区域标签，转换为对应的机场
     function parseAreaLabelAirport(arr) {
         let result = [];
-        if(Array.isArray(arr)){
-            if(arr.length == 0){
+        if (Array.isArray(arr)) {
+            if (arr.length == 0) {
                 return result;
             }
 
-            for(let i=0; i<arr.length; i++){
+            for (let i = 0; i < arr.length; i++) {
                 let label = arr[i];
                 let airports = findAreadLabelAirport(label);
                 if (isValidVariable(airports)) {
-                   result = result.concat(airports);
-                }else {
-                   result = result.concat(label)
+                    result = result.concat(airports);
+                } else {
+                    result = result.concat(label)
                 }
             }
         }
@@ -115,10 +115,10 @@ function DirectionDataForm(props) {
     }
     // 查找指定区域标签对应的机场集合
     function findAreadLabelAirport(label) {
-        for(let i=0; i<areaLabelAirport.length; i++){
+        for (let i = 0; i < areaLabelAirport.length; i++) {
             let data = areaLabelAirport[i];
             let dataLabel = data.label.trim();
-            if(label === dataLabel){
+            if (label === dataLabel) {
                 let arr = data.airport.split(';');
                 return arr;
             }
@@ -227,16 +227,101 @@ function DirectionDataForm(props) {
         try {
             // 触发表单验证取表单数据
             const values = await form.validateFields();
-            
             // 处理提交数据
             const submitData = handleSubmitData(values);
-            
             // 数据提交
             submitFormData(submitData)
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
         }
     };
+
+    const closeWindow = () => {
+        window.close();
+    }
+    // 清空表单数据,但保留与表单不相关的其他字段及数值
+    const restFormData = () => {
+        // 复制原数据
+        let directionDataCopy = JSON.parse(JSON.stringify(directionData));
+        // 方向基本信息数据对象
+        let direction = directionDataCopy.direction;
+        if (!isValidObject(direction)) {
+            directionDataCopy.direction = {};
+            direction = directionDataCopy.direction;
+        }
+        // 方向流控航班类型条件数据对象
+        let flowControlFlight = directionDataCopy.flowControlFlight;
+        if (!isValidObject(flowControlFlight)) {
+            directionDataCopy.flowControlFlight = {};
+            flowControlFlight = directionDataCopy.flowControlFlight;
+        }
+
+        // 更新方向名称
+        directionDataCopy.directionName = "";
+
+        // 更新基准单元
+        direction.targetUnit = "";
+        // 更新前序单元
+        direction.formerUnit = "";
+        // 更新后序单元
+        direction.behindUnit = "";
+        // 更新豁免前序
+        direction.exemptFormerUnit = "";
+        // 更新豁免后序
+        direction.exemptBehindUnit = "";
+        // 更新限制高度
+        direction.highLimit = "";
+        // 更新豁免高度
+        direction.exemptHeight = "";
+
+        // 起飞机场
+        direction.depAp = "";
+        // 降落机场
+        direction.arrAp = "";
+        // 豁免起飞机场
+        direction.exemptDepAp = "";
+        // 豁免降落机场
+        direction.exemptArrAp = "";
+
+        // 更新流控交通流-包含-航班号
+        flowControlFlight.flowControlFlightId = "";
+        // 更新流控交通流-包含-尾流类型
+        flowControlFlight.wakeFlowLevel = "";
+        // 更新流控交通流-包含-运营人
+        flowControlFlight.auType = "";
+        // 更新流控交通流-包含-航班类型
+        flowControlFlight.airlineType = "";
+        // 更新流控交通流-包含-客货类型
+        flowControlFlight.missionType = "";
+        // 更新流控交通流-包含-任务类型
+        flowControlFlight.task = "";
+        // 更新流控交通流-包含-军民航
+        flowControlFlight.organization = "";
+        // 更新流控交通流-包含-限制资质
+        flowControlFlight.ability = "";
+        // 更新流控交通流-包含-受控机型
+        flowControlFlight.aircraftType = "";
+
+        // 更新流控交通流-不包含-航班号
+        flowControlFlight.exemptFlightId = "";
+        // 更新流控交通流-不包含-尾流类型
+        flowControlFlight.exemptionWakeFlowLevel = "";
+        // 更新流控交通流-不包含-航班类型
+        flowControlFlight.exemptionAirlineType = "";
+        // 更新流控交通流-不包含-运营人
+        flowControlFlight.exemptionAuType = "";
+        // 更新流控交通流-不包含-客货类型
+        flowControlFlight.exemptionMissionType = "";
+        // 更新流控交通流-不包含-任务类型
+        flowControlFlight.exemptionTask = "";
+        // 更新流控交通流-不包含-军民航
+        flowControlFlight.exemptionOrganization = "";
+        // 更新流控交通流-不包含-限制资质
+        flowControlFlight.exemptionAbility = "";
+        // 更新流控交通流-不包含-受控机型
+        flowControlFlight.exemptionAircraftType = "";
+        setDirectionData(directionDataCopy);
+    }
 
 
     // 将数值批量转换为大写
@@ -269,7 +354,7 @@ function DirectionDataForm(props) {
 
         // 复制方向数据对象
         let opt = JSON.parse(JSON.stringify(directionData));
-        
+
 
         // 方向基本信息数据对象
         let direction = opt.direction;
@@ -284,7 +369,7 @@ function DirectionDataForm(props) {
             opt.flowControlFlight = {};
             flowControlFlight = opt.flowControlFlight;
         }
-        
+
 
         // 表单字段数据
         const { directionName, targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight,
@@ -312,7 +397,7 @@ function DirectionDataForm(props) {
         direction.highLimit = highLimit;
         // 更新豁免高度
         direction.exemptHeight = exemptHeight;
-        
+
         // 起飞机场
         direction.depAp = parseAreaLabelAirport(depAp).join(';');
         // 降落机场
@@ -321,7 +406,7 @@ function DirectionDataForm(props) {
         direction.exemptDepAp = parseAreaLabelAirport(exemptDepAp).join(';');
         // 豁免降落机场
         direction.exemptArrAp = parseAreaLabelAirport(exemptArrAp).join(';');
-        
+
 
         // 更新流控交通流-包含-航班号
         flowControlFlight.flowControlFlightId = flowControlFlightId.join(';');
@@ -375,7 +460,7 @@ function DirectionDataForm(props) {
         window.close();
     };
 
-    
+
     /**
      * 更新指定机场字段数值
      *
@@ -389,7 +474,7 @@ function DirectionDataForm(props) {
     };
 
 
-   
+
     useEffect(function () {
         const user = localStorage.getItem("user");
         if (isValidVariable(user)) {
@@ -471,6 +556,25 @@ function DirectionDataForm(props) {
                 className={props.bordered ? `advanced_form bordered-form` : "advanced_form"}
             >
                 <Fragment>
+                    <Card bordered={false}>
+                        <Row gutter={24} >
+                            <Col span={16}>
+                                <Form.Item
+                                    label="选择模板"
+                                >
+                                    <Select
+                                        disabled={props.disabledForm}
+                                        // mode="tags"
+                                        style={{ width: '100%' }}
+                                        placeholder="选择模板"
+                                        allowClear={true}
+                                    >
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </Card>
+                    <Divider style={{margin: '0 0 6px'}} />
                     <Card bordered={false} className="flow-control-flight">
                         <Row gutter={24} >
                             <Col span={16}>
@@ -694,8 +798,8 @@ function DirectionDataForm(props) {
                 <footer className="footer-bar">
                     <Space>
                         <Button type="primary" size="small" onClick={handleSubmitFormData}>应用</Button>
-                        <Button size="small" onClick={() => { }}>清空</Button>
-                        <Button size="small" onClick={() => { }}>关闭</Button>
+                        <Button size="small" onClick={restFormData}>清空</Button>
+                        <Button size="small" onClick={closeWindow}>关闭</Button>
                     </Space>
                 </footer>
             </Form>

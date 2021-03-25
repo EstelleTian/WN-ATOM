@@ -83,6 +83,7 @@
             }
         }
         .flow-control-flight {
+            padding-bottom: 60px;
             .ant-card-head {
                 border-color: #424242;
             }
@@ -117,9 +118,15 @@
             }
         }
         .footer-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #363636;
+            // border-top: 1px solid #4e4e4e;
             padding: 1rem 2rem;
             display: flex;
             justify-content: flex-end;
+            box-shadow: #5b5c5c 0px -1px 0px 0px;
         }
     }
 }
