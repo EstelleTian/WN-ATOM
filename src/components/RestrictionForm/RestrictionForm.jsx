@@ -151,19 +151,32 @@ function RestrictionForm(props) {
     // 解析指定数值中的区域标签，转换为对应的机场
     function parseAreaLabelAirport(arr){
         let result = [];
-        result = arr.flatMap((n) => {
-            let areaData = findAreadLabelAirport(n);
-            if(isValidObject(areaData)){
-                return areaData.airport.split(';');
-            }else {
-                return [n];
+        if(Array.isArray(arr)){
+            if(arr.length == 0){
+                return result;
             }
-        });
+            for(let i=0; i<arr.length; i++){
+                let label = arr[i];
+                let airports = findAreadLabelAirport(label);
+                if (isValidVariable(airports)) {
+                   result = result.concat(airports);
+                }else {
+                   result = result.concat(label)
+                }
+            }
+        }
         return result;
     }
     // 查找指定区域标签对应的机场集合
     function findAreadLabelAirport(label){
-        return areaLabelAirport.find(item => item.label === label);
+        for(let i=0; i<areaLabelAirport.length; i++){
+            let data = areaLabelAirport[i];
+            let dataLabel = data.label.trim();
+            if(label === dataLabel){
+                let arr = data.airport.split(';');
+                return arr;
+            }
+        }
     }
 
     // 依据流控限制方式取流控限制数值方法
@@ -777,7 +790,7 @@ function RestrictionForm(props) {
                     unit = '公里'
                 }
             }
-            if (isValidVariable(arrAp)) {
+            if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
                 arrAp = arrAp.join(';').toUpperCase();
                 // 拼接名称
                 name = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
@@ -823,7 +836,7 @@ function RestrictionForm(props) {
                 unit = '公里'
             }
         }
-        if (isValidVariable(arrAp)) {
+        if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
             arrAp = arrAp.join(';').toUpperCase();
             // 拼接名称
             autoName = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
@@ -878,7 +891,7 @@ function RestrictionForm(props) {
                 unit = '公里'
             }
         }
-        if (isValidVariable(arrAp)) {
+        if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
             arrAp = arrAp.join(';').toUpperCase();
             // 拼接名称
             autoName = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
