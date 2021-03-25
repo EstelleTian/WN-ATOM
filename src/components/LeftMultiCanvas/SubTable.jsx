@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-11 14:54:00
+ * @LastEditTime: 2021-03-25 15:19:13
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
 import React, {  Suspense, useCallback, useState, useEffect, useMemo} from 'react';
-import { Table, Spin } from 'antd';
+import { Table, Spin, Modal } from 'antd';
 import {inject, observer} from "mobx-react";
 import ModalBox from 'components/ModalBox/ModalBox';
 import { getColumns, formatSingleFlight, scrollTopById, highlightRowByDom, clearHighlightRowByDom} from 'components/FlightTable/TableColumns';
@@ -88,61 +88,34 @@ function SubTable(props){
     let [tableWidth, setWidth] = useState(0);
     let [tableHeight, setHeight] = useState(0);
     let [sortKey, setSortKey] = useState("FFIXT"); //表格排序字段
+    const [ modalVisible, setModalVisible] = useState(false);
 
-    const { leftActiveName, flightTableData } = props;
-    let subTableData = [];
-    switch (leftActiveName) {
-        case "exempt": subTableData = flightTableData.getExemptFlights(); break;
-        case "pool": subTableData = flightTableData.getPoolFlights();break;
-        case "special": subTableData = flightTableData.getSpecialFlights();break;
-        case "expired": subTableData = flightTableData.getExpiredFlights();break;
-        default:
-    }
-    const columns = getColumns( SubNames[leftActiveName] );
-    console.log(leftActiveName, columns, subTableData);
+    const { flightTableData, systemPage } = props;
+    const modalActiveName = systemPage.modalActiveName || "";
 
-
-    useEffect(() => {
-        const flightCanvas = document.getElementsByClassName(leftActiveName+"_canvas")[0];
-        flightCanvas.oncontextmenu = function(){
-            return false;
-        };
-        const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
-        const tableHeader = flightCanvas.getElementsByClassName("ant-table-header")[0];
-
-        let width = boxContent.offsetWidth;
-        let height = boxContent.offsetHeight;
-        // console.log("表格高度："+height );
-        // height -= 40;//标题高度“航班列表”
-        // height -= 45;//表头高度
-        height -= tableHeader.offsetHeight;//表头高度
-        setWidth( width );
-        setHeight( height );
-
-    }, [tableWidth, tableHeight]);
-
-    useEffect(() => {
-        const { id } = props.flightTableData.getSelectedFlight;
-        const flightCanvas = document.getElementsByClassName( leftActiveName+"_canvas")[0];
-        if( isValidVariable( id ) ){
-            const trDom = flightCanvas.getElementsByClassName(id);
-            if( trDom.length > 0 ){
-                highlightRowByDom(trDom[0]);
-            }else{
-                const tableTBody = flightCanvas.getElementsByClassName("ant-table-tbody");
-                const trs = tableTBody[0].getElementsByTagName("tr");
-                clearHighlightRowByDom(trs);
-            }
-            scrollTopById(id, leftActiveName+"_canvas");
-            
+    const { tableData, columns } = useMemo( ()=>{
+        const columns = getColumns( SubNames[modalActiveName] );
+        let subTableData = [];
+        switch (modalActiveName) {
+            case "exempt": subTableData = props.flightTableData.getExemptFlights(); break;
+            case "pool": subTableData = props.flightTableData.getPoolFlights();break;
+            case "special": subTableData = props.flightTableData.getSpecialFlights();break;
+            case "expired": subTableData = props.flightTableData.getExpiredFlights();break;
+            default:
         }
+        //转换为表格数据
+        let tableData = subTableData.map( flight => formatSingleFlight(flight) )
+        return { tableData, columns };
+    },[props.flightTableData.list, modalActiveName])
 
-    }, [ props.flightTableData.getSelectedFlight.id ]);
+    // console.log(modalActiveName, tableData.length)
+   
+    const hideModal = () => {
+        setModalVisible(false);
+        props.systemPage.setModalActiveName("");
+    }
 
-    //转换为表格数据
-    const tableData = useMemo( () => {
-        return subTableData.map( flight => formatSingleFlight(flight) )
-    }, [subTableData]);
+ 
     //设置表格行的 class
     const rowClassName = useCallback(
         (record, index) => {
@@ -178,19 +151,78 @@ function SubTable(props){
     );
     const activeScheme = props.schemeListData.activeScheme(props.schemeListData.activeSchemeId) || {};
     const tacticName = activeScheme.tacticName || "";
+
     const getTitle = () => {
         return <span>
-            <span>{subKeys[leftActiveName]}</span>
+            <span>{subKeys[modalActiveName]}</span>
             —
             <span style={{ color: "#36a5da"}}>{tacticName}</span>
         </span>
     }
+
+    // useEffect(() => {
+    //     if( isValidVariable(modalActiveName) ){
+    //         const flightCanvas = document.getElementsByClassName(modalActiveName+"_canvas")[0];
+    //         flightCanvas.oncontextmenu = function(){
+    //             return false;
+    //         };
+    //         const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
+    //         const tableHeader = flightCanvas.getElementsByClassName("ant-table-header")[0];
+    
+    //         let width = boxContent.offsetWidth;
+    //         let height = boxContent.offsetHeight;
+    //         console.log("表格高度："+height );
+    //         // height -= 40;//标题高度“航班列表”
+    //         // height -= 45;//表头高度
+    //         height -= tableHeader.offsetHeight;//表头高度
+    //         setWidth( width );
+    //         setHeight( height );
+    //     }
+    // }, [tableWidth, tableHeight, modalActiveName]);
+
+    useEffect(() => {
+        const { id } = props.flightTableData.getSelectedFlight;
+        const flightCanvas = document.getElementsByClassName( modalActiveName+"_canvas")[0];
+        if( isValidVariable( id ) ){
+            const trDom = flightCanvas.getElementsByClassName(id);
+            if( trDom.length > 0 ){
+                highlightRowByDom(trDom[0]);
+            }else{
+                const tableTBody = flightCanvas.getElementsByClassName("ant-table-tbody");
+                const trs = tableTBody[0].getElementsByTagName("tr");
+                clearHighlightRowByDom(trs);
+            }
+            scrollTopById(id, modalActiveName+"_canvas");
+            
+        }
+
+    }, [ props.flightTableData.getSelectedFlight.id ]);
+
+    useEffect( ()=>{
+        if( modalActiveName === "exempt" || modalActiveName === "pool" || modalActiveName === "special" || modalActiveName === "expired"){
+            setModalVisible(true);
+        }else{
+            setModalVisible(false);
+        }
+    }, [modalActiveName]);
+
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
-            <ModalBox
+             <Modal
+                width={1000}
+                style={{ 
+                    right: "-470px",
+                    top: "60px"
+                 }}
                 title={getTitle()}
-                showDecorator = {true}
-                className={`sub_table_modal ${leftActiveName}_canvas ${leftActiveName}`}
+                visible={ modalVisible }
+                footer={[] // 设置footer为空，去掉 取消 确定默认按钮
+                    }
+                onOk={() => { }}
+                mask={false}
+                wrapClassName="pointer-events-none"
+                onCancel={ hideModal }
+                className={`sub_table_modal ${modalActiveName}_canvas ${modalActiveName}`}
             >
                 <Table
                     columns={ columns }
@@ -200,8 +232,8 @@ function SubTable(props){
                     pagination={false}
                     // loading={ loading }
                     scroll={{
-                        x: tableWidth,
-                        y: tableHeight
+                        x: 1000,
+                        y: 500
                     }}
                     onRow={record => {
                         return {
@@ -214,14 +246,21 @@ function SubTable(props){
                         };
                       }}
                     rowClassName={rowClassName}/>
-            </ModalBox>
+            </Modal>
+            {/* <ModalBox
+                title={getTitle()}
+                showDecorator = {true}
+                className={`sub_table_modal ${modalActiveName}_canvas ${modalActiveName}`}
+            >
+                
+            </ModalBox> */}
         </Suspense>
 
     )
 
 }
 
-export default inject("flightTableData", "schemeListData")(observer(SubTable))
+export default inject("flightTableData", "schemeListData", "systemPage")(observer(SubTable))
 
 
 

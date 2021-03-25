@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-25 08:49:20
+ * @LastEditTime: 2021-03-25 13:27:40
  * @LastEditors: Please set LastEditors
  * @Description: ATOM新增
  */
@@ -77,9 +77,9 @@ function ATOMAdd(props){
                 {
                     //新增
                     ( pageType === "ATOMAdd" ) &&
-                    // <ATOMDetail flowType="ATOMData" flowData={ flowData } title="流控信息" />
+                    <ATOMDetail flowType="ATOMData" flowData={ flowData } title="流控信息" />
                     //TODO 模拟NTFM用
-                    <NTFMDetail flowType="NTFMData" flowData={ flowData } title="流控信息" />
+                    // <NTFMDetail flowType="NTFMData" flowData={ flowData } title="流控信息" />
                 
                 }
                 {

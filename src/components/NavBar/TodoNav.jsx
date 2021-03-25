@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-03-25 11:12:38
+ * @LastEditTime: 2021-03-25 15:14:53
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -19,16 +19,16 @@ import HisTaskTable from './HisTaskTable';
 const { TabPane } = Tabs;
 
 function TodoNav(props) {
-
     const [todoModalVisible, setTodoModalVisible] = useState(false);
     const timerId = useRef();
     const { systemPage = {}, todoList: { todos } } = props;
-    const leftActiveName = systemPage.leftActiveName || "";
+    const modalActiveName = systemPage.modalActiveName || "";
     const user = systemPage.user || {};
     const todoLen = todos.length || 0;
 
     const hideModal = () => {
         setTodoModalVisible(false);
+        props.systemPage.setModalActiveName("");
     }
     //获取待办工作请求
     const requestData = useCallback((triggerLoading, nextRefresh = false) => {
@@ -153,11 +153,13 @@ function TodoNav(props) {
     }, []);
 
     useEffect( ()=>{
-        if( leftActiveName === "todo" ){
+        if( modalActiveName === "todo" ){
             setTodoModalVisible(true);
+        } else{
+            setTodoModalVisible(false);
         }
 
-    }, [leftActiveName]);
+    }, [modalActiveName]);
 
     useEffect(() => {
         requestData(true, true);
@@ -169,8 +171,7 @@ function TodoNav(props) {
 
     return (
         <Fragment>
-            {/* <Radio.Group value={systemPage.leftActiveName} buttonStyle="solid"  onChange={groupRightChange} > */}
-                <Radio.Button value="todo">
+           <Radio.Button value="todo">
                     航班协调
                 {
                     todoLen > 0 ?
@@ -181,11 +182,10 @@ function TodoNav(props) {
                         />
                         : ""
                 }
-                </Radio.Button>
-            {/* </Radio.Group> */}
+            </Radio.Button>
             <Modal
                 width={1600}
-                style={{ marginTop: 50}}
+                style={{ marginTop: "-50px"}}
                 title="航班协调"
                 visible={ todoModalVisible }
                 footer={[] // 设置footer为空，去掉 取消 确定默认按钮
