@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-03-25 19:30:28
+ * @LastEditTime: 2021-03-26 09:03:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\User.jsx
@@ -77,7 +77,10 @@ function User(props){
         
         if( isValidVariable(user) ){
             props.systemPage.setUserData( JSON.parse(user) );
-            stompClientFunc(JSON.parse(user).username)
+            if( pathname === "/fangxing" ){
+                stompClientFunc(JSON.parse(user).username)
+            }
+            
         }
         else{
             // props.history.push('/')
