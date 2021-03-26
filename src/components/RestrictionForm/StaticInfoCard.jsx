@@ -105,7 +105,7 @@ function StaticInfoCard(props) {
             <Space>
                 <Button size="small" onClick={()=>{areaBlockChange(`${field}-ZLLL`)}}>兰州</Button>
                 <Button size="small" onClick={()=>{areaBlockChange(`${field}-ZLXY`)}}>西安</Button>
-                <Button size="small" onClick={()=>{}}>山东</Button>
+                <Button size="small" onClick={()=>{areaBlockChange(`${field}-ZSQD`) }}>山东</Button>
                 <Button size="small" onClick={()=>{}}>更多</Button>
             </Space>
             
@@ -417,7 +417,7 @@ function StaticInfoCard(props) {
                     name="restrictionMITValueUnit"
                     className="MIT-value-unit"
                 >
-                    <Select style={{ width: 90 }} onChange={handleRestrictionMITValueUnitChange} disabled={props.disabledForm} >
+                    <Select onChange={handleRestrictionMITValueUnitChange} disabled={props.disabledForm} >
                         <Option key="T">分钟/架</Option>
                         <Option key="D">公里/架</Option>
                     </Select>
@@ -511,7 +511,7 @@ function StaticInfoCard(props) {
                             required={true}
                             rules={[{ required: true }]}
                         >
-                            <Input disabled={props.disabledForm} />
+                            <Input allowClear={true} disabled={props.disabledForm} />
                         </Form.Item>
                     </Col>
                     {
@@ -611,6 +611,7 @@ function StaticInfoCard(props) {
                                         ]}
                                     >
                                         <Input
+                                            allowClear={true}
                                             placeholder={timeFormat}
                                             onChange={updateStartTimeString}
 
@@ -743,7 +744,7 @@ function StaticInfoCard(props) {
                             name="formerUnit"
                             label="前序单元"
                         >
-                            <Input className="text-uppercase" disabled={props.disabledForm} />
+                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -753,7 +754,7 @@ function StaticInfoCard(props) {
                             required={true}
                             rules={[{ required: true }]}
                         >
-                            <Input className="text-uppercase" disabled={props.disabledForm} />
+                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -761,7 +762,7 @@ function StaticInfoCard(props) {
                             name="behindUnit"
                             label="后序单元"
                         >
-                            <Input className="text-uppercase" disabled={props.disabledForm} />
+                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -771,7 +772,7 @@ function StaticInfoCard(props) {
                             name="exemptFormerUnit"
                             label="豁免前序"
                         >
-                            <Input className="text-uppercase" disabled={props.disabledForm} />
+                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                         </Form.Item>
                     </Col>
                     <Col span={8} className="">
@@ -782,7 +783,7 @@ function StaticInfoCard(props) {
                             name="exemptBehindUnit"
                             label="豁免后序"
                         >
-                            <Input className="text-uppercase" disabled={props.disabledForm} />
+                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -813,7 +814,7 @@ function StaticInfoCard(props) {
                             name="highLimit"
                             label="高度"
                         >
-                            <Input className="text-uppercase" disabled={props.disabledForm} />
+                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -886,7 +887,7 @@ function StaticInfoCard(props) {
                             name="exemptHeight"
                             label="豁免高度"
                         >
-                            <Input className="text-uppercase" disabled={props.disabledForm} />
+                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                         </Form.Item>
                     </Col>
                     <Col span={8}>

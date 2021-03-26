@@ -69,6 +69,7 @@
         
         .MIT-value-unit {
           margin-left: 5px;
+          width: 120px;
         }
         .symbol {
           margin: 0 4px;
@@ -85,7 +86,7 @@
       border-color: #424242;
     }
   }
-  .ant-input-disabled, .ant-picker-disabled, .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  .ant-input-disabled, .ant-picker-disabled, .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector, .ant-input-affix-wrapper-disabled {
     border: none;
     background: none;
     color: inherit;

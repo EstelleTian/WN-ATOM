@@ -29,6 +29,11 @@ function RestrictionForm(props) {
             airport: 'ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL',
             code:'ZLXY'
         },
+        {
+            label: '山东',
+            airport: 'ZSHZ;ZSJG;ZSJN;ZSDY;ZSWF;ZSRZ;ZSLY;ZSYT;ZSWH;ZSQD',
+            code: 'ZSQD'
+        },
     ]
     const flowData = props.flowData || {};
     const showIgnoreBtn = props.showIgnoreBtn || false;

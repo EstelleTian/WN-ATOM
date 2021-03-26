@@ -62,6 +62,11 @@ function DirectionDataForm(props) {
             airport: 'ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL',
             code: 'ZLXY'
         },
+        {
+            label: '山东',
+            airport: 'ZSHZ;ZSJG;ZSJN;ZSDY;ZSWF;ZSRZ;ZSLY;ZSYT;ZSWH;ZSQD',
+            code: 'ZSQD'
+        },
     ]
 
     const systemPage = props.systemPage || {};
@@ -220,6 +225,7 @@ function DirectionDataForm(props) {
     };
 
     const [form] = Form.useForm();
+    
     useEffect(function () {
         //重置表单，用于重新初始表单的initialValues属性
         form.resetFields();
@@ -671,7 +677,7 @@ function DirectionDataForm(props) {
             <Space>
                 <Button size="small" onClick={() => { areaBlockChange(`${field}-ZLLL`) }}>兰州</Button>
                 <Button size="small" onClick={() => { areaBlockChange(`${field}-ZLXY`) }}>西安</Button>
-                <Button size="small" onClick={() => { }}>山东</Button>
+                <Button size="small" onClick={() => { areaBlockChange(`${field}-ZSQD`) }}>山东</Button>
                 <Button size="small" onClick={() => { }}>更多</Button>
             </Space>
         )
@@ -718,7 +724,7 @@ function DirectionDataForm(props) {
                                     required={true}
                                     rules={[{ required: true }]}
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={3}>
@@ -733,7 +739,7 @@ function DirectionDataForm(props) {
                                     name="formerUnit"
                                     label="前序单元"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={8}>
@@ -743,7 +749,7 @@ function DirectionDataForm(props) {
                                     required={true}
                                     rules={[{ required: true }]}
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={8}>
@@ -751,7 +757,7 @@ function DirectionDataForm(props) {
                                     name="behindUnit"
                                     label="后序单元"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -761,7 +767,7 @@ function DirectionDataForm(props) {
                                     name="exemptFormerUnit"
                                     label="豁免前序"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={8} className="">
@@ -772,7 +778,7 @@ function DirectionDataForm(props) {
                                     name="exemptBehindUnit"
                                     label="豁免后序"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -803,7 +809,7 @@ function DirectionDataForm(props) {
                                     name="highLimit"
                                     label="高度"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={8}>
@@ -876,7 +882,7 @@ function DirectionDataForm(props) {
                                     name="exemptHeight"
                                     label="豁免高度"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={8}>
