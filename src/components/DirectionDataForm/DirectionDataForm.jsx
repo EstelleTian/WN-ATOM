@@ -62,6 +62,11 @@ function DirectionDataForm(props) {
             airport: 'ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL',
             code: 'ZLXY'
         },
+        {
+            label: '山东',
+            airport: 'ZSHZ;ZSJG;ZSJN;ZSDY;ZSWF;ZSRZ;ZSLY;ZSYT;ZSWH;ZSQD',
+            code: 'ZSQD'
+        },
     ]
 
     const systemPage = props.systemPage || {};
@@ -672,7 +677,7 @@ function DirectionDataForm(props) {
             <Space>
                 <Button size="small" onClick={() => { areaBlockChange(`${field}-ZLLL`) }}>兰州</Button>
                 <Button size="small" onClick={() => { areaBlockChange(`${field}-ZLXY`) }}>西安</Button>
-                <Button size="small" onClick={() => { }}>山东</Button>
+                <Button size="small" onClick={() => { areaBlockChange(`${field}-ZSQD`) }}>山东</Button>
                 <Button size="small" onClick={() => { }}>更多</Button>
             </Space>
         )

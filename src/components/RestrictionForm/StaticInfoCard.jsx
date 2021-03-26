@@ -105,7 +105,7 @@ function StaticInfoCard(props) {
             <Space>
                 <Button size="small" onClick={()=>{areaBlockChange(`${field}-ZLLL`)}}>兰州</Button>
                 <Button size="small" onClick={()=>{areaBlockChange(`${field}-ZLXY`)}}>西安</Button>
-                <Button size="small" onClick={()=>{}}>山东</Button>
+                <Button size="small" onClick={()=>{areaBlockChange(`${field}-ZSQD`) }}>山东</Button>
                 <Button size="small" onClick={()=>{}}>更多</Button>
             </Space>
             
