@@ -8,7 +8,7 @@ import './LoginPage.scss'
 
 const msgStyle = {
     top: '110px',
-    left: '-55px',
+    // left: '-55px',
     position: 'relative',
     fontSize: '1.5rem',
 }

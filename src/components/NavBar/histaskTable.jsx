@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-01 19:33:36
+ * @LastEditTime: 2021-03-26 16:47:08
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -22,7 +22,14 @@ const { Option } = Select;
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 //根据key识别列表列配置columns
-
+const getLockedCn = ( value ) => {
+    let res = "";
+    switch(value){
+        case "1": res = "禁止调整";break;
+        case "0": res = "自动";break;
+    }
+    return res;
+}
 
 const names = {
     "HandleStatus": {
@@ -53,34 +60,34 @@ const names = {
     "sourceVal": {
         "en": "sourceVal",
         "cn": "原始值",
-        width: 90,
+        width: 160,
     },
     "targetVal": {
         "en": "targetVal",
         "cn": "协调值",
-        width: 90,
+        width: 160,
     },
     "startUser": {
         "en": "startUser",
         "cn": "发起人",
-        width: 180,
+        width: 130,
     },
     "startTime": {
         "en": "startTime",
         "cn": "发起时间",
-        width: 170,
+        width: 160,
         defaultSortOrder: 'descend',
 
     },
     "activityName": {
         "en": "activityName",
         "cn": "当前处理环节",
-        width: 180,
+        width: 170,
     },
     "handler": {
         "en": "handler",
         "cn": "当前处理人",
-        width: 180,
+        width: 140,
     },
     "status": {
         "en": "status",
@@ -91,159 +98,7 @@ const names = {
 
 }
 
-//已结
-// const columns = [
-//     {
-//         title: "本席位处理状态",
-//         dataIndex: "handleStatus",
-//         align: 'center',
-//         key: "handleStatus",
-//         width: 130,
-//         render: (text, record, index) => {
-//             if (record === 100) {
-//                 text = "未处理";
-//             } else if (record === 200) {
-//                 text = "提交";
-//             } else if (record === 300) {
-//                 text = "同意";
-//             } else if (record === 400) {
-//                 text = "拒绝";
-//             } else if (record === 500) {
-//                 text = "确认";
-//             }
-//             return (
-//                 <span>
-//                     {text}
-//                 </span>
-
-//             )
-//         }
-//     },
-//     {
-//         title: "流水ID",
-//         dataIndex: "key",
-//         align: 'center',
-//         key: "key",
-//         width: 80,
-//     },
-//     {
-//         title: "类型",
-//         dataIndex: "type",
-//         align: 'left',
-//         key: "type",
-//         width: 240,
-//     }, {
-//         title: "目标",
-//         dataIndex: "flights.id",
-//         align: 'left',
-//         key: "flights.id",
-//         width: 150,
-//         // sorter: (a, b) => a.taskBusinessId.localeCompare(b.taskBusinessId),
-//     }, {
-//         title: "起飞机场",
-//         dataIndex: "flights.depap",
-//         align: 'center',
-//         key: "flights.depap",
-//         width: 180,
-//         defaultSortOrder: 'descend',
-//         // sorter: (a, b) => {
-//         //     return a.startTime - b.startTime;
-//         // },
-//         // render: (text, record, index) => {
-//         //     if (text === "") {
-//         //         return text
-//         //     } else {
-//         //         return getFullTime(new Date(text), 1)
-//         //     }
-//         // }
-//     },
-//     {
-//         title: "原始值",
-//         dataIndex: "sourceVal",
-//         align: 'left',
-//         key: "sourceVal",
-//         width: 180,
-//         // sorter: (a, b) => a.activityName.localeCompare(b.activityName),
-//     },
-//     {
-//         title: "协调值",
-//         dataIndex: "targetVal",
-//         align: 'center',
-//         key: "targetVal",
-//         width: 100,
-//         // sorter: (a, b) => a.status.localeCompare(b.status),
-//     },
-//     {
-//         title: "发起人",
-//         dataIndex: "startUserName",
-//         align: 'center',
-//         key: "startUserName",
-//         width: 100,
-//         // sorter: (a, b) => a.status.localeCompare(b.status),
-//     },
-//     {
-//         title: "发起时间",
-//         dataIndex: "startTime",
-//         align: 'center',
-//         key: "startTime",
-//         width: 100,
-//         // sorter: (a, b) => a.status.localeCompare(b.status),
-//     },
-//     {
-//         title: "当前处理环节",
-//         dataIndex: "activityName",
-//         align: 'center',
-//         key: "activityName",
-//         width: 100,
-//         // sorter: (a, b) => a.status.localeCompare(b.status),
-//     },
-//     {
-//         title: "当前处理人",
-//         dataIndex: "handler",
-//         align: 'center',
-//         key: "handler",
-//         width: 100,
-//         // sorter: (a, b) => a.status.localeCompare(b.status),
-//     },
-//     {
-//         title: "最终状态",
-//         dataIndex: "status",
-//         align: 'center',
-//         key: "status",
-//         width: 100,
-//         render: (text, record, index) => {
-//             if (record === 100) {
-//                 text = "未处理";
-//             } else if (record === 200) {
-//                 text = "提交";
-//             } else if (record === 300) {
-//                 text = "同意";
-//             } else if (record === 400) {
-//                 text = "拒绝";
-//             } else if (record === 500) {
-//                 text = "确认";
-//             }
-//             return (
-//                 <span>
-//                     {text}
-//                 </span>
-
-//             )
-//         }
-//     },
-// ];
 const HistaskTable = (props) => {
-    // const [tableWidth, setWidth] = useState(1000);
-    // const [tableHeight, setHeight] = useState(800);
-    // // const [ tableLoading, setTableLoading ] = useState(false);
-    // // const [ refreshBtnLoading, setRefreshBtnLoading ] = useState(false);
-    // const { tableLoading, requestMyApplicationDatas, refreshBtnLoading, myApplicationList } = props;
-    // const myApplication = myApplicationList.myApplication || [];
-    // const { filterData } = myApplicationList;
-    // const generateTime = myApplicationList.generateTime || "";
-    // const dataList = filterData;
-    // const timerId = useRef();
-
 
     const [tableLoading, setTableLoading] = useState(false);
     const [refreshBtnLoading, setRefreshBtnLoading] = useState(false);
@@ -256,12 +111,6 @@ const HistaskTable = (props) => {
     const user = systemPage.user || {};
     const userId = user.id || '';
     const loading = myApplicationList.loading || '';
-
-    // const generateTime = myApplicationList.generateTime || "";
-    // const dataList = [];
-    // const timerId = useRef();
-
-    // const user =  myApplicationList.user || {};
 
     const refreshData = () => {
         requestMyApplicationDatas(true);
@@ -565,6 +414,21 @@ const HistaskTable = (props) => {
                         return <div title={text}>{FlightCoordination.getPriorityZh(text)}</div>
                     } else if (type === 'INPOOL' || type === 'OUTPOOL') {
                         return <div title={text}>{FlightCoordination.getPoolStatusZh(text)}</div>
+                    } else if (type === 'COBT' || type === 'CTOT' || type === 'FFIXT') {
+                        const obj = JSON.parse(text);
+                        return <div>
+                            {
+                                Object.keys(obj).map( key => {
+                                    let val = obj[key]
+                                    if (isValidVariable(val) && val.length >= 12 && val * 1 > 0) {
+                                        return <div>{key}：{getDayTimeFromString(val, "", 2)}</div>
+                                    }else{
+                                        return <div>{key}：{getLockedCn(val)}</div>
+                                    }
+                                    
+                                })
+                            }
+                        </div>
                     } else {
                         if (isValidVariable(text) && text.length >= 12 && text * 1 > 0) {
                             return <div title={text}>{getDayTimeFromString(text)}</div>
@@ -719,25 +583,20 @@ const HistaskTable = (props) => {
                 <Table
                     columns={getColumns}
                     dataSource={props.myApplicationList.myApplications}
-
                     size="small"
                     bordered
                     pagination={{
-                        size: 'small',
-
                         pageSize: 10,
                         showSizeChanger: true,
                         showQuickJumper: true,
                         showTotal: total => {
                             return `共${total}条`;
                         },
-                    }
-                    }
-
+                    }}
                     loading={loading}
                     scroll={{
-                        // x: tableWidth,
-                        // y: tableHeight
+                        x: 600,
+                        y: 600
                     }}
                     // footer={() => <div className="generateTime">数据时间: {formatTimeString(props.myApplicationList.generateTime)}</div>}
                 />

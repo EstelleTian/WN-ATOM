@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-25 16:37:14
+ * @LastEditTime: 2021-03-26 15:54:49
  * @LastEditors: Please set LastEditors
  * @Description: ATOM新增
  */
@@ -43,11 +43,11 @@ function ATOMAdd(props){
         // 获取当前用户
         let user = localStorage.getItem("user");
         user = JSON.parse(user);
-        // let url = ReqUrls.ATOMCreateDataUrl + id
-        // if(pageType === "NTFMAdd"){
-        //     let url = "http://192.168.194.21:58190/restrictions/createNtfm/MIT/14401";
-        // }
-        let url = "http://192.168.194.21:58190/restrictions/createNtfm/MIT/14401";
+        let url = ReqUrls.ATOMCreateDataUrl + id
+        if(pageType === "NTFMAdd"){
+            let url = "http://192.168.194.21:58190/restrictions/createNtfm/MIT/14401";
+        }
+        // let url = "http://192.168.194.21:58190/restrictions/createNtfm/MIT/14401";
         // 请求参数
         const opt = {
             url: url,
@@ -82,9 +82,9 @@ function ATOMAdd(props){
                 {
                     //新增
                     ( pageType === "ATOMAdd" ) &&
-                    // <ATOMDetail flowType="ATOMData" flowData={ flowData } title="流控信息" />
+                    <ATOMDetail flowType="ATOMData" flowData={ flowData } title="流控信息" />
                     //TODO 模拟NTFM用
-                    <NTFMDetail flowType="NTFMData" flowData={ flowData } title="流控信息" />
+                    // <NTFMDetail flowType="NTFMData" flowData={ flowData } title="流控信息" />
                 
                 }
                 {

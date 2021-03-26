@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-25 10:54:22
+ * @LastEditTime: 2021-03-26 16:46:58
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -18,12 +18,22 @@ import { OptionBtn } from "components/Common/OptionBtn";
 import moment from "moment";
 // import MyApplication from 'components/MyApplication/MyApplication'
 // import MyApplicationButton from 'components/MyApplication/MyApplicationButton'
-import './RuntaskTable.scss';
+import './TodoTable.scss';
 const { TabPane } = Tabs;
 
 
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
+
+const getLockedCn = ( value ) => {
+    let res = "";
+    switch(value){
+        case "1": res = "禁止调整";break;
+        case "0": res = "自动";break;
+    }
+    return res;
+}
+
 //根据key识别列表列配置columns
 const names = {
     "handleStatus": {
@@ -34,7 +44,7 @@ const names = {
     "TASKID": {
         "en": "TASKID",
         "cn": "流水ID",
-        width: 90,
+        width: 80,
     },
     "type": {
         "en": "type",
@@ -49,17 +59,17 @@ const names = {
     "depap": {
         "en": "depap",
         "cn": "起飞机场",
-        width: 90,
+        width: 75,
     },
     "sourceVal": {
         "en": "sourceVal",
         "cn": "原始值",
-        width: 90,
+        width: 150,
     },
     "targetVal": {
         "en": "targetVal",
         "cn": "协调值",
-        width: 90,
+        width: 150,
     },
     "startUser": {
         "en": "startUser",
@@ -287,7 +297,23 @@ const TodoTable = (props) => {
                         return <div title={text}>{FlightCoordination.getPriorityZh(text)}</div>
                     } else if (type === 'INPOOL' || type === 'OUTPOOL') {
                         return <div title={text}>{FlightCoordination.getPoolStatusZh(text)}</div>
-                    } else {
+                    } else if (type === 'COBT' || type === 'CTOT' || type === 'FFIXT') {
+                        const obj = JSON.parse(text);
+
+                        return <div>
+                            {
+                                Object.keys(obj).map( key => {
+                                    let val = obj[key]
+                                    if (isValidVariable(val) && val.length >= 12 && val * 1 > 0) {
+                                        return <div>{key}：{getDayTimeFromString(val, "", 2)}</div>
+                                    }else{
+                                        return <div>{key}：{getLockedCn(val)}</div>
+                                    }
+                                    
+                                })
+                            }
+                        </div>
+                    }else {
                         if (isValidVariable(text) && text.length >= 12 && text * 1 > 0) {
                             return <div title={text}>{getDayTimeFromString(text)}</div>
                         }
@@ -378,6 +404,10 @@ const TodoTable = (props) => {
                         },
                     }}
                     loading={loading}
+                    scroll={{
+                        x: 600,
+                        y: 600
+                    }}
                 />
                <div className="generateTime" style={{position:"absolute",border:"none",left: "40px",bottom: "63px"}}>
                    数据时间: {formatTimeString(props.todoList.generateTime)}

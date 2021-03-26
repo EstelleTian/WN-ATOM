@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-03-25 18:52:00
+ * @LastEditTime: 2021-03-26 16:43:18
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -15,7 +15,7 @@ import { requestGet, request } from "utils/request";
 import { ReqUrls, CollaborateIP } from "utils/request-urls";
 import { customNotice } from 'utils/common-funcs'
 import TodoTable from './TodoTable';
-import HisTaskTable from './HisTaskTable';
+import HisTaskTable from './HistaskTable';
 
 const { TabPane } = Tabs;
 
@@ -134,12 +134,12 @@ function TodoNav(props) {
                 key: key,
                 TASKID: taskId,
                 type: type,
-                sourceVal: sourceVal,
+                sourceVal: sourceVal, //原始值
                 handleStatus: handleStatus,
                 activityName: activityName,
                 FLIGHTID: flightid,
                 TYPE: flightCoorType,
-                targetVal: targetVal,
+                targetVal: targetVal, //协调值
                 startUser: startUser,
                 startTime: startTime,
                 depap: depap,
@@ -185,7 +185,7 @@ function TodoNav(props) {
                 }
             </Radio.Button>
             <Modal
-                width={1600}
+                width={1300}
                 style={{ marginTop: "-50px"}}
                 title="航班协调"
                 visible={ todoModalVisible }
