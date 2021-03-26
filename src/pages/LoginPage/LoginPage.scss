@@ -1,136 +1,203 @@
-
-.login{
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-position: center;
-  background: url('../../images/11.jpg');
-  background-size: cover;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-
-  .head {
-    background: url('../../images/logo.png');
-    height: 9.5rem;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    margin-bottom: 1.5rem;
+html, body {
+  font-size: 10px!important;
+  width: 90rem;
+  height: 55rem;
+  overflow: hidden;
+}
+.login_canvas{
+  @include display_flex();
+  align-items: center;
+  justify-items: center;
+  //关闭按钮
+  .close{
+    background: url("./images/close.png") no-repeat;
+    background-size: cover;
+    width: 2.4rem;
+    height: 2.4rem;
+    position: absolute;
+    right: 1.9rem;
+    top: 1.9rem;
+    &:hover{
+      background: url("./images/close_hover.png") no-repeat;
+      cursor: pointer;
+    }
   }
-  .content{
-    background-color: $c-white-20;
-    padding: 1rem;
-    margin-bottom: 8rem;
-    overflow: hidden;
-    width: 1000px;
-    border: 1rem solid $c-white-20;
-  }
+  // 中间
+  .center{
+    width: 46.8rem;
+    height: 39rem;
+    margin: 0 auto;
+    .title{
+      background: url("./images/system_title.png") no-repeat;
+      background-size: cover;
+      width: 47rem;
+      height: 3rem;
+    }
+    .login_cont{
+      background: url("./images/login_bg.png") no-repeat;
+      background-size: cover;
+      width: 41rem;
+      height: 25.5rem;
+      margin: 6rem auto 0;
+      @include display_flex();
+      align-items: center;
+      justify-items: center;
+      
+      .login_form{
+        width: 30.1rem;
+        margin: 0 auto;
+        .form_input{
+          width: 30.1rem;
+          height: 3.7rem;
+          border: 1px solid rgba(255,255,255,.4);
+          background: rgba(3,11,28,.8);
+          input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+            color: #dbdbdb;
+          }
+  
+          input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+          color: #dbdbdb;
+          }
+          input::-ms-input-placeholder { /* Microsoft Edge */
+          color: #dbdbdb;
+          }
+        }
 
-  .login_btn{
-    @include display_flex()
-  }
-  .model_tabs{
-    margin-top: 50px;
-    margin-left: 50px;
-    label{
-      width: 100px;
-      height: 100px;
-      text-align: center;
-      font-size: 0.9rem;
-      >span{
-        display: block;
         
-      }
-      span.ant-radio-inner{
-        margin-bottom: 15px;
-        margin-left: 50%;
-        transform: translateX(-50%);
-      }
-    }
-  }
-}
-.login_form{
-  .ant-form-item{
-    font-size: 1.5rem;
-    width: 70%;
-    margin: 0 auto 2rem;
-  }
-  .ant-form-item-with-help {
-    margin-bottom: 1.9rem;
-  }
-  .ant-form-item-children, .ant-input, .login_button > span {
-    font-size: 1rem;
-  }
-  .ant-form-item.has-err {
-    margin-bottom: 0;
-  }
 
-  .title{
-    color: $c-white-100;
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 400;
-    margin: 0 0 1.5rem 0;
-  }
-  .form_input{
-    font-size: 1.5rem;
-    input{
-      height:2.4rem;
+        .user_icon{
+          background: url("./images/user_icon.png") no-repeat;
+          background-size: cover;
+          width: 2.4rem;
+          height: 2.4rem;
+        }
+        .pwd_icon{
+          background: url("./images/pwd_icon.png") no-repeat;
+          background-size: cover;
+          width: 2.4rem;
+          height: 2.4rem;
+        }
+        .login_btn{
+          border: 1px solid #848da9;
+          background-color: #093672;
+          width: 30.1rem;
+          height: 3.7rem;
+          >span{
+            font-size: 1.6rem;
+            line-height: 1;
+          }
+          &:hover{
+            background-color: #165ba9;
+            cursor: pointer;
+          }
+        }
+      }
     }
   }
-  .login-form-by-ip{
-    font-size: 1.5rem;
-    float: right;
-    line-height: 3.75rem;
-    color: #1890ff;
-    background-color: transparent;
-    text-decoration: none;
-    outline: none;
-    cursor: pointer;
+  //左侧
+  .side_nav{
+    width: 21.6rem;
+    margin: 9rem 0;
+    // 弧线
+    .line_bar{
+      display: inline-block;
+      background: url("./images/line.png") no-repeat;
+      background-size: cover;
+      width: 4rem;
+      height: 38.4rem;
+    }
+    // 模块图标
+    .side_group{
+      display: inline-block;
+      vertical-align: top;
+      .side_item{
+        background-size: cover;
+        width: 10.4rem;
+        height: 10.4rem;
+        margin: 1.2rem 0 ;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+    
   }
-  .ant-alert-message{
-    color: #f5222d;
-    font-size: 1.1675rem;
-    word-break: break-all;
+  .side_nav.left{
+    .side_group{
+      margin-left: 1.5rem;
+    }
+      .m1{
+        background: url("./images/m1.png") no-repeat;
+        &:hover{
+          background: url("./images/m1_active.png") no-repeat;
+        }
+      }
+      .m1.active{
+        background: url("./images/m1_active.png") no-repeat;
+      }
+      .m2{
+        background: url("./images/m2.png") no-repeat;
+        &:hover{
+          background: url("./images/m2_active.png") no-repeat;
+        }
+      }
+      .m2.active{
+        background: url("./images/m2_active.png") no-repeat;
+      }
+      .m3{
+        background: url("./images/m3.png") no-repeat;
+        &:hover{
+          background: url("./images/m3_active.png") no-repeat;
+        }
+      }
+      .m3.active{
+        background: url("./images/m3_active.png") no-repeat;
+      }
   }
-  .login_button {
-    width: 36%;
-  }
-  .ant-btn-primary {
-    color: #b1b1b1;
-    background: #266E90;
-    border: 1px solid #13729F;
-  }
-  .ant-input:hover, .ant-input:focus,.ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
-    border-color: #40a9ff;
-  }
-  .ant-btn-primary:hover, .ant-btn-primary:focus {
-    color: #e6e6e6;
-    background: #2a81a3;
-    border: 1px solid #1391ce;
-  }
-  .ant-alert-error {
-    background-color: transparent;
-    border: 0;
-    color: #f5222d;
-  }
-  .ant-input-affix-wrapper .ant-input:not(:first-child){
-    padding-left: 1rem;
-    font-size: 1.5rem;
-  }
-  .ant-form-item-control-wrapper .anticon {
-    font-size: 1.525rem;
-  }
-  .ant-form-explain {
-    font-size: 1.1675rem;
+  .side_nav.right{
+    >div{
+      float: right;
+    }
+    .side_group{
+      margin-right: 1.5rem;
+    }
+    .line_bar{
+      transform: rotate(180deg);
+    }
+    .m4{
+      background: url("./images/m4.png") no-repeat;
+      &:hover{
+        background: url("./images/m4_active.png") no-repeat;
+      }
+    }
+    .m4.active{
+      background: url("./images/m4_active.png") no-repeat;
+    }
+    .m5{
+      background: url("./images/m5.png") no-repeat;
+      &:hover{
+        background: url("./images/m5_active.png") no-repeat;
+      }
+    }
+    .m5.active{
+      background: url("./images/m5_active.png") no-repeat;
+    }
+    .m6{
+      background: url("./images/m6.png") no-repeat;
+      &:hover{
+        background: url("./images/m6_active.png") no-repeat;
+      }
+    }
+    .m6.active{
+      background: url("./images/m6_active.png") no-repeat;
+    }
+    
+
   }
 }
-.copyright {
-  font-size: 1.5rem;
-  position: fixed;
-  bottom: 3rem;
-  left: 50%;
-  transform: translateX(-50%);
+.login_canvas.bg{
+  background: url("./images/bg.png") no-repeat;
+  background-size: cover;
+  width: 90rem;
+  height: 55rem;
 }

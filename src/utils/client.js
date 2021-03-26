@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-03-25 16:18:48
+ * @LastEditTime: 2021-03-26 14:55:50
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -110,13 +110,13 @@ const handleStopControl =(id) => {
         console.error(error);
     }
 };
-//发送用户名-密码
+//发送用户名-密码-选中模块
 const saveUserInfo =(username, password, name) => {
     try {
-        // alert("用户名："+username+"  密码："+password)
+        // alert("用户名："+username+"  密码："+password+"  选中模块："+name)
         //传递方案id
         // jsEntity.saveUserInfo(username, password, name);
-        jsEntity.saveUserInfo(username, password);
+        jsEntity.saveUserInfo(username, password, name);
     }catch(error){
         console.error(error);
     }
@@ -195,16 +195,23 @@ const openCapacityFlowMonitorUnitTclientFrame =(unit) => {
 //单个方向数据更新
 const handleUpdateDirectionData =(str) => {
     try {
-        console.log(str);
+        // console.log(str);
         jsEntity.openProjectModeling(str);
     }catch(error){
         console.error(error);
     }
 };
-
+//登录窗口关闭
+const exitSystem =() => {
+    try {
+        jsEntity.exitSystem();
+    }catch(error){
+        console.error(error);
+    }
+}
 export {
     updateMessageNum, sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
-    openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData
+    openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem
 }

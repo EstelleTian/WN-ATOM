@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-25 09:54:28
+ * @LastEditTime: 2021-03-26 13:35:55
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -84,7 +84,7 @@ const ReqUrls = {
 };
 //协调ip
 const CollaborateIP = "http://192.168.194.22:28088";
-// const CollaborateIP = "http://192.168.243.162:28088";
+const CollaborateIP2 = "http://192.168.194.21:28781";
 //协调相关url
 const CollaborateUrl = {
     //标记豁免、取消豁免
@@ -94,9 +94,11 @@ const CollaborateUrl = {
     //TOBT
     tobtUrl : CollaborateIP,
     //CTOT
-    ctotUrl : CollaborateIP,
+    ctotUrl : CollaborateIP2 + "/hydrogen-flight-coordination-server/flight/updateFlightCtd",
     //COBT
-    cobtUrl : CollaborateIP,
+    cobtUrl : CollaborateIP2 + "/hydrogen-flight-coordination-server/flight/updateFlightCobt",
+    //FFIXT
+    ffixtUrl : CollaborateIP2 + "/hydrogen-flight-coordination-server/flight/updateFlightFFixT",
 };
 
 export { ReqUrls, CollaborateIP, CollaborateUrl };

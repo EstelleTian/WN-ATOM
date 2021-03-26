@@ -1,25 +1,23 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Form, Icon, Input, Button, Alert, Row, Col, message, Radio} from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import React, {useCallback, useState} from 'react';
+import {Form, Input, Button, message, } from 'antd'
 import md5 from 'js-md5'
 import { requestGet } from 'utils/request';
 import { ReqUrls } from 'utils/request-urls'
-import { saveUserInfo } from 'utils/client';
+import { saveUserInfo, exitSystem } from 'utils/client';
 import './LoginPage.scss'
+
 const msgStyle = {
-    top: '200px',
+    top: '110px',
+    left: '-55px',
     position: 'relative',
-    fontSize: '1.2rem',
+    fontSize: '1.5rem',
 }
+
 function LoginPage(props){
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState(1);
 
-    const onChange = e => {
-        console.log('radio checked', e.target.value);
-        setValue(e.target.value);
-    };
     // 点击登录按钮登录
     const handleSubmit = useCallback( () => {
         setLoading(true);
@@ -47,7 +45,7 @@ function LoginPage(props){
                         if( status*1 === 200){
                             message.success({
                                 content: "登录成功",
-                                duration: 4,
+                                duration: 5,
                                 style: msgStyle
                             });
 
@@ -59,7 +57,9 @@ function LoginPage(props){
                 
                             localStorage.setItem("user", JSON.stringify(user) );
                             localStorage.setItem("userConcernTrafficList", JSON.stringify(Object.values(obj)) );
-                            saveUserInfo(username, password, value+"");
+                            saveUserInfo( username, password, value+"");
+
+
                         }else{
                             const err = data.error;
                             const msg = err.message;
@@ -112,56 +112,97 @@ function LoginPage(props){
     })
 
     return (
-        <div className="login bc-image-11">
-            <Row type="flex" justify="center" align="middle">
-                <Row className="content">
-                        <Col span={10}>
-                            <Radio.Group onChange={onChange} value={value} className="model_tabs">
-                                <Radio value={1}>总体监控</Radio>
-                                <Radio value={2}>态势监控</Radio>
-                                <Radio value={3}>运行监控</Radio>
-                                <Radio value={4}>容流监控</Radio>
-                                <Radio value={5}>放行监控</Radio>
-                                <Radio value={6}>飞行计划查询</Radio>
-                            </Radio.Group>
-                        </Col>
-                        <Col span={14}>
-                            <Form
-                                form={form}
-                                size="small"
-                                onFinish={ (e)=>{
-                                    // e.preventDefault();
-                                    handleSubmit(e)
-                                } }
-                                className="login_form"
-                            >
-                                <h2 className="title">空中交通运行放行监控系统</h2>
-                                <Form.Item
-                                    name="username"
-                                    rules={[{ required: true, message: '用户名不能为空' }]}
-                                >
-                                    <Input  className="form_input" prefix={<UserOutlined />} placeholder="用户名"/>
-                                </Form.Item>
-                                <Form.Item
-                                    name="password"
-                                    rules={[{ required: true, message: '密码不能为空' }]}
-                                >
-                                    <Input type="password" className="form_input" prefix={<LockOutlined />} placeholder="密码"/>
-                                </Form.Item>
-                                <div className="login_btn  justify-content-center">
-                                    <Button loading={loading} type="primary" htmlType="submit" size={'large'}
-                                            className="login_button">
-                                        登录
-                                    </Button>
-                                </div>
-
-                            </Form>
-
-                        </Col>
-                </Row>
-            </Row>
-            <div className="copyright"> ADCC 民航数据通信有限责任公司</div>
-
+        <div className="login_canvas bg">
+            <div className="close" title="关闭" onClick={()=>{
+                exitSystem("")
+            }}></div>
+            <div className="side_nav left">
+                <div className="side_group">
+                    <div 
+                        onClick = { ()=>{
+                            setValue(1);
+                        }} 
+                        className={`side_item m1 ${ value == 1 && "active"}`}
+                    ></div>
+                    <div 
+                        onClick = { ()=>{
+                            setValue(2);
+                        }} 
+                        className={`side_item m2 ${ value === 2 && "active"}`}
+                    ></div>
+                    <div 
+                        onClick = { ()=>{
+                            setValue(3);
+                        }} 
+                        className={`side_item m3 ${ value === 3 && "active"}`}
+                    ></div>
+                </div>
+                <div className="line_bar"></div>
+            </div>
+            <div className="center">
+                <div className="title"></div>
+                <div className="login_cont">
+                    <Form
+                        form={form}
+                        size="small"
+                        onFinish={ (e)=>{
+                            // e.preventDefault();
+                            handleSubmit(e)
+                        } }
+                        className="login_form"
+                    >
+                        <Form.Item
+                            name="username"
+                            rules={[{ required: true, message: '用户名不能为空' }]}
+                        >
+                            <Input 
+                                className="form_input" 
+                                prefix={<div className="user_icon" />} 
+                                placeholder="请输入登录ID"
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            name="password"
+                            rules={[{ required: true, message: '密码不能为空' }]}
+                        >
+                            <Input 
+                                type="password" 
+                                className="form_input"
+                                prefix={<div className="pwd_icon" />} 
+                                placeholder="请输入密码"
+                             />
+                        </Form.Item>
+                        {/* 登录按钮 */}
+                        <Button loading={loading} type="primary"  htmlType="submit" className="login_btn">
+                            登录
+                        </Button>
+                        {/* <div className="login_btn justify-content-center" ></div> */}
+                    </Form>
+                </div>
+            </div>
+            <div className="side_nav right">
+                <div className="side_group">
+                    <div 
+                        onClick = { ()=>{
+                            setValue(4);
+                        }} 
+                        className={`side_item m4 ${ value === 4 && "active"}`}
+                    ></div>
+                    <div 
+                        onClick = { ()=>{
+                            setValue(5);
+                        }} 
+                        className={`side_item m5 ${ value === 5 && "active"}`}
+                    ></div>
+                    <div 
+                        onClick = { ()=>{
+                            setValue(6);
+                        }} 
+                        className={`side_item m6 ${ value === 6 && "active"}`}
+                    ></div>
+                </div>
+                <div className="line_bar"></div>
+            </div>
         </div>
     )
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-11 14:33:11
+ * @LastEditTime: 2021-03-26 10:19:38
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -41,6 +41,7 @@ const CTPopover = (props) => {
     }else if( col === "TOBT"){
         field = orgdata.tobtField || {};
         title = "TOBT申请变更";
+        hasAuth = systemPage.userHasAuth( 13407 );
         
     }
     let source = field.source || "";

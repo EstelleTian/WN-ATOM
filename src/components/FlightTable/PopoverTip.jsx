@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-03-03 17:33:21
+ * @LastEditTime: 2021-03-26 11:21:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -100,7 +100,7 @@ const PopoverTip = ( props ) => {
             closePopover();
         });
 
-        const onCheck = async () => {
+        const onCheck = async ( type ) => {
             try {
               const values = await form.validateFields();
               console.log('Success:', values);
@@ -113,24 +113,8 @@ const PopoverTip = ( props ) => {
               const timestr = newStartTime + "" + values.time;
               console.log(timestr);
               orgFlight.locked = autoChecked ? 1 : "";
-              
-              let urlKey = "";
-              let url = "";
-              if( col === "COBT"){
-                  orgFlight.cobtField.value = timestr;
-                  urlKey = "/updateCobt";
-                  url = CollaborateUrl.cobtUrl +urlKey;
-              }else if( col === "CTOT"){
-                  orgFlight.ctotField.value = timestr;
-                  urlKey = "/updateCtot";
-                  url = CollaborateUrl.ctotUrl + urlKey; 
-              }else if( col === "TOBT"){
-                //   orgFlight.tobtField.value = timestr;
-                  urlKey = "/flight/updateTobtApply";
-                  url = CollaborateIP + urlKey; 
-              }
-              
-            const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
+
+              const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
               //传参
               let params = {
                   userId: userId,
@@ -139,8 +123,29 @@ const PopoverTip = ( props ) => {
                   taskId: "",
                   tacticId: schemeId,
               }
-              if( col === "TOBT"){
-                params["tobtValue"] = timestr;
+              
+              let urlKey = "";
+              let url = "";
+              if( col === "COBT"){
+                  urlKey = "/updateCobt";
+                  url = CollaborateUrl.cobtUrl;
+                  params["timeVal"] = timestr;
+                  params["fix"] = "";
+              }else if( col === "CTOT"){
+                  urlKey = "/updateCtot";
+                  url = CollaborateUrl.ctotUrl; 
+                  params["timeVal"] = timestr;
+                  params["fix"] = "";
+              }else if( col === "TOBT"){
+                  urlKey = "/flight/updateTobtApply";
+                  url = CollaborateIP + urlKey; 
+                  params["tobtValue"] = timestr;
+              }else if( col === "FFIXT"){
+                url = CollaborateUrl.ffixtUrl; 
+                const ffixField = orgFlight.ffixField || {};
+                const name = ffixField.name || "";
+                params["timeVal"] = timestr;
+                params["fix"] = name;
             }
               console.log(params);
               const opt = {
@@ -244,12 +249,12 @@ const PopoverTip = ( props ) => {
                             <div>
                                 <Button loading={submitBtnLoading} size="small" className="c-btn c-btn-green" type="primary" 
                                     onClick={ e=> {
-                                        onCheck(e,"approve");
+                                        onCheck("approve");
                                     }}
                                 >批复</Button>
                                 <Button loading={refuseBtnLoading} size="small" className="c-btn c-btn-red" type="primary" style={{marginLeft: '8px'}}  
                                 onClick={ e=> {
-                                    onCheck(e,"refuse");
+                                    onCheck("refuse");
                                 }}
                                 >拒绝</Button>
                             </div>
@@ -261,7 +266,6 @@ const PopoverTip = ( props ) => {
             }
         }
         
-
         return (
             <Form
                 form={form}

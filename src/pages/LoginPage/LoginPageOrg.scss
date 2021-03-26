@@ -1,0 +1,137 @@
+
+.login{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-position: center;
+    background: url('../../images/11.jpg');
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+  
+    .head {
+      background: url('../../images/logo.png');
+      height: 9.5rem;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      margin-bottom: 1.5rem;
+    }
+    .content{
+      background-color: $c-white-20;
+      padding: 1rem;
+      margin-bottom: 8rem;
+      overflow: hidden;
+      width: 1000px;
+      border: 1rem solid $c-white-20;
+    }
+  
+    .login_btn{
+      @include display_flex()
+    }
+    .model_tabs{
+      margin-top: 50px;
+      margin-left: 50px;
+      label{
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        font-size: 0.9rem;
+        >span{
+          display: block;
+          
+        }
+        span.ant-radio-inner{
+          margin-bottom: 15px;
+          margin-left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+    }
+  }
+  .login_form{
+    .ant-form-item{
+      font-size: 1.5rem;
+      width: 70%;
+      margin: 0 auto 2rem;
+    }
+    .ant-form-item-with-help {
+      margin-bottom: 1.9rem;
+    }
+    .ant-form-item-children, .ant-input, .login_button > span {
+      font-size: 1rem;
+    }
+    .ant-form-item.has-err {
+      margin-bottom: 0;
+    }
+  
+    .title{
+      color: $c-white-100;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 400;
+      margin: 0 0 1.5rem 0;
+    }
+    .form_input{
+      font-size: 1.5rem;
+      input{
+        height:2.4rem;
+      }
+    }
+    .login-form-by-ip{
+      font-size: 1.5rem;
+      float: right;
+      line-height: 3.75rem;
+      color: #1890ff;
+      background-color: transparent;
+      text-decoration: none;
+      outline: none;
+      cursor: pointer;
+    }
+    .ant-alert-message{
+      color: #f5222d;
+      font-size: 1.1675rem;
+      word-break: break-all;
+    }
+    .login_button {
+      width: 36%;
+    }
+    .ant-btn-primary {
+      color: #b1b1b1;
+      background: #266E90;
+      border: 1px solid #13729F;
+    }
+    .ant-input:hover, .ant-input:focus,.ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
+      border-color: #40a9ff;
+    }
+    .ant-btn-primary:hover, .ant-btn-primary:focus {
+      color: #e6e6e6;
+      background: #2a81a3;
+      border: 1px solid #1391ce;
+    }
+    .ant-alert-error {
+      background-color: transparent;
+      border: 0;
+      color: #f5222d;
+    }
+    .ant-input-affix-wrapper .ant-input:not(:first-child){
+      padding-left: 1rem;
+      font-size: 1.5rem;
+    }
+    .ant-form-item-control-wrapper .anticon {
+      font-size: 1.525rem;
+    }
+    .ant-form-explain {
+      font-size: 1.1675rem;
+    }
+  }
+  .copyright {
+    font-size: 1.5rem;
+    position: fixed;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
