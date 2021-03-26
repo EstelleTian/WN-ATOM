@@ -26,28 +26,28 @@ function DirectionDataForm(props) {
 
     NWGlobal.setEditDirectionData = function (str) {
 
-        const data = JSON.parse(str);
+        // const data = JSON.parse(str);
 
-        // const data = {
-        //     directionKey: "区内-IGADA",
-        //     directionName: "区内-IGADA",
-        //     direction: {
-        //         targetUnit: "IGADA",
-        //         formerUnit: "QIAN",
-        //         behindUnit: "HOU",
-        //         exemptFormerUnit: "HUOQIAN",
-        //         exemptBehindUnit: "HUOHOU",
-        //         depAp: "ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL;ZBAA",
-        //         arrAp: "ZLXY;ZLIC",
-        //         exemptDepAp: "HUOQI",
-        //         exemptArrAp: "HUOJIANG",
-        //     },
-        //     flowControlFlight: {
-        //         flowControlFlightId: "CCA123;CCA456",
-        //         aircraftType: "B747",
-        //     },
+        const data = {
+            directionKey: "区内-IGADA",
+            directionName: "区内-IGADA",
+            direction: {
+                targetUnit: "IGADA",
+                formerUnit: "QIAN",
+                behindUnit: "HOU",
+                exemptFormerUnit: "HUOQIAN",
+                exemptBehindUnit: "HUOHOU",
+                depAp: "ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL;ZBAA",
+                arrAp: "ZLXY;ZLIC",
+                exemptDepAp: "HUOQI",
+                exemptArrAp: "HUOJIANG",
+            },
+            flowControlFlight: {
+                flowControlFlightId: "CCA123;CCA456",
+                aircraftType: "B747",
+            },
 
-        // }
+        }
         setDirectionData(data);
     }
     // 区域标签机场集合
@@ -220,6 +220,7 @@ function DirectionDataForm(props) {
     };
 
     const [form] = Form.useForm();
+    
     useEffect(function () {
         //重置表单，用于重新初始表单的initialValues属性
         form.resetFields();
@@ -718,7 +719,7 @@ function DirectionDataForm(props) {
                                     required={true}
                                     rules={[{ required: true }]}
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={3}>
@@ -733,7 +734,7 @@ function DirectionDataForm(props) {
                                     name="formerUnit"
                                     label="前序单元"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={8}>
@@ -743,7 +744,7 @@ function DirectionDataForm(props) {
                                     required={true}
                                     rules={[{ required: true }]}
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={8}>
@@ -751,7 +752,7 @@ function DirectionDataForm(props) {
                                     name="behindUnit"
                                     label="后序单元"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -761,7 +762,7 @@ function DirectionDataForm(props) {
                                     name="exemptFormerUnit"
                                     label="豁免前序"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={8} className="">
@@ -772,7 +773,7 @@ function DirectionDataForm(props) {
                                     name="exemptBehindUnit"
                                     label="豁免后序"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -803,7 +804,7 @@ function DirectionDataForm(props) {
                                     name="highLimit"
                                     label="高度"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={8}>
@@ -876,7 +877,7 @@ function DirectionDataForm(props) {
                                     name="exemptHeight"
                                     label="豁免高度"
                                 >
-                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                                 </Form.Item>
                             </Col>
                             <Col span={8}>
