@@ -26,28 +26,28 @@ function DirectionDataForm(props) {
 
     NWGlobal.setEditDirectionData = function (str) {
 
-        // const data = JSON.parse(str);
+        const data = JSON.parse(str);
 
-        const data = {
-            directionKey: "区内-IGADA",
-            directionName: "区内-IGADA",
-            direction: {
-                targetUnit: "IGADA",
-                formerUnit: "QIAN",
-                behindUnit: "HOU",
-                exemptFormerUnit: "HUOQIAN",
-                exemptBehindUnit: "HUOHOU",
-                depAp: "ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL;ZBAA",
-                arrAp: "ZLXY;ZLIC",
-                exemptDepAp: "HUOQI",
-                exemptArrAp: "HUOJIANG",
-            },
-            flowControlFlight: {
-                flowControlFlightId: "CCA123;CCA456",
-                aircraftType: "B747",
-            },
+        // const data = {
+        //     directionKey: "区内-IGADA",
+        //     directionName: "区内-IGADA",
+        //     direction: {
+        //         targetUnit: "IGADA",
+        //         formerUnit: "QIAN",
+        //         behindUnit: "HOU",
+        //         exemptFormerUnit: "HUOQIAN",
+        //         exemptBehindUnit: "HUOHOU",
+        //         depAp: "ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL;ZBAA",
+        //         arrAp: "ZLXY;ZLIC",
+        //         exemptDepAp: "HUOQI",
+        //         exemptArrAp: "HUOJIANG",
+        //     },
+        //     flowControlFlight: {
+        //         flowControlFlightId: "CCA123;CCA456",
+        //         aircraftType: "B747",
+        //     },
 
-        }
+        // }
         setDirectionData(data);
     }
     // 区域标签机场集合
