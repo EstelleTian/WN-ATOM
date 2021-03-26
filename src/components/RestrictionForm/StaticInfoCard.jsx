@@ -417,7 +417,7 @@ function StaticInfoCard(props) {
                     name="restrictionMITValueUnit"
                     className="MIT-value-unit"
                 >
-                    <Select style={{ width: 90 }} onChange={handleRestrictionMITValueUnitChange} disabled={props.disabledForm} >
+                    <Select onChange={handleRestrictionMITValueUnitChange} disabled={props.disabledForm} >
                         <Option key="T">分钟/架</Option>
                         <Option key="D">公里/架</Option>
                     </Select>
