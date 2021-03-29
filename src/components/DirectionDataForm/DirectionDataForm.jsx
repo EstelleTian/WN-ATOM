@@ -74,7 +74,7 @@ function DirectionDataForm(props) {
     const user = systemPage.user || {};
 
 
-    const { directionName = "", direction = {}, flightPropertyDomain = {} } = directionData;
+    const { directionName = "", direction = {}, flightProperty = {} } = directionData;
 
     const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = direction;
 
@@ -82,7 +82,7 @@ function DirectionDataForm(props) {
         task = "", organization = "", ability = "", aircraftType = "",
         exemptFlightId = "", exemptionWakeFlowLevel = "", exemptionAirlineType = "", exemptionMissionType = "", exemptionAuType,
         exemptionTask = "", exemptionOrganization = "", exemptionAbility = "", exemptionAircraftType = "",
-    } = flightPropertyDomain;
+    } = flightProperty;
 
     // 转换成区域标签
     function formatAreaLabel(labelData, airport) {
@@ -375,10 +375,10 @@ function DirectionDataForm(props) {
             direction = directionDataCopy.direction;
         }
         // 方向流控航班类型条件数据对象
-        let flightPropertyDomain = directionDataCopy.flightPropertyDomain;
-        if (!isValidObject(flightPropertyDomain)) {
-            directionDataCopy.flightPropertyDomain = {};
-            flightPropertyDomain = directionDataCopy.flightPropertyDomain;
+        let flightProperty = directionDataCopy.flightProperty;
+        if (!isValidObject(flightProperty)) {
+            directionDataCopy.flightProperty = {};
+            flightProperty = directionDataCopy.flightProperty;
         }
 
         // 更新方向名称
@@ -409,42 +409,42 @@ function DirectionDataForm(props) {
         direction.exemptArrAp = "";
 
         // 更新流控交通流-包含-航班号
-        flightPropertyDomain.flowControlFlightId = "";
+        flightProperty.flowControlFlightId = "";
         // 更新流控交通流-包含-尾流类型
-        flightPropertyDomain.wakeFlowLevel = "";
+        flightProperty.wakeFlowLevel = "";
         // 更新流控交通流-包含-运营人
-        flightPropertyDomain.auType = "";
+        flightProperty.auType = "";
         // 更新流控交通流-包含-航班类型
-        flightPropertyDomain.airlineType = "";
+        flightProperty.airlineType = "";
         // 更新流控交通流-包含-客货类型
-        flightPropertyDomain.missionType = "";
+        flightProperty.missionType = "";
         // 更新流控交通流-包含-任务类型
-        flightPropertyDomain.task = "";
+        flightProperty.task = "";
         // 更新流控交通流-包含-军民航
-        flightPropertyDomain.organization = "";
+        flightProperty.organization = "";
         // 更新流控交通流-包含-限制资质
-        flightPropertyDomain.ability = "";
+        flightProperty.ability = "";
         // 更新流控交通流-包含-受控机型
-        flightPropertyDomain.aircraftType = "";
+        flightProperty.aircraftType = "";
 
         // 更新流控交通流-不包含-航班号
-        flightPropertyDomain.exemptFlightId = "";
+        flightProperty.exemptFlightId = "";
         // 更新流控交通流-不包含-尾流类型
-        flightPropertyDomain.exemptionWakeFlowLevel = "";
+        flightProperty.exemptionWakeFlowLevel = "";
         // 更新流控交通流-不包含-航班类型
-        flightPropertyDomain.exemptionAirlineType = "";
+        flightProperty.exemptionAirlineType = "";
         // 更新流控交通流-不包含-运营人
-        flightPropertyDomain.exemptionAuType = "";
+        flightProperty.exemptionAuType = "";
         // 更新流控交通流-不包含-客货类型
-        flightPropertyDomain.exemptionMissionType = "";
+        flightProperty.exemptionMissionType = "";
         // 更新流控交通流-不包含-任务类型
-        flightPropertyDomain.exemptionTask = "";
+        flightProperty.exemptionTask = "";
         // 更新流控交通流-不包含-军民航
-        flightPropertyDomain.exemptionOrganization = "";
+        flightProperty.exemptionOrganization = "";
         // 更新流控交通流-不包含-限制资质
-        flightPropertyDomain.exemptionAbility = "";
+        flightProperty.exemptionAbility = "";
         // 更新流控交通流-不包含-受控机型
-        flightPropertyDomain.exemptionAircraftType = "";
+        flightProperty.exemptionAircraftType = "";
         setDirectionData(directionDataCopy);
     }
 
@@ -489,10 +489,10 @@ function DirectionDataForm(props) {
         }
 
         // 方向流控航班类型条件数据对象
-        let flightPropertyDomain = opt.flightPropertyDomain;
-        if (!isValidObject(flightPropertyDomain)) {
-            opt.flightPropertyDomain = {};
-            flightPropertyDomain = opt.flightPropertyDomain;
+        let flightProperty = opt.flightProperty;
+        if (!isValidObject(flightProperty)) {
+            opt.flightProperty = {};
+            flightProperty = opt.flightProperty;
         }
 
 
@@ -534,42 +534,42 @@ function DirectionDataForm(props) {
 
 
         // 更新流控交通流-包含-航班号
-        flightPropertyDomain.flowControlFlightId = flowControlFlightId.join(';');
+        flightProperty.flowControlFlightId = flowControlFlightId.join(';');
         // 更新流控交通流-包含-尾流类型
-        flightPropertyDomain.wakeFlowLevel = wakeFlowLevel.join(';');
+        flightProperty.wakeFlowLevel = wakeFlowLevel.join(';');
         // 更新流控交通流-包含-运营人
-        flightPropertyDomain.auType = auType.join(';');
+        flightProperty.auType = auType.join(';');
         // 更新流控交通流-包含-航班类型
-        flightPropertyDomain.airlineType = airlineType.join(';');
+        flightProperty.airlineType = airlineType.join(';');
         // 更新流控交通流-包含-客货类型
-        flightPropertyDomain.missionType = missionType.join(';');
+        flightProperty.missionType = missionType.join(';');
         // 更新流控交通流-包含-任务类型
-        flightPropertyDomain.task = task.join(';');
+        flightProperty.task = task.join(';');
         // 更新流控交通流-包含-军民航
-        flightPropertyDomain.organization = organization.join(';');
+        flightProperty.organization = organization.join(';');
         // 更新流控交通流-包含-限制资质
-        flightPropertyDomain.ability = ability.join(';');
+        flightProperty.ability = ability.join(';');
         // 更新流控交通流-包含-受控机型
-        flightPropertyDomain.aircraftType = aircraftType.join(';');
+        flightProperty.aircraftType = aircraftType.join(';');
 
         // 更新流控交通流-不包含-航班号
-        flightPropertyDomain.exemptFlightId = exemptFlightId.join(';');
+        flightProperty.exemptFlightId = exemptFlightId.join(';');
         // 更新流控交通流-不包含-尾流类型
-        flightPropertyDomain.exemptionWakeFlowLevel = exemptionWakeFlowLevel.join(';');
+        flightProperty.exemptionWakeFlowLevel = exemptionWakeFlowLevel.join(';');
         // 更新流控交通流-不包含-航班类型
-        flightPropertyDomain.exemptionAirlineType = exemptionAirlineType.join(';');
+        flightProperty.exemptionAirlineType = exemptionAirlineType.join(';');
         // 更新流控交通流-不包含-运营人
-        flightPropertyDomain.exemptionAuType = exemptionAuType.join(';');
+        flightProperty.exemptionAuType = exemptionAuType.join(';');
         // 更新流控交通流-不包含-客货类型
-        flightPropertyDomain.exemptionMissionType = exemptionMissionType.join(';');
+        flightProperty.exemptionMissionType = exemptionMissionType.join(';');
         // 更新流控交通流-不包含-任务类型
-        flightPropertyDomain.exemptionTask = exemptionTask.join(';');
+        flightProperty.exemptionTask = exemptionTask.join(';');
         // 更新流控交通流-不包含-军民航
-        flightPropertyDomain.exemptionOrganization = exemptionOrganization.join(';');
+        flightProperty.exemptionOrganization = exemptionOrganization.join(';');
         // 更新流控交通流-不包含-限制资质
-        flightPropertyDomain.exemptionAbility = exemptionAbility.join(';');
+        flightProperty.exemptionAbility = exemptionAbility.join(';');
         // 更新流控交通流-不包含-受控机型
-        flightPropertyDomain.exemptionAircraftType = exemptionAircraftType.join(';');
+        flightProperty.exemptionAircraftType = exemptionAircraftType.join(';');
         return opt;
     };
 
