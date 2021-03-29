@@ -108,13 +108,13 @@ function RestrictionForm(props) {
     const directionListData = directionList[0] || {};
     const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = directionListData;
     // 流控航班类型条件
-    const flowControlFlight = isValidObject(basicFlowcontrol.flowControlFlight) ? basicFlowcontrol.flowControlFlight : {};
+    const flightPropertyDomain = isValidObject(basicFlowcontrol.flightPropertyDomain) ? basicFlowcontrol.flightPropertyDomain : {};
 
     const { flowControlFlightId = "", wakeFlowLevel = "", airlineType = "", missionType = "", auType = "",
         task = "", organization = "", ability = "", aircraftType = "",
         exemptFlightId = "", exemptionWakeFlowLevel = "", exemptionAirlineType = "", exemptionMissionType = "", exemptionAuType,
         exemptionTask = "", exemptionOrganization = "", exemptionAbility = "", exemptionAircraftType = "",
-    } = flowControlFlight;
+    } = flightPropertyDomain;
 
     // 确认提交模态框显隐变量
     let [isModalVisible, setIsModalVisible] = useState(false);
@@ -470,10 +470,10 @@ function RestrictionForm(props) {
         }
 
         // 方案流控航班类型条件数据对象
-        let flowControlFlight = basicFlowcontrol.flowControlFlight;
-        if (!isValidObject(flowControlFlight)) {
-            basicFlowcontrol.flowControlFlight = {};
-            flowControlFlight = basicFlowcontrol.flowControlFlight
+        let flightPropertyDomain = basicFlowcontrol.flightPropertyDomain;
+        if (!isValidObject(flightPropertyDomain)) {
+            basicFlowcontrol.flightPropertyDomain = {};
+            flightPropertyDomain = basicFlowcontrol.flightPropertyDomain
         }
 
         // 方案流控限制措施信息对象
@@ -576,42 +576,42 @@ function RestrictionForm(props) {
         }
 
         // 更新流控交通流-包含-航班号
-        flowControlFlight.flowControlFlightId = flowControlFlightId.join(';');
+        flightPropertyDomain.flowControlFlightId = flowControlFlightId.join(';');
         // 更新流控交通流-包含-尾流类型
-        flowControlFlight.wakeFlowLevel = wakeFlowLevel.join(';');
+        flightPropertyDomain.wakeFlowLevel = wakeFlowLevel.join(';');
         // 更新流控交通流-包含-运营人
-        flowControlFlight.auType = auType.join(';');
+        flightPropertyDomain.auType = auType.join(';');
         // 更新流控交通流-包含-航班类型
-        flowControlFlight.airlineType = airlineType.join(';');
+        flightPropertyDomain.airlineType = airlineType.join(';');
         // 更新流控交通流-包含-客货类型
-        flowControlFlight.missionType = missionType.join(';');
+        flightPropertyDomain.missionType = missionType.join(';');
         // 更新流控交通流-包含-任务类型
-        flowControlFlight.task = task.join(';');
+        flightPropertyDomain.task = task.join(';');
         // 更新流控交通流-包含-军民航
-        flowControlFlight.organization = organization.join(';');
+        flightPropertyDomain.organization = organization.join(';');
         // 更新流控交通流-包含-限制资质
-        flowControlFlight.ability = ability.join(';');
+        flightPropertyDomain.ability = ability.join(';');
         // 更新流控交通流-包含-受控机型
-        flowControlFlight.aircraftType = aircraftType.join(';');
+        flightPropertyDomain.aircraftType = aircraftType.join(';');
 
         // 更新流控交通流-不包含-航班号
-        flowControlFlight.exemptFlightId = exemptFlightId.join(';');
+        flightPropertyDomain.exemptFlightId = exemptFlightId.join(';');
         // 更新流控交通流-不包含-尾流类型
-        flowControlFlight.exemptionWakeFlowLevel = exemptionWakeFlowLevel.join(';');
+        flightPropertyDomain.exemptionWakeFlowLevel = exemptionWakeFlowLevel.join(';');
         // 更新流控交通流-不包含-航班类型
-        flowControlFlight.exemptionAirlineType = exemptionAirlineType.join(';');
+        flightPropertyDomain.exemptionAirlineType = exemptionAirlineType.join(';');
         // 更新流控交通流-不包含-运营人
-        flowControlFlight.exemptionAuType = exemptionAuType.join(';');
+        flightPropertyDomain.exemptionAuType = exemptionAuType.join(';');
         // 更新流控交通流-不包含-客货类型
-        flowControlFlight.exemptionMissionType = exemptionMissionType.join(';');
+        flightPropertyDomain.exemptionMissionType = exemptionMissionType.join(';');
         // 更新流控交通流-不包含-任务类型
-        flowControlFlight.exemptionTask = exemptionTask.join(';');
+        flightPropertyDomain.exemptionTask = exemptionTask.join(';');
         // 更新流控交通流-不包含-军民航
-        flowControlFlight.exemptionOrganization = exemptionOrganization.join(';');
+        flightPropertyDomain.exemptionOrganization = exemptionOrganization.join(';');
         // 更新流控交通流-不包含-限制资质
-        flowControlFlight.exemptionAbility = exemptionAbility.join(';');
+        flightPropertyDomain.exemptionAbility = exemptionAbility.join(';');
         // 更新流控交通流-不包含-受控机型
-        flowControlFlight.exemptionAircraftType = exemptionAircraftType.join(';');
+        flightPropertyDomain.exemptionAircraftType = exemptionAircraftType.join(';');
 
         return opt;
     };
