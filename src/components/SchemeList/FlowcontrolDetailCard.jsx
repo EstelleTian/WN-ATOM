@@ -89,7 +89,7 @@ function FlowcontrolDetailCard(props) {
                             </div>
                             <div className="ant-col ant-form-item-control">
                                 <div className="ant-form-item-control-input">
-                                    <div className="ant-form-item-control-input-content">{`${flowControlName} --${id}`}</div>
+                                    <div className="ant-form-item-control-input-content">{`${flowControlName} (${id})`}</div>
                                 </div>
                             </div>
                         </div>
