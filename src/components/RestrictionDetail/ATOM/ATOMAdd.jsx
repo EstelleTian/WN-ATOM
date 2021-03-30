@@ -8,14 +8,10 @@
  */
 import React, {useEffect, useState} from 'react'
 import { Row, Col, message as antdMessage,  } from 'antd'
-import {getFullTime, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
-import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail'
-import NTFMDetail  from 'components/RestrictionDetail/NTFMDetail'
+import ATOMDetail  from 'components/RestrictionDetail/ATOM/ATOMDetail'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
-import FlowRelation  from 'components/RestrictionForm/FlowRelation'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
-import { sendMsgToClient } from 'utils/client'
 // ATOM新增导入生成方案
 function ATOMAdd(props){
     const { title, setDisabledForm,  disabledForm, pageType} = props;
@@ -44,10 +40,6 @@ function ATOMAdd(props){
         let user = localStorage.getItem("user");
         user = JSON.parse(user);
         let url = ReqUrls.ATOMCreateDataUrl + id
-        if(pageType === "NTFMAdd"){
-            let url = "http://192.168.194.21:58190/restrictions/createNtfm/MIT/14401";
-        }
-        // let url = "http://192.168.194.21:58190/restrictions/createNtfm/MIT/14401";
         // 请求参数
         const opt = {
             url: url,
@@ -83,15 +75,8 @@ function ATOMAdd(props){
                     //新增
                     ( pageType === "ATOMAdd" ) &&
                     <ATOMDetail flowType="ATOMData" flowData={ flowData } title="流控信息" />
-                    //TODO 模拟NTFM用
-                    // <NTFMDetail flowType="NTFMData" flowData={ flowData } title="流控信息" />
-                
                 }
-                {
-                    //新增
-                    ( pageType === "NTFMAdd" ) &&
-                    <NTFMDetail flowType="NTFMData" flowData={ flowData } title="流控信息" />
-                }
+        
             </Col>
             <Col span={12} className="res_right">
                 <Row className="title">
