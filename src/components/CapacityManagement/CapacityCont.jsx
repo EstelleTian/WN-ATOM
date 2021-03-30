@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-24 17:53:09
+ * @LastEditTime: 2021-03-30 08:53:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -77,7 +77,7 @@ function CapacityCont (props){
 
 
     const requestDynamicData = useCallback((nextRefresh) => {
-        if( !isValidVariable(elementName) || !isValidVariable(elementType) ){
+        if( !isValidVariable(elementName) || !isValidVariable(elementType) || capacity.editable ){
             return;
         }
         let userObj = systemPage.user || "";

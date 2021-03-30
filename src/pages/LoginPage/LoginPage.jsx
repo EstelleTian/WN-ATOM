@@ -1,10 +1,11 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useRef} from 'react';
 import {Form, Input, Button, message, } from 'antd'
 import md5 from 'js-md5'
 import { requestGet } from 'utils/request';
 import { ReqUrls } from 'utils/request-urls'
 import { saveUserInfo, exitSystem } from 'utils/client';
 import './LoginPage.scss'
+import { useEffect } from 'react/cjs/react.development';
 
 const msgStyle = {
     top: '110px',
@@ -17,6 +18,8 @@ function LoginPage(props){
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState(1);
+    const usernameInput = useRef( null );
+    const pwdInput = useRef( null );
 
     // 点击登录按钮登录
     const handleSubmit = useCallback( () => {
@@ -111,6 +114,22 @@ function LoginPage(props){
         }
     })
 
+    useEffect(function(){
+        let user = localStorage.getItem("user") || "{}";
+        user = JSON.parse(user);
+        const username = user.username || "";
+        if( username !== "" ){
+            form.setFieldsValue({
+                username
+            });
+            //聚焦密码输入框
+            pwdInput.current.focus()
+        }else{
+            //聚焦用户名输入框
+            usernameInput.current.focus()
+        }
+    },[])
+
     return (
         <div className="login_canvas bg">
             <div className="close" title="关闭" onClick={()=>{
@@ -154,11 +173,13 @@ function LoginPage(props){
                         <Form.Item
                             name="username"
                             rules={[{ required: true, message: '用户名不能为空' }]}
+                            
                         >
                             <Input 
                                 className="form_input" 
                                 prefix={<div className="user_icon" />} 
                                 placeholder="请输入登录ID"
+                                ref={usernameInput}
                             />
                         </Form.Item>
                         <Form.Item
@@ -170,6 +191,7 @@ function LoginPage(props){
                                 className="form_input"
                                 prefix={<div className="pwd_icon" />} 
                                 placeholder="请输入密码"
+                                ref={pwdInput}
                              />
                         </Form.Item>
                         {/* 登录按钮 */}

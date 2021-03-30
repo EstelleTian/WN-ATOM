@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-24 17:26:52
+ * @LastEditTime: 2021-03-30 10:00:31
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -256,9 +256,6 @@ const EditableCell = ({
                 editable: true,
                 width: (screenWidth > 1920) ? 50 : 50,
                 render: valRender,
-                
-                
-                
             },
             {
                 title: "小时最大起飞架次",
@@ -434,8 +431,6 @@ const ApproveBtn = function(props){
     const requestSuccess = useCallback( ( data, content, key ) => {
         //重新请求数据
         updateWorkFlow();
-        
-
         customNotice({
             type: 'success',
             message: content,
@@ -574,6 +569,7 @@ const CapacityTable = (props) => {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
         setTableData(newData);
+        
     };
 
     const updateOrgTableDatas = (kind, resolve, reject, comment = "") => {
@@ -625,6 +621,7 @@ const CapacityTable = (props) => {
                         message: title+'调整申请成功',
                         duration: 10,
                     });
+                    props.capacity.setEditable(false);
                     resolve("success")
                 },
                 errFunc: (err, msg)=> {
@@ -633,6 +630,7 @@ const CapacityTable = (props) => {
                     }else{
                         title = title+'调整申请失败'
                     }
+                    props.capacity.setEditable(false);
                     customNotice({
                         type: 'error',
                         message: title
@@ -769,7 +767,10 @@ const CapacityTable = (props) => {
                             (showPopconfirm)=>{
                                 return <Button  type="primary" text="同意"
                                 className="todo_opt_btn todo_agree c-btn-blue"
-                                onClick={showPopconfirm} >同意</Button>
+                                onClick={()=>{
+                                    showPopconfirm();
+                                    props.capacity.setEditable(false);
+                                }} >同意</Button>
                             }
                         }
                         
@@ -786,7 +787,10 @@ const CapacityTable = (props) => {
                             (showPopconfirm)=>{
                                 return <Button type="primary" text="拒绝"
                                 className="todo_opt_btn todo_refuse c-btn-red"
-                                onClick={showPopconfirm} >拒绝</Button>
+                                onClick={()=>{
+                                    showPopconfirm();
+                                    props.capacity.setEditable(false);
+                                }} >拒绝</Button>
                             }
                         }
                         
@@ -804,7 +808,10 @@ const CapacityTable = (props) => {
                             (showPopconfirm)=>{
                                 return <Button type="primary" text="撤回"
                                 className="todo_opt_btn todo_reback c-btn-blue"
-                                onClick={showPopconfirm} >撤回</Button>
+                                onClick={()=>{
+                                    showPopconfirm();
+                                    props.capacity.setEditable(false);
+                                }} >撤回</Button>
                             }
                         }
                         
