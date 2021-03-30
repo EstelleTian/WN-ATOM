@@ -26,8 +26,8 @@ function TTitle(props){
     const { executeKPIData = {}, schemeListData } = props;
     
     const generateTime = useMemo(() => {
-        return executeKPIData.KPIData.generateTime || "";
-    }, [executeKPIData.KPIData.generateTime]);
+        return executeKPIData.executeData.generateTime || "";
+    }, [executeKPIData.executeData.generateTime]);
 
     const tacticName = useMemo(() => {
         const activeScheme = schemeListData.activeScheme(schemeListData.activeSchemeId) || {};
@@ -35,7 +35,7 @@ function TTitle(props){
     }, [schemeListData.activeSchemeId]);
 
     return (<span>
-         <span>执行KPI({formatTimeString(props.executeKPIData.KPIData.generateTime)})</span>
+         <span>执行KPI({formatTimeString(props.executeKPIData.executeData.generateTime)})</span>
          —
          <span style={{ color: "#36a5da"}}>{tacticName}</span>
     </span>)

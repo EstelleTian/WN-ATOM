@@ -14,7 +14,7 @@ import Stomp from 'stompjs'
 import { inject, observer } from 'mobx-react'
 import { Checkbox, Empty, Spin, notification } from 'antd'
 import { requestGet } from 'utils/request'
-import { isValidVariable, isValidObject } from 'utils/basic-verify'
+import { isValidVariable, isValidObject, getFullTime } from 'utils/basic-verify'
 import { NWGlobal } from  'utils/global'
 import  SchemeModal  from "./SchemeModal";
 import { ReqUrls } from 'utils/request-urls'
@@ -344,8 +344,8 @@ function useFlightsList(props){
 
     
 }
-//KPI请求 hook
-function useKPIData(props){
+//KPI数据请求 hook
+function useExecuteKPIData(props){
     const { schemeListData, executeKPIData, systemPage } = props;
     const { activeSchemeId, generateTime = "" } = schemeListData;
     const { 
@@ -356,7 +356,7 @@ function useKPIData(props){
             id = ""
         } = {} 
     } = systemPage;
-    const KPITimeoutId = useRef();
+    const ExecuteKPITimeoutId = useRef();
     
     //更新--执行KPI store数据
     const updateKPIData = useCallback( data => {
@@ -374,15 +374,13 @@ function useKPIData(props){
     },[]);
     //获取--执行KPI数据
     const getKPIData = useCallback( nextRefresh => {
-        // console.log("执行KPI数据 getKPIData")
-        // if(leftActiveName === "kpi"){
             const p = new Promise( (resolve, reject) => {
                 let activeSchemeId = schemeListData.activeSchemeId;
                 if( activeSchemeId.indexOf("focus") > -1 ){
                     activeSchemeId = activeSchemeId.replace(/focus-/g, "");
                 }
                 const opt = {
-                    url: ReqUrls.kpiDataUrl + activeSchemeId,
+                    url: ReqUrls.executeKPIDataUrl + activeSchemeId,
                     method:'GET',
                     params:{},
                     resFunc: (data)=> {
@@ -390,11 +388,11 @@ function useKPIData(props){
                         executeKPIData.toggleLoad(false);
                         //开启定时
                         if( nextRefresh ){
-                            if( isValidVariable(KPITimeoutId.current) ){
-                                clearTimeout(KPITimeoutId.current);
-                                KPITimeoutId.current = "";
+                            if( isValidVariable(ExecuteKPITimeoutId.current) ){
+                                clearTimeout(ExecuteKPITimeoutId.current);
+                                ExecuteKPITimeoutId.current = "";
                             }
-                            KPITimeoutId.current = setTimeout( ()=>{
+                            ExecuteKPITimeoutId.current = setTimeout( ()=>{
                                 // console.log("执行KPI数据 定时器-下一轮更新开始")
                                 getKPIData( true );
                             }, 60*1000);
@@ -409,11 +407,11 @@ function useKPIData(props){
                         }
                         //开启定时
                         if( nextRefresh ){
-                            if( isValidVariable(KPITimeoutId.current) ){
-                                clearTimeout(KPITimeoutId.current);
-                                KPITimeoutId.current = "";
+                            if( isValidVariable(ExecuteKPITimeoutId.current) ){
+                                clearTimeout(ExecuteKPITimeoutId.current);
+                                ExecuteKPITimeoutId.current = "";
                             }
-                            KPITimeoutId.current = setTimeout( ()=>{
+                            ExecuteKPITimeoutId.current = setTimeout( ()=>{
                                 // console.log("执行KPI数据 定时器-下一轮更新开始")
                                 getKPIData( true );
                             }, 60*1000);
@@ -428,14 +426,10 @@ function useKPIData(props){
     },[]);
 
     useEffect( ()=>{
-        // console.log("执行KPI数据 activeSchemeId, leftActiveName", activeSchemeId, leftActiveName)
-        // && (leftActiveName === "kpi"
         if( isValidVariable(activeSchemeId) ){
             executeKPIData.toggleLoad(true);
             getKPIData(true);
         }
-
-    // }, [activeSchemeId, leftActiveName]);
     }, [activeSchemeId]);
 
     //监听全局刷新
@@ -449,11 +443,128 @@ function useKPIData(props){
 
     useEffect(()=>{
         return ()=>{
-            if( isValidVariable(KPITimeoutId.current) ){
-                clearTimeout(KPITimeoutId.current);
-                KPITimeoutId.current = "";
+            if( isValidVariable(ExecuteKPITimeoutId.current) ){
+                clearTimeout(ExecuteKPITimeoutId.current);
+                ExecuteKPITimeoutId.current = "";
             }
             executeKPIData.updateExecuteKPIData({});
+        }
+    },[])
+
+}
+// KPI数据请求
+function usePerformanceKPIData(props){
+    const { schemeListData, performanceKPIData, systemPage } = props;
+    const { activeSchemeId, } = schemeListData;
+    const { 
+        pageRefresh,
+        user: 
+        { 
+            id = ""
+        } = {} 
+    } = systemPage;
+    const PerformanceKPITimeoutId = useRef();
+    
+    //更新--执行KPI store数据
+    const updateKPIData = useCallback( data => {
+        if( isValidObject(data) ){
+            performanceKPIData.updatePerformanceKPIData(data )
+        }else{
+            performanceKPIData.updatePerformanceKPIData({});
+            customNotice({
+                type: 'error',
+                content:"获取的KPI数据为空",
+            });
+        }
+    },[]);
+    //获取--执行KPI数据
+    const getKPIData = useCallback( nextRefresh => {
+            const p = new Promise( (resolve, reject) => {
+                let activeSchemeId = schemeListData.activeSchemeId;
+                
+                const now = getFullTime(new Date());
+                const nowDate = now.substring(0, 8);
+                const start = nowDate + '0000';
+                const end = nowDate + '2359';
+                let trafficId = "";
+                if( activeSchemeId.indexOf("focus") > -1 ){
+                    trafficId = activeSchemeId.replace(/focus-/g, "");
+                    activeSchemeId = "";                    
+                }
+
+                const opt = {
+                    url: ReqUrls.performanceKPIDataUrl+id,
+                    method:'GET',
+                    params:{
+                        // 开始时间
+                        startTime:start,
+                        // 结束时间
+                        endTime:end,
+                        // 方案id
+                        id:activeSchemeId,
+                        // 用户关注交通流id
+                        trafficId : trafficId,
+                    },
+                    resFunc: (data)=> {
+                        updateKPIData(data)
+                        performanceKPIData.toggleLoad(false);
+                        //开启定时
+                        if( nextRefresh ){
+                            if( isValidVariable(PerformanceKPITimeoutId.current) ){
+                                clearTimeout(PerformanceKPITimeoutId.current);
+                                PerformanceKPITimeoutId.current = "";
+                            }
+                            PerformanceKPITimeoutId.current = setTimeout( ()=>{
+                                getKPIData( true );
+                            }, 60*1000);
+                        }
+                        notification.destroy();
+                        resolve("success")
+                    },
+                    errFunc: (err)=> {
+                        requestErr(err, 'KPI数据获取失败');
+                        if( performanceKPIData.loading ){
+                            performanceKPIData.toggleLoad(false);
+                        }
+                        //开启定时
+                        if( nextRefresh ){
+                            if( isValidVariable(PerformanceKPITimeoutId.current) ){
+                                clearTimeout(PerformanceKPITimeoutId.current);
+                                PerformanceKPITimeoutId.current = "";
+                            }
+                            PerformanceKPITimeoutId.current = setTimeout( ()=>{
+                                getKPIData( true );
+                            }, 60*1000);
+                        }
+                        resolve("error");
+                    } ,
+                };
+                requestGet(opt);
+            })
+    },[]);
+
+    useEffect( ()=>{
+        if( isValidVariable(activeSchemeId) ){
+            performanceKPIData.toggleLoad(true);
+            getKPIData(true);
+        }
+    }, [activeSchemeId]);
+
+    //监听全局刷新
+    useEffect(function(){
+        if( pageRefresh && isValidVariable(id) ){
+            performanceKPIData.toggleLoad(true);
+            getKPIData( false );
+        }
+    },[ pageRefresh, id ]);
+
+    useEffect(()=>{
+        return ()=>{
+            if( isValidVariable(PerformanceKPITimeoutId.current) ){
+                clearTimeout(PerformanceKPITimeoutId.current);
+                PerformanceKPITimeoutId.current = "";
+            }
+            performanceKPIData.updatePerformanceKPIData({});
         }
     },[])
 
@@ -514,7 +625,8 @@ const SchemeTitle = inject("schemeListData")(observer(STitle))
 function SList (props){
     const getSchemeList = useSchemeList(props);
     useFlightsList(props);
-    useKPIData(props);
+    useExecuteKPIData(props);
+    usePerformanceKPIData(props);
     const {
         visible,
         modalId,
@@ -623,7 +735,7 @@ function SList (props){
     )
 }
 
-const SchemeList = inject("schemeListData", "flightTableData", "executeKPIData", "systemPage")(observer(SList))
+const SchemeList = inject("schemeListData", "flightTableData", "executeKPIData","performanceKPIData", "systemPage")(observer(SList))
 
 const SchemeListModal = () => {
     return (

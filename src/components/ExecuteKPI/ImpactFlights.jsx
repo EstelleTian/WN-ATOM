@@ -7,87 +7,88 @@
  * @FilePath: \WN-ATOM\src\components\ExecuteKPI\ImpactFlights.jsx
  */
 import React from 'react'
-import {Col, Row} from "antd";
+import { Col, Row, Spin } from "antd";
 import { inject, observer } from 'mobx-react'
 
 
 //影响航班
-function ImpactFlights(props){
+function ImpactFlights(props) {
 
     const executeKPIData = props.executeKPIData || {};
-    const KPIData = executeKPIData.KPIData || {};
-    let { impactFlights, criticalFlights, coordinationFlights, inPoolFlights, closeWaitFlights } = KPIData;
-    let tacticProcessInfo = KPIData.tacticProcessInfo || {};
+    const executeData = executeKPIData.executeData || {};
+    let tacticProcessInfo = executeData.tacticProcessInfo || {};
     let kpi = tacticProcessInfo.kpi || {};
     let impactFlightCount = kpi.impactFlightCount || {};
+    // 影响航班集合
     let impactALL = impactFlightCount['AF'];
+    // 已执行航班集合
+    let executedFlight = kpi.executedFlight || [];
+    // 执行中航班集合
+    let inExecutionFlight = kpi.inExecutionFlight || [];
+    // 待放行航班集合
+    let nonExecutionFlight = kpi.nonExecutionFlight || [];
+
     // 影响
     const impact = Array.isArray(impactALL) ? impactALL.length : "N/A";
-    // 临界
-    const critical = Array.isArray(criticalFlights) ? criticalFlights.length : "N/A";
-    // coordination
-    const coordination = Array.isArray(coordinationFlights) ? coordinationFlights.length : "N/A";
-    // 入池
-    const inPool = Array.isArray(inPoolFlights) ? inPoolFlights.length : "N/A";
-    // 关舱门等待
-    const closeWait = Array.isArray(closeWaitFlights) ? closeWaitFlights.length : "N/A";
+    // 已执行
+    const executed = Array.isArray(executedFlight) ? executedFlight.length : "N/A";
+    // 执行中
+    const inExecution = Array.isArray(inExecutionFlight) ? inExecutionFlight.length : "N/A";
+    // 待放行
+    const nonExecution = Array.isArray(nonExecutionFlight) ? nonExecutionFlight.length : "N/A";
+    const { loading } = executeKPIData;
 
-   return  <Row className="row_model">
-       <Col span={10} className="impact block">
-           <div className="block-title">影响航班</div>
-           <div className="block-content flex justify-content-center layout-column-center">
-               <div className="num text-center">{impact}</div>
-               <div className="unit text-center">架次</div>
-           </div>
+    return (
+        <Spin spinning={loading} >
+        <Row className="row_model">
+            <Col span={10} className="impact block">
+                <div className="block-title">影响航班</div>
+                <div className="block-content flex justify-content-center layout-column">
+                    <div className="num text-center">{impact}</div>
+                    <div className="unit text-center">架次</div>
+                </div>
 
-       </Col>
-       <Col span={14} className="block">
-           <Row>
-               <Col span={12} className="impact_sub block">
-                   <div className="block-title">临界航班</div>
-                   <div className="block-content flex">
-                       <div className="layout-row">
-                           <div className="num layout-column justify-content-center">{critical}</div>
-                           <div className="unit layout-column ">架次</div>
-                       </div>
+            </Col>
+            <Col span={14} className="block">
+                <Row>
+                    <Col span={12} className="impact_sub block">
+                        <div className="block-title">已执行</div>
+                        <div className="block-content flex">
+                            <div className="layout-row">
+                                <div className="num layout-column justify-content-center">{executed}</div>
+                                <div className="unit layout-column ">架次</div>
+                            </div>
 
-                   </div>
+                        </div>
 
-               </Col>
-               <Col span={12} className="impact_sub block">
-                   <div className="block-title">申请协调航班</div>
-                   <div className="block-content flex">
-                       <div className="layout-row">
-                           <div className="num layout-column justify-content-center">{coordination}</div>
-                           <div className="unit layout-column ">架次</div>
-                       </div>
-                   </div>
+                    </Col>
+                    <Col span={12} className="impact_sub block">
+                        <div className="block-title">执行中</div>
+                        <div className="block-content flex">
+                            <div className="layout-row">
+                                <div className="num layout-column justify-content-center">{inExecution}</div>
+                                <div className="unit layout-column ">架次</div>
+                            </div>
+                        </div>
 
-               </Col>
-           </Row>
-           <Row>
-               <Col span={12} className="impact_sub block">
-                   <div className="block-title">入池航班</div>
-                   <div className="block-content flex">
-                       <div className="layout-row ">
-                           <div className="num layout-column justify-content-center">{inPool}</div>
-                           <div className="unit layout-column ">架次</div>
-                       </div>
-                   </div>
-               </Col>
-               <Col span={12} className="impact_sub block">
-                   <div className="block-title">关舱门等待航班</div>
-                   <div className="block-content flex">
-                       <div className="layout-row">
-                           <div className="num layout-column justify-content-center">{closeWait}</div>
-                           <div className="unit layout-column ">架次</div>
-                       </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={12} className="impact_sub block">
+                        <div className="block-title">待放行</div>
+                        <div className="block-content flex">
+                            <div className="layout-row ">
+                                <div className="num layout-column justify-content-center">{nonExecution}</div>
+                                <div className="unit layout-column ">架次</div>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </Col>
+        </Row>
+        </Spin>
+    )
 
-                   </div>
-               </Col>
-           </Row>
-       </Col>
-   </Row>
 }
 
 export default inject("executeKPIData")(observer(ImpactFlights));

@@ -7,7 +7,7 @@
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
 import React, { Suspense, useCallback, useState, useEffect, useMemo, useRef } from 'react';
-import { Tabs, Table, Spin } from 'antd';
+import { Tabs, Table, Spin,Steps } from 'antd';
 import { inject, observer } from "mobx-react";
 import { ReqUrls, CollaborateIP } from "utils/request-urls";
 import { customNotice } from 'utils/common-funcs'
@@ -20,6 +20,8 @@ import moment from "moment";
 // import MyApplicationButton from 'components/MyApplication/MyApplicationButton'
 import './TodoTable.scss';
 const { TabPane } = Tabs;
+const { Step } = Steps;
+
 
 
 //获取屏幕宽度，适配 2k
@@ -395,19 +397,32 @@ const TodoTable = (props) => {
                     dataSource={ props.todoList.todos }
                     size="small"
                     bordered
-                    pagination={{
-                        pageSize: 10,
-                        showSizeChanger: true,
-                        showQuickJumper: true,
-                        showTotal: total => {
-                            return `共${total}条`;
-                        },
-                    }}
+                    // pagination={{
+                    //     pageSize: 10,
+                    //     showSizeChanger: true,
+                    //     showQuickJumper: true,
+                    //     showTotal: total => {
+                    //         return `共${total}条`;
+                    //     },
+                    // }}
                     loading={loading}
                     scroll={{
                         x: 600,
-                        y: 600
+                        y: 800
                     }}
+                    expandable={{
+                        expandedRowRender: record => (
+                          <Steps current={1}>
+                        <Step title="Finished" description="This is a description." />
+                        <Step title="In Progress" subTitle="Left 00:00:08" description="This is a description." />
+                        <Step title="Waiting" description="This is a description." />
+                      </Steps>
+                        ),
+                        defaultExpandAllRows:true,
+                        
+                      }}
+                      
+                    
                 />
                <div className="generateTime" style={{position:"absolute",border:"none",left: "40px",bottom: "63px"}}>
                    数据时间: {formatTimeString(props.todoList.generateTime)}
