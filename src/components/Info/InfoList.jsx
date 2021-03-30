@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-03-23 10:30:26
+ * @LastEditTime: 2021-03-30 09:42:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -166,11 +166,7 @@ function InfoCard(props){
                             <div>
                                 <div className="text">
                                     { name }
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;
-                                    <span className="publishUnit">发布用户：{publishUser}</span>
+                                    <span className="publishUnit" >发布用户：{publishUser}</span>
                                 </div>
                                 <div className="text">
                                     { content }
@@ -184,10 +180,8 @@ function InfoCard(props){
                         (dataType === "FTMI"  )
                             && <div>
                                 <div className="text">
-                                    <span className={`${sourceStatus} sourceStatus`}>{convertStatus(sourceStatus)}</span>-{ name }
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span className="publishUnit">发布单位：{publishUnit}</span>
+                                    <span className={`${sourceStatus} sourceStatus`}>{convertStatus(sourceStatus)}</span>-{ name }                               
+                                    <span className="publishUnit" >发布单位：{publishUnit}</span>
                                 </div>
                                 <div className="text">
                                     { dataContent }
