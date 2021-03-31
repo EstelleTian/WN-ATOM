@@ -1,0 +1,12 @@
+.collaborate_table_modal{
+    .ant-table.ant-table-small{
+        
+        .ant-table-tbody{
+            font-size: 1rem!important;
+        }
+    } 
+    //modal 重置了这个样式，再次重置回去
+    .ant-table-tbody > tr.ant-table-row:hover > td {
+        background: #3b8c9b!important;
+    }
+}

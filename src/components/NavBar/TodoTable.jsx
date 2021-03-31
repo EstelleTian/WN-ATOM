@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-26 16:46:58
+ * @LastEditTime: 2021-03-31 18:44:43
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -39,17 +39,17 @@ const names = {
     "handleStatus": {
         "en": "handleStatus",
         "cn": "本席位处理状态",
-        width: 100,
+        width: 140,
     },
     "TASKID": {
         "en": "TASKID",
         "cn": "流水ID",
-        width: 80,
+        width: 70,
     },
     "type": {
         "en": "type",
         "cn": "类型",
-        width: 90,
+        width: 120,
     },
     "flightsId": {
         "en": "flightsId",
@@ -59,34 +59,34 @@ const names = {
     "depap": {
         "en": "depap",
         "cn": "起飞机场",
-        width: 75,
+        width: 100,
     },
     "sourceVal": {
         "en": "sourceVal",
         "cn": "原始值",
-        width: 150,
+        width: 160,
     },
     "targetVal": {
         "en": "targetVal",
         "cn": "协调值",
-        width: 150,
+        width: 160,
     },
     "startUser": {
         "en": "startUser",
         "cn": "发起人",
-        width: 130,
+        width: 160,
     },
     "startTime": {
         "en": "startTime",
         "cn": "发起时间",
-        width: 130,
+        width: 100,
         defaultSortOrder: 'descend',
 
     },
     "activityName": {
         "en": "activityName",
         "cn": "当前处理环节",
-        width: 130,
+        width: 140,
     },
 
 }
@@ -266,8 +266,9 @@ const TodoTable = (props) => {
                     return a.startTime * 1 - b.startTime * 1;
                 };
                 tem["render"] = (text, record, index) => {
-                    const time = formatTimeString(text)
-                    return <div title={time}>{time}</div>;
+                    const timeTitle = formatTimeString(text);
+                    const time = formatTimeString(text,2);
+                    return <div title={timeTitle}>{time}</div>;
                 }
             }
             //待办类型
@@ -280,7 +281,7 @@ const TodoTable = (props) => {
                 }
             }
 
-            if (en === "handleStatusS") {
+            if (en === "handleStatus") {
                 // || en === "FLIGHTID" || en === "TASKID" 
                 tem["fixed"] = 'left'
             }
@@ -297,17 +298,16 @@ const TodoTable = (props) => {
                         return <div title={text}>{FlightCoordination.getPriorityZh(text)}</div>
                     } else if (type === 'INPOOL' || type === 'OUTPOOL') {
                         return <div title={text}>{FlightCoordination.getPoolStatusZh(text)}</div>
-                    } else if (type === 'COBT' || type === 'CTOT' || type === 'FFIXT') {
-                        const obj = JSON.parse(text);
-
+                    } else if (type === 'COBT' || type === 'CTOT' || type === 'CTD' || type === 'FFIXT') {
+                        const obj = JSON.parse(text) || {};
                         return <div>
                             {
                                 Object.keys(obj).map( key => {
-                                    let val = obj[key]
+                                    let val = obj[key] || "";
                                     if (isValidVariable(val) && val.length >= 12 && val * 1 > 0) {
-                                        return <div>{key}：{getDayTimeFromString(val, "", 2)}</div>
+                                        return <div key={key} >{key}：{getDayTimeFromString(val, "", 2)}</div>
                                     }else{
-                                        return <div>{key}：{getLockedCn(val)}</div>
+                                        return <div key={key}>{key}：{getLockedCn(val)}</div>
                                     }
                                     
                                 })
@@ -405,7 +405,7 @@ const TodoTable = (props) => {
                     }}
                     loading={loading}
                     scroll={{
-                        x: 600,
+                        x: tableTotalWidth,
                         y: 600
                     }}
                 />

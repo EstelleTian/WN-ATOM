@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-03-26 09:03:53
+ * @LastEditTime: 2021-03-31 15:51:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\User.jsx
@@ -56,7 +56,10 @@ function User(props){
             stompClient.subscribe( topic1, function (d) {
                 //收到消息
                 console.log("放行监控 WebSocket收到消息:"+d);
+                console.timeEnd("cod");
                 props.flightTableData.setForceUpdate(true);
+                props.todoList.setForceUpdate(true);
+                props.myApplicationList.setForceUpdate(true);
             })
         }
 
@@ -111,4 +114,4 @@ function User(props){
 
 }
 
-export  default  withRouter(inject("systemPage", "flightTableData")( observer( User)));
+export  default  withRouter(inject("systemPage", "flightTableData", "todoList", "myApplicationList")( observer( User)));

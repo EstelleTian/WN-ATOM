@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-03-26 16:43:18
+ * @LastEditTime: 2021-03-31 18:49:01
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -16,6 +16,7 @@ import { ReqUrls, CollaborateIP } from "utils/request-urls";
 import { customNotice } from 'utils/common-funcs'
 import TodoTable from './TodoTable';
 import HisTaskTable from './HistaskTable';
+import './TodoNav.scss'
 
 const { TabPane } = Tabs;
 
@@ -161,6 +162,13 @@ function TodoNav(props) {
         }
 
     }, [modalActiveName]);
+    
+    useEffect( ()=>{
+        if( props.todoList.forceUpdate ){
+            console.log("强制更新待办列表")
+            requestData(false, false)
+        }
+    },[ props.todoList.forceUpdate ])
 
     useEffect(() => {
         requestData(true, true);
@@ -185,16 +193,16 @@ function TodoNav(props) {
                 }
             </Radio.Button>
             <Modal
-                width={1300}
+                width={1350}
                 style={{ marginTop: "-50px"}}
                 title="航班协调"
                 visible={ todoModalVisible }
-                footer={[] // 设置footer为空，去掉 取消 确定默认按钮
-                    }
+                footer={[]} // 设置footer为空，去掉 取消 确定默认按钮
                 onOk={() => { }}
                 mask={false}
                 wrapClassName="pointer-events-none"
                 onCancel={ hideModal }
+                className="collaborate_table_modal"
             >
                 <Tabs size="large" style={{marginTop:-25}}>
                     <TabPane tab="待办" key="1">

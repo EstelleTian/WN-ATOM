@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-16 09:23:42
+ * @LastEditTime: 2021-03-31 19:30:05
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -18,7 +18,7 @@ import { inject, observer } from 'mobx-react'
 import WorkFlowContent from "./WorkFlowContent";
 import {isValidVariable} from "utils/basic-verify";
 import debounce from 'lodash/debounce' 
-import { openConfirmFrame, openTimeSlotFrameWithFlightId } from 'utils/client'
+import { openConfirmFrame, openTimeSlotFrameWithFlightId, openTclientFrameForMessage } from 'utils/client'
 const { Search } = Input;
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
@@ -84,10 +84,14 @@ const DetailBtn = function(props){
 }
 //主办 按钮
 const HandleBtn = function(props){
+    // console.log("props.activeTab ", props.activeTab)
     //根据不同类型调整到不同窗口
     const openHandleWind = ( record ) => {
         let orgdata = JSON.parse( record.orgdata );
-         const instance = orgdata.instance || {};
+         let instance = orgdata.instance || {};
+         if( props.activeTab === "finished"){
+            instance = orgdata.hisInstance || {};
+         }
          const processDefinitionKey = instance.processDefinitionKey || "";
          const businessKey = instance.businessKey || ""; //方案id
          const processVariables = instance.processVariables || {};
@@ -100,10 +104,12 @@ const HandleBtn = function(props){
              case "SchemeApprovalProcess": //方案审批流程
                 console.log("方案审批流程",businessKey);
                 openConfirmFrame( businessKey );
-             break;
-             case "CapacityApprovalProcess": //容量审批流程
-             
-             break;
+                break;
+             case "VolumeApprovalProcess": //容量审批流程
+                console.log("容量审批流程",businessKey);
+                const elementName = processVariables.elementName || "";
+                openTclientFrameForMessage(elementName);
+                break;
              
          }
          console.log(orgdata);
@@ -115,7 +121,7 @@ const HandleBtn = function(props){
         <a onClick={ e =>{
             openHandleWind(props.record);
              e.stopPropagation();
-         } }>主办</a>
+         } }> {props.activeTab === "todo" ? "主办" : "已办"}</a>
     )
 }
 
@@ -180,14 +186,15 @@ function WorkFlowList(props){
         dataIndex: "opt",
         align: 'center',
         key: "opt",
-        width: (screenWidth > 1920) ? 45 :45,
+        width: (screenWidth > 1920) ? 55 :55,
         render: (text, record, index) => {
             return (
                 <span className='opt_btns'>
                     <DetailBtn record={record} />
-                    {
+                    <HandleBtn record={record} activeTab={activeTab} />
+                    {/* {
                         activeTab === "todo" ? <HandleBtn record={record} />: ""
-                    }
+                    } */}
                 
                     {/*<a>收回</a>*/}
                     {/*<a>催办</a>*/}
@@ -535,18 +542,8 @@ function WorkFlowList(props){
     }
 
     let data = filterInput( cdata );
-    //按流水号排序
-    // data = data.sort( (a,b) => {
-    //     return ( a.sid*1 - b.sid*1 ) *(-1);
-    // } );
-
     let columns = getColumns();
-    useEffect(() => {
-        
-        return () => {
-            console.log(11111)
-        }
-    }, [])
+
     
     return (
         <div className="work_cont">
@@ -578,6 +575,7 @@ function WorkFlowList(props){
                             // defaultPageSize: 20
                         }}
                         scroll={{
+                            x: 1100,
                             y: 390,
                         }}
                         loading={ loading }

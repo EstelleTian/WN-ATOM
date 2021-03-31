@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-03-26 11:21:19
+ * @LastEditTime: 2021-03-31 18:09:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -44,6 +44,8 @@ const PopoverTip = ( props ) => {
         const [form] = Form.useForm();
         let { text, record, col } = opt;
         let { FLIGHTID, DEPAP, ARRAP, orgdata } = record;
+        orgdata = JSON.parse(orgdata);
+        
         let time = "";
         let date = "";
         if( isValidVariable(text) && text.length >= 12 ){
@@ -71,6 +73,18 @@ const PopoverTip = ( props ) => {
                 orgTime: "",
                 time: getFullTime(new Date(), 3),
             }
+        }
+
+        let source = "";
+        if( col === "FFIXT" ){
+            const field = orgdata['ffixField'] || {};
+            source = field.source || "";
+        }else if(col === "COBT"){
+            const field = orgdata['cobtField'] || {};
+            source = field.source || "";
+        }else if(col === "CTOT"){
+            const field = orgdata['ctotField'] || {};
+            source = field.source || "";
         }
 
         //数据提交失败回调
@@ -103,7 +117,7 @@ const PopoverTip = ( props ) => {
         const onCheck = async ( type ) => {
             try {
               const values = await form.validateFields();
-              console.log('Success:', values);
+            //   console.log('Success:', values);
               setSubmitBtnLoading(true)
               const newStartTime =  moment(values.startTime).format('YYYYMMDD'); //日期转化
               const { record } = props.opt;
@@ -111,8 +125,8 @@ const PopoverTip = ( props ) => {
               let orgFlight = JSON.parse(orgdata) || {}; //航班fc
               const userId = props.systemPage.user.id || '14';
               const timestr = newStartTime + "" + values.time;
-              console.log(timestr);
-              orgFlight.locked = autoChecked ? 1 : "";
+            //   console.log(timestr);
+              const locked = autoChecked ? "1" : "0";
 
               const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
               //传参
@@ -122,17 +136,24 @@ const PopoverTip = ( props ) => {
                   comment: values.comment,  //备注
                   taskId: "",
                   tacticId: schemeId,
+                  locked
               }
               
               let urlKey = "";
               let url = "";
               if( col === "COBT"){
-                  urlKey = "/updateCobt";
+                  urlKey = "/updateFlightCobt";
+                  if( type === 'clear'){
+                    urlKey = '/clearFlightCobt'
+                  }
                   url = CollaborateUrl.cobtUrl;
                   params["timeVal"] = timestr;
                   params["fix"] = "";
               }else if( col === "CTOT"){
-                  urlKey = "/updateCtot";
+                  urlKey = "/updateFlightCtd";
+                  if( type === 'clear'){
+                    urlKey = '/clearFlightCtd'
+                  }
                   url = CollaborateUrl.ctotUrl; 
                   params["timeVal"] = timestr;
                   params["fix"] = "";
@@ -141,7 +162,14 @@ const PopoverTip = ( props ) => {
                   url = CollaborateIP + urlKey; 
                   params["tobtValue"] = timestr;
               }else if( col === "FFIXT"){
+                urlKey = "/updateFlightFFixT";
+                if( type === 'clear'){
+                  urlKey = '/clearFlightFFixT'
+                }
                 url = CollaborateUrl.ffixtUrl; 
+                if( type === 'clear'){
+                    urlKey = '/clearFlightCtd'
+                  }
                 const ffixField = orgFlight.ffixField || {};
                 const name = ffixField.name || "";
                 params["timeVal"] = timestr;
@@ -149,7 +177,7 @@ const PopoverTip = ( props ) => {
             }
               console.log(params);
               const opt = {
-                  url,
+                  url: url + urlKey,
                   method: 'POST',
                   params: params,
                   resFunc: (data)=> requestSuccess(data, title),
@@ -341,17 +369,27 @@ const PopoverTip = ( props ) => {
                                 <Button loading={submitBtnLoading} size="small" className="c-btn c-btn-yellow"  
                                 type="primary" 
                                     onClick={ e=> {
-                                        onCheck(e,"apply");
+                                        onCheck("apply");
                                     }}
                                 >申请</Button>
                               </div>
                             : <div>
-                                <Button loading={submitBtnLoading} size="small"  type="primary" 
+                                <Button loading={submitBtnLoading} size="small"  
+                                    className="todo_opt_btn todo_agree c-btn-blue"
                                     onClick={ e=> {
-                                        onCheck(e, "");
+                                        onCheck("");
                                     }}
-                                >修改</Button>
-                                <Button style={{marginLeft: '8px'}}  size="small">重置</Button>
+                                >指定</Button>
+                                {
+                                    source === "MANUAL" && <Button style={{marginLeft: '8px'}} 
+                                    className="todo_opt_btn todo_refuse c-btn-red"
+                                    onClick={ e=> {
+                                        onCheck("clear");
+                                    }}
+                                    size="small">撤销</Button>
+                                }
+                                
+                                {/* <Button style={{marginLeft: '8px'}}  size="small">重置</Button> */}
                             </div>
                         }
                         

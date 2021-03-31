@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-03-30 09:42:47
+ * @LastEditTime: 2021-03-31 14:50:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -90,7 +90,6 @@ function InfoCard(props){
                                         data = JSON.parse( data );
                                         const elementName = data.elementName || "";
                                         console.log(elementName);
-                                        // window.open("/#/capacity/"+elementName);
                                         openTclientFrameForMessage(elementName);
                                         e.stopPropagation();
                                     } } >查看容量管理</Button>

@@ -19,11 +19,21 @@
     }
 }
 .filter_menu{
-        width: 140px;
+    width: 180px;
     margin-right: 1.5rem;
     margin-top: 0.5rem;
     .ant-menu{
         border: 1px solid #5D5D5D;
+        li.ant-menu-item{
+            padding-left: 12px !important;
+            text-align: center!important;
+        }
+    }
+}
+.route_group_menu{
+    ul> li.ant-menu-item{
+        padding-left: 12px !important;
+        text-align: center!important;
     }
 }
 .cap_set_canvas{

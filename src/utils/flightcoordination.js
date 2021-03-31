@@ -289,7 +289,23 @@ const FlightCoordination = {
         }
         return sourceCN;
     },
-
+    // getSourceZh : (source) => {
+    //     let sourceCN = ""
+    //     if( source.indexOf('ATOM') > -1 ){
+    //         sourceCN = "引接ATOM";
+    //     }else if( source.indexOf('NTFM') > -1 ){
+    //         sourceCN = "引接NTFM";
+    //     }else if( source.indexOf('MANUAL') > -1 ){
+    //         sourceCN = "人工";
+    //     }else if( source.indexOf('LOCK') > -1 ){
+    //         sourceCN = "锁定";
+    //     }else if( source.indexOf('AUTO') > -1 ){
+    //         sourceCN = "自动";
+    //     }else {
+    //          sourceCN = source;
+    //     }
+    //     return sourceCN;
+    // },
 
     /**
      * 获取优先级中文
@@ -1563,7 +1579,7 @@ const TodoType = {
 };
 
 //最终状态
-const Status = {
+const StatusToCN = {
     "100": "进行中",
     "200": "已同意",
     "300": "已拒绝",
@@ -1571,7 +1587,7 @@ const Status = {
 };
 
 //本席位处理状态
-const HandleStatus = {
+const HandleStatusToCN = {
     "100": "未处理",
     "200": "提交",
     "300": "同意",
@@ -1579,4 +1595,4 @@ const HandleStatus = {
     "500": "确认",
 };
 
-export { FlightCoordination, AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList, TodoType,Status,HandleStatus };
+export { FlightCoordination, AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList, TodoType, StatusToCN, HandleStatusToCN };

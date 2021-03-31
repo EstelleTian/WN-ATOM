@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback } from 'react'
 import { message, Button, Table, Spin } from "antd";
 // import { Link } from 'react-router-dom'
-import { openConfirmFrame, openTimeSlotFrameWithFlightId } from 'utils/client'
+import { openConfirmFrame, openTimeSlotFrameWithFlightId, openTclientFrameForMessage } from 'utils/client'
 import { requestGet } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import { customNotice } from 'utils/common-funcs'
@@ -17,7 +17,7 @@ const columns = [
         dataIndex: "rowNum",
         align: 'center',
         key: "rowNum",
-        width: (screenWidth > 1920) ? 40 : 40,
+        width: (screenWidth > 1920) ? 25 : 25,
         fixed: 'left',
         render: (text, record, index) => `第${index+1}步`
     },
@@ -40,7 +40,7 @@ const columns = [
             const startTime = orgdata.startTime || 0;
             const endTime = orgdata.endTime || "";
             const durationInMillis = orgdata.durationInMillis || 0;
-
+        
             return (
                 <div className="handler">
                     <div className="handler_1">
@@ -48,8 +48,6 @@ const columns = [
                             {
                                 isValidVariable(endTime) ? <span className=""  style={{color: '#3a9c3a'}}>[用时：{ millisecondToDate(durationInMillis) } ]</span> : ""
                             }
-                        
-
                     </div>
                     <div className="handler_2">开始于：{ getFullTime( new Date(startTime), 1 ) }</div>
                     <div className="handler_3">结束于：{  isValidVariable(endTime) ? getFullTime(new Date(endTime), 1) : "" }</div>
@@ -98,6 +96,14 @@ const columns = [
                 </span>
             )
         }
+    },
+    {
+        title: "IP",
+        dataIndex: "ipAddress",
+        align: 'center',
+        key: "ipAddress",
+        width: (screenWidth > 1920) ? 45 : 45,
+
     },
     {
         title: "",
@@ -150,14 +156,16 @@ const WorkFlowContent = (props) => {
                 }
                 const taskLocalVariables = item.taskLocalVariables || {};
                 const comments = taskLocalVariables.comments || "";
+                const ipAddress = taskLocalVariables.ipAddress || "";
                 
                 const obj =
                     {
                         key: index,
                         handleStep: name,
                         handler: assigneeName,
-                        handleStatus: handleStatus,
+                        handleStatus,
                         handleRes: comments,
+                        ipAddress,
                         orgdata: JSON.stringify(item)
                     };
                 newData.push(obj);
@@ -218,17 +226,20 @@ const WorkFlowContent = (props) => {
          const businessKey = instance.businessKey || ""; //方案id
          const processVariables = instance.processVariables || {};
          switch(processDefinitionKey){
-             case "FlightApprovalProcess": //航班审批流程
-                const tacticId = processVariables.tacticId || ""; //航班对应方案id
+            case "FlightApprovalProcess": //航班审批流程
+                const tacticId = processVariables.tacticId || "";//航班对应方案id
                 const fmeId = processVariables.fmeId || "";//航班id
                 openTimeSlotFrameWithFlightId(tacticId, fmeId);
                 break;
-             case "SchemeApprovalProcess": //方案审批流程
-
+            case "SchemeApprovalProcess": //方案审批流程
+                console.log("方案审批流程",businessKey);
                 openConfirmFrame( businessKey );
-                
                 break;
-             case "CapacityApprovalProcess": //容量审批流程
+            case "VolumeApprovalProcess": //容量审批流程
+                console.log("容量审批流程",businessKey);
+                const elementName = processVariables.elementName || "";
+                openTclientFrameForMessage(elementName);
+                break;
              
              break;
          }

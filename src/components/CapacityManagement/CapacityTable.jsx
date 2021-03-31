@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-30 10:00:31
+ * @LastEditTime: 2021-03-31 19:14:35
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -233,19 +233,21 @@ const EditableCell = ({
         cColumns = [
             {
                 title: "时间",
-                dataIndex: "capacityTime",
+                dataIndex: "capacityTimeSource",
                 align: 'center',
-                key: "capacityTime",
+                key: "capacityTimeSource",
                 fixed: 'left',
                 width: (screenWidth > 1920) ? 30 : 30,
                 render: (text, record, index) => {
                     if( text === "BASE" ){
                         return <span>全天</span>;
+                    }else{
+                        return <span>{text}时</span>
                     }
-                    if( text*1 < 10){
-                        text = '0'+text;
-                    }
-                    return <span>{text}时</span>
+                    // if( text*1 < 10){
+                    //     text = '0'+text;
+                    // }
+                    // return <span>{text}时</span>
                 }
             },
             {
@@ -312,19 +314,19 @@ const EditableCell = ({
         cColumns = [
             {
                 title: "时间",
-                dataIndex: "capacityTime",
+                dataIndex: "capacityTimeSource",
                 align: 'center',
-                key: "capacityTime",
+                key: "capacityTimeSource",
                 fixed: 'left',
                 width: (screenWidth > 1920) ? 30 : 30,
                 render: (text, record, index) => {
                     if( text === "BASE" ){
                         return <span>全天</span>;
                     }
-                    if( text*1 < 10){
-                        text = '0'+text;
-                    }
-                    return <span>{text}时</span>
+                    // if( text*1 < 10){
+                    //     text = '0'+text;
+                    // }
+                    return <span>{text}</span>
                 }
             },
             {
@@ -558,7 +560,8 @@ const CapacityTable = (props) => {
     const [ loading, setLoading ] = useState(false); 
     const [ tableData, setTableData ] = useState([]); 
 
-    const { kind, airportName, paneType, capacity } = props;
+    const { kind, airportName, paneType, capacity, routeName } = props;
+    // console.log("routeName", routeName)
     const { editable, setEditable } = capacity;
     // console.log(editable, setEditable)
     const username = props.systemPage.user.username;
@@ -575,6 +578,7 @@ const CapacityTable = (props) => {
     const updateOrgTableDatas = (kind, resolve, reject, comment = "") => {
             let tableDataObj = {};
             tableData.map( item => {
+                // const key = item.capacityTime || "";
                 const key = item.capacityTime || "";
                 if( key !== ""){
                     tableDataObj[key] = item;
@@ -597,15 +601,24 @@ const CapacityTable = (props) => {
                 capacityData = props.capacity.dynamicData;
                 title = "动态容量"
             }
+            let params = {
+                elementName: airportName,
+                capacityMap: tableDataObj,
+                comment,
+            }
+            if( paneType === "ROUTE" ){
+                params = {
+                    elementName: routeName,
+                    capacityMap: tableDataObj,
+                    routeName: airportName,
+                    comment,
+                }
+            }
             
             const opt = {
                 url,
                 method: 'POST',
-                params: {
-                    elementName: airportName,
-                    capacityMap: tableDataObj,
-                    comment,
-                },
+                params,
                 resFunc: (data)=> {
                     // console.log(data);
                     const { capacityMap } = data;
@@ -717,12 +730,19 @@ const CapacityTable = (props) => {
 
     const validateUpdateBtn = useCallback(() => {
         if( isValidVariable(username) ){
+            let params = {
+                elementName: airportName,
+            }
+            if( paneType === "ROUTE" ){
+                params = {
+                    elementName: routeName,
+                    routeName: airportName,
+                }
+            }
             const opt = {
                 url: ReqUrls.capacityBaseUrl + "simulationTactics/judge/"+username,
                 method: 'GET',
-                params: {
-                    elementName: airportName,
-                },
+                params,
                 resFunc: (data)=> {
                     props.capacity.setEditable(true);
                 },
@@ -736,7 +756,7 @@ const CapacityTable = (props) => {
             requestGet(opt);
         }
             
-    }, [username])
+    }, [username, routeName ])
     
     useEffect(() => {
         resetOrgTableDatas();

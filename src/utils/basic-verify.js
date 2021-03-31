@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-15 15:12:48
- * @LastEditTime: 2021-03-23 15:47:44
+ * @LastEditTime: 2021-03-31 16:45:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\utils\basic-verify.js
@@ -166,13 +166,16 @@ const addStringTime = (time, addMillis) => {
  * @returns {String}
  */
 const formatTimeString = ( str, type ) => {
-    if( isValidVariable(str) && ( str.length === 12 || str.length === 14 ) ){
+    if( isValidVariable(str) && ( str.length === 12 || str.length === 14 || str.length === 16 ) ){
         // 解析各个值
         const year = str.substring(0, 4);
         const month = str.substring(4, 6);
         const day = str.substring(6, 8);
         const hour = str.substring(8, 10);
         const mins = str.substring(10, 12);
+        if( type === 2){
+            return day + '/' + hour  + ':' + mins;
+        }
 
         return year + '-' + month + '-' + day + ' ' + hour  + ':' + mins;
     }

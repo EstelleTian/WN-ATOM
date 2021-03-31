@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 12:59:35
- * @LastEditTime: 2021-02-05 13:04:00
+ * @LastEditTime: 2021-03-31 11:00:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\stores\todoListStores.jsx
@@ -16,6 +16,8 @@ class TODOList {
     }
     // 列表
     @observable todos = [];
+    //是否强制刷新
+    @observable forceUpdate = false;
     //数据时间
     @observable generateTime = "";
     //数据获取
@@ -33,7 +35,10 @@ class TODOList {
     @action toggleLoad(load) {
         this.loading = load;
     }
-
+    //修改--待办-强制更新
+    @action setForceUpdate( flag ){
+        this.forceUpdate = flag;
+    }
 }
 
 // class MyApplicationList {

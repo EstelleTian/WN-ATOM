@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-03-24 17:00:46
+ * @LastEditTime: 2021-03-31 19:22:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -92,13 +92,15 @@ const StepCollapse = function(props){
 
 //容量管理-工作流详情
 function DynamicWorkSteps (props){
-    const {  pane = {}, capacity, systemPage } = props;
+    const {  pane = {}, capacity, systemPage, routeName } = props;
     const dateRange = capacity.dateRange;
     const user = props.systemPage.user || {};
     const username = user.username || "";
     const [ loading, setLoading ] = useState(false);
     const [ dataLoaded, setDataLoaded ] = useState(false);
     const timer = useRef();
+
+    
     
     const { hisInstance ={}, hisTasks =[], generateTime="", authMap={} } = useMemo( ()=> {
         const taskMap = props.capacity.dynamicWorkFlowData.taskMap || {};
@@ -116,6 +118,13 @@ function DynamicWorkSteps (props){
     
     const requestDynamicWorkFlowData = useCallback(( nextRefresh ) => {
         const type = pane.type.toUpperCase();
+        if( !isValidVariable(systemPage.user.username) ){
+            return;
+        }
+        if( type === "ROUTE" && !isValidVariable(routeName) ){
+            return;
+        }
+        
         const airportName = pane.key;
         const firId = pane.firId;
         const timerFunc = function(){
@@ -126,18 +135,28 @@ function DynamicWorkSteps (props){
             }
         }
         let date = capacity.getDate();
-        // let date = "";
+        let params = {
+            date,
+            elementName: airportName,
+            routeName:"",
+            firId,
+            elementType: type
+        }
+        if( type === "ROUTE" ){
+            params = {
+                date,
+                elementName: routeName,
+                routeName: airportName,
+                firId,
+                elementType: type
+            }
+        }
+
+        
         const opt = {
             url: ReqUrls.capacityBaseUrl+ "simulationTactics/retrieveSchemeFlows/"+ systemPage.user.username,
             method: 'POST',
-            params:{
-                date,
-                "elementName": airportName,
-                "routeName":"",
-                firId,
-                "elementType": type
-                    
-                },
+            params,
             resFunc: (data)=> {
                 props.capacity.updateDynamicWorkFlowData( data );
                 setDataLoaded(false);
@@ -167,7 +186,7 @@ function DynamicWorkSteps (props){
         }
        
 
-    },[]);
+    },[systemPage.user.username, routeName]);
 
     //请求错误处理
     const requestErr = useCallback((err, content) => {
@@ -241,16 +260,22 @@ function DynamicWorkSteps (props){
     }
 
     useEffect( function(){
-        if( username !== ""){
+        if( isValidVariable(username)){
             setLoading(true);
-            //获取数据
-            requestDynamicWorkFlowData( true );
+            if( pane.type === "ROUTE" && isValidVariable(routeName) ){
+                //获取数据
+                requestDynamicWorkFlowData( true );
+            }else{
+                //获取数据
+                requestDynamicWorkFlowData( true );
+            }
+            
         }
         return ()=>{
             clearTimeout(timer.current);
             timer.current = null;
         }
-    }, [username]);
+    }, [username, routeName]);
 
     useEffect( function(){
         if( props.capacity.forceUpdateDynamicWorkFlowData){

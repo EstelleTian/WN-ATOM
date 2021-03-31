@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-30 08:53:16
+ * @LastEditTime: 2021-03-31 19:09:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -17,6 +17,7 @@ import { ReqUrls } from 'utils/request-urls'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { isValidVariable, getFullTime, formatTimeString } from 'utils/basic-verify'
 import CapacityTable from './CapacityTable';
+import RouteMenu from './RouteMenu';
 import DynamicWorkSteps from './DynamicWorkSteps';
 import { customNotice } from 'utils/common-funcs'
 import "./CapacityCont.scss"
@@ -30,6 +31,7 @@ function CapacityCont (props){
     const elementName = pane.key || "";
     const elementType = pane.type || "";
     const firId = pane.firId || "";
+    // alert("key: "+elementName+"  type: "+elementType+"  firId: "+firId);
     let staticTimer = useRef();
     let dynamicTimer = useRef();
     const generateTime = capacity.dynamicDataGenerateTime || "";
@@ -75,11 +77,16 @@ function CapacityCont (props){
 
     },[]);
 
-
+    //动态容量获取
     const requestDynamicData = useCallback((nextRefresh) => {
         if( !isValidVariable(elementName) || !isValidVariable(elementType) || capacity.editable ){
             return;
         }
+        let selRoute = props.capacity.selRoute || "";
+        if(elementType === "ROUTE" && selRoute === ""){
+            return;
+        }
+        
         let userObj = systemPage.user || "";
         if( !isValidVariable(userObj.username) ){
             return;
@@ -91,22 +98,42 @@ function CapacityCont (props){
                 }, 30*1000)
             }
         }
-        
         let date = capacity.getDate();
-        const opt = {
-            url: ReqUrls.capacityBaseUrl+ "dynamic/retrieveCapacityDynamic/" + userObj.username,
-            // url: ReqUrls.capacityBaseUrl+ "dynamic/retrieveCapacityDynamic",
-            method:'POST',
-            params:{
+        let params = {}
+        if( elementType === "ROUTE" ){
+            params = {
+                date,
+                elementName: selRoute,
+                routeName: elementName,
+                // elementName: elementName,
+                // routeName: selRoute,
+                firId: firId,
+                elementType
+            }
+        }else{
+            params = {
                 date,
                 elementName,
                 routeName: "",
                 firId: firId,
                 elementType
-            },
+            }
+        }
+        
+
+        const opt = {
+            url: ReqUrls.capacityBaseUrl+ "dynamic/retrieveCapacityDynamic/" + userObj.username,
+            method:'POST',
+            params,
             resFunc: (data)=> {
                 const { capacityMap, generateTime, authMap } = data;
-                props.capacity.setDynamicData( capacityMap[elementName], generateTime, authMap );
+                if( elementType === "ROUTE" ){
+                    props.capacity.setDynamicData( capacityMap[selRoute], generateTime, authMap );
+                    
+                }else{
+                    props.capacity.setDynamicData( capacityMap[elementName], generateTime, authMap );
+                }
+                
                 if( props.capacity.forceUpdateDynamicData ){
                     //获取数据
                     props.capacity.forceUpdateDynamicData = false;
@@ -143,9 +170,6 @@ function CapacityCont (props){
         }else{
             alert("请先登录");
         }
-    }, []);
-
-    useEffect( function(){
         return ()=>{
             console.log("卸载")
             clearTimeout(staticTimer.current);
@@ -155,12 +179,25 @@ function CapacityCont (props){
         }
     }, []);
 
+
+    useEffect( function(){
+        if( isValidVariable( props.capacity.selRoute ) ){
+            //获取数据
+            if( ! isValidVariable(dynamicTimer.current)  ){
+                requestDynamicData( true );
+            }else{
+                requestDynamicData( false );
+            }
+            
+        }
+    }, [ props.capacity.selRoute ]);
+
     useEffect( function(){
         if( props.capacity.forceUpdateDynamicData ){
             //获取数据
             requestDynamicData( false );
         }
-    }, [ props.capacity.forceUpdateDynamicData ]);
+    }, [ props.capacity.forceUpdateDynamicData]);
     
     return (
         <div style={{ overflowX: 'auto'}}>
@@ -214,16 +251,24 @@ function CapacityCont (props){
                                     <Menu.Item key="1">明日</Menu.Item>
                                 </SubMenu>
                             </Menu>
+                            {
+                                elementType === "ROUTE" && <RouteMenu elementName={elementName} elementType={elementType} />
+                            }
+                            
                         </div>
                         <ModalBox
                             title={`动态容量——时段配置(${formatTimeString(generateTime)})`}
                             showDecorator = {true}
                             className="static_cap_modal static_cap_modal_24 modal_dynamic"
                         >
-                            <CapacityTable type="line24" kind="dynamic" airportName={pane.key} paneType={pane.type} />
+                            <CapacityTable type="line24" kind="dynamic" 
+                                airportName={ pane.key } 
+                                paneType={pane.type } 
+                                routeName={ props.capacity.selRoute }
+                            />
 
                         </ModalBox>
-                        <DynamicWorkSteps pane={pane}></DynamicWorkSteps>  
+                        <DynamicWorkSteps pane={pane} routeName={ props.capacity.selRoute } ></DynamicWorkSteps>  
                     </div>
                     
                                 

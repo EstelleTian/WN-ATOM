@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-26 13:35:55
+ * @LastEditTime: 2021-03-31 18:03:53
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -94,11 +94,11 @@ const CollaborateUrl = {
     //TOBT
     tobtUrl : CollaborateIP,
     //CTOT
-    ctotUrl : CollaborateIP2 + "/hydrogen-flight-coordination-server/flight/updateFlightCtd",
+    ctotUrl : CollaborateIP2 + "/hydrogen-flight-coordination-server/flight",
     //COBT
-    cobtUrl : CollaborateIP2 + "/hydrogen-flight-coordination-server/flight/updateFlightCobt",
+    cobtUrl : CollaborateIP2 + "/hydrogen-flight-coordination-server/flight",
     //FFIXT
-    ffixtUrl : CollaborateIP2 + "/hydrogen-flight-coordination-server/flight/updateFlightFFixT",
+    ffixtUrl : CollaborateIP2 + "/hydrogen-flight-coordination-server/flight",
 };
 
 export { ReqUrls, CollaborateIP, CollaborateUrl };

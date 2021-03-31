@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-26 16:47:08
+ * @LastEditTime: 2021-03-31 18:48:53
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -14,7 +14,7 @@ import { DoubleLeftOutlined, DoubleRightOutlined, SyncOutlined } from '@ant-desi
 import { ReqUrls, CollaborateIP } from "utils/request-urls";
 import { requestGet, request } from "utils/request";
 import { getFullTime, getDayTimeFromString, isValidVariable, formatTimeString } from "utils/basic-verify";
-import { FlightCoordination, TodoType, Status,HandleStatus } from "utils/flightcoordination";
+import { FlightCoordination, TodoType, StatusToCN, HandleStatusToCN } from "utils/flightcoordination";
 import moment from "moment";
 // import './MyApplication.scss';
 
@@ -32,10 +32,10 @@ const getLockedCn = ( value ) => {
 }
 
 const names = {
-    "HandleStatus": {
-        "en": "HandleStatus",
+    "handleStatus": {
+        "en": "handleStatus",
         "cn": "本席位处理状态",
-        width: 120,
+        width: 140,
     },
     "key": {
         "en": "key",
@@ -45,7 +45,7 @@ const names = {
     "type": {
         "en": "type",
         "cn": "类型",
-        width: 90,
+        width: 120,
     },
     "flightsId": {
         "en": "flightsId",
@@ -55,7 +55,7 @@ const names = {
     "depap": {
         "en": "depap",
         "cn": "起飞机场",
-        width: 90,
+        width: 100,
     },
     "sourceVal": {
         "en": "sourceVal",
@@ -70,12 +70,12 @@ const names = {
     "startUser": {
         "en": "startUser",
         "cn": "发起人",
-        width: 130,
+        width: 160,
     },
     "startTime": {
         "en": "startTime",
         "cn": "发起时间",
-        width: 160,
+        width: 100,
         defaultSortOrder: 'descend',
 
     },
@@ -87,7 +87,7 @@ const names = {
     "handler": {
         "en": "handler",
         "cn": "当前处理人",
-        width: 140,
+        width: 160,
     },
     "status": {
         "en": "status",
@@ -100,10 +100,6 @@ const names = {
 
 const HistaskTable = (props) => {
 
-    const [tableLoading, setTableLoading] = useState(false);
-    const [refreshBtnLoading, setRefreshBtnLoading] = useState(false);
-    // const [dataList, setDataList] = useState(false);
-
     const timerId = useRef();
     const tableTotalWidth = useRef();
 
@@ -112,9 +108,6 @@ const HistaskTable = (props) => {
     const userId = user.id || '';
     const loading = myApplicationList.loading || '';
 
-    const refreshData = () => {
-        requestMyApplicationDatas(true);
-    };
 
     const updateFilterKey = useCallback(
         debounce((value) => {
@@ -145,7 +138,7 @@ const HistaskTable = (props) => {
     //     }
     // },[]);
 
-    // 处理 我的申请 数据
+    // 处理 办结 数据
     const handleMyApplicationData = useCallback((data) => {
         let tableData = [];
         const backLogTasks = data.tasks || {};
@@ -211,9 +204,7 @@ const HistaskTable = (props) => {
                 startUser: startUser,
                 startTime: startTime,
                 depap: depap,
-                COMMENT: businessName,
-                handleStatus: JSON.stringify(options),
-                HandleStatus: handleStatus,
+                COMMENT: businessName
 
                 // abc: flightObj,
             }
@@ -362,8 +353,9 @@ const HistaskTable = (props) => {
                     return a.startTime * 1 - b.startTime * 1;
                 };
                 tem["render"] = (text, record, index) => {
-                    const time = formatTimeString(text)
-                    return <div title={time}>{time}</div>;
+                    const timeTitle = formatTimeString(text);
+                    const time = formatTimeString(text,2);
+                    return <div title={timeTitle}>{time}</div>;
                 }
             }
             //待办类型
@@ -380,27 +372,23 @@ const HistaskTable = (props) => {
             if (en === "status") {
                 // tem["fixed"] = 'left'
                 tem["render"] = (text, record, index) => {
-                    let type = Status[text] || text;
+                    let type = StatusToCN[text] || text;
                     return <div title={type}>{type}</div>;
                 }
             }
 
             
             //本席位处理状态
-            if (en === "HandleStatus") {
-                // tem["fixed"] = 'left'
+            if (en === "handleStatus") {
+                tem["fixed"] = 'left'
                 tem["render"] = (text, record, index) => {
-                    let type = HandleStatus[text] || text;
+                    let type = HandleStatusToCN[text] || text;
 
                     return <div title={type}>{type}</div>;
                 }
 
             }
 
-            if (en === "handleStatusS") {
-                // || en === "FLIGHTID" || en === "TASKID" 
-                tem["fixed"] = 'left'
-            }
 
             if (en === "sourceVal" || en === "targetVal") {
                 tem["render"] = (text, record, index) => {
@@ -414,8 +402,9 @@ const HistaskTable = (props) => {
                         return <div title={text}>{FlightCoordination.getPriorityZh(text)}</div>
                     } else if (type === 'INPOOL' || type === 'OUTPOOL') {
                         return <div title={text}>{FlightCoordination.getPoolStatusZh(text)}</div>
-                    } else if (type === 'COBT' || type === 'CTOT' || type === 'FFIXT') {
-                        const obj = JSON.parse(text);
+                    } else if (type === 'COBT' || type === 'CTOT' || type === 'CTD' || type === 'FFIXT') {
+                        
+                        const obj = JSON.parse(text) || {};
                         return <div>
                             {
                                 Object.keys(obj).map( key => {
@@ -438,59 +427,6 @@ const HistaskTable = (props) => {
                 }
             }
 
-            if (en === "handleStatus") {
-
-                // tem["fixed"] = 'right'
-                tem["render"] = (text, record, index) => {
-                    // debugger
-                    const { TYPE, handleStatus = "{}" } = record;
-                    const dataObj = JSON.parse(handleStatus);
-                    const flight = dataObj.flight || {};
-                    const authorities = dataObj.authorities || {};
-                    const { agree, confirm, refuse } = authorities;
-                    let TOBTFlag = false;
-                    if (TYPE === "TOBT") {
-                        const curTime = generateTime.current || 0;
-                        const tobtFiled = flight.tobtFiled || {};
-                        const tobtTime = tobtFiled.value || 0;
-                        if (isValidVariable(curTime) && isValidVariable(tobtTime)) {
-                            if (tobtTime * 1 < curTime * 1) {
-                                TOBTFlag = true;
-                            }
-                        }
-                    }
-
-
-
-                    return (
-                        <div style={{ textAlign: 'right' }}>
-                            {
-                                agree && <OptionBtn type="agree" size="small" text="同意" callback={
-                                    (setLoad) => {
-                                        sendResultRequest("agree", text, setLoad)
-                                    }
-                                } />
-                            }
-                            {
-                                refuse ? <OptionBtn type="refuse" size="small" text="拒绝" callback={
-                                    (setLoad) => {
-                                        sendResultRequest("refuse", text, setLoad)
-                                    }
-                                } /> : ""
-                            }
-                            {
-                                confirm ? <OptionBtn type="confirm" size="small" text="确认" callback={
-                                    (setLoad) => {
-                                        sendResultRequest("confirm", text, setLoad)
-                                    }
-                                } /> : ""
-                            }
-
-                        </div>
-                    );
-                }
-            }
-
             if (en === "FLIGHTID" || en === "USER" || en === "COMMENT") {
                 tem["render"] = (text, record, index) => {
                     return <div title={text} className="full_cell">{text}</div>
@@ -502,52 +438,62 @@ const HistaskTable = (props) => {
         tableTotalWidth.current = totalWidth;
         return columns;
     }, []);
-    //获取我的申请
-    const requestMyApplicationDatas = useCallback((triggerLoading) => {
-
-        if (!isValidVariable(userId)) {
+    //获取办结工作请求
+    const requestMyApplicationDatas = useCallback((triggerLoading, nextRefresh = false) => {
+        if (!isValidVariable(user.username)) {
             return;
         }
         if (triggerLoading) {
-            // setTableLoading(true);
-            // setRefreshBtnLoading(true);
-            myApplicationList.toggleLoad(true);
-
+            props.myApplicationList.toggleLoad(true);
         }
-        // let url = "http://192.168.243.187:29891/flight/histask/adminflw";
+
         let url = ReqUrls.histaskTableUrl+user.username;
 
+        const timerFunc = ()=>{
+            if(nextRefresh){
+                if( isValidVariable(timerId.current) ){
+                    clearTimeout(timerId.current);
+                    timerId.current = "";
+                }
+                timerId.current = setTimeout(() => {
+                    requestMyApplicationDatas(false, nextRefresh);
+                }, 60 * 1000);
+            }
+        }
 
         const opt = {
             url,
             method: 'GET',
             resFunc: (data) => {
-                //更新我的申请数据
+                //更新办结数据
                 handleMyApplicationData(data);
-                // setTableLoading(false);
-                // setRefreshBtnLoading(false);
                 myApplicationList.toggleLoad(false);
+                timerFunc();
             },
             errFunc: (err) => {
-                requestErr(err, '获取办结数据失败');
-                // setTableLoading(false);
-                // setRefreshBtnLoading(false);
-                myApplicationList.toggleLoad(false);
-
+                requestErr(err, '待办工作数据获取失败');
+                props.myApplicationList.toggleLoad(false);
+                timerFunc();
             },
         };
-        console.log("fdfd" + opt)
         requestGet(opt);
-    }, [user.id]);
+    }, [user.username]);
 
+
+
+    useEffect( ()=>{
+        if( props.myApplicationList.forceUpdate ){
+            console.log("强制更新办结列表")
+            requestMyApplicationDatas(false, false);
+        }
+    },[ props.myApplicationList.forceUpdate ])
+    
     useEffect(() => {
 
-        requestMyApplicationDatas(true);
-        timerId.current = setInterval(() => {
-            requestMyApplicationDatas(false);
-        }, 60 * 1000);
+        requestMyApplicationDatas(true, true);
+
         return () => {
-            clearInterval(timerId.current);
+            clearTimeout(timerId.current)
             timerId.current = null;
         }
     }, [user.id]);
@@ -595,12 +541,12 @@ const HistaskTable = (props) => {
                     }}
                     loading={loading}
                     scroll={{
-                        x: 600,
+                        x: tableTotalWidth,
                         y: 600
                     }}
                     // footer={() => <div className="generateTime">数据时间: {formatTimeString(props.myApplicationList.generateTime)}</div>}
                 />
-<div className="generateTime" style={{position:"absolute",bottom: "60px",left:"30px"}}>数据时间: {formatTimeString(props.myApplicationList.generateTime)}</div>
+                <div className="generateTime" style={{position:"absolute",bottom: "60px",left:"30px"}}>数据时间: {formatTimeString(props.myApplicationList.generateTime)}</div>
             </div>
         </Suspense>
     )

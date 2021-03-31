@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-23 16:23:51
+ * @LastEditTime: 2021-03-31 10:52:13
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -40,6 +40,8 @@ let FLIGHTIDPopover = (props) => {
         console.log( props.flightTableData.updateSingleFlight );
         setExemptLoad(false);
         setPoolLoad(false);
+
+        console.time("cod");
 
         const { flightCoordination } = data;
         //更新单条航班数据
