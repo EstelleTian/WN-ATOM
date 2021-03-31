@@ -1,0 +1,99 @@
+
+.NTFM_detail_form{
+  .advanced-card {
+    margin-bottom: 5px;
+    background: #363636;
+    .ant-form-item-control-input {
+      flex: 1;
+      min-height: auto;
+    }
+    .ant-form-item-control-input-content {
+      padding: 0px 8px;
+      word-break: break-all;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .ant-row.info-row {
+      border: 1px solid #4a4a4a;
+      border-bottom: none;
+      &:last-child{
+        border-bottom:1px solid #4a4a4a;
+      }
+      .ant-form-item{
+        height: 100%;
+      }
+    }
+    .ant-form-item-label {
+      width: 120px;
+      word-break: break-all;
+      padding: 0px 8px;
+      border-right: 1px solid #4a4a4a;
+      background-color: rgba(255, 255, 255, 0.04);
+      > label {
+        height: 100%;
+      }
+    }
+    .traffic-flow-wrapper-card {
+      background: #2f2f2f;
+      border-radius: 6px;
+      padding: 4px;
+      border: 1px solid #8d8c8c;
+      .ant-card-body{
+        padding: 0;
+        .ant-card {
+          background-color: transparent;
+        }
+      }
+    }
+    .traffic-flow-tab {
+      width: 100%;
+      .ant-tabs-nav {
+        margin-bottom: 4px;
+      }
+      .ant-tabs-tab{
+        padding: 4px 16px;
+      }
+      .traffic-flow-card {
+        
+        .ant-card-head-title{
+          text-align: center;
+        }
+        .ant-card-body {
+          padding: 0;
+        }
+      }
+      .traffic-obj{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        .ant-card-body {
+          height: 100%;
+          .info-row {
+            height: 100%;
+          }
+        }
+        .ant-form-item-control-input-content {
+          text-align: center;
+        }
+      }
+    }
+    .tab-wrapper {
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+    .traffice-relation-divider {
+      margin-top: 6px;
+      margin-bottom: 6px;
+    }
+    .extra {
+      padding: 8px 12px;
+      cursor: pointer;
+      background-color: rgba(135, 137, 139, 0.1);
+      border-radius: 4px;
+      &:hover{
+        color:#fff;
+      }
+    }
+  }
+}
+

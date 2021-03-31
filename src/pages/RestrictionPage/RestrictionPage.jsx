@@ -5,6 +5,9 @@ import {Spin, Row, Col, message as antdMessage, Button} from "antd";
 import ATOMAdd  from 'components/RestrictionDetail/ATOM/ATOMAdd'
 import ATOMUpdate  from 'components/RestrictionDetail/ATOM/ATOMUpdate'
 import ATOMTermination  from 'components/RestrictionDetail/ATOM/ATOMTermination'
+import NTFMAdd  from 'components/RestrictionDetail/NTFM/NTFMAdd'
+
+
 
 import './RestrictionPage.scss'
 
@@ -105,10 +108,9 @@ function RestrictionPage( props ) {
 
     return (
         <Suspense fallback={ <div className="load_spin"><Spin tip="加载中..."/></div> }>
-            {/*<div>messageStr:{messageStr}</div>*/}          
             {
-                //新增
-                ( pageType === "ATOMAdd" || pageType === "NTFMAdd" ) ?
+                //ATOM新增
+                ( pageType === "ATOMAdd") ?
                     <ATOMAdd
                         title={ `${newTypeCn}(${source})` }
                         disabledForm={disabledForm}
@@ -117,7 +119,8 @@ function RestrictionPage( props ) {
                     />
                     : ""
             }
-            { //更新
+
+            { //ATOM更新
                 ( pageType === "ATOMUpdate") ?
                     <ATOMUpdate
                         title={ `${newTypeCn}(${source})` }
@@ -126,13 +129,25 @@ function RestrictionPage( props ) {
                     />
                     : ""
             }
-            { //终止
+            { //ATOM终止
                 ( pageType === "ATOMTerminate") ?
                     <ATOMTermination
                         title={ `${newTypeCn}(${source})` }
                     />
                     : ""
             }
+            {
+                //NTFM新增
+                ( pageType === "NTFMAdd" ) ?
+                    <NTFMAdd
+                        title={ `${newTypeCn}(${source})` }
+                        disabledForm={disabledForm}
+                        setDisabledForm={setDisabledForm}
+                        pageType = {pageType}
+                    />
+                    : ""
+            }
+
         </Suspense>
 
     )

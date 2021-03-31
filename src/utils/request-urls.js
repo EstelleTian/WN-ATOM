@@ -48,6 +48,12 @@ const ReqUrls = {
     ATOMCreateDataUrl: 'http://192.168.194.21:58190/scheme-flow-server/restrictions/create/',
     //获取流控数据(ATOM变更)
     ATOMModifyDataUrl: 'http://192.168.194.21:58190/scheme-flow-server/restrictions/modify/',
+    //获取流控数据(NTFM新增)
+    NTFMCreateDataUrl: 'http://192.168.194.21:58190/restrictions/createNtfm/',
+    // NTFMCreateDataUrl: 'http://192.168.243.138:58190/restrictions/createNtfm/',
+    
+    //获取流控数据(NTFM变更)
+    NTFMModifyDataUrl: 'http://192.168.194.21:58190/restrictions/modifyNtfm/',
 
     //创建方案(外区流控导入)-数据提交
     importSchemeUrl: 'http://192.168.194.21:58190/scheme-flow-server/simulationTactics/import/sim/',
