@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Progress, Row } from "antd";
+import { Col, Progress, Row, Spin } from "antd";
 import { inject, observer } from 'mobx-react'
 import { isValidVariable } from 'utils/basic-verify'
 
@@ -7,6 +7,7 @@ import { isValidVariable } from 'utils/basic-verify'
 //正常率
 function PreDelay(props) {
     const executeKPIData = props.executeKPIData || {};
+    const { loading } = executeKPIData;
     const KPIData = executeKPIData.KPIData || {};
     let tacticProcessInfo = KPIData.tacticProcessInfo || {};
     let kpi = tacticProcessInfo.kpi || {};
@@ -14,11 +15,11 @@ function PreDelay(props) {
     let normalRate = 0;
     let depNormalRate = 0;
 
-    if(isValidVariable(entiretyNormalRate)){
-        normalRate = (entiretyNormalRate*1) < 0 ? 0 : (entiretyNormalRate*100).toFixed(0);
+    if (isValidVariable(entiretyNormalRate)) {
+        normalRate = (entiretyNormalRate * 1) < 0 ? 0 : (entiretyNormalRate * 100).toFixed(0);
     }
-    if(isValidVariable(entiretyDepNormalRate)){
-        depNormalRate = (entiretyDepNormalRate*1) < 0 ? 0 : (entiretyDepNormalRate*100).toFixed(0);
+    if (isValidVariable(entiretyDepNormalRate)) {
+        depNormalRate = (entiretyDepNormalRate * 1) < 0 ? 0 : (entiretyDepNormalRate * 100).toFixed(0);
     }
 
 
@@ -110,11 +111,13 @@ function PreDelay(props) {
 
 
 
-    return <Col span={24} className="row_model delay-rate">
-        <Col span={24} className="block ">
-            <div className="block-title">正常率</div>
-            <div className="flex justify-content-center layout-column">
-                {/* <Row className="total text-center justify-content-center">
+    return (
+        <Spin spinning={loading} >
+            <Col span={24} className="row_model delay-rate">
+                <Col span={24} className="block ">
+                    <div className="block-title">正常率</div>
+                    <div className="flex justify-content-center layout-column">
+                        {/* <Row className="total text-center justify-content-center">
                     <Progress
                         strokeLinecap="square"
                         type="dashboard"
@@ -127,42 +130,42 @@ function PreDelay(props) {
                         trailColor="#65737a"
                     />
                 </Row> */}
-                <Row className="total text-center justify-content-center row_model">
-                    <Col span={12} className="block">
-                        <div className={`flex justify-content-center layout-column`}>
-                            <Progress
-                                strokeLinecap="square"
-                                type="dashboard"
-                                percent={normalRate}
-                                format={formatPercent}
-                                strokeColor="#35A5DA"
-                                strokeWidth="10"
-                                gapDegree={1}
-                                trailColor="#65737a"
-                            />
-                            <div className="text-center point">预计起飞正常率</div>
-                        </div>
-                    </Col>
-                    <Col span={12} className="block">
-                        <div className="flex justify-content-center layout-column">
-                            <Progress
-                                strokeLinecap="square"
-                                type="dashboard"
-                                percent={depNormalRate}
-                                format={formatPercent}
-                                strokeColor="#35A5DA"
-                                strokeWidth="10"
-                                gapDegree={1}
-                                trailColor="#65737a"
-                            />
-                            <div className="text-center point">起飞正常率</div>
-                        </div>
+                        <Row className="total text-center justify-content-center row_model">
+                            <Col span={12} className="block">
+                                <div className={`flex justify-content-center layout-column`}>
+                                    <Progress
+                                        strokeLinecap="square"
+                                        type="dashboard"
+                                        percent={normalRate}
+                                        format={formatPercent}
+                                        strokeColor="#35A5DA"
+                                        strokeWidth="10"
+                                        gapDegree={1}
+                                        trailColor="#65737a"
+                                    />
+                                    <div className="text-center point">预计起飞正常率</div>
+                                </div>
+                            </Col>
+                            <Col span={12} className="block">
+                                <div className="flex justify-content-center layout-column">
+                                    <Progress
+                                        strokeLinecap="square"
+                                        type="dashboard"
+                                        percent={depNormalRate}
+                                        format={formatPercent}
+                                        strokeColor="#35A5DA"
+                                        strokeWidth="10"
+                                        gapDegree={1}
+                                        trailColor="#65737a"
+                                    />
+                                    <div className="text-center point">起飞正常率</div>
+                                </div>
 
-                    </Col>
+                            </Col>
 
-                </Row>
-                <Row className="part">
-                    {/* {
+                        </Row>
+                        <Row className="part">
+                            {/* {
                         list.map((item, index) => (
                             <Col span={12} className="block row_model flex" key={item.key}>
                                 <div className="block-title percent text-center">{`${converPercentText(item.value)}%`}</div>
@@ -179,12 +182,16 @@ function PreDelay(props) {
                         )
                         )
                     } */}
-                </Row>
+                        </Row>
 
 
-            </div>
-        </Col>
-    </Col>
+                    </div>
+                </Col>
+            </Col>
+
+        </Spin>
+
+    )
 }
 
 export default inject("executeKPIData")(observer(PreDelay));

@@ -25,13 +25,13 @@ const ReqUrls = {
     flightsDataUrl: 'http://192.168.194.21:29890/tactic/',
     //获取--航班列表数据(id为空)
     flightsDataNoIdUrl: 'http://192.168.194.21:29890/influence/flights/',
-    //获取--执行KPI数据
-    // kpiDataUrl: 'http://192.168.194.21:29890/performkpi/',
-    kpiDataUrl: 'http://192.168.194.22:28787/kpi/',
+    //获取--执行KPI数据(孔凡续)
+    executeKPIDataUrl: 'http://192.168.194.22:28787/kpi/',
+    //获取--执行KPI数据(薛满林)
+    performanceKPIDataUrl: 'http://192.168.243.8:29890/performkpi/',
+
     //获取航班执行数据
     performanceDataUrl: 'http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname',
-    // performanceDataUrl: 'http://192.168.194.22:28001/traffic-flow-monitor-server/monitor/v1/flight',
-    // performanceDataUrl: 'http://192.168.243.191:28001/traffic-flow-monitor-server/monitor/v1/flight',
     // 总体监控-获取限制数据
     restrictionDataUrl: 'http://192.168.194.21:58190/implementTactics/statistics',
 
@@ -48,6 +48,12 @@ const ReqUrls = {
     ATOMCreateDataUrl: 'http://192.168.194.21:58190/scheme-flow-server/restrictions/create/',
     //获取流控数据(ATOM变更)
     ATOMModifyDataUrl: 'http://192.168.194.21:58190/scheme-flow-server/restrictions/modify/',
+    //获取流控数据(NTFM新增)
+    NTFMCreateDataUrl: 'http://192.168.194.21:58190/restrictions/createNtfm/',
+    // NTFMCreateDataUrl: 'http://192.168.243.138:58190/restrictions/createNtfm/',
+    
+    //获取流控数据(NTFM变更)
+    NTFMModifyDataUrl: 'http://192.168.194.21:58190/restrictions/modifyNtfm/',
 
     //创建方案(外区流控导入)-数据提交
     importSchemeUrl: 'http://192.168.194.21:58190/scheme-flow-server/simulationTactics/import/sim/',

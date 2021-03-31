@@ -62,7 +62,7 @@ function List(props) {
         const end = nowDate+'2359';
         // 请求参数
         const opt = {
-            url: ReqUrls.runwayListUrl + userId +'?airportStr='+'ZLXY'+'&startTime='+ start+'&endTime='+end,
+            url: ReqUrls.runwayListUrl + userId +'?airportStr='+'ZLXY,ZLLL'+'&startTime='+ start+'&endTime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> updateRunwayListData(data),

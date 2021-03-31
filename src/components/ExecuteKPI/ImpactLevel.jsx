@@ -1,77 +1,103 @@
 import React from 'react'
-import {Col, Empty, Row, Spin} from "antd";
-import {AlertOutlined, WarningOutlined, BulbOutlined} from "@ant-design/icons";
+import { Col, Empty, Row, Spin } from "antd";
+import { AlertOutlined, WarningOutlined, BulbOutlined } from "@ant-design/icons";
 import ReactEcharts from "echarts-for-react";
 import { inject, observer } from 'mobx-react'
-import {isValidVariable} from "../../utils/basic-verify";
+import { isValidVariable } from "../../utils/basic-verify";
 
 //影响程度
-function ImpactLevel(props){
+function ImpactLevel(props) {
     const levelData = {
-        "H":{
+        "H": {
             "label": "高",
             "levelClassName": "level-high",
             "icon": (<AlertOutlined />)
 
         },
-        "M":{
+        "M": {
             "label": "中",
             "levelClassName": "level-middle",
             "icon": (<WarningOutlined />)
         },
-        "L":{
+        "L": {
             "label": "低",
             "levelClassName": "level-Low",
             "icon": (<BulbOutlined />)
         },
     };
     const executeKPIData = props.executeKPIData || {};
-    const KPIData = executeKPIData.KPIData || {};
-    let tacticProcessInfo = KPIData.tacticProcessInfo || {};
+    const executeData = executeKPIData.executeData || {};
+    let tacticProcessInfo = executeData.tacticProcessInfo || {};
     let kpi = tacticProcessInfo.kpi || {};
-    let dcb = kpi.tacticDCB || {};
-    let { impactDegree} = kpi;
+    // 全区DCB
+    let regionDCB = kpi.tacticDCB || {};
+    // 区内DCB
+    let insideDCB = kpi.inDCB || {};
+    // 区外DCB
+    let outsideDCB = kpi.outDCB || {};
+
+    let { impactDegree } = kpi;
     let level = levelData[impactDegree] || {}
     const label = level.label || "";
     const levelClassName = level.levelClassName || "";
     const icon = level.icon || "";
+    const { loading } = executeKPIData;
 
-    return <Row className="row_model">
-        <Col span={8} className="block">
-            <div className="block-title">影响程度</div>
-            <div className={`${levelClassName} impact-level flex justify-content-center layout-column`}>
-                <AlertOutlined className={ `level_icon`}/>
-                <div className={ `text-center`}>{label}</div>
-            </div>
-        </Col>
-        <Col span={16} className="block">
-            <div className="block-title">DCB</div>
-            <div className="warn flex justify-content-center layout-column">
-                <DCBLineChart dcb={dcb}/>
-            </div>
+    return (
+        <Spin spinning={loading} >
+            <Row className="row_model">
+                <Col span={12} className="block">
+                    <div className="block-title">影响程度</div>
+                    <div className={`${levelClassName} impact-level flex justify-content-center layout-column`}>
+                        <AlertOutlined className={`level_icon`} />
+                        <div className={`text-center`}>{label}</div>
+                    </div>
+                </Col>
+                <Col span={12} className="block">
+                    <div className="block-title">全区DCB</div>
+                    <div className="warn flex justify-content-center layout-column">
+                        <DCBLineChart dcb={regionDCB} />
+                    </div>
 
-        </Col>
-    </Row>
+                </Col>
+                <Col span={12} className="block">
+                    <div className="block-title">区内DCB</div>
+                    <div className="warn flex justify-content-center layout-column">
+                        <DCBLineChart dcb={insideDCB} />
+                    </div>
+
+                </Col>
+                <Col span={12} className="block">
+                    <div className="block-title">区外DCB</div>
+                    <div className="warn flex justify-content-center layout-column">
+                        <DCBLineChart dcb={outsideDCB} />
+                    </div>
+
+                </Col>
+            </Row>
+        </Spin>
+    )
+
 }
 
 //DCB
-function DCBLineChart(props){
+function DCBLineChart(props) {
     let { dcb } = props;
     let dcbkeys = [];
-    if( !isValidVariable(dcb) ){
+    if (!isValidVariable(dcb)) {
         dcb = {};
     }
-    dcbkeys = Object.keys( dcb ).sort();
-    const getOption = function(){
+    dcbkeys = Object.keys(dcb).sort();
+    const getOption = function () {
         let dcbKeyArr = [];
         let dcbValArr = [];
-        for(let i = 0; i < dcbkeys.length; i++ ){
+        for (let i = 0; i < dcbkeys.length; i++) {
             const key = dcbkeys[i] || "";
             const val = dcb[key] || null;
             let xKey = key;
-            if( key.length >= 12 ){
-                xKey = key.substring(0,12);
-                xKey = xKey.substring(8,12);
+            if (key.length >= 12) {
+                xKey = key.substring(0, 12);
+                xKey = xKey.substring(8, 12);
             }
             dcbKeyArr.push(xKey);
             dcbValArr.push(val);
@@ -100,15 +126,15 @@ function DCBLineChart(props){
                 {
                     type: 'category',
                     data: dcbKeyArr,
-                    axisLine:{
-                        lineStyle:{
+                    axisLine: {
+                        lineStyle: {
                             color: "#8F959E"
                         }
                     },
                     axisTick: {
                         // show: false
                     },
-                    axisLabel:{
+                    axisLabel: {
                         // show: false
                     }
                 }
@@ -116,15 +142,15 @@ function DCBLineChart(props){
             yAxis: [
                 {
                     type: 'value',
-                    axisLine:{
-                        lineStyle:{
+                    axisLine: {
+                        lineStyle: {
                             color: "#8F959E"
                         }
                     },
                     axisTick: {
                         // show: false
                     },
-                    splitLine:{
+                    splitLine: {
                         // show: false
                     },
                 }
@@ -143,10 +169,10 @@ function DCBLineChart(props){
     }
 
     return (
-        <div style={{height: '170px'}}>
+        <div style={{ height: '170px' }}>
             {
-                Object.keys( dcb ).length === 0
-                    ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color:"#fff"}} />
+                Object.keys(dcb).length === 0
+                    ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} imageStyle={{ color: "#fff" }} />
                     : <ReactEcharts
                         option={getOption()}
                         className='react_for_echarts' />
@@ -154,7 +180,7 @@ function DCBLineChart(props){
             }
         </div>
 
-        )
+    )
 }
 
 export default inject("executeKPIData")(observer(ImpactLevel));

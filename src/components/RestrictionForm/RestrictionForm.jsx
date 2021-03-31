@@ -7,10 +7,10 @@ import { InfoCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons
 
 import StaticInfoCard from './StaticInfoCard'
 import { handleImportControl, closeCreateDlg, closeControlDetail, handleImportControlForUpdate, handleUpdateFlowControl } from 'utils/client'
-import { getFullTime, formatTimeString, addStringTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
+import { getFullTime, formatTimeString, addStringTime, parseFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
-import { REGEXP } from '../../utils/regExpUtil'
+import { REGEXP } from 'utils/regExpUtil'
 
 import './RestrictionForm.scss'
 import { inject, observer } from "mobx-react";
@@ -108,13 +108,13 @@ function RestrictionForm(props) {
     const directionListData = directionList[0] || {};
     const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = directionListData;
     // 流控航班类型条件
-    const flowControlFlight = isValidObject(basicFlowcontrol.flowControlFlight) ? basicFlowcontrol.flowControlFlight : {};
+    const flightPropertyDomain = isValidObject(basicFlowcontrol.flightPropertyDomain) ? basicFlowcontrol.flightPropertyDomain : {};
 
     const { flowControlFlightId = "", wakeFlowLevel = "", airlineType = "", missionType = "", auType = "",
         task = "", organization = "", ability = "", aircraftType = "",
         exemptFlightId = "", exemptionWakeFlowLevel = "", exemptionAirlineType = "", exemptionMissionType = "", exemptionAuType,
         exemptionTask = "", exemptionOrganization = "", exemptionAbility = "", exemptionAircraftType = "",
-    } = flowControlFlight;
+    } = flightPropertyDomain;
 
     // 确认提交模态框显隐变量
     let [isModalVisible, setIsModalVisible] = useState(false);
@@ -371,8 +371,7 @@ function RestrictionForm(props) {
         try {
             // 触发表单验证取表单数据
             const fieldData = await form.validateFields();
-            // 校验方案名称是否与限制条件相符
-            checkTacticName(fieldData);
+            checkStartDateTimeRange(fieldData);
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
         }
@@ -470,10 +469,10 @@ function RestrictionForm(props) {
         }
 
         // 方案流控航班类型条件数据对象
-        let flowControlFlight = basicFlowcontrol.flowControlFlight;
-        if (!isValidObject(flowControlFlight)) {
-            basicFlowcontrol.flowControlFlight = {};
-            flowControlFlight = basicFlowcontrol.flowControlFlight
+        let flightPropertyDomain = basicFlowcontrol.flightPropertyDomain;
+        if (!isValidObject(flightPropertyDomain)) {
+            basicFlowcontrol.flightPropertyDomain = {};
+            flightPropertyDomain = basicFlowcontrol.flightPropertyDomain
         }
 
         // 方案流控限制措施信息对象
@@ -501,8 +500,10 @@ function RestrictionForm(props) {
         } = values;
         // 结束日期时间
         let endDateTime = endDateString + endTime
-        // 校验结束日期时间格式
-        const endDateTimeFormatValid = REGEXP.DATETTIME12.test(endDateTime);
+        // 校验结束日期格式
+        const endDateFormatValid = REGEXP.DATE8.test(endDateString);
+        // 校验结束时间格式
+        const endTimeFormatValid = REGEXP.TIMEHHmm.test(endTime);
         // 更新方案名称
         basicTacticInfo.tacticName = tacticName;
         // 方案发布单位
@@ -520,7 +521,7 @@ function RestrictionForm(props) {
         tacticTimeInfo.startTime = startDateString + startTime;
         
         // 更新方案结束时间
-        tacticTimeInfo.endTime = endDateTimeFormatValid ? endDateTime :"";
+        tacticTimeInfo.endTime = (endDateFormatValid && endTimeFormatValid) ? endDateTime :"";
         // 更新基准单元
         directionListData.targetUnit = targetUnit;
         // 更新前序单元
@@ -576,42 +577,42 @@ function RestrictionForm(props) {
         }
 
         // 更新流控交通流-包含-航班号
-        flowControlFlight.flowControlFlightId = flowControlFlightId.join(';');
+        flightPropertyDomain.flowControlFlightId = flowControlFlightId.join(';');
         // 更新流控交通流-包含-尾流类型
-        flowControlFlight.wakeFlowLevel = wakeFlowLevel.join(';');
+        flightPropertyDomain.wakeFlowLevel = wakeFlowLevel.join(';');
         // 更新流控交通流-包含-运营人
-        flowControlFlight.auType = auType.join(';');
+        flightPropertyDomain.auType = auType.join(';');
         // 更新流控交通流-包含-航班类型
-        flowControlFlight.airlineType = airlineType.join(';');
+        flightPropertyDomain.airlineType = airlineType.join(';');
         // 更新流控交通流-包含-客货类型
-        flowControlFlight.missionType = missionType.join(';');
+        flightPropertyDomain.missionType = missionType.join(';');
         // 更新流控交通流-包含-任务类型
-        flowControlFlight.task = task.join(';');
+        flightPropertyDomain.task = task.join(';');
         // 更新流控交通流-包含-军民航
-        flowControlFlight.organization = organization.join(';');
+        flightPropertyDomain.organization = organization.join(';');
         // 更新流控交通流-包含-限制资质
-        flowControlFlight.ability = ability.join(';');
+        flightPropertyDomain.ability = ability.join(';');
         // 更新流控交通流-包含-受控机型
-        flowControlFlight.aircraftType = aircraftType.join(';');
+        flightPropertyDomain.aircraftType = aircraftType.join(';');
 
         // 更新流控交通流-不包含-航班号
-        flowControlFlight.exemptFlightId = exemptFlightId.join(';');
+        flightPropertyDomain.exemptFlightId = exemptFlightId.join(';');
         // 更新流控交通流-不包含-尾流类型
-        flowControlFlight.exemptionWakeFlowLevel = exemptionWakeFlowLevel.join(';');
+        flightPropertyDomain.exemptionWakeFlowLevel = exemptionWakeFlowLevel.join(';');
         // 更新流控交通流-不包含-航班类型
-        flowControlFlight.exemptionAirlineType = exemptionAirlineType.join(';');
+        flightPropertyDomain.exemptionAirlineType = exemptionAirlineType.join(';');
         // 更新流控交通流-不包含-运营人
-        flowControlFlight.exemptionAuType = exemptionAuType.join(';');
+        flightPropertyDomain.exemptionAuType = exemptionAuType.join(';');
         // 更新流控交通流-不包含-客货类型
-        flowControlFlight.exemptionMissionType = exemptionMissionType.join(';');
+        flightPropertyDomain.exemptionMissionType = exemptionMissionType.join(';');
         // 更新流控交通流-不包含-任务类型
-        flowControlFlight.exemptionTask = exemptionTask.join(';');
+        flightPropertyDomain.exemptionTask = exemptionTask.join(';');
         // 更新流控交通流-不包含-军民航
-        flowControlFlight.exemptionOrganization = exemptionOrganization.join(';');
+        flightPropertyDomain.exemptionOrganization = exemptionOrganization.join(';');
         // 更新流控交通流-不包含-限制资质
-        flowControlFlight.exemptionAbility = exemptionAbility.join(';');
+        flightPropertyDomain.exemptionAbility = exemptionAbility.join(';');
         // 更新流控交通流-不包含-受控机型
-        flowControlFlight.exemptionAircraftType = exemptionAircraftType.join(';');
+        flightPropertyDomain.exemptionAircraftType = exemptionAircraftType.join(';');
 
         return opt;
     };
@@ -821,6 +822,48 @@ function RestrictionForm(props) {
         }
         return autoName;
     }
+
+    // 校验结束日期时间与当前时间大小
+    const validateStartDateTimeRange = (getFieldValue) => {
+         // 当前时间
+         let currentTime = moment().format("YYYYMMDDHHmm").substring(0, 12);
+         let startDateTimeString = startDateString + startTime;
+         if (parseFullTime(currentTime).getTime() > parseFullTime(startDateTimeString).getTime() ) {
+            return false;
+        }else {
+             return true;
+         }
+    }
+
+    // 检查开始时间与当前时间大小
+    const checkStartDateTimeRange = (fieldData) => {
+        // 方案名称
+        let valided = validateStartDateTimeRange();
+        if (valided) {
+            // 校验方案名称是否与限制条件相符
+            checkTacticName(fieldData);
+        } else {
+            Modal.confirm({
+                title: '提示',
+                icon: <ExclamationCircleOutlined />,
+                centered: true,
+                closable: true,
+                content: <div><p>开始时间早于当前时间，</p><p>建议修改后提交</p></div>,
+                okText: '去修改',
+                cancelText: '直接提交',
+                onOk: ()=> { },
+                onCancel: (close)=>{ 
+                    // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
+                    if(typeof close ==='function'){
+                        // 校验方案名称是否与限制条件相符
+                        checkTacticName(fieldData);
+                        // 关闭模态框
+                        close();
+                    }
+                 },
+            });
+        }
+    };
 
     /**
      * 方案名称检查

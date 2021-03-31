@@ -8,7 +8,7 @@
  */
 import React, {useEffect} from 'react'
 import { Form, Descriptions, Checkbox , Space, Card, Row, Col  } from 'antd'
-import {formatTimeString, getDayTimeFromString, isValidVariable } from '../../utils/basic-verify'
+import {formatTimeString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
 import './ATOMDetail.scss'
 
 //顶部导航模块
@@ -45,8 +45,6 @@ function ATOMDetail(props){
     if(noFly === "Y"){
         checkedVal.push(noFly);
     }
-
-
 
     return (
         <Row>

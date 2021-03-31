@@ -57,7 +57,7 @@ const SchemeModal = (props) => {
         if(modalType === "DETAIL"){
             return(
                 <Modal
-                    title={`方案详情 - ${tacticName} `}
+                    title={`方案详情 - ${tacticName} (${id}) `}
                     centered
                     visible={ visible }
                     onOk={() => setVisible(false)}
@@ -110,7 +110,7 @@ const SchemeModal = (props) => {
     // 方案基本信息数据对象
     let basicTacticInfo = isValidObject(tacticProcessInfo.basicTacticInfo) ? tacticProcessInfo.basicTacticInfo : {};
 
-    const {tacticName="", } = basicTacticInfo;
+    const {tacticName="", id="" } = basicTacticInfo;
 
     return (
         setModalContent()

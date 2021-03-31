@@ -4,16 +4,16 @@
  * @Date: 2020-12-09 21:19:04
  * @LastEditTime: 2021-03-26 15:54:49
  * @LastEditors: Please set LastEditors
- * @Description: ATOM新增
+ * @Description: NTFM新增
  */
 import React, {useEffect, useState} from 'react'
 import { Row, Col, message as antdMessage,  } from 'antd'
-import ATOMDetail  from 'components/RestrictionDetail/ATOM/ATOMDetail'
+import NTFMDetail  from 'components/RestrictionDetail/NTFM/NTFMDetail'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
-// ATOM新增导入生成方案
-function ATOMAdd(props){
+// NTFM新增导入生成方案
+function NTFMAdd(props){
     const { title, setDisabledForm,  disabledForm, pageType} = props;
     let [flowData, setFlowData] = useState({});
     let [ message, setMessage ] = useState({});
@@ -27,19 +27,23 @@ function ATOMAdd(props){
             setFlowData(data);
         }
     };
-    // 请求ATOM数据失败
+    // 请求NTFM数据失败
     const requestErr = (err, content) => {
         antdMessage.error({
             content,
             duration: 4,
         });
     };
-    // 请求ATOM数据
-    const requestATOMData = (id) => {
+    // 请求NTFM数据
+    const requestNTFMData = (data) => {
         // 获取当前用户
         let user = localStorage.getItem("user");
         user = JSON.parse(user);
-        let url = ReqUrls.ATOMCreateDataUrl + id
+        // NTFM流控ID
+        const id = data.id;
+        // NTFM流控类型["MIT","GDP","GS","AFT"]
+        const sourceType = data.sourceType || "";
+        let url = ReqUrls.NTFMCreateDataUrl+ sourceType+"/" + id
         // 请求参数
         const opt = {
             url: url,
@@ -60,9 +64,8 @@ function ATOMAdd(props){
         setMessage(json);
         let { data = {} } = json;
         data = JSON.parse(data);
-        const id = data.id;
-        console.log("id:", id);
-        requestATOMData(id);
+        console.log("id:", data.id);
+        requestNTFMData(data);
     }, []);
 
     return (
@@ -73,10 +76,9 @@ function ATOMAdd(props){
                 </Row>
                 {
                     //新增
-                    ( pageType === "ATOMAdd" ) &&
-                    <ATOMDetail flowType="ATOMData" flowData={ flowData } title="流控信息" />
+                    ( pageType === "NTFMAdd" ) &&
+                    <NTFMDetail flowType="NTFMData" flowData={ flowData } title="流控信息" />
                 }
-        
             </Col>
             <Col span={12} className="res_right">
                 <Row className="title">
@@ -99,6 +101,6 @@ function ATOMAdd(props){
         </Row>
     )
 }
-export default ATOMAdd;
+export default NTFMAdd;
 
 

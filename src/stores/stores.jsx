@@ -9,7 +9,7 @@
 import { schemeListData } from './schemeStores'
 import { newsList } from './newsStores'
 import { flightTableData } from './flightTableStores'
-import { executeKPIData } from './executeKPIStores'
+import { executeKPIData,  performanceKPIData} from './executeKPIStores'
 import { flightPerformanceData } from './flightPerformanceStores'
 import { capacityFlowMonitorData, capacityFlowMonitorWeatherData } from './capacityFlowMonitorStores'
 import { systemPage } from './pageStores'
@@ -26,6 +26,7 @@ export {
     schemeListData,
     newsList, flightTableData,
     executeKPIData,
+    performanceKPIData,
     systemPage,
     flightPerformanceData,
     capacityFlowMonitorData,

@@ -8,10 +8,7 @@
  */
 import React, {useEffect, useState} from 'react'
 import { Row, Col, message as antdMessage, Button  } from 'antd'
-import {getFullTime, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
-import ATOMDetail  from 'components/RestrictionDetail/ATOMDetail'
-import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
-import FlowRelation  from 'components/RestrictionForm/FlowRelation'
+import ATOMDetail  from 'components/RestrictionDetail/ATOM/ATOMDetail'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import { sendMsgToClient } from 'utils/client'

@@ -32,35 +32,35 @@ function StaticInfoCard(props) {
     // 限制数值单位
     let unit = "";
     if (isValidObject(form)) {
-        restrictionMode = form.getFieldsValue()['restrictionMode']
+        restrictionMode = form.getFieldValue('restrictionMode')
         unit = restrictionModeUnit[restrictionMode] || "";
     }
 
     let MITValueUnit = "";
     if (isValidObject(form)) {
-        MITValueUnit = form.getFieldsValue()['restrictionMITValueUnit']
+        MITValueUnit = form.getFieldValue('restrictionMITValueUnit')
     }
 
     // 起飞机场
     let depAp = [];
     if (isValidObject(form)) {
-        depAp = form.getFieldsValue()['depAp'] || [];
+        depAp = form.getFieldValue('depAp') || [];
     }
     // 降落机场
     let arrAp = [];
     if (isValidObject(form)) {
-        arrAp = form.getFieldsValue()['arrAp'] || [];
+        arrAp = form.getFieldValue('arrAp') || [];
     }
 
     // 豁免起飞机场
     let exemptDepAp = [];
     if (isValidObject(form)) {
-        exemptDepAp = form.getFieldsValue()['exemptDepAp'] || [];
+        exemptDepAp = form.getFieldValue('exemptDepAp') || [];
     }
     // 豁免降落机场
     let exemptArrAp = [];
     if (isValidObject(form)) {
-        exemptArrAp = form.getFieldsValue()['exemptArrAp'] || [];
+        exemptArrAp = form.getFieldValue('exemptArrAp') || [];
     }
 
     // 更新限制数值单位
@@ -194,14 +194,15 @@ function StaticInfoCard(props) {
      * 自动填充结束日期
      * */
     const autoFillInEndDate = (value) => {
-        const startTime = form.getFieldsValue()['startTime'];
-        const startDate = form.getFieldsValue()['startDate'];
-        const endTime = form.getFieldsValue()['endTime'];
-        const endDate = form.getFieldsValue()['endDate'];
+        
+        const startTime = form.getFieldValue('startTime');
+        const startDate = form.getFieldValue('startDate');
+        const endTime = form.getFieldValue('endTime');
+        const endDate = form.getFieldValue('endDate');
         const startDateString = moment(startDate).format("YYYYMMDDHHmm").substring(0, 8);
-        const startDateTime = startDateString + startTime;
-        const startDateTimeFormatValid = REGEXP.DATETTIME12.test(startDateTime);
-        if (startDateTimeFormatValid && value.length === 4 && !isValidVariable(endDate)) {
+        const startDateFormatValid = REGEXP.DATE8.test(startDateString);
+        const startTimeFormatValid = REGEXP.TIMEHHmm.test(startTime);
+        if (startDateFormatValid && startTimeFormatValid && value.length === 4 && !isValidVariable(endDate)) {
             if (value * 1 < startTime * 1 || value * 1 === startTime * 1) {
                 const nextDate = moment(startDate).add(1, 'day');
                 form.setFieldsValue({ 'endDate': moment(nextDate) })
@@ -225,10 +226,10 @@ function StaticInfoCard(props) {
     };
 
     const onOpenStartDatePickerChange = (open) => {
-        const startTime = form.getFieldsValue()['startTime'];
+        const startTime = form.getFieldValue('startTime');
         // 当前终端时间
         let now = new Date();
-        const startDate = form.getFieldsValue()['startDate'];
+        const startDate = form.getFieldValue('startDate');
         if (open && !isValidVariable(startDate)) {
             form.setFieldsValue({ 'startDate': moment(now) });
             let dateString = moment(now).format("YYYYMMDDHHmm");
@@ -238,10 +239,10 @@ function StaticInfoCard(props) {
     };
 
     const onOpenEndDatePickerChange = (open) => {
-        const startTime = form.getFieldsValue()['startTime'];
-        const startDate = form.getFieldsValue()['startDate'];
-        const endTime = form.getFieldsValue()['endTime'];
-        const endDate = form.getFieldsValue()['endDate'];
+        const startTime = form.getFieldValue('startTime');
+        const startDate = form.getFieldValue('startDate');
+        const endTime = form.getFieldValue('endTime');
+        const endDate = form.getFieldValue('endDate');
         if (open && isValidVariable(startDate) && !isValidVariable(endDate)) {
             form.setFieldsValue({ 'endDate': moment(startDate) });
             let dateString = moment(startDate).format("YYYYMMDDHHmm");
@@ -264,8 +265,8 @@ function StaticInfoCard(props) {
     */
     const handleRestrictionMITValueUnitChange = (modeType) => {
         setRestrictionMITValueUnit(modeType)
-        const restrictionModeValue = form.getFieldsValue()['restrictionModeValue'];
-        const distanceToTime = form.getFieldsValue()['distanceToTime'];
+        const restrictionModeValue = form.getFieldValue('restrictionModeValue');
+        const distanceToTime = form.getFieldValue('distanceToTime');
         // 更新restrictionMITTimeValue字段数值
         if (isValidVariable(restrictionModeValue) && isValidVariable(distanceToTime)) {
             let newValue = "";
@@ -285,7 +286,7 @@ function StaticInfoCard(props) {
     * 限制数值变更
     */
     const handleRestrictionModeValueChange = ({ target: { value } }) => {
-        const restrictionMITValueUnit = form.getFieldsValue()['restrictionMITValueUnit'];
+        const restrictionMITValueUnit = form.getFieldValue('restrictionMITValueUnit');
         // 若限制类型为MIT
         if (restrictionMode === 'MIT') {
             // 调用handleRestrictionMITValueUnitChange方法，用于更新restrictionMITTimeValue字段数值
@@ -334,9 +335,13 @@ function StaticInfoCard(props) {
      * */
     const validateTimeRange = (getFieldValue) => {
         const validator = (rules, value) => {
+            // 开始时间HHmm
             const startTime = getFieldValue('startTime');
+            // 开始日期 Date
             const startDate = getFieldValue('startDate');
+            // 结束时间HHmm
             const endTime = getFieldValue('endTime');
+            // 结束日期 Date
             const endDate = getFieldValue('endDate');
 
             if (isValidVariable(endDate)
@@ -347,9 +352,12 @@ function StaticInfoCard(props) {
                 const endDateString = moment(endDate).format("YYYYMMDDHHmm").substring(0, 8);
                 const startDateTime = startDateString + startTime;
                 const endDateTime = endDateString + endTime;
-                const startDateTimeFormatValid = REGEXP.DATETTIME12.test(startDateTime);
-                const endDateTimeFormatValid = REGEXP.DATETTIME12.test(endDateTime);
-                if (startDateTimeFormatValid && endDateTimeFormatValid) {
+                const startDateFormatValid = REGEXP.DATE8.test(startDateString);
+                const startTimeFormatValid = REGEXP.TIMEHHmm.test(startTime);
+                const endDateFormatValid = REGEXP.DATE8.test(endDateString);
+                const endTimeFormatValid = REGEXP.TIMEHHmm.test(endTime);
+
+                if (startDateFormatValid && startTimeFormatValid && endDateFormatValid && endTimeFormatValid) {
                     if (parseFullTime(startDateTime).getTime() > parseFullTime(endDateTime).getTime()) {
                         return Promise.reject('结束时间不能早于开始时间');
                     } else {
@@ -363,6 +371,55 @@ function StaticInfoCard(props) {
             validator: validator,
         })
     };
+
+    // 校验结束日期时间与当前时间+15分钟大小
+    const validateEndDateTimeRange = (getFieldValue) => {
+        const validator = (rules, value) => {
+            // 开始时间HHmm
+            const startTime = getFieldValue('startTime');
+            // 开始日期 Date
+            const startDate = getFieldValue('startDate');
+            // 结束时间HHmm
+            const endTime = getFieldValue('endTime');
+            // 结束日期 Date
+            const endDate = getFieldValue('endDate');
+
+            if (isValidVariable(endDate)
+                && isValidVariable(endTime)
+                && isValidVariable(startDate)
+            ) {
+                const startDateString = moment(startDate).format("YYYYMMDDHHmm").substring(0, 8);
+                const endDateString = moment(endDate).format("YYYYMMDDHHmm").substring(0, 8);
+                const startDateTime = startDateString + startTime;
+                const endDateTime = endDateString + endTime;
+                const startDateFormatValid = REGEXP.DATE8.test(startDateString);
+                const startTimeFormatValid = REGEXP.TIMEHHmm.test(startTime);
+                const endDateFormatValid = REGEXP.DATE8.test(endDateString);
+                const endTimeFormatValid = REGEXP.TIMEHHmm.test(endTime);
+
+                if (startDateFormatValid && startTimeFormatValid && endDateFormatValid && endTimeFormatValid) {
+                    if (parseFullTime(startDateTime).getTime() > parseFullTime(endDateTime).getTime() ) {
+                        return Promise.resolve();
+                        
+                    } else {
+                        // 当前时间加15分钟
+                        let currentTime = moment().add(15, 'minutes').format("YYYYMMDDHHmm").substring(0, 12);
+                        if (parseFullTime(currentTime).getTime() > parseFullTime(endDateTime).getTime() ) {
+                            return Promise.reject('结束时间不能早于当前时间+15分钟');
+                        }else {
+                            return Promise.resolve();
+                        }
+
+                    }
+                }
+            }
+            return Promise.resolve();
+        };
+        return ({
+            validator: validator,
+        })
+    }
+
     /**
      * 校验结束时间是否完整
      * */
@@ -401,8 +458,8 @@ function StaticInfoCard(props) {
     };
 
     const disabledEndDate = (currentDate) => {
-        const startDate = form.getFieldsValue()['startDate'];
-        return currentDate < startDate || currentDate > moment(startDate).add(2, 'day');
+        const startDate = form.getFieldValue('startDate');
+        return currentDate < startDate;
     };
 
 
@@ -585,7 +642,7 @@ function StaticInfoCard(props) {
                                         <DatePicker
                                             onChange={updateStartDateString}
                                             format={dateFormat}
-                                            disabledDate={disabledStartDate}
+                                            // disabledDate={disabledStartDate}
                                             disabled={props.disabledForm}
                                             placeholder={dateFormat}
                                             className="date-picker-form"
@@ -670,6 +727,7 @@ function StaticInfoCard(props) {
                                                 message: '请输入有效的结束时间',
                                             },
                                             ({ getFieldValue }) => validateTimeRange(getFieldValue),
+                                            ({ getFieldValue }) => validateEndDateTimeRange(getFieldValue)
                                         ]}
                                     >
                                         <Input
