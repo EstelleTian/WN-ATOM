@@ -7,10 +7,10 @@ import { InfoCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons
 
 import StaticInfoCard from './StaticInfoCard'
 import { handleImportControl, closeCreateDlg, closeControlDetail, handleImportControlForUpdate, handleUpdateFlowControl } from 'utils/client'
-import { getFullTime, formatTimeString, addStringTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
+import { getFullTime, formatTimeString, addStringTime, parseFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
-import { REGEXP } from '../../utils/regExpUtil'
+import { REGEXP } from 'utils/regExpUtil'
 
 import './RestrictionForm.scss'
 import { inject, observer } from "mobx-react";
@@ -371,8 +371,7 @@ function RestrictionForm(props) {
         try {
             // 触发表单验证取表单数据
             const fieldData = await form.validateFields();
-            // 校验方案名称是否与限制条件相符
-            checkTacticName(fieldData);
+            checkStartDateTimeRange(fieldData);
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
         }
@@ -501,8 +500,10 @@ function RestrictionForm(props) {
         } = values;
         // 结束日期时间
         let endDateTime = endDateString + endTime
-        // 校验结束日期时间格式
-        const endDateTimeFormatValid = REGEXP.DATETTIME12.test(endDateTime);
+        // 校验结束日期格式
+        const endDateFormatValid = REGEXP.DATE8.test(endDateString);
+        // 校验结束时间格式
+        const endTimeFormatValid = REGEXP.TIMEHHmm.test(endTime);
         // 更新方案名称
         basicTacticInfo.tacticName = tacticName;
         // 方案发布单位
@@ -520,7 +521,7 @@ function RestrictionForm(props) {
         tacticTimeInfo.startTime = startDateString + startTime;
         
         // 更新方案结束时间
-        tacticTimeInfo.endTime = endDateTimeFormatValid ? endDateTime :"";
+        tacticTimeInfo.endTime = (endDateFormatValid && endTimeFormatValid) ? endDateTime :"";
         // 更新基准单元
         directionListData.targetUnit = targetUnit;
         // 更新前序单元
@@ -821,6 +822,48 @@ function RestrictionForm(props) {
         }
         return autoName;
     }
+
+    // 校验结束日期时间与当前时间大小
+    const validateStartDateTimeRange = (getFieldValue) => {
+         // 当前时间
+         let currentTime = moment().format("YYYYMMDDHHmm").substring(0, 12);
+         let startDateTimeString = startDateString + startTime;
+         if (parseFullTime(currentTime).getTime() > parseFullTime(startDateTimeString).getTime() ) {
+            return false;
+        }else {
+             return true;
+         }
+    }
+
+    // 检查开始时间与当前时间大小
+    const checkStartDateTimeRange = (fieldData) => {
+        // 方案名称
+        let valided = validateStartDateTimeRange();
+        if (valided) {
+            // 校验方案名称是否与限制条件相符
+            checkTacticName(fieldData);
+        } else {
+            Modal.confirm({
+                title: '提示',
+                icon: <ExclamationCircleOutlined />,
+                centered: true,
+                closable: true,
+                content: <div><p>开始时间早于当前时间，</p><p>建议修改后提交</p></div>,
+                okText: '去修改',
+                cancelText: '直接提交',
+                onOk: ()=> { },
+                onCancel: (close)=>{ 
+                    // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
+                    if(typeof close ==='function'){
+                        // 校验方案名称是否与限制条件相符
+                        checkTacticName(fieldData);
+                        // 关闭模态框
+                        close();
+                    }
+                 },
+            });
+        }
+    };
 
     /**
      * 方案名称检查
