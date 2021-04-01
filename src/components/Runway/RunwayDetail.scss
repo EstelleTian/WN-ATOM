@@ -32,4 +32,15 @@
             height: 100%;
         }
     }
+    .table-card{
+        .ant-form-item-label {
+            width: 100%;
+            text-align: center;
+        }
+        .ant-form-item-control-input {
+            flex: 1;
+            text-align: center;
+            border-right:1px solid #4a4a4a;
+        }
+    }
 }
