@@ -116,7 +116,7 @@ const CapacityFlowMonitor = (props) => {
         arrData.push(addData);
         return arrData;
     };
-    monitorDataist = appendAddMonitorCard(monitorDataist);
+    // monitorDataist = appendAddMonitorCard(monitorDataist);
     // 绘制单个监控单元数据卡片
     const listItemData = (item) => {
         if (item.id === 'ADD') {
