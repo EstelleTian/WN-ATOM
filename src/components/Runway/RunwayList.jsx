@@ -9,6 +9,7 @@ import { ReqUrls } from 'utils/request-urls'
 import { customNotice } from 'utils/common-funcs'
 import  RunwayItem  from "./RunwayItem";
 import  RunwayListHeader  from "./RunwayListHeader";
+import  RunwayModal  from "./RunwayModal";
 import './RunwayList.scss'
 
 const Filter = (props) => {
@@ -32,7 +33,7 @@ const FilterBar = inject("runwayListData")(observer(Filter))
 
 //跑道列表
 function List(props) {
-    const { runwayListData, systemPage } = props;
+    const { runwayListData, systemPage, toggleModalVisible, toggleModalType } = props;
     const { filterList, loading } = runwayListData;
     const userId = systemPage.user.id || ""
     const sortedList = filterList;
@@ -96,8 +97,8 @@ function List(props) {
                             <RunwayItem
                                 singleGroupRunwayData={item}
                                 key={item.id}
-                                // toggleModalVisible={toggleModalVisible}
-                                // toggleModalType={toggleModalType}
+                                toggleModalVisible={toggleModalVisible}
+                                toggleModalType={toggleModalType}
                             >
                             </RunwayItem>
                         )
@@ -111,11 +112,60 @@ function List(props) {
 
 const Runway = inject("runwayListData", "systemPage")(observer(List))
 
+const useSchemeModal = () =>{
+    const [ visible, setVisible ] = useState(false); //详情模态框显隐
+    const [ modalObj, setModalObj ] = useState({}); //
+    const [ modalType, setModalType ] = useState(""); //
+
+    //模态框显隐
+    const toggleModalVisible = useCallback(( flag, id, airportName )=>{
+        setVisible(flag);
+        //选中跑道id
+        setModalObj({
+            id,
+            airportName
+        });
+    },[]);
+    
+    //方案模态框类型切换
+    const toggleModalType = useCallback(( type )=>{
+        setModalType(type);
+    },[]);
+
+    return {
+        visible,
+        modalObj,
+        modalType,
+        setVisible,
+        toggleModalVisible,
+        toggleModalType
+    }
+}
+
 const RunwayList = () => {
+    const {
+        visible,
+        modalObj,
+        modalType,
+        setVisible,
+        toggleModalVisible,
+        toggleModalType
+    } = useSchemeModal();
     return (
         <div className="runway_list_canvas">
             <FilterBar />
-            <Runway />
+            <Runway
+                toggleModalVisible={ toggleModalVisible }
+                toggleModalType={ toggleModalType }
+             />
+            { 
+                visible && <RunwayModal
+                    visible={visible}
+                    setVisible={setVisible}
+                    modalType={ modalType }
+                    modalObj={modalObj} />
+                        
+            }
         </div>
     )
 }

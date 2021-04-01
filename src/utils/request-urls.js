@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-01 13:14:24
+ * @LastEditTime: 2021-04-01 17:21:00
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -85,7 +85,9 @@ const ReqUrls = {
     // capacityBaseUrl: 'http://192.168.243.200:28482/flow-capacity-rest/capacity/',
     capacityBaseUrl: 'http://192.168.194.20:28482/flow-capacity-rest/capacity/',
     // 跑道列表接口
-    runwayListUrl: 'http://192.168.194.21:50012/runway/defaulat/and/dynamic/retrieve/new/'
+    runwayListUrl: 'http://192.168.194.21:50012/runway/defaulat/and/dynamic/retrieve/new/',
+    // 跑道详情
+    runwayDefaultDetailUrl: 'http://192.168.194.21:50012/runway/config/default/edit/',
     
 };
 //协调ip

@@ -162,8 +162,7 @@ function RunwayItem(props) {
 
     
     const showDetail = useCallback((e) => {
-        return;
-        props.toggleModalVisible(true, id);
+        props.toggleModalVisible(true, id, airportName);
         props.toggleModalType('DETAIL');
         e.preventDefault();
         e.stopPropagation();
@@ -260,11 +259,11 @@ function RunwayItem(props) {
                             e.stopPropagation();
                         }}>详情</div>
                         <div className="opt" onClick={showModify}>修改</div>
-                        <div className="opt" onClick={e => {
+                        {/* <div className="opt" onClick={e => {
                             
                             e.stopPropagation();
                         }
-                        }>终止</div>
+                        }>终止</div> */}
                     </div>
                 </div>
             </div>
