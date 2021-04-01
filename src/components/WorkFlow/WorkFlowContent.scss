@@ -41,3 +41,22 @@
   text-align: left;
   margin-left: 3.5rem;
 }
+
+.capacity_detail_icon{
+    font-size: 20px;
+    padding-left: 6px;
+    color: #7cb2d4;
+    position: relative;
+    top: 2px;
+    &:hover{
+      cursor: pointer;
+    }
+}
+.capacity_detail_popover{
+  >div{
+    font-size: 16px;
+  }
+}
+.capacity_detail_popover_title{
+  font-size: 16px;
+}

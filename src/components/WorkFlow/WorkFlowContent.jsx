@@ -1,11 +1,12 @@
 import React, {useState, useEffect, useCallback } from 'react'
-import { message, Button, Table, Spin } from "antd";
-// import { Link } from 'react-router-dom'
+import { message, Button, Table, Spin, Popover } from "antd";
+import { ProfileOutlined } from '@ant-design/icons';
 import { openConfirmFrame, openTimeSlotFrameWithFlightId, openTclientFrameForMessage } from 'utils/client'
 import { requestGet } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import { customNotice } from 'utils/common-funcs'
 import { getFullTime, isValidVariable, formatTimeString, millisecondToDate } from 'utils/basic-verify'
+import CapacityMiniTable from 'components/CapacityManagement/CapacityMiniTable'
 import './WorkFlowContent.scss'
 
 //获取屏幕宽度，适配 2k
@@ -128,6 +129,73 @@ const WorkFlowContent = (props) => {
     const processDefinitionKey = instance.processDefinitionKey || "";
     const endTime = instance.endTime || "";
     const businessName = processVariables.businessName || "";
+
+    const getName = ()=>{
+        if( processDefinitionKey === "VolumeApprovalProcess" ){
+            if( businessName.indexOf("#") > -1 ){
+                let textArr = businessName.split("#");
+                let dom = (
+                    <div>
+                        <span>{textArr[0]}</span>
+                        <span className="capacity_detail_icon">
+                            <Popover 
+                                placement="right" 
+                                title={(
+                                    <div className="capacity_detail_popover_title">{textArr[0] }</div>
+                                ) } 
+                                content={(
+                                    <div className="capacity_detail_popover">
+                                        {
+                                            textArr.map( (item,index) => {
+                                                if(item !== "" && index > 0 ){
+                                                    return <div key={index}>{item}</div>
+                                                }
+                                                
+                                            })
+                                        }
+                                    </div>
+                                ) }
+                                trigger="hover"
+                                >
+                                <ProfileOutlined />
+                            </Popover>
+                        </span>
+                        
+                        
+                        {/* {
+                            textArr.map( (item,index) => {
+                                if(item !== ""){
+                                    return <div key={index}>{item}</div>
+                                }
+                                
+                            })
+                        } */}
+                    </div>
+                        
+                )
+                return dom;
+                // let dom = (
+                //     <div>
+                //         {
+                //             textArr.map( (item,index) => {
+                //                 if(item !== ""){
+                //                     return <div key={index}>{item}</div>
+                //                 }
+                                
+                //             })
+                //         }
+                //     </div>
+                // )
+                // return dom;
+            }
+        }
+        return businessName;
+    }
+    
+
+    let elementType = processVariables.elementType || "";
+    let updateDataStr = processVariables.updateData || "{}";
+    const updateData = JSON.parse(updateDataStr)|| {};
     //更新工作流列表数据
     const updateDetailData = useCallback( data => {
         const gTime = data.generateTime || "";
@@ -222,7 +290,6 @@ const WorkFlowContent = (props) => {
     //根据不同类型调整到不同窗口
     const openHandleWind = () => {
 
-         const processDefinitionKey = instance.processDefinitionKey || "";
          const businessKey = instance.businessKey || ""; //方案id
          const processVariables = instance.processVariables || {};
          switch(processDefinitionKey){
@@ -252,12 +319,16 @@ const WorkFlowContent = (props) => {
         <Spin spinning={loading} >
             <div className="workflow_wind_cont">
                 {
-                    from === "simple" ? <div className="info_canvas">
-                        <div className="info_name">{ businessName }({modalId})</div>
+                    from === "simple" && <div className="info_canvas">
+                        <div className="info_name">{ getName( ) }({modalId})</div>
                         <div className="generateTime">数据时间:{ isValidVariable(generateTime) ? formatTimeString(generateTime) : "" }</div>
-                    </div> : ""
+                    </div> 
                 }
-            
+                {/* {
+                    processDefinitionKey === "VolumeApprovalProcess" &&
+                    <CapacityMiniTable elementType={elementType} updateData={updateData} />
+
+                } */}
                 <div className="cont_canvas">
                     <Table
                         columns={columns}

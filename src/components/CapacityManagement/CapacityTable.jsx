@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-04-01 11:09:06
+ * @LastEditTime: 2021-04-01 22:41:41
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -622,8 +622,9 @@ const CapacityTable = (props) => {
                 method: 'POST',
                 params,
                 resFunc: (data)=> {
-                    // console.log(data);
+                    console.log(data);
                     const { capacityMap } = data;
+                    props.capacity.setEditable(false);
                     for(let name in capacityMap){
                         const res = capacityMap[name] || {};
                         // console.log("更新表格数据 ",airportName)
@@ -636,7 +637,7 @@ const CapacityTable = (props) => {
                         message: title+'调整申请成功',
                         duration: 10,
                     });
-                    props.capacity.setEditable(false);
+                    
                     resolve("success")
                 },
                 errFunc: (err, msg)=> {
@@ -659,7 +660,8 @@ const CapacityTable = (props) => {
     }
 
     const resetOrgTableDatas = ( from = "" ) => {
-        if( from === "" && editable ){
+        // from === "" && 
+        if( editable ){
             return;
         }
         const { capacity } = props;

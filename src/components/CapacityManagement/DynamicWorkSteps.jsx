@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-04-01 13:59:00
+ * @LastEditTime: 2021-04-01 21:21:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -48,12 +48,13 @@ function stepsList (props){
                         let resCn = "";
                         if( agree === undefined && comments != "" ){
                             resCn = (<span style={{color: '#ffffff', padding: '0 3px', backgroundColor: 'green'}}>{comments}</span>);
-                        }else if( agree === true ){
+                        }else if( agree === true || agree === "true" ){
                             resCn = (<span style={{color: '#ffffff', padding: '0 3px', backgroundColor: 'green'}}>同意</span>);
-                        }else if( agree === false ){
+                        }else if( agree === false  || agree === "false"){
                             resCn = (<span style={{color: '#ffffff', padding: '0 3px', backgroundColor: '#ec4747'}}>拒绝</span>);
                         }
-                        const userNameCn = taskLocalVariables.userNameCn || "";
+                        // const userNameCn = taskLocalVariables.userNameCn || "";
+                        const userNameCn = task.assigneeName || "";
                         let desDom = (<div>
                             <div>{userNameCn} { endTime !== "" && `(${endTime})` } </div>
                             <div title={commentsTitle}> { comments != "" && `原因: ${ comments } ` }</div>
