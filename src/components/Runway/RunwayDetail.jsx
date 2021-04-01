@@ -1,88 +1,45 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-01 17:42:11
+ * @LastEditTime: 2021-04-01 18:51:13
  * @LastEditors: Please set LastEditors
  * @Description: ATOM流控详情
  */
-import React, {useEffect, useState, useCallback} from 'react'
+import React, {useEffect, useState, useCallback, useMemo} from 'react'
 import {Tag, Descriptions, Checkbox, Space, Card, Row, Col, Divider, Tooltip, Form,  message, Spin} from 'antd'
-import {getFullTime, formatTimeString, isValidconstiable, isValidObject} from '../../utils/basic-verify'
+import {getFullTime, formatTimeString, isValidVariable, isValidObject} from '../../utils/basic-verify'
 import { ReqUrls } from '../../utils/request-urls'
 import { requestGet } from '../../utils/request'
 import FlowcontrolDetailCard  from 'components/SchemeList/FlowcontrolDetailCard'
 
-// import './RunwayDetail.scss'
+import './RunwayDetail.scss'
 
 //方案详情模块
 function RunwayDetail(props) {
-    const [ loading, setLoading ] = useState(false);
-    const [ data, setData ] = useState({});
-    const { airportName = "" } = props;
+    
+    const { airportName, data = "" } = props;
 
-    //更新方案列表数据
-    const updateDetailData = useCallback( data => {
-        //TODO 更新表单数据
-        console.log(data)
-        setData(data);
-    })
-    //请求错误处理
-    const requestErr = useCallback((err, content) => {
-        message.error({
-            content,
-            duration: 4,
-        });
-    })
-    //根据modalId获取方案详情
-    const requestData = useCallback(( userId ) => {
-        setLoading(true);
-        const opt = {
-            url: ReqUrls.runwayDefaultDetailUrl + userId,
-            method: 'GET',
-            params:{
-                airportStr: airportName
-            },
-            resFunc: (data)=> {
-                updateDetailData(data)
-                setLoading(false);
-            },
-            errFunc: (err)=> {
-                requestErr(err, '默认跑道详情数据获取失败' );
-                setLoading(false);
-            }
-        };
-        requestGet(opt);
+    const {
+        sign0,
+        startTime,
+        endTime,
+        generateTime,
+        updateTime,
+        operationModeStr,
+    } = useMemo(function(){
+        const sign0 = data.sign0 || ""; //配置状态
 
-    });
-
-    //用户信息获取
-    useEffect(function(){
-        const userInfo = localStorage.getItem("user");
-        if( isValidconstiable(userInfo) ){
-            const user = JSON.parse(userInfo) ;
-            if( isValidconstiable(user.id) ){
-                //获取数据
-                requestData(user.id);
-            }
-        }else{
-            alert("请先登录");
-        }
-        
-    }, []);
-
-    const {} = useMemo(function(){
-        const runwayConEditBeanMap = data.runwayConEditBeanMap || {};
-        const airportMap = runwayConEditBeanMap[airportName] || {};
-        const listRWGapInfoDefault = airportMap.listRWGapInfoDefault || [];
+        const listRWGapInfoDefault = data.listRWGapInfoDefault || [];
         let startTime = "";
         let endTime = "";
         let generateTime = "";
         let updateTime = "";
+        let operationModeStr = "";//运行模式
         listRWGapInfoDefault.map( item => {
-            const startTimeStr = item.startTime || "";
-            const endTimeStr = item.endTime || "";
-            const generateTimeStr = item.generateTime || "";
-            const updateTimeStr = item.updateTime || "";
+            const startTimeStr = item.startTime || ""; //起始时间
+            const endTimeStr = item.endTime || ""; //结束时间
+            const generateTimeStr = item.generateTime || ""; //创建时间
+            const updateTimeStr = item.updateTime || "";//终止时间
             if( startTimeStr.length >= 12 ){
                 startTime = startTimeStr.substring(0,8) + ' ' + startTimeStr.substring(8);
             }
@@ -95,8 +52,8 @@ function RunwayDetail(props) {
             if( updateTimeStr.length >= 12 ){
                 updateTime = updateTimeStr.substring(0,8) + ' ' + updateTimeStr.substring(8);
             }
-            const operationMode = item.operationmode;
-            let operationModeStr = "";
+            const operationMode = item.operationmode; 
+            
             if( operationMode != "" ){
                 if( operationMode*1 == 100){
                     operationModeStr = "就近模式";
@@ -105,17 +62,109 @@ function RunwayDetail(props) {
                 }
             }
         })
+
+        return {
+            sign0,
+            startTime,
+            endTime,
+            generateTime,
+            updateTime,
+            operationModeStr,
+        }
         
         
     }, [data])
     
 
     return (
-        <Spin spinning={loading} >
-            <Row className="scheme-detail">
-                1111
+        
+            <Row className="runway-detail">
+            <Card title="方案基本信息" size="small" className="advanced-card" bordered={false}>
+                <div className="info-content">
+                    <Row className="info-row">
+                        <Col span={12}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="起始时间">起始时间</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{startTime}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={12}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="结束时间">结束时间</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{endTime}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className="info-row">
+                        <Col span={12}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="创建时间">创建时间</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{generateTime}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={12}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="终止时间">终止时间</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{updateTime}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className="info-row">
+                        <Col span={12}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="配置状态">配置状态</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{sign0}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span={12}>
+                            <div className="ant-row ant-form-item">
+                                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                    <label className="ant-form-item-no-colon" title="运行模式">运行模式</label>
+                                </div>
+                                <div className="ant-col ant-form-item-control">
+                                    <div className="ant-form-item-control-input">
+                                        <div className="ant-form-item-control-input-content">{operationModeStr}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                   
+                </div>
+
+            </Card>
             </Row>
-        </Spin>
+        
     )
 }
 

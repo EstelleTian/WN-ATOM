@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-01 17:21:00
+ * @LastEditTime: 2021-04-01 18:42:39
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -87,7 +87,7 @@ const ReqUrls = {
     // 跑道列表接口
     runwayListUrl: 'http://192.168.194.21:50012/runway/defaulat/and/dynamic/retrieve/new/',
     // 跑道详情
-    runwayDefaultDetailUrl: 'http://192.168.194.21:50012/runway/config/default/edit/',
+    runwayDefaultDetailUrl: 'http://192.168.194.21:50012/open/runway/default/detail/dialog/',
     
 };
 //协调ip

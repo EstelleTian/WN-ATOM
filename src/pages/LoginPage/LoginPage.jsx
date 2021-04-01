@@ -114,9 +114,10 @@ function LoginPage(props){
             updateUserInfo(params);
         }
     })
-    useEffect(function(){
-        setValue(1);
-    },[])
+    
+    // useEffect(function(){
+    //     setValue(1);
+    // },[])
 
     useEffect(function(){
         let user = localStorage.getItem("user") || "{}";
@@ -139,7 +140,7 @@ function LoginPage(props){
             }
         // },500)
         
-    },[value])
+    },[])
     return (
         <div className="login_canvas bg" >
             <div className="close" title="关闭" onClick={()=>{

@@ -1,17 +1,64 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Modal, message, Button } from "antd";
+import { Modal, message, Button, Spin } from "antd";
 import { requestGet } from 'utils/request'
-import { isValidObject } from 'utils/basic-verify'
+import { isValidObject, isValidVariable } from 'utils/basic-verify'
 import { ReqUrls } from 'utils/request-urls'
 import RunwayDetail  from './RunwayDetail'
 import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
 
 
 const RunwayModal = (props) => {
-    let [ flowData, setFlowData ] = useState({})
+    const [ loading, setLoading ] = useState(false);
+    const [ data, setData ] = useState({});
     const { visible, modalObj, modalType, setVisible } = props;
 
-    
+     //更新方案列表数据
+     const updateDetailData = useCallback( data => {
+        //TODO 更新表单数据
+        console.log(data)
+        setData(data);
+    })
+    //请求错误处理
+    const requestErr = useCallback((err, content) => {
+        message.error({
+            content,
+            duration: 4,
+        });
+    })
+    //根据modalId获取方案详情
+    const requestData = useCallback(( userId ) => {
+        setLoading(true);
+        const opt = {
+            url: ReqUrls.runwayDefaultDetailUrl + userId,
+            method: 'GET',
+            params: modalObj,
+            resFunc: (data)=> {
+                updateDetailData(data)
+                setLoading(false);
+            },
+            errFunc: (err)=> {
+                requestErr(err, '默认跑道详情数据获取失败' );
+                setLoading(false);
+            }
+        };
+        requestGet(opt);
+
+    });
+
+    //用户信息获取
+    useEffect(function(){
+        const userInfo = localStorage.getItem("user");
+        if( isValidVariable(userInfo) ){
+            const user = JSON.parse(userInfo) ;
+            if( isValidVariable(user.id) ){
+                //获取数据
+                requestData(user.id);
+            }
+        }else{
+            alert("请先登录");
+        }
+        
+    }, []);
 
 
     const closeModal = useCallback(()=>{
@@ -22,12 +69,12 @@ const RunwayModal = (props) => {
         if(modalType === "DETAIL"){
             return(
                 <Modal
-                    title={`(${modalObj.airportName})默认跑道详情`}
+                    title={`默认跑道详情`}
                     centered
                     visible={ visible }
                     onOk={() => setVisible(false)}
                     onCancel={() => setVisible(false)}
-                    width={650}
+                    width={1000}
                     height={650}
                     // maskClosable={false}
                     destroyOnClose = { true }
@@ -38,7 +85,9 @@ const RunwayModal = (props) => {
                         </div>
                     }
                 >
-                    <RunwayDetail airportName={ modalObj.airportName }  />
+                    <Spin spinning={loading} >
+                        <RunwayDetail data={ data } airportName= {modalObj.airportStr}  />
+                    </Spin>
                 </Modal>
             )
         }else if(modalType === "MODIFY") {

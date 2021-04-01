@@ -118,13 +118,10 @@ const useSchemeModal = () =>{
     const [ modalType, setModalType ] = useState(""); //
 
     //模态框显隐
-    const toggleModalVisible = useCallback(( flag, id, airportName )=>{
+    const toggleModalVisible = useCallback(( flag, params )=>{
         setVisible(flag);
         //选中跑道id
-        setModalObj({
-            id,
-            airportName
-        });
+        setModalObj(params);
     },[]);
     
     //方案模态框类型切换

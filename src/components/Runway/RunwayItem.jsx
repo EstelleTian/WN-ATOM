@@ -142,27 +142,54 @@ function RunwayItem(props) {
     let runway = singleGroupRunwayData.runway || [];
     // 单个跑道组名称
     let runwayName = `(${airportName}) ${typeZH}配置`;
-    // 单个跑道数据
-    let firstRunway = runway[0];
-    // 开始时间
-    let startTime = firstRunway.startTime || "";
-    // 结束时间
-    let endTime = firstRunway.endTime || "";
-    // 创建时间
-    let createTime = firstRunway.generateTime || "";
-    // 执行情况
-    let isExecuting = firstRunway.isExecuting || "";
 
-    let runwayType = firstRunway.type || "";
+
+    let startTime = "";
+    let endTime = "";
+    let generateTime = "";
+    let updateTime = "";
+    // 执行情况
+    let isExecuting =  "";
+    let runwayType = "";
+    let ids = [];
+    runway.map( item => {
+         startTime = item.startTime || ""; //起始时间
+         endTime = item.endTime || ""; //结束时间
+         generateTime = item.generateTime || ""; //创建时间
+         updateTime = item.updateTime || "";//终止时间
+        
+        isExecuting = item.isExecuting || "";
+
+        runwayType = item.type || "";
+
+        const operationMode = item.operationmode; 
+        let operationModeStr = "";//运行模式
+        if( operationMode != "" ){
+            if( operationMode*1 == 100){
+                operationModeStr = "就近模式";
+            }else if( operationMode*1 == 200){
+                operationModeStr = "走廊口模式";
+            }
+        }
+
+        ids.push(item.id);
+    })
 
     // 跑道集合长度
     let len = runway.length;
     // 跑道集合最大索引值
     let maxIndex = len-1;
 
-    
     const showDetail = useCallback((e) => {
-        props.toggleModalVisible(true, id, airportName);
+        let params = {
+            airportStr: airportName,
+            ids: ids.join(","),
+            validTime0: "有效时间:"+ startTime.substring(6,8) + startTime.substring(8) + '-' + endTime.substring(6,8) + endTime.substring(8),
+            sign0: ""
+        }
+        console.log(params)
+
+        props.toggleModalVisible(true, params);
         props.toggleModalType('DETAIL');
         e.preventDefault();
         e.stopPropagation();
