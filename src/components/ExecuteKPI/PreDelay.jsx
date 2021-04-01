@@ -1,7 +1,8 @@
 import React from 'react'
 import { Col, Progress, Row, Spin } from "antd";
 import { inject, observer } from 'mobx-react'
-import { isValidVariable } from 'utils/basic-verify'
+import { isValidVariable, isValidObject } from 'utils/basic-verify'
+import { format } from 'highcharts';
 
 
 //正常率
@@ -17,26 +18,33 @@ function PreDelay(props) {
     let { entiretyNormalRate, entiretyDepNormalRate, apDepEstimateRateMap } = kpi;
 
     // 设置初始值
-    let normalRate = "N/A";
+    let normalRate = -1;
     // 设置初始值
-    let depNormalRate = "N/A";
+    let depNormalRate = -1;
     const converPercent = (val) => {
-        let result = 'N/A';
+        let result = -1;
         if (isValidVariable(val)) {
-            let number = (Number(val) * 100).toFixed(0);
-            result = number < 0 ? 'N/A' : number;
+            let number =  (Number(val) * 100).toFixed(0);
+            result = Number(number) ;
         }
         return result;
     }
     normalRate = converPercent(entiretyNormalRate);
     depNormalRate = converPercent(entiretyDepNormalRate);
+    // 机场实际起飞正常率排序依据
+    const airportOrder = {
+        ZLXY:0,
+        ZLLL:1,
+        ZLIC:2,
+        ZLXN:3
+    }
 
 
     /**
      * 格式化数值
      * */
-    const formatPercent = (percent) => {
-        if (percent === 'N/A') {
+    const formatPercent = (percent, successPercent, rate) => {
+        if (rate < 0) {
             return `N/A`
         } else {
             return `${percent}%`
@@ -48,6 +56,7 @@ function PreDelay(props) {
             let obj = {
                 key: ap,
                 value: apDepEstimateRateMap[ap],
+                order: airportOrder[ap]
             }
             arr.push(obj);
         }
@@ -55,6 +64,24 @@ function PreDelay(props) {
     }
 
     let list = getApNormalRateList(apDepEstimateRateMap);
+    console.log(list)
+    // 排序按order升序排序
+    let sortList = list.sort((a,b)=>{
+        if (isValidObject(a)
+            && isValidVariable(a.order)
+            && isValidObject(b)
+            && isValidVariable(b.order)) {
+                if (a.order > b.order) {
+                    return 1;
+                } else if (a.order  < b.order) {
+                    return -1;
+                } else {
+                    return 0
+                }
+            }
+        return 0    
+    })
+    console.log(sortList)
 
     return (
         <Spin spinning={loading} >
@@ -71,7 +98,7 @@ function PreDelay(props) {
                                         percent={normalRate}
                                         status="normal"
                                         strokeColor="#35A5DA"
-                                        format={formatPercent}
+                                        format={(percent, successPercent) => (formatPercent(percent, successPercent, normalRate))}
                                         gapDegree={1}
                                         trailColor="#65737a"
                                     />
@@ -86,7 +113,7 @@ function PreDelay(props) {
                                         percent={depNormalRate}
                                         status="normal"
                                         strokeColor="#35A5DA"
-                                        format={formatPercent}
+                                        format={(percent, successPercent) => (formatPercent(percent, successPercent, depNormalRate))}
                                         gapDegree={1}
                                         trailColor="#65737a"
                                     />
@@ -96,17 +123,19 @@ function PreDelay(props) {
                         </Row>
                         <Row className="part">
                             {
-                                list.map((item, index) => (
+                                sortList.map((item, index) => (
                                     <Col span={6} className="block row_model flex" key={item.key}>
                                         {/* <div className="block-title percent text-center">{`${converPercentText(item.value)}%`}</div> */}
                                         <div className="flex justify-content-center layout-column">
                                             <Progress
+                                                width={80}
+                                                className="text-center"
                                                 strokeLinecap="square"
                                                 type="dashboard"
                                                 percent={converPercent(item.value)}
                                                 status="normal"
                                                 strokeColor="#35A5DA"
-                                                format={formatPercent}
+                                                format={(percent, successPercent) => (formatPercent(percent, successPercent, converPercent(item.value)))}
                                                 gapDegree={1}
                                                 trailColor="#65737a"
                                             />
@@ -116,6 +145,9 @@ function PreDelay(props) {
                                 )
                                 )
                             }
+                            <Col span={24} className="block row_model flex">
+                                <div className="text-center point">机场实际起飞正常率</div>
+                            </Col>
                         </Row>
 
 
