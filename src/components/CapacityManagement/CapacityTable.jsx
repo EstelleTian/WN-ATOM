@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-03-31 19:14:35
+ * @LastEditTime: 2021-04-01 11:09:06
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -241,9 +241,11 @@ const EditableCell = ({
                 render: (text, record, index) => {
                     if( text === "BASE" ){
                         return <span>全天</span>;
-                    }else{
-                        return <span>{text}时</span>
                     }
+                    return <span>{text}</span>
+                    // else{
+                    //     return <span>{text}时</span>
+                    // }
                     // if( text*1 < 10){
                     //     text = '0'+text;
                     // }

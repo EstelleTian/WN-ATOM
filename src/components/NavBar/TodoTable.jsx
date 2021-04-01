@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-31 19:51:29
+ * @LastEditTime: 2021-04-01 15:20:54
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -9,7 +9,7 @@
 import React, { Suspense, useCallback, useState, useEffect, useMemo, useRef } from 'react';
 import { Tabs, Table, Spin,Steps } from 'antd';
 import { inject, observer } from "mobx-react";
-import { ReqUrls, CollaborateIP } from "utils/request-urls";
+import { ReqUrls, CollaborateUrl, CollaborateIP } from "utils/request-urls";
 import { customNotice } from 'utils/common-funcs'
 import { requestGet, request } from "utils/request";
 import { getFullTime, getDayTimeFromString, isValidVariable, formatTimeString } from "utils/basic-verify";
@@ -143,9 +143,9 @@ const TodoTable = (props) => {
         const targetVal = dataObj.targetVal;
 
         let params = {
-            userId,
             flightCoordination: flight, //航班原fc
             comment: "",  //备注
+            userId,
             taskId
         }
 
@@ -158,55 +158,55 @@ const TodoTable = (props) => {
         } else if (flightCoorType === "TOBT") {
             if (type === "agree") {
                 //TOBT同意
-                url = CollaborateIP + "/flight/updateTobtApprove";
+                url = CollaborateUrl.tobtUrl + "/approveTobt";
                 title = "同意" + typeCn;
-                params["tobtValue"] = targetVal;
+                params["changeVal"] = targetVal;
             } else if (type === "refuse") {
                 //TOBT拒绝
-                url = CollaborateIP + "/flight/denyTobtApprove";
+                url = CollaborateUrl.tobtUrl + "/refuseTobt";
                 title = "拒绝" + typeCn;
             }
         } else if (flightCoorType === "INPOOL") {
             if (type === "agree") {
                 //入等待池同意
-                url = CollaborateIP + "/flightPutPoolConsent";
+                url = CollaborateUrl.poolUrl + "/approveInpool";
                 title = "同意" + typeCn
             } else if (type === "refuse") {
                 //入等待池拒绝
-                url = CollaborateIP + "/flightPutPoolDown";
+                url = CollaborateUrl.poolUrl + "/refuseInpool";
                 title = "拒绝" + typeCn
             }
         } else if (flightCoorType === "OUTPOOL") {
             if (type === "agree") {
                 //出等待池同意
-                url = CollaborateIP + "/flightOutPoolConsent";
+                url = CollaborateUrl.poolUrl + "/approveOutpool";
                 title = "同意" + typeCn
                 //TODO 要验证TOBT和当前时间比较
                 params["type"] = "";
                 params["tobt"] = "";
             } else if (type === "refuse") {
                 //出等待池拒绝
-                url = CollaborateIP + "/flightOutPoolDown";
+                url = CollaborateUrl.poolUrl + "/refuseOutpool";
                 title = "拒绝" + typeCn
             }
         } else if (flightCoorType === "EXEMPT") {
             if (type === "agree") {
                 //豁免同意
-                url = CollaborateIP + "/flightPriorityApproveRest";
+                url = CollaborateUrl.exemptyUrl + "/approveExempt";
                 title = "同意" + typeCn
             } else if (type === "refuse") {
                 //豁免拒绝
-                url = CollaborateIP + "/flightPriorityRefuseRest";
+                url = CollaborateUrl.exemptyUrl + "/refuseExempt";
                 title = "拒绝" + typeCn
             }
         } else if (flightCoorType === "UNEXEMPT") {
             if (type === "agree") {
                 //取消豁免同意
-                url = CollaborateIP + "/flightCancelAgree";
+                url = CollaborateUrl.exemptyUrl + "/approveUnExempt";
                 title = "同意" + typeCn
             } else if (type === "refuse") {
                 //取消豁免拒绝
-                url = CollaborateIP + "/flightCancelRefused";
+                url = CollaborateUrl.exemptyUrl + "/refuseUnExempt";
                 title = "拒绝" + typeCn
             }
         }

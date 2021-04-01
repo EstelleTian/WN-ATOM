@@ -1,10 +1,13 @@
-html, body {
-  font-size: 10px!important;
-  width: 90rem;
-  height: 55rem;
-  overflow: hidden;
-}
+// html, body {
+//   font-size: 10px!important;
+  
+// }
 .login_canvas{
+  font-size: 10px!important;
+  width: 90em;
+  height: 55em;
+  overflow: hidden;
+  position: absolute;
   @include display_flex();
   align-items: center;
   justify-items: center;
@@ -12,43 +15,46 @@ html, body {
   .close{
     background: url("./images/close.png") no-repeat;
     background-size: cover;
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 2.4em;
+    height: 2.4em;
     position: absolute;
-    right: 1.9rem;
-    top: 1.9rem;
+    right: 1.9em;
+    top: 1.9em;
     &:hover{
       background: url("./images/close_hover.png") no-repeat;
       cursor: pointer;
     }
   }
+  .ant-form,.ant-form-item,.ant-input-affix-wrapper,.ant-btn-sm{
+    font-size: 10px;
+  }
   // 中间
   .center{
-    width: 46.8rem;
-    height: 39rem;
+    width: 46.8em;
+    height: 39em;
     margin: 0 auto;
     .title{
       background: url("./images/system_title.png") no-repeat;
       background-size: cover;
-      width: 47rem;
-      height: 3rem;
+      width: 47em;
+      height: 3em;
     }
     .login_cont{
       background: url("./images/login_bg.png") no-repeat;
       background-size: cover;
-      width: 41rem;
-      height: 25.5rem;
-      margin: 6rem auto 0;
+      width: 41em;
+      height: 25.5em;
+      margin: 6em auto 0;
       @include display_flex();
       align-items: center;
       justify-items: center;
       
       .login_form{
-        width: 30.1rem;
+        width: 30.1em;
         margin: 0 auto;
         .form_input{
-          width: 30.1rem;
-          height: 3.7rem;
+          width: 30.1em;
+          height: 3.7em;
           border: 1px solid rgba(255,255,255,.4);
           background: rgba(3,11,28,.8);
           input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
@@ -68,22 +74,22 @@ html, body {
         .user_icon{
           background: url("./images/user_icon.png") no-repeat;
           background-size: cover;
-          width: 2.4rem;
-          height: 2.4rem;
+          width: 2.4em;
+          height: 2.4em;
         }
         .pwd_icon{
           background: url("./images/pwd_icon.png") no-repeat;
           background-size: cover;
-          width: 2.4rem;
-          height: 2.4rem;
+          width: 2.4em;
+          height: 2.4em;
         }
         .login_btn{
           border: 1px solid #848da9;
           background-color: #093672;
-          width: 30.1rem;
-          height: 3.7rem;
+          width: 30.1em;
+          height: 3.7em;
           >span{
-            font-size: 1.6rem;
+            font-size: 1.6em;
             line-height: 1;
           }
           &:hover{
@@ -96,15 +102,15 @@ html, body {
   }
   //左侧
   .side_nav{
-    width: 21.6rem;
-    margin: 9rem 0;
+    width: 21.6em;
+    margin: 9em 0;
     // 弧线
     .line_bar{
       display: inline-block;
       background: url("./images/line.png") no-repeat;
       background-size: cover;
-      width: 4rem;
-      height: 38.4rem;
+      width: 4em;
+      height: 38.4em;
     }
     // 模块图标
     .side_group{
@@ -112,9 +118,9 @@ html, body {
       vertical-align: top;
       .side_item{
         background-size: cover;
-        width: 10.4rem;
-        height: 10.4rem;
-        margin: 1.2rem 0 ;
+        width: 10.4em;
+        height: 10.4em;
+        margin: 1.2em 0 ;
         &:hover{
           cursor: pointer;
         }
@@ -124,7 +130,7 @@ html, body {
   }
   .side_nav.left{
     .side_group{
-      margin-left: 1.5rem;
+      margin-left: 1.5em;
     }
       .m1{
         background: url("./images/m1.png") no-repeat;
@@ -159,7 +165,7 @@ html, body {
       float: right;
     }
     .side_group{
-      margin-right: 1.5rem;
+      margin-right: 1.5em;
     }
     .line_bar{
       transform: rotate(180deg);
@@ -198,6 +204,6 @@ html, body {
 .login_canvas.bg{
   background: url("./images/bg.png") no-repeat;
   background-size: cover;
-  width: 90rem;
-  height: 55rem;
+  width: 90em;
+  height: 55em;
 }

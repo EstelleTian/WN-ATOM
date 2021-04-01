@@ -1,11 +1,11 @@
-import React, {useCallback, useState, useRef} from 'react';
+import React, {useCallback, useState, useRef, useEffect} from 'react';
 import {Form, Input, Button, message, } from 'antd'
 import md5 from 'js-md5'
 import { requestGet } from 'utils/request';
 import { ReqUrls } from 'utils/request-urls'
+import { isValidVariable  } from 'utils/basic-verify'
 import { saveUserInfo, exitSystem } from 'utils/client';
 import './LoginPage.scss'
-import { useEffect } from 'react/cjs/react.development';
 
 const msgStyle = {
     top: '110px',
@@ -18,6 +18,7 @@ function LoginPage(props){
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState(1);
+    const canvasRef = useRef( null );
     const usernameInput = useRef( null );
     const pwdInput = useRef( null );
 
@@ -113,37 +114,48 @@ function LoginPage(props){
             updateUserInfo(params);
         }
     })
+    useEffect(function(){
+        setValue(1);
+    },[])
 
     useEffect(function(){
         let user = localStorage.getItem("user") || "{}";
         user = JSON.parse(user);
         const username = user.username || "";
-        if( username !== "" ){
-            form.setFieldsValue({
-                username
-            });
-            //聚焦密码输入框
-            pwdInput.current.focus()
-        }else{
-            //聚焦用户名输入框
-            usernameInput.current.focus()
-        }
-    },[])
-
+        // setTimeout(function(){
+            // alert("聚焦密码"+username);
+            if( isValidVariable(username) ){
+                if( username !== "" ){
+                    form.setFieldsValue({
+                        username
+                    });
+                    //聚焦密码输入框
+                    
+                    pwdInput.current.focus('end')
+                }
+            }else{
+                //聚焦用户名输入框
+                usernameInput.current.focus('end')
+            }
+        // },500)
+        
+    },[value])
     return (
-        <div className="login_canvas bg">
+        <div className="login_canvas bg" >
             <div className="close" title="关闭" onClick={()=>{
                 exitSystem("")
             }}></div>
             <div className="side_nav left">
                 <div className="side_group">
                     <div 
+                        
                         onClick = { ()=>{
                             setValue(1);
                         }} 
                         className={`side_item m1 ${ value == 1 && "active"}`}
                     ></div>
                     <div 
+                    ref={canvasRef}
                         onClick = { ()=>{
                             setValue(2);
                         }} 

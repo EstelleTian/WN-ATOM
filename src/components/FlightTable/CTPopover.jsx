@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-26 10:19:38
+ * @LastEditTime: 2021-04-01 12:58:41
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -95,11 +95,18 @@ const CTPopover = (props) => {
         if( ftime.indexOf("A") > -1 ){
             source = "DEP";
         }
-        textDom =  <div className={`full-cell time_${ftime} ${ (ftime !== "") ? source : "" }`}>
-            <div className="interval" title={`${text}-${sourceCN}-${ subTitle }`}>
-                <span  className={ `${(meetIntervalValue === "200" && ftime !== "") ? "interval_red" : "" }`}>{ftime}</span>
+        // textDom =  <div className={`full-cell time_${ftime}`}>
+        //     <div className={`interval ${ (ftime !== "") ? source : "" }`} title={`${text}-${sourceCN}-${ subTitle }`}>
+        //         <span  className={ `${(meetIntervalValue === "200" && ftime !== "") ? "interval_red" : "" }`}>{ftime}</span>
+        //     </div>
+        // </div>
+        textDom =  <div className={`full-cell time_${ftime} ${ isValidVariable(text) ? source : "" } ${col}_${bgStatus}`} >
+            <div className={`interval ${ (ftime !== "") ? source : "" }`}
+                title={`${text}-${sourceCN}-${ subTitle }`}
+            >
+                <span className={ `${(meetIntervalValue === "200" && ftime !== "") ? "interval_red" : "" }`}>{ftime}</span>
             </div>
-        </div>
+        </div>;
     }
     else{
         textDom = <div className={`full-cell ${ isValidVariable(text) ? source : "" } ${col}_${bgStatus}`} >

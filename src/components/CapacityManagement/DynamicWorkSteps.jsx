@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-03-31 19:22:57
+ * @LastEditTime: 2021-04-01 13:59:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -27,7 +27,7 @@ function stepsList (props){
 
     return ( 
         <div className="work_cont">
-            {/* <div style={{margin: '0 0 10px 0'}}>流水号:{ hisInstance.id || ""}</div> */}
+            <div style={{margin: '-12px 0px 10px 4px'}}>流水号：{ hisInstance.id || ""}</div>
             <Steps direction="vertical" current={ hisTasks.length - 1}>
                 {
                     hisTasks.map( task => {
@@ -40,8 +40,11 @@ function stepsList (props){
                         const taskLocalVariables = task.taskLocalVariables || {};
                         const processVariables = task.processVariables || {};
                         const agree = taskLocalVariables.agree;
-                        const comments = taskLocalVariables.comments || "";
-                        // const comment = processVariables.comment || "";
+                        const commentsTitle = taskLocalVariables.comments || "";
+                        let comments = taskLocalVariables.comments || "";
+                        if( comments.length > 100){
+                            comments = comments.substring(0,100)+ "..."
+                        }
                         let resCn = "";
                         if( agree === undefined && comments != "" ){
                             resCn = (<span style={{color: '#ffffff', padding: '0 3px', backgroundColor: 'green'}}>{comments}</span>);
@@ -53,7 +56,7 @@ function stepsList (props){
                         const userNameCn = taskLocalVariables.userNameCn || "";
                         let desDom = (<div>
                             <div>{userNameCn} { endTime !== "" && `(${endTime})` } </div>
-                            <div> { comments != "" && `原因: ${ comments } ` }</div>
+                            <div title={commentsTitle}> { comments != "" && `原因: ${ comments } ` }</div>
                             </div>
                         )
                         return  <Step key={task.id} icon={ endTime ==="" ?  <ClockCircleOutlined style={{ fontSize: '34px'}} /> : "" } title={name} subTitle = {resCn} description={desDom} />
