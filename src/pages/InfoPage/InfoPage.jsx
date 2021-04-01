@@ -54,7 +54,7 @@ function InfoPage(props){
                 props.newsList.addNews(newMsg);
                 // console.log("autoOpen", autoOpenRef.current);
                 if( autoOpenRef.current ) {
-                    openMessageDlg();
+                    openMessageDlg(body);
                 }
                 
             })
