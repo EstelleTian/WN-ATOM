@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-31 18:48:53
+ * @LastEditTime: 2021-04-01 14:45:38
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -214,112 +214,6 @@ const HistaskTable = (props) => {
         props.myApplicationList.updateMyApplicationsData(tableData, generateTime);
     }, []);
 
-    //处理 操作 同意/拒绝
-    const sendResultRequest = (type, text = "", setLoad) => {
-
-        if (!isValidVariable(userId)) {
-            return;
-        }
-        const dataObj = JSON.parse(text);
-        const flightCoorType = dataObj.flightCoorType || '';
-        const key = dataObj.key || ""; //流水号
-        const taskId = dataObj.taskId || ""; //流水号
-        const flight = dataObj.flight || {};
-        const targetVal = dataObj.targetVal;
-
-        let params = {
-            userId,
-            flightCoordination: flight, //航班原fc
-            comment: "",  //备注
-            taskId
-        }
-
-        let url = "";
-        let title = "";
-        let typeCn = TodoType[flightCoorType] || flightCoorType;
-        if (type === "confirm") {
-            url = CollaborateIP + "/confirmFlight";
-            title = typeCn + "确认"
-        } else if (flightCoorType === "TOBT") {
-            if (type === "agree") {
-                //TOBT同意
-                url = CollaborateIP + "/flight/updateTobtApprove";
-                title = "同意" + typeCn;
-                params["tobtValue"] = targetVal;
-            } else if (type === "refuse") {
-                //TOBT拒绝
-                url = CollaborateIP + "/flight/denyTobtApprove";
-                title = "拒绝" + typeCn;
-            }
-        } else if (flightCoorType === "INPOOL") {
-            if (type === "agree") {
-                //入等待池同意
-                url = CollaborateIP + "/flightPutPoolConsent";
-                title = "同意" + typeCn
-            } else if (type === "refuse") {
-                //入等待池拒绝
-                url = CollaborateIP + "/flightPutPoolDown";
-                title = "拒绝" + typeCn
-            }
-        } else if (flightCoorType === "OUTPOOL") {
-            if (type === "agree") {
-                //出等待池同意
-                url = CollaborateIP + "/flightOutPoolConsent";
-                title = "同意" + typeCn
-                //TODO 要验证TOBT和当前时间比较
-                params["type"] = "";
-                params["tobt"] = "";
-            } else if (type === "refuse") {
-                //出等待池拒绝
-                url = CollaborateIP + "/flightOutPoolDown";
-                title = "拒绝" + typeCn
-            }
-        } else if (flightCoorType === "EXEMPT") {
-            if (type === "agree") {
-                //豁免同意
-                url = CollaborateIP + "/flightPriorityApproveRest";
-                title = "同意" + typeCn
-            } else if (type === "refuse") {
-                //豁免拒绝
-                url = CollaborateIP + "/flightPriorityRefuseRest";
-                title = "拒绝" + typeCn
-            }
-        } else if (flightCoorType === "UNEXEMPT") {
-            if (type === "agree") {
-                //取消豁免同意
-                url = CollaborateIP + "/flightCancelAgree";
-                title = "同意" + typeCn
-            } else if (type === "refuse") {
-                //取消豁免拒绝
-                url = CollaborateIP + "/flightCancelRefused";
-                title = "拒绝" + typeCn
-            }
-        }
-
-        if (isValidVariable(url)) {
-            const opt = {
-                url,
-                method: 'POST',
-                params: params,
-                resFunc: (data) => {
-                    requestSuccess(data, title + '成功', key)
-                    setLoad(false);
-                },
-                errFunc: (err) => {
-                    if (isValidVariable(err)) {
-                        requestErr(err, err)
-                    } else {
-                        requestErr(err, title + '失败')
-                    }
-                    setLoad(false);
-                },
-            };
-            request(opt);
-
-        }
-
-
-    }
     const getColumns = useMemo(function () {
         let totalWidth = 0;
         //表格列配置-默认-计数列
@@ -370,11 +264,24 @@ const HistaskTable = (props) => {
 
             //最终状态
             if (en === "status") {
-                // tem["fixed"] = 'left'
+                tem["fixed"] = 'right'
                 tem["render"] = (text, record, index) => {
                     let type = StatusToCN[text] || text;
-                    return <div title={type}>{type}</div>;
+                    let style = "";
+                    if( text*1 === 100){
+                        style = { color: '#73bfe2'};
+                    }else if( text*1 === 200){
+                        style = { color: 'green'};
+                    }else if( text*1 === 300){
+                        style = { color: '#ec4747'};
+                    }
+                    return <div title={type} style={style}>{type}</div>;
                 }
+            }
+
+            //当前处理环节
+            if (en === "activityName") {
+                
             }
 
             
@@ -383,8 +290,28 @@ const HistaskTable = (props) => {
                 tem["fixed"] = 'left'
                 tem["render"] = (text, record, index) => {
                     let type = HandleStatusToCN[text] || text;
+                    let style = {};
+                    if( text*1 === 100 ){
+                        // style = { color: '#73bfe2'};
+                    }else if( text*1 === 200){
+                        // style = { color: '#73bfe2'};
+                    }else if( text*1 === 300){
+                        style = { color: '#73bfe2'};
+                    }else if( text*1 === 400){
+                        style = { color: '#ec4747'};
+                    }else if( text*1 === 500){
+                        style = { color: '#29b329'};
+                    }
+                    
+                    // const HandleStatusToCN = {
+                    //     "100": "未处理",
+                    //     "200": "提交",
+                    //     "300": "同意",
+                    //     "400": "拒绝",
+                    //     "500": "确认",
+                    // };
 
-                    return <div title={type}>{type}</div>;
+                    return <div title={type} style={style}>{type}</div>;
                 }
 
             }
@@ -478,8 +405,6 @@ const HistaskTable = (props) => {
         };
         requestGet(opt);
     }, [user.username]);
-
-
 
     useEffect( ()=>{
         if( props.myApplicationList.forceUpdate ){

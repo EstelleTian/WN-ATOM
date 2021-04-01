@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-03-31 19:09:14
+ * @LastEditTime: 2021-04-01 13:53:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
  */
 import React, { useEffect, useCallback, useRef, useState, useMemo } from 'react'
-import { Menu } from 'antd';
+import { Menu, Spin } from 'antd';
 import {
     CalendarOutlined
   } from '@ant-design/icons';
@@ -28,6 +28,7 @@ const { SubMenu } = Menu;
 function CapacityCont (props){
     const { capacity, pane, systemPage } = props;
     const dateRange = capacity.dateRange;
+    const loading = capacity.loading;
     const elementName = pane.key || "";
     const elementType = pane.type || "";
     const firId = pane.firId || "";
@@ -138,6 +139,7 @@ function CapacityCont (props){
                     //获取数据
                     props.capacity.forceUpdateDynamicData = false;
                 }
+                props.capacity.toggleLoad(false);
                 timerFunc();
             },
             errFunc: (err)=> {
@@ -149,6 +151,7 @@ function CapacityCont (props){
                     //获取数据
                     props.capacity.forceUpdateDynamicData = false;
                 }
+                props.capacity.toggleLoad(false);
                 timerFunc();
             } ,
         };
@@ -186,6 +189,7 @@ function CapacityCont (props){
             if( ! isValidVariable(dynamicTimer.current)  ){
                 requestDynamicData( true );
             }else{
+                props.capacity.toggleLoad(true);
                 requestDynamicData( false );
             }
             
@@ -195,7 +199,9 @@ function CapacityCont (props){
     useEffect( function(){
         if( props.capacity.forceUpdateDynamicData ){
             //获取数据
+            props.capacity.toggleLoad(true);
             requestDynamicData( false );
+            
         }
     }, [ props.capacity.forceUpdateDynamicData]);
     
@@ -232,6 +238,7 @@ function CapacityCont (props){
                                 onClick={({ item, key, keyPath, selectedKeys, domEvent })=>{
                                     if( !capacity.editable){
                                         capacity.dateRange =  key*1;
+                                        props.capacity.toggleLoad(true);
                                         //获取数据
                                         requestDynamicData( false );
                                     }else{
@@ -261,11 +268,13 @@ function CapacityCont (props){
                             showDecorator = {true}
                             className="static_cap_modal static_cap_modal_24 modal_dynamic"
                         >
-                            <CapacityTable type="line24" kind="dynamic" 
-                                airportName={ pane.key } 
-                                paneType={pane.type } 
-                                routeName={ props.capacity.selRoute }
-                            />
+                            <Spin spinning={loading} >
+                                <CapacityTable type="line24" kind="dynamic" 
+                                    airportName={ pane.key } 
+                                    paneType={pane.type } 
+                                    routeName={ props.capacity.selRoute }
+                                />
+                            </Spin>
 
                         </ModalBox>
                         <DynamicWorkSteps pane={pane} routeName={ props.capacity.selRoute } ></DynamicWorkSteps>  

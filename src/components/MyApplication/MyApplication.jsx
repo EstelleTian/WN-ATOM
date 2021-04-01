@@ -11,7 +11,7 @@ import { Table, Spin,  Button, Input, Radio, Select  } from 'antd';
 import {inject, observer} from "mobx-react";
 import debounce from 'lodash/debounce'
 import { DoubleLeftOutlined, DoubleRightOutlined, SyncOutlined } from '@ant-design/icons';
-import { ReqUrls, CollaborateIP } from "utils/request-urls";
+import { ReqUrls } from "utils/request-urls";
 import { requestGet, request  } from "utils/request";
 import { getFullTime, getDayTimeFromString, isValidVariable, formatTimeString  } from "utils/basic-verify";
 import { FlightCoordination  } from "utils/flightcoordination";

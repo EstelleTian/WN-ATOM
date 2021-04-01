@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-03-31 17:59:53
+ * @LastEditTime: 2021-04-01 13:50:44
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -55,7 +55,8 @@ import { isValidVariable, getFullTime,  } from 'utils/basic-verify'
 
      //静态容量数据
      @observable staticData = {};
-
+     //数据获取
+     @observable loading = false;
      //动态容量 
      @observable dynamicData = {};
      @observable dynamicDataGenerateTime = '';
@@ -77,7 +78,10 @@ import { isValidVariable, getFullTime,  } from 'utils/basic-verify'
     @action updateDynamicWorkFlowData(obj){
         this.dynamicWorkFlowData = obj;
     }
-
+    //更新loading状态
+    @action toggleLoad( load ){
+        this.loading = load;
+    }
     //动态航路段-添加数据
     @action setRouteList(arr){
         this.routeList = arr;

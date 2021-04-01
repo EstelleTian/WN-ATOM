@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-31 19:30:05
+ * @LastEditTime: 2021-04-01 14:05:49
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -252,7 +252,7 @@ function WorkFlowList(props){
                 if(text === "已结束"){
                     textClass = "#ec4747";
                 }else if(text === "进行中"){
-                    textClass = "green";
+                    textClass = "#73bfe2";
                 }
                 return (
                     <span style={{ color: textClass}}>

@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-03-31 18:49:01
+ * @LastEditTime: 2021-04-01 13:15:32
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -11,8 +11,8 @@ import React, { Fragment, useEffect, useCallback, useRef, useState } from "react
 import { Tabs, Radio, Badge, Modal } from "antd";
 import { observer, inject } from "mobx-react";
 import { isValidVariable } from 'utils/basic-verify';
-import { requestGet, request } from "utils/request";
-import { ReqUrls, CollaborateIP } from "utils/request-urls";
+import { requestGet } from "utils/request";
+import { ReqUrls } from "utils/request-urls";
 import { customNotice } from 'utils/common-funcs'
 import TodoTable from './TodoTable';
 import HisTaskTable from './HistaskTable';

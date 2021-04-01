@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-03-31 18:09:15
+ * @LastEditTime: 2021-04-01 15:42:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -19,7 +19,7 @@ import {
 } from "antd";
 import {observer, inject} from "mobx-react";
 import { request } from 'utils/request'
-import { CollaborateUrl, CollaborateIP } from 'utils/request-urls'
+import { CollaborateUrl } from 'utils/request-urls'
 import { REGEXP } from 'utils/regExpUtil'
 import React,{ useCallback, useState, useEffect } from "react";
 import {  isValidVariable, getFullTime  } from 'utils/basic-verify'
@@ -129,13 +129,15 @@ const PopoverTip = ( props ) => {
               const locked = autoChecked ? "1" : "0";
 
               const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
+              const tacticName = props.schemeListData.getNameBySchemeActiveId(schemeId); //方案名称
+
               //传参
               let params = {
-                  userId: userId,
                   flightCoordination: orgFlight, //航班原fc
                   comment: values.comment,  //备注
-                  taskId: "",
                   tacticId: schemeId,
+                  tacticName,
+                  userId: userId,
                   locked
               }
               
@@ -158,9 +160,9 @@ const PopoverTip = ( props ) => {
                   params["timeVal"] = timestr;
                   params["fix"] = "";
               }else if( col === "TOBT"){
-                  urlKey = "/flight/updateTobtApply";
-                  url = CollaborateIP + urlKey; 
-                  params["tobtValue"] = timestr;
+                  urlKey = "/applyTobt";
+                  url = CollaborateUrl.tobtUrl; 
+                  params["changeVal"] = timestr;
               }else if( col === "FFIXT"){
                 urlKey = "/updateFlightFFixT";
                 if( type === 'clear'){
@@ -409,6 +411,7 @@ const PopoverTip = ( props ) => {
             getContainer={false}
             // visible={true}
             onVisibleChange = {(visible) => {
+                console.log("visible change ", visible)
                 if( visible && col === "TOBT" && approve.flag !== true ){
                     let { COBT, CTOT, CTO } = record;
                     if( isValidVariable(COBT) && isValidVariable(CTOT) && isValidVariable(CTO) ){

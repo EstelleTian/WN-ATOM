@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-03-04 13:57:00
+ * @LastEditTime: 2021-04-01 13:37:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -136,6 +136,20 @@ class SchemeListData{
     //激活选中方案，重置其他方案
     @action toggleSchemeActive( id ){
         this.activeSchemeId = id;
+    }
+
+    //根据激活选中方案，获取方案名称
+    @action getNameBySchemeActiveId(id){
+        let tacticName = "";
+        let sId = isValidVariable(id) ? id : this.activeSchemeId;
+        if( isValidVariable(sId) ){
+            let schemeArr = this.list.filter( item => sId === item.id);
+            if( schemeArr.length > 0 ){
+                tacticName = schemeArr[0].tacticName || "";
+            }
+            
+        }
+        return tacticName;
     }
 
     @computed get sortedList(){

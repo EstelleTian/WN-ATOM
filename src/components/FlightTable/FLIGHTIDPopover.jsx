@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-31 10:52:13
+ * @LastEditTime: 2021-04-01 13:40:57
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -11,7 +11,7 @@ import React,{ useCallback, useState, useEffect, useMemo } from "react";
 import {  isValidVariable } from 'utils/basic-verify'
 import { FlightCoordination, PriorityList } from 'utils/flightcoordination.js'
 import { request } from 'utils/request'
-import { CollaborateUrl, CollaborateIP } from 'utils/request-urls'
+import { CollaborateUrl } from 'utils/request-urls'
 import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
 import {observer, inject} from "mobx-react";
 import FmeToday from "utils/fmetoday";
@@ -67,24 +67,26 @@ let FLIGHTIDPopover = (props) => {
         let urlKey = "";
         let taskId = "";
         if( type === "exempt"){ //申请豁免
-            urlKey = "/flightPriorityApply";
+            urlKey = "/applyExempt";
         }else if( type === "unexempt"){ //申请取消豁免
-            urlKey = "/flightCancelApplication";
+            urlKey = "/applyUnExempt";
         }
 
         if( isValidVariable(urlKey) ){
             const userId = props.systemPage.user.id || '14';
             const fid = orgFlight.flightid;
             const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
+            const tacticName = props.schemeListData.getNameBySchemeActiveId(schemeId); //方案名称
+            
             const opt = {
-                url: CollaborateIP + urlKey,
+                url: CollaborateUrl.exemptyUrl + urlKey,
                 method: 'POST',
                 params: {
                     userId,
                     flightCoordination: orgFlight,
                     comment: "",
-                    taskId: "",
                     tacticId: schemeId,
+                    tacticName
                 },
                 resFunc: (data)=> requestSuccess(data, fid+title),
                 errFunc: (err, msg)=> {
@@ -108,10 +110,10 @@ let FLIGHTIDPopover = (props) => {
         let orgFlight = JSON.parse(orgdata) || {};
         let urlKey = "";
         if( type === "direct-in-pool"){ //申请入池
-            urlKey = "/flightPutPoolApply";
+            urlKey = "/applyInpool";
             // orgFlight.poolStatus = FlightCoordination.IN_POOL_M; //2
         }else if( type === "direct-out-pool"){ //申请出池
-            urlKey = "/flightOutPoolApply";
+            urlKey = "/applyOutpool";
             // orgFlight.poolStatus = FlightCoordination.OUT_POOL; //0
         }
         
@@ -120,8 +122,9 @@ let FLIGHTIDPopover = (props) => {
             const userId = props.systemPage.user.id || '14';
             const fid = orgFlight.flightid;
             const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
+            const tacticName = props.schemeListData.getNameBySchemeActiveId(schemeId); //方案名称
             const opt = {
-                url: CollaborateIP + urlKey,
+                url: CollaborateUrl.poolUrl + urlKey,
                 method: 'POST',
                 params: {
                     userId,
@@ -129,6 +132,7 @@ let FLIGHTIDPopover = (props) => {
                     comment: "",
                     taskId: "",
                     tacticId: schemeId,
+                    tacticName
                 },
                 resFunc: (data)=> requestSuccess(data, fid+title),
                 errFunc: (err, msg)=> {
