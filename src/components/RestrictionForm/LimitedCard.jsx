@@ -104,7 +104,7 @@ function LimitedCard(props){
             <Row gutter={24}>
                 <Col span={24}>
                     <Form.Item
-                        name="flowControlFlightId"
+                        name="flightId"
                         label="航班号"
                     >
                         <Select

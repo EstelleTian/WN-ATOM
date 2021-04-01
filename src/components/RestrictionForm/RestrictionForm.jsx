@@ -110,9 +110,9 @@ function RestrictionForm(props) {
     // 流控航班类型条件
     const flightPropertyDomain = isValidObject(basicFlowcontrol.flightPropertyDomain) ? basicFlowcontrol.flightPropertyDomain : {};
 
-    const { flowControlFlightId = "", wakeFlowLevel = "", airlineType = "", missionType = "", auType = "",
+    const { flightId = "", wakeFlowLevel = "", airlineType = "", missionType = "", auType = "",
         task = "", organization = "", ability = "", aircraftType = "",
-        exemptFlightId = "", exemptionWakeFlowLevel = "", exemptionAirlineType = "", exemptionMissionType = "", exemptionAuType,
+        exemptionFlightId = "", exemptionWakeFlowLevel = "", exemptionAirlineType = "", exemptionMissionType = "", exemptionAuType,
         exemptionTask = "", exemptionOrganization = "", exemptionAbility = "", exemptionAircraftType = "",
     } = flightPropertyDomain;
 
@@ -207,8 +207,8 @@ function RestrictionForm(props) {
         "behindUnit",
         "exemptFormerUnit",
         "exemptBehindUnit",
-        "flowControlFlightId",
-        "exemptFlightId",
+        "flightId",
+        "exemptionFlightId",
         "aircraftType",
         "exemptionAircraftType",
         "depAp",
@@ -305,7 +305,7 @@ function RestrictionForm(props) {
 
 
         // 包含-航班号
-        flowControlFlightId: isValidVariable(flowControlFlightId) ? flowControlFlightId.split(';') : [],
+        flightId: isValidVariable(flightId) ? flightId.split(';') : [],
         // 包含-尾流类型
         wakeFlowLevel: isValidVariable(wakeFlowLevel) ? wakeFlowLevel.split(';') : [],
         // 包含-运营人
@@ -324,7 +324,7 @@ function RestrictionForm(props) {
         aircraftType: isValidVariable(aircraftType) ? aircraftType.split(';') : [],
 
         // 不包含-航班号
-        exemptFlightId: isValidVariable(exemptFlightId) ? exemptFlightId.split(';') : [],
+        exemptionFlightId: isValidVariable(exemptionFlightId) ? exemptionFlightId.split(';') : [],
         // 不包含-尾流类型
         exemptionWakeFlowLevel: isValidVariable(exemptionWakeFlowLevel) ? exemptionWakeFlowLevel.split(';') : [],
         // 不包含-航班类型
@@ -493,9 +493,9 @@ function RestrictionForm(props) {
             depAp, arrAp, exemptDepAp, exemptArrAp,
             flowControlName, flowControlReason, flowControlPublishType, restrictionRemark,
             restrictionMode, restrictionModeValue, restrictionMITValueUnit, distanceToTime, restrictionMITTimeValue,
-            flowControlFlightId, wakeFlowLevel, auType, airlineType, missionType,
+            flightId, wakeFlowLevel, auType, airlineType, missionType,
             task, organization, ability, aircraftType,
-            exemptFlightId, exemptionWakeFlowLevel, exemptionAirlineType, exemptionAuType, exemptionMissionType,
+            exemptionFlightId, exemptionWakeFlowLevel, exemptionAirlineType, exemptionAuType, exemptionMissionType,
             exemptionTask, exemptionOrganization, exemptionAbility, exemptionAircraftType,
         } = values;
         // 结束日期时间
@@ -577,7 +577,7 @@ function RestrictionForm(props) {
         }
 
         // 更新流控交通流-包含-航班号
-        flightPropertyDomain.flowControlFlightId = flowControlFlightId.join(';');
+        flightPropertyDomain.flightId = flightId.join(';');
         // 更新流控交通流-包含-尾流类型
         flightPropertyDomain.wakeFlowLevel = wakeFlowLevel.join(';');
         // 更新流控交通流-包含-运营人
@@ -596,7 +596,7 @@ function RestrictionForm(props) {
         flightPropertyDomain.aircraftType = aircraftType.join(';');
 
         // 更新流控交通流-不包含-航班号
-        flightPropertyDomain.exemptFlightId = exemptFlightId.join(';');
+        flightPropertyDomain.exemptionFlightId = exemptionFlightId.join(';');
         // 更新流控交通流-不包含-尾流类型
         flightPropertyDomain.exemptionWakeFlowLevel = exemptionWakeFlowLevel.join(';');
         // 更新流控交通流-不包含-航班类型

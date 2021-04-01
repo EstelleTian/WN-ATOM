@@ -43,7 +43,7 @@ function DirectionDataForm(props) {
         //         exemptArrAp: "HUOJIANG",
         //     },
         //     flowControlFlight: {
-        //         flowControlFlightId: "CCA123;CCA456",
+        //         flightId: "CCA123;CCA456",
         //         aircraftType: "B747",
         //     },
 
@@ -78,9 +78,9 @@ function DirectionDataForm(props) {
 
     const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = direction;
 
-    const { flowControlFlightId = "", wakeFlowLevel = "", airlineType = "", missionType = "", auType = "",
+    const { flightId = "", wakeFlowLevel = "", airlineType = "", missionType = "", auType = "",
         task = "", organization = "", ability = "", aircraftType = "",
-        exemptFlightId = "", exemptionWakeFlowLevel = "", exemptionAirlineType = "", exemptionMissionType = "", exemptionAuType,
+        exemptionFlightId = "", exemptionWakeFlowLevel = "", exemptionAirlineType = "", exemptionMissionType = "", exemptionAuType,
         exemptionTask = "", exemptionOrganization = "", exemptionAbility = "", exemptionAircraftType = "",
     } = flightProperty;
 
@@ -140,8 +140,8 @@ function DirectionDataForm(props) {
         "behindUnit",
         "exemptFormerUnit",
         "exemptBehindUnit",
-        "flowControlFlightId",
-        "exemptFlightId",
+        "flightId",
+        "exemptionFlightId",
         "aircraftType",
         "exemptionAircraftType",
         "depAp",
@@ -186,7 +186,7 @@ function DirectionDataForm(props) {
 
 
         // 包含-航班号
-        flowControlFlightId: isValidVariable(flowControlFlightId) ? flowControlFlightId.split(';') : [],
+        flightId: isValidVariable(flightId) ? flightId.split(';') : [],
         // 包含-尾流类型
         wakeFlowLevel: isValidVariable(wakeFlowLevel) ? wakeFlowLevel.split(';') : [],
         // 包含-运营人
@@ -205,7 +205,7 @@ function DirectionDataForm(props) {
         aircraftType: isValidVariable(aircraftType) ? aircraftType.split(';') : [],
 
         // 不包含-航班号
-        exemptFlightId: isValidVariable(exemptFlightId) ? exemptFlightId.split(';') : [],
+        exemptionFlightId: isValidVariable(exemptionFlightId) ? exemptionFlightId.split(';') : [],
         // 不包含-尾流类型
         exemptionWakeFlowLevel: isValidVariable(exemptionWakeFlowLevel) ? exemptionWakeFlowLevel.split(';') : [],
         // 不包含-航班类型
@@ -409,7 +409,7 @@ function DirectionDataForm(props) {
         direction.exemptArrAp = "";
 
         // 更新流控交通流-包含-航班号
-        flightProperty.flowControlFlightId = "";
+        flightProperty.flightId = "";
         // 更新流控交通流-包含-尾流类型
         flightProperty.wakeFlowLevel = "";
         // 更新流控交通流-包含-运营人
@@ -428,7 +428,7 @@ function DirectionDataForm(props) {
         flightProperty.aircraftType = "";
 
         // 更新流控交通流-不包含-航班号
-        flightProperty.exemptFlightId = "";
+        flightProperty.exemptionFlightId = "";
         // 更新流控交通流-不包含-尾流类型
         flightProperty.exemptionWakeFlowLevel = "";
         // 更新流控交通流-不包含-航班类型
@@ -499,9 +499,9 @@ function DirectionDataForm(props) {
         // 表单字段数据
         const { directionName, targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight,
             depAp, arrAp, exemptDepAp, exemptArrAp,
-            flowControlFlightId, wakeFlowLevel, auType, airlineType, missionType,
+            flightId, wakeFlowLevel, auType, airlineType, missionType,
             task, organization, ability, aircraftType,
-            exemptFlightId, exemptionWakeFlowLevel, exemptionAirlineType, exemptionAuType, exemptionMissionType,
+            exemptionFlightId, exemptionWakeFlowLevel, exemptionAirlineType, exemptionAuType, exemptionMissionType,
             exemptionTask, exemptionOrganization, exemptionAbility, exemptionAircraftType,
         } = values;
 
@@ -534,7 +534,7 @@ function DirectionDataForm(props) {
 
 
         // 更新流控交通流-包含-航班号
-        flightProperty.flowControlFlightId = flowControlFlightId.join(';');
+        flightProperty.flightId = flightId.join(';');
         // 更新流控交通流-包含-尾流类型
         flightProperty.wakeFlowLevel = wakeFlowLevel.join(';');
         // 更新流控交通流-包含-运营人
@@ -553,7 +553,7 @@ function DirectionDataForm(props) {
         flightProperty.aircraftType = aircraftType.join(';');
 
         // 更新流控交通流-不包含-航班号
-        flightProperty.exemptFlightId = exemptFlightId.join(';');
+        flightProperty.exemptionFlightId = exemptionFlightId.join(';');
         // 更新流控交通流-不包含-尾流类型
         flightProperty.exemptionWakeFlowLevel = exemptionWakeFlowLevel.join(';');
         // 更新流控交通流-不包含-航班类型

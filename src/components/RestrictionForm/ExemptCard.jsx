@@ -102,7 +102,7 @@ function ExemptCard(props){
             <Row gutter={24}>
                 <Col span={24}>
                     <Form.Item
-                        name="exemptFlightId"
+                        name="exemptionFlightId"
                         label="航班号"
                     >
                         <Select
