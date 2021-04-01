@@ -62,10 +62,10 @@ const openControlDetail = (str) => {
     }
 }
 //点击铃铛
-const openMessageDlg = () => {
+const openMessageDlg = (message) => {
     try{
         // 打开消息中心
-        jsEntity.openMessageDlg("");
+        jsEntity.openMessageDlg(message);
     }catch (e){
         console.error(e);
     }
