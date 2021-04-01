@@ -56,10 +56,11 @@ function TrafficFlow(props) {
     let groupConditionFlightNature = data.groupConditionFlightNature || "";
     // 重要航班
     let groupConditionSpecial = data.groupConditionSpecial || "";
-    // 巡航高度
-    let groupConditionRfl = data.groupConditionRfl || "";
-    // 高度值
+    // 巡航高度 
     let groupConditionHeightKind = data.groupConditionHeightKind || "";
+    // 高度值
+    let groupConditionRfl = data.groupConditionRfl || "";
+    
 
 
     return (
@@ -290,7 +291,7 @@ function TrafficFlow(props) {
                             <div className="ant-col ant-form-item-control">
                                 <div className="ant-form-item-control-input">
                                     <div className="ant-form-item-control-input-content">
-                                        <Radio.Group value={groupConditionRfl}>
+                                        <Radio.Group value={groupConditionHeightKind}>
                                             <Radio value="N">无</Radio>
                                             <Radio value="O">指定</Radio>
                                             <Radio value="U">含以上</Radio>
@@ -308,7 +309,7 @@ function TrafficFlow(props) {
                             </div>
                             <div className="ant-col ant-form-item-control">
                                 <div className="ant-form-item-control-input">
-                                    <div className="ant-form-item-control-input-content">{groupConditionHeightKind}</div>
+                                    <div className="ant-form-item-control-input-content">{groupConditionRfl}</div>
                                 </div>
                             </div>
                         </div>
