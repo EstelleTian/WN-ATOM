@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-04-01 22:41:41
+ * @LastEditTime: 2021-04-01 23:33:08
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -680,6 +680,7 @@ const CapacityTable = (props) => {
             }
         }
         const dataArr = JSON.parse( JSON.stringify(obj)).data || [];
+        console.log("setTableData")
         setTableData( dataArr );
         
     }
@@ -749,12 +750,14 @@ const CapacityTable = (props) => {
                 params,
                 resFunc: (data)=> {
                     props.capacity.setEditable(true);
+                    
                 },
                 errFunc: (err)=> {
                     customNotice({
                         type: 'error',
                         message: err
                     });
+                    props.capacity.setEditable(false);
                 },
             };
             requestGet(opt);
