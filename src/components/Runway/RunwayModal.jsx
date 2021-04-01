@@ -28,10 +28,12 @@ const RunwayModal = (props) => {
     //根据modalId获取方案详情
     const requestData = useCallback(( userId ) => {
         setLoading(true);
+        let params = modalObj;
+        
         const opt = {
             url: ReqUrls.runwayDefaultDetailUrl + userId,
             method: 'GET',
-            params: modalObj,
+            params,
             resFunc: (data)=> {
                 updateDetailData(data)
                 setLoading(false);
@@ -69,7 +71,7 @@ const RunwayModal = (props) => {
         if(modalType === "DETAIL"){
             return(
                 <Modal
-                    title={`默认跑道详情`}
+                    title={`(${modalObj.airportStr})${modalObj.typeZH}跑道详情`}
                     centered
                     visible={ visible }
                     onOk={() => setVisible(false)}

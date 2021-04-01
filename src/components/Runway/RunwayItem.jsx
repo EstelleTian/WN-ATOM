@@ -185,7 +185,8 @@ function RunwayItem(props) {
             airportStr: airportName,
             ids: ids.join(","),
             validTime0: "有效时间:"+ startTime.substring(6,8) + startTime.substring(8) + '-' + endTime.substring(6,8) + endTime.substring(8),
-            sign0: ""
+            sign0: "",
+            typeZH
         }
         console.log(params)
 
