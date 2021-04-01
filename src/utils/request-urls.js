@@ -28,7 +28,7 @@ const ReqUrls = {
     //获取--执行KPI数据(孔凡续)
     executeKPIDataUrl: 'http://192.168.194.22:28787/kpi/',
     //获取--执行KPI数据(薛满林)
-    performanceKPIDataUrl: 'http://192.168.243.8:29890/performkpi/',
+    performanceKPIDataUrl: 'http://192.168.194.21:29890/performkpi/',
 
     //获取航班执行数据
     performanceDataUrl: 'http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname',

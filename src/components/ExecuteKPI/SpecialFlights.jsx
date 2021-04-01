@@ -50,18 +50,13 @@ function SpecialFlights(props) {
     return (
         <Spin spinning={loading} >
             <Row className="row_model">
-                <Col span={10} className="impact block">
+                <Col span={24} className="impact block">
                     <div className="block-title">特殊航班</div>
-                    <div className="block-content flex justify-content-center layout-column">
-                        <div className="num text-center">{ }</div>
-                        <div className="unit text-center">架次</div>
-                    </div>
-
                 </Col>
-                <Col span={14} className="block">
+                <Col span={24} className="block">
                     <Row>
-                        <Col span={12} className="impact_sub block">
-                            <div className="block-title">豁免航班</div>
+                        <Col span={8} className="impact_sub block">
+                            <div className="block-title">豁免</div>
                             <div className="block-content flex">
                                 <div className="layout-row">
                                     <div className="num layout-column justify-content-center">{exempt}</div>
@@ -71,8 +66,8 @@ function SpecialFlights(props) {
                             </div>
 
                         </Col>
-                        <Col span={12} className="impact_sub block">
-                            <div className="block-title">半数航班</div>
+                        <Col span={8} className="impact_sub block">
+                            <div className="block-title">半数</div>
                             <div className="block-content flex">
                                 <div className="layout-row">
                                     <div className="num layout-column justify-content-center">{halfInterval}</div>
@@ -81,10 +76,8 @@ function SpecialFlights(props) {
                             </div>
 
                         </Col>
-                    </Row>
-                    <Row>
-                        <Col span={12} className="impact_sub block">
-                            <div className="block-title">临界航班</div>
+                        <Col span={8} className="impact_sub block">
+                            <div className="block-title">临界</div>
                             <div className="block-content flex">
                                 <div className="layout-row">
                                     <div className="num layout-column justify-content-center">{critical}</div>
@@ -92,8 +85,11 @@ function SpecialFlights(props) {
                                 </div>
                             </div>
                         </Col>
-                        <Col span={12} className="impact_sub block">
-                            <div className="block-title">入池航班</div>
+                    </Row>
+                    <Row>
+                        
+                        <Col span={8} className="impact_sub block">
+                            <div className="block-title">入池</div>
                             <div className="block-content flex">
                                 <div className="layout-row ">
                                     <div className="num layout-column justify-content-center">{inPool}</div>
@@ -101,12 +97,8 @@ function SpecialFlights(props) {
                                 </div>
                             </div>
                         </Col>
-
-                    </Row>
-                    <Row>
-
-                        <Col span={12} className="impact_sub block">
-                            <div className="block-title">申请协调航班</div>
+                        <Col span={8} className="impact_sub block">
+                            <div className="block-title">协调</div>
                             <div className="block-content flex">
                                 <div className="layout-row">
                                     <div className="num layout-column justify-content-center">{coordination}</div>
@@ -115,8 +107,8 @@ function SpecialFlights(props) {
                             </div>
 
                         </Col>
-                        <Col span={12} className="impact_sub block">
-                            <div className="block-title">关舱门等待航班</div>
+                        <Col span={8} className="impact_sub block">
+                            <div className="block-title">关舱门等待</div>
                             <div className="block-content flex">
                                 <div className="layout-row">
                                     <div className="num layout-column justify-content-center">{closeWait}</div>
@@ -125,8 +117,10 @@ function SpecialFlights(props) {
 
                             </div>
                         </Col>
+
                     </Row>
                 </Col>
+                
             </Row>
 
         </Spin>

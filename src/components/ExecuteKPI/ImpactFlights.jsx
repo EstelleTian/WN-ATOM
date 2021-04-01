@@ -41,7 +41,7 @@ function ImpactFlights(props) {
     return (
         <Spin spinning={loading} >
         <Row className="row_model">
-            <Col span={10} className="impact block">
+            <Col span={8} className="impact block">
                 <div className="block-title">影响航班</div>
                 <div className="block-content flex justify-content-center layout-column">
                     <div className="num text-center">{impact}</div>
@@ -49,7 +49,7 @@ function ImpactFlights(props) {
                 </div>
 
             </Col>
-            <Col span={14} className="block">
+            <Col span={16} className="block">
                 <Row>
                     <Col span={12} className="impact_sub block">
                         <div className="block-title">已执行</div>

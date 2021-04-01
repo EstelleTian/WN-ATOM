@@ -35,6 +35,11 @@ function ImpactLevel(props) {
     let insideDCB = kpi.inDCB || {};
     // 区外DCB
     let outsideDCB = kpi.outDCB || {};
+    const DCBData = {
+        regionDCB,
+        insideDCB,
+        outsideDCB,
+    }
 
     let { impactDegree } = kpi;
     let level = levelData[impactDegree] || {}
@@ -46,33 +51,18 @@ function ImpactLevel(props) {
     return (
         <Spin spinning={loading} >
             <Row className="row_model">
-                <Col span={12} className="block">
+                <Col span={8} className="block">
                     <div className="block-title">影响程度</div>
                     <div className={`${levelClassName} impact-level flex justify-content-center layout-column`}>
                         <AlertOutlined className={`level_icon`} />
                         <div className={`text-center`}>{label}</div>
                     </div>
                 </Col>
-                <Col span={12} className="block">
-                    <div className="block-title">全区DCB</div>
-                    <div className="warn flex justify-content-center layout-column">
-                        <DCBLineChart dcb={regionDCB} />
+                <Col span={16} className="block">
+                    <div className="block-title">DCB</div>
+                    <div className=" DCB-flex-box flex justify-content-center layout-column">
+                        <DCBLineChart dcb={DCBData} />
                     </div>
-
-                </Col>
-                <Col span={12} className="block">
-                    <div className="block-title">区内DCB</div>
-                    <div className="warn flex justify-content-center layout-column">
-                        <DCBLineChart dcb={insideDCB} />
-                    </div>
-
-                </Col>
-                <Col span={12} className="block">
-                    <div className="block-title">区外DCB</div>
-                    <div className="warn flex justify-content-center layout-column">
-                        <DCBLineChart dcb={outsideDCB} />
-                    </div>
-
                 </Col>
             </Row>
         </Spin>
@@ -82,28 +72,44 @@ function ImpactLevel(props) {
 
 //DCB
 function DCBLineChart(props) {
+    // DCB数据集合
     let { dcb } = props;
-    let dcbkeys = [];
+   
     if (!isValidVariable(dcb)) {
         dcb = {};
     }
-    dcbkeys = Object.keys(dcb).sort();
+    // 取出全区DCB 区内DCB 区外DCB 集合
+    const { regionDCB, insideDCB, outsideDCB } = dcb;
+    // X轴数据
+    let dcbkeys = [];
+    dcbkeys = Object.keys(regionDCB).sort();
+
     const getOption = function () {
         let dcbKeyArr = [];
-        let dcbValArr = [];
+        // 全区DCB Y轴数据
+        let regionDCBValArr = [];
+        // 区内DCB Y轴数据
+        let insideDCBValArr = [];
+        // 区外DCB Y轴数据
+        let outsideDCBValArr = [];
+
         for (let i = 0; i < dcbkeys.length; i++) {
             const key = dcbkeys[i] || "";
-            const val = dcb[key] || null;
+            const regionDCBVal = regionDCB[key] || null;
+            const insideDCBVal = insideDCB[key] || null;
+            const outsideDCBVal = outsideDCB[key] || null;
             let xKey = key;
             if (key.length >= 12) {
                 xKey = key.substring(0, 12);
                 xKey = xKey.substring(8, 12);
             }
             dcbKeyArr.push(xKey);
-            dcbValArr.push(val);
+            regionDCBValArr.push(regionDCBVal);
+            insideDCBValArr.push(insideDCBVal);
+            outsideDCBValArr.push(outsideDCBVal);
         }
         const option = {
-            color: ["#35A5DA"],
+            color: [ "#1b9acd", "#44d4e6","#6e95f7", "#f6a748", ],
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -119,7 +125,7 @@ function DCBLineChart(props) {
                 // left: '5px',
                 // right: '5px',
                 bottom: '10px',
-                height: '140px'
+                height: '140'
                 // containLabel: false
             },
             xAxis: [
@@ -157,10 +163,21 @@ function DCBLineChart(props) {
             ],
             series: [
                 {
-                    name: 'DCB',
+                    name: '全区DCB',
                     type: 'line',
                     // stack: '1',
-                    data: dcbValArr
+                    data: regionDCBValArr
+                },
+                {
+                    name: '区内DCB',
+                    type: 'line',
+                    // stack: '1',
+                    data: insideDCBValArr
+                },{
+                    name: '区外DCB',
+                    type: 'line',
+                    // stack: '1',
+                    data: outsideDCBValArr
                 }
             ]
         };

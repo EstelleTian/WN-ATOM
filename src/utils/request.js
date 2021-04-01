@@ -75,7 +75,6 @@ const request = ( parameters ) => {
         if( typeof errFunc == 'function'){
             errFunc(  err );
         }
-        console.error(err);
     })
 };
 
