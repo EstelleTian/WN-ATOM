@@ -1,25 +1,21 @@
 import React, { useEffect, useState, Fragment } from 'react'
-import { Space, Button, Radio, DatePicker, Card, Form, Input, Row, Col, Select, Tooltip,Tag } from 'antd'
+import { Checkbox, Radio, Form, Input, Row, Col, } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons';
 
-import ExemptCard from './ExemptCard'
-import LimitedCard from './LimitedCard'
-import moment from 'moment'
-import { formatTimeString, parseFullTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
-import { REGEXP } from '../../utils/regExpUtil'
+import { isValidObject, isValidVariable } from 'utils/basic-verify'
 
-const { Option } = Select;
 
 
 //方案信息
-function StaticInfoCard(props) {
+function RunwaySingleDataForm(props) {
 
+    const runwayData = props.runwayData || {};
+    const statusOptions = props.statusOptions || [];
+    const runwayPointOptions = props.runwayPointOptions || [];
+    const handleSingleRunwayLogicValChange = props.handleSingleRunwayLogicValChange;
 
-    
-
-    const runwayData = props.runwayData || "";
     const form = props.form || {};
-
+    
     // 跑道id
     const id = runwayData.id || "";
     // 跑道名称
@@ -29,25 +25,13 @@ function StaticInfoCard(props) {
     // 逻辑跑道B名称
     const logicRWNameB = runwayData.logicRWNameB || "";
     // 获取当前跑道中选中的逻辑跑道名称 
-
-    let selectedLogicRWName = form.getFieldValue(`selectedLogic_${id}`)
+    let selectedLogicRWName = "";
     if (isValidObject(form)) {
         selectedLogicRWName = form.getFieldValue(`selectedLogic_${id}`)
     }
-    let [selectedLogic, setSelectedLogic] = useState(selectedLogicRWName)
-     // 更新表单中指定跑道的选中的逻辑跑道名称
-     const handleSingleRunwayLogicValChange = (e, runwayId) => {
-        let data = {};
-        const val = e.target.value;
-        let field = `selectedLogic_${runwayId}`
-        data[field] = val;
-        // 更新表单中指定跑道的选中的逻辑跑道名称
-        // form.setFieldsValue(data);
 
-        setSelectedLogic(val)
-        // const selectedLogicRWName = form.getFieldValue(`selectedLogic_${runwayId}`)
-        // console.log(selectedLogicRWName)
-    }
+    console.log(form.getFieldsValue())
+
 
     return (
         <Form.Item
@@ -83,75 +67,80 @@ function StaticInfoCard(props) {
                         name={`runwayPoint_${id}`}
                         label="走廊口"
                         required={true}
-                        rules={[{ required: true }]}
+                        rules={[{ required: true, message: '请至少选择一个走廊口' }]}
                     >
-                        <Checkbox.Group options={runwayPointOptions} onChange={() => { }} />
+                        <Checkbox.Group options={runwayPointOptions} />
                     </Form.Item>
                 </Col>
                 {
-                    (selectedLogicRWName === logicRWNameA) ? <Fragment><Col span={24}>
-                        <Form.Item
-                            shouldUpdate
-                            name={`interval_${id}_${logicRWNameA}`}
-                            label={`${logicRWNameA}起飞间隔`}
-                            required={true}
-                            rules={[{ required: true }]}
-                        >
-                            <Input
-                                style={{ width: 150 }}
-                                addonAfter="分钟"
-                            />
-                        </Form.Item>
-                    </Col>
-                        <Col span={24}>
-                            <Form.Item
-                                shouldUpdate
-                                name={`taxi_${id}_${logicRWNameA}`}
-                                label={`${logicRWNameA}滑行时间`}
-                                required={true}
-                                rules={[{ required: true }]}
-                            >
-                                <Input
-                                    style={{ width: 150 }}
-                                    addonAfter="分钟"
-                                />
-                            </Form.Item>
-                        </Col></Fragment> : ""
+                    (selectedLogicRWName === logicRWNameA) ?
+                        <Fragment>
+                            <Col span={24}>
+                                <Form.Item
+                                    shouldUpdate
+                                    name={`interval_${id}_${logicRWNameA}`}
+                                    label={`${logicRWNameA}起飞间隔`}
+                                    required={true}
+                                    rules={[{ required: true }]}
+                                >
+                                    <Input
+                                        style={{ width: 150 }}
+                                        addonAfter="分钟"
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col span={24}>
+                                <Form.Item
+                                    shouldUpdate
+                                    name={`taxi_${id}_${logicRWNameA}`}
+                                    label={`${logicRWNameA}滑行时间`}
+                                    required={true}
+                                    rules={[{ required: true }]}
+                                >
+                                    <Input
+                                        style={{ width: 150 }}
+                                        addonAfter="分钟"
+                                    />
+                                </Form.Item>
+                            </Col>
+                        </Fragment> : ""
                 }
                 {
-                    (selectedLogicRWName === logicRWNameB) ? <Fragment><Col span={24}>
-                        <Form.Item
-                            shouldUpdate
-                            name={`interval_${id}_${logicRWNameB}`}
-                            label={`${logicRWNameB}起飞间隔`}
-                            required={true}
-                            rules={[{ required: true }]}
-                        >
-                            <Input
-                                style={{ width: 150 }}
-                                addonAfter="分钟"
-                            />
-                        </Form.Item>
-                    </Col>
-                        <Col span={24}>
-                            <Form.Item
-                                shouldUpdate
-                                name={`taxi_${id}_${logicRWNameB}`}
-                                label={`${logicRWNameB}滑行时间`}
-                                required={true}
-                                rules={[{ required: true }]}
-                            >
-                                <Input
-                                    style={{ width: 150 }}
-                                    addonAfter="分钟"
-                                />
-                            </Form.Item>
-                        </Col></Fragment> : ""
+                    (selectedLogicRWName === logicRWNameB) ?
+                        <Fragment>
+                            <Col span={24}>
+                                <Form.Item
+                                    shouldUpdate
+                                    name={`interval_${id}_${logicRWNameB}`}
+                                    label={`${logicRWNameB}起飞间隔`}
+                                    required={true}
+                                    rules={[{ required: true }]}
+                                >
+                                    <Input
+                                        style={{ width: 150 }}
+                                        addonAfter="分钟"
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col span={24}>
+                                <Form.Item
+                                    shouldUpdate
+                                    name={`taxi_${id}_${logicRWNameB}`}
+                                    label={`${logicRWNameB}滑行时间`}
+                                    required={true}
+                                    rules={[{ required: true }]}
+                                >
+                                    <Input
+                                        style={{ width: 150 }}
+                                        addonAfter="分钟"
+                                    />
+                                </Form.Item>
+                            </Col>
+                        </Fragment> : ""
                 }
             </Row>
         </Form.Item>
     )
-
 }
 
-export default StaticInfoCard
+export default RunwaySingleDataForm

@@ -4,6 +4,8 @@ import { inject, observer } from 'mobx-react'
 import { Button, Spin, Form, Space, Card, Row, Col, Input, Select, Modal, Radio, Checkbox } from 'antd'
 import { InfoCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { isValidObject, isValidVariable } from 'utils/basic-verify'
+import RunwaySingleDataForm from 'components/Runway/RunwaySingleDataForm'
+
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 // axios自带的qs库,用于将参数序列化
@@ -49,13 +51,13 @@ function RunwayDefaultEdit(props) {
     // 获取跑道字段及数值
     let runwayValues = updateRunwayFieldValue();
     // 表单初始数值对象集合
-    let initialValues = {
-        // 机场
-        apName: apName,
-        // 运行模式
-        operationmode: operationmode,
-    };
-    initialValues = { ...initialValues, ...runwayValues }
+    // let initialValues = {
+    //     // 机场
+    //     apName: apName,
+    //     // 运行模式
+    //     operationmode: operationmode,
+    // };
+    let initialValues = { apName, operationmode, ...runwayValues }
 
     // 跑道状态选项
     const statusOptions = [
@@ -70,6 +72,7 @@ function RunwayDefaultEdit(props) {
     useEffect(function () {
         //重置表单，用于重新初始表单的initialValues属性
         form.resetFields();
+        console.log("resetFields")
     }, [data]);
 
     // 转换跑道状态数值
@@ -158,6 +161,19 @@ function RunwayDefaultEdit(props) {
 
     // 绘制单条跑道
     const drawSingleRunway = (runwayData) => {
+        // console.log(form.getFieldsValue())
+
+        // return (
+        //     <Fragment key={runwayData.id}>
+        //         <RunwaySingleDataForm
+        //             form ={ form }
+        //             runwayData={runwayData}
+        //             statusOptions={statusOptions}
+        //             runwayPointOptions={runwayPointOptions}
+        //             handleSingleRunwayLogicValChange={handleSingleRunwayLogicValChange} >
+        //         </RunwaySingleDataForm>
+        //     </Fragment>)
+        
         // 跑道id
         const id = runwayData.id || "";
         // 跑道名称
