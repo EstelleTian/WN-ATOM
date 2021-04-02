@@ -368,6 +368,7 @@ function RestrictionForm(props) {
 
     // 主要操作按钮事件
     const handlePrimaryBtnClick = async () => {
+        
         try {
             // 触发表单验证取表单数据
             const fieldData = await form.validateFields();
@@ -851,7 +852,7 @@ function RestrictionForm(props) {
                 content: <div><p>开始时间早于当前时间，</p><p>建议修改后提交</p></div>,
                 okText: '去修改',
                 cancelText: '直接提交',
-                onOk: ()=> { },
+                onOk: ()=> { handleOpenEdit() },
                 onCancel: (close)=>{ 
                     // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
                     if(typeof close ==='function'){
