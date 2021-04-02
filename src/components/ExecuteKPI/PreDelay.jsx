@@ -64,7 +64,6 @@ function PreDelay(props) {
     }
 
     let list = getApNormalRateList(apDepEstimateRateMap);
-    console.log(list)
     // 排序按order升序排序
     let sortList = list.sort((a,b)=>{
         if (isValidObject(a)
@@ -81,7 +80,6 @@ function PreDelay(props) {
             }
         return 0    
     })
-    console.log(sortList)
 
     return (
         <Spin spinning={loading} >
