@@ -52,6 +52,7 @@ const FlightCoordination = {
     ALARM_TYPE_HALF : 400, // 半数
     ALARM_TYPE_EXCHANGE: 600, // 时隙交换
     ALARM_TYPE_DEXIT_SLOT: 700, // 退出时隙分配
+    ALARM_TYPE_SINGLE_EXEMPTION: 800, // 单方案豁免
 
 
 
@@ -237,7 +238,7 @@ const FlightCoordination = {
             case FlightCoordination.ALARM_TYPE_HALF:
                 zh = '半';
                 color="#007bbb";
-                descriptions="半数";
+                descriptions="半数间隔";
                 pos = 2;
                 break;
             case FlightCoordination.ALARM_TYPE_INPOOL:
@@ -257,6 +258,12 @@ const FlightCoordination = {
                 color="#769e28";
                 descriptions="退出时隙分配";
                 pos = 3;
+                break;
+            case FlightCoordination.ALARM_TYPE_SINGLE_EXEMPTION:
+                zh = '单';
+                color="#007bbb";
+                descriptions="单方案豁免";
+                pos = 2;
                 break;
             default:
                 break;

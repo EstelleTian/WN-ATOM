@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-01 13:40:57
+ * @LastEditTime: 2021-04-01 22:23:56
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -18,7 +18,9 @@ import FmeToday from "utils/fmetoday";
 import { useTip } from './CustomUses'
 //航班号右键协调框
 let FLIGHTIDPopover = (props) => {
+    const [ intervalLoad, setIntervalLoad ] = useState(false);
     const [ exemptLoad, setExemptLoad ] = useState(false);
+    const [ singleExemptLoad, setSingleExemptLoad ] = useState(false);
     const [ poolLoad, setPoolLoad ] = useState(false);
     const [ tipObj, setTipObj] = useTip(2500);
     const { opt, systemPage } = props;
@@ -31,6 +33,7 @@ let FLIGHTIDPopover = (props) => {
             color: "rgba(151,59,52,0.9)"
         });
         setExemptLoad(false);
+        setSingleExemptLoad(false);
         setPoolLoad(false);
 
     });
@@ -39,6 +42,7 @@ let FLIGHTIDPopover = (props) => {
         console.log(title + '成功:',data);
         console.log( props.flightTableData.updateSingleFlight );
         setExemptLoad(false);
+        setSingleExemptLoad(false);
         setPoolLoad(false);
 
         console.time("cod");
@@ -61,15 +65,28 @@ let FLIGHTIDPopover = (props) => {
     //标记豁免 取消标记豁免
     const handleExempty = useCallback(( type, record, title )  =>{
         console.log( props );
-        setExemptLoad(true);
         const orgdata = record.orgdata || {};
         let orgFlight = JSON.parse(orgdata) || {};
         let urlKey = "";
         let taskId = "";
         if( type === "exempt"){ //申请豁免
             urlKey = "/applyExempt";
+            setExemptLoad(true);
         }else if( type === "unexempt"){ //申请取消豁免
             urlKey = "/applyUnExempt";
+            setExemptLoad(true);
+        }else if( type === "singleExempt"){ //申请单方案豁免
+            urlKey = "/applySingleExempt";
+            setSingleExemptLoad(true);
+        }else if( type === "singleUnExempt"){ //申请取消单方案豁免
+            urlKey = "/applySingleUnExempt";
+            setSingleExemptLoad(true);
+        }else if( type === "interval"){ //申请半数间隔
+            urlKey = "/applyInterval";
+            setIntervalLoad(true);
+        }else if( type === "unInterval"){ //申请取消半数间隔
+            urlKey = "/applyUnInterval";
+            setIntervalLoad(true);
         }
 
         if( isValidVariable(urlKey) ){
@@ -148,14 +165,16 @@ let FLIGHTIDPopover = (props) => {
 
     },[props.systemPage.user, props.schemeListData.activeSchemeId]);
 
-    const { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP } = useMemo( ()=>{
+    const { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP, alarms  } = useMemo( ()=>{
         
         let { orgdata } = record;
         if( isValidVariable(orgdata) ){
             orgdata = JSON.parse(orgdata);
         }
         let { priority } = orgdata;
-        const fmeToday = orgdata.fmeToday;
+        const fmeToday = orgdata.fmeToday || {};
+        const alarms = orgdata.orgdata || "";
+        
         let hasAuth = false;
         //航班状态验证
         let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
@@ -179,7 +198,7 @@ let FLIGHTIDPopover = (props) => {
             colorClass += " in_pool " + orgdata.poolStatus;
         }
         
-        return { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP };
+        return { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP, alarms };
     }, [props.opt])
 
     
@@ -197,6 +216,27 @@ let FLIGHTIDPopover = (props) => {
                         ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "申请取消豁免") } }>申请取消豁免</Button>
                         : ""
                 }
+                {/* {
+                    // ( alarms.indexOf("400") === -1 && hasAuth )
+                    ( true )
+                        ? <Button loading={singleExemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "singleExempt", record, "申请单方案豁免") } }>申请单方案豁免</Button>
+                        : ""
+                }
+                {
+                    ( alarms.indexOf("400") > -1 && hasAuth )
+                        ? <Button loading={singleExemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("singleUnExempt", record, "取消单方案豁免") } }>取消单方案豁免</Button>
+                        : ""
+                }
+                {
+                    ( alarms.indexOf("800") === -1 && hasAuth )
+                        ? <Button loading={intervalLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "interval", record, "申请半数间隔") } }>申请半数间隔</Button>
+                        : ""
+                }
+                {
+                    ( alarms.indexOf("800") > -1 && hasAuth )
+                        ? <Button loading={intervalLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unInterval", record, "取消半数间隔") } }>取消半数间隔</Button>
+                        : ""
+                } */}
                 {
                     ( !isInPoolFlight && hasAuth && systemPage.userHasAuth(13404) )
                         ? <Button loading={poolLoad} className="c-btn c-btn-green" onClick={ () => { handlePool("direct-in-pool", record, "申请入池") } }>申请入池</Button>

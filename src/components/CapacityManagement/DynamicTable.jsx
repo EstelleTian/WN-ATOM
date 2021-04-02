@@ -211,7 +211,7 @@ const DynamicTable = (props) => {
     }, []);
 
     const getNewColumns = function(){
-        console.log("aaaaaa",capacity.getDynamicTableColumns);
+        // console.log("aaaaaa",capacity.getDynamicTableColumns);
         let newColumns = [];
         capacity.getDynamicTableColumns.map((col) => {
 

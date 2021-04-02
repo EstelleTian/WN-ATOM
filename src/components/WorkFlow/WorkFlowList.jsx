@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-01 14:05:49
+ * @LastEditTime: 2021-04-01 21:46:14
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -9,7 +9,8 @@
 import React, {useEffect, useState, useCallback, useRef} from 'react'
 import ReactDom from 'react-dom';
 import { withRouter, Link } from 'react-router-dom'
-import { Button, Input, Table, message} from 'antd'
+import { Button, Input, Table, message, Popover} from 'antd'
+import { ProfileOutlined } from '@ant-design/icons';
 import { Window as WindowDHX } from "dhx-suite";
 import { getFullTime, formatTimeString } from 'utils/basic-verify'
 import { requestGet } from 'utils/request'
@@ -169,6 +170,63 @@ function WorkFlowList(props){
             align: 'left',
             key: "businessName",
             width: 150, 
+            render: (text, record, index) => {
+                // console.log(record)
+                let orgdata = JSON.parse( record.orgdata );
+                let instance = orgdata.instance || {};
+                if( activeTab === "finished"){
+                    instance = orgdata.hisInstance || {};
+                }
+                const processDefinitionKey = instance.processDefinitionKey || "";
+                if( processDefinitionKey === "VolumeApprovalProcess" ){
+                    if( text.indexOf("#") > -1 ){
+                        let textArr = text.split("#");
+                        let dom = (
+                            <div>
+                                <span>{textArr[0]}</span>
+                                <span className="capacity_detail_icon">
+                                    <Popover 
+                                        placement="right" 
+                                        title={(
+                                            <div className="capacity_detail_popover_title">{textArr[0] }</div>
+                                        ) } 
+                                        content={(
+                                            <div className="capacity_detail_popover">
+                                                {
+                                                    textArr.map( (item,index) => {
+                                                        if(item !== "" && index > 0 ){
+                                                            return <div key={index}>{item}</div>
+                                                        }
+                                                        
+                                                    })
+                                                }
+                                            </div>
+                                        ) }
+                                        trigger="hover"
+                                        >
+                                        <ProfileOutlined />
+                                    </Popover>
+                                </span>
+                                
+                                
+                                {/* {
+                                    textArr.map( (item,index) => {
+                                        if(item !== ""){
+                                            return <div key={index}>{item}</div>
+                                        }
+                                        
+                                    })
+                                } */}
+                            </div>
+                                
+                        )
+                        console.log(textArr)
+                        return dom;
+                    }
+                }
+                    return text;
+                
+            }
         
 
         },{
@@ -323,7 +381,8 @@ function WorkFlowList(props){
             const hisTasks = item.hisTasks || {}; //子任务集合
             
             const processVariables = hisInstance.processVariables || {};
-            let businessName = processVariables.businessName || ""; //工作名称
+            let businessName = processVariables.businessName || ""; //工作
+            
             const processDefinitionName = hisInstance.processDefinitionName || ""; 
 
             // const userNameCn = hisInstance.startUserName || ""; //提交人

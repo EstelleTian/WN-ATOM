@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-04-01 13:53:46
+ * @LastEditTime: 2021-04-01 23:33:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -80,7 +80,9 @@ function CapacityCont (props){
 
     //动态容量获取
     const requestDynamicData = useCallback((nextRefresh) => {
-        if( !isValidVariable(elementName) || !isValidVariable(elementType) || capacity.editable ){
+        if( !isValidVariable(elementName) || !isValidVariable(elementType) 
+        || capacity.editable 
+        ){
             return;
         }
         let selRoute = props.capacity.selRoute || "";
@@ -120,8 +122,6 @@ function CapacityCont (props){
                 elementType
             }
         }
-        
-
         const opt = {
             url: ReqUrls.capacityBaseUrl+ "dynamic/retrieveCapacityDynamic/" + userObj.username,
             method:'POST',

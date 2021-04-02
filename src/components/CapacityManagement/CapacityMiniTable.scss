@@ -1,0 +1,89 @@
+.box_content{
+    overflow: visible!important;
+  }
+  .table_cont{
+    position: relative;
+    .opt_btns{
+      position: absolute;
+      right: 1rem;
+      top: -36px;
+      button{
+        line-height: 1;
+        margin-left: 0.5rem;
+        span{
+          font-size: 16px;
+          line-height: 1;
+        }
+      }
+      
+      .reset{
+        margin-left: 1rem;
+      }
+    }
+    .yellow{
+      .ant-input{
+        background: rgb(146, 133, 16);
+      }
+      
+    }
+    .cap_icon{
+      font-size: 0.9rem;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+    .ant-input{
+      color: rgba(255, 255, 255, 0.85);
+      border: 2px solid rgba(255, 255, 255, 0.6);
+    }
+    .ant-input[disabled] {
+      color: #838282;
+      background: transparent;
+      border: none;
+  }
+    
+  }
+  .capacity_number_table{
+    //放大表格单元格样式
+    .ant-table-tbody{
+      tr > td.ant-table-cell{
+        font-family: fantasy;
+        font-size: 1.6rem;
+        padding: 4px 0;
+        line-height: 1;
+        .ant-input{
+          width: 50px;
+          text-align: center;
+          font-size: 1.6rem;
+          padding: 0;
+          line-height: 0.75;
+        }
+      }
+      tr > td.ant-table-cell:first-child{
+        font-size: 1.1rem;
+        font-family: Microsoft Yahei;
+      }
+    }
+  }
+  .ant-popover-message{
+    > .anticon{
+      top: 11.0005px;
+      font-size: 1.3rem;
+      left: -5px;
+    }
+    .ant-popover-message-title{
+      font-size: 1.3rem;
+    }
+  
+  }
+  .ant-popover-buttons{
+    overflow: hidden;
+    button {
+      float: right;
+  }
+  }
+  
+  
