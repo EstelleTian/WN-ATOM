@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-04-01 15:42:19
+ * @LastEditTime: 2021-04-02 12:32:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -33,7 +33,7 @@ const PopoverTip = ( props ) => {
     const [autoChecked, setAutoChecked] = useState(true);
     const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
     const [refuseBtnLoading, serRefuseBtnLoading] = useState(false);
-    
+    const [form] = Form.useForm();
     const [ tipObj, setTipObj ] = useTip(2000);
     const { title } = props;
     const { record, col } = props.opt;
@@ -41,7 +41,7 @@ const PopoverTip = ( props ) => {
 
     // 内容渲染
     const getContent = useCallback((opt)  =>{
-        const [form] = Form.useForm();
+        
         let { text, record, col } = opt;
         let { FLIGHTID, DEPAP, ARRAP, orgdata } = record;
         orgdata = JSON.parse(orgdata);
@@ -411,7 +411,9 @@ const PopoverTip = ( props ) => {
             getContainer={false}
             // visible={true}
             onVisibleChange = {(visible) => {
-                console.log("visible change ", visible)
+                if(visible){
+                    form.resetFields();
+                }
                 if( visible && col === "TOBT" && approve.flag !== true ){
                     let { COBT, CTOT, CTO } = record;
                     if( isValidVariable(COBT) && isValidVariable(CTOT) && isValidVariable(CTO) ){

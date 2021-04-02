@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-01 22:23:56
+ * @LastEditTime: 2021-04-02 11:32:55
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -34,6 +34,7 @@ let FLIGHTIDPopover = (props) => {
         });
         setExemptLoad(false);
         setSingleExemptLoad(false);
+        setIntervalLoad(false);
         setPoolLoad(false);
 
     });
@@ -43,6 +44,7 @@ let FLIGHTIDPopover = (props) => {
         console.log( props.flightTableData.updateSingleFlight );
         setExemptLoad(false);
         setSingleExemptLoad(false);
+        setIntervalLoad(false);
         setPoolLoad(false);
 
         console.time("cod");
@@ -175,18 +177,18 @@ let FLIGHTIDPopover = (props) => {
         const fmeToday = orgdata.fmeToday || {};
         const alarms = orgdata.orgdata || "";
         
-        let hasAuth = false;
-        //航班状态验证
+        let hasAuth = true;
+        //航班状态验证 2021-4-2注释，后台接口校验，前台校验去掉
         let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
         let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
         let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
         let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
         let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
 
-        //航班未起飞 且 在本区域内--
-        if ( !hadDEP && isInAreaFlight && hadFPL ) {
-            hasAuth = true;
-        }
+        // //航班未起飞 且 在本区域内--
+        // if ( !hadDEP && isInAreaFlight && hadFPL ) {
+        //     hasAuth = true;
+        // }
 
         let colorClass = "";
         if( isValidVariable(priority) && priority*1 > 0 ){
@@ -216,7 +218,7 @@ let FLIGHTIDPopover = (props) => {
                         ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "申请取消豁免") } }>申请取消豁免</Button>
                         : ""
                 }
-                {/* {
+                {
                     // ( alarms.indexOf("400") === -1 && hasAuth )
                     ( true )
                         ? <Button loading={singleExemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "singleExempt", record, "申请单方案豁免") } }>申请单方案豁免</Button>
@@ -236,7 +238,7 @@ let FLIGHTIDPopover = (props) => {
                     ( alarms.indexOf("800") > -1 && hasAuth )
                         ? <Button loading={intervalLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unInterval", record, "取消半数间隔") } }>取消半数间隔</Button>
                         : ""
-                } */}
+                }
                 {
                     ( !isInPoolFlight && hasAuth && systemPage.userHasAuth(13404) )
                         ? <Button loading={poolLoad} className="c-btn c-btn-green" onClick={ () => { handlePool("direct-in-pool", record, "申请入池") } }>申请入池</Button>

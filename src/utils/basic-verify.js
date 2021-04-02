@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-15 15:12:48
- * @LastEditTime: 2021-03-31 16:45:39
+ * @LastEditTime: 2021-04-02 12:44:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\utils\basic-verify.js
@@ -258,11 +258,11 @@ const getDateFromString = ( str ) => {
  * @returns {String}
  */
 const getTimeAndStatus = ( str ) => {
-    if( isValidVariable(str) && ( str.length >= 14 ) ){
+    if( isValidVariable(str) && str.length >= 12 ){
         // 解析各个值
         const time = str.substring(0, 14);
         let status = "";
-        if( str.length > 14 ){
+        if( str.length >= 14 ){
             status = str.substring(14)
             return getDayTimeFromString( time ) + ' ' + status
         }

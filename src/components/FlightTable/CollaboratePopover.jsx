@@ -43,7 +43,7 @@ const ColorPopover = (props) => {
     const fmeToday = orgdata.fmeToday;
     let bgStatus = "";
     let subTitle = "";
-    //航班状态验证
+    //航班状态验证 2021-4-2注释，后台接口校验，前台校验去掉
     let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
     let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
     let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报

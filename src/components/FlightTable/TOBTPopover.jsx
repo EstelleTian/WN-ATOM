@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-03-11 14:24:31
+ * @LastEditTime: 2021-04-02 11:12:42
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -42,7 +42,7 @@ const TOBTPopover = (props) => {
     const fmeToday = orgdata.fmeToday;
     let bgStatus = "";
     let subTitle = "";
-    //航班状态验证
+    //航班状态验证 
     let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
     let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
     let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
@@ -105,14 +105,14 @@ const TOBTPopover = (props) => {
 
     
     
-    //航班已起飞或者不在本区域内--不显示
-    if ( hadDEP || hadARR || !hadFPL || !isInAreaFlight || !hasAuth ) {
-        return (
-            <CellTip title={title}>
-                {textDom}
-            </CellTip>
-        )
-    }else{
+    //航班已起飞或者不在本区域内--不显示  2021-4-2注释，后台接口校验，前台校验去掉
+    // if ( hadDEP || hadARR || !hadFPL || !isInAreaFlight || !hasAuth ) {
+    //     return (
+    //         <CellTip title={title}>
+    //             {textDom}
+    //         </CellTip>
+    //     )
+    // }else{
         //TODO 模拟测试，展示批复窗口，此处为判断是否展示批复逻辑
         if( source === "TOBT_MANUAL_APPLY" ){
             return(
@@ -124,7 +124,7 @@ const TOBTPopover = (props) => {
             )
         }
         
-    }
+    // }
 
 }
 

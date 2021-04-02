@@ -1580,9 +1580,16 @@ const FmeStatusList = {
 const TodoType = {
     "EXEMPT": "申请豁免",
     "UNEXEMPT": "取消申请豁免",
+    "SINGLEEXEMPT": "申请单方案豁免",
+    "UNSINGLEEXEMPT": "取消申请单方案豁免",
+    "INTERVAL": "申请半数间隔",
+    "UNINTERVAL": "取消申请半数间隔",
     "INPOOL": "申请入池",
     "OUTPOOL": "申请出池",
     "TOBT": "申请TOBT",
+    "COBT": "COBT调整",
+    "CTD": "CTOT调整",
+    "FFIXT": "过点时间调整",
 };
 
 //最终状态

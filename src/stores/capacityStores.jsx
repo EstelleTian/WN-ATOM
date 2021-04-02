@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-04-01 13:50:44
+ * @LastEditTime: 2021-04-02 10:38:39
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -222,6 +222,7 @@ import { isValidVariable, getFullTime,  } from 'utils/basic-verify'
         if( isValidVariable(this.dynamicData) ){
             return Object.values(this.dynamicData).filter( item => {
                 if( item.capacityTime !== "BASE" ){
+                // if( item.capacityTime === "0"  ){
                     return true
                 }else{
                     return false;

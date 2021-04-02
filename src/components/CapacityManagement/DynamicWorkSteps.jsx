@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-04-01 21:21:02
+ * @LastEditTime: 2021-04-02 10:55:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -27,7 +27,7 @@ function stepsList (props){
 
     return ( 
         <div className="work_cont">
-            <div style={{margin: '-12px 0px 10px 4px'}}>流水号：{ hisInstance.id || ""}</div>
+            <div style={{margin: '-12px 0px 10px 4px', fontSize: '16px'}}>流水号：{ hisInstance.id || ""}</div>
             <Steps direction="vertical" current={ hisTasks.length - 1}>
                 {
                     hisTasks.map( task => {
@@ -118,7 +118,7 @@ function DynamicWorkSteps (props){
             return  { hisInstance, hisTasks, generateTime, authMap };
         }
         return [];
-    }, [props.capacity.dynamicWorkFlowData])
+    }, [props.capacity.dynamicWorkFlowData.generateTime])
     
     const requestDynamicWorkFlowData = useCallback(( nextRefresh ) => {
         const type = pane.type.toUpperCase();

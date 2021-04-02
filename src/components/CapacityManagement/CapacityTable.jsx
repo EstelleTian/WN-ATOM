@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-04-01 23:33:08
+ * @LastEditTime: 2021-04-02 10:39:58
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
  */
 
-import React, { useContext, useState, useEffect, useRef, useCallback, useMemo, Suspense } from "react";
+import React, { useContext, useState, useEffect, useRef, useCallback, useMemo, Suspense, useLayoutEffect } from "react";
 import {inject, observer} from 'mobx-react'
 import { request, requestGet } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
@@ -23,8 +23,6 @@ const EditableContext = React.createContext(null);
 
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
-
-
 
 const EditableRow = (props) => {
     const [form] = Form.useForm();
@@ -45,12 +43,17 @@ const EditableCell = ({
       record = {},
       handleSave,
       dateRange,
+      forceUpdateDynamicData,
       ...restProps
   }) => {
     const orgData = useRef();
+    const [ flag, setFlag ]= useState(false);
     const form = useContext(EditableContext);
+    const obj = record[dataIndex] || {};
+
+    
     let cellClass = useMemo(function(){
-        if(editing){
+        if(forceUpdateDynamicData ? forceUpdateDynamicData : editing){
             let bgClass = "";
             const obj = record[dataIndex] || {};
             const source = obj.source || "";
@@ -77,7 +80,7 @@ const EditableCell = ({
         }else{
             return "";
         }
-    },[editing, record]);
+    },[editing, forceUpdateDynamicData, record]);
     
     let disabled = false;
     if( dateRange*1 === -1){
@@ -87,10 +90,50 @@ const EditableCell = ({
             disabled = true
         }
     }
+    const save = async() => {
+        let subvalues = await form.validateFields();
+        for(let key in subvalues){
+            let resObj = record[key];
+            if( subvalues[key] === -1 || subvalues[key] === ""){
+                resObj["value"] = -1;
+            }else{
+                resObj["value"] = subvalues[key]*1;
+            }
+            
+        }
+        handleSave(record);
+        console.log( "orgData.current", orgData.current, "record", record )
+    };
+
+    // let flag = false;
+
+    useEffect(() => {
+        return ()=>{
+            orgData.current = -1;
+        }
+    }, []);
+
+    useEffect(() => {
+        let curVal = "";
+        if( isValidObject(record) &&  record[dataIndex].value ){
+            curVal = record[dataIndex].value*1;
+        }
+        let cflag = ( orgData.current > 0 ) && ( curVal > 0 ) && ( orgData.current !== curVal );
+        if(forceUpdateDynamicData){
+            cflag = false;
+        }
+        setFlag( cflag )
+    
+        // console.log("dataIndex", dataIndex, "curVal", curVal, "orgData.current", orgData.current, "flag", cflag )
+    }, [obj.value]);
+
+
     useEffect(()=>{
-        const obj = record[dataIndex] || {};
+        
         orgData.current = obj.value*1 || "";
-        if(editing){
+       
+        // console.log("更新value", obj.value)
+        if( forceUpdateDynamicData ? forceUpdateDynamicData : editing){
             const obj = record[dataIndex] || {};
             let val = obj.value*1;
             if( val === -1){
@@ -106,33 +149,20 @@ const EditableCell = ({
                 [dataIndex]: val,
             });
         }
-    },[ editing ])
-    useEffect(() => {
-        return ()=>{
-            orgData.current = -1;
-        }
-    }, []);
-    
-    const save = async() => {
-        let subvalues = await form.validateFields();
-            for(let key in subvalues){
-                let resObj = record[key];
-                if( subvalues[key] === -1 || subvalues[key] === ""){
-                    resObj["value"] = -1;
-                }else{
-                    resObj["value"] = subvalues[key]*1;
-                }
-                
-            }
-            handleSave(record);
-    };
-    
-    let curVal = "";
-    if( isValidObject(record) &&  record[dataIndex].value ){
-        curVal = record[dataIndex].value*1;
-    }
-    let flag = ( orgData.current > 0 ) && ( curVal > 0 ) && ( orgData.current !== curVal );
 
+        let curVal = "";
+        if( isValidObject(record) &&  record[dataIndex].value ){
+            curVal = record[dataIndex].value*1;
+        }
+        const cflag = ( orgData.current > 0 ) && ( curVal > 0 ) && ( orgData.current !== curVal );
+        setFlag( cflag )
+    
+        // console.log("dataIndex", dataIndex, "curVal", curVal, "orgData.current", orgData.current, "flag", cflag )
+
+        
+    },[ editing, forceUpdateDynamicData  ])
+    
+    // console.log("重渲染" )
     const inputNode = <Input onBlur={ save } disabled={disabled}/>;
     return (
         <td{...restProps}>
@@ -661,7 +691,7 @@ const CapacityTable = (props) => {
 
     const resetOrgTableDatas = ( from = "" ) => {
         // from === "" && 
-        if( editable ){
+        if( !props.capacity.forceUpdateDynamicData && editable ){
             return;
         }
         const { capacity } = props;
@@ -680,7 +710,7 @@ const CapacityTable = (props) => {
             }
         }
         const dataArr = JSON.parse( JSON.stringify(obj)).data || [];
-        console.log("setTableData")
+
         setTableData( dataArr );
         
     }
@@ -698,7 +728,8 @@ const CapacityTable = (props) => {
                 title: col.title,
                 editing: editable,
                 handleSave,
-                dateRange: props.capacity.dateRange
+                dateRange: props.capacity.dateRange,
+                forceUpdateDynamicData: props.capacity.forceUpdateDynamicData,
             }),
         };
     });

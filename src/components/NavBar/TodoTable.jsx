@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-01 15:20:54
+ * @LastEditTime: 2021-04-02 11:25:53
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -207,6 +207,46 @@ const TodoTable = (props) => {
             } else if (type === "refuse") {
                 //取消豁免拒绝
                 url = CollaborateUrl.exemptyUrl + "/refuseUnExempt";
+                title = "拒绝" + typeCn
+            }
+        } else if (flightCoorType === "SINGLEEXEMPT") {
+            if (type === "agree") {
+                //单方案豁免同意
+                url = CollaborateUrl.exemptyUrl + "/approveSingleExempt";
+                title = "同意" + typeCn
+            } else if (type === "refuse") {
+                //单方案豁免拒绝
+                url = CollaborateUrl.exemptyUrl + "/refuseSingleExempt";
+                title = "拒绝" + typeCn
+            }
+        } else if (flightCoorType === "UNSINGLEEXEMPT") {
+            if (type === "agree") {
+                //单方案取消豁免同意
+                url = CollaborateUrl.exemptyUrl + "/approveSingleUnExempt";
+                title = "同意" + typeCn
+            } else if (type === "refuse") {
+                //单方案取消豁免拒绝
+                url = CollaborateUrl.exemptyUrl + "/refuseSingleUnExempt";
+                title = "拒绝" + typeCn
+            }
+        } else if (flightCoorType === "INTERVAL") {
+            if (type === "agree") {
+                //半数间隔同意
+                url = CollaborateUrl.exemptyUrl + "/approveInterval";
+                title = "同意" + typeCn
+            } else if (type === "refuse") {
+                //半数间隔拒绝
+                url = CollaborateUrl.exemptyUrl + "/refuseInterval";
+                title = "拒绝" + typeCn
+            }
+        } else if (flightCoorType === "UNINTERVAL") {
+            if (type === "agree") {
+                //取消半数间隔同意
+                url = CollaborateUrl.exemptyUrl + "/approveUnInterval";
+                title = "同意" + typeCn
+            } else if (type === "refuse") {
+                //取消半数间隔拒绝
+                url = CollaborateUrl.exemptyUrl + "/refuseUnInterval";
                 title = "拒绝" + typeCn
             }
         }
