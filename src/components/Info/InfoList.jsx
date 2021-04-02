@@ -103,7 +103,8 @@ function InfoCard(props){
                                     :""
                             }
                             {
-                                (dataType === "OPEI" || dataType === "PROI") ?
+                                // 暂时屏蔽方案终止消息的【查看容流监控】按钮 
+                                (dataType === "OPEI" || (dataType === "PROI" && dataCode !== "PTER")) ?
                                     <Button className="info_btn btn_blue" size="small" onClick={ function(e){
                                         sendMsgToClient(message)
                                         e.stopPropagation()
