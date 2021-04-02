@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-03-31 14:50:56
+ * @LastEditTime: 2021-04-02 13:37:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -88,7 +88,14 @@ function InfoCard(props){
                                         console.log(message);
                                         let { data } = message;
                                         data = JSON.parse( data );
-                                        const elementName = data.elementName || "";
+                                        let elementName = data.elementName || "";
+                                        const instance = data.instance || {};
+                                        const processVariables = instance.processVariables || {};
+                                        const elementType = processVariables.elementType || "";
+                                        if( elementType === "ROUTE" ){
+                                            const routeName = processVariables.routeName || "";
+                                            elementName = routeName
+                                        }
                                         console.log(elementName);
                                         openTclientFrameForMessage(elementName);
                                         e.stopPropagation();
