@@ -16,7 +16,8 @@ import './RunwayDefaultEdit.scss'
 
 //表单整体
 function RunwayDefaultEdit(props) {
-
+    // 用于触发表单更新的变量
+    let [formRenderStore, setFormRenderStore] = useState(0);
     // 确认提交模态框确定按钮loading变量
     let [confirmModalOkButtonLoading, setConfirmModalOkButtonLoading] = useState(false);
     // 确认提交模态框取消按钮是否禁用变量
@@ -29,6 +30,9 @@ function RunwayDefaultEdit(props) {
 
     // 保存按钮
     let [confirmModalVisible, setConfirmModalVisible] = useState(false);
+    // 跑道列表stores
+    const { runwayListData } = props;
+
     const systemPage = props.systemPage || {};
     // 用户信息
     const user = systemPage.user || {};
@@ -51,13 +55,11 @@ function RunwayDefaultEdit(props) {
     // 获取跑道字段及数值
     let runwayValues = updateRunwayFieldValue();
     // 表单初始数值对象集合
-    // let initialValues = {
-    //     // 机场
-    //     apName: apName,
-    //     // 运行模式
-    //     operationmode: operationmode,
-    // };
     let initialValues = { apName, operationmode, ...runwayValues }
+    // 记录跑道id集合
+    let runwayIds = listRWGapInfoDefault.map((item) => (item.id.toString()));
+    console.log(runwayIds)
+
 
     // 跑道状态选项
     const statusOptions = [
@@ -69,10 +71,12 @@ function RunwayDefaultEdit(props) {
     // 所有走廊口选项
     let runwayPointOptions = updateRunwayPointOptions();
     const [form] = Form.useForm();
+
     useEffect(function () {
         //重置表单，用于重新初始表单的initialValues属性
         form.resetFields();
-        console.log("resetFields")
+        // 更新formRenderStore变量值以触发表单渲染
+        setFormRenderStore(formRenderStore + 1)
     }, [data]);
 
     // 转换跑道状态数值
@@ -161,148 +165,46 @@ function RunwayDefaultEdit(props) {
 
     // 绘制单条跑道
     const drawSingleRunway = (runwayData) => {
-        // console.log(form.getFieldsValue())
-
-        // return (
-        //     <Fragment key={runwayData.id}>
-        //         <RunwaySingleDataForm
-        //             form ={ form }
-        //             runwayData={runwayData}
-        //             statusOptions={statusOptions}
-        //             runwayPointOptions={runwayPointOptions}
-        //             handleSingleRunwayLogicValChange={handleSingleRunwayLogicValChange} >
-        //         </RunwaySingleDataForm>
-        //     </Fragment>)
-        
-        // 跑道id
-        const id = runwayData.id || "";
-        // 跑道名称
-        const name = runwayData.rwName || "";
-        // 逻辑跑道A名称
-        const logicRWNameA = runwayData.logicRWNameA || "";
-        // 逻辑跑道B名称
-        const logicRWNameB = runwayData.logicRWNameB || "";
-        // 获取当前跑道中选中的逻辑跑道名称 
-        const selectedLogicRWName = form.getFieldValue(`selectedLogic_${id}`)
-        console.log(selectedLogicRWName);
-
         return (
-            <Form.Item
-                key={id}
-                label={name}
-            >
-                <Row gutter={24} >
-                    <Col span={24}>
-                        <Form.Item
-                            name={`selectedLogic_${id}`}
-                            label="默认方向"
-                            required={true}
-                            rules={[{ required: true }]}
-                        >
-                            <Radio.Group buttonStyle="solid" onChange={(e) => { handleSingleRunwayLogicValChange(e, id) }} >
-                                <Radio.Button value={logicRWNameA}>{logicRWNameA}</Radio.Button>
-                                <Radio.Button value={logicRWNameB}>{logicRWNameB}</Radio.Button>
-                            </Radio.Group>
-                        </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                        <Form.Item
-                            name={`isDepRW_${id}`}
-                            label="状态"
-                            required={true}
-                            rules={[{ required: true }]}
-                        >
-                            <Checkbox.Group options={statusOptions} onChange={() => { }} />
-                        </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                        <Form.Item
-                            name={`runwayPoint_${id}`}
-                            label="走廊口"
-                            required={true}
-                            rules={[{ required: true, message: '请至少选择一个走廊口' }]}
-                        >
-                            <Checkbox.Group options={runwayPointOptions} />
-                        </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                        <Form.Item
-                            shouldUpdate
-                            name={`interval_${id}_${logicRWNameA}`}
-                            label={`${logicRWNameA}起飞间隔`}
-                            required={true}
-                            rules={[{ required: true }]}
-                        >
-                            <Input
-                                style={{ width: 150 }}
-                                addonAfter="分钟"
-                            />
-                        </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                        <Form.Item
-                            shouldUpdate
-                            name={`taxi_${id}_${logicRWNameA}`}
-                            label={`${logicRWNameA}滑行时间`}
-                            required={true}
-                            rules={[{ required: true }]}
-                        >
-                            <Input
-                                style={{ width: 150 }}
-                                addonAfter="分钟"
-                            />
-                        </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                        <Form.Item
-                            shouldUpdate
-                            name={`interval_${id}_${logicRWNameB}`}
-                            label={`${logicRWNameB}起飞间隔`}
-                            required={true}
-                            rules={[{ required: true }]}
-                        >
-                            <Input
-                                style={{ width: 150 }}
-                                addonAfter="分钟"
-                            />
-                        </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                        <Form.Item
-                            shouldUpdate
-                            name={`taxi_${id}_${logicRWNameB}`}
-                            label={`${logicRWNameB}滑行时间`}
-                            required={true}
-                            rules={[{ required: true }]}
-                        >
-                            <Input
-                                style={{ width: 150 }}
-                                addonAfter="分钟"
-                            />
-                        </Form.Item>
-                    </Col>
-                </Row>
-            </Form.Item>
-        )
+            <Fragment key={runwayData.id}>
+                <RunwaySingleDataForm
+                    form={form}
+                    runwayData={runwayData}
+                    statusOptions={statusOptions}
+                    runwayPointOptions={runwayPointOptions}
+                >
+                </RunwaySingleDataForm>
+            </Fragment>)
     }
 
-    // 更新表单中指定跑道的选中的逻辑跑道名称
-    const handleSingleRunwayLogicValChange = (e, runwayId) => {
-        let data = {};
-        const val = e.target.value;
-        let field = `selectedLogic_${runwayId}`
-        data[field] = val;
-        // 更新表单中指定跑道的选中的逻辑跑道名称
-        form.setFieldsValue(data);
-        const selectedLogicRWName = form.getFieldValue(`selectedLogic_${runwayId}`)
-        console.log(selectedLogicRWName)
-    }
-
-    // 
+    // 表单字段值更新时触发回调事件
     const valuesChange = (changedValues, allValues) => {
-        console.log(changedValues)
+        console.log(changedValues);
+        let key = Object.keys(changedValues)[0];
+        let val = Object.values(changedValues)[0];
+        let keyArr = key.split('_');
+        let field = keyArr[0];
+        let runwayId = keyArr[1];
+        if (field === "isDepRW") {
+            // 单条跑道状态变更
+            setRunwayStatusFieldsValue(runwayId, val, allValues);
+        }
+    }
+
+    // 设置跑道状态选项勾选状态
+    const setRunwayStatusFieldsValue = (runwayId, values, allValues) => {
+        // 设置本跑道状态选项勾选状态
+
+        let data = {};
+        let field = `isDepRW_${runwayId}`
+        data[field] = [];
+        // 更新表单中状态复选框选中状态
+        // form.setFieldsValue(data);
+
+
 
     }
+
     // 保存按钮点击事件
     const handleSaveButtonClick = async () => {
         try {
@@ -381,8 +283,7 @@ function RunwayDefaultEdit(props) {
             const logicRWValueA = values[`interval_${id}_${logicRWNameA}`] || "";
             // 逻辑跑道B起飞间隔
             const logicRWValueB = values[`interval_${id}_${logicRWNameB}`] || "";
-            // 选中的逻辑跑道分类
-            let logicRWType = (logicRWDef === logicRWNameA) ? "A" : "B";
+
             let obj = {
                 [`listRWGapInfoDefault[${i}].id`]: id,
                 [`listRWGapInfoDefault[${i}].apName`]: apName,
@@ -394,7 +295,9 @@ function RunwayDefaultEdit(props) {
                 [`listRWGapInfoDefault[${i}].logicRWTaxitimeB`]: logicRWTaxitimeB,
                 [`listRWGapInfoDefault[${i}].logicRWNameA`]: logicRWNameA,
                 [`listRWGapInfoDefault[${i}].logicRWNameB`]: logicRWNameB,
-                [`passageways${logicRWType}${i}`]: wayPoint.join(','),
+                // 注意：走廊口字段为固定字符串passagewaysA+索引
+                [`passagewaysA${i}`]: wayPoint.join(','),
+                // 注意：走廊口字段为固定字符串rwDefaultStrLst+索引
                 [`rwDefaultStrLst[${i}]`]: isDepRW.join(','),
             }
             opt = { ...opt, ...obj }
@@ -429,6 +332,8 @@ function RunwayDefaultEdit(props) {
      * 数据提交成功回调
      * */
     const requestSuccess = (data) => {
+        // 触发获取跑道列表数据
+        runwayListData.triggerRequest();
         // 关闭确认框的确认按钮loading
         setConfirmModalOkButtonLoading(false);
         // 启用用确认框的取消按钮
@@ -486,7 +391,6 @@ function RunwayDefaultEdit(props) {
                     form={form}
                     initialValues={initialValues}
                     onFinish={(values) => {
-                        console.log(values);
                     }}
                     onValuesChange={valuesChange}
                     colon={false}
@@ -610,4 +514,4 @@ function RunwayDefaultEdit(props) {
 }
 
 // export default RunwayDefaultEdit;
-export default inject("systemPage")(observer(RunwayDefaultEdit))
+export default inject("systemPage", "runwayListData",)(observer(RunwayDefaultEdit))

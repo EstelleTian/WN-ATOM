@@ -37,6 +37,7 @@ function List(props) {
     const { filterList, loading } = runwayListData;
     const userId = systemPage.user.id || ""
     const sortedList = filterList;
+    const { counter } = runwayListData;
 
     //更新跑道列表数据
     const updateRunwayListData = data => {
@@ -81,12 +82,19 @@ function List(props) {
         // 清除定时
         clearInterval(props.runwayListData.timeoutId);
         // 开启定时获取数据
-        props.runwayListData.timeoutId = setInterval(runwayListData, 60*1000);
+        props.runwayListData.timeoutId = setInterval(requestRunwayListData, 60*1000);
         return function(){
             clearInterval(props.runwayListData.timeoutId);
             props.runwayListData.timeoutId = "";
         }
     },[props.systemPage.userId])
+
+    useEffect(function(){
+        // 清除定时
+        clearInterval(props.runwayListData.timeoutId);
+        // 获取数据
+        requestRunwayListData();
+    },[counter])
     return (
         <Spin spinning={loading} >
             <div className="list_container" >

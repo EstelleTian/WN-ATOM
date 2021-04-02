@@ -39,6 +39,8 @@ class RunwayListData{
     @observable runwayMap = {};
     //数据时间
     @observable generateTime = "";
+    //计数器用于变更此值以触发重新获取跑道列表
+    @observable counter = 0;
     //定时器
     @observable timeoutId = "";
     //跑道过滤关键字
@@ -51,6 +53,14 @@ class RunwayListData{
         modalId: ""
     };
 
+    //触发请求
+    //更新表格loading状态
+    @action triggerRequest( ){
+        let t = this.counter;
+        t++;
+        this.counter = t;
+    }
+
     //更新表格loading状态
     @action toggleLoad( load ){
         this.loading = load;
@@ -59,51 +69,12 @@ class RunwayListData{
     @action setFilterKey( key ){
         this.filterKey = key;
     }
-    // 增加跑道-单条
-    @action addRunway( opt ){
-        const item = new RunwayItem(opt);
-        this.list.unshift( item );
-    }
-    // 增加跑道-多条
-    @action addMultiRunway( arr ){
-        arr.map( opt => {
-            const item = new RunwayItem(opt);
-            this.list.unshift( item );
-        })
-    }
-    // 删除跑道
-    @action delRunway( RunwayItem ){
-        this.list.remove( RunwayItem );
-    }
+    
     // 更新跑道-全部
     @action updateRunwayList( map, generateTime){
         //数组赋值
         this.runwayMap = map;
         this.generateTime = generateTime;
-    }
-
-    // 更新跑道-多条
-    @action updateMultiRunway( arr ){
-        const len = this.list.length;
-        arr.map( item => {
-            const id = item.id;
-            //检验list有没有同id的跑道
-            let sameScheme = this.list.filter( item => id === item.id);
-            let hasScheme = sameScheme.length === 0 ? false : true;
-
-            //没有同id的就添加一条
-            if( len === 0 || hasScheme === false ){
-                const itemIns = new RunwayItem(item);
-                this.list.push( itemIns );
-            }else{
-                //有同id的 更新数据
-                sameScheme.map( orgScheme => {
-                    orgScheme.update(item);
-                })
-
-            }
-            
-        })
     }
 
     @computed get filterList(){
