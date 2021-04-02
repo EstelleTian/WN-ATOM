@@ -192,7 +192,7 @@ function ExemptCard(props){
                         </Select>
                     </Form.Item>
                 </Col>
-                <Col span={24}>
+                {/* <Col span={24}>
                     <Form.Item
                         name="exemptAltitude"
                         label="受控高度"
@@ -209,7 +209,7 @@ function ExemptCard(props){
 
                         </Select>
                     </Form.Item>
-                </Col>
+                </Col> */}
 
 
             </Row>
