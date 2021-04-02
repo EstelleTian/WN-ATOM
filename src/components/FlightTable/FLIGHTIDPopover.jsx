@@ -175,7 +175,9 @@ let FLIGHTIDPopover = (props) => {
         }
         let { priority } = orgdata;
         const fmeToday = orgdata.fmeToday || {};
-        const alarms = orgdata.orgdata || "";
+        let alarms = orgdata.alarms || [];
+        // 将alarms数组中的项转为字符串
+        alarms = alarms.map((item)=>(item.toString()));
         
         let hasAuth = true;
         //航班状态验证 2021-4-2注释，后台接口校验，前台校验去掉
@@ -219,8 +221,7 @@ let FLIGHTIDPopover = (props) => {
                         : ""
                 }
                 {
-                    // ( alarms.indexOf("400") === -1 && hasAuth )
-                    ( true )
+                    ( alarms.indexOf("400") === -1 && hasAuth )
                         ? <Button loading={singleExemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "singleExempt", record, "申请单方案豁免") } }>申请单方案豁免</Button>
                         : ""
                 }
