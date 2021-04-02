@@ -4,7 +4,7 @@ import { requestGet } from 'utils/request'
 import { isValidObject, isValidVariable } from 'utils/basic-verify'
 import { ReqUrls } from 'utils/request-urls'
 import RunwayDetail  from './RunwayDetail'
-import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
+import RunwayDefaultEdit from 'components/Runway/RunwayDefaultEdit'
 
 
 const RunwayModal = (props) => {
@@ -95,7 +95,7 @@ const RunwayModal = (props) => {
         }else if(modalType === "MODIFY") {
             return(
                 <Modal
-                    title={`模拟方案调整 - ${tacticName} `}
+                    title={`默认跑道调整`}
                     centered
                     visible={ visible }
                     onOk={() => setVisible(false)}
@@ -105,14 +105,13 @@ const RunwayModal = (props) => {
                     destroyOnClose = { true }
                     footer={null}
                 >
-                    <RestrictionForm
-                        operationType="MODIFY"
-                        operationDescription="提交模拟方案调整"
-                        primaryButtonName="提交修改"
+                    <Spin spinning={loading} >
+                        <RunwayDefaultEdit 
+                        data={ data } 
+                        airportName= {modalObj.airportStr}
                         setModalVisible={ setVisible }
-                        flowData={ flowData }
-                        bordered = {true}
-                    />
+                         />
+                    </Spin>
                 </Modal>
             )
         }

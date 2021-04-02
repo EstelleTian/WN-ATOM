@@ -88,6 +88,8 @@ const ReqUrls = {
     runwayListUrl: 'http://192.168.194.21:50012/runway/defaulat/and/dynamic/retrieve/new/',
     // 跑道详情
     runwayDefaultDetailUrl: 'http://192.168.194.21:50012/open/runway/default/detail/dialog/',
+    // 跑道修改提交
+    runwayDefaultUpdatelUrl: 'http://192.168.194.21:50012/rwgap/default/update/new/',
     
 };
 //协调ip

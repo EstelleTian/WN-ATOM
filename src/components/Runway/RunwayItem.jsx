@@ -197,8 +197,13 @@ function RunwayItem(props) {
     }, [id]);
 
     const showModify = useCallback((e) => {
-        return
-        props.toggleModalVisible(true, id);
+        let params = {
+            airportStr: airportName,
+            ids: ids.join(","),
+            validTime0: "有效时间:"+ startTime.substring(6,8) + startTime.substring(8) + '-' + endTime.substring(6,8) + endTime.substring(8),
+            sign0: ""
+        }
+        props.toggleModalVisible(true, params);
         props.toggleModalType('MODIFY');
         e.preventDefault();
         e.stopPropagation();
