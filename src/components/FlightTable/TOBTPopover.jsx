@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-02 11:12:42
+ * @LastEditTime: 2021-04-02 12:56:19
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -49,34 +49,34 @@ const TOBTPopover = (props) => {
     let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
 
     //航班已起飞或者不在本区域内--不显示
-    if ( hadDEP ) {
-        if (  isValidVariable(text) ) {
-            bgStatus = "DEP";
-        }
-        title = "航班已起飞";
-        subTitle = "已起飞";
-    }else if ( hadARR ) {
-        if (  isValidVariable(text) ) {
-            bgStatus = "ARR";
-        }
-        title = "航班已落地";
-        subTitle = "已落地";
-    }else if ( !hadFPL ) {
-        if (  isValidVariable(text) ) {
-            bgStatus = "FPL";
-        }
-        title = "航班尚未拍发FPL报";
-        subTitle = "未拍发FPL报";
-    }else if ( !isInAreaFlight ) {
-        if (  isValidVariable(text) ) {
-            bgStatus = "notArea";
-        }
-        title = "非本区域航班";
-        subTitle = "非本区域";
-    }else if( !hasAuth ){
-        title = "无申请权限";
-        subTitle = "无申请权限";
-    }
+    // if ( hadDEP ) {
+    //     if (  isValidVariable(text) ) {
+    //         bgStatus = "DEP";
+    //     }
+    //     title = "航班已起飞";
+    //     subTitle = "已起飞";
+    // }else if ( hadARR ) {
+    //     if (  isValidVariable(text) ) {
+    //         bgStatus = "ARR";
+    //     }
+    //     title = "航班已落地";
+    //     subTitle = "已落地";
+    // }else if ( !hadFPL ) {
+    //     if (  isValidVariable(text) ) {
+    //         bgStatus = "FPL";
+    //     }
+    //     title = "航班尚未拍发FPL报";
+    //     subTitle = "未拍发FPL报";
+    // }else if ( !isInAreaFlight ) {
+    //     if (  isValidVariable(text) ) {
+    //         bgStatus = "notArea";
+    //     }
+    //     title = "非本区域航班";
+    //     subTitle = "非本区域";
+    // }else if( !hasAuth ){
+    //     title = "无申请权限";
+    //     subTitle = "无申请权限";
+    // }
     let textDom = '';
     if( col === "FFIXT"){
         let meetIntervalValue = field.meetIntervalValue || "";

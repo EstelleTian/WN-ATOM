@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-04-02 10:37:52
+ * @LastEditTime: 2021-04-02 13:20:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -81,7 +81,7 @@ function CapacityCont (props){
     //动态容量获取
     const requestDynamicData = useCallback((nextRefresh) => {
         if( !isValidVariable(elementName) || !isValidVariable(elementType) 
-        // || capacity.editable 
+        || capacity.editable 
         ){
             return;
         }
@@ -236,19 +236,19 @@ function CapacityCont (props){
                                 mode="inline"
                                 theme="dark"
                                 onClick={({ item, key, keyPath, selectedKeys, domEvent })=>{
-                                    // if( !capacity.editable){
+                                    if( !capacity.editable){
                                         capacity.dateRange =  key*1;
                                         props.capacity.toggleLoad(true);
                                         //强制刷新
                                         props.capacity.forceUpdateDynamicData = true;
                                         //获取数据
                                         requestDynamicData( false );
-                                    // }else{
-                                    //     customNotice({
-                                    //         type: 'warn',
-                                    //         message: '容量处于编辑状态，请取消后再操作'
-                                    //     });
-                                    // }
+                                    }else{
+                                        customNotice({
+                                            type: 'warn',
+                                            message: '容量处于编辑状态，请取消后再操作'
+                                        });
+                                    }
                                 }
                                     
                                 }
