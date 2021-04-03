@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-02 11:32:55
+ * @LastEditTime: 2021-04-02 17:10:29
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -221,22 +221,22 @@ let FLIGHTIDPopover = (props) => {
                         : ""
                 }
                 {
-                    ( alarms.indexOf("400") === -1 && hasAuth )
+                    ( alarms.indexOf("800") === -1 && hasAuth )
                         ? <Button loading={singleExemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "singleExempt", record, "申请单方案豁免") } }>申请单方案豁免</Button>
                         : ""
                 }
                 {
-                    ( alarms.indexOf("400") > -1 && hasAuth )
+                    ( alarms.indexOf("800") > -1 && hasAuth )
                         ? <Button loading={singleExemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("singleUnExempt", record, "取消单方案豁免") } }>取消单方案豁免</Button>
                         : ""
                 }
                 {
-                    ( alarms.indexOf("800") === -1 && hasAuth )
+                    ( alarms.indexOf("400") === -1 && hasAuth )
                         ? <Button loading={intervalLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "interval", record, "申请半数间隔") } }>申请半数间隔</Button>
                         : ""
                 }
                 {
-                    ( alarms.indexOf("800") > -1 && hasAuth )
+                    ( alarms.indexOf("400") > -1 && hasAuth )
                         ? <Button loading={intervalLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unInterval", record, "取消半数间隔") } }>取消半数间隔</Button>
                         : ""
                 }
