@@ -1,14 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-03-25 18:53:27
+ * @LastEditTime: 2021-04-06 15:36:50
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
  */
 
 import { makeObservable, observable, action, computed } from 'mobx'
-import { isValidVariable, calculateStringTimeDiff } from 'utils/basic-verify.js'
+import { isValidVariable, isValidObject, calculateStringTimeDiff } from 'utils/basic-verify.js'
 import { formatSingleFlight} from 'components/FlightTable/TableColumns'
 import { FlightCoordination } from 'utils/flightcoordination.js'
 import  FmeToday  from 'utils/fmetoday.js'
@@ -37,21 +37,62 @@ class FlightItem{
     @action toggleSelected( ){
         this.selected = !this.selected;
     }
-    //单条--航班更新--对比updateTimeStamp 时间戳
+    //单条--航班更新
     @action updateFlight( newFlight ){
         // console.log("单条--航班更新");
         const newUpdateTimeStamp = newFlight.updateTimeStamp;
-        //当前航班数据时间 无效 或者新的早于当前的，更新数据
-        if( !isValidVariable(this.updateTimeStamp) || ( newUpdateTimeStamp*1 >= this.updateTimeStamp*1 ) ){
-            // console.log("传入新对象时间更新");
-            //更新为传入对象
-            for( let key in newFlight ){
-                this[key] = newFlight[key];
+        const oldUpdateTimeStamp = this.updateTimeStamp;
+        // console.log("newUpdateTimeStamp", newUpdateTimeStamp, "oldUpdateTimeStamp", oldUpdateTimeStamp );
+        //前后都没updateTimeStamp，取最新航班数据
+        if( !isValidVariable(oldUpdateTimeStamp) && !isValidVariable(newUpdateTimeStamp) ){
+            for(let key in this){
+                this[key] = newFlight[key]
             }
-            // console.log("更新后对象:", this);
+        }
+        //旧的没有，新的有updateTimeStamp，取新的，航班数据
+        else if( !isValidVariable(oldUpdateTimeStamp) && isValidVariable(newUpdateTimeStamp) ){
+            for(let key in this){
+                this[key] = newFlight[key]
+            }
+        }
+        //前后都有updateTimeStamp，取updateTimeStamp大的，航班数据
+        else if( isValidVariable(oldUpdateTimeStamp) && isValidVariable(newUpdateTimeStamp) && ( newUpdateTimeStamp*1 >= oldUpdateTimeStamp*1 ) ){
+            for(let key in this){
+                this[key] = newFlight[key]
+            }
+        }
+        //否则，取原来航班数据
+        else{
+            
         }
     }
 
+}
+
+
+// 新旧航班对象 时间戳对比
+const compareFlight = ( oldFlight, newFlight ) => {
+    // console.log("单条--航班更新");
+    const newUpdateTimeStamp = newFlight.updateTimeStamp;
+    const oldUpdateTimeStamp = oldFlight.updateTimeStamp;
+    
+    // console.log("newUpdateTimeStamp", newUpdateTimeStamp, "oldUpdateTimeStamp", oldUpdateTimeStamp );
+    //前后都没updateTimeStamp，取最新航班数据
+    if( !isValidVariable(oldUpdateTimeStamp) && !isValidVariable(newUpdateTimeStamp) ){
+        return newFlight;
+    }
+    //旧的没有，新的有updateTimeStamp，取新的，航班数据
+    else if( !isValidVariable(oldUpdateTimeStamp) && isValidVariable(newUpdateTimeStamp) ){
+        return newFlight;
+    }
+    //前后都有updateTimeStamp，取updateTimeStamp大的，航班数据
+    else if( isValidVariable(oldUpdateTimeStamp) && isValidVariable(newUpdateTimeStamp) && ( newUpdateTimeStamp*1 >= oldUpdateTimeStamp*1 ) ){
+        return newFlight;
+    }
+    //否则，取原来航班数据
+    else{
+        return oldFlight;
+    }
 }
  // 航班表格数据
 class FlightTableData{
@@ -90,23 +131,36 @@ class FlightTableData{
      
     //更新航班数据-
     @action updateFlightsList( newList, generateTime ){
-        let obj = {};
-        // const len = this.list.length;
-        // let newFlightList = [];
-        newList.map( item => {
-            const itemIns = new FlightItem(item);
-            obj[item.id] = itemIns;
-        })
-        this.list = Object.values( obj );
+        let orgMap = {};
+        this.list.map( ofc => orgMap[ofc.id] = ofc );
+
+        let newMap = {};
+        newList.map( nfc => newMap[nfc.id] = nfc );
+
+        let mergeMap = {};
+        for( let key in newMap){
+            let newFc = newMap[key];
+            let newId = newFc.id;
+            //新的航班没有出现在旧的中，添加
+            if( !isValidObject( orgMap[newId] ) ){
+                const itemIns = new FlightItem(newFc);
+                mergeMap[newId] = itemIns;
+            }else{//新的航班出现在旧的中，按谁时间戳大更新
+                const resFlight = compareFlight( orgMap[newId], newFc );
+                const itemIns = new FlightItem(resFlight);
+                mergeMap[newId] = itemIns;
+            }
+        }
+        this.list = Object.values( mergeMap );
         this.generateTime = generateTime;
     }
     //单条--航班更新
-    @action updateSingleFlight( fObj ){
-        const newFId = fObj.id;
+    @action updateSingleFlight( newFC ){
+        const newFId = newFC.id;
         this.list.map( item => {
             const oldFId = item.id;
             if( oldFId === newFId ){
-                item.updateFlight( fObj );
+                 item.updateFlight( new FlightItem(newFC) );
             }
         });
     }

@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-04-01 13:15:32
+ * @LastEditTime: 2021-04-06 15:34:49
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -193,7 +193,7 @@ function TodoNav(props) {
                 }
             </Radio.Button>
             <Modal
-                width={1350}
+                width={1600}
                 style={{ marginTop: "-50px"}}
                 title="航班协调"
                 visible={ todoModalVisible }

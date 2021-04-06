@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-02 17:10:29
+ * @LastEditTime: 2021-04-06 15:31:42
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -65,23 +65,23 @@ let FLIGHTIDPopover = (props) => {
     });
 
     //标记豁免 取消标记豁免
-    const handleExempty = useCallback(( type, record, title )  =>{
+    const handleExempt = useCallback(( type, record, title )  =>{
         console.log( props );
-        const orgdata = record.orgdata || {};
-        let orgFlight = JSON.parse(orgdata) || {};
+        const orgData = record.orgdata || {};
+        let orgFlight = JSON.parse(orgData) || {};
         let urlKey = "";
         let taskId = "";
         if( type === "exempt"){ //申请豁免
             urlKey = "/applyExempt";
             setExemptLoad(true);
-        }else if( type === "unexempt"){ //申请取消豁免
+        }else if( type === "unExempt"){ //申请取消豁免
             urlKey = "/applyUnExempt";
             setExemptLoad(true);
         }else if( type === "singleExempt"){ //申请单方案豁免
             urlKey = "/applySingleExempt";
             setSingleExemptLoad(true);
         }else if( type === "singleUnExempt"){ //申请取消单方案豁免
-            urlKey = "/applySingleUnExempt";
+            urlKey = "/applyUnSingleExempt";
             setSingleExemptLoad(true);
         }else if( type === "interval"){ //申请半数间隔
             urlKey = "/applyInterval";
@@ -98,7 +98,7 @@ let FLIGHTIDPopover = (props) => {
             const tacticName = props.schemeListData.getNameBySchemeActiveId(schemeId); //方案名称
             
             const opt = {
-                url: CollaborateUrl.exemptyUrl + urlKey,
+                url: CollaborateUrl.exemptUrl + urlKey,
                 method: 'POST',
                 params: {
                     userId,
@@ -167,43 +167,45 @@ let FLIGHTIDPopover = (props) => {
 
     },[props.systemPage.user, props.schemeListData.activeSchemeId]);
 
-    const { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP, alarms  } = useMemo( ()=>{
-        
-        let { orgdata } = record;
-        if( isValidVariable(orgdata) ){
-            orgdata = JSON.parse(orgdata);
-        }
-        let { priority } = orgdata;
-        const fmeToday = orgdata.fmeToday || {};
-        let alarms = orgdata.alarms || [];
-        // 将alarms数组中的项转为字符串
-        alarms = alarms.map((item)=>(item.toString()));
-        
-        let hasAuth = true;
-        //航班状态验证 2021-4-2注释，后台接口校验，前台校验去掉
-        let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
-        let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
-        let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
-        let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
-        let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
 
-        // //航班未起飞 且 在本区域内--
-        // if ( !hadDEP && isInAreaFlight && hadFPL ) {
-        //     hasAuth = true;
-        // }
+    // const { record } = props.opt;
+    let { orgdata } = record;
+    if( isValidVariable(orgdata) ){
+        orgdata = JSON.parse(orgdata);
+    }
+    let { priority } = orgdata;
+    const fmeToday = orgdata.fmeToday || {};
+    let alarms = orgdata.alarms || [];
+    alarms = alarms.join("-")
+    
+    let hasAuth = true;
+    //航班状态验证 2021-4-2注释，后台接口校验，前台校验去掉
+    let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
+    let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
+    let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
+    let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
+    let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
 
-        let colorClass = "";
-        if( isValidVariable(priority) && priority*1 > 0 ){
-            colorClass = "priority_"+ priority;
-        }
-        if(isInPoolFlight){
-            const { record } = props.opt;
-            let { orgdata } = record;
-            colorClass += " in_pool " + orgdata.poolStatus;
-        }
+    // //航班未起飞 且 在本区域内--
+    // if ( !hadDEP && isInAreaFlight && hadFPL ) {
+    //     hasAuth = true;
+    // }
+
+    let colorClass = "";
+    if( isValidVariable(priority) && priority*1 > 0 ){
+        colorClass = "priority_"+ priority;
+    }
+    if(isInPoolFlight){
         
-        return { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP, alarms };
-    }, [props.opt])
+        colorClass += " in_pool " + orgdata.poolStatus;
+    }
+    
+    // const { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP, alarms  } = useMemo( ()=>{
+        
+        
+        
+    //     return { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP, alarms };
+    // }, [props.opt.record])
 
     
     const content = useMemo(()  =>{
@@ -212,32 +214,32 @@ let FLIGHTIDPopover = (props) => {
                 <button className="c-btn c-btn-blue">查看航班详情</button>
                 {
                     ( priority === FlightCoordination.PRIORITY_NORMAL && hasAuth )
-                        ? <Button loading={exemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "exempt", record, "申请豁免") } }>申请豁免</Button>
+                        ? <Button loading={exemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempt( "exempt", record, "申请豁免") } }>申请豁免</Button>
                         : ""
                 }
                 {
                     ( priority === FlightCoordination.PRIORITY_EXEMPT && hasAuth )
-                        ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unexempt", record, "申请取消豁免") } }>申请取消豁免</Button>
+                        ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempt("unExempt", record, "申请取消豁免") } }>申请取消豁免</Button>
                         : ""
                 }
                 {
                     ( alarms.indexOf("800") === -1 && hasAuth )
-                        ? <Button loading={singleExemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "singleExempt", record, "申请单方案豁免") } }>申请单方案豁免</Button>
+                        ? <Button loading={singleExemptLoad} className="c-btn c-btn-green" onClick={ () => { handleExempt("singleExempt", record, "申请单方案豁免") } }>申请单方案豁免</Button>
                         : ""
                 }
                 {
                     ( alarms.indexOf("800") > -1 && hasAuth )
-                        ? <Button loading={singleExemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("singleUnExempt", record, "取消单方案豁免") } }>取消单方案豁免</Button>
+                        ? <Button loading={singleExemptLoad} className="c-btn c-btn-red" onClick={ () => { handleExempt("singleUnExempt", record, "取消单方案豁免") } }>取消单方案豁免</Button>
                         : ""
                 }
                 {
                     ( alarms.indexOf("400") === -1 && hasAuth )
-                        ? <Button loading={intervalLoad} className="c-btn c-btn-green" onClick={ () => { handleExempty( "interval", record, "申请半数间隔") } }>申请半数间隔</Button>
+                        ? <Button loading={intervalLoad} className="c-btn c-btn-green" onClick={ () => { handleExempt( "interval", record, "申请半数间隔") } }>申请半数间隔</Button>
                         : ""
                 }
                 {
                     ( alarms.indexOf("400") > -1 && hasAuth )
-                        ? <Button loading={intervalLoad} className="c-btn c-btn-red" onClick={ () => { handleExempty("unInterval", record, "取消半数间隔") } }>取消半数间隔</Button>
+                        ? <Button loading={intervalLoad} className="c-btn c-btn-red" onClick={ () => { handleExempt("unInterval", record, "取消半数间隔") } }>取消半数间隔</Button>
                         : ""
                 }
                 {
@@ -254,7 +256,7 @@ let FLIGHTIDPopover = (props) => {
 
             </div>
         )
-    },[priority, isInPoolFlight, hasAuth, exemptLoad, poolLoad]);
+    },[priority, isInPoolFlight, hasAuth, alarms, exemptLoad, poolLoad, intervalLoad, singleExemptLoad]);
 
     return(
         <Popover

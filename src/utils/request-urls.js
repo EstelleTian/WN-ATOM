@@ -97,7 +97,7 @@ const CollaborateIP = "http://192.168.194.21:28781";
 //协调相关url
 const CollaborateUrl = {
     //标记豁免、取消豁免
-    exemptyUrl : CollaborateIP + "/hydrogen-flight-coordination-server/flight",
+    exemptUrl : CollaborateIP + "/hydrogen-flight-coordination-server/flight",
     //入池、出池
     poolUrl : CollaborateIP + "/hydrogen-flight-coordination-server/flight",
     //TOBT

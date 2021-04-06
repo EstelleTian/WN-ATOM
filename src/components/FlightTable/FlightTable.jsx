@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-25 19:04:07
+ * @LastEditTime: 2021-04-06 14:10:23
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -52,7 +52,7 @@ function useAutoSize(){
     let [tableWidth, setWidth] = useState(0);
     let [tableHeight, setHeight] = useState(0);
     useEffect(() => {
-        // console.log("tableWidth, tableHeight: ",tableWidth, tableHeight)
+        console.log("tableWidth, tableHeight: ",tableWidth, tableHeight)
         const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
         const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
         const tableHeader = flightCanvas.getElementsByClassName("ant-table-header")[0];
@@ -61,8 +61,11 @@ function useAutoSize(){
         // height -= 40;//标题高度“航班列表”
         // height -= 45;//表头高度
         height -= tableHeader.offsetHeight;//表头高度
+        if( Math.abs( tableHeight - height ) > 5 ){
+            setHeight( height );
+        }
         setWidth( width );
-        setHeight( height );
+        
         flightCanvas.oncontextmenu = function(){
             return false;
         };
@@ -80,8 +83,8 @@ function FTable(props){
     
 
     const { flightTableData = {}, schemeListData } = props;
-    const {  getShowFlights, autoScroll, filterable } = flightTableData;
-    const { showList, targetFlight } = getShowFlights;
+    const { autoScroll, filterable } = flightTableData;
+    const { showList, targetFlight } =  props.flightTableData.getShowFlights;
     // if( showList.length < 3){
     //     console.log(showList)
     // }
@@ -284,9 +287,7 @@ const SearchInput = inject("flightTableData")(observer((props) => {
 }))
 //计数
 const TotalDom = inject("flightTableData")(observer((props) => {
-    const { flightTableData = {} } = props;
-    const { getShowFlights } = flightTableData;
-    const { showList }= getShowFlights;
+    const { showList }=  props.flightTableData.getShowFlights;
     return (
         <span className="total_num">总计{ showList.length || 0}条</span>
     )

@@ -192,61 +192,61 @@ const TodoTable = (props) => {
         } else if (flightCoorType === "EXEMPT") {
             if (type === "agree") {
                 //豁免同意
-                url = CollaborateUrl.exemptyUrl + "/approveExempt";
+                url = CollaborateUrl.exemptUrl + "/approveExempt";
                 title = "同意" + typeCn
             } else if (type === "refuse") {
                 //豁免拒绝
-                url = CollaborateUrl.exemptyUrl + "/refuseExempt";
+                url = CollaborateUrl.exemptUrl + "/refuseExempt";
                 title = "拒绝" + typeCn
             }
         } else if (flightCoorType === "UNEXEMPT") {
             if (type === "agree") {
                 //取消豁免同意
-                url = CollaborateUrl.exemptyUrl + "/approveUnExempt";
+                url = CollaborateUrl.exemptUrl + "/approveUnExempt";
                 title = "同意" + typeCn
             } else if (type === "refuse") {
                 //取消豁免拒绝
-                url = CollaborateUrl.exemptyUrl + "/refuseUnExempt";
+                url = CollaborateUrl.exemptUrl + "/refuseUnExempt";
                 title = "拒绝" + typeCn
             }
         } else if (flightCoorType === "SINGLEEXEMPT") {
             if (type === "agree") {
                 //单方案豁免同意
-                url = CollaborateUrl.exemptyUrl + "/approveSingleExempt";
+                url = CollaborateUrl.exemptUrl + "/approveSingleExempt";
                 title = "同意" + typeCn
             } else if (type === "refuse") {
                 //单方案豁免拒绝
-                url = CollaborateUrl.exemptyUrl + "/refuseSingleExempt";
+                url = CollaborateUrl.exemptUrl + "/refuseSingleExempt";
                 title = "拒绝" + typeCn
             }
         } else if (flightCoorType === "UNSINGLEEXEMPT") {
             if (type === "agree") {
                 //单方案取消豁免同意
-                url = CollaborateUrl.exemptyUrl + "/approveSingleUnExempt";
+                url = CollaborateUrl.exemptUrl + "/approveSingleUnExempt";
                 title = "同意" + typeCn
             } else if (type === "refuse") {
                 //单方案取消豁免拒绝
-                url = CollaborateUrl.exemptyUrl + "/refuseSingleUnExempt";
+                url = CollaborateUrl.exemptUrl + "/refuseSingleUnExempt";
                 title = "拒绝" + typeCn
             }
         } else if (flightCoorType === "INTERVAL") {
             if (type === "agree") {
                 //半数间隔同意
-                url = CollaborateUrl.exemptyUrl + "/approveInterval";
+                url = CollaborateUrl.exemptUrl + "/approveInterval";
                 title = "同意" + typeCn
             } else if (type === "refuse") {
                 //半数间隔拒绝
-                url = CollaborateUrl.exemptyUrl + "/refuseInterval";
+                url = CollaborateUrl.exemptUrl + "/refuseInterval";
                 title = "拒绝" + typeCn
             }
         } else if (flightCoorType === "UNINTERVAL") {
             if (type === "agree") {
                 //取消半数间隔同意
-                url = CollaborateUrl.exemptyUrl + "/approveUnInterval";
+                url = CollaborateUrl.exemptUrl + "/approveUnInterval";
                 title = "同意" + typeCn
             } else if (type === "refuse") {
                 //取消半数间隔拒绝
-                url = CollaborateUrl.exemptyUrl + "/refuseUnInterval";
+                url = CollaborateUrl.exemptUrl + "/refuseUnInterval";
                 title = "拒绝" + typeCn
             }
         }

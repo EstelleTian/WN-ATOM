@@ -200,8 +200,8 @@ const VTable = function(props){
   const { tableWidth, tableHeight } = useAutoSize();
 
   const { flightTableData = {}, schemeListData } = props;
-  const { getShowFlights, autoScroll } = flightTableData;
-  const { showList, targetFlight }= getShowFlights;
+  const { autoScroll } = flightTableData;
+  const { showList, targetFlight }= props.flightTableData;
 
   return <VirtualTable
     columns={columns}
