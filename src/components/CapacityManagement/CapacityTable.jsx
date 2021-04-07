@@ -444,6 +444,7 @@ const SaveBtn = function(props){
             onConfirm={handleOk}
             okButtonProps={{ loading: confirmLoading }}
             onCancel={handleCancel}
+            overlayClassName="capacity-popconfirm"
         >
             <Button className="" type="primary" onClick={showPopconfirm}>提交 </Button>
         </Popconfirm>
@@ -570,6 +571,7 @@ const ApproveBtn = function(props){
             onConfirm={handleOk}
             okButtonProps={{ loading: confirmLoading }}
             onCancel={handleCancel}
+            overlayClassName="capacity-popconfirm"
         >
             { props.children( showPopconfirm ) }
         </Popconfirm>

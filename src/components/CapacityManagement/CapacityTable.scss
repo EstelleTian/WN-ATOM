@@ -68,21 +68,22 @@
     }
   }
 }
-.ant-popover-message{
-  > .anticon{
-    top: 11.0005px;
-    font-size: 1.3rem;
-    left: -5px;
+.capacity-popconfirm {
+  .ant-popover-message {
+    > .anticon {
+      top: 11.0005px;
+      font-size: 1.3rem;
+      left: -5px;
+    }
+    .ant-popover-message-title {
+      font-size: 1.3rem;
+    }
   }
-  .ant-popover-message-title{
-    font-size: 1.3rem;
+  .ant-popover-buttons {
+    overflow: hidden;
+    // button {
+    //   float: right;
+    // }
   }
-
-}
-.ant-popover-buttons{
-  overflow: hidden;
-  button {
-    float: right;
-}
 }
 
