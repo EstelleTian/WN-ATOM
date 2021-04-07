@@ -61,6 +61,16 @@ const openControlDetail = (str) => {
         console.error(e);
     }
 }
+//点击方案执行情况
+const openRunningControlFlow = (id) => {
+    try{
+        // 调用客户端方法，传入方案id
+        jsEntity.openRunningControlFlow(id)
+    }catch (e){
+        console.error(e);
+    }
+}
+ 
 //点击铃铛
 const openMessageDlg = (message) => {
     try{
@@ -213,5 +223,5 @@ export {
     updateMessageNum, sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
-    openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem
+    openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem, openRunningControlFlow
 }
