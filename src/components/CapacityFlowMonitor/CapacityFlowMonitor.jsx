@@ -147,7 +147,7 @@ const CapacityFlowMonitor = (props) => {
                             </Tooltip>
                         </div>
                         <div className="monitor-content">
-                            <AirportMonitor data={item.data} weatherData={weatherDataObj[item.key]} />
+                            <AirportMonitor dataKey = {item.key} data={item.data} weatherData={weatherDataObj[item.key]} />
                         </div>
 
                     </ModalBox>

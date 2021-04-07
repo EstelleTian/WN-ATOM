@@ -16,6 +16,7 @@ import MiniMonitor from './MiniMonitor'
 function AirportMonitor(props) {
     const data = props.data || {};
     const flowMap = data.flowMap || {};
+    const dataKey = props.dataKey || ""
     // 天气
     const weather = props.weatherData || "";
     // 起飞正常率
@@ -103,19 +104,25 @@ function AirportMonitor(props) {
             let notOverflow = 0;
 
             if(isValidVariable(capacity)){
+                // 若容量小于0,则超量值为流量
                 if(capacity < 0){
-                    notOverflow = flightNum;
-                    capacity = "";
+                    overflow = flightNum;
                 }else {
+                    // 若流量大于容量，则超量值为流量-容量，未超出量值为容量
                     if(flightNum > capacity){
                         overflow = flightNum - capacity;
                         notOverflow = capacity
                     }else if(flightNum < capacity) {
+                        // 若流量小于容量，则超量值为0，未超出量值为流量
+                        notOverflow = flightNum
+                    }else {
+                        // 若流量等于容量，则超量值为0，未超出量值为流量
                         notOverflow = flightNum
                     }
                 }
             }else {
-                notOverflow = flightNum
+                // 若容量无效,则超量值为流量
+                overflow = flightNum;
             }
 
 
