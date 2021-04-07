@@ -6,8 +6,8 @@
  * @Description:
  * @FilePath: CollaboratePopover.jsx
  */
-import { message as antdMessage, message, Popover, Button, Tooltip} from "antd";
-import React,{ useCallback, useState, useEffect, useMemo } from "react";
+import { message as antdMessage, message, Popover, Button, Tooltip, Popconfirm} from "antd";
+import React,{ useCallback, useState, useEffect, memo, useMemo } from "react";
 import {  isValidVariable } from 'utils/basic-verify'
 import { FlightCoordination, PriorityList } from 'utils/flightcoordination.js'
 import { request } from 'utils/request'
@@ -16,6 +16,44 @@ import { closePopover, cgreen, cred  } from 'utils/collaborateUtils.js'
 import {observer, inject} from "mobx-react";
 import FmeToday from "utils/fmetoday";
 import { useTip } from './CustomUses'
+
+// 申请半数间隔按钮
+const ApplyIntervalButtonNode = memo(({
+    intervalLoad,
+    handleExempt,
+    record,
+}) => {
+    // 气泡确认框显隐控制标记
+    const [visible, setVisible] = useState(false);
+    // 处理气泡确认框显隐
+    const handlePopconfirmVisible= flag => {
+        setVisible(flag);
+    };
+    // 点击确认按钮
+    const handleOk =()=> {
+        // 隐藏气泡确认框
+        handlePopconfirmVisible(false)
+        // 调用申请半数间隔方法
+        handleExempt( "interval", record, "申请半数间隔") ;
+    }
+
+    return (
+        <Popconfirm
+            title="确认申请半间隔?"
+            visible={visible}
+            onConfirm={handleOk}
+            okButtonProps={{ loading: intervalLoad, size:"default" }}
+            cancelButtonProps={{ size:"default" }}
+            onCancel={()=>{handlePopconfirmVisible(false)}}
+            overlayClassName="apply-interval-button-popconfirm"
+        >
+            <Button loading={intervalLoad} className="c-btn c-btn-green" onClick={ () => { handlePopconfirmVisible(true) }}>申请半数间隔</Button>
+        </Popconfirm>
+    )
+
+})
+
+
 //航班号右键协调框
 let FLIGHTIDPopover = (props) => {
     const [ intervalLoad, setIntervalLoad ] = useState(false);
@@ -234,7 +272,7 @@ let FLIGHTIDPopover = (props) => {
                 }
                 {
                     ( alarms.indexOf("400") === -1 && hasAuth )
-                        ? <Button loading={intervalLoad} className="c-btn c-btn-green" onClick={ () => { handleExempt( "interval", record, "申请半数间隔") } }>申请半数间隔</Button>
+                        ? <ApplyIntervalButtonNode intervalLoad={intervalLoad} handleExempt={handleExempt} record={record} />
                         : ""
                 }
                 {

@@ -199,3 +199,8 @@
     position: relative;
     left: 5px;
 }
+.apply-interval-button-popconfirm {
+    .ant-popover-message-title {
+        font-size: 18px;
+    }
+}
