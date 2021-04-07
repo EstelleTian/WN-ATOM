@@ -15,7 +15,7 @@ class ImplementTacticsReasonData{
         makeObservable(this)
     }
     // 限制数据
-    @observable reasonData = {};
+    @observable tacticsData = {};
     //数据时间
     @observable generateTime = "";
     //数据获取
@@ -23,9 +23,9 @@ class ImplementTacticsReasonData{
     //定时器
     @observable timeoutId = "";
 
-    //更新航班数据
-    @action updateFlightPerformanceData( reasonData ){
-        this.reasonData = reasonData;
+    //更新限制数据
+    @action updateImplementTacticsData( tacticsData ){
+        this.tacticsData = tacticsData;
     }
     //更新loading状态
     @action toggleLoad( load ){
@@ -33,7 +33,7 @@ class ImplementTacticsReasonData{
     }
 }
 
-let implementTacticsReasonData = new ImplementTacticsReasonData();
+let implementTacticsData = new ImplementTacticsReasonData();
 
 
-export { implementTacticsReasonData }
+export { implementTacticsData }

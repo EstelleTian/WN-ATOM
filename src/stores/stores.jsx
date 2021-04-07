@@ -14,7 +14,7 @@ import { flightPerformanceData } from './flightPerformanceStores'
 import { capacityFlowMonitorData, capacityFlowMonitorWeatherData } from './capacityFlowMonitorStores'
 import { systemPage } from './pageStores'
 import { workFlowData } from './workFlowStores'
-import { implementTacticsReasonData } from './implementTacticsReasonStores'
+import { implementTacticsData } from './implementTacticsReasonStores'
 import { infoHistoryData } from './infoHistoryStores'
 import { capacity } from './capacityStores'
 import { userSubscribeData } from './totalPageStores'
@@ -32,7 +32,7 @@ export {
     capacityFlowMonitorData,
     capacityFlowMonitorWeatherData,
     workFlowData,
-    implementTacticsReasonData,
+    implementTacticsData,
     infoHistoryData,
     capacity,
     todoList,

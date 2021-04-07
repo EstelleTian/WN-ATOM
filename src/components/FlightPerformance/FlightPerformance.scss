@@ -5,7 +5,18 @@
   flex-direction: column;
   .performance-row {
     flex: 1;
+    .ant-spin-nested-loading {
+      display: flex;
+      flex-direction: column;
+      @include flex();
+      .ant-spin-container {
+        display: flex;
+        flex-direction: column;
+        @include flex();
+      }
+    }
   }
+
   .icon {
     margin-right: 8px;
   }
@@ -64,7 +75,7 @@
     flex-direction: row;
   }
   .label {
-    min-width: 4rem;
+    min-width: 5rem;
     text-align: right;
     margin-right: 4px;
   }
