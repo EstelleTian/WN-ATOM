@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-04-06 15:34:49
+ * @LastEditTime: 2021-04-07 17:42:11
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -132,7 +132,7 @@ function TodoNav(props) {
 
             let obj = {
                 flightsId: flightsId,
-                key: key,
+                key: taskId,
                 TASKID: taskId,
                 type: type,
                 sourceVal: sourceVal, //原始值
@@ -146,7 +146,7 @@ function TodoNav(props) {
                 depap: depap,
                 COMMENT: businessName,
                 handleStatus: JSON.stringify(options),
-                abc: flightObj,
+                flightObj: flightObj,
             }
             tableData.push(obj);
         }
@@ -204,7 +204,10 @@ function TodoNav(props) {
                 onCancel={ hideModal }
                 className="collaborate_table_modal"
             >
-                <Tabs size="large" style={{marginTop:-25}}>
+                <Tabs size="large" style={{marginTop:-25}} activeKey={props.todoList.activeTab} onChange={function(activeKey) {
+                    console.log(activeKey)
+                    props.todoList.activeTab = activeKey+"";
+                }}>
                     <TabPane tab="待办" key="1">
                        <TodoTable requestDatas={requestData} />
                     </TabPane>

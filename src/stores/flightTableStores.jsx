@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-04-06 15:36:50
+ * @LastEditTime: 2021-04-07 16:20:26
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -119,6 +119,8 @@ class FlightTableData{
     @observable searchVal = "";
     //选中高亮的航班id
     @observable selectFlightId = "";
+    //强制定位航班id
+    @observable focusFlightId = "";
     //定时器
     @observable timeoutId = "";
     //上一次请求的方案id
@@ -172,6 +174,7 @@ class FlightTableData{
             this.selectFlightId = fid;
         }
     }
+
     //修改--航班列表-自动滚动状态
     @action setAutoScroll(flag ){
         this.autoScroll = flag;

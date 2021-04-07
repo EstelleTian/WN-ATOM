@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-06 15:31:42
+ * @LastEditTime: 2021-04-07 17:19:18
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -40,8 +40,8 @@ let FLIGHTIDPopover = (props) => {
     });
     //数据提交成功回调
     const requestSuccess = useCallback( ( data, title ) => {
-        console.log(title + '成功:',data);
-        console.log( props.flightTableData.updateSingleFlight );
+        // console.log(title + '请求成功:',data);
+        // console.log( props.flightTableData.updateSingleFlight );
         setExemptLoad(false);
         setSingleExemptLoad(false);
         setIntervalLoad(false);
@@ -58,7 +58,7 @@ let FLIGHTIDPopover = (props) => {
 
         setTipObj({
             visible: true,
-            title: title + '成功',
+            title: title + '请求成功',
             color: cgreen
         });
 
@@ -112,7 +112,7 @@ let FLIGHTIDPopover = (props) => {
                     if( isValidVariable(err) ){
                       requestErr(err, err )
                     }else{
-                      requestErr(err, fid+title+'失败' )
+                        requestErr(err, fid + title + '请求失败' )
                     }
                 },
             };
@@ -158,7 +158,7 @@ let FLIGHTIDPopover = (props) => {
                     if( isValidVariable(err) ){
                       requestErr(err, err )
                     }else{
-                      requestErr(err, fid+title+'失败' )
+                      requestErr(err, fid + title + '请求失败' )
                     }
                 },
             };

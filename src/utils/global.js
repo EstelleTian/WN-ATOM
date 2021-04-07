@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-03-08 09:58:11
+ * @LastEditTime: 2021-04-07 13:58:03
  * @LastEditors: Please set LastEditors
  * @Description: 暴露给客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -18,3 +18,4 @@ window.NWGlobal = NWGlobal;
 
 export { NWGlobal }
 
+// NWGlobal.targetToFlight = (schemeId, flightId) => {}

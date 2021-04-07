@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-03-25 19:30:45
+ * @LastEditTime: 2021-04-07 14:58:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -58,6 +58,9 @@ function InfoPage(props){
                 }
                 
             })
+
+            
+            
         }
 
         let on_error = function (error) {

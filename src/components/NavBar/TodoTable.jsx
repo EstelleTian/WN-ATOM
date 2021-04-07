@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-02 11:25:53
+ * @LastEditTime: 2021-04-07 18:05:24
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -26,6 +26,27 @@ const { Step } = Steps;
 
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
+
+//设置行高亮-传入目标dom
+const highlightRowByDom = targetDom => {
+    let tClass = targetDom.getAttribute("class");
+    const trs = targetDom.parentElement.children;
+    clearHighlightRowByDom(trs)
+    targetDom.setAttribute("class", tClass+" active_row");  
+}
+
+//清除行高亮-定位容器class
+const clearHighlightRowByDom = trs => {
+    const len = trs.length;
+    for(let i = 0; i < len; i++){
+        let trDom = trs[i];
+        let trClass = trDom.getAttribute("class");
+        trClass = trClass.replace(/active_row/g, "");
+        trDom.setAttribute("class", trClass);
+    } 
+}
+
+
 
 const getLockedCn = ( value ) => {
     let res = "";
@@ -429,22 +450,35 @@ const TodoTable = (props) => {
         return columns;
     }, []);
 
+    //设置表格行的 class
+    const setRowClassName = useCallback((record, index) => {
+        let id = record.TASKID || "";
+        return id ;
+    },[]);
+
+    useEffect(() => {
+        if( isValidVariable(props.todoList.focusTaskId) ){
+            const focusTaskId = props.todoList.focusTaskId;
+            console.log("待办工作流行定位")
+            //高亮航班
+            const canvas = document.getElementsByClassName("flight_cord_todo_canvas");
+            const tr = canvas[0].getElementsByClassName( focusTaskId );
+            if( tr.length > 0 ){
+                highlightRowByDom(tr[0]);
+                props.todoList.focusTaskId = "";
+            }
+        }
+    }, [ props.todoList.focusTaskId ]);
+
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..." /></div>}>
-            <div className="advanced-search-base-input-filter">                
+            <div className="advanced-search-base-input-filter flight_cord_todo_canvas">                
                 <Table
                     columns={getColumns }
                     dataSource={ props.todoList.todos }
                     size="small"
                     bordered
-                    // pagination={{
-                    //     pageSize: 10,
-                    //     showSizeChanger: true,
-                    //     showQuickJumper: true,
-                    //     showTotal: total => {
-                    //         return `共${total}条`;
-                    //     },
-                    // }}
+                    rowClassName = {setRowClassName}
                     loading={loading}
                     scroll={{
                         x: tableTotalWidth,
