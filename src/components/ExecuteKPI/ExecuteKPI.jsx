@@ -30,7 +30,7 @@ const ExecuteKPI = (props) => {
                     <SpecialFlights />
                     <ImpactLevel />
                     <PreDelay/>
-                    <CTOTRate  />
+                    {/* <CTOTRate  /> */}
             </div>
         // </Spin>
     )

@@ -17,7 +17,7 @@ const PerformanceItemHeader =(props) => {
     return(
         <div className="header">
             <div className="title" style={ style }> { title }</div>
-            <div className="description" style={{ color: style.color }}>
+            {/* <div className="description" style={{ color: style.color }}>
 
                 <Tooltip title={tooltipContent}>
                     <div className="text-wrapper">
@@ -26,7 +26,7 @@ const PerformanceItemHeader =(props) => {
                     </div>
                 </Tooltip>
 
-            </div>
+            </div> */}
         </div>
     )
 }

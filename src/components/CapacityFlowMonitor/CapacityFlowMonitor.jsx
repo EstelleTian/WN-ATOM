@@ -9,9 +9,10 @@
 import React, { useEffect, useCallback } from 'react'
 import { inject, observer } from 'mobx-react'
 import { request } from 'utils/request'
-import { message, Spin, List, Tooltip } from 'antd'
+import {  Spin, List, Tooltip } from 'antd'
+import { customNotice } from 'utils/common-funcs'
 import { CloseCircleOutlined, FileTextOutlined } from '@ant-design/icons';
-import { getFullTime, isValidObject, isValidVariable, formatTimeString, addStringTime } from 'utils/basic-verify'
+import { getFullTime, isValidObject, isValidVariable, addStringTime } from 'utils/basic-verify'
 import { openCapacityFlowMonitorUnitTclientFrame } from 'utils/client'
 
 import AirportMonitor from 'components/MiniMonitor/AirportMonitor'
@@ -147,7 +148,7 @@ const CapacityFlowMonitor = (props) => {
                             </Tooltip>
                         </div>
                         <div className="monitor-content">
-                            <AirportMonitor data={item.data} weatherData={weatherDataObj[item.key]} />
+                            <AirportMonitor dataKey = {item.key} data={item.data} weatherData={weatherDataObj[item.key]} />
                         </div>
 
                     </ModalBox>
@@ -161,11 +162,10 @@ const CapacityFlowMonitor = (props) => {
             props.capacityFlowMonitorData.updateCapacityFlowMonitorData(capacityFlowMonitorData)
         } else {
             props.capacityFlowMonitorData.updateCapacityFlowMonitorData({});
-            message.error({
-                content: "获取的航班执行数据为空",
-                duration: 4,
-            });
-
+            customNotice({
+                type: 'error',
+                message: "获取的航班执行数据为空"
+            })
         }
     });
     // 更新--气象 store数据
@@ -174,11 +174,10 @@ const CapacityFlowMonitor = (props) => {
             props.capacityFlowMonitorWeatherData.updateCapacityFlowMonitorWeatherData(weatherData.result)
         } else {
             props.capacityFlowMonitorWeatherData.updateCapacityFlowMonitorWeatherData({});
-            message.error({
-                content: "获取的气象数据为空",
-                duration: 4,
-            });
-
+            customNotice({
+                type: 'error',
+                message: "获取的气象数据为空"
+            })
         }
     });
 
@@ -191,16 +190,13 @@ const CapacityFlowMonitor = (props) => {
             errMsg = err;
         }
 
-        message.error({
-            content: (
-                <span>
-                    <span>{content}</span>
-                    <br />
-                    <span>{errMsg}</span>
-                </span>
-            ),
-            duration: 4,
-        });
+        customNotice({
+            type: 'error',
+            message: <div>
+                <p>{content}</p>
+                <p>{errMsg}</p>
+            </div>
+        })
     });
 
 
