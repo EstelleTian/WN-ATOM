@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Empty, Row, Spin } from "antd";
+import { Col, Empty, Row, Spin, Tooltip, Descriptions, Popover, Button } from "antd";
 import { AlertOutlined, WarningOutlined, BulbOutlined } from "@ant-design/icons";
 import ReactEcharts from "echarts-for-react";
 import { inject, observer } from 'mobx-react'
@@ -42,11 +42,43 @@ function ImpactLevel(props) {
     }
 
     let { impactDegree } = kpi;
+
     let level = levelData[impactDegree] || {}
+    // 影响等级
     const label = level.label || "";
     const levelClassName = level.levelClassName || "";
     const icon = level.icon || "";
+    // 比率数据对象
+    const degree = kpi.degree || {};
+    // 流量
+    const flightSize = degree.flightSize || "";
+    // 容量
+    const capacitySize = degree.capacitySize || "";
+    // 比率值
+    const degreeCount = degree.degreeCount || "";
+
     const { loading } = executeKPIData;
+
+
+    const drawLevelDescription = () => {
+        if (isValidVariable(label)) {
+            return (<div className="level-description">
+                <Descriptions
+                    size="small"
+                    column={3}
+                >
+                    <Descriptions.Item label="流量">{flightSize}</Descriptions.Item>
+                    <Descriptions.Item label="容量">{capacitySize}</Descriptions.Item>
+                    <Descriptions.Item label="比率">{degreeCount}</Descriptions.Item>
+                    <Descriptions.Item label="高" span={3} >比率大于2</Descriptions.Item>
+                    <Descriptions.Item label="中" span={3} >比率大于1</Descriptions.Item>
+                    <Descriptions.Item label="低" span={3} >比率小于等于1</Descriptions.Item>
+                </Descriptions>
+            </div>)
+        } else {
+            return ""
+        }
+    }
 
     return (
         <Spin spinning={loading} >
@@ -54,8 +86,14 @@ function ImpactLevel(props) {
                 <Col span={8} className="block">
                     <div className="block-title">影响程度</div>
                     <div className={`${levelClassName} impact-level flex justify-content-center layout-column`}>
-                        <AlertOutlined className={`level_icon`} />
-                        <div className={`text-center`}>{label}</div>
+                        <Tooltip title={drawLevelDescription()} arrowPointAtCenter placement="topLeft">
+                            <AlertOutlined className={`level_icon`} />
+                        </Tooltip>
+                        <Tooltip title={drawLevelDescription()} arrowPointAtCenter placement="topLeft">
+                        <div className={`text-center`}>
+                            <span>{label}</span>
+                        </div>
+                        </Tooltip>
                     </div>
                 </Col>
                 <Col span={16} className="block">
@@ -65,7 +103,7 @@ function ImpactLevel(props) {
                     </div>
                 </Col>
             </Row>
-        </Spin>
+        </Spin >
     )
 
 }
@@ -74,7 +112,7 @@ function ImpactLevel(props) {
 function DCBLineChart(props) {
     // DCB数据集合
     let { dcb } = props;
-   
+
     if (!isValidVariable(dcb)) {
         dcb = {};
     }
@@ -109,7 +147,8 @@ function DCBLineChart(props) {
             outsideDCBValArr.push(outsideDCBVal);
         }
         const option = {
-            color: [ "#1b9acd", "#44d4e6","#6e95f7", "#f6a748", ],
+            backgroundColor: "#00000000",
+            color: ["#1b9acd", "#44d4e6", "#6e95f7", "#f6a748"],
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -117,16 +156,18 @@ function DCBLineChart(props) {
                 }
             },
             legend: {
-                data: ['DCB'],
-                show: false
+                data: ['全区DCB', '区内DCB', '区外DCB'],
+                icon: 'circle',
+                textStyle: {
+                    color: '#fff'
+                }
             },
             grid: {
-                top: '10px',
-                // left: '5px',
-                // right: '5px',
-                bottom: '10px',
-                height: '140'
-                // containLabel: false
+                top: '30px',
+                left: '1%',
+                right: '2%',
+                bottom: '1%',
+                containLabel: true
             },
             xAxis: [
                 {
@@ -173,7 +214,7 @@ function DCBLineChart(props) {
                     type: 'line',
                     // stack: '1',
                     data: insideDCBValArr
-                },{
+                }, {
                     name: '区外DCB',
                     type: 'line',
                     // stack: '1',
