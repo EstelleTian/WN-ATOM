@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-03-25 15:02:19
+ * @LastEditTime: 2021-04-07 16:30:42
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -44,7 +44,8 @@ const scrollTopById = (id, classStr ) => {
             const tr = boxContent[0].getElementsByClassName( id );
             if( tr.length > 0 ){
                 const trHeight = tr[0].clientHeight;
-                const rowIndex = tr[0].firstElementChild.innerHTML; //当前航班所在行号
+                const rowIndex = tr[0].firstElementChild.getElementsByClassName("text_cell_center")[0].innerHTML; //当前航班所在行号
+
                 let mtop = rowIndex *  trHeight;
                 // console.log("目标定位航班是：",tr , trHeight, rowIndex, mtop);
                 if( contentH/2 < mtop ){

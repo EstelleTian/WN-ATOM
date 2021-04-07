@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-06 14:10:23
+ * @LastEditTime: 2021-04-07 19:29:46
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -83,7 +83,7 @@ function FTable(props){
     
 
     const { flightTableData = {}, schemeListData } = props;
-    const { autoScroll, filterable } = flightTableData;
+    const { autoScroll, filterable, focusFlightId, dataLoaded } = flightTableData;
     const { showList, targetFlight } =  props.flightTableData.getShowFlights;
     // if( showList.length < 3){
     //     console.log(showList)
@@ -165,6 +165,21 @@ function FTable(props){
             scrollTopById(targetFlight.id, "flight_canvas");
         }
     }, [ targetFlight.id ]);
+
+    useEffect(() => {
+        if( !dataLoaded && isValidVariable(focusFlightId) ){
+            console.log("航班定位")
+            //高亮航班
+            const flightCanvas = document.getElementsByClassName("flight_canvas");
+            const boxContent = flightCanvas[0].getElementsByClassName("box_content");
+            const tr = boxContent[0].getElementsByClassName( focusFlightId );
+            if( tr.length > 0 ){
+                highlightRowByDom(tr[0]);
+                scrollTopById(focusFlightId, "flight_canvas");
+                props.flightTableData.focusFlightId = "";
+            }
+        }
+    }, [ focusFlightId, dataLoaded ]);
 
     // console.log("航班表格 render!!! filterable",filterable)
 

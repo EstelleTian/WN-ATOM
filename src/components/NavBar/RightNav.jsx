@@ -2,7 +2,7 @@ import React from "react";
 import { Radio, Badge, Button, Avatar } from "antd";
 import { UserOutlined, SearchOutlined } from '@ant-design/icons'
 import { observer, inject } from "mobx-react";
-import RefreshBtn from "components/SchemeList/RefreshBtn";
+// import RefreshBtn from "components/SchemeList/RefreshBtn";
 import TodoNav from './TodoNav'
 import SubTableNav from './SubTableNav'
 // import MyApplicationButton from "components/MyApplication/MyApplicationButton";
@@ -37,11 +37,11 @@ function RightNav(props) {
             {
                 systemPage.user.id !== "" 
                     && <span>
-                        <RefreshBtn />
-                        <Button
+                        {/* <RefreshBtn /> */}
+                        {/* <Button
                             type="default"
                             icon={<SearchOutlined />}
-                        >航班查询 </Button>
+                        >航班查询 </Button> */}
                         <Radio.Group value={systemPage.leftActiveName} buttonStyle="solid"  onChange={groupRightChange} >
                             {
                                 systemPage.userHasAuth(12513) && <Radio.Button value="kpi">执行KPI</Radio.Button>
@@ -58,9 +58,9 @@ function RightNav(props) {
                             {
                                 systemPage.userHasAuth(	12506 ) && <Radio.Button value="scheme">方案列表</Radio.Button>
                             }
-                            {
+                            {/* {
                                 systemPage.userHasAuth(	12507 ) && <Radio.Button value="outer_scheme">外部流控</Radio.Button>
-                            }
+                            } */}
 
                             <Radio.Button value="runway">跑道配置</Radio.Button>
 
@@ -70,6 +70,7 @@ function RightNav(props) {
                                 <Radio.Button value="system">参数设置</Radio.Button>
                             </Radio.Group>
                         }
+                        
                     </span>
             }
             

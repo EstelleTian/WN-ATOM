@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-04-02 12:32:53
+ * @LastEditTime: 2021-04-07 17:20:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -95,21 +95,23 @@ const PopoverTip = ( props ) => {
                 color: cred
             });
             setSubmitBtnLoading(false);
+            serRefuseBtnLoading(false);
             //关闭协调窗口popover
             closePopover();
         })
         //数据提交成功回调
         const requestSuccess = useCallback( ( data, title ) => {
-            console.log(title + '成功:',data);
-            console.log( props.flightTableData.updateSingleFlight );
+            // console.log(title + '成功:',data);
+            // console.log( props.flightTableData.updateSingleFlight );
             const { flightCoordination } = data;
             props.flightTableData.updateSingleFlight( flightCoordination );
             setTipObj({
                 visible: true,
-                title: title + '成功',
+                title: title + '请求成功',
                 color: cgreen
             });
             setSubmitBtnLoading(false);
+            serRefuseBtnLoading(false);
             //关闭协调窗口popover
             closePopover();
         });
@@ -118,7 +120,13 @@ const PopoverTip = ( props ) => {
             try {
               const values = await form.validateFields();
             //   console.log('Success:', values);
-              setSubmitBtnLoading(true)
+              
+              if(type === 'clear'){
+                serRefuseBtnLoading(true);
+              }else{
+                setSubmitBtnLoading(true);
+              }
+              
               const newStartTime =  moment(values.startTime).format('YYYYMMDD'); //日期转化
               const { record } = props.opt;
               const orgdata = record.orgdata || {};
@@ -146,7 +154,7 @@ const PopoverTip = ( props ) => {
               if( col === "COBT"){
                   urlKey = "/updateFlightCobt";
                   if( type === 'clear'){
-                    urlKey = '/clearFlightCobt'
+                    urlKey = '/clearFlightCobt';
                   }
                   url = CollaborateUrl.cobtUrl;
                   params["timeVal"] = timestr;
@@ -177,7 +185,7 @@ const PopoverTip = ( props ) => {
                 params["timeVal"] = timestr;
                 params["fix"] = name;
             }
-              console.log(params);
+            //   console.log(params);
               const opt = {
                   url: url + urlKey,
                   method: 'POST',
@@ -187,7 +195,7 @@ const PopoverTip = ( props ) => {
                       if( isValidVariable(err) ){
                         requestErr(err, err )
                       }else{
-                        requestErr(err, title+'失败' )
+                        requestErr(err, title + '请求失败' )
                       }
                   },
               };
@@ -383,7 +391,9 @@ const PopoverTip = ( props ) => {
                                     }}
                                 >指定</Button>
                                 {
-                                    source === "MANUAL" && <Button style={{marginLeft: '8px'}} 
+                                    source === "MANUAL" && 
+                                    <Button style={{marginLeft: '8px'}} 
+                                    loading={refuseBtnLoading}
                                     className="todo_opt_btn todo_refuse c-btn-red"
                                     onClick={ e=> {
                                         onCheck("clear");

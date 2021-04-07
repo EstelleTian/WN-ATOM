@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-25 19:29:06
+ * @LastEditTime: 2021-04-07 15:49:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -9,14 +9,15 @@
 import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { Layout, Spin } from 'antd';
 import { inject, observer } from "mobx-react";
-import FlightSearch from 'components/FlightSearch/FlightSearch'
-import SchemeTitle from 'components/SchemeList/SchemeActiveTitle'
+// import FlightSearch from 'components/FlightSearch/FlightSearch'
+// import SchemeTitle from 'components/SchemeList/SchemeActiveTitle'
 import NavBar from 'components/NavBar/NavBar.jsx';
-import ModalBox from 'components/ModalBox/ModalBox'
+import Topic from 'components/NavBar/Topic.jsx';
+// import ModalBox from 'components/ModalBox/ModalBox'
 import LeftMultiCanvas from 'components/LeftMultiCanvas/LeftMultiCanvas'
 import RightMultiCanvas from 'components/RightMultiCanvas/RightMultiCanvas'
 import { isValidVariable } from 'utils/basic-verify'
-import Stomp from 'stompjs'
+// import Stomp from 'stompjs'
 import './FangxingPage.scss'
 
 const FlightTableModal = lazy(() => import('components/FlightTable/FlightTable'));
@@ -51,6 +52,7 @@ function FangxingPage(props) {
     return (
         <Layout className="layout">
             <NavBar className="nav_bar" title="空中交通运行放行监控系统" username="" />
+            <Topic></Topic>
             {
                 login ? <div className="nav_body">
                     <div className="cont_left">

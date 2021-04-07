@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-04-02 10:55:06
+ * @LastEditTime: 2021-04-07 15:10:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -35,8 +35,16 @@ function stepsList (props){
                         if( name === "" ){
                             name = task.assigneeName || "";
                         }
+                        let createTime = task.createTime || "";
                         let endTime = task.endTime || "";
-                        endTime = isValidVariable(endTime) ? getFullTime(new Date(endTime), 1) : ""
+                        
+                        if( isValidVariable(endTime) ){
+                            endTime = "办结时间：" + getFullTime(new Date(endTime), 1)
+                        }else{
+                            endTime = "到达时间：" + getFullTime(new Date(createTime), 1)
+                        }
+
+                        
                         const taskLocalVariables = task.taskLocalVariables || {};
                         const processVariables = task.processVariables || {};
                         const agree = taskLocalVariables.agree;
@@ -56,7 +64,8 @@ function stepsList (props){
                         // const userNameCn = taskLocalVariables.userNameCn || "";
                         const userNameCn = task.assigneeName || "";
                         let desDom = (<div>
-                            <div>{userNameCn} { endTime !== "" && `(${endTime})` } </div>
+                            <div>处理人：{userNameCn} </div>
+                            <div title={endTime}> { endTime !== "" && `${endTime}` }</div>
                             <div title={commentsTitle}> { comments != "" && `原因: ${ comments } ` }</div>
                             </div>
                         )
@@ -306,7 +315,8 @@ function DynamicWorkSteps (props){
             hisTasks.length > 0 &&
             (
                 <ModalBox
-                    title={`待办工作流(${formatTimeString(generateTime)})`}
+                    // title={`动态容量变更工作流(${formatTimeString(generateTime)})`}
+                    title={`动态容量变更工作流`}
                     showDecorator = {false}
                     className="static_cap_modal"
                 >

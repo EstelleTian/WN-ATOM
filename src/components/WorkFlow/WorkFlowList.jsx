@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-01 21:46:14
+ * @LastEditTime: 2021-04-07 19:49:03
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -23,6 +23,15 @@ import { openConfirmFrame, openTimeSlotFrameWithFlightId, openTclientFrameForMes
 const { Search } = Input;
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
+
+// let orignalSetItem = localStorage.setItem;
+// localStorage.setItem = function (key, newValue) {
+//     let setItemEvent = new Event("setItemEvent");
+//     setItemEvent.newValue = newValue;
+//     window.dispatchEvent(setItemEvent);
+//     orignalSetItem.apply(this, arguments);
+// }
+
 
 //详情 按钮
 const DetailBtn = function(props){
@@ -100,6 +109,10 @@ const HandleBtn = function(props){
              case "FlightApprovalProcess": //航班审批流程
                 const tacticId = processVariables.tacticId || "";//航班对应方案id
                 const fmeId = processVariables.fmeId || "";//航班id
+                localStorage.setItem("targetToFlight", JSON.stringify({
+                    tacticId: tacticId,
+                    flightId: fmeId
+                }));
                 openTimeSlotFrameWithFlightId(tacticId, fmeId);
                 break;
              case "SchemeApprovalProcess": //方案审批流程
@@ -249,10 +262,10 @@ function WorkFlowList(props){
             return (
                 <span className='opt_btns'>
                     <DetailBtn record={record} />
-                    <HandleBtn record={record} activeTab={activeTab} />
-                    {/* {
-                        activeTab === "todo" ? <HandleBtn record={record} />: ""
-                    } */}
+                    {/* <HandleBtn record={record} activeTab={activeTab} /> */}
+                    {
+                        activeTab === "todo" ? <HandleBtn activeTab={activeTab} record={record} />: ""
+                    }
                 
                     {/*<a>收回</a>*/}
                     {/*<a>催办</a>*/}

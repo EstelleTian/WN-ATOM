@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-03-25 18:56:22
+ * @LastEditTime: 2021-04-07 19:54:20
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -21,6 +21,23 @@ import { ReqUrls } from 'utils/request-urls'
 import { customNotice } from 'utils/common-funcs'
 import  SchemeItem  from "./SchemeItem";
 import './SchemeList.scss'
+
+
+    // 接收storage同源消息
+    window.addEventListener("storage", function(e){
+        if (e.key === "targetToFlight"){
+            // console.log("storage", e);
+            const newValue = e.newValue || "{}";
+            let values = JSON.parse( newValue );
+            const {tacticId ="", flightId =""} = values;
+            if( isValidVariable(tacticId) && isValidVariable(flightId) ){
+                NWGlobal.targetToFlight(tacticId, flightId);
+            }
+            
+        }
+        localStorage.removeItem("targetToFlight");
+    });
+
 
 //方案多选按钮组
 const plainOptions = [
@@ -641,21 +658,48 @@ function SList (props){
 
     //接收客户端传来方案id，用以自动切换到选中方案
     NWGlobal.setSchemeId = useCallback(( schemeId, title )  => {
-        // alert("收到id:"+schemeId+"  title:"+title);
+        alert("收到id:"+schemeId+"  title:"+title);
          //主动获取一次
         getSchemeList().then( function(data) {
-            handleActive( schemeId, title, 'client' );
-            if( isValidVariable(title) ){
+            //验证有没有这个方案
+            const res = props.schemeListData.activeScheme( schemeId );
+            if( isValidObject(res) ){
+                handleActive( schemeId, title, 'client' );
+            }else{
                 customNotice({
                     type: 'warning',
                     message: "暂未获取到方案，方案名称是：" + title,
-                    duration: 15
+                    duration: 20
                 })
-               
             }
+
         });
     },[]);
+
     
+    NWGlobal.targetToFlight = (schemeId, flightId) => {
+        // alert("schemeId:"+schemeId+" flightId:"+flightId);
+        //选中方案
+        const activeSchemeId = props.schemeListData.activeSchemeId;
+        if( activeSchemeId !== "schemeId"){
+            //选中方案
+            props.schemeListData.toggleSchemeActive( schemeId+"" );
+        }
+        props.flightTableData.focusFlightId = flightId;
+        //验证航班协调按钮是否激活 todo为已激活
+        if( props.systemPage.modalActiveName !== "todo" ){
+            props.systemPage.setModalActiveName("todo");
+        }
+        if( props.todoList.activeTab !== "1" ){
+            props.todoList.activeTab = "1";
+        }
+        let taskId = props.todoList.getIdByFlightId(flightId);
+        if( isValidVariable(taskId) ){
+            //根据 taskId 高亮工作流
+            props.todoList.focusTaskId = taskId;
+            
+        }
+    }
 
     //高亮方案并获取航班数据和KPI数据
     const handleActive = useCallback( debounce( ( id, title, from ) => {
@@ -678,12 +722,6 @@ function SList (props){
                 message: '航班数据请求中,请稍后再试',
                 duration: 10
             });
-            if( isValidVariable(title) ){
-                message.warning({
-                    content: "暂未获取到方案，方案名称是：" + title ,
-                    duration: 15,
-                });
-            }
         }
         
     } , 500),[]);
@@ -691,7 +729,6 @@ function SList (props){
     
 
     useEffect(() => {
-        
          if( activeSchemeId === "" && sortedList.length > 0 ){
             handleActive( sortedList[0].id, "", "init")
         }
@@ -735,7 +772,7 @@ function SList (props){
     )
 }
 
-const SchemeList = inject("schemeListData", "flightTableData", "executeKPIData","performanceKPIData", "systemPage")(observer(SList))
+const SchemeList = inject("schemeListData", "flightTableData", "executeKPIData","performanceKPIData", "systemPage", "todoList")(observer(SList))
 
 const SchemeListModal = () => {
     return (

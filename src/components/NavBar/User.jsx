@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-03-31 15:51:24
+ * @LastEditTime: 2021-04-07 15:47:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\User.jsx
@@ -12,7 +12,6 @@ import { PoweroffOutlined, SettingOutlined} from "@ant-design/icons";
 import {observer, inject} from "mobx-react";
 import {withRouter} from "react-router-dom";
 import {isValidVariable} from "utils/basic-verify";
-import Stomp from 'stompjs'
 
 const menu = (
     <Menu >
@@ -28,67 +27,27 @@ const menu = (
     </Menu>
 );
 function User(props){
-    const { location, systemPage } = props;
-    const user = systemPage.user || {};
-    const username = user.name || "";
-    const descriptionCN = user.descriptionCN || "";
+    const { location } = props;
+    let descriptionCN =  "";
     const pathname = location.pathname || "";
 
-    const stompClientFunc = ( username = "" ) => {
-        console.log("建立连接  ", username);
-        if( !isValidVariable(username) ){
-            return;
-        }
-        // alert("建立连接:" + username);
-        console.log("建立连接");
-        // 建立连接
-        let ws = new WebSocket('ws://192.168.210.150:15674/ws');
-        let stompClient = Stomp.over(ws)
-        stompClient.heartbeat.outgoing = 200;
-        stompClient.heartbeat.incoming = 0;
-        stompClient.debug = null;
+    const user = localStorage.getItem("user");
 
-        let on_connect = function (x) {
-            console.log("放行监控 WebSocket连接成功:");
-            // console.log(x);
-            //收到限制消息
-            const topic1 = "/exchange/EXCHANGE.EVENT_CENTER_TRAFFIC_FLOW_CHANGE";
-            stompClient.subscribe( topic1, function (d) {
-                //收到消息
-                console.log("放行监控 WebSocket收到消息:"+d);
-                console.timeEnd("cod");
-                props.flightTableData.setForceUpdate(true);
-                props.todoList.setForceUpdate(true);
-                props.myApplicationList.setForceUpdate(true);
-            })
+    if( isValidVariable(user) ){
+        if( pathname === "/fangxing" ){
+            const userObj = JSON.parse(user)
+            descriptionCN = userObj.descriptionCN || "";
+            props.systemPage.setUserData( userObj );
         }
-
-        let on_error = function (error) {
-            console.log("放行监控 WebSocket连接失败:");
-            console.log(error);
-            setTimeout(function(){
-                stompClientFunc(username);
-            }, 5000)
-            
-        }
-        // 连接消息服务器
-        stompClient.connect('guest', 'guest', on_connect, on_error, '/');
-    }
-    
-    useEffect(function(){
-        const user = localStorage.getItem("user");
         
-        if( isValidVariable(user) ){
-            props.systemPage.setUserData( JSON.parse(user) );
-            if( pathname === "/fangxing" ){
-                stompClientFunc(JSON.parse(user).username)
-            }
-            
-        }
-        else{
-            // props.history.push('/')
-        }
-    }, []);
+    }
+    else{
+        // props.history.push('/')
+    }
+
+    console.log("User组件更新了")
+    
+    
     //放行监控页面
     if( pathname === "/fangxing" ){
         if( isValidVariable(user.id) ){
@@ -114,4 +73,4 @@ function User(props){
 
 }
 
-export  default  withRouter(inject("systemPage", "flightTableData", "todoList", "myApplicationList")( observer( User)));
+export  default  withRouter(inject("systemPage")( observer( User)));
