@@ -108,6 +108,8 @@ function TodoPage(props) {
 
     let [userSubscribeData, setUserSubscribeData] = useState({});
     let [templateId, setTemplateId] = useState(0);
+    const { user = {}} = props.systemPage;
+    const userId = user.id || "";
     let { subscribeData } = props.userSubscribeData;
     let focus = subscribeData.focus || "";
 
@@ -176,7 +178,17 @@ function TodoPage(props) {
     useEffect(function () {
         // 获取用户订阅数据
         requestUserSubscribeData();
+    }, [userId]);
+    // 初始化用户信息
+    useEffect(function () {
+        // 从localStorage取用户信息并存入stores
+        const user = localStorage.getItem("user");
+        if( isValidVariable(user) ){
+            props.systemPage.setUserData( JSON.parse(user) );
+        }
     }, []);
+
+    
 
 
     const reloadSimpleMap = () => {
