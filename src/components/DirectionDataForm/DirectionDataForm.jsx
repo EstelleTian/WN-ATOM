@@ -76,7 +76,7 @@ function DirectionDataForm(props) {
 
     const { directionName = "", direction = {}, flightProperty = {} } = directionData;
 
-    const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = direction;
+    const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, useHeight, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = direction;
 
     const { flightId = "", wakeFlowLevel = "", airlineType = "", missionType = "", auType = "",
         task = "", organization = "", ability = "", aircraftType = "",
@@ -172,7 +172,7 @@ function DirectionDataForm(props) {
         // 豁免后序
         exemptBehindUnit: exemptBehindUnit,
         // 限制高度
-        highLimit: highLimit,
+        useHeight: useHeight,
         // 豁免高度
         exemptHeight: exemptHeight,
         // 起飞机场
@@ -395,7 +395,7 @@ function DirectionDataForm(props) {
         // 更新豁免后序
         direction.exemptBehindUnit = "";
         // 更新限制高度
-        direction.highLimit = "";
+        direction.useHeight = "";
         // 更新豁免高度
         direction.exemptHeight = "";
 
@@ -497,7 +497,7 @@ function DirectionDataForm(props) {
 
 
         // 表单字段数据
-        const { directionName, targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight,
+        const { directionName, targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, useHeight, exemptHeight,
             depAp, arrAp, exemptDepAp, exemptArrAp,
             flightId, wakeFlowLevel, auType, airlineType, missionType,
             task, organization, ability, aircraftType,
@@ -519,7 +519,7 @@ function DirectionDataForm(props) {
         // 更新豁免后序
         direction.exemptBehindUnit = exemptBehindUnit;
         // 更新限制高度
-        direction.highLimit = highLimit;
+        direction.useHeight = useHeight;
         // 更新豁免高度
         direction.exemptHeight = exemptHeight;
 
@@ -806,7 +806,7 @@ function DirectionDataForm(props) {
                             </Col>
                             <Col span={8}>
                                 <Form.Item
-                                    name="highLimit"
+                                    name="useHeight"
                                     label="高度"
                                 >
                                     <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
