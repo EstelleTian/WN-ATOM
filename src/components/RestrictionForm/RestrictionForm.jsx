@@ -1040,7 +1040,7 @@ function RestrictionForm(props) {
         )
     };
 
-
+    // 初始化用户信息
     useEffect(function () {
         const user = localStorage.getItem("user");
         if (isValidVariable(user)) {
