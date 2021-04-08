@@ -141,11 +141,11 @@ const CapacityFlowMonitor = (props) => {
                                     <FileTextOutlined />
                                 </div>
                             </Tooltip>
-                            <Tooltip title="移除">
+                            {/* <Tooltip title="移除">
                                 <div onClick={() => { console.log("sss") }} className="remove">
                                     <CloseCircleOutlined />
                                 </div>
-                            </Tooltip>
+                            </Tooltip> */}
                         </div>
                         <div className="monitor-content">
                             <AirportMonitor dataKey = {item.key} data={item.data} weatherData={weatherDataObj[item.key]} />
