@@ -72,7 +72,10 @@ const PieChart = (props) => {
             color: [ "#5babb1", "#065280","#2e6689", "#35a5da","#4b7ba4", "#67E0E3", "#9FE6B8", "#FFDB5C", "#ff9f7f","#fb7293","#E062AE","#E690D1","#e7bcf3","#9d96f5","#8378EA","#96BFFF"],
             tooltip: {
                 trigger: 'item',
-                formatter: '{b} : {c} 条 <br> ({d}%)'
+                confine:true, //解决被遮挡问题
+                backgroundColor:'rgba(50,50,50,0.9)',
+                extraCssText: 'box-shadow: 0 3px 6px -4px rgb(0 0 0 / 48%), 0 6px 16px 0 rgb(0 0 0 / 32%), 0 9px 28px 8px rgb(0 0 0 / 20%);',
+                formatter: '{b} : {c} 条 <br> ({d}%)',
             },
             legend: {
                 data: getLegendData(),

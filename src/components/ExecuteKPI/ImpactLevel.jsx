@@ -153,7 +153,10 @@ function DCBLineChart(props) {
                 trigger: 'axis',
                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                     type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
+                },
+                confine:true, //解决被遮挡问题
+                backgroundColor:'rgba(50,50,50,0.9)',
+                extraCssText: 'box-shadow: 0 3px 6px -4px rgb(0 0 0 / 48%), 0 6px 16px 0 rgb(0 0 0 / 32%), 0 9px 28px 8px rgb(0 0 0 / 20%);'
             },
             legend: {
                 data: ['全区DCB', '区内DCB', '区外DCB'],

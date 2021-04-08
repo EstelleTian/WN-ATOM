@@ -148,7 +148,9 @@ function AirportMonitor(props) {
             tooltip: {
                 show: true,
                 trigger: 'axis',
-                backgroundColor:'rgba(90, 90, 90, 0.8)',
+                confine:true, //解决被遮挡问题
+                backgroundColor:'rgba(50,50,50,0.9)',
+                extraCssText: 'box-shadow: 0 3px 6px -4px rgb(0 0 0 / 48%), 0 6px 16px 0 rgb(0 0 0 / 32%), 0 9px 28px 8px rgb(0 0 0 / 20%);',
                 axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                     type: 'line'        // 默认为直线，可选为：'line' | 'shadow'
                 },

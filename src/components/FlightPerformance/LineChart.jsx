@@ -74,7 +74,9 @@ const LineChart =(props) => {
             animation: false ,
             tooltip: {
                 trigger: 'axis',
-                backgroundColor:'rgba(90, 90, 90, 0.8)',
+                backgroundColor:'rgba(50,50,50,0.9)',
+                confine:true, //解决被遮挡问题
+                extraCssText: 'box-shadow: 0 3px 6px -4px rgb(0 0 0 / 48%), 0 6px 16px 0 rgb(0 0 0 / 32%), 0 9px 28px 8px rgb(0 0 0 / 20%);',
                 // axisPointer: {
                 //     type: 'cross',
                 //     label: {
