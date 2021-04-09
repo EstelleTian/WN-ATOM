@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-08 15:49:32
+ * @LastEditTime: 2021-04-09 13:53:28
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -70,7 +70,7 @@ const ReqUrls = {
     //获取工作流-待办列表
     tasksUrl: workflowIP+'/runtask/',
     //获取工作流-详情
-    taskDetailUrl: workflowIP+'/workflow/procTaskHis/',
+    taskDetailUrl: workflowIP+'/instance/',
     // 航班查询
     searchFlightUrl: 'http://192.168.194.20:38188/hydrogen-flight-plan-server/flightPlan/retrieveDataByFlightId/',
     //待办航班列表-放行监控页面中的

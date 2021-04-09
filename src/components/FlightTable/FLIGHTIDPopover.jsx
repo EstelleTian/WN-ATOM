@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-07 17:19:18
+ * @LastEditTime: 2021-04-09 09:28:39
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -17,7 +17,7 @@ import { observer, inject } from "mobx-react";
 import FmeToday from "utils/fmetoday";
 import { useTip } from './CustomUses'
 
-// 申请半数间隔按钮
+// 标记半数间隔按钮
 const ApplyIntervalButtonNode = memo(({
     intervalLoad,
     handleExempt,
@@ -37,14 +37,14 @@ const ApplyIntervalButtonNode = memo(({
     const handleOk = () => {
         // 隐藏气泡确认框
         handlePopconfirmVisible(false)
-        // 调用申请半数间隔方法
-        handleExempt("interval", record, "申请半数间隔");
+        // 调用标记半数间隔方法
+        handleExempt("interval", record, "标记半数间隔");
     }
     // 若航班已经单方案豁免则显示带气泡确认框的按钮
     if (alarms.indexOf("800") > -1) {
         return (
             <Popconfirm
-                title={`航班 ${flightid} 处于单方案豁免状态,确认进行半数间隔申请?`}
+                title={`航班 ${flightid} 处于单方案豁免状态,确认标记半数间隔?`}
                 visible={visible}
                 onConfirm={handleOk}
                 okButtonProps={{ loading: intervalLoad, size: "default" }}
@@ -52,12 +52,12 @@ const ApplyIntervalButtonNode = memo(({
                 onCancel={() => { handlePopconfirmVisible(false) }}
                 overlayClassName="apply-interval-button-popconfirm"
             >
-                <Button loading={intervalLoad} className="c-btn c-btn-green" onClick={() => { handlePopconfirmVisible(true) }}>申请半数间隔</Button>
+                <Button loading={intervalLoad} className="c-btn c-btn-green" onClick={() => { handlePopconfirmVisible(true) }}>标记半数间隔</Button>
             </Popconfirm>
         )
     } else {
-        // 反之直接显示申请半数间隔按钮
-        return (<Button loading={intervalLoad} className="c-btn c-btn-green" onClick={() => { handleExempt("interval", record, "申请半数间隔") }}>申请半数间隔</Button>)
+        // 反之直接显示标记半数间隔按钮
+        return (<Button loading={intervalLoad} className="c-btn c-btn-green" onClick={() => { handleExempt("interval", record, "标记半数间隔") }}>标记半数间隔</Button>)
     }
 
 
@@ -89,7 +89,7 @@ let FLIGHTIDPopover = (props) => {
     });
     //数据提交成功回调
     const requestSuccess = useCallback((data, title) => {
-        // console.log(title + '请求成功:',data);
+        // console.log(title + '提交成功:',data);
         // console.log( props.flightTableData.updateSingleFlight );
         setExemptLoad(false);
         setSingleExemptLoad(false);
@@ -107,7 +107,7 @@ let FLIGHTIDPopover = (props) => {
 
         setTipObj({
             visible: true,
-            title: title + '请求成功',
+            title: title + '提交成功',
             color: cgreen
         });
 
@@ -132,7 +132,7 @@ let FLIGHTIDPopover = (props) => {
         } else if (type === "singleUnExempt") { //申请取消单方案豁免
             urlKey = "/applyUnSingleExempt";
             setSingleExemptLoad(true);
-        } else if (type === "interval") { //申请半数间隔
+        } else if (type === "interval") { //标记半数间隔
             urlKey = "/applyInterval";
             setIntervalLoad(true);
         } else if (type === "unInterval") { //申请取消半数间隔
@@ -263,17 +263,17 @@ let FLIGHTIDPopover = (props) => {
                 <button className="c-btn c-btn-blue">查看航班详情</button>
                 {
                     (priority === FlightCoordination.PRIORITY_NORMAL && hasAuth)
-                        ? <Button loading={exemptLoad} className="c-btn c-btn-green" onClick={() => { handleExempt("exempt", record, "申请豁免") }}>申请豁免</Button>
+                        ? <Button loading={exemptLoad} className="c-btn c-btn-green" onClick={() => { handleExempt("exempt", record, "标记豁免") }}>标记豁免</Button>
                         : ""
                 }
                 {
                     (priority === FlightCoordination.PRIORITY_EXEMPT && hasAuth)
-                        ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={() => { handleExempt("unExempt", record, "申请取消豁免") }}>申请取消豁免</Button>
+                        ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={() => { handleExempt("unExempt", record, "取消豁免") }}>取消豁免</Button>
                         : ""
                 }
                 {
                     (alarms.indexOf("800") === -1 && hasAuth)
-                        ? <Button loading={singleExemptLoad} className="c-btn c-btn-green" onClick={() => { handleExempt("singleExempt", record, "申请单方案豁免") }}>申请单方案豁免</Button>
+                        ? <Button loading={singleExemptLoad} className="c-btn c-btn-green" onClick={() => { handleExempt("singleExempt", record, "标记单方案豁免") }}>标记单方案豁免</Button>
                         : ""
                 }
                 {

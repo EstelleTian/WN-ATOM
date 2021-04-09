@@ -1578,12 +1578,12 @@ const FmeStatusList = {
 
 //待办航班列表-待办类型
 const TodoType = {
-    "EXEMPT": "申请豁免",
-    "UNEXEMPT": "取消申请豁免",
-    "SINGLEEXEMPT": "申请单方案豁免",
-    "UNSINGLEEXEMPT": "取消申请单方案豁免",
-    "INTERVAL": "申请半数间隔",
-    "UNINTERVAL": "取消申请半数间隔",
+    "EXEMPT": "标记豁免",
+    "UNEXEMPT": "取消豁免",
+    "SINGLEEXEMPT": "标记单方案豁免",
+    "UNSINGLEEXEMPT": "取消单方案豁免",
+    "INTERVAL": "标记半数间隔",
+    "UNINTERVAL": "取消半数间隔",
     "INPOOL": "申请入池",
     "OUTPOOL": "申请出池",
     "TOBT": "申请TOBT",

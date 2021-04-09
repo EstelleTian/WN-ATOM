@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-03-25 15:20:13
+ * @LastEditTime: 2021-04-09 15:04:17
  * @LastEditors: Please set LastEditors
  * @Description: 页面相关store
  * @FilePath: \WN-CDM\src\stores\pageStores.jsx
@@ -26,6 +26,7 @@ class SystemPage{
     }
     //左上导航选中 模块名称
     @observable leftNavSelectedName = "";
+    @observable leftNavNameList = [];
     //左上切换模块名称 执行kpi 
     @observable leftActiveName = "kpi";
     // @observable leftActiveName = "todo";

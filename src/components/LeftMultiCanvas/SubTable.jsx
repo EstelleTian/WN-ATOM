@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-03-25 15:19:13
+ * @LastEditTime: 2021-04-09 16:15:54
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -9,7 +9,8 @@
 import React, {  Suspense, useCallback, useState, useEffect, useMemo} from 'react';
 import { Table, Spin, Modal } from 'antd';
 import {inject, observer} from "mobx-react";
-import ModalBox from 'components/ModalBox/ModalBox';
+// import ModalBox from 'components/ModalBox/ModalBox';
+import DraggableModal from 'components/DraggableModal/DraggableModal'
 import { getColumns, formatSingleFlight, scrollTopById, highlightRowByDom, clearHighlightRowByDom} from 'components/FlightTable/TableColumns';
 import './LeftMultiCanvas.scss';
 import {isValidVariable} from "utils/basic-verify";
@@ -208,10 +209,46 @@ function SubTable(props){
 
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
-             <Modal
+            <DraggableModal
+                title={getTitle()}
+                style={{ top: "110px", left: '340px' }}
+                visible={ modalVisible }
+                handleOk={() => {}}
+                handleCancel={ hideModal }
+                width={1000}
+                maskClosable={false}
+                mask={false}
+                // destroyOnClose设置为true,每次打开模态框子组件挂载，关闭模态框子组件卸载 
+                destroyOnClose = { true }
+                footer = {''}
+            >
+                <Table
+                    columns={ columns }
+                    dataSource={ tableData }
+                    size="small"
+                    bordered
+                    pagination={false}
+                    // loading={ loading }
+                    scroll={{
+                        x: 1000,
+                        y: 500
+                    }}
+                    onRow={record => {
+                        return {
+                          onClick: event => {// 点击行
+                            console.log(event);
+                            const fid = event.currentTarget.getAttribute("data-row-key")
+                            flightTableData.toggleSelectFlight(fid);
+                          }, 
+    
+                        };
+                      }}
+                    rowClassName={rowClassName}/>
+            </DraggableModal>
+             {/* <Modal
                 width={1000}
                 style={{ 
-                    right: "-470px",
+                    right: "-430px",
                     top: "60px"
                  }}
                 title={getTitle()}
@@ -246,7 +283,7 @@ function SubTable(props){
                         };
                       }}
                     rowClassName={rowClassName}/>
-            </Modal>
+            </Modal> */}
             {/* <ModalBox
                 title={getTitle()}
                 showDecorator = {true}

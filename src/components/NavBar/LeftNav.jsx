@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-04-07 15:21:15
+ * @LastEditTime: 2021-04-09 15:22:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -27,15 +27,21 @@ function LeftNav(props){
     }
     let userConcernTrafficListStr = localStorage.getItem("userConcernTrafficList");
     let userConcernTrafficList = useMemo( function(){
-       const list = JSON.parse(userConcernTrafficListStr) || [];
+        let list = [];
+       const arr = JSON.parse(userConcernTrafficListStr) || [];
+       let idsList = [];
        let name = "";
-       list.map( item =>{
-            if( item.concernStatus ){
+       arr.map( item =>{
+            // if( item.concernStatus ){
                 name = "focus-"+item.concernTrafficId || "";
+                idsList.push( name );
                 props.systemPage.setLeftNavSelectedName(name);
-                props.schemeListData.toggleSchemeActive(name);    
-            }
+                props.schemeListData.toggleSchemeActive(name);  
+                list.push(item);  
+            // }
         } );
+        
+        props.systemPage.leftNavNameList = idsList;
         return list
     }, [])
     return (

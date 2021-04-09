@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-04-07 17:20:41
+ * @LastEditTime: 2021-04-09 09:28:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -107,7 +107,7 @@ const PopoverTip = ( props ) => {
             props.flightTableData.updateSingleFlight( flightCoordination );
             setTipObj({
                 visible: true,
-                title: title + '请求成功',
+                title: title + '提交成功',
                 color: cgreen
             });
             setSubmitBtnLoading(false);

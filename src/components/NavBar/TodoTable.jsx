@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-07 18:05:24
+ * @LastEditTime: 2021-04-09 15:54:52
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -499,9 +499,13 @@ const TodoTable = (props) => {
                       
                     
                 />
-               <div className="generateTime" style={{position:"absolute",border:"none",left: "40px",bottom: "63px"}}>
-                   数据时间: {formatTimeString(props.todoList.generateTime)}
-                   </div>
+                {
+                    props.todoList.todos.length > 0 &&
+                    <div className="generateTime" style={{position:"absolute",border:"none",left: "40px",bottom: "40px"}}>
+                        数据时间: {formatTimeString(props.todoList.generateTime)}
+                        </div>
+                }
+               
             </div>
         </Suspense>
 
