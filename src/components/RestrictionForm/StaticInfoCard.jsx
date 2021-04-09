@@ -869,7 +869,7 @@ function StaticInfoCard(props) {
                     </Col>
                     <Col span={8}>
                         <Form.Item
-                            name="highLimit"
+                            name="useHeight"
                             label="高度"
                         >
                             <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />

@@ -63,6 +63,8 @@ function NTFMDetail(props) {
 
     // 
     const ntfmFtmiType = singleTypeFlowData.ntfmFtmiType || {};
+    // NTFM流控名称
+    const name = ntfmFtmiType.resgName || "";
 
     // 发起单位
     const resCreateUnit = ntfmFlowBasicInfo.resCreateUnit || "";
@@ -179,6 +181,21 @@ function NTFMDetail(props) {
                                                 <Radio.Button value="AFT">AFT</Radio.Button>
                                             </Space>
                                         </Radio.Group>
+                                    </div>
+                                </Col>
+                            </Row>
+                            
+                            <Row className="info-row">
+                                <Col span={24}>
+                                    <div className="ant-row ant-form-item">
+                                        <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                            <label className="ant-form-item-no-colon" title="流控名称">流控名称</label>
+                                        </div>
+                                        <div className="ant-col ant-form-item-control">
+                                            <div className="ant-form-item-control-input">
+                                                <div className="ant-form-item-control-input-content">{name}</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </Col>
                             </Row>

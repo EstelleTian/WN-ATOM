@@ -12,10 +12,12 @@ function PreDelay(props) {
     const executeData = executeKPIData.executeData || {};
     let tacticProcessInfo = executeData.tacticProcessInfo || {};
     let kpi = tacticProcessInfo.kpi || {};
-    //  entiretyNormalRate 计划起飞正常率   
+    //  entiretyNormalRate 预计起飞正常率   
     //  entiretyDepNormalRate 实际起飞正常率
-    // apDepEstimateRateMap 大机场实际起飞正常率
-    let { entiretyNormalRate, entiretyDepNormalRate, apDepEstimateRateMap } = kpi;
+    // apEstimateRateMap 四大机场预计起飞正常率
+    // apDepEstimateRateMap 四大机场实际起飞正常率
+    
+    let { entiretyNormalRate, entiretyDepNormalRate, apEstimateRateMap, apDepEstimateRateMap } = kpi;
 
     // 设置初始值
     let normalRate = -1;
@@ -31,7 +33,7 @@ function PreDelay(props) {
     }
     normalRate = converPercent(entiretyNormalRate);
     depNormalRate = converPercent(entiretyDepNormalRate);
-    // 机场实际起飞正常率排序依据
+    // 机场正常率排序依据
     const airportOrder = {
         ZLXY:0,
         ZLLL:1,
@@ -50,12 +52,12 @@ function PreDelay(props) {
             return `${percent}%`
         }
     }
-    let getApNormalRateList = (apDepEstimateRateMap) => {
+    let getApRateList = (rateMap) => {
         let arr = [];
-        for (let ap in apDepEstimateRateMap) {
+        for (let ap in rateMap) {
             let obj = {
                 key: ap,
-                value: apDepEstimateRateMap[ap],
+                value: rateMap[ap],
                 order: airportOrder[ap]
             }
             arr.push(obj);
@@ -63,9 +65,31 @@ function PreDelay(props) {
         return arr;
     }
 
-    let list = getApNormalRateList(apDepEstimateRateMap);
+    
+    // 四大机场预计起飞正常率
+    let apEstimateRateList = getApRateList(apEstimateRateMap);
+    // 四大机场实际起飞正常率
+    let apDepEstimateRateList= getApRateList(apDepEstimateRateMap);
+
+
     // 排序按order升序排序
-    let sortList = list.sort((a,b)=>{
+    let apEstimateSortList = apEstimateRateList.sort((a,b)=>{
+        if (isValidObject(a)
+            && isValidVariable(a.order)
+            && isValidObject(b)
+            && isValidVariable(b.order)) {
+                if (a.order > b.order) {
+                    return 1;
+                } else if (a.order  < b.order) {
+                    return -1;
+                } else {
+                    return 0
+                }
+            }
+        return 0    
+    })
+    // 排序按order升序排序
+    let apDepEstimateSortList = apDepEstimateRateList.sort((a,b)=>{
         if (isValidObject(a)
             && isValidVariable(a.order)
             && isValidObject(b)
@@ -121,9 +145,35 @@ function PreDelay(props) {
                         </Row>
                         <Row className="part">
                             {
-                                sortList.map((item, index) => (
+                                apEstimateSortList.map((item, index) => (
                                     <Col span={6} className="block row_model flex" key={item.key}>
-                                        {/* <div className="block-title percent text-center">{`${converPercentText(item.value)}%`}</div> */}
+                                        <div className="flex justify-content-center layout-column">
+                                            <Progress
+                                                width={80}
+                                                className="text-center"
+                                                strokeLinecap="square"
+                                                type="dashboard"
+                                                percent={converPercent(item.value)}
+                                                status="normal"
+                                                strokeColor="#35A5DA"
+                                                format={(percent, successPercent) => (formatPercent(percent, successPercent, converPercent(item.value)))}
+                                                gapDegree={1}
+                                                trailColor="#65737a"
+                                            />
+                                            <div className="text-center point">{item.key}</div>
+                                        </div>
+                                    </Col>
+                                )
+                                )
+                            }
+                            <Col span={24} className="block row_model flex">
+                                <div className="text-center point">机场预计起飞正常率</div>
+                            </Col>
+                        </Row>
+                        <Row className="part">
+                            {
+                                apDepEstimateSortList.map((item, index) => (
+                                    <Col span={6} className="block row_model flex" key={item.key}>
                                         <div className="flex justify-content-center layout-column">
                                             <Progress
                                                 width={80}

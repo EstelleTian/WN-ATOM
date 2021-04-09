@@ -106,7 +106,7 @@ function RestrictionForm(props) {
 
     // 流控方向领域对象
     const directionListData = directionList[0] || {};
-    const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = directionListData;
+    const { targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, useHeight, exemptHeight, depAp, arrAp, exemptDepAp, exemptArrAp } = directionListData;
     // 流控航班类型条件
     const flightPropertyDomain = isValidObject(basicFlowcontrol.flightPropertyDomain) ? basicFlowcontrol.flightPropertyDomain : {};
 
@@ -260,7 +260,7 @@ function RestrictionForm(props) {
         // 豁免后序
         exemptBehindUnit: exemptBehindUnit,
         // 限制高度
-        highLimit: highLimit,
+        useHeight: useHeight,
         // 豁免高度
         exemptHeight: exemptHeight,
         
@@ -490,7 +490,7 @@ function RestrictionForm(props) {
         }
 
         // 表单字段数据
-        const { tacticName, targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, highLimit, exemptHeight,
+        const { tacticName, targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, useHeight, exemptHeight,
             depAp, arrAp, exemptDepAp, exemptArrAp,
             flowControlName, flowControlReason, flowControlPublishType, restrictionRemark,
             restrictionMode, restrictionModeValue, restrictionMITValueUnit, distanceToTime, restrictionMITTimeValue,
@@ -534,7 +534,7 @@ function RestrictionForm(props) {
         // 更新豁免后序
         directionListData.exemptBehindUnit = exemptBehindUnit;
         // 更新限制高度
-        directionListData.highLimit = highLimit;
+        directionListData.useHeight = useHeight;
         // 更新豁免高度
         directionListData.exemptHeight = exemptHeight;
         // 起飞机场
@@ -1040,7 +1040,7 @@ function RestrictionForm(props) {
         )
     };
 
-
+    // 初始化用户信息
     useEffect(function () {
         const user = localStorage.getItem("user");
         if (isValidVariable(user)) {
