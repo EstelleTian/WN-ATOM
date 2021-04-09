@@ -647,20 +647,37 @@ function RestrictionForm(props) {
      * 数据提交成功回调
      * */
     const requestSuccess = (oldId, data) => {
-
-        const { tacticProcessInfo = {} } = data;
+        // 正式方案修改操作仅修改了方案名称接口返回code标记
+        const RESPONSECODE ="2002102000"
+        const { tacticProcessInfo = {}, code="" } = data;
         const { basicTacticInfo = {} } = tacticProcessInfo;
         const { id } = basicTacticInfo;
         setConfirmLoading(false);
         setIsModalVisible(false);
-
+        
+        // 正式方案进行模拟修改操作且只修改了方案名称
+        if (operationType === 'MODIFY' && code === RESPONSECODE) {
+            Modal.success({
+                title: '方案修改成功',
+                content: '方案名称修改完成, 无需进入模拟阶段',
+                okText: "确认",
+                onOk: ()=> {
+                    // 关闭窗口
+                    if (typeof (setModalVisible) === 'function') {
+                        setModalVisible(false)
+                    }},
+              });
+            return;
+        } 
         //发送到客户端
         if (operationType === 'CREATE') { // 方案创建
             handleImportControl(id);
         } else if (operationType === 'IMPORT') { // 外区流控导入方案 
             handleImportControl(id, props.message.id);
         } else if (operationType === 'MODIFY') { // 正式方案进行模拟修改操作
-            handleImportControlForUpdate(oldId, id);
+            if(code !==RESPONSECODE){
+                handleImportControlForUpdate(oldId, id);
+            }
         } else if (operationType === 'IMPORTWITHFORMER') { //  外区流控导入方案，且已有关联的方案
             handleImportControlForUpdate(formerId, id);
         } else if (operationType === 'MODIFYSIM') { // 模拟的方案进行修改操作
@@ -772,6 +789,8 @@ function RestrictionForm(props) {
         try {
             // 必要校验字段
             const fields = [
+                'startDate',
+                'startTime',
                 'targetUnit',
                 'restrictionMode',
                 'restrictionModeValue',
@@ -803,7 +822,9 @@ function RestrictionForm(props) {
         };
         // 限制数值单位
         let unit = "";
-        let { targetUnit, restrictionMode, restrictionModeValue, arrAp, restrictionMITValueUnit } = fieldData;
+        let { startDate, startTime, targetUnit, restrictionMode, restrictionModeValue, arrAp, restrictionMITValueUnit } = fieldData;
+        const day = moment(startDate).format("YYYYMMDDHHmm").substring(6, 8);
+        const dayTime = day +'/'+startTime;
         let autoName = "";
         unit = restrictionModeUnit[restrictionMode];
         if (restrictionMode === "MIT") {
@@ -816,10 +837,10 @@ function RestrictionForm(props) {
         if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
             arrAp = arrAp.join(';').toUpperCase();
             // 拼接名称
-            autoName = `${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
+            autoName = `${dayTime}-${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
         } else {
             // 拼接名称
-            autoName = `${targetUnit.toUpperCase()}-${restrictionModeValue}${unit}`;
+            autoName = `${dayTime}-${targetUnit.toUpperCase()}-${restrictionModeValue}${unit}`;
         }
         return autoName;
     }
