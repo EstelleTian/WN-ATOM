@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-04-02 13:20:50
+ * @LastEditTime: 2021-04-08 10:20:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -32,7 +32,7 @@ function CapacityCont (props){
     const elementName = pane.key || "";
     const elementType = pane.type || "";
     const firId = pane.firId || "";
-    // alert("key: "+elementName+"  type: "+elementType+"  firId: "+firId);
+    // alert("elementName: "+elementName+"  elementType: "+elementType+"  firId: "+firId);
     let staticTimer = useRef();
     let dynamicTimer = useRef();
     const generateTime = capacity.dynamicDataGenerateTime || "";

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-02 13:37:12
+ * @LastEditTime: 2021-04-08 13:46:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -156,28 +156,26 @@ function InfoCard(props){
                         </Tooltip>
                     </div>
                     {
-                        dataType === "FCDM" && <div>
-                            <div className="text" style={{ "position": "absolute", "left": "220px"}}>
-                                {publishUser}
+                        dataType === "FCDM" && 
+                        <div>
+                            <div className="text">
+                                <span className="info_name">{ name }</span>
+                                <span className="publishUnit" >发布用户：{publishUser}</span>
                             </div>
-                                <div className="text">
-                                    { name }
-                                </div>
-                                <div className="text">
-                                    { content }
-                                </div>
+                            <div className="text">
+                                { content }
+                            </div>
                         </div>
                     }
                     {
                         (dataType === "DCVM") &&
                             <div>
                                 <div className="text">
-                                    { name }
+                                    <span className="info_name">{ name }</span>
                                     <span className="publishUnit" >发布用户：{publishUser}</span>
                                 </div>
                                 <div className="text">
                                     { content }
-
                                 </div>
                             </div>
                             
@@ -187,7 +185,8 @@ function InfoCard(props){
                         (dataType === "FTMI"  )
                             && <div>
                                 <div className="text">
-                                    <span className={`${sourceStatus} sourceStatus`}>{convertStatus(sourceStatus)}</span>-{ name }                               
+                                    <span className="info_name"><span className={`${sourceStatus} sourceStatus`}>{convertStatus(sourceStatus)}</span>-{ name }   </span>
+                                                                
                                     <span className="publishUnit" >发布单位：{publishUnit}</span>
                                 </div>
                                 <div className="text">

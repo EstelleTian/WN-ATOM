@@ -1,14 +1,15 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-02 13:38:55
+ * @LastEditTime: 2021-04-08 15:49:32
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
  */
 //工作流ip
-// const workflowIP = "http://192.168.243.187:28086";
-const workflowIP = "http://192.168.194.20:28087";
+
+const workflowIP = "http://192.168.194.22:29891/hydrogen-duties-server";
+// http://192.168.194.22:29891/hydrogen-duties-server/runtask/{user}
 const ReqUrls = {
     //用户登录
     loginUrl: 'http://192.168.194.21:18380/uuma-server/client/login',
@@ -65,9 +66,9 @@ const ReqUrls = {
     //修改模拟状态的方案-数据提交
     modifySimulationSchemeUrl: 'http://192.168.194.21:58190/simulationTactics/modifyScheme/',
     //获取工作流-办结列表
-    hisTaskUrl: workflowIP+'/workflow/userHisTask/',
+    hisTaskUrl: workflowIP+'/histask/',
     //获取工作流-待办列表
-    tasksUrl: workflowIP+'/workflow/userTask/',
+    tasksUrl: workflowIP+'/runtask/',
     //获取工作流-详情
     taskDetailUrl: workflowIP+'/workflow/procTaskHis/',
     // 航班查询
