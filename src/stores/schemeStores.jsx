@@ -41,6 +41,12 @@ class SchemeListData{
     @observable generateTime = "";
     //方案选中的id
     @observable activeSchemeId = "";
+
+    //活动方案计算中提示框显隐标记
+    @observable activeSchemeCalculatingModalVisible = false;
+
+    //自动检测活动方案为计算中状态标记方案id
+    @observable autoCheckCalculatingSchemeIds = [];
     //定时器
     @observable timeoutId = "";
     //方案状态
@@ -56,6 +62,21 @@ class SchemeListData{
     //更新表格loading状态
     @action toggleLoad( load ){
         this.loading = load;
+    }
+    //更新活动方案计算中提示框显隐标记
+    @action toggleActiveSchemeCalculatingModalVisible( visible ){
+        this.activeSchemeCalculatingModalVisible = visible;
+    }
+    //添加自动检测活动方案为计算中状态标记方案id
+    @action addAutoCheckCalculatingSchemeId( id ){
+        this.autoCheckCalculatingSchemeIds.push(id);
+    }
+    //删除指定自动检测活动方案为计算中状态标记方案id
+    @action deletAutoCheckCalculatingSchemeId( id ){
+        if(this.autoCheckCalculatingSchemeIds.includes(id)){
+            let index = this.autoCheckCalculatingSchemeIds.indexOf(id);
+            this.autoCheckCalculatingSchemeIds.splice(index, 1);
+        }
     }
     //更新表格loading状态
     @action setStatusValues( values ){

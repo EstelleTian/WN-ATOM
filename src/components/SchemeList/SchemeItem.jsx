@@ -2,12 +2,12 @@
 import React, { useState, useEffect, useCallback, memo } from 'react'
 import { inject, observer } from 'mobx-react'
 import ReactDom from "react-dom";
-import { getTimeFromString, getDayTimeFromString, isValidVariable, calculateStringTimeDiff } from 'utils/basic-verify'
+import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject, calculateStringTimeDiff } from 'utils/basic-verify'
 import { handleStopControl, openRunningControlFlow } from 'utils/client'
 import { Window as WindowDHX } from "dhx-suite";
 import { openBaseSchemeFrame, openFilterFrame } from "utils/client"
 import WorkFlowContent from "components/WorkFlow/WorkFlowContent";
-import { Tag, Menu, Dropdown } from 'antd'
+import { Tag, Menu, Dropdown, Modal } from 'antd'
 import { DownOutlined } from '@ant-design/icons';
 
 //获取屏幕宽度，适配 2k
@@ -55,11 +55,12 @@ generateTime 方案列表generateTime
  */
 const convertCalculateSatus = (startCalculateTime, generateTime) => {
     let status = "计算中";
-    if(isValidVariable(generateTime) && isValidVariable(startCalculateTime)){
+    if (isValidVariable(generateTime) && isValidVariable(startCalculateTime)) {
         // 1分钟
-        const diff = 1000*60;
+        const diff = 1000 * 60;
         // 差值大于1分钟则显示为已计算
-        if(calculateStringTimeDiff(generateTime, startCalculateTime) > diff){            status = "已计算"
+        if (calculateStringTimeDiff(generateTime, startCalculateTime) > diff) {
+            status = "已计算"
         }
     }
     return status;
@@ -157,7 +158,7 @@ function SchemeItem(props) {
         behindUnits = behindUnits.substring(0, targetUnits.length - 1);
     }
     // 方案计算状态
-    const calculatestatus = convertCalculateSatus(startCalculateTime, generateTime );
+    const calculatestatus = convertCalculateSatus(startCalculateTime, generateTime);
 
     const showDetail = useCallback((e) => {
         props.toggleModalVisible(true, id);
@@ -173,8 +174,49 @@ function SchemeItem(props) {
         e.stopPropagation();
     }, [id]);
 
+    // 获取选中方案计算状态值
+    const getCalculateSatus = (activeSchemeData, generateTime) => {
+        const tacticTimeInfo = activeSchemeData.tacticTimeInfo || {};
+        const { startCalculateTime = "" } = tacticTimeInfo;
+        let status = "calculating";
+        if (isValidVariable(generateTime) && isValidVariable(startCalculateTime)) {
+            // 1分钟
+            const diff = 1000 * 60;
+            // 差值大于1分钟则显示为已计算
+            if (calculateStringTimeDiff(generateTime, startCalculateTime) > diff) {
+                status = "calculated"
+            }
+        }
+        return status;
+
+    }
+
 
     const onChange = useCallback((e) => {
+        const { generateTime, activeSchemeCalculatingModalVisible } = props.schemeListData;
+
+        if (isValidObject(item)) {
+            // 选中方案的计算状态
+            const calculateSatus = getCalculateSatus(item, generateTime);
+            if (calculateSatus === "calculating") {
+                if (!activeSchemeCalculatingModalVisible) {
+                    Modal.warning({
+                        title: '提示',
+                        content: '方案计算中...',
+                        okText: "确认",
+                        onOk: () => { props.schemeListData.toggleActiveSchemeCalculatingModalVisible(false) }
+                    });
+                    props.schemeListData.toggleActiveSchemeCalculatingModalVisible(true);
+                }
+                return
+            } else {
+                if (activeSchemeCalculatingModalVisible) {
+                    props.schemeListData.toggleActiveSchemeCalculatingModalVisible(false);
+                }
+            }
+        }
+
+
         props.handleActive(id);
         e.preventDefault();
         e.stopPropagation();
@@ -304,19 +346,19 @@ function SchemeItem(props) {
                             showDetail(e)
                             e.stopPropagation();
                         }}>详情</div>
-                        
-                        { 
-                            props.systemPage.userHasAuth( 11301 ) && <div className="opt" onClick={showModify}>调整</div>
+
+                        {
+                            props.systemPage.userHasAuth(11301) && <div className="opt" onClick={showModify}>调整</div>
                         }
-                        { 
-                            props.systemPage.userHasAuth( 11401 ) && <div className="opt" onClick={e => {
+                        {
+                            props.systemPage.userHasAuth(11401) && <div className="opt" onClick={e => {
                                 showWorkFlowDetail(id);
                                 e.stopPropagation();
                             }}>工作流</div>
                         }
-                        { 
-                            props.systemPage.userHasAuth( 11502 ) && <Dropdown
-                            overlay={baseSchemeFrameMenu}
+                        {
+                            props.systemPage.userHasAuth(11502) && <Dropdown
+                                overlay={baseSchemeFrameMenu}
                             >
                                 <div className="opt" onClick={e => {
                                     openBaseSchemeFrame(id);
@@ -324,20 +366,20 @@ function SchemeItem(props) {
                                 }}>决策依据<DownOutlined /></div>
                             </Dropdown>
                         }
-                        
-                        { 
-                            props.systemPage.userHasAuth( 11201 ) && <div className="opt" onClick={e => {
+
+                        {
+                            props.systemPage.userHasAuth(11201) && <div className="opt" onClick={e => {
                                 stopControl(id);
                                 e.stopPropagation();
                             }}>终止</div>
                         }
-                        { 
-                            props.systemPage.userHasAuth( 11505 ) && <div className="opt" onClick={e => {
+                        {
+                            props.systemPage.userHasAuth(11505) && <div className="opt" onClick={e => {
                                 openFilterFrame(id, tacticName, targetUnits, interVal);
                                 e.stopPropagation();
                             }}>航图关联</div>
                         }
-                        
+
                         {
                             // (screenWidth > 1920)
                             // ? <div className="opt" onClick={ showModify}>调整</div>
@@ -360,4 +402,4 @@ function SchemeItem(props) {
     )
 }
 
-export default inject("systemPage")(observer(SchemeItem))
+export default inject("systemPage", "schemeListData")(observer(SchemeItem))

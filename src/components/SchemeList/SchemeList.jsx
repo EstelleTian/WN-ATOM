@@ -191,7 +191,6 @@ function useSchemeList(props) {
 //航班请求 hook
 function useFlightsList(props) {
     const flightsTimeoutId = useRef([]);
-
     const { schemeListData, flightTableData, systemPage } = props;
     const { activeSchemeId, generateTime = "" } = schemeListData;
     const {
@@ -201,12 +200,7 @@ function useFlightsList(props) {
             id = ""
         } = {}
     } = systemPage;
-    // 获取选中方案数据对象
-    const getActiveSchemeData = (schemeListData, activeSchemeId) => {
-        let schemeData = null;
-        schemeData = schemeListData.find((item) => { return item.id === activeSchemeId })
-        return schemeData;
-    }
+    
 
     // 获取选中方案计算状态值
     const getCalculateSatus = (activeSchemeData, generateTime) => {
@@ -252,20 +246,33 @@ function useFlightsList(props) {
                 return;
             }
 
-            const { generateTime } = schemeListData;
+            const { generateTime, activeSchemeCalculatingModalVisible, autoCheckCalculatingSchemeIds } = schemeListData;
             // 获取选中的方案数据
             let activeSchemeData = props.schemeListData.activeScheme(activeSchemeId);
             if (isValidObject(activeSchemeData)) {
                 // 选中方案的计算状态
                 const calculateSatus = getCalculateSatus(activeSchemeData, generateTime);
                 if (calculateSatus === "calculating") {
-                    Modal.warning({
-                        title: '提示',
-                        content: '方案计算中...',
-                        okText: "确认",
-                    });
-                    return;
-                } 
+                    if(!activeSchemeCalculatingModalVisible && !autoCheckCalculatingSchemeIds.includes(activeSchemeId)){
+                        Modal.warning({
+                            title: '提示',
+                            content: '方案计算中...',
+                            okText: "确认",
+                            onOk:()=>{props.schemeListData.toggleActiveSchemeCalculatingModalVisible(false)}
+                        });
+                        props.schemeListData.toggleActiveSchemeCalculatingModalVisible(true);
+                        props.schemeListData.addAutoCheckCalculatingSchemeId(activeSchemeId);
+                    }
+                    flightTableData.updateFlightsList([], "", "");
+                    return
+                }else {
+                    if(activeSchemeCalculatingModalVisible){
+                        props.schemeListData.toggleActiveSchemeCalculatingModalVisible(false);
+                    }
+                    if(autoCheckCalculatingSchemeIds.includes(activeSchemeId)){
+                        props.schemeListData.deletAutoCheckCalculatingSchemeId(activeSchemeId);
+                    }
+                }
             }
 
             // console.log("本次方案id:", activeSchemeId)
