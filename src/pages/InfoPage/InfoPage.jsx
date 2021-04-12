@@ -77,7 +77,7 @@ function InfoPage(props) {
             dataType: 'FTMI',
             dataCode: 'AFAO',
             source: 'ATOM',
-            targetUnit: 'P40',
+            targetUnit: 'SUBUL',
         }
         //  过滤命中规则的消息
         let hitMessage = message.filter(msg => {
@@ -87,7 +87,7 @@ function InfoPage(props) {
             if (msg.dataType == rulesOpt.dataType
                 && msg.dataCode == rulesOpt.dataCode
                 && msg.source == rulesOpt.source
-                // && content.indexOf(rulesOpt.targetUnit) > -1
+                && content.indexOf(rulesOpt.targetUnit) > -1
 
                  ) {
                 return true;
