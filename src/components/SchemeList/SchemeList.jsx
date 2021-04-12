@@ -12,7 +12,7 @@ import debounce from 'lodash/debounce'
 // import PropTypes from 'prop-types';
 // import Stomp from 'stompjs'
 import { inject, observer } from 'mobx-react'
-import { Checkbox, Empty, Spin, notification, Modal  } from 'antd'
+import { Checkbox, Empty, Spin, notification, Modal } from 'antd'
 import { requestGet } from 'utils/request'
 import { isValidVariable, isValidObject, getFullTime, calculateStringTimeDiff } from 'utils/basic-verify'
 import { NWGlobal } from 'utils/global'
@@ -210,7 +210,8 @@ function useFlightsList(props) {
 
     // 获取选中方案计算状态值
     const getCalculateSatus = (activeSchemeData, generateTime) => {
-        const { tacticTimeInfo: { startCalculateTime = "" } } = activeSchemeData;
+        const tacticTimeInfo = activeSchemeData.tacticTimeInfo || {};
+        const { startCalculateTime = "" } = tacticTimeInfo;
         let status = "calculating";
         if (isValidVariable(generateTime) && isValidVariable(startCalculateTime)) {
             // 1分钟
@@ -250,6 +251,23 @@ function useFlightsList(props) {
                 flightTableData.updateFlightsList([], "", "");
                 return;
             }
+
+            const { generateTime } = schemeListData;
+            // 获取选中的方案数据
+            let activeSchemeData = props.schemeListData.activeScheme(activeSchemeId);
+            if (isValidObject(activeSchemeData)) {
+                // 选中方案的计算状态
+                const calculateSatus = getCalculateSatus(activeSchemeData, generateTime);
+                if (calculateSatus === "calculating") {
+                    Modal.warning({
+                        title: '提示',
+                        content: '方案计算中...',
+                        okText: "确认",
+                    });
+                    return;
+                } 
+            }
+
             // console.log("本次方案id:", activeSchemeId)
             url = ReqUrls.flightsDataNoIdUrl + systemPage.user.id;
             let baseTime = ""
@@ -343,21 +361,7 @@ function useFlightsList(props) {
                 clearTimeout(t);
             })
             flightsTimeoutId.current = [];
-            const { list, generateTime } = schemeListData;
-            // 获取选中的方案数据
-            let activeSchemeData = getActiveSchemeData(list, activeSchemeId);
-            // 选中方案的计算状态
-            const calculateSatus = getCalculateSatus(activeSchemeData, generateTime);
-            if (calculateSatus ==="calculating") {
-                Modal.warning({
-                    title: '提示',
-                    content: '方案计算中...',
-                    okText: "确认",
-                  });
-            } else {
-                getFlightTableData(true, true);
-            }
-
+            getFlightTableData(true, true);
         }
     }, [activeSchemeId]);
 
