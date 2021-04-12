@@ -124,7 +124,7 @@ function RunwayItem(props) {
     // 获取跑道有效时间
     const getEffectiveTimeRange = (list) => {
         let firstRunwayData = list[0] || {};
-        debugger
+
         let startTime = firstRunwayData.startTime || "";
         let endTime = firstRunwayData.endTime || "";
         return `${getDayTimeFromString(startTime)}-${getDayTimeFromString(endTime)}`

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-04-12 10:54:04
+ * @LastEditTime: 2021-04-12 15:19:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -27,7 +27,7 @@ function LeftNav(props){
     }
     let userConcernTrafficListStr = localStorage.getItem("userConcernTrafficList");
     let userConcernTrafficList = useMemo( function(){
-        let list = [];
+       let list = [];
        const arr = JSON.parse(userConcernTrafficListStr) || [];
        let idsList = [];
        let name = "";
@@ -43,7 +43,7 @@ function LeftNav(props){
         
         props.systemPage.leftNavNameList = idsList;
         return list
-    }, [])
+    }, [props.systemPage.user.id])
     return (
         <div className="layout-nav-left layout-row">
             {/*<div className="time-range">*/}

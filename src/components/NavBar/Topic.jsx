@@ -82,7 +82,7 @@ function Topic(props){
         stompClient.connect('guest', 'guest', on_connect, on_error, '/');
     }
     if( isValidVariable(user) ){
-        if( pathname === "/fangxing" ){
+        if( pathname === "/clearance" ){
             const userObj = JSON.parse(user)
             stompClientFunc(userObj.username);
         }

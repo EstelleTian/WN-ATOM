@@ -60,7 +60,7 @@ const convertCalculateSatus = (startCalculateTime, generateTime) => {
         const diff = 1000*60;
         // 差值大于1分钟则显示为已计算
         if(calculateStringTimeDiff(generateTime, startCalculateTime) > diff){
-            debugger
+            
             status = "已计算"
         }
     }
@@ -216,7 +216,7 @@ function SchemeItem(props) {
             setTimeout(function () {
                 const winDom = document.getElementsByClassName(windowClass)[0];
                 ReactDom.render(
-                    <WorkFlowContent modalId={id} window={window} source="fangxing" />,
+                    <WorkFlowContent modalId={id} window={window} source="clearance" />,
                     winDom);
             }, 200)
         }

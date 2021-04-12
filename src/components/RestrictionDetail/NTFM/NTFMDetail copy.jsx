@@ -94,9 +94,6 @@ function NTFMDetail(props) {
     const ntfmType = flowInfo.ntfmType || {};
     const ntfmFlowInfo = flowInfo.ntfmFlowInfo || {};
 
-
-    debugger
-
     ntfmMit = ntfmFlowInfo.ntfmMit || {};
     ntfmFtmiType = ntfmMit.ntfmFtmiType || {};
     conditionTrfd = ntfmMit.condition_trfd || [];

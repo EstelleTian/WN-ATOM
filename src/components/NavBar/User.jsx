@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-04-07 15:47:44
+ * @LastEditTime: 2021-04-12 14:35:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\User.jsx
@@ -34,7 +34,7 @@ function User(props){
     const user = localStorage.getItem("user");
 
     if( isValidVariable(user) ){
-        if( pathname === "/fangxing" ){
+        if( pathname === "/clearance" ){
             const userObj = JSON.parse(user)
             descriptionCN = userObj.descriptionCN || "";
             props.systemPage.setUserData( userObj );
@@ -49,7 +49,7 @@ function User(props){
     
     
     //放行监控页面
-    if( pathname === "/fangxing" ){
+    if( pathname === "/clearance" ){
         if( isValidVariable(user.id) ){
             // return (
             //     <Dropdown overlay={menu} placement="bottomCenter" arrow>

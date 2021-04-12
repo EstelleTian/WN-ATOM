@@ -26,7 +26,7 @@ function NavBar(props){
         const pathname = location.pathname || "";
         // console.log( "当前url是：",props.location.pathname );
         //放行监控页面
-        if( pathname === "/fangxing" ){
+        if( pathname === "/clearance" ){
             return <div className="layout-row space-between multi_nav">
                 <LeftNav/>
                 {/*<h4 style={{ color: 'red'}}>web自动更新 3/4/1430 </h4>*/}

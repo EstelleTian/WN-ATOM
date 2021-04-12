@@ -64,7 +64,7 @@ function LoginPage(props){
                                 });
                                 saveUserInfo( username, password, value+"");
                             }else if(pageType ==='web'){
-                                window.open("./#/fangxing","_self");
+                                window.open("./#/clearance","_self");
                             }
                             
 

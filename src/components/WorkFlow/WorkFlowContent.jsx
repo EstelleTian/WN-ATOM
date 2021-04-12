@@ -252,7 +252,7 @@ const WorkFlowContent = (props) => {
     //根据modalId获取工作流详情
     const requestSchemeDetail = useCallback(( modalId ) => {
         let url = "";
-        if( source === "fangxing" ){
+        if( source === "clearance" ){
             url = ReqUrls.taskDetailUrl + 'SchemeApprovalProcess/' + modalId;
         }else{
             url = ReqUrls.taskDetailUrl + modalId;
@@ -367,8 +367,8 @@ const WorkFlowContent = (props) => {
                                 if( isValidVariable(props.window) ){
                                     props.window.hide();
                                 }
-                                if( source === "fangxing"){ //从放行监控点击窗口模式来到工作流详情
-                                   window.open( "/#/workflow_detail/fangxing/"+modalId ,"_blank");
+                                if( source === "clearance"){ //从放行监控点击窗口模式来到工作流详情
+                                   window.open( "/#/workflow_detail/clearance/"+modalId ,"_blank");
                                 }else{
                                     window.open( "/#/workflow_detail/"+modalId ,"_blank");
                                 }

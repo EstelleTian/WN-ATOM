@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-04-12 13:27:47
+ * @LastEditTime: 2021-04-12 14:35:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -59,7 +59,7 @@ export default [
         title: '近两小时消息历史',
     },
     {
-        path: '/fangxing',
+        path: '/clearance',
         component: withRouter(FangxingPage),
         exact: true,
         title: '放行监控',
