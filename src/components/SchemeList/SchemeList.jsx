@@ -765,6 +765,7 @@ function SList (props){
                                 toggleModalVisible={toggleModalVisible}
                                 toggleModalType={toggleModalType}
                                 userHasAuth={ props.systemPage.userHasAuth }
+                                generateTime = {props.schemeListData.generateTime}
                             >
                             </SchemeItem>
                         )
