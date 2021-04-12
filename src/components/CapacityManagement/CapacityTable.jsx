@@ -813,7 +813,8 @@ const CapacityTable = (props) => {
         return (
             <div className="opt_btns">
                 {
-                    ( authMap.AGREE && props.systemPage.userHasAuth(14402) ) && <ApproveBtn 
+                    // ( authMap.AGREE && props.systemPage.userHasAuth(14402) ) && <ApproveBtn 
+                    ( authMap.AGREE ) && <ApproveBtn 
                             username={username} 
                             hisTasks={hisTasks} 
                             hisInstance={hisInstance} 
@@ -837,7 +838,8 @@ const CapacityTable = (props) => {
                     </ApproveBtn>
                 }
                 {
-                    ( authMap.REFUSE && props.systemPage.userHasAuth(14402) ) && <ApproveBtn username={username} hisTasks={hisTasks} hisInstance={hisInstance}
+                    // ( authMap.REFUSE && props.systemPage.userHasAuth(14402) ) && <ApproveBtn username={username} hisTasks={hisTasks} hisInstance={hisInstance}
+                    ( authMap.REFUSE) && <ApproveBtn username={username} hisTasks={hisTasks} hisInstance={hisInstance}
                         updateWorkFlow={()=>{
                             props.capacity.forceUpdateDynamicWorkFlowData = true;
                             props.capacity.forceUpdateDynamicData = true;
@@ -858,7 +860,8 @@ const CapacityTable = (props) => {
             
                 }
                 {
-                    ( authMap.REBACK && props.systemPage.userHasAuth(14401) ) && <ApproveBtn username={username} hisTasks={hisTasks} hisInstance={hisInstance}
+                    // ( authMap.REBACK && props.systemPage.userHasAuth(14401) ) && <ApproveBtn username={username} hisTasks={hisTasks} hisInstance={hisInstance}
+                    ( authMap.REBACK ) && <ApproveBtn username={username} hisTasks={hisTasks} hisInstance={hisInstance}
                         updateWorkFlow={()=>{
                             props.capacity.forceUpdateDynamicWorkFlowData = true;
                             props.capacity.forceUpdateDynamicData = true;
@@ -881,7 +884,8 @@ const CapacityTable = (props) => {
                 
                 {
                     ( SUBMIT && !authMap.AGREE && !authMap.REFUSE && !authMap.REBACK && !editable 
-                        && props.systemPage.userHasAuth(14302) ) &&
+                        // && props.systemPage.userHasAuth(14302) ) &&
+                        ) &&
                     <Button className="" type="primary" onClick={ validateUpdateBtn }>修改 </Button>
                 }
                 {
