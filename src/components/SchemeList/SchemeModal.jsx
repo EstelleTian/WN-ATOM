@@ -94,7 +94,7 @@ const SchemeModal = (props) => {
                         primaryButtonName="提交修改"
                         setModalVisible={ setVisible }
                         flowData={ flowData }
-                        bordered = {true}
+                        bordered = {false}
                     />
                 </Modal>
             )
