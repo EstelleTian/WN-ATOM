@@ -60,7 +60,6 @@ const convertCalculateSatus = (startCalculateTime, generateTime) => {
         const diff = 1000*60;
         // 差值大于1分钟则显示为已计算
         if(calculateStringTimeDiff(generateTime, startCalculateTime) > diff){
-            debugger
             status = "已计算"
         }
     }
