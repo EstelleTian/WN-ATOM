@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-03-31 09:25:16
+ * @LastEditTime: 2021-04-12 13:27:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -41,15 +41,8 @@ export default [
     },
     // 客户端登录页面
     {
-        path: '/client', 
+        path: '/client/login', 
         component: withRouter(LoginClient),
-        exact: true,
-        title: '登录页面',
-    },
-    // web端登录页面
-    {
-        path: '/web',
-        component: withRouter(LoginWeb),
         exact: true,
         title: '登录页面',
     },
@@ -135,6 +128,16 @@ export default [
         component: withRouter(EditDirectionDataPage),
         exact: true,
         title: '方向编辑',
+    },
+
+    
+    
+    // web端登录页面
+    {
+        path: '/web/login',
+        component: withRouter(LoginWeb),
+        exact: true,
+        title: '登录页面',
     },
 
 ];

@@ -1,12 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-08 13:46:28
+ * @LastEditTime: 2021-04-12 11:34:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
  */
 import React, {useEffect, useState} from 'react'
+import { inject, observer } from 'mobx-react'
 import { Button, Collapse, Row, Col, Tooltip, Checkbox } from 'antd'
 import { CloseOutlined} from '@ant-design/icons'
 import { Link } from 'react-router-dom';
@@ -34,8 +35,11 @@ const convertStatus = ( sourceStatus ) => {
     }
     return cn;
 }
+
+
+
 //单个消息-消息头
-function InfoCard(props){
+function InfoCardItem(props){
     let [inProp, setInProp] = useState(true);
     let [active, setActive] = useState(true);
 
@@ -104,21 +108,19 @@ function InfoCard(props){
                             }
                             {
                                 // 暂时屏蔽方案终止消息的【查看容流监控】按钮 
-                                (dataType === "OPEI" || (dataType === "PROI" && dataCode !== "PTER")) ?
-                                    <Button className="info_btn btn_blue" size="small" onClick={ function(e){
+                                ( (
+                                    ( dataType === "OPEI" || (dataType === "PROI" && dataCode !== "PTER")) 
+                                    && props.systemPage.userHasAuth( 11504 )
+                                   ) && 
+                                   <Button className="info_btn btn_blue" size="small" onClick={ function(e){
                                         sendMsgToClient(message)
                                         e.stopPropagation()
                                     } } >查看容流监控</Button>
-                                    :""
+                                )   
                             }
                             {
-                                (dataType === "FTMI") ?
+                                ( dataType === "FTMI" && props.systemPage.userHasAuth( 11503 ) ) ?
                                     <span>
-                                        {/* <Button className="info_btn btn_blue" size="small" onClick={ function(e){
-                                            sendMsgToClient(message)
-                                            e.stopPropagation()
-                                        } } >查看容流监控</Button>*/}
-                                        
                                         {
                                             (dataCode === "TFAO") 
                                             ? <Button className="info_btn btn_blue" size="small" onClick={ function(e){
@@ -140,10 +142,7 @@ function InfoCard(props){
                                                     e.stopPropagation()
                                                 }}>查看流控详情</Button>
                                             </Link>
-                                            
                                         }
-                                            
-                                        
                                     </span>
                                 : ""
                             }
@@ -215,6 +214,8 @@ function InfoCard(props){
         </CSSTransition>
     )
 }
+
+const InfoCard = inject("systemPage")(observer(InfoCardItem))
 
 //单个消息模块下详情
 function InfoCardDetail(props){

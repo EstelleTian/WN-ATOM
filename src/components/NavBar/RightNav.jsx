@@ -38,10 +38,13 @@ function RightNav(props) {
                 systemPage.user.id !== "" 
                     && <span>
                         {/* <RefreshBtn /> */}
-                        {/* <Button
-                            type="default"
-                            icon={<SearchOutlined />}
-                        >航班查询 </Button> */}
+                        
+                        {
+                            systemPage.userHasAuth(12512) && <Button
+                                type="default"
+                                icon={<SearchOutlined />}
+                            >航班查询 </Button>
+                        }
                         <Radio.Group value={systemPage.leftActiveName} buttonStyle="solid"  onChange={groupRightChange} >
                             {
                                 systemPage.userHasAuth(12513) && <Radio.Button value="kpi">执行KPI</Radio.Button>
@@ -58,9 +61,9 @@ function RightNav(props) {
                             {
                                 systemPage.userHasAuth(	12506 ) && <Radio.Button value="scheme">方案列表</Radio.Button>
                             }
-                            {/* {
+                            {
                                 systemPage.userHasAuth(	12507 ) && <Radio.Button value="outer_scheme">外部流控</Radio.Button>
-                            } */}
+                            }
 
                             <Radio.Button value="runway">跑道配置</Radio.Button>
 

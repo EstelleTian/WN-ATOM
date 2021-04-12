@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-04-09 15:22:59
+ * @LastEditTime: 2021-04-12 10:54:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -32,13 +32,13 @@ function LeftNav(props){
        let idsList = [];
        let name = "";
        arr.map( item =>{
-            // if( item.concernStatus ){
+            if( item.concernStatus ){
                 name = "focus-"+item.concernTrafficId || "";
                 idsList.push( name );
                 props.systemPage.setLeftNavSelectedName(name);
                 props.schemeListData.toggleSchemeActive(name);  
                 list.push(item);  
-            // }
+            }
         } );
         
         props.systemPage.leftNavNameList = idsList;
@@ -46,8 +46,6 @@ function LeftNav(props){
     }, [])
     return (
         <div className="layout-nav-left layout-row">
-            
-
             {/*<div className="time-range">*/}
                 <Radio.Group defaultValue="a" buttonStyle="solid"  >
                     <Radio.Button value="a">计划范围
@@ -55,26 +53,29 @@ function LeftNav(props){
                         </Radio.Button>
                 </Radio.Group>
             {/*</div>*/}
-            <Radio.Group 
-                value={props.systemPage.leftNavSelectedName} 
-                buttonStyle="solid" 
-                
-             >
-                 {
-                     userConcernTrafficList.map( item => (
-                        <Radio.Button key={item.concernTrafficName || ""} value={`focus-${item.concernTrafficId}`} onClick={ groupNameChange } >{item.concernTrafficName}</Radio.Button>
-                     ))
-                 }
-                
-            </Radio.Group>
-            <Radio.Group  buttonStyle="solid">
-                 
-                 <RefreshBtn />
-                
-            </Radio.Group>
+            {
+                props.systemPage.userHasAuth( 12510 ) && <Radio.Group 
+                    value={props.systemPage.leftNavSelectedName} 
+                    buttonStyle="solid" 
+                >
+                    {
+                        userConcernTrafficList.map( item => (
+                            <Radio.Button 
+                                key={item.concernTrafficName || ""} 
+                                value={`focus-${item.concernTrafficId}`}
+                                onClick={ groupNameChange } 
+                            >
+                                 {item.concernTrafficName}
+                            </Radio.Button>
+                        ))
+                    }
+                    
+                </Radio.Group>
+            }
             
-
-
+            <Radio.Group  buttonStyle="solid">
+                 <RefreshBtn />
+            </Radio.Group>
         </div>
     )
 }

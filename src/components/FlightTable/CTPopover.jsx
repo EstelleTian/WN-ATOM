@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-02 12:48:26
+ * @LastEditTime: 2021-04-12 13:46:55
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -25,23 +25,23 @@ const CTPopover = (props) => {
     }
     let field = {};
     let title = "";
-    let hasAuth = true;
+    let hasAuth = false;
     if( col === "COBT"){
         field = orgdata.cobtField || {};
         title = "COBT时间变更";
-        hasAuth = systemPage.userHasAuth( 13302 );
+        hasAuth = systemPage.userHasAuth( 13428 );
     }else if( col === "CTOT"){
         field = orgdata.ctotField || {};
         title = "CTOT时间变更";
-        hasAuth = systemPage.userHasAuth( 13303 );
+        hasAuth = systemPage.userHasAuth( 13434 );
     }else if( col === "FFIXT"){
         field = orgdata.ffixField || {};
         title = "FFIXT时间变更";
-        hasAuth = systemPage.userHasAuth( 13301 );
+        hasAuth = systemPage.userHasAuth( 13440 );
     }else if( col === "TOBT"){
         field = orgdata.tobtField || {};
         title = "TOBT申请变更";
-        hasAuth = systemPage.userHasAuth( 13407 );
+        hasAuth = systemPage.userHasAuth( 13425 );
         
     }
     let source = field.source || "";
@@ -81,10 +81,11 @@ const CTPopover = (props) => {
     //     }
     //     title = "非本区域航班";
     //     subTitle = "非本区域";
-    // }else if( !hasAuth ){
-    //     title = "无修改权限";
-    //     subTitle = "无修改权限";
-    // }
+    // }else 
+    if( !hasAuth ){
+        title = "无修改权限";
+        subTitle = "无修改权限";
+    }
     let textDom = '';
     if( col === "FFIXT"){
         let meetIntervalValue = field.meetIntervalValue || "";
@@ -92,7 +93,7 @@ const CTPopover = (props) => {
         if( isValidVariable(text) && text.length >= 12 ){
             ftime = getTimeAndStatus(text);
             if( field.source === "MANUAL" ){
-                console.log("MANUAL", text, ftime)
+                // console.log("MANUAL", text, ftime)
                 getTimeAndStatus(text);
             }
         }
@@ -123,16 +124,17 @@ const CTPopover = (props) => {
     }
     //航班已起飞或者不在本区域内--不显示 2021-4-2注释，后台接口校验，前台校验去掉
     // if ( hadDEP || hadARR || !hadFPL || !isInAreaFlight || !hasAuth ) {
-    //     return (
-    //         <CellTip title={title}>
-    //             {textDom}
-    //         </CellTip>
-    //     )
-    // }else{
+    if ( !hasAuth ) {
+        return (
+            <CellTip title={title}>
+                {textDom}
+            </CellTip>
+        )
+    }else{
         return(
             <PopoverTip title={ title } textDom={textDom} opt={opt} />
         )
-    // }
+    }
 
 }
 

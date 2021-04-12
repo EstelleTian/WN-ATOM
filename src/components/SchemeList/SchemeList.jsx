@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-04-09 15:38:13
+ * @LastEditTime: 2021-04-12 10:43:21
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -9,8 +9,8 @@
  */
 import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react';
 import debounce from 'lodash/debounce'
-import PropTypes from 'prop-types';
-import Stomp from 'stompjs'
+// import PropTypes from 'prop-types';
+// import Stomp from 'stompjs'
 import { inject, observer } from 'mobx-react'
 import { Checkbox, Empty, Spin, notification } from 'antd'
 import { requestGet } from 'utils/request'
@@ -750,6 +750,7 @@ function SList (props){
 
 
     // console.log("方案列表 render")
+    
    
     return (
         <Spin spinning={ loading } >
@@ -764,7 +765,6 @@ function SList (props){
                                 key={index}
                                 toggleModalVisible={toggleModalVisible}
                                 toggleModalType={toggleModalType}
-                                userHasAuth={ props.systemPage.userHasAuth }
                             >
                             </SchemeItem>
                         )

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useCallback, memo } from 'react'
-import { observer } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import ReactDom from "react-dom";
 import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
 import { handleStopControl, openRunningControlFlow } from 'utils/client'
@@ -90,7 +90,7 @@ function SchemeItem(props) {
     const [window, setWindow] = useState("");
     const [windowClass, setWindowClass] = useState("");
 
-    let { item, activeSchemeId, userHasAuth } = props;
+    let { item, activeSchemeId } = props;
     let { id, tacticName, tacticStatus, tacticPublishUnit, basicTacticInfoReason, basicTacticInfoRemark,
         tacticTimeInfo: { startTime, endTime, publishTime, createTime, startCalculateTime = "" },
         basicFlowcontrol = {}, directionList = []
@@ -286,29 +286,40 @@ function SchemeItem(props) {
                             showDetail(e)
                             e.stopPropagation();
                         }}>详情</div>
-                        <div className="opt" onClick={showModify}>调整</div>
-                        <div className="opt" onClick={e => {
-                            showWorkFlowDetail(id);
-                            e.stopPropagation();
-                        }}>工作流</div>
-                        <Dropdown
-                            overlay={baseSchemeFrameMenu}
-                        >
-                            <div className="opt" onClick={e => {
-                                openBaseSchemeFrame(id);
+                        
+                        { 
+                            props.systemPage.userHasAuth( 11301 ) && <div className="opt" onClick={showModify}>调整</div>
+                        }
+                        { 
+                            props.systemPage.userHasAuth( 11401 ) && <div className="opt" onClick={e => {
+                                showWorkFlowDetail(id);
                                 e.stopPropagation();
-                            }}>决策依据<DownOutlined /></div>
-                        </Dropdown>
-
-                        <div className="opt" onClick={e => {
-                            stopControl(id);
-                            e.stopPropagation();
-                        }}>终止</div>
-                        <div className="opt" onClick={e => {
-
-                            openFilterFrame(id, tacticName, targetUnits, interVal);
-                            e.stopPropagation();
-                        }}>航图关联</div>
+                            }}>工作流</div>
+                        }
+                        { 
+                            props.systemPage.userHasAuth( 11502 ) && <Dropdown
+                            overlay={baseSchemeFrameMenu}
+                            >
+                                <div className="opt" onClick={e => {
+                                    openBaseSchemeFrame(id);
+                                    e.stopPropagation();
+                                }}>决策依据<DownOutlined /></div>
+                            </Dropdown>
+                        }
+                        
+                        { 
+                            props.systemPage.userHasAuth( 11201 ) && <div className="opt" onClick={e => {
+                                stopControl(id);
+                                e.stopPropagation();
+                            }}>终止</div>
+                        }
+                        { 
+                            props.systemPage.userHasAuth( 11505 ) && <div className="opt" onClick={e => {
+                                openFilterFrame(id, tacticName, targetUnits, interVal);
+                                e.stopPropagation();
+                            }}>航图关联</div>
+                        }
+                        
                         {
                             // (screenWidth > 1920)
                             // ? <div className="opt" onClick={ showModify}>调整</div>
@@ -331,4 +342,4 @@ function SchemeItem(props) {
     )
 }
 
-export default (observer(SchemeItem))
+export default inject("systemPage")(observer(SchemeItem))

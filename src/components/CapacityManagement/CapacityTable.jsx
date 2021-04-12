@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-04-02 10:39:58
+ * @LastEditTime: 2021-04-12 13:06:52
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -813,7 +813,7 @@ const CapacityTable = (props) => {
         return (
             <div className="opt_btns">
                 {
-                    authMap.AGREE && <ApproveBtn 
+                    ( authMap.AGREE && props.systemPage.userHasAuth(14402) ) && <ApproveBtn 
                             username={username} 
                             hisTasks={hisTasks} 
                             hisInstance={hisInstance} 
@@ -837,7 +837,7 @@ const CapacityTable = (props) => {
                     </ApproveBtn>
                 }
                 {
-                    authMap.REFUSE && <ApproveBtn username={username} hisTasks={hisTasks} hisInstance={hisInstance}
+                    ( authMap.REFUSE && props.systemPage.userHasAuth(14402) ) && <ApproveBtn username={username} hisTasks={hisTasks} hisInstance={hisInstance}
                         updateWorkFlow={()=>{
                             props.capacity.forceUpdateDynamicWorkFlowData = true;
                             props.capacity.forceUpdateDynamicData = true;
@@ -858,7 +858,7 @@ const CapacityTable = (props) => {
             
                 }
                 {
-                    authMap.REBACK && <ApproveBtn username={username} hisTasks={hisTasks} hisInstance={hisInstance}
+                    ( authMap.REBACK && props.systemPage.userHasAuth(14401) ) && <ApproveBtn username={username} hisTasks={hisTasks} hisInstance={hisInstance}
                         updateWorkFlow={()=>{
                             props.capacity.forceUpdateDynamicWorkFlowData = true;
                             props.capacity.forceUpdateDynamicData = true;
@@ -880,7 +880,8 @@ const CapacityTable = (props) => {
                 }
                 
                 {
-                    ( SUBMIT && !authMap.AGREE && !authMap.REFUSE && !authMap.REBACK && !editable ) &&
+                    ( SUBMIT && !authMap.AGREE && !authMap.REFUSE && !authMap.REBACK && !editable 
+                        && props.systemPage.userHasAuth(14302) ) &&
                     <Button className="" type="primary" onClick={ validateUpdateBtn }>修改 </Button>
                 }
                 {

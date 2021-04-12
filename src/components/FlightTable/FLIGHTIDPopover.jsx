@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-09 09:28:39
+ * @LastEditTime: 2021-04-12 13:38:40
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -235,6 +235,11 @@ let FLIGHTIDPopover = (props) => {
     let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
     let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
 
+    let hadInAir = false;
+    if( hadDEP && !hadARR ){
+        hadInAir = true;
+    }
+
     // //航班未起飞 且 在本区域内--
     // if ( !hadDEP && isInAreaFlight && hadFPL ) {
     //     hasAuth = true;
@@ -262,42 +267,42 @@ let FLIGHTIDPopover = (props) => {
             <div className="clr_flightid">
                 <button className="c-btn c-btn-blue">查看航班详情</button>
                 {
-                    (priority === FlightCoordination.PRIORITY_NORMAL && hasAuth)
+                    (priority === FlightCoordination.PRIORITY_NORMAL && hasAuth && systemPage.userHasAuth(13401))
                         ? <Button loading={exemptLoad} className="c-btn c-btn-green" onClick={() => { handleExempt("exempt", record, "标记豁免") }}>标记豁免</Button>
                         : ""
                 }
                 {
-                    (priority === FlightCoordination.PRIORITY_EXEMPT && hasAuth)
+                    (priority === FlightCoordination.PRIORITY_EXEMPT && hasAuth && systemPage.userHasAuth(13404))
                         ? <Button loading={exemptLoad} className="c-btn c-btn-red" onClick={() => { handleExempt("unExempt", record, "取消豁免") }}>取消豁免</Button>
                         : ""
                 }
                 {
-                    (alarms.indexOf("800") === -1 && hasAuth)
+                    (alarms.indexOf("800") === -1 && hasAuth && systemPage.userHasAuth(13407))
                         ? <Button loading={singleExemptLoad} className="c-btn c-btn-green" onClick={() => { handleExempt("singleExempt", record, "标记单方案豁免") }}>标记单方案豁免</Button>
                         : ""
                 }
                 {
-                    (alarms.indexOf("800") > -1 && hasAuth)
+                    (alarms.indexOf("800") > -1 && hasAuth && systemPage.userHasAuth(13410))
                         ? <Button loading={singleExemptLoad} className="c-btn c-btn-red" onClick={() => { handleExempt("singleUnExempt", record, "取消单方案豁免") }}>取消单方案豁免</Button>
                         : ""
                 }
                 {
-                    (alarms.indexOf("400") === -1 && hasAuth)
+                    (alarms.indexOf("400") === -1 && hasAuth && systemPage.userHasAuth(13413))
                         ? <ApplyIntervalButtonNode alarms={alarms} intervalLoad={intervalLoad} handleExempt={handleExempt} record={record} />
                         : ""
                 }
                 {
-                    (alarms.indexOf("400") > -1 && hasAuth)
+                    (alarms.indexOf("400") > -1 && hasAuth && systemPage.userHasAuth(13416))
                         ? <Button loading={intervalLoad} className="c-btn c-btn-red" onClick={() => { handleExempt("unInterval", record, "取消半数间隔") }}>取消半数间隔</Button>
                         : ""
                 }
                 {
-                    (!isInPoolFlight && hasAuth && systemPage.userHasAuth(13404))
+                    (!isInPoolFlight && hasAuth && systemPage.userHasAuth(13419))
                         ? <Button loading={poolLoad} className="c-btn c-btn-green" onClick={() => { handlePool("direct-in-pool", record, "申请入池") }}>申请入池</Button>
                         : ""
                 }
                 {
-                    (isInPoolFlight && hasAuth && systemPage.userHasAuth(13404))
+                    (isInPoolFlight && hasAuth && systemPage.userHasAuth(13422))
                         ? <Button loading={poolLoad} className="c-btn c-btn-red" onClick={() => { handlePool("direct-out-pool", record, "申请出池") }}>申请出池</Button>
                         : ""
                 }
@@ -318,14 +323,14 @@ let FLIGHTIDPopover = (props) => {
             <Tooltip title={tipObj.title} visible={tipObj.visible} color={tipObj.color}>
 
                 <div className={` ${colorClass}`}  >
-                    <div className={`text_cell_center ${isValidVariable(text) ? "" : "empty_cell"}`} title={`${text}-${PriorityList[priority]} ${isInAreaFlight ? "区内" : "区外"} ${hadDEP ? "空中" : "地面"}`}>
+                    <div className={`text_cell_center ${isValidVariable(text) ? "" : "empty_cell"}`} title={`${text}-${PriorityList[priority]} ${isInAreaFlight ? "区内" : "区外"} ${ hadInAir ? "空中" : "地面"}`}>
                         <span className={`${isInAreaFlight ? "inArea" : "outArea"}`}>{text}</span>
                     </div>
                     {/* <div  
-                        title={`${isInAreaFlight ? "区内" : "区外"} ${hadDEP ? "空中" : "地面"}`} 
-                        className={`status_flag ${isInAreaFlight ? "inArea" : "outArea"} ${hadDEP ? "inAir" : "inGround"}`}
+                        title={`${isInAreaFlight ? "区内" : "区外"} ${hadInAir ? "空中" : "地面"}`} 
+                        className={`status_flag ${isInAreaFlight ? "inArea" : "outArea"} ${hadInAir ? "inAir" : "inGround"}`}
                     ></div> */}
-                    <div title={`${hadDEP ? "空中" : "地面"}`} className={`status_flag ${hadDEP ? "inAir" : "inGround"}`}></div>
+                    <div title={`${ hadInAir ? "空中" : "地面"}`} className={`status_flag ${hadInAir ? "inAir" : "inGround"}`}></div>
                 </div>
             </Tooltip>
 

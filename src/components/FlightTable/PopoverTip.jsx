@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-04-09 09:28:49
+ * @LastEditTime: 2021-04-12 11:16:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -75,16 +75,25 @@ const PopoverTip = ( props ) => {
             }
         }
 
+        let hasConfirmAuth = false; //申请权限
+        let hasRefuseAuth = false; //撤销权限
+        
         let source = "";
         if( col === "FFIXT" ){
             const field = orgdata['ffixField'] || {};
             source = field.source || "";
+            hasConfirmAuth = props.systemPage.userHasAuth( 13440 );
+            hasRefuseAuth = props.systemPage.userHasAuth( 13443 );
         }else if(col === "COBT"){
             const field = orgdata['cobtField'] || {};
             source = field.source || "";
+            hasConfirmAuth = props.systemPage.userHasAuth( 13428 );
+            hasRefuseAuth = props.systemPage.userHasAuth( 13431 );
         }else if(col === "CTOT"){
             const field = orgdata['ctotField'] || {};
             source = field.source || "";
+            hasConfirmAuth = props.systemPage.userHasAuth( 13434 );
+            hasRefuseAuth = props.systemPage.userHasAuth( 13437 );
         }
 
         //数据提交失败回调
@@ -131,7 +140,7 @@ const PopoverTip = ( props ) => {
               const { record } = props.opt;
               const orgdata = record.orgdata || {};
               let orgFlight = JSON.parse(orgdata) || {}; //航班fc
-              const userId = props.systemPage.user.id || '14';
+              const userId = props.systemPage.user.id || '';
               const timestr = newStartTime + "" + values.time;
             //   console.log(timestr);
               const locked = autoChecked ? "1" : "0";
@@ -302,6 +311,7 @@ const PopoverTip = ( props ) => {
                     </Form>
                 )
             }
+            hasConfirmAuth = props.systemPage.userHasAuth( 13425 );
         }
         
         return (
@@ -391,14 +401,14 @@ const PopoverTip = ( props ) => {
                                     }}
                                 >指定</Button>
                                 {
-                                    source === "MANUAL" && 
-                                    <Button style={{marginLeft: '8px'}} 
-                                    loading={refuseBtnLoading}
-                                    className="todo_opt_btn todo_refuse c-btn-red"
-                                    onClick={ e=> {
-                                        onCheck("clear");
-                                    }}
-                                    size="small">撤销</Button>
+                                    ( source === "MANUAL" && hasRefuseAuth )  && 
+                                        <Button style={{marginLeft: '8px'}} 
+                                        loading={refuseBtnLoading}
+                                        className="todo_opt_btn todo_refuse c-btn-red"
+                                        onClick={ e=> {
+                                            onCheck("clear");
+                                        }}
+                                        size="small">撤销</Button>
                                 }
                                 
                                 {/* <Button style={{marginLeft: '8px'}}  size="small">重置</Button> */}

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-09 15:54:52
+ * @LastEditTime: 2021-04-12 11:03:50
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -386,10 +386,7 @@ const TodoTable = (props) => {
             }
 
             if (en === "handleStatus") {
-
-                // tem["fixed"] = 'right'
                 tem["render"] = (text, record, index) => {
-                    // debugger
                     const { TYPE, handleStatus = "{}" } = record;
                     const dataObj = JSON.parse(handleStatus);
                     const flight = dataObj.flight || {};
@@ -406,9 +403,6 @@ const TodoTable = (props) => {
                             }
                         }
                     }
-
-
-
                     return (
                         <div style={{ textAlign: 'right' }}>
                             {
