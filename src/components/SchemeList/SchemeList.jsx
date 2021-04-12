@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-04-07 19:54:20
+ * @LastEditTime: 2021-04-09 15:38:13
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -134,7 +134,7 @@ function useSchemeList(props){
         
     }, [id]);
 
-    //请求成功--处理 更新--方案列表 store数据
+    //提交成功--处理 更新--方案列表 store数据
     const updateSchemeListData = useCallback( data => {
         let { 
             tacticProcessInfos, 
@@ -676,15 +676,29 @@ function SList (props){
         });
     },[]);
 
-    
+    //根据工作待办-协调类-【主办】跳转到放行监控，并高亮待办航班
     NWGlobal.targetToFlight = (schemeId, flightId) => {
         // alert("schemeId:"+schemeId+" flightId:"+flightId);
-        //选中方案
-        const activeSchemeId = props.schemeListData.activeSchemeId;
-        if( activeSchemeId !== "schemeId"){
-            //选中方案
-            props.schemeListData.toggleSchemeActive( schemeId+"" );
+        //验证有没有这个方案
+        const res = props.schemeListData.activeScheme( schemeId );
+        if( isValidObject(res) ){
+            //当前选中的方案
+            const activeSchemeId = props.schemeListData.activeSchemeId;
+            if( activeSchemeId !== schemeId ){ //如果当前激活的id和传来的不一样，手动触发
+                //选中方案
+                props.schemeListData.toggleSchemeActive( schemeId+"" );
+                props.systemPage.setLeftNavSelectedName("");
+            }
+        }else{
+            //选默认交通流
+            if( props.systemPage.leftNavNameList.indexOf(schemeId) !== -1 ){
+                //选默认交通流
+                props.schemeListData.toggleSchemeActive(schemeId);
+                props.systemPage.setLeftNavSelectedName(schemeId);
+            }
+
         }
+        
         props.flightTableData.focusFlightId = flightId;
         //验证航班协调按钮是否激活 todo为已激活
         if( props.systemPage.modalActiveName !== "todo" ){
@@ -729,7 +743,7 @@ function SList (props){
     
 
     useEffect(() => {
-         if( activeSchemeId === "" && sortedList.length > 0 ){
+         if( activeSchemeId === "" && sortedList.length > 0 && props.systemPage.leftNavSelectedName === "" ){
             handleActive( sortedList[0].id, "", "init")
         }
     }, [sortedList, activeSchemeId])

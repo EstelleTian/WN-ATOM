@@ -252,10 +252,14 @@
                     .sourceStatus{
                         padding: 2px 5px;
                     }
+                    .info_name{
+                        max-width: 290px;
+                        display: inline-block;
+                    }
                     .publishUnit{
                         font-size: 16px;
                         position: absolute;
-                        left: 240px;
+                        left: 300px;
                         top: 29px;
                     }
                     .ADD{

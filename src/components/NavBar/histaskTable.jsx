@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-06 15:34:19
+ * @LastEditTime: 2021-04-09 15:54:44
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -481,7 +481,11 @@ const HistaskTable = (props) => {
                     }}
                     // footer={() => <div className="generateTime">数据时间: {formatTimeString(props.myApplicationList.generateTime)}</div>}
                 />
-                <div className="generateTime" style={{position:"absolute",bottom: "60px",left:"30px"}}>数据时间: {formatTimeString(props.myApplicationList.generateTime)}</div>
+                {
+                    props.myApplicationList.myApplications.length > 0 &&
+                    <div className="generateTime" style={{position:"absolute",bottom: "40px",left:"30px"}}>数据时间: {formatTimeString(props.myApplicationList.generateTime)}</div>
+
+                }
             </div>
         </Suspense>
     )

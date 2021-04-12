@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-07 19:49:03
+ * @LastEditTime: 2021-04-08 15:51:13
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -116,17 +116,17 @@ const HandleBtn = function(props){
                 openTimeSlotFrameWithFlightId(tacticId, fmeId);
                 break;
              case "SchemeApprovalProcess": //方案审批流程
-                console.log("方案审批流程",businessKey);
+                // console.log("方案审批流程",businessKey);
                 openConfirmFrame( businessKey );
                 break;
              case "VolumeApprovalProcess": //容量审批流程
-                console.log("容量审批流程",businessKey);
+                // console.log("容量审批流程",businessKey);
                 const elementName = processVariables.elementName || "";
                 openTclientFrameForMessage(elementName);
                 break;
              
          }
-         console.log(orgdata);
+        //  console.log(orgdata);
 
         
     };
@@ -233,7 +233,7 @@ function WorkFlowList(props){
                             </div>
                                 
                         )
-                        console.log(textArr)
+                        // console.log(textArr)
                         return dom;
                     }
                 }

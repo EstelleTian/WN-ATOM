@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-04-07 17:42:11
+ * @LastEditTime: 2021-04-09 15:49:43
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -14,6 +14,7 @@ import { isValidVariable } from 'utils/basic-verify';
 import { requestGet } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import { customNotice } from 'utils/common-funcs'
+import DraggableModal from 'components/DraggableModal/DraggableModal'
 import TodoTable from './TodoTable';
 import HisTaskTable from './HistaskTable';
 import './TodoNav.scss'
@@ -192,9 +193,36 @@ function TodoNav(props) {
                         : ""
                 }
             </Radio.Button>
-            <Modal
-                width={1600}
-                style={{ marginTop: "-50px"}}
+
+            <DraggableModal
+                title="航班协调"
+                style={{ top: "110px", left: '320px' }}
+                visible={ todoModalVisible }
+                handleOk={() => {}}
+                handleCancel={ hideModal }
+                width={1250}
+                maskClosable={false}
+                mask={false}
+                // destroyOnClose设置为true,每次打开模态框子组件挂载，关闭模态框子组件卸载 
+                destroyOnClose = { true }
+                footer = {''}
+            >
+                <Tabs size="large" style={{marginTop:-25}} activeKey={props.todoList.activeTab} onChange={function(activeKey) {
+                    console.log(activeKey)
+                    props.todoList.activeTab = activeKey+"";
+                }}>
+                    <TabPane tab="待办" key="1">
+                       <TodoTable requestDatas={requestData} />
+                    </TabPane>
+                    <TabPane tab="办结" key="2">
+                        <HisTaskTable />
+                    </TabPane>
+                </Tabs>
+            </DraggableModal>
+            
+            {/* <Modal
+                width={1250}
+                style={{ top: "110px", left: '320px'}}
                 title="航班协调"
                 visible={ todoModalVisible }
                 footer={[]} // 设置footer为空，去掉 取消 确定默认按钮
@@ -215,7 +243,7 @@ function TodoNav(props) {
                         <HisTaskTable />
                     </TabPane>
                 </Tabs>
-            </Modal>
+            </Modal> */}
         </Fragment>
 
     )

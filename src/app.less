@@ -37,24 +37,34 @@ html,body{
 }
 
 // Modal
-.ant-modal-content .ant-modal-header .ant-modal-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  white-space: nowrap;
-  padding-right: 16px;
-}
-.ant-modal-content .ant-modal-body {
-  max-height: 80vh;
-  overflow-y: auto;
-}
-.ant-modal-content .ant-modal-footer {
-  display: flex;
-  flex-direction: row-reverse;
-  button + button {
-    margin-right: 8px;
+.ant-modal-content{
+  background-color: #393939;
+  box-shadow: -6px 6px 6px -4px rgb(130 129 129);
+    border: 1px solid #787373;
+  .ant-modal-header {
+    padding: 10px 24px;
+    .ant-modal-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      white-space: nowrap;
+      padding-right: 16px;
+    }
+  }
+  
+  .ant-modal-body {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .ant-modal-footer {
+    display: flex;
+    flex-direction: row-reverse;
+    button + button {
+      margin-right: 8px;
+    }
   }
 }
+
 
 // Empty
 .ant-empty-img-simple-g {
