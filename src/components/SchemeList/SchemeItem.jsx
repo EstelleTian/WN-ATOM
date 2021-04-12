@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback, memo } from 'react'
 import { inject, observer } from 'mobx-react'
 import ReactDom from "react-dom";
-import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
+import { getTimeFromString, getDayTimeFromString, isValidVariable, calculateStringTimeDiff } from 'utils/basic-verify'
 import { handleStopControl, openRunningControlFlow } from 'utils/client'
 import { Window as WindowDHX } from "dhx-suite";
 import { openBaseSchemeFrame, openFilterFrame } from "utils/client"
@@ -49,6 +49,24 @@ const convertSatus = (status) => {
     return newStatus;
 }
 
+/* 方案计算状态转化
+startCalculateTime方案计算开始时间
+generateTime 方案列表generateTime
+ */
+const convertCalculateSatus = (startCalculateTime, generateTime) => {
+    let status = "计算中";
+    if(isValidVariable(generateTime) && isValidVariable(startCalculateTime)){
+        // 1分钟
+        const diff = 1000*60;
+        // 差值大于1分钟则显示为已计算
+        if(calculateStringTimeDiff(generateTime, startCalculateTime) > diff){
+            debugger
+            status = "已计算"
+        }
+    }
+    return status;
+}
+
 const SummaryCell = memo(({
     publishTime,
     createTime,
@@ -90,7 +108,7 @@ function SchemeItem(props) {
     const [window, setWindow] = useState("");
     const [windowClass, setWindowClass] = useState("");
 
-    let { item, activeSchemeId } = props;
+    let { item, activeSchemeId, userHasAuth, generateTime } = props;
     let { id, tacticName, tacticStatus, tacticPublishUnit, basicTacticInfoReason, basicTacticInfoRemark,
         tacticTimeInfo: { startTime, endTime, publishTime, createTime, startCalculateTime = "" },
         basicFlowcontrol = {}, directionList = []
@@ -140,6 +158,8 @@ function SchemeItem(props) {
     if (behindUnits !== "") {
         behindUnits = behindUnits.substring(0, targetUnits.length - 1);
     }
+    // 方案计算状态
+    const calculatestatus = convertCalculateSatus(startCalculateTime, generateTime );
 
     const showDetail = useCallback((e) => {
         props.toggleModalVisible(true, id);
@@ -241,7 +261,7 @@ function SchemeItem(props) {
                     <div className="state">
                         <div className="cell">
                             <span className={`${tacticStatus} status`} title="方案状态">{convertSatus(tacticStatus)}</span>
-                            <span className="calculate" title="方案计算状态">{isValidVariable(startCalculateTime) ? "已计算" : "计算中"}</span>
+                            <span className="calculate" title="方案计算状态">{calculatestatus}</span>
                         </div>
                     </div>
                 </div>
