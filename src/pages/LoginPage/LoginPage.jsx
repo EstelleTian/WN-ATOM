@@ -5,7 +5,7 @@ import { requestGet } from 'utils/request';
 import { ReqUrls } from 'utils/request-urls'
 import { isValidVariable  } from 'utils/basic-verify'
 import { saveUserInfo, exitSystem } from 'utils/client';
-import './LoginPage.scss'
+// import './LoginPage.scss'
 
 const msgStyle = {
     top: '110px',
@@ -21,6 +21,7 @@ function LoginPage(props){
     const canvasRef = useRef( null );
     const usernameInput = useRef( null );
     const pwdInput = useRef( null );
+    const pageType = props.pageType;
 
     // 点击登录按钮登录
     const handleSubmit = useCallback( () => {
@@ -47,12 +48,6 @@ function LoginPage(props){
                         console.log(data);
                         const { status, user={}, userConcernTrafficList={} } = data;
                         if( status*1 === 200){
-                            message.success({
-                                content: "登录成功",
-                                duration: 5,
-                                style: msgStyle
-                            });
-
                             let obj = {};
                             userConcernTrafficList.map( item => {
                                 const name = item.concernTrafficName;
@@ -61,7 +56,17 @@ function LoginPage(props){
                 
                             localStorage.setItem("user", JSON.stringify(user) );
                             localStorage.setItem("userConcernTrafficList", JSON.stringify(Object.values(obj)) );
-                            saveUserInfo( username, password, value+"");
+                            if(pageType ==='client'){
+                                message.success({
+                                    content: "登录成功",
+                                    duration: 5,
+                                    style: msgStyle
+                                });
+                                saveUserInfo( username, password, value+"");
+                            }else if(pageType ==='web'){
+                                window.open("./#/fangxing","_self");
+                            }
+                            
 
 
                         }else{
@@ -142,7 +147,7 @@ function LoginPage(props){
         
     },[])
     return (
-        <div className="login_canvas bg" >
+        <div className={`login_canvas bg`} >
             <div className="close" title="关闭" onClick={()=>{
                 exitSystem("")
             }}></div>

@@ -13,7 +13,11 @@ const InfoTodayPage = lazy(() => import('../pages/InfoPage/InfoTodayPage'));
 const FangxingPage = lazy(() => import('../pages/FangxingPage/FangxingPage'));
 const TotalPage = lazy(() => import('../pages/TotalPage/TotalPage'));
 const RestrictionPage = lazy(() => import('../pages/RestrictionPage/RestrictionPage'));
-const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
+// const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
+const LoginClient = lazy(() => import('../pages/LoginPage/LoginClient'));
+const LoginWeb = lazy(() => import('../pages/LoginPage/LoginWeb'));
+
+
 const CreateFlowPage = lazy(() => import('../pages/CreateFlowPage/CreateFlowPage'));
 const ModifySimulationSchemePage = lazy(() => import('../pages/ModifySimulationSchemePage/ModifySimulationSchemePage'));
 const DisplaySimulationSchemeDetailPage = lazy(() => import('../pages/DisplaySimulationSchemeDetailPage/DisplaySimulationSchemeDetailPage'));
@@ -28,9 +32,24 @@ const EditDirectionDataPage = lazy(() => import('../pages/EditDirectionDataPage/
 
 
 export default [
+    // 客户端登录页面
     {
-        path: '/',
-        component: withRouter(LoginPage),
+        path: '/', 
+        component: withRouter(LoginClient),
+        exact: true,
+        title: '登录页面',
+    },
+    // 客户端登录页面
+    {
+        path: '/client', 
+        component: withRouter(LoginClient),
+        exact: true,
+        title: '登录页面',
+    },
+    // web端登录页面
+    {
+        path: '/web',
+        component: withRouter(LoginWeb),
         exact: true,
         title: '登录页面',
     },

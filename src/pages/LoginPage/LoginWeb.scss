@@ -1,10 +1,13 @@
 
 .login_canvas{
+  background-color: #363636;
   background: url("./images/bg.png") no-repeat;
   background-size: cover;
+  background-position: center;
   font-size: 10px!important;
-  width: 90em;
-  height: 55em;
+  width: 100%;
+  height: 100%;
+  min-width: 90em;
   overflow: hidden;
   position: absolute;
   @include display_flex();
@@ -12,6 +15,7 @@
   justify-items: center;
   //关闭按钮
   .close{
+    display: none;
     background: url("./images/close.png") no-repeat;
     background-size: cover;
     width: 2.4em;
@@ -102,7 +106,7 @@
   //左侧
   .side_nav{
     width: 21.6em;
-    margin: 9em 0;
+    display: none;
     // 弧线
     .line_bar{
       display: inline-block;
@@ -128,6 +132,7 @@
     
   }
   .side_nav.left{
+    margin: 9em 5em 9em auto;
     .side_group{
       margin-left: 1.5em;
     }
@@ -160,6 +165,8 @@
       }
   }
   .side_nav.right{
+    margin: 9em auto 9em 5em;
+
     >div{
       float: right;
     }
