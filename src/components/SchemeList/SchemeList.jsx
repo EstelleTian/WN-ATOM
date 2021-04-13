@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-04-12 14:30:16
+ * @LastEditTime: 2021-04-13 10:33:12
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -246,34 +246,6 @@ function useFlightsList(props) {
                 return;
             }
 
-            const { generateTime, activeSchemeCalculatingModalVisible, autoCheckCalculatingSchemeIds } = schemeListData;
-            // 获取选中的方案数据
-            let activeSchemeData = props.schemeListData.activeScheme(activeSchemeId);
-            if (isValidObject(activeSchemeData)) {
-                // 选中方案的计算状态
-                const calculateSatus = getCalculateSatus(activeSchemeData, generateTime);
-                if (calculateSatus === "calculating") {
-                    if(!activeSchemeCalculatingModalVisible && !autoCheckCalculatingSchemeIds.includes(activeSchemeId)){
-                        Modal.warning({
-                            title: '提示',
-                            content: '方案计算中...',
-                            okText: "确认",
-                            onOk:()=>{props.schemeListData.toggleActiveSchemeCalculatingModalVisible(false)}
-                        });
-                        props.schemeListData.toggleActiveSchemeCalculatingModalVisible(true);
-                        props.schemeListData.addAutoCheckCalculatingSchemeId(activeSchemeId);
-                    }
-                    flightTableData.updateFlightsList([], "", "");
-                    return
-                }else {
-                    if(activeSchemeCalculatingModalVisible){
-                        props.schemeListData.toggleActiveSchemeCalculatingModalVisible(false);
-                    }
-                    if(autoCheckCalculatingSchemeIds.includes(activeSchemeId)){
-                        props.schemeListData.deletAutoCheckCalculatingSchemeId(activeSchemeId);
-                    }
-                }
-            }
 
             // console.log("本次方案id:", activeSchemeId)
             url = ReqUrls.flightsDataNoIdUrl + systemPage.user.id;
@@ -789,7 +761,15 @@ function SList(props) {
 
     useEffect(() => {
         if (activeSchemeId === "" && sortedList.length > 0 && props.systemPage.leftNavSelectedName === "") {
-            handleActive(sortedList[0].id, "", "init")
+            //默认选第一条 已计算
+            let defaultId = "";
+            sortedList.map( item => {
+                if(item.isCalculated && defaultId === ""){
+                    defaultId = item.id;
+                }
+            });
+            
+            handleActive(defaultId, "", "init")
         }
     }, [sortedList, activeSchemeId])
 

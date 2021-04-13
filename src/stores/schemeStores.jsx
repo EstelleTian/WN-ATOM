@@ -1,33 +1,54 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-04-01 13:37:18
+ * @LastEditTime: 2021-04-13 10:35:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
  */
 
 import { makeObservable, observable, action, computed } from 'mobx'
-import { isValidVariable } from 'utils/basic-verify'
+import { isValidVariable, calculateStringTimeDiff } from 'utils/basic-verify'
 
 // 单条方案对象
 class SchemeItem{
-    @observable id = "111"
+    @observable id = "";
+    //判断是否是 true "已计算" false "计算中"
+    @observable isCalculated = false;
     constructor( opt ){
         makeObservable(this)
         for( let key in opt ){
-            this[key] = opt[key]
+            this[key] = opt[key];
         }
         this.id = opt.id;
+        this.isCalculated = this.calculateStatus();
     }
     // 方案数据更新
     @action update( opt ){
         for( let key in opt ){
             if( this.hasOwnProperty(key) ){
-                this[key] = opt[key]
+                this[key] = opt[key];
             }
         }
+        this.isCalculated = this.calculateStatus();
     }
+
+    @action calculateStatus(){
+        let flag = false;
+        const dataGenerateTime = this.dataGenerateTime; //接口数据时间
+        const startCalculateTime = this.tacticTimeInfo.startCalculateTime;
+        if (isValidVariable(dataGenerateTime) && isValidVariable(startCalculateTime)) {
+            // 1分钟
+            const diff = 1000 * 60;
+            // 差值大于1分钟则显示为已计算
+            if (calculateStringTimeDiff(dataGenerateTime, startCalculateTime) > diff) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    
 
 }
  // 方案列表数据
@@ -41,10 +62,8 @@ class SchemeListData{
     @observable generateTime = "";
     //方案选中的id
     @observable activeSchemeId = "";
-
     //活动方案计算中提示框显隐标记
     @observable activeSchemeCalculatingModalVisible = false;
-
     //自动检测活动方案为计算中状态标记方案id
     @observable autoCheckCalculatingSchemeIds = [];
     //定时器
@@ -104,6 +123,7 @@ class SchemeListData{
         this.generateTime = generateTime;
         let hasId = false;
         arr.map( item => {
+            item["dataGenerateTime"] = generateTime;
             const itemIns = new SchemeItem(item);
             if( item.id === this.activeSchemeId ){
                 this.activeSchemeId = item.id;

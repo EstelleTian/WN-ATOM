@@ -49,23 +49,6 @@ const convertSatus = (status) => {
     return newStatus;
 }
 
-/* 方案计算状态转化
-startCalculateTime方案计算开始时间
-generateTime 方案列表generateTime
- */
-const convertCalculateSatus = (startCalculateTime, generateTime) => {
-    let status = "计算中";
-    if (isValidVariable(generateTime) && isValidVariable(startCalculateTime)) {
-        // 1分钟
-        const diff = 1000 * 60;
-        // 差值大于1分钟则显示为已计算
-        if (calculateStringTimeDiff(generateTime, startCalculateTime) > diff) {
-            status = "已计算"
-        }
-    }
-    return status;
-}
-
 const SummaryCell = memo(({
     publishTime,
     createTime,
@@ -108,7 +91,7 @@ function SchemeItem(props) {
     const [windowClass, setWindowClass] = useState("");
 
     let { item, activeSchemeId, userHasAuth, generateTime } = props;
-    let { id, tacticName, tacticStatus, tacticPublishUnit, basicTacticInfoReason, basicTacticInfoRemark,
+    let { id, isCalculated, tacticName, tacticStatus, tacticPublishUnit, basicTacticInfoReason, basicTacticInfoRemark,
         tacticTimeInfo: { startTime, endTime, publishTime, createTime, startCalculateTime = "" },
         basicFlowcontrol = {}, directionList = []
     } = item;
@@ -157,8 +140,6 @@ function SchemeItem(props) {
     if (behindUnits !== "") {
         behindUnits = behindUnits.substring(0, targetUnits.length - 1);
     }
-    // 方案计算状态
-    const calculatestatus = convertCalculateSatus(startCalculateTime, generateTime);
 
     const showDetail = useCallback((e) => {
         props.toggleModalVisible(true, id);
@@ -174,53 +155,29 @@ function SchemeItem(props) {
         e.stopPropagation();
     }, [id]);
 
-    // 获取选中方案计算状态值
-    const getCalculateSatus = (activeSchemeData, generateTime) => {
-        const tacticTimeInfo = activeSchemeData.tacticTimeInfo || {};
-        const { startCalculateTime = "" } = tacticTimeInfo;
-        let status = "calculating";
-        if (isValidVariable(generateTime) && isValidVariable(startCalculateTime)) {
-            // 1分钟
-            const diff = 1000 * 60;
-            // 差值大于1分钟则显示为已计算
-            if (calculateStringTimeDiff(generateTime, startCalculateTime) > diff) {
-                status = "calculated"
-            }
-        }
-        return status;
-
-    }
-
-
     const onChange = useCallback((e) => {
-        const { generateTime, activeSchemeCalculatingModalVisible } = props.schemeListData;
-
-        if (isValidObject(item)) {
-            // 选中方案的计算状态
-            const calculateSatus = getCalculateSatus(item, generateTime);
-            if (calculateSatus === "calculating") {
-                if (!activeSchemeCalculatingModalVisible) {
-                    Modal.warning({
-                        title: '提示',
-                        content: '方案计算中...',
-                        okText: "确认",
-                        onOk: () => { props.schemeListData.toggleActiveSchemeCalculatingModalVisible(false) }
-                    });
-                    props.schemeListData.toggleActiveSchemeCalculatingModalVisible(true);
-                }
-                return
-            } else {
-                if (activeSchemeCalculatingModalVisible) {
-                    props.schemeListData.toggleActiveSchemeCalculatingModalVisible(false);
-                }
+        const { activeSchemeCalculatingModalVisible } = props.schemeListData;
+        if ( !isCalculated ) {
+            if (!activeSchemeCalculatingModalVisible) {
+                Modal.warning({
+                    width: 500,
+                    title: '方案【'+tacticName+'】正在计算中，请稍后再试...',
+                    content: '',
+                    okText: "知道了",
+                    onOk: () => { props.schemeListData.toggleActiveSchemeCalculatingModalVisible(false) }
+                });
+                props.schemeListData.toggleActiveSchemeCalculatingModalVisible(true);
+            }
+            return
+        } else {
+            if (activeSchemeCalculatingModalVisible) {
+                props.schemeListData.toggleActiveSchemeCalculatingModalVisible(false);
             }
         }
-
-
         props.handleActive(id);
         e.preventDefault();
         e.stopPropagation();
-    }, [id]);
+    }, [id, isCalculated]);
 
     //工作流详情
     const showWorkFlowDetail = useCallback((id) => {
@@ -301,7 +258,7 @@ function SchemeItem(props) {
                     <div className="state">
                         <div className="cell">
                             <span className={`${tacticStatus} status`} title="方案状态">{convertSatus(tacticStatus)}</span>
-                            <span className="calculate" title="方案计算状态">{calculatestatus}</span>
+                            <span className="calculate" title="方案计算状态">{ isCalculated ? "已计算" : "计算中"}</span>
                         </div>
                     </div>
                 </div>

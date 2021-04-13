@@ -78,6 +78,10 @@ function RightNav(props) {
             }
             
             
+            
+            
+            
+            
             <div className="single_user">
                 <Avatar className="user_icon" icon={<UserOutlined />} />
                 <User />
