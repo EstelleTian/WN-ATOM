@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-12 18:34:54
+ * @LastEditTime: 2021-04-13 13:30:27
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -77,7 +77,7 @@ const names = {
     "flightsId": {
         "en": "flightsId",
         "cn": "目标",
-        width: 90,
+        width: 105,
     },
     "depap": {
         "en": "depap",
@@ -109,7 +109,7 @@ const names = {
     "activityName": {
         "en": "activityName",
         "cn": "当前处理环节",
-        width: 140,
+        width: 160,
     },
 
 }

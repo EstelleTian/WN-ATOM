@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-07 19:29:46
+ * @LastEditTime: 2021-04-13 13:15:08
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -122,7 +122,7 @@ function FTable(props){
     const setRowClassName = useCallback((record, index) => {
         let FFIXT = record.FFIXT || "";
         let id = record.id || "";
-        if( sortKey === "FFIXT" ) {
+        if( sortKey === "FFIXT" && isValidVariable(props.schemeListData.activeSchemeId) && props.schemeListData.activeSchemeId.indexOf("focus") === -1 ) {
             if( isValidVariable(FFIXT) && FFIXT.length >= 12 ){
                 FFIXT = FFIXT.substring(0, 12);
             }
