@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-14 14:34:36
+ * @LastEditTime: 2021-04-14 14:46:57
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -94,7 +94,7 @@ function SubTable(props){
     const { flightTableData, systemPage } = props;
     const modalActiveName = systemPage.modalActiveName || "";
 
-    const { tableData, columns } = useMemo( ()=>{
+    const { tableData, columns, totalWidth } = useMemo( ()=>{
         const columns = getColumns( SubNames[modalActiveName] );
         let subTableData = [];
         switch (modalActiveName) {
@@ -105,8 +105,12 @@ function SubTable(props){
             default:
         }
         //转换为表格数据
-        let tableData = subTableData.map( flight => formatSingleFlight(flight) )
-        return { tableData, columns };
+        let tableData = subTableData.map( flight => formatSingleFlight(flight) );
+        let totalWidth = 0;
+        columns.map(col =>{
+            totalWidth += col.width*1;
+        })
+        return { tableData, columns, totalWidth };
     },[props.flightTableData.list, modalActiveName])
 
     // console.log(modalActiveName, tableData.length)
@@ -230,7 +234,7 @@ function SubTable(props){
                     pagination={false}
                     // loading={ loading }
                     scroll={{
-                        x: 1000,
+                        x: totalWidth,
                         y: 500
                     }}
                     onRow={record => {
@@ -245,52 +249,7 @@ function SubTable(props){
                       }}
                     rowClassName={rowClassName}/>
             </DraggableModal>
-             {/* <Modal
-                width={1000}
-                style={{ 
-                    right: "-430px",
-                    top: "60px"
-                 }}
-                title={getTitle()}
-                visible={ modalVisible }
-                footer={[] // 设置footer为空，去掉 取消 确定默认按钮
-                    }
-                onOk={() => { }}
-                mask={false}
-                wrapClassName="pointer-events-none"
-                onCancel={ hideModal }
-                className={`sub_table_modal ${modalActiveName}_canvas ${modalActiveName}`}
-            >
-                <Table
-                    columns={ columns }
-                    dataSource={ tableData }
-                    size="small"
-                    bordered
-                    pagination={false}
-                    // loading={ loading }
-                    scroll={{
-                        x: 1000,
-                        y: 500
-                    }}
-                    onRow={record => {
-                        return {
-                          onClick: event => {// 点击行
-                            console.log(event);
-                            const fid = event.currentTarget.getAttribute("data-row-key")
-                            flightTableData.toggleSelectFlight(fid);
-                          }, 
-    
-                        };
-                      }}
-                    rowClassName={rowClassName}/>
-            </Modal> */}
-            {/* <ModalBox
-                title={getTitle()}
-                showDecorator = {true}
-                className={`sub_table_modal ${modalActiveName}_canvas ${modalActiveName}`}
-            >
-                
-            </ModalBox> */}
+            
         </Suspense>
 
     )
