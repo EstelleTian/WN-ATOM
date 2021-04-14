@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-13 13:15:08
+ * @LastEditTime: 2021-04-14 14:35:57
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -30,7 +30,7 @@ function TTitle(props){
         // console.log(schemeListData.activeSchemeId)
         if( isValidVariable( schemeListData.activeSchemeId ) ){
             const activeScheme = schemeListData.activeScheme(schemeListData.activeSchemeId) || {};
-            return activeScheme.tacticName;
+            return activeScheme.tacticName || "";
         }else{
             return ""
         }

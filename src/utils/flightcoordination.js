@@ -292,6 +292,7 @@ const FlightCoordination = {
             case 'MANUAL': sourceCN = "人工";break;
             case 'LOCK': sourceCN = "锁定";break;
             case 'AUTO': sourceCN = "自动";break;
+            case 'INVALID': sourceCN = "失效";break;
             default: sourceCN = source;
         }
         return sourceCN;
@@ -1597,6 +1598,7 @@ const StatusToCN = {
     "100": "进行中",
     "200": "已同意",
     "300": "已拒绝",
+    "400": "已失效",
    
 };
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-12 11:34:10
+ * @LastEditTime: 2021-04-13 15:44:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -220,7 +220,13 @@ const InfoCard = inject("systemPage")(observer(InfoCardItem))
 //单个消息模块下详情
 function InfoCardDetail(props){
     let { message } = props;
-    let {sendTime, content, name, source } = message;
+    let {sendTime, content, name, source, dataType } = message;
+    let comment = "";
+    if(dataType === "DCVM"){
+        let dataStr = message.data;
+        let data = JSON.parse( dataStr );
+        comment = data.comment || "";
+    }
     return (
         <div className="card_detail">
             <Row>
@@ -242,6 +248,13 @@ function InfoCardDetail(props){
                 <Col span={2} className="name">内容：</Col>
                 <Col span={22} className="text send_time">{  content  }</Col>
             </Row>
+            {
+                dataType === "DCVM" &&
+                <Row>
+                    <Col span={2} className="name">原因：</Col>
+                    <Col span={22} className="text send_time">{  comment  }</Col>
+                </Row>
+            }
         </div>
     )
 }

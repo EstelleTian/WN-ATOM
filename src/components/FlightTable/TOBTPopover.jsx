@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-02 12:56:19
+ * @LastEditTime: 2021-04-14 14:25:51
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -34,6 +34,10 @@ const TOBTPopover = (props) => {
         
     }
     let source = field.source || "";
+    let effectStatus = field.effectStatus || "";
+    if( effectStatus*1 === 200){
+        source = "INVALID"
+    }
     let sourceCN = FlightCoordination.getSourceZh( source );
     if( source === "TOBT_MANUAL_APPLY" ){
         title = "TOBT批复变更";

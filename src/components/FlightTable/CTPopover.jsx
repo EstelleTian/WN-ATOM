@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-12 13:46:55
+ * @LastEditTime: 2021-04-14 14:32:56
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -45,6 +45,10 @@ const CTPopover = (props) => {
         
     }
     let source = field.source || "";
+    let effectStatus = field.effectStatus || "";
+    if( effectStatus*1 === 200){
+        source = "INVALID"
+    }
     let sourceCN = FlightCoordination.getSourceZh( source );
 
     const fmeToday = orgdata.fmeToday;
