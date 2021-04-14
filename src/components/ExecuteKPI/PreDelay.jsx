@@ -37,8 +37,8 @@ function PreDelay(props) {
     const airportOrder = {
         ZLXY:0,
         ZLLL:1,
-        ZLIC:2,
-        ZLXN:3
+        ZLXN:2,
+        ZLIC:3,
     }
 
 
