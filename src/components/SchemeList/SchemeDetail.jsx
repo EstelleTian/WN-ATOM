@@ -172,7 +172,7 @@ function SchemeDetail(props) {
                                 </div>
                                 <div className="ant-col ant-form-item-control">
                                     <div className="ant-form-item-control-input">
-                                        <div className="ant-form-item-control-input-content">{formatTimeString(startCalculateTime)}</div>
+                                        <div className="ant-form-item-control-input-content">{formatTimeString(startCalculateTime, 1)}</div>
                                     </div>
                                 </div>
                             </div>
