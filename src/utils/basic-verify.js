@@ -173,8 +173,11 @@ const formatTimeString = ( str, type ) => {
         const day = str.substring(6, 8);
         const hour = str.substring(8, 10);
         const mins = str.substring(10, 12);
+        const seconds = str.substring(12, 14);
         if( type === 2){
             return day + '/' + hour  + ':' + mins;
+        }else if(type === 1 && ( str.length === 14 || str.length === 16 )){
+            return year + '-' + month + '-' + day + ' ' + hour  + ':' + mins + ':' + seconds;
         }
 
         return year + '-' + month + '-' + day + ' ' + hour  + ':' + mins;
