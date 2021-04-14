@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-04-07 16:20:26
+ * @LastEditTime: 2021-04-13 16:09:28
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -132,27 +132,40 @@ class FlightTableData{
     }
      
     //更新航班数据-
-    @action updateFlightsList( newList, generateTime ){
-        let orgMap = {};
-        this.list.map( ofc => orgMap[ofc.id] = ofc );
-
+    @action updateFlightsList( newList, generateTime, curSchemeId ){
         let newMap = {};
         newList.map( nfc => newMap[nfc.id] = nfc );
-
+        
         let mergeMap = {};
-        for( let key in newMap){
-            let newFc = newMap[key];
-            let newId = newFc.id;
-            //新的航班没有出现在旧的中，添加
-            if( !isValidObject( orgMap[newId] ) ){
+
+        if( curSchemeId === this.lastSchemeId ){
+            console.log("两次方案id一样 curSchemeId："+curSchemeId+" lastSchemeId: "+this.lastSchemeId )
+            for( let key in newMap){
+                let newFc = newMap[key];
+                let newId = newFc.id;
                 const itemIns = new FlightItem(newFc);
                 mergeMap[newId] = itemIns;
-            }else{//新的航班出现在旧的中，按谁时间戳大更新
-                const resFlight = compareFlight( orgMap[newId], newFc );
-                const itemIns = new FlightItem(resFlight);
-                mergeMap[newId] = itemIns;
+            }
+        }else{
+            console.log("两次方案id不一样 curSchemeId："+curSchemeId+" lastSchemeId: "+this.lastSchemeId )
+            let orgMap = {};
+            this.list.map( ofc => orgMap[ofc.id] = ofc );
+
+            for( let key in newMap){
+                let newFc = newMap[key];
+                let newId = newFc.id;
+                //新的航班没有出现在旧的中，添加
+                if( !isValidObject( orgMap[newId] ) ){
+                    const itemIns = new FlightItem(newFc);
+                    mergeMap[newId] = itemIns;
+                }else{//新的航班出现在旧的中，按谁时间戳大更新
+                    const resFlight = compareFlight( orgMap[newId], newFc );
+                    const itemIns = new FlightItem(resFlight);
+                    mergeMap[newId] = itemIns;
+                }
             }
         }
+        
         this.list = Object.values( mergeMap );
         this.generateTime = generateTime;
     }

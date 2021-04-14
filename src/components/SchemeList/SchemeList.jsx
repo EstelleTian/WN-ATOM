@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-04-13 10:33:12
+ * @LastEditTime: 2021-04-13 16:05:32
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -224,11 +224,12 @@ function useFlightsList(props) {
         if (isValidVariable(props.schemeListData.activeSchemeId)) {
             let { flights, generateTime } = flightData;
             if (flights !== null) {
-                flightTableData.updateFlightsList(flights, generateTime);
-                sessionStorage.setItem("flightTableGenerateTime", generateTime);
+                flightTableData.updateFlightsList(flights, generateTime, props.schemeListData.activeSchemeId);
+                sessionStorage.setItem("flightTableGenerateTime", generateTime, props.schemeListData.activeSchemeId);
             } else {
                 flightTableData.updateFlightsList([], generateTime);
             }
+            flightTableData.lastSchemeId = props.schemeListData.activeSchemeId;
         }
 
     }, [props.schemeListData.activeSchemeId]);

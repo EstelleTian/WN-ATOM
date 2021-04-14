@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 11:08:47
- * @LastEditTime: 2021-03-01 14:33:00
+ * @LastEditTime: 2021-04-14 14:39:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\ExecuteKPI\ExecuteKPIModal.jsx
@@ -36,7 +36,7 @@ function TTitle(props){
 
     return (<span>
          <span>执行KPI({formatTimeString(props.executeKPIData.executeData.generateTime)})</span>
-         —
+         { tacticName !== "" && <span>—</span> }
          <span style={{ color: "#36a5da"}}>{tacticName}</span>
     </span>)
 }
@@ -45,9 +45,6 @@ const TableTitle = inject("executeKPIData", "schemeListData")(observer(TTitle));
 
 
 function ExecuteKPIModal(props){
-    const activeScheme = props.schemeListData.activeScheme || {};
-    const tacticName = activeScheme.tacticName || "";
-
     return (
         <Suspense fallback={<div className="load_spin"><Spin tip="加载中..."/></div>}>
             <ModalBox
@@ -61,7 +58,7 @@ function ExecuteKPIModal(props){
     )
 }
 
-export default inject("executeKPIData", "schemeListData")(observer(ExecuteKPIModal))
+export default ExecuteKPIModal
 
 
 

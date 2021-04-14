@@ -103,6 +103,15 @@
   .AUTO{
     background: #3D8424;
   }
+  //失效
+  .INVALID{
+    text-decoration:line-through;
+    background: #605f5f;
+    >span{
+      background: none!important;
+    }
+    
+  }
   
   .TOBT_EOBT{  //TOBT报文
     background: #b10fb1;

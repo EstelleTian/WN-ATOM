@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-04-07 16:30:42
+ * @LastEditTime: 2021-04-14 08:38:41
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -317,8 +317,11 @@ const getColumns = ( names = defaultNames, sortable = false, onCellFilter = ()=>
         }
 
         //默认排序
-        if( en === "FFIX" || en === "EAW" || en === "OAW" ){
+        if( en === "EAW" || en === "OAW" ){
             tem["width"] = (screenWidth > 1920) ? 95 : 65
+        }
+        if( en === "FFIX" ){
+            tem["width"] = (screenWidth > 1920) ? 95 : 80
         }
         if( en === "FFIXT" ){
             tem["defaultSortOrder"] ='ascend';
