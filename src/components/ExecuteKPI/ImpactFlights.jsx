@@ -13,45 +13,36 @@ import { inject, observer } from 'mobx-react'
 
 //影响航班
 function ImpactFlights(props) {
-
-    const executeKPIData = props.executeKPIData || {};
-    const executeData = executeKPIData.executeData || {};
-    let tacticProcessInfo = executeData.tacticProcessInfo || {};
-    let kpi = tacticProcessInfo.kpi || {};
-    let impactFlightCount = kpi.impactFlightCount || {};
-    // 影响航班集合
-    let impactALL = impactFlightCount['AF'];
-    // 已执行航班集合
-    let executedFlight = kpi.executedFlight || [];
-    // 执行中航班集合
-    let inExecutionFlight = kpi.inExecutionFlight || [];
-    // 待放行航班集合
-    let nonExecutionFlight = kpi.nonExecutionFlight || [];
-
+    const { loading, impactFlight, executedFlight, inExecutionFlight, nonExecutionFlight, } = props.executeKPIData
     // 影响
-    const impact = Array.isArray(impactALL) ? impactALL.length : "N/A";
+    const impact = Array.isArray(impactFlight) ? impactFlight.length : "N/A";
     // 已执行
     const executed = Array.isArray(executedFlight) ? executedFlight.length : "N/A";
     // 执行中
     const inExecution = Array.isArray(inExecutionFlight) ? inExecutionFlight.length : "N/A";
     // 待放行
     const nonExecution = Array.isArray(nonExecutionFlight) ? nonExecutionFlight.length : "N/A";
-    const { loading } = executeKPIData;
+    // 更新航班列表数据展示
+    const updateFlightData =(category,title)=> {
+        props.executeKPIData.toggleFlightListModalVisible(true);
+        props.executeKPIData.updateFlightListCategory(category);
+        props.executeKPIData.updateFlightListCategoryZh(title);
+    }
 
     return (
         <Spin spinning={loading} >
         <Row className="row_model">
-            <Col span={8} className="impact block">
+            <Col span={8} className="impact block hot-point" onClick={()=>updateFlightData("impactFlight","影响航班列表")}>
                 <div className="block-title">影响航班</div>
-                <div className="block-content flex justify-content-center layout-column">
-                    <div className="num text-center">{impact}</div>
+                <div className="block-content flex justify-content-center layout-column " >
+                    <div className="num text-center" >{impact}</div>
                     <div className="unit text-center">架次</div>
                 </div>
 
             </Col>
             <Col span={16} className="block">
                 <Row>
-                    <Col span={12} className="impact_sub block">
+                    <Col span={12} className="impact_sub block hot-point" onClick={()=>updateFlightData("executedFlight","已执行航班列表")}>
                         <div className="block-title">已执行</div>
                         <div className="block-content flex">
                             <div className="layout-row">
@@ -62,7 +53,7 @@ function ImpactFlights(props) {
                         </div>
 
                     </Col>
-                    <Col span={12} className="impact_sub block">
+                    <Col span={12} className="impact_sub block hot-point" onClick={()=>updateFlightData("inExecutionFlight","执行中航班列表")} >
                         <div className="block-title">执行中</div>
                         <div className="block-content flex">
                             <div className="layout-row">
@@ -74,7 +65,7 @@ function ImpactFlights(props) {
                     </Col>
                 </Row>
                 <Row>
-                    <Col span={12} className="impact_sub block">
+                    <Col span={12} className="impact_sub block hot-point" onClick={()=>updateFlightData("nonExecutionFlight","待放行航班列表")} >
                         <div className="block-title">待放行</div>
                         <div className="block-content flex">
                             <div className="layout-row ">

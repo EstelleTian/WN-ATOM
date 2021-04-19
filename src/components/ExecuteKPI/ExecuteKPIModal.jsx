@@ -21,13 +21,13 @@ import ExecuteKPI  from 'components/ExecuteKPI/ExecuteKPI'
 import ModalBox from 'components/ModalBox/ModalBox'
 import { isValidVariable, formatTimeString } from 'utils/basic-verify'
 
-/** start *****航班表格标题************/
+/** start *****KPI标题************/
 function TTitle(props){
     const { executeKPIData = {}, schemeListData } = props;
     
     const generateTime = useMemo(() => {
-        return executeKPIData.executeData.generateTime || "";
-    }, [executeKPIData.executeData.generateTime]);
+        return executeKPIData.KPIData.generateTime || "";
+    }, [executeKPIData.KPIData.generateTime]);
 
     const tacticName = useMemo(() => {
         const activeScheme = schemeListData.activeScheme(schemeListData.activeSchemeId) || {};
@@ -35,13 +35,13 @@ function TTitle(props){
     }, [schemeListData.activeSchemeId]);
 
     return (<span>
-         <span>执行KPI({formatTimeString(props.executeKPIData.executeData.generateTime)})</span>
+         <span>执行KPI({formatTimeString(generateTime)})</span>
          { tacticName !== "" && <span>—</span> }
          <span style={{ color: "#36a5da"}}>{tacticName}</span>
     </span>)
 }
 const TableTitle = inject("executeKPIData", "schemeListData")(observer(TTitle));
-/** end *****航班表格标题************/
+/** end *****KPI************/
 
 
 function ExecuteKPIModal(props){
