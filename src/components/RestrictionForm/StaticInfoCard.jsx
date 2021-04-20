@@ -1,13 +1,17 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import "moment/locale/zh-cn"
-import { Space, Button, Radio, DatePicker, Card, Form, Input, Row, Col, Select, Tooltip,Tag } from 'antd'
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { Space, Button, Badge, DatePicker, Card, Form, Input, Row, Col, Select, Tooltip, Tag, Menu, Dropdown } from 'antd'
+import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
+const { Search } = Input;
 
+import DynamicFieldSet from './DynamicFieldSet'
 import ExemptCard from './ExemptCard'
 import LimitedCard from './LimitedCard'
 import moment from 'moment'
 import { formatTimeString, parseFullTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { REGEXP } from '../../utils/regExpUtil'
+import { request } from 'utils/request'
+
 
 const { Option } = Select;
 
@@ -19,13 +23,26 @@ function StaticInfoCard(props) {
     const timeFormat = 'HHmm';
     const form = props.form;
     const areaLabelAirport = props.areaLabelAirport || []
-
     // 限制数值单位集合
     const restrictionModeUnit = {
         "AFP": "架",
+        "CT": "",
     };
+    const { dynamicRoute = 0 } = props;
+    let [routeMenuVisible, setRouteMenuVisible] = useState(false);
+    // 备选航下拉菜单
+    const routeMenu = (
+        <Menu className="route-menu">
+            <Menu.Item>
+                <DynamicFieldSet
+                    updateDynamicRouteFieldSet={props.updateDynamicRouteFieldSet}
+                    dynamicRouteFieldSet={dynamicRoute}
+                    setRouteMenuVisible={setRouteMenuVisible}>
 
-    
+                </DynamicFieldSet>
+            </Menu.Item>
+        </Menu>
+    );
 
     // 限制方式
     let restrictionMode = "";
@@ -64,6 +81,9 @@ function StaticInfoCard(props) {
     }
 
     // 更新限制数值单位
+    let [mode, setMode] = useState(restrictionMode);
+
+    // 更新限制数值单位
     let [modeUnit, setModeUnit] = useState(unit);
 
     let [restrictionMITValueUnit, setRestrictionMITValueUnit] = useState(MITValueUnit)
@@ -72,11 +92,6 @@ function StaticInfoCard(props) {
     let [arrApValue, setArrApValue] = useState(arrAp);
     let [exemptDepApValue, setExemptDepApValue] = useState(exemptDepAp);
     let [exemptArrApValue, setExemptArrApValue] = useState(exemptArrAp);
-
-    useEffect(function () {
-        // setModeUnit(unit);
-    }, [])
-
 
     // 区域标签快捷点选按钮点击
     function areaBlockChange(value) {
@@ -91,7 +106,7 @@ function StaticInfoCard(props) {
         // 获取当前字段值
         let fieldValue = form.getFieldValue(field);
         // 若当前字段值中包含此标签label,则不作操作
-        if(fieldValue.indexOf(label) > -1){
+        if (fieldValue.indexOf(label) > -1) {
             return;
         }
         // 反之将当前label追加到当前字段值中去
@@ -103,12 +118,12 @@ function StaticInfoCard(props) {
     function areaBlock(field) {
         return (
             <Space>
-                <Button size="small" onClick={()=>{areaBlockChange(`${field}-ZLLL`)}}>兰州</Button>
-                <Button size="small" onClick={()=>{areaBlockChange(`${field}-ZLXY`)}}>西安</Button>
-                <Button size="small" onClick={()=>{areaBlockChange(`${field}-ZSQD`) }}>山东</Button>
-                <Button size="small" onClick={()=>{}}>更多</Button>
+                <Button size="small" onClick={() => { areaBlockChange(`${field}-ZLLL`) }}>兰州</Button>
+                <Button size="small" onClick={() => { areaBlockChange(`${field}-ZLXY`) }}>西安</Button>
+                <Button size="small" onClick={() => { areaBlockChange(`${field}-ZSQD`) }}>山东</Button>
+                <Button size="small" onClick={() => { }}>更多</Button>
             </Space>
-            
+
             // <Radio.Group onChange={areaBlockChange} value="" buttonStyle="solid">
             //     <Radio.Button value={`${field}-ZLLL`}>兰州</Radio.Button>
             //     <Radio.Button value={`${field}-ZLXY`}>西安</Radio.Button>
@@ -117,12 +132,12 @@ function StaticInfoCard(props) {
             // </Radio.Group>
         )
     }
-    
+
     // 过滤区域标签机场集合中指定标签对应的机场
-    const filterAreaAirport =(label)=> {
-        for(let i=0; i< areaLabelAirport.length; i++){
+    const filterAreaAirport = (label) => {
+        for (let i = 0; i < areaLabelAirport.length; i++) {
             let item = areaLabelAirport[i];
-            if(item.label.trim() === label.trim()){
+            if (item.label.trim() === label.trim()) {
                 // 找到第一个匹配的则直接return
                 return item.airport;
             }
@@ -130,10 +145,10 @@ function StaticInfoCard(props) {
         return ''
     }
     // 过滤区域标签机场集合中指定code对应的label
-    const filterAreaLabel=(code)=> {
-        for(let i=0; i< areaLabelAirport.length; i++){
+    const filterAreaLabel = (code) => {
+        for (let i = 0; i < areaLabelAirport.length; i++) {
             let item = areaLabelAirport[i];
-            if(item.code.trim() === code.trim()){
+            if (item.code.trim() === code.trim()) {
                 // 找到第一个匹配的则直接return
                 return item.label;
             }
@@ -142,18 +157,18 @@ function StaticInfoCard(props) {
     }
 
     // 自定义 tag 内容 render
-    const tagRender = ({ label, closable, onClose , value })=>{
+    const tagRender = ({ label, closable, onClose, value }) => {
         // 过滤出当前录入的标签下的机场集合
         let airport = filterAreaAirport(value);
         return (
             <Tooltip title={airport}>
-             <Tag 
-                closable={closable} 
-                onClose={onClose} 
-            >
-                { label.props?  label.props.children : value }
-            </Tag>
-          </Tooltip>
+                <Tag
+                    closable={closable}
+                    onClose={onClose}
+                >
+                    {label.props ? label.props.children : value}
+                </Tag>
+            </Tooltip>
         )
     }
 
@@ -194,7 +209,7 @@ function StaticInfoCard(props) {
      * 自动填充结束日期
      * */
     const autoFillInEndDate = (value) => {
-        
+
         const startTime = form.getFieldValue('startTime');
         const startDate = form.getFieldValue('startDate');
         const endTime = form.getFieldValue('endTime');
@@ -246,13 +261,14 @@ function StaticInfoCard(props) {
         if (open && isValidVariable(startDate) && !isValidVariable(endDate)) {
             form.setFieldsValue({ 'endDate': moment(startDate) });
             let dateString = moment(startDate).format("YYYYMMDDHHmm");
-            console.log(dateString)
             props.updateEndDateString(dateString);
         }
 
     };
 
     const handleRestrictionModeChange = (mode) => {
+        // 更新限制方式
+        setMode(mode);
         // 限制数值单位
         const unit = restrictionModeUnit[mode];
         // 更新限制数值单位
@@ -288,7 +304,7 @@ function StaticInfoCard(props) {
     const handleRestrictionModeValueChange = ({ target: { value } }) => {
         const restrictionMITValueUnit = form.getFieldValue('restrictionMITValueUnit');
         // 若限制类型为MIT
-        if (restrictionMode === 'MIT') {
+        if (mode === 'MIT') {
             // 调用handleRestrictionMITValueUnitChange方法，用于更新restrictionMITTimeValue字段数值
             handleRestrictionMITValueUnitChange(restrictionMITValueUnit)
         }
@@ -304,15 +320,15 @@ function StaticInfoCard(props) {
     };
     const restrictionModeData = [
         { "key": "AFP", "text": "AFP" },
-        // {"key":"GDP", "text": "GDP"},
         { "key": "MIT", "text": "MIT" },
+        { "key": "CT", "text": "改航" },
+        // {"key":"GDP", "text": "GDP"},
         // {"key":"GS", "text": "地面停止"},
         // {"key":"AS", "text": "指定时隙"},
         // {"key":"BREQ", "text": "上客申请"},
         // {"key":"REQ", "text": "开车申请"},
         // {"key":"TC", "text": "总量控制"},
         // {"key":"AH", "text": "空中等待"},
-        // {"key":"CT", "text": "改航"},
         // {"key":"AA", "text": "空域开闭限制"},
     ]
     const reasonData = [
@@ -398,15 +414,15 @@ function StaticInfoCard(props) {
                 const endTimeFormatValid = REGEXP.TIMEHHmm.test(endTime);
 
                 if (startDateFormatValid && startTimeFormatValid && endDateFormatValid && endTimeFormatValid) {
-                    if (parseFullTime(startDateTime).getTime() > parseFullTime(endDateTime).getTime() ) {
+                    if (parseFullTime(startDateTime).getTime() > parseFullTime(endDateTime).getTime()) {
                         return Promise.resolve();
-                        
+
                     } else {
                         // 当前时间加15分钟
                         let currentTime = moment().add(15, 'minutes').format("YYYYMMDDHHmm").substring(0, 12);
-                        if (parseFullTime(currentTime).getTime() > parseFullTime(endDateTime).getTime() ) {
+                        if (parseFullTime(currentTime).getTime() > parseFullTime(endDateTime).getTime()) {
                             return Promise.reject('结束时间不能早于当前时间+15分钟');
-                        }else {
+                        } else {
                             return Promise.resolve();
                         }
 
@@ -448,6 +464,41 @@ function StaticInfoCard(props) {
             }
             return Promise.resolve();
         };
+        return ({
+            validator: validator,
+        })
+    };
+
+    /**
+     * 校验航路格式
+     * */
+    const validateRouteFormat = (getFieldValue) => {
+
+        const validator = (rules, value, callback) => {
+            if (value) {
+                return new Promise((resolve, reject) => {
+                    // 请求校验
+                    const opt = {
+                        // url: "http://192.168.194.21:50012/runway/defaulat/and/dynamic/retrieve/new/100?airportStr=ZLXY,ZLLL&startTime=202104200000&endTime=202104202359",
+                        url: "http://192.168.194.21:29890/implementTactics?status=FUTURE,RUNNING&startTime=&endTime=&userId=100",
+                        method: 'GET',
+                        params: {},
+                        resFunc: (data) => {
+                            resolve()
+                        },
+                        errFunc: (err) => {
+                            reject("请输入正确格式的航路信息")
+                        },
+                    };
+                    // 发送请求
+                    request(opt);
+                })
+            } else {
+                return Promise.resolve();
+            }
+
+        };
+
         return ({
             validator: validator,
         })
@@ -555,6 +606,109 @@ function StaticInfoCard(props) {
 
             </Form.Item>
         )
+    }
+
+
+
+
+    const drawRoutes = () => {
+        return (
+            <Fragment>
+                <Row gutter={24}>
+                    <Col span={8} className="">
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item
+                            name="route1"
+                            label="备选航路1"
+                            validateTrigger={['onBlur']}
+                            rules={[
+                                // {
+                                //     required: true,
+                                //     whitespace: true,
+                                //     message: "请输入正确格式的航路",
+                                // },
+                                ({ getFieldValue }) => validateRouteFormat(getFieldValue),
+                            ]}
+                        >
+                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
+
+                        </Form.Item>
+                    </Col>
+                    <Col span={8} className="">
+                    </Col>
+                </Row>
+                <Row gutter={24}>
+                    <Col span={8} className="">
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item
+                            name="route2"
+                            label="备选航路2"
+                            validateTrigger={['onBlur']}
+                            rules={[
+                                // {
+                                //     required: true,
+                                //     whitespace: true,
+                                //     message: "请输入正确格式的航路",
+                                // },
+                                ({ getFieldValue }) => validateRouteFormat(getFieldValue),
+                            ]}
+                        >
+                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
+
+                        </Form.Item>
+                    </Col>
+                    <Col span={8} className="">
+                    </Col>
+                </Row>
+                <Row gutter={24}>
+                    <Col span={8} className="">
+                    </Col>
+                    <Dropdown overlay={routeMenu} visible={routeMenuVisible} trigger={['click']} >
+                        <Col span={9}>
+                            <Row gutter={24}>
+                                <Col span={21}>
+                                    <Form.Item
+                                        name="route3"
+                                        label="备选航路3"
+                                        validateTrigger={['onBlur']}
+                                        rules={[
+                                            // {
+                                            //     required: true,
+                                            //     whitespace: true,
+                                            //     message: "请输入正确格式的航路",
+                                            // },
+                                            ({ getFieldValue }) => validateRouteFormat(getFieldValue),
+                                        ]}
+                                    >
+                                        <Input style={{ width: '101.9%' }} allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
+                                    </Form.Item>
+
+                                </Col>
+                                <Col span={2} className="">
+                                    <Badge count={dynamicRoute.length} style={{ backgroundColor: '#33cc99' }}>
+                                        <Button type="primary" onClick={() => { handleRouteMoreButtonClick() }} >更多</Button>
+                                    </Badge>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Dropdown>
+
+
+
+                </Row>
+
+
+            </Fragment>
+        )
+    }
+
+    // 航路更多按钮点击事件
+    const handleRouteMoreButtonClick = () => {
+        if (!routeMenuVisible) {
+            setRouteMenuVisible(true);
+        }
     }
 
     return (
@@ -764,7 +918,10 @@ function StaticInfoCard(props) {
                     </Col>
                     <Col span={16}>
                         {
-                            restrictionMode === "MIT" ? drawMITModeValue() :
+                            mode === "MIT" ? drawMITModeValue() : ""
+                        }
+                        {
+                            mode === "AFP" ?
                                 <Form.Item
                                     label="限制值"
                                     required={true}
@@ -787,10 +944,9 @@ function StaticInfoCard(props) {
                                         disabled={props.disabledForm}
                                         addonAfter={modeUnit}
                                     />
-                                </Form.Item>
+                                </Form.Item> : ""
                         }
                     </Col>
-
                 </Row>
             </Card>
 
@@ -805,16 +961,30 @@ function StaticInfoCard(props) {
                             <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                         </Form.Item>
                     </Col>
-                    <Col span={8}>
-                        <Form.Item
-                            name="targetUnit"
-                            label="基准单元"
-                            required={true}
-                            rules={[{ required: true }]}
-                        >
-                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
-                        </Form.Item>
-                    </Col>
+                    {
+                        mode == "CT" ? <Col span={8}>
+                            <Form.Item
+                                name="originalRoute"
+                                label="原航路"
+                                className="disabled-border-form-item"
+                            >
+                                <Input allowClear={true} className="text-uppercase" disabled={true} />
+                            </Form.Item>
+                        </Col> : ""
+                    }
+                    {
+                        mode !== "CT" ? <Col span={8}>
+                            <Form.Item
+                                name="targetUnit"
+                                label="基准单元"
+                                required={true}
+                                rules={[{ required: true }]}
+                            >
+                                <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
+                            </Form.Item>
+                        </Col> : ""
+                    }
+
                     <Col span={8}>
                         <Form.Item
                             name="behindUnit"
@@ -824,6 +994,9 @@ function StaticInfoCard(props) {
                         </Form.Item>
                     </Col>
                 </Row>
+                {
+                    mode == "CT" ? drawRoutes() : ""
+                }
                 <Row gutter={24}>
                     <Col span={8}>
                         <Form.Item
