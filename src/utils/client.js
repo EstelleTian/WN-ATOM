@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-04-07 19:14:31
+ * @LastEditTime: 2021-04-19 13:19:49
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -57,6 +57,22 @@ const openControlDetail = (str) => {
     try{
         // 点击 查看流控详情
         jsEntity.openControlDetail(JSON.stringify(str), str.id)
+    }catch (e){
+        console.error(e);
+    }
+}
+//点击 【异常航班信息】查看航班详情
+const openDetails = (str) => {
+    try{
+        jsEntity.openDetails(JSON.stringify(str))
+    }catch (e){
+        console.error(e);
+    }
+}
+//点击 【异常航班信息】查看航图定位
+const openLocation = (str) => {
+    try{
+        jsEntity.openLocation(JSON.stringify(str))
     }catch (e){
         console.error(e);
     }
@@ -223,5 +239,6 @@ export {
     updateMessageNum, sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
-    openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem, openRunningControlFlow
+    openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem, openRunningControlFlow,openDetails,
+    openLocation,
 }
