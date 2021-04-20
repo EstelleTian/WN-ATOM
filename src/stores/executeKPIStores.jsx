@@ -48,7 +48,6 @@ class ExecuteKPIData {
 
     //更新航班列表类别
     @computed get getFocusCategoryFlight ( ){
-        debugger
         return this[this.flightListCategory] || [];
     }
 
