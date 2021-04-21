@@ -65,6 +65,8 @@ class SchemeListData {
     @observable generateTime = "";
     //方案选中的id
     @observable activeSchemeId = "";
+     //是否强制刷新
+     @observable forceUpdate = false;
     //活动方案计算中提示框显隐标记
     @observable activeSchemeCalculatingModalVisible = false;
     //自动检测活动方案为计算中状态标记方案id
@@ -84,6 +86,10 @@ class SchemeListData {
     //更新表格loading状态
     @action toggleLoad(load) {
         this.loading = load;
+    }
+    //修改--航班列表-强制更新
+    @action setForceUpdate( flag ){
+        this.forceUpdate = flag;
     }
     //更新活动方案计算中提示框显隐标记
     @action toggleActiveSchemeCalculatingModalVisible(visible) {

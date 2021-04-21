@@ -35,6 +35,22 @@ function Topic(props){
         let on_connect = function (x) {
             console.log("放行监控 WebSocket连接成功:");
             // console.log(x);
+            //收到方案发布消息
+            const topic_SCHEME_PUBLISH= "/exchange/TOPIC.SCHEME.PUBLISH.FLOW";
+            stompClient.subscribe( topic_SCHEME_PUBLISH, function (d) {
+                //收到消息
+                console.log("收到方案发布消息:"+d);
+                // 重新获取方案列表数据以刷新方案列表
+                props.schemeListData.setForceUpdate(true);
+            })
+            //收到方案终止消息
+            const topic_SCHEME_TERMINATE= "/exchange/TOPIC.SCHEME.TERMINATE.FLOW";
+            stompClient.subscribe( topic_SCHEME_TERMINATE, function (d) {
+                //收到消息
+                console.log("收到方案终止消息:"+d);
+                // 重新获取方案列表数据以刷新方案列表
+                props.schemeListData.setForceUpdate(true)
+            })
             //收到限制消息
             const topic1 = "/exchange/EXCHANGE.EVENT_CENTER_TRAFFIC_FLOW_CHANGE";
             stompClient.subscribe( topic1, function (d) {
@@ -95,4 +111,4 @@ function Topic(props){
 
 }
 
-export  default  withRouter(inject("flightTableData", "todoList", "myApplicationList")( observer( Topic )));
+export  default  withRouter(inject("flightTableData", "todoList", "myApplicationList","schemeListData")( observer( Topic )));

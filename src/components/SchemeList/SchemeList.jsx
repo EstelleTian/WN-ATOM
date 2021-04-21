@@ -176,6 +176,14 @@ function useSchemeList(props) {
     }, [pageRefresh, id]);
 
     useEffect(() => {
+        if (props.schemeListData.forceUpdate) {
+            console.log("方案列表强制更新")
+            getSchemeList(false);
+            props.schemeListData.setForceUpdate(false);
+        }
+    }, [props.schemeListData.forceUpdate])
+
+    useEffect(() => {
         return () => {
             if (isValidVariable(schemeTimeoutId.current)) {
                 clearTimeout(schemeTimeoutId.current);
@@ -185,6 +193,9 @@ function useSchemeList(props) {
             props.schemeListData.toggleSchemeActive("");
         }
     }, [])
+
+
+    
 
     return getSchemeList;
 }
