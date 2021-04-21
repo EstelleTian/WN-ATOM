@@ -15,6 +15,8 @@ import SpecialFlights from './SpecialFlights'
 import ImpactLevel from './ImpactLevel'
 import CTOTRate from './CTOTRate'
 import PreDelay from './PreDelay'
+import FlightListModal from 'components/ExecuteKPI/FlightListModal.jsx'
+
 
 import './ExecuteKPI.scss'
 
@@ -31,6 +33,7 @@ const ExecuteKPI = (props) => {
                     <ImpactLevel />
                     <PreDelay/>
                     {/* <CTOTRate  /> */}
+                    <FlightListModal />
             </div>
         // </Spin>
     )

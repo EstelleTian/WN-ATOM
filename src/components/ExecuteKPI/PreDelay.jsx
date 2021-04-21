@@ -8,7 +8,8 @@ import { format } from 'highcharts';
 //正常率
 function PreDelay(props) {
     const executeKPIData = props.executeKPIData || {};
-    const { loading } = executeKPIData;
+    const { loading, entiretyNormalRate, entiretyDepNormalRate, apEstimateRateMap, apDepEstimateRateMap } = props.executeKPIData
+
     const executeData = executeKPIData.executeData || {};
     let tacticProcessInfo = executeData.tacticProcessInfo || {};
     let kpi = tacticProcessInfo.kpi || {};
@@ -17,7 +18,6 @@ function PreDelay(props) {
     // apEstimateRateMap 四大机场预计起飞正常率
     // apDepEstimateRateMap 四大机场实际起飞正常率
     
-    let { entiretyNormalRate, entiretyDepNormalRate, apEstimateRateMap, apDepEstimateRateMap } = kpi;
 
     // 设置初始值
     let normalRate = -1;

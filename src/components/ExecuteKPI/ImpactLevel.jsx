@@ -25,41 +25,30 @@ function ImpactLevel(props) {
             "icon": (<BulbOutlined />)
         },
     };
-    const executeKPIData = props.executeKPIData || {};
-    const executeData = executeKPIData.executeData || {};
-    let tacticProcessInfo = executeData.tacticProcessInfo || {};
-    let kpi = tacticProcessInfo.kpi || {};
+    const { loading, impactDegree, tacticDCB,inDCB, outDCB, degree={}} = props.executeKPIData
     // 全区DCB
-    let regionDCB = kpi.tacticDCB || {};
+    let regionDCB = tacticDCB || {};
     // 区内DCB
-    let insideDCB = kpi.inDCB || {};
+    let insideDCB = inDCB || {};
     // 区外DCB
-    let outsideDCB = kpi.outDCB || {};
+    let outsideDCB = outDCB || {};
     const DCBData = {
         regionDCB,
         insideDCB,
         outsideDCB,
     }
 
-    let { impactDegree } = kpi;
-
     let level = levelData[impactDegree] || {}
     // 影响等级
     const label = level.label || "";
     const levelClassName = level.levelClassName || "";
-    const icon = level.icon || "";
-    // 比率数据对象
-    const degree = kpi.degree || {};
+    
     // 流量
     const flightSize = degree.flightSize || "";
     // 容量
     const capacitySize = degree.capacitySize || "";
     // 比率值
     const degreeCount = degree.degreeCount || "";
-
-    const { loading } = executeKPIData;
-
-
     const drawLevelDescription = () => {
         if (isValidVariable(label)) {
             return (<div className="level-description">

@@ -396,8 +396,8 @@ function useExecuteKPIData(props) {
     //更新--执行KPI store数据
     const updateKPIData = useCallback(data => {
         // console.log(data)
-        if (isValidObject(data)) {
-            executeKPIData.updateExecuteKPIData(data)
+        if (isValidObject(data) && isValidObject(data.tacticProcessInfo) && isValidObject(data.tacticProcessInfo.kpi)) {
+            executeKPIData.updateExecuteKPIData(data.tacticProcessInfo.kpi)
         } else {
             executeKPIData.updateExecuteKPIData({});
             customNotice({

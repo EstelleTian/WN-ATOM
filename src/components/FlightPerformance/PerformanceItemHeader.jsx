@@ -1,23 +1,36 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2020-12-15 15:56:09
+ * @LastEditTime: 2021-04-21 13:59:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
-import React from 'react'
-import {  message, Col, Row, Spin, Tooltip } from 'antd'
+import React from "react";
+import { message, Col, Row, Spin, Tooltip } from "antd";
 
-import './PerformanceItemHeader.scss'
-const PerformanceItemHeader =(props) => {
-
-    const { style={}, title="", value="", unit="", tooltipContent=""  } = props;
-
-    return(
-        <div className="header">
-            <div className="title" style={ style }> { title }</div>
-            {/* <div className="description" style={{ color: style.color }}>
+import "./PerformanceItemHeader.scss";
+const PerformanceItemHeader = (props) => {
+  const {
+    style = {},
+    title = "",
+    value = "",
+    unit = "",
+    tooltipContent = "",
+    setActiveTabPane,
+    TabPaneConfig,
+  } = props;
+  // 显示tab面板
+  const showTabPane = () => {
+    setActiveTabPane(TabPaneConfig);
+  };
+  return (
+    <div className="header" onClick={showTabPane}>
+      <div className="title" style={style}>
+        {" "}
+        {title}
+      </div>
+      {/* <div className="description" style={{ color: style.color }}>
 
                 <Tooltip title={tooltipContent}>
                     <div className="text-wrapper">
@@ -27,9 +40,8 @@ const PerformanceItemHeader =(props) => {
                 </Tooltip>
 
             </div> */}
-        </div>
-    )
-}
+    </div>
+  );
+};
 
-
-export default PerformanceItemHeader
+export default PerformanceItemHeader;

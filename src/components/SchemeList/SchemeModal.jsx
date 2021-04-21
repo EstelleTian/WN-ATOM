@@ -98,6 +98,29 @@ const SchemeModal = (props) => {
                     />
                 </Modal>
             )
+        }else if(modalType === "RECREATE") {
+            return(
+                <Modal
+                    title={`方案发布`}
+                    centered
+                    visible={ visible }
+                    onOk={() => setVisible(false)}
+                    onCancel={() => setVisible(false)}
+                    width={1200}
+                    // maskClosable={false}
+                    destroyOnClose = { true }
+                    footer={null}
+                >
+                    <RestrictionForm
+                        operationType="RECREATE"
+                        operationDescription="创建方案"
+                        primaryButtonName="创建方案"
+                        setModalVisible={ setVisible }
+                        flowData={ flowData }
+                        bordered = {false}
+                    />
+                </Modal>
+            )
         }
 
     });

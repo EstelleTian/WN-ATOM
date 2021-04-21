@@ -35,16 +35,9 @@ const convertSatus = (status) => {
     switch (status) {
         case "FUTURE": newStatus = "将要执行"; break;
         case "RUNNING": newStatus = "正在执行"; break;
-        case "PRE_PUBLISH": newStatus = "将要发布"; break;
-        case "PRE_TERMINATED":
-        case "PRE_UPDATE":
-            newStatus = "将要终止"; break;
-        case "TERMINATED":
-        case "TERMINATED_MANUAL":
-            newStatus = "人工终止"; break;
-        case "STOP": newStatus = "系统终止"; break;
+        case "TERMINATED_MANUAL": newStatus = "人工终止"; break;
+        case "TERMINATED_AUTO": newStatus = "系统终止"; break;
         case "FINISHED": newStatus = "正常结束"; break;
-        case "DISCARD": newStatus = "已废弃"; break;
     }
     return newStatus;
 }
@@ -151,6 +144,13 @@ function SchemeItem(props) {
     const showModify = useCallback((e) => {
         props.toggleModalVisible(true, id);
         props.toggleModalType('MODIFY');
+        e.preventDefault();
+        e.stopPropagation();
+    }, [id]);
+    // 显示重新发布模态框
+    const showRecreate = useCallback((e) => {
+        props.toggleModalVisible(true, id);
+        props.toggleModalType('RECREATE');
         e.preventDefault();
         e.stopPropagation();
     }, [id]);
@@ -263,12 +263,12 @@ function SchemeItem(props) {
                     </div>
                 </div>
                 <div className="right-column border-bottom layout-row">
-                    <div className="layout-column">
-                        <div className="column-box  border-bottom">
+                    <div className="layout-column column-box">
+                        <div className="border-bottom">
                             <div className="cell" title={`发布单位: ${tacticPublishUnit}`}>{tacticPublishUnit}</div>
                         </div>
 
-                        <div className="column-box">
+                        <div className="">
                             <div className="cell" title={`限制方式: ${restrictionMode}`}>{restrictionMode}</div>
                         </div>
                     </div>
@@ -305,7 +305,11 @@ function SchemeItem(props) {
                         }}>详情</div>
 
                         {
-                            props.systemPage.userHasAuth(11301) && <div className="opt" onClick={showModify}>调整</div>
+                            props.systemPage.userHasAuth(11301) &&  (["FUTURE","RUNNING"].includes(tacticStatus)) && <div className="opt" onClick={showModify} >调整</div>
+                        }
+                        
+                        {
+                            props.systemPage.userHasAuth(11301) && (["TERMINATED_MANUAL","TERMINATED_AUTO","FINISHED"].includes(tacticStatus)) && <div className="opt" onClick={showRecreate}>重新发布</div>
                         }
                         {
                             props.systemPage.userHasAuth(11401) && <div className="opt" onClick={e => {

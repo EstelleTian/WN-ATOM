@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-04-21 13:39:40
+ * @LastEditTime: 2021-04-21 15:13:45
  * @LastEditors: Please set LastEditors
  * @Description: In U.3ser Settings Edit
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -21,8 +21,8 @@ import PerformanceItemHeader from "./PerformanceItemHeader";
 import List from "./List";
 import PieChart from "./PieChart";
 import LineChart from "./LineChart";
-import CollaborateKPI from "./CollaborateKPI";
 import "./FlightPerformance.scss";
+import CollaborateKPI from "./CollaborateKPI";
 
 //航班执行情况模块
 const FlightPerformance = (props) => {
@@ -422,6 +422,12 @@ const FlightPerformance = (props) => {
             <PerformanceItemHeader
               style={{ background: "#2d6b92", color: "#d4d4d4" }}
               title="绩效"
+              TabPaneConfig={{
+                key: "operation",
+                title: "运行监控",
+                content: "运行监控content",
+              }}
+              setActiveTabPane={props.setActiveTabPane}
             />
             <Spin spinning={loading}>
               <div className="description">
@@ -452,13 +458,12 @@ const FlightPerformance = (props) => {
           </div>
         </Col>
       </Row>
-      <Row className="performance-row" style={{ marginBottom: 12 }}>
-        <Col span={6} className="layout-column">
-          <div className="performance_item module">
-            <div style={{ height: "140px" }}>
-              <CollaborateKPI />
-            </div>
-          </div>
+      <Row className="performance-row" style={{ marginBottom: 10 }}>
+        <Col span={24} className="layout-row">
+          <Col span={24} className="performance_item module">
+            <CollaborateKPI />
+          </Col>
+          {/* <div className="performance_item module"></div> */}
         </Col>
       </Row>
     </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import "moment/locale/zh-cn"
-import { Button, Modal, Form, Space } from 'antd'
+import { Button, Modal, Form, Space, Spin } from 'antd'
 import { InfoCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 
 import StaticInfoCard from './StaticInfoCard'
@@ -116,12 +116,18 @@ function RestrictionForm(props) {
         exemptionTask = "", exemptionOrganization = "", exemptionAbility = "", exemptionAircraftType = "",
     } = flightPropertyDomain;
 
-    // 确认提交模态框显隐变量
-    let [isModalVisible, setIsModalVisible] = useState(false);
-    // 确认提交模态框确定按钮loading变量
-    let [confirmLoading, setConfirmLoading] = useState(false);
     // 主要操作按钮禁用变量
     let [importButtonDisable, setImportButtonDisable] = useState(false);
+    // 提交loading
+    let [submitLoading, setSubmitLoading] = useState(false);
+    // 确认提交模态框显隐变量
+    let [submitConfirmModalVisible, setSubmitConfirmModalVisible] = useState(false);
+    // 确认提交模态框确定按钮loading变量
+    let [submitConfirmModalOkButtonLoading, setSubmitConfirmModalOkButtonLoading] = useState(false);
+    // 确认提交模态框取消按钮禁用变量
+    let [submitConfirmModalCancelButtonDisabled, setSubmitConfirmModalCancelButtonDisabled] = useState(false);
+    // 确认提交模态框右上角关闭按钮是否显示变量
+    let [submitConfirmModalClosableButtonVisible, setSubmitConfirmModalClosableButtonVisible] = useState(true);
 
     // 方案开始日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
     let [startDateString, setStartDateString] = useState(startDate);
@@ -132,9 +138,13 @@ function RestrictionForm(props) {
     let [startTime, setStartTime] = useState(startDate);
     // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
     let [endTime, setEndTime] = useState(endDate);
+    // 
+    let [dynamicRoute,setDynamicRoute] = useState([]);
 
     // 忽略模态框显隐变量
     let [isIgnoreModalVisible, setIsIgnoreModalVisible] = useState(false);
+
+
 
     // 转换成区域标签
     function formatAreaLabel (labelData, airport) {
@@ -353,7 +363,9 @@ function RestrictionForm(props) {
         updateDataTime();
     }, [id, user.id]);
 
-
+    const updateDynamicRouteFieldSet = (fieldValue)=> {
+        setDynamicRoute(fieldValue)
+    }
     const updateDataTime = () => {
         // 更新方案开始日期
         setStartDateString(startDate);
@@ -381,8 +393,7 @@ function RestrictionForm(props) {
     // 模态框取消回调
     const handleCancel = () => {
         // 隐藏模态框显示
-        setIsModalVisible(false);
-        setConfirmLoading(false);
+        setSubmitConfirmModalVisible(false);
     };
 
     // 处理表单提交数据
@@ -390,11 +401,9 @@ function RestrictionForm(props) {
         try {
             // 触发表单验证取表单数据
             const values = await form.validateFields();
-            setImportButtonDisable(true);
             if (props.hasOwnProperty("setDisabledForm")) {
                 props.setDisabledForm(true);
             }
-            setConfirmLoading(true);
             // 处理提交数据
             const submitData = handleSubmitData(values);
             // 数据提交
@@ -622,6 +631,14 @@ function RestrictionForm(props) {
      * 数据提交
      * */
     const submitFormData = (data) => {
+        // 主按钮禁用
+        setImportButtonDisable(true);
+        // 提交确认框相关设置
+        setSubmitConfirmModalVisible(false);
+        setSubmitConfirmModalOkButtonLoading(true);
+        setSubmitConfirmModalCancelButtonDisabled(true);
+        setSubmitConfirmModalClosableButtonVisible(false);
+        
         const id = basicTacticInfo.id;
         const opt = {
             url: ReqUrls.importSchemeUrl + user.id,
@@ -652,8 +669,11 @@ function RestrictionForm(props) {
         const { tacticProcessInfo = {}, code="" } = data;
         const { basicTacticInfo = {} } = tacticProcessInfo;
         const { id } = basicTacticInfo;
-        setConfirmLoading(false);
-        setIsModalVisible(false);
+        // 提交确认框相关设置
+        setSubmitConfirmModalVisible(false);
+        setSubmitConfirmModalOkButtonLoading(false);
+        setSubmitConfirmModalCancelButtonDisabled(false);
+        setSubmitConfirmModalClosableButtonVisible(true);
         
         // 正式方案进行模拟修改操作且只修改了方案名称
         if (operationType === 'MODIFY' && code === RESPONSECODE) {
@@ -699,8 +719,11 @@ function RestrictionForm(props) {
         }
 
         setImportButtonDisable(false);
-        setConfirmLoading(false);
-        setIsModalVisible(false);
+        setSubmitConfirmModalVisible(false);
+        setSubmitConfirmModalOkButtonLoading(false);
+        setSubmitConfirmModalCancelButtonDisabled(false);
+        setSubmitConfirmModalClosableButtonVisible(true);
+
         let errMsg = "";
         if (isValidObject(err) && isValidVariable(err.message)) {
             errMsg = err.message;
@@ -870,10 +893,13 @@ function RestrictionForm(props) {
                 icon: <ExclamationCircleOutlined />,
                 centered: true,
                 closable: true,
-                content: <div><p>开始时间早于当前时间，</p><p>建议修改后提交</p></div>,
+                content: <div><p>开始时间早于当前时间，建议修改后提交</p></div>,
                 okText: '去修改',
                 cancelText: '直接提交',
-                onOk: ()=> { handleOpenEdit() },
+                onOk: ()=> { 
+                    
+                    handleOpenEdit() 
+                },
                 onCancel: (close)=>{ 
                     // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
                     if(typeof close ==='function'){
@@ -897,17 +923,17 @@ function RestrictionForm(props) {
         let autoName = spliceName(fieldData);
         if (autoName.trim() === tacticName.trim()) {
             // 开启确认模态框
-            setIsModalVisible(true);
+            setSubmitConfirmModalVisible(true);
         } else {
             Modal.confirm({
                 title: '提示',
                 icon: <ExclamationCircleOutlined />,
                 centered: true,
                 closable: true,
-                content: <div><p>限制条件与方案名称不相符，</p><p>建议自动命名后提交</p></div>,
+                content: <div><p>限制条件与方案名称不相符，建议自动命名后提交</p></div>,
                 okText: '自动命名并提交',
                 cancelText: '直接提交',
-                onOk: ()=> { handleAutoFillTacticNameSubmitFormData(fieldData)},
+                onOk: ()=> { handleAutoFillTacticNameSubmitFormData(fieldData) },
                 onCancel: (close)=>{ 
                     // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
                     if(typeof close ==='function'){
@@ -956,12 +982,14 @@ function RestrictionForm(props) {
                     </Button>
                     <Modal
                         title={primaryButtonName}
-                        visible={isModalVisible}
+                        visible={submitConfirmModalVisible}
                         maskClosable={false}
                         centered
                         onOk={handleSubmitFormData}
                         onCancel={handleCancel}
-                        confirmLoading={confirmLoading}
+                        cancelButtonProps={{disabled: submitConfirmModalCancelButtonDisabled}}
+                        confirmLoading={submitConfirmModalOkButtonLoading}
+                        closable={submitConfirmModalClosableButtonVisible}
                     >
                         <p>{`确定${primaryButtonName}?`}</p>
                     </Modal>
@@ -1074,8 +1102,7 @@ function RestrictionForm(props) {
 
 
     return (
-        <div>
-
+        <Spin spinning={false} >
             <Form
                 form={form}
                 initialValues={initialValues}
@@ -1095,13 +1122,14 @@ function RestrictionForm(props) {
                     updateEndTimeString={updateEndTimeString}
                     updateFormAirportFieldValue={updateFormAirportFieldValue}
                     autofillTacticName={autofillTacticName}
+                    updateDynamicRouteFieldSet = {updateDynamicRouteFieldSet}
+                    dynamicRoute = { dynamicRoute }
                     form={form}
                     areaLabelAirport = {areaLabelAirport}
 
                 />
-
             </Form>
-        </div>
+        </Spin >
     )
 }
 
