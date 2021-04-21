@@ -3,6 +3,12 @@
     
 }
 .dynamic_workflow{
+    .box_header{
+        border-bottom: 1px solid #5d5b5b;
+        .title{
+            font-size: 18px;
+        }
+    }
     .btn_opts{
         button{
             margin: 0 10px;

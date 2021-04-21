@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:28
- * @LastEditTime: 2021-03-10 14:53:54
+ * @LastEditTime: 2021-04-20 09:52:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\utils\request.js
@@ -79,4 +79,31 @@ const request = ( parameters ) => {
 };
 
 
-export { requestGet, request };
+//无需传入回调，用promise
+const requestGet2 = async ( parameters  ) => {
+    const { url, params } = parameters;
+    const response = await axios.get( url, {
+        params
+    })
+    console.log("response", response)
+    const resStatus = response.status;
+    if( resStatus === 200 ){
+        const data = response.data;
+        if( isValidObject(data) && isValidVariable(data.status) ){
+            const status = data.status;
+            if( status === 200 ){
+                return Promise.resolve( data );
+            }else if( status === 500 ){
+                const error = data.error || {};
+                const message = error.message || "";
+                return Promise.reject(message);
+            }
+            
+        } 
+    }else{
+        return Promise.reject(`request ${url} failed.` );
+    }
+    
+};
+
+export { requestGet, request, requestGet2 };

@@ -1,0 +1,95 @@
+.mdrs_workflow{
+    margin:10px;
+    .box_header{
+        border-bottom: 1px solid #5d5b5b;
+        .title{
+            font-size: 18px;
+        }
+    }
+    .work_steps{
+        margin: 0 10px 10px;
+        display: inline-block;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        .work_step_item{
+            display: inline-block;
+            width: 330px;
+            margin-top: 15px;
+            .item_top{
+                height: 38px;
+                .step_number{
+                    font-size: 22px;
+                    padding-right: 11px;
+                    vertical-align: top;
+                    position: relative;
+                    top: -4px;
+                }
+                .step_name{
+                    font-size: 14px;
+                    padding-right: 10px;
+                    width: 120px;
+                    word-break: break-word;
+                    display: inline-block;
+                    vertical-align: top;
+                }
+                .step_des{
+                    display: inline-block;
+                    vertical-align: top;
+                    font-size: 12px;
+                    background-color: rgba(53, 165, 218, 0.5);
+                    width: 150px;
+                    border-radius: 4px;
+                    padding: 1px 6px;
+                    .step_reason{
+                        height: 18px;
+                    }
+                }
+            }
+            .item_bottom{
+                .item_icon{
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 16px;
+                }
+                .item_icon.finished{
+                    background: url("./images/finished.png") no-repeat;
+                }
+                .item_icon.wait{
+                    background: url("./images/wait.png") no-repeat;
+                }
+                .item_line{
+                    display: inline-block;
+                    width: 280px;
+                    height: 4px;
+                    background: #35A5DA;
+                    border-radius: 2px;
+                    position: relative;
+                    top: -5px;
+                }
+            }
+        }
+        .work_step_item.wait{
+            .item_top{
+                .step_number{
+                    color:  rgb(53, 165, 218);
+                }
+                .step_name{
+                    color:  rgb(53, 165, 218);
+                }
+                .step_des{
+                    color: rgb(53, 165, 218);
+                    background-color: transparent;
+                    
+                }
+            }
+            .item_bottom{
+                .item_line{
+                    background: linear-gradient(90deg, #35A5DA 0%, rgba(53, 165, 218, 0) 100%);
+                }
+            }
+        }
+    }
+    
+}
