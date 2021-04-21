@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-04-21 15:13:45
+ * @LastEditTime: 2021-04-21 16:37:01
  * @LastEditors: Please set LastEditors
  * @Description: In U.3ser Settings Edit
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -460,10 +460,10 @@ const FlightPerformance = (props) => {
       </Row>
       <Row className="performance-row" style={{ marginBottom: 10 }}>
         <Col span={24} className="layout-row">
-          <Col span={24} className="performance_item module">
+          <div className="performance_item module">
             <CollaborateKPI />
-          </Col>
-          {/* <div className="performance_item module"></div> */}
+          </div>
+          <div className="performance_item module"></div>
         </Col>
       </Row>
     </div>
