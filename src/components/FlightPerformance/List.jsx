@@ -23,7 +23,7 @@ const List =(props) => {
                             {/*<Badge className="list-item-dot" size="" color={ color }  />*/}
                             <div className={`list-item-icon ${iconType}`} />
                         </div>
-                        <div className="destriction">
+                        <div className="description">
                             { des }
                         </div>
                         <div className="value">

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-20 19:38:20
+ * @LastEditTime: 2021-04-21 16:52:12
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -23,67 +23,7 @@ import { closePopover, cgreen, cred } from "utils/collaborateUtils.js";
 import { observer, inject } from "mobx-react";
 import FmeToday from "utils/fmetoday";
 import { useTip } from "./CustomUses";
-
-// 标记半数间隔按钮
-const ApplyIntervalButtonNode = memo(
-  ({ intervalLoad, handleExempt, record, alarms }) => {
-    const orgData = record.orgdata || {};
-    let orgFlight = JSON.parse(orgData) || {};
-    const flightid = orgFlight.flightid;
-    // 气泡确认框显隐控制标记
-    const [visible, setVisible] = useState(false);
-    // 处理气泡确认框显隐
-    const handlePopconfirmVisible = (flag) => {
-      setVisible(flag);
-    };
-    // 点击确认按钮
-    const handleOk = () => {
-      // 隐藏气泡确认框
-      handlePopconfirmVisible(false);
-      // 调用标记半数间隔方法
-      handleExempt("interval", record, "标记半数间隔");
-    };
-    // 若航班已经单方案豁免则显示带气泡确认框的按钮
-    if (alarms.indexOf("800") > -1) {
-      return (
-        <Popconfirm
-          title={`航班 ${flightid} 处于单方案豁免状态,确认标记半数间隔?`}
-          visible={visible}
-          onConfirm={handleOk}
-          okButtonProps={{ loading: intervalLoad, size: "default" }}
-          cancelButtonProps={{ size: "default" }}
-          onCancel={() => {
-            handlePopconfirmVisible(false);
-          }}
-          overlayClassName="apply-interval-button-popconfirm"
-        >
-          <Button
-            loading={intervalLoad}
-            className="c-btn c-btn-green"
-            onClick={() => {
-              handlePopconfirmVisible(true);
-            }}
-          >
-            标记半数间隔
-          </Button>
-        </Popconfirm>
-      );
-    } else {
-      // 反之直接显示标记半数间隔按钮
-      return (
-        <Button
-          loading={intervalLoad}
-          className="c-btn c-btn-green"
-          onClick={() => {
-            handleExempt("interval", record, "标记半数间隔");
-          }}
-        >
-          标记半数间隔
-        </Button>
-      );
-    }
-  }
-);
+import PopconfirmFlightIdBtn from "./PopconfirmFlightIdBtn";
 
 //航班号右键协调框
 let FLIGHTIDPopover = (props) => {
@@ -156,7 +96,7 @@ let FLIGHTIDPopover = (props) => {
       urlKey = "/applyUnSingleExempt";
       setSingleExemptLoad(true);
     } else if (type === "interval") {
-      //标记半数间隔
+      //申请半数间隔
       urlKey = "/applyInterval";
       setIntervalLoad(true);
     } else if (type === "unInterval") {
@@ -295,15 +235,13 @@ let FLIGHTIDPopover = (props) => {
         {priority === FlightCoordination.PRIORITY_NORMAL &&
         hasAuth &&
         systemPage.userHasAuth(13401) ? (
-          <Button
+          <PopconfirmFlightIdBtn
             loading={exemptLoad}
-            className="c-btn c-btn-green"
-            onClick={() => {
-              handleExempt("exempt", record, "标记豁免");
-            }}
-          >
-            标记豁免
-          </Button>
+            handleExempt={handleExempt}
+            type="exempt"
+            record={record}
+            alarms={alarms}
+          />
         ) : (
           ""
         )}
@@ -325,15 +263,13 @@ let FLIGHTIDPopover = (props) => {
         {alarms.indexOf("800") === -1 &&
         hasAuth &&
         systemPage.userHasAuth(13407) ? (
-          <Button
+          <PopconfirmFlightIdBtn
             loading={singleExemptLoad}
-            className="c-btn c-btn-green"
-            onClick={() => {
-              handleExempt("singleExempt", record, "标记单方案豁免");
-            }}
-          >
-            标记单方案豁免
-          </Button>
+            handleExempt={handleExempt}
+            type="singleExempt"
+            record={record}
+            alarms={alarms}
+          />
         ) : (
           ""
         )}
@@ -355,11 +291,12 @@ let FLIGHTIDPopover = (props) => {
         {alarms.indexOf("400") === -1 &&
         hasAuth &&
         systemPage.userHasAuth(13413) ? (
-          <ApplyIntervalButtonNode
-            alarms={alarms}
-            intervalLoad={intervalLoad}
+          <PopconfirmFlightIdBtn
+            loading={intervalLoad}
             handleExempt={handleExempt}
+            type="interval"
             record={record}
+            alarms={alarms}
           />
         ) : (
           ""
