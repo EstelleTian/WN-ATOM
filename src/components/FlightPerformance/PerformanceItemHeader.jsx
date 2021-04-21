@@ -12,10 +12,13 @@ import {  message, Col, Row, Spin, Tooltip } from 'antd'
 import './PerformanceItemHeader.scss'
 const PerformanceItemHeader =(props) => {
 
-    const { style={}, title="", value="", unit="", tooltipContent=""  } = props;
-
+    const { style={}, title="", value="", unit="", tooltipContent="", setActiveTabPane, TabPaneConfig  } = props;
+    // 显示tab面板
+    const showTabPane =()=> {
+        setActiveTabPane(TabPaneConfig)
+    }
     return(
-        <div className="header">
+        <div className="header" onClick={showTabPane}>
             <div className="title" style={ style }> { title }</div>
             {/* <div className="description" style={{ color: style.color }}>
 

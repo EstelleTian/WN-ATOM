@@ -384,6 +384,8 @@ const FlightPerformance = (props) => {
                         <PerformanceItemHeader
                             style={{ background: "#2d6b92", color: "#d4d4d4" }}
                             title="绩效"
+                            TabPaneConfig = {{key:'operation',title:'运行监控',content:'运行监控content'}}
+                            setActiveTabPane = {props.setActiveTabPane}
                         />
                         <Spin spinning={loading} >
                             <div className="description" >
