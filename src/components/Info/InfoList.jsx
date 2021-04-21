@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-19 13:18:30
+ * @LastEditTime: 2021-04-20 14:43:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -175,7 +175,25 @@ function InfoCardItem(props) {
                         e.stopPropagation();
                       }}
                     >
-                      航图定位
+                      航班定位
+                    </Button>
+                  </span>
+                )
+              }
+              {
+                // 大规模延误告警信息
+                dataType === "MDRS" && (
+                  <span>
+                    <Button
+                      className="info_btn btn_blue"
+                      size="small"
+                      onClick={function (e) {
+                        alert("查看MDRS详情,开发中..");
+                        // openMDRSDetails(message);
+                        e.stopPropagation();
+                      }}
+                    >
+                      查看MDRS详情
                     </Button>
                   </span>
                 )

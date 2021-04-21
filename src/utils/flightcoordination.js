@@ -1591,6 +1591,7 @@ const TodoType = {
     "COBT": "COBT调整",
     "CTD": "CTOT调整",
     "FFIXT": "过点时间调整",
+    "CTO": "过点时间调整",
 };
 
 //最终状态
