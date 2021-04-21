@@ -14,6 +14,8 @@ import { Col, Row, Spin, Tooltip } from 'antd'
 import { getFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
 import { customNotice } from 'utils/common-funcs'
 import PerformanceItemHeader from './PerformanceItemHeader'
+import OperationPane from 'components/Total/OperationPane'
+
 import List from './List'
 import PieChart from './PieChart'
 import LineChart from './LineChart'
@@ -384,7 +386,7 @@ const FlightPerformance = (props) => {
                         <PerformanceItemHeader
                             style={{ background: "#2d6b92", color: "#d4d4d4" }}
                             title="绩效"
-                            TabPaneConfig = {{key:'operation',title:'运行监控',content:'运行监控content'}}
+                            TabPaneConfig = {{key:'operation',title:'运行监控',content:<OperationPane></OperationPane>}}
                             setActiveTabPane = {props.setActiveTabPane}
                         />
                         <Spin spinning={loading} >
