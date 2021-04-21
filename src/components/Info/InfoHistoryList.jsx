@@ -219,7 +219,7 @@ function InfoHistoryList(props){
     return (
         <div className="info-history-content">
             <header className="header">
-                <div className="destriction">
+                <div className="description">
                     历史消息记录
                 </div>
                 <div className="search">
