@@ -6,6 +6,8 @@
  * @Description: In U.3ser Settings Edit
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
+
+
 import React, { useEffect, useCallback, useState } from "react";
 import { inject, observer } from "mobx-react";
 import { request } from "utils/request";
@@ -23,6 +25,9 @@ import PieChart from "./PieChart";
 import LineChart from "./LineChart";
 import "./FlightPerformance.scss";
 import CollaborateKPI from "./CollaborateKPI";
+import OperationPane from 'components/Total/OperationPane'
+
+import './FlightPerformance.scss'
 
 //航班执行情况模块
 const FlightPerformance = (props) => {
@@ -425,7 +430,7 @@ const FlightPerformance = (props) => {
               TabPaneConfig={{
                 key: "operation",
                 title: "运行监控",
-                content: "运行监控content",
+                content:<OperationPane></OperationPane>,
               }}
               setActiveTabPane={props.setActiveTabPane}
             />

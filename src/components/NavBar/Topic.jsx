@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-04-22 09:15:21
+ * @LastEditTime: 2021-04-22 09:39:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -34,7 +34,23 @@ function Topic(props) {
     let on_connect = function (x) {
       console.log("放行监控 WebSocket连接成功:");
       // console.log(x);
-      //收到限制消息-【交通流消息】
+      //收到方案发布消息
+      const topic_SCHEME_PUBLISH = "/exchange/TOPIC.SCHEME.PUBLISH.FLOW";
+      stompClient.subscribe(topic_SCHEME_PUBLISH, function (d) {
+        //收到消息
+        console.log("收到方案发布消息:" + d);
+        // 重新获取方案列表数据以刷新方案列表
+        props.schemeListData.setForceUpdate(true);
+      });
+      //收到方案终止消息
+      const topic_SCHEME_TERMINATE = "/exchange/TOPIC.SCHEME.TERMINATE.FLOW";
+      stompClient.subscribe(topic_SCHEME_TERMINATE, function (d) {
+        //收到消息
+        console.log("收到方案终止消息:" + d);
+        // 重新获取方案列表数据以刷新方案列表
+        props.schemeListData.setForceUpdate(true);
+      });
+      //收到限制消息
       const topic1 = "/exchange/EXCHANGE.EVENT_CENTER_TRAFFIC_FLOW_CHANGE";
       stompClient.subscribe(topic1, function (d) {
         //收到消息
@@ -45,47 +61,32 @@ function Topic(props) {
         props.myApplicationList.setForceUpdate(true);
       });
 
-      const topic2 = "/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE_" + username;
-      stompClient.subscribe(topic2, function (d) {
-        //收到消息
-        // console.log(topic2 + "  WebSocket收到消息:");
-        // console.log(d.body);
-        const body = d.body;
-        const msgObj = JSON.parse(body);
-        const { message } = msgObj;
-        //工作流类别消息，不显示
-        message.map((msg) => {
-          if ("FCDM" !== msg.dataType) {
-            console.log("收到OUTEXCHANGE消息:");
-            console.timeEnd("cod");
-            props.flightTableData.setForceUpdate(true);
-            props.todoList.setForceUpdate(true);
-            props.myApplicationList.setForceUpdate(true);
-          }
-        });
-      });
+      let on_error = function (error) {
+        console.log("放行监控 WebSocket连接失败:");
+        console.log(error);
+        setTimeout(function () {
+          stompClientFunc(username);
+        }, 5000);
+      };
+      // 连接消息服务器
+      stompClient.connect("guest", "guest", on_connect, on_error, "/");
     };
-
-    let on_error = function (error) {
-      console.log("放行监控 WebSocket连接失败:");
-      console.log(error);
-      setTimeout(function () {
-        stompClientFunc(username);
-      }, 5000);
-    };
-    // 连接消息服务器
-    stompClient.connect("guest", "guest", on_connect, on_error, "/");
-  };
-  if (isValidVariable(user)) {
-    if (pathname === "/clearance") {
-      const userObj = JSON.parse(user);
-      stompClientFunc(userObj.username);
+    if (isValidVariable(user)) {
+      if (pathname === "/clearance") {
+        const userObj = JSON.parse(user);
+        stompClientFunc(userObj.username);
+      }
     }
-  }
 
-  return "";
+    return "";
+  };
 }
 
 export default withRouter(
-  inject("flightTableData", "todoList", "myApplicationList")(observer(Topic))
+  inject(
+    "flightTableData",
+    "todoList",
+    "myApplicationList",
+    "schemeListData"
+  )(observer(Topic))
 );
