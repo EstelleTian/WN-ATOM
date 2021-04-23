@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-14 14:32:56
+ * @LastEditTime: 2021-04-22 13:57:09
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -136,7 +136,7 @@ const CTPopover = (props) => {
         )
     }else{
         return(
-            <PopoverTip title={ title } textDom={textDom} opt={opt} />
+            <PopoverTip title={ title } textDom={textDom} opt={opt} field={field}/>
         )
     }
 

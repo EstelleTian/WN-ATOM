@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-20 14:43:57
+ * @LastEditTime: 2021-04-23 13:40:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -157,21 +157,24 @@ function InfoCardItem(props) {
                 // 航班异常告警信息
                 dataType === "FLAI" && (
                   <span>
+                    {dataCode !== "NAAA" && (
+                      <Button
+                        className="info_btn btn_blue"
+                        size="small"
+                        onClick={function (e) {
+                          openDetails(message);
+                          e.stopPropagation();
+                        }}
+                      >
+                        航班详情
+                      </Button>
+                    )}
+
                     <Button
                       className="info_btn btn_blue"
                       size="small"
                       onClick={function (e) {
-                        openDetails(message);
-                        e.stopPropagation();
-                      }}
-                    >
-                      航班详情
-                    </Button>
-                    <Button
-                      className="info_btn btn_blue"
-                      size="small"
-                      onClick={function (e) {
-                        openLocation(message);
+                        openLocation(message, dataCode);
                         e.stopPropagation();
                       }}
                     >

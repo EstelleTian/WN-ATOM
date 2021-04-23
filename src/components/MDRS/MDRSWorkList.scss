@@ -9,15 +9,14 @@
     .work_steps{
         margin: 0 10px 10px;
         display: inline-block;
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
+        text-align: center;
         .work_step_item{
             display: inline-block;
             width: 330px;
             margin-top: 15px;
             .item_top{
-                height: 38px;
+                position: relative;
+                height: 50px;
                 .step_number{
                     font-size: 22px;
                     padding-right: 11px;
@@ -41,10 +40,15 @@
                     width: 150px;
                     border-radius: 4px;
                     padding: 1px 6px;
+                    text-align: left;
                     .step_reason{
                         height: 18px;
+                        &:hover{
+                            cursor: pointer;
+                        }
                     }
                 }
+                
             }
             .item_bottom{
                 .item_icon{
@@ -53,12 +57,8 @@
                     height: 20px;
                     margin-right: 16px;
                 }
-                .item_icon.finished{
-                    background: url("./images/finished.png") no-repeat;
-                }
-                .item_icon.wait{
-                    background: url("./images/wait.png") no-repeat;
-                }
+                
+                
                 .item_line{
                     display: inline-block;
                     width: 280px;
@@ -70,21 +70,25 @@
                 }
             }
         }
-        .work_step_item.wait{
+        .work_step_item.finished{
             .item_top{
-                .step_number{
-                    color:  rgb(53, 165, 218);
-                }
-                .step_name{
-                    color:  rgb(53, 165, 218);
-                }
-                .step_des{
-                    color: rgb(53, 165, 218);
-                    background-color: transparent;
-                    
-                }
+                
             }
             .item_bottom{
+                .item_icon{
+                    background: url("./images/finished.png") no-repeat;
+                }
+            }
+        }
+        .work_step_item.wait{
+            .item_top{
+                
+               
+            }
+            .item_bottom{
+                .item_icon{
+                    background: url("./images/wait.png") no-repeat;
+                }
                 .item_line{
                     background: linear-gradient(90deg, #35A5DA 0%, rgba(53, 165, 218, 0) 100%);
                 }

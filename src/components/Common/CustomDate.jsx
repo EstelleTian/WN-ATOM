@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-20 15:47:14
+ * @LastEditTime: 2021-04-22 15:51:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRS\MSRSForm.jsx
@@ -23,7 +23,7 @@ const timeFormat = "HHmm";
 //MDRS模块
 function CustomDate(props) {
   const [form] = Form.useForm();
-  const { setDateForm } = props;
+  const { setDateForm, initialDatas } = props;
   useEffect(function () {
     setDateForm(form);
   }, []);
@@ -217,7 +217,7 @@ function CustomDate(props) {
   };
 
   return (
-    <Form form={form} initialValues={{}} className="custom_date_form">
+    <Form form={form} initialValues={initialDatas} className="custom_date_form">
       <Form.Item
         name="startDate"
         className="date_item date_picker_form"
