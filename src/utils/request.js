@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:28
- * @LastEditTime: 2021-04-20 09:52:30
+ * @LastEditTime: 2021-04-22 19:33:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\utils\request.js
@@ -82,28 +82,68 @@ const request = ( parameters ) => {
 //无需传入回调，用promise
 const requestGet2 = async ( parameters  ) => {
     const { url, params } = parameters;
-    const response = await axios.get( url, {
-        params
-    })
-    console.log("response", response)
-    const resStatus = response.status;
-    if( resStatus === 200 ){
-        const data = response.data;
-        if( isValidObject(data) && isValidVariable(data.status) ){
-            const status = data.status;
-            if( status === 200 ){
-                return Promise.resolve( data );
-            }else if( status === 500 ){
-                const error = data.error || {};
-                const message = error.message || "";
-                return Promise.reject(message);
-            }
-            
-        } 
-    }else{
-        return Promise.reject(`request ${url} failed.` );
+    try{
+        const response = await axios.get( url, {
+            params
+        })
+        console.log("response", response)
+        const resStatus = response.status;
+        if( resStatus === 200 ){
+            const data = response.data;
+            if( isValidObject(data) && isValidVariable(data.status) ){
+                const status = data.status;
+                if( status === 200 ){
+                    return Promise.resolve( data );
+                }else if( status === 500 ){
+                    const error = data.error || {};
+                    const message = error.message || "";
+                    return Promise.reject(message);
+                }
+                
+            } 
+        }else{
+            return Promise.reject(`request ${url} failed.` );
+        }
+    }catch(e){
+        return Promise.reject(`request ${url} failed. ${e}` );
     }
+    
     
 };
 
-export { requestGet, request, requestGet2 };
+const request2 = async ( parameters ) => {
+    const {url, method, params, headers='application/json; charset=utf-8'} = parameters;
+    try{
+        const response = await axios({
+            method,
+            url,
+            data: params,
+            headers: {
+                'Content-Type': headers
+            }
+        });
+        // console.log("response", response)
+        const resStatus = response.status;
+        if( resStatus === 200 ){
+            const data = response.data;
+            if( isValidObject(data) && isValidVariable(data.status) ){
+                const status = data.status;
+                if( status === 200 ){
+                    return Promise.resolve( data );
+                }else if( status === 500 ){
+                    const error = data.error || {};
+                    const message = error.message || "";
+                    return Promise.reject(message);
+                }
+                
+            } 
+        }else{
+            return Promise.reject(`request ${url} failed.` );
+        }
+    }catch(e){
+        return Promise.reject(`request ${url} failed. ${e}` );
+    }
+   
+};
+
+export { requestGet, request, requestGet2, request2 };

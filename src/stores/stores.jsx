@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-21 13:14:00
+ * @LastEditTime: 2021-04-22 14:13:07
  * @LastEditors: Please set LastEditors
  * @Description: store集合
  * @FilePath: \WN-CDM\src\stores\stores.jsx
@@ -24,6 +24,7 @@ import { userSubscribeData } from "./totalPageStores";
 import { todoList } from "./todoListStores";
 import { myApplicationList } from "./myApplicationListStores";
 import { runwayListData } from "./runwayStores";
+import { MDRSData } from "./mdrsStores";
 
 export {
   schemeListData,
@@ -43,4 +44,5 @@ export {
   userSubscribeData,
   myApplicationList,
   runwayListData,
+  MDRSData,
 };

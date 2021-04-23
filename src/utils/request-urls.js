@@ -1,100 +1,117 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-09 13:53:28
+ * @LastEditTime: 2021-04-23 09:09:24
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
  */
 //工作流ip
-
-const workflowIP = "http://192.168.194.22:29891/hydrogen-duties-server";
-// http://192.168.194.22:29891/hydrogen-duties-server/runtask/{user}
+const workflowIP = "http://192.168.194.22:29891";
+//路武臣
+const mdrsIP = "http://192.168.194.21:27580";
+const runwayIP = "http://192.168.194.21:50012";
+const clearanceIP = "http://192.168.194.21:29890";
+const schemeIP = "http://192.168.194.21:58190";
+//协调ip
+const CollaborateIP = "http://192.168.194.21:28781";
+//登录IP
+const loginIP = "http://192.168.194.21:18380";
+//容量管理IP
+const capacityIP = "http://192.168.194.20:28482"
+//容流数据IP
+const capacityFlowIP= "http://192.168.194.22:28875"
+//容流气象数据IP
+const capacityFlowWeatherIP= "http://192.168.210.131:28280"
 const ReqUrls = {
     //用户登录
-    loginUrl: 'http://192.168.194.21:18380/uuma-server/client/login',
+    loginUrl: loginIP+"/uuma-server/client/login",
     //缩略地图
     mapUrl: "http://192.168.194.40:8081/#/map",
     //根据modalId获取方案详情
-    schemeDetailByIdUrl: 'http://192.168.194.21:58190/scheme-flow-server/implementTactics/',
+    schemeDetailByIdUrl: schemeIP+"/scheme-flow-server/implementTactics/",
     //获取--方案列表
-    schemeListUrl: 'http://192.168.194.21:29890/implementTactics',
-    // schemeListUrl: 'http://192.168.194.21:58190/implementTactics',
+    schemeListUrl: clearanceIP+"/implementTactics",
     //获取--模拟方案详情
-    simulationSchemeDetailUrl:'http://192.168.194.21:58190/simulationTactics/id/',
+    simulationSchemeDetailUrl:schemeIP+"/simulationTactics/id/",
     //获取--航班列表数据
-    flightsDataUrl: 'http://192.168.194.21:29890/tactic/',
+    flightsDataUrl: clearanceIP+"/tactic/",
     //获取--航班列表数据(id为空)
-    flightsDataNoIdUrl: 'http://192.168.194.21:29890/influence/flights/',
+    // flightsDataNoIdUrl: clearanceIP+"/influence/flights/",
+    flightsDataNoIdUrl: 'http://192.168.243.8:29890/influence/flights/',
     //获取--执行KPI数据(孔凡续)
-    executeKPIDataUrl: 'http://192.168.194.22:28787/kpi/',
+    executeKPIDataUrl: "http://192.168.194.22:28787/kpi/",
+    
     //获取--执行KPI数据(薛满林)
-    performanceKPIDataUrl: 'http://192.168.194.21:29890/performkpi/',
+    performanceKPIDataUrl: clearanceIP+"/performkpi/",
 
     //获取航班执行数据
-    performanceDataUrl: 'http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname',
+    performanceDataUrl: "http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname",
     // 总体监控-获取限制数据
-    restrictionDataUrl: 'http://192.168.194.21:58190/implementTactics/statistics',
+    restrictionDataUrl: schemeIP+"/implementTactics/statistics",
 
 
     // 获取用户订阅的容流监控单元数据
-    userSubscribeCapacityFlowMonitorUnitDataUrl: 'http://192.168.194.20:28485/user-template-rest/template/user/',
+    userSubscribeCapacityFlowMonitorUnitDataUrl: "http://192.168.194.20:28485/user-template-rest/template/user/",
 
     // 获取容流数据
-    capacityFlowMonitorDataUrl: 'http://192.168.194.22:28875/traffic-flow-capacity-restful/capacity/v1/flow',
+    capacityFlowMonitorDataUrl: capacityFlowIP+"/traffic-flow-capacity-restful/capacity/v1/flow",
     // 获取容流气象数据
-    capacityFlowMonitorWeatherDataUrl: 'http://192.168.210.131:28280/atom-airport-weather-collect-server/airport/weather/search/nw',
-    // capacityFlowMonitorWeatherDataUrl: 'http://192.168.210.131:28280/atom-airport-weather-collect-server/airport/weather/search/nw',
+    capacityFlowMonitorWeatherDataUrl: capacityFlowWeatherIP+"/atom-airport-weather-collect-server/airport/weather/search/nw",
     //获取流控数据(ATOM新增)
-    ATOMCreateDataUrl: 'http://192.168.194.21:58190/scheme-flow-server/restrictions/create/',
+    ATOMCreateDataUrl: schemeIP+"/scheme-flow-server/restrictions/create/",
     //获取流控数据(ATOM变更)
-    ATOMModifyDataUrl: 'http://192.168.194.21:58190/scheme-flow-server/restrictions/modify/',
+    ATOMModifyDataUrl: schemeIP+"/scheme-flow-server/restrictions/modify/",
     //获取流控数据(NTFM新增)
-    NTFMCreateDataUrl: 'http://192.168.194.21:58190/restrictions/createNtfm/',
-    // NTFMCreateDataUrl: 'http://192.168.243.138:58190/restrictions/createNtfm/',
+    NTFMCreateDataUrl: schemeIP+"/restrictions/createNtfm/",
+    // NTFMCreateDataUrl: "http://192.168.243.138:58190/restrictions/createNtfm/",
     
     //获取流控数据(NTFM变更)
-    NTFMModifyDataUrl: 'http://192.168.194.21:58190/restrictions/modifyNtfm/',
+    NTFMModifyDataUrl: schemeIP+"/restrictions/modifyNtfm/",
 
     //创建方案(外区流控导入)-数据提交
-    importSchemeUrl: 'http://192.168.194.21:58190/scheme-flow-server/simulationTactics/import/sim/',
+    importSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/import/sim/",
     // 创建和修改方案-数据提交
-    createSchemeUrl: 'http://192.168.194.21:58190/scheme-flow-server/simulationTactics/save/manual/',
-    // createSchemeUrl: 'http://192.168.243.138:58190/scheme-flow-server/simulationTactics/save/manual/',
+    createSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/save/manual/",
+    // createSchemeUrl: "http://192.168.243.138:58190/scheme-flow-server/simulationTactics/save/manual/",
     
 
     //修改模拟状态的方案-数据提交
-    modifySimulationSchemeUrl: 'http://192.168.194.21:58190/simulationTactics/modifyScheme/',
+    modifySimulationSchemeUrl: schemeIP+"/simulationTactics/modifyScheme/",
     //获取工作流-办结列表
-    hisTaskUrl: workflowIP+'/histask/',
+    hisTaskUrl: workflowIP+"/hydrogen-duties-server/histask/",
     //获取工作流-待办列表
-    tasksUrl: workflowIP+'/runtask/',
+    tasksUrl: workflowIP+"/hydrogen-duties-server/runtask/",
     //获取工作流-详情
-    taskDetailUrl: workflowIP+'/instance/',
+    taskDetailUrl: workflowIP+"/hydrogen-duties-server/instance/",
     // 航班查询
-    searchFlightUrl: 'http://192.168.194.20:38188/hydrogen-flight-plan-server/flightPlan/retrieveDataByFlightId/',
+    searchFlightUrl: "http://192.168.194.20:38188/hydrogen-flight-plan-server/flightPlan/retrieveDataByFlightId/",
     //待办航班列表-放行监控页面中的
-    todoListUrl: 'http://192.168.194.21:29891/flight/backlog/task/',
+    todoListUrl: "http://192.168.194.21:29891/flight/backlog/task/",
     //我的申请列表-放行监控页面中的
-    myApplicationListUrl: 'http://192.168.194.20:28087/workflow/procInst/',
+    myApplicationListUrl: "http://192.168.194.20:28087/workflow/procInst/",
     //待办
-    runTaskTableUrl:"http://192.168.194.22:29891/flight/runtask/",
+    runTaskTableUrl:workflowIP+"/flight/runtask/",
     //已结
-    histaskTableUrl:"http://192.168.194.22:29891/flight/histask/",
+    histaskTableUrl:workflowIP+"/flight/histask/",
 
     //容量管理-基础接口
-    // capacityBaseUrl: 'http://192.168.243.200:28482/flow-capacity-rest/capacity/',
-    capacityBaseUrl: 'http://192.168.194.20:28482/flow-capacity-rest/capacity/',
+    capacityBaseUrl: capacityIP+"/flow-capacity-rest/capacity/",
     // 跑道列表接口
-    runwayListUrl: 'http://192.168.194.21:50012/runway/defaulat/and/dynamic/retrieve/new/',
+    runwayListUrl: runwayIP+"/runway/defaulat/and/dynamic/retrieve/new/",
     // 跑道详情
-    runwayDefaultDetailUrl: 'http://192.168.194.21:50012/open/runway/default/detail/dialog/',
+    runwayDefaultDetailUrl: runwayIP+"/open/runway/default/detail/dialog/",
     // 跑道修改提交
-    runwayDefaultUpdatelUrl: 'http://192.168.194.21:50012/rwgap/default/update/new/',
+    runwayDefaultUpdatelUrl: runwayIP+"/rwgap/default/update/new/",
+    // MDRS+工作流数据获取
+    mdrsRetrieveDataUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/data/retrieval",
+    // MDRS数据修改
+    mdrsUpdateDataUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/data/update",
+    // MDRS数据-审批-同意、拒绝、撤回
+    mdrsWorkFlowUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/workflow/",
     
 };
-//协调ip
-const CollaborateIP = "http://192.168.194.21:28781";
+
 //协调相关url
 const CollaborateUrl = {
     //标记豁免、取消豁免

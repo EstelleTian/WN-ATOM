@@ -10,6 +10,8 @@
     }
     .form_content{
         padding: 10px 15px;
+        width: 900px;
+        margin: 0 auto;
         .line_row{
             margin-top: 10px;
             .line_title{
@@ -67,10 +69,20 @@
     .reason_text:after{
         width: 622px;
     }
+    .edit_btn{
+        position: absolute;
+        top: 36px;
+        left: 515px;
+    }
+    .un_edit_btn{
+        position: relative;
+        top: 30px;
+        left: 447px;
+    }
     .save_btn{
         position: relative;
         top: 30px;
-        right: -558px;
+        left: 427px;
     }
 }
 .mdrs_detail_modal{

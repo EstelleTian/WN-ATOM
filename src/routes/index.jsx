@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-04-20 10:01:40
+ * @LastEditTime: 2021-04-22 16:34:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -136,7 +136,7 @@ export default [
   },
   {
     // path: "/mdrs/:name?/:type?/:firId?",
-    path: "/mdrs",
+    path: "/mdrs/:airport",
     component: withRouter(MDRSPage),
     exact: true,
     title: "大规模延误告警",
