@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-04-22 14:02:10
+ * @LastEditTime: 2021-04-23 11:11:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -52,7 +52,11 @@ const PopoverTip = (props) => {
     if (isValidVariable(fieldValue) && fieldValue.length >= 12) {
       time = fieldValue.substring(8, 12);
       date = moment(fieldValue.substring(0, 8), "YYYY-MM-DD");
+    } else if (isValidVariable(text) && text.length >= 12) {
+      time = text.substring(8, 12);
+      date = moment(text.substring(0, 8), "YYYY-MM-DD");
     }
+
     let initialValues = {
       flightid: FLIGHTID || "",
       airport: DEPAP + "-" + ARRAP,
