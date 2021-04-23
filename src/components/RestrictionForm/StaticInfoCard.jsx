@@ -85,8 +85,7 @@ function StaticInfoCard(props) {
 
     // 更新限制数值单位
     let [mode, setMode] = useState(restrictionMode);
-    console.log(restrictionMode,"-----", mode)
-    console.log(mode)
+    
 
     // 更新限制数值单位
     let [modeUnit, setModeUnit] = useState(unit);
@@ -817,8 +816,6 @@ function StaticInfoCard(props) {
             setRouteMenuVisible(true);
         }
     }
-
-    console.log(form.getFieldValue('restrictionMode'))
 
     return (
         <Fragment>
