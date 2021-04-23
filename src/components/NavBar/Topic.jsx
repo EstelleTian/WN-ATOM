@@ -51,6 +51,14 @@ function Topic(props){
                 // 重新获取方案列表数据以刷新方案列表
                 props.schemeListData.setForceUpdate(true)
             })
+            //收到方案变更消息
+            const topic_SCHEME_SLOTUPDATE= "/exchange/TOPIC.SCHEME.SLOTUPDATE.FLOW";
+            stompClient.subscribe( topic_SCHEME_SLOTUPDATE, function (d) {
+                //收到消息
+                console.log("收到方案变更消息:"+d);
+                // 重新获取方案列表数据以刷新方案列表
+                props.schemeListData.setForceUpdate(true)
+            })
             //收到限制消息-【交通流消息】
             const topic1 = "/exchange/EXCHANGE.EVENT_CENTER_TRAFFIC_FLOW_CHANGE";
             stompClient.subscribe( topic1, function (d) {
