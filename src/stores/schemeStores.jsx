@@ -37,19 +37,13 @@ class SchemeItem {
 
     @action calculateStatus() {
         let flag = false;
-        const dataGenerateTime = this.dataGenerateTime; //接口数据时间
-        const startCalculateTime = this.tacticTimeInfo.startCalculateTime;
-        if (isValidVariable(dataGenerateTime) && isValidVariable(startCalculateTime)) {
-            // 10秒
-            const diff = 10;
-            // 取时间戳,精确到秒
-            let generateTime = moment(dataGenerateTime,'YYYYMMDDHHmmss').unix();
-            let calculateTime = moment(startCalculateTime,'YYYYMMDDHHmmss').unix();
-            // 差值大于10秒则显示为已计算
-            if ((generateTime - calculateTime) > diff) {
-                flag = true;
-            }
+        const calStatus  = this.calStatus;
+        if(calStatus === "CALCULATING"){
+            flag = false
+        }else if(calStatus === "CALCULATED"){
+            flag = true
         }
+        
         return flag;
     }
 
