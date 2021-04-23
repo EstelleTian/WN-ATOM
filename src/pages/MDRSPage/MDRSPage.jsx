@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-22 19:16:53
+ * @LastEditTime: 2021-04-23 15:47:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRSPage\MDRSPage.jsx
@@ -25,6 +25,8 @@ function MDRSPage(props) {
   const { MDRSData, match } = props;
   const params = match.params || {};
   const airport = params.airport || "";
+  let authMap = MDRSData.authMap || {};
+  let update = authMap["UPDATE"] || false;
 
   //获取数据
   const requestData = useCallback(async (nextRefresh, showLoading) => {
@@ -78,7 +80,7 @@ function MDRSPage(props) {
     <Layout style={{ minWidth: "1400px", height: "inherit" }}>
       <Spin spinning={loading}>
         <MDRSWorkList></MDRSWorkList>
-        {MDRSData.editable ? (
+        {false ? (
           <MDRSForm airport={airport}></MDRSForm>
         ) : (
           <MDRSDetail airport={airport}></MDRSDetail>

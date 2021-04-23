@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-23 09:09:24
+ * @LastEditTime: 2021-04-23 16:29:41
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -37,8 +37,8 @@ const ReqUrls = {
     //获取--航班列表数据
     flightsDataUrl: clearanceIP+"/tactic/",
     //获取--航班列表数据(id为空)
-    // flightsDataNoIdUrl: clearanceIP+"/influence/flights/",
-    flightsDataNoIdUrl: 'http://192.168.243.8:29890/influence/flights/',
+    flightsDataNoIdUrl: clearanceIP+"/influence/flights/",
+    // flightsDataNoIdUrl: 'http://192.168.243.8:29890/influence/flights/',
     //获取--执行KPI数据(孔凡续)
     executeKPIDataUrl: "http://192.168.194.22:28787/kpi/",
     
@@ -108,7 +108,7 @@ const ReqUrls = {
     // MDRS数据修改
     mdrsUpdateDataUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/data/update",
     // MDRS数据-审批-同意、拒绝、撤回
-    mdrsWorkFlowUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/workflow/",
+    mdrsWorkFlowUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/workflow",
     
 };
 

@@ -16,7 +16,7 @@
             margin-top: 15px;
             .item_top{
                 position: relative;
-                height: 38px;
+                height: 50px;
                 .step_number{
                     font-size: 22px;
                     padding-right: 11px;
@@ -40,27 +40,15 @@
                     width: 150px;
                     border-radius: 4px;
                     padding: 1px 6px;
+                    text-align: left;
                     .step_reason{
                         height: 18px;
+                        &:hover{
+                            cursor: pointer;
+                        }
                     }
                 }
-                .step_btn{
-                    .todo_reback{
-                        position: relative;
-                        top: -16px;
-                        left: -70px;
-                    }
-                    .todo_refuse{
-                        position: relative;
-                        top: -16px;
-                        left: 220px;
-                    }
-                    .todo_agree{
-                        position: relative;
-                        top: -16px;
-                        left: 210px;
-                    }
-                }
+                
             }
             .item_bottom{
                 .item_icon{

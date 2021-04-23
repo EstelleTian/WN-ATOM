@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-22 20:00:53
+ * @LastEditTime: 2021-04-23 15:48:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRS\MSRSForm.jsx
@@ -16,8 +16,23 @@ import { ReqUrls } from "utils/request-urls.js";
 import { formatTimeString } from "utils/basic-verify.js";
 import { customNotice } from "utils/common-funcs";
 import { request2 } from "utils/request.js";
+import MDRSOptionBtns from "./MDRSOptionBtns";
 import "./MDRSForm.scss";
 
+//预警级别
+const LevelOptions = [
+  { label: "黄", value: "YELLOW" },
+  { label: "橙", value: "ORANGE" },
+  { label: "红", value: "RED" },
+];
+//原因类型预警
+const TypeOptions = [
+  { label: "天气", value: "WHEATHER" },
+  { label: "军事", value: "MILITARY" },
+  { label: "机场", value: "AIRPORT" },
+  { label: "航空公司", value: "AIRLINE" },
+  { label: "其他", value: "OTHER" },
+];
 //MDRS-详情模块
 function DetailModule(props) {
   const {
@@ -44,6 +59,7 @@ function DetailModule(props) {
       showDecorator={false}
       className="mdrs_form_modal mdrs_detail_modal"
     >
+      <MDRSOptionBtns />
       <div className="form_content">
         <Row gutter={24} className="line_row">
           <Col span={5} className="line_title">
@@ -80,45 +96,22 @@ function DetailModule(props) {
               className="level_radio_group"
               value={alarmlevel}
               disabled={true}
-            >
-              <Radio value={"YELLOW"}>
-                <span className="level_label level_1">黄</span>
-              </Radio>
-              <Radio value={"ORANGE"}>
-                <span className="level_label level_2">橙</span>
-              </Radio>
-              <Radio value={"RED"}>
-                <span className="level_label level_3">红</span>
-              </Radio>
-            </Radio.Group>
+              options={LevelOptions}
+            ></Radio.Group>
           </Col>
         </Row>
         <Row gutter={24} className="line_row">
           <Col span={5} className="line_title">
             原因类型预警：
           </Col>
+
           <Col span={18}>
             <Radio.Group
               className="reason_type_radio_group"
               value={alarmtype}
               disabled={true}
-            >
-              <Radio value="WHEATHER">
-                <span className="level_label">天气</span>
-              </Radio>
-              <Radio value="MILITARY">
-                <span className="level_label">军事</span>
-              </Radio>
-              <Radio value="AIRPORT">
-                <span className="level_label">机场</span>
-              </Radio>
-              <Radio value="AIRLINE">
-                <span className="level_label">航空公司</span>
-              </Radio>
-              <Radio value="OTHER">
-                <span className="level_label">其他</span>
-              </Radio>
-            </Radio.Group>
+              options={TypeOptions}
+            ></Radio.Group>
           </Col>
         </Row>
 
@@ -129,7 +122,7 @@ function DetailModule(props) {
           <Col span={18} className="line_cont">
             <div>{alarmreason || "无"}</div>
           </Col>
-          {update && (
+          {/* {update && (
             <Button
               className="c-btn-blue edit_btn"
               onClick={() => {
@@ -138,7 +131,7 @@ function DetailModule(props) {
             >
               编辑
             </Button>
-          )}
+          )} */}
         </Row>
       </div>
     </ModalBox>
@@ -153,7 +146,7 @@ function FormModule(props) {
   const [dateForm, setDateForm] = useState({});
   const {
     airport,
-    MDRSData: { formData = {} },
+    MDRSData: { formData = {}, authMap = {} },
   } = props;
   const {
     validperiodbegin,
@@ -167,55 +160,14 @@ function FormModule(props) {
   const startTime = validperiodbegin.substring(8, 12);
   const endDate = moment(validperiodend, "YYYY-MM-DD");
   const endTime = validperiodend.substring(8, 12);
-  // console.log("startDate", startDate);
-  //表单提交
-  const handleSave = async () => {
-    setLoading(true);
-    try {
-      const dateValues = await dateForm.validateFields();
-      let startDateString = moment(dateValues.startDate).format("YYYYMMDD");
-      let endDateString = moment(dateValues.endDate).format("YYYYMMDD");
-      const values = await form.validateFields();
-      let formValues = {
-        ...formData,
-        ...values,
-        validperiodbegin: startDateString + dateValues.startTime,
-        validperiodend: endDateString + dateValues.endTime,
-        // airport,
-      };
-      console.log(formValues);
-      //发送修改请求
-      try {
-        const res = await request2({
-          url: ReqUrls.mdrsUpdateDataUrl,
-          method: "POST",
-          params: formValues,
-        });
-        customNotice({
-          type: "success",
-          message: "MDRS预警信息修改成功",
-        });
-        console.log("保存成功：", res);
-        setLoading(false);
-        props.MDRSData.setEditable(false);
-      } catch (err) {
-        customNotice({
-          type: "error",
-          message: "MDRS预警信息修改失败",
-        });
-        setLoading(false);
-      }
-    } catch (errorInfo) {
-      console.log("Failed:", errorInfo);
-      setLoading(false);
-    }
-  };
+
   return (
     <ModalBox
       title={`${airport} MDRS预警信息`}
       showDecorator={false}
       className="mdrs_form_modal"
     >
+      <MDRSOptionBtns form={form} dateForm={dateForm} />
       <div className="form_content">
         <Row gutter={24} className="line_row">
           <Col span={5} className="line_title">
@@ -272,17 +224,10 @@ function FormModule(props) {
             </Col>
             <Col span={18}>
               <Form.Item name="alarmlevel">
-                <Radio.Group className="level_radio_group">
-                  <Radio value={"YELLOW"}>
-                    <span className="level_label level_1">黄</span>
-                  </Radio>
-                  <Radio value={"ORANGE"}>
-                    <span className="level_label level_2">橙</span>
-                  </Radio>
-                  <Radio value={"RED"}>
-                    <span className="level_label level_3">红</span>
-                  </Radio>
-                </Radio.Group>
+                <Radio.Group
+                  className="level_radio_group"
+                  options={LevelOptions}
+                ></Radio.Group>
               </Form.Item>
             </Col>
           </Row>
@@ -292,23 +237,10 @@ function FormModule(props) {
             </Col>
             <Col span={18}>
               <Form.Item name="alarmtype">
-                <Radio.Group className="reason_type_radio_group">
-                  <Radio value="WHEATHER">
-                    <span className="level_label">天气</span>
-                  </Radio>
-                  <Radio value="MILITARY">
-                    <span className="level_label">军事</span>
-                  </Radio>
-                  <Radio value="AIRPORT">
-                    <span className="level_label">机场</span>
-                  </Radio>
-                  <Radio value="AIRLINE">
-                    <span className="level_label">航空公司</span>
-                  </Radio>
-                  <Radio value="OTHER">
-                    <span className="level_label">其他</span>
-                  </Radio>
-                </Radio.Group>
+                <Radio.Group
+                  className="reason_type_radio_group"
+                  options={TypeOptions}
+                ></Radio.Group>
               </Form.Item>
             </Col>
           </Row>
@@ -325,7 +257,7 @@ function FormModule(props) {
                   autoSize={{ minRows: 4, maxRows: 4 }}
                 ></Input.TextArea>
               </Form.Item>
-              <Button
+              {/* <Button
                 // size={size}
                 loading={load}
                 className="c-btn-blue save_btn"
@@ -340,7 +272,7 @@ function FormModule(props) {
                 }}
               >
                 取消编辑
-              </Button>
+              </Button> */}
             </Col>
           </Row>
         </Form>

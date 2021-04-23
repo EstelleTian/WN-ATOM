@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-04-20 14:44:05
+ * @LastEditTime: 2021-04-23 13:40:20
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -70,9 +70,9 @@ const openDetails = (str) => {
     }
 }
 //点击 【异常航班信息】查看航班定位
-const openLocation = (str) => {
+const openLocation = (str, dataCode) => {
     try{
-        jsEntity.openLocation(JSON.stringify(str))
+        jsEntity.openLocation(JSON.stringify(str), dataCode)
     }catch (e){
         console.error(e);
     }
