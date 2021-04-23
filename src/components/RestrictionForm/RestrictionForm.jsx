@@ -3,10 +3,10 @@ import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import "moment/locale/zh-cn"
 import { Button, Modal, Form, Space, Spin } from 'antd'
-import { InfoCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
+import { ExclamationCircleOutlined } from '@ant-design/icons'
 
 import StaticInfoCard from './StaticInfoCard'
-import { handleImportControl, closeCreateDlg, closeControlDetail, handleImportControlForUpdate, handleUpdateFlowControl } from 'utils/client'
+import { handleImportControl, handleImportControlForUpdate, handleUpdateFlowControl } from 'utils/client'
 import { getFullTime, formatTimeString, addStringTime, parseFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
@@ -17,6 +17,33 @@ import { inject, observer } from "mobx-react";
 
 //表单整体
 function RestrictionForm(props) {
+    // 备选航路表单字段集合
+    const routeFieldSet = [
+        {
+            name:'Route1',
+            validateStatus:"",
+        },
+        {
+            name:'Route2',
+            validateStatus:"",
+        },
+        {
+            name:'Route3',
+            validateStatus:"",
+        },
+        {
+            name:'Route4',
+            validateStatus:"",
+        },
+        {
+            name:'Route5',
+            validateStatus:"",
+        },
+    ]
+    
+    
+
+
     // 区域标签机场集合
     const areaLabelAirport = [
         {
@@ -89,20 +116,14 @@ function RestrictionForm(props) {
     }
 
     // 流控信息对象
-    let flowControlTimeInfo = basicFlowcontrol.flowControlTimeInfo || {};
     let flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
     let flowControlName = basicFlowcontrol.flowControlName || "";
     let flowControlPublishType = basicFlowcontrol.flowControlPublishType || "";
     let flowControlReason = basicFlowcontrol.flowControlReason || "";
 
-
-    // 流控开始时间(12位字符串)
-    let flowControlStartTime = flowControlTimeInfo.startTime;
-    // 流控开始时间(12位字符串)
-    let flowControlEndTime = flowControlTimeInfo.endTime;
     // 流控限制方式
-    const { restrictionMode, restrictionMITValueUnit = "T", restrictionMITTimeValue = "" } = flowControlMeasure;
-
+    const { restrictionMode, restrictionMITTimeValue = "" } = flowControlMeasure;
+    const restrictionMITValueUnit = flowControlMeasure.restrictionMITValueUnit || "T";
 
     // 流控方向领域对象
     const directionListData = directionList[0] || {};
@@ -118,8 +139,7 @@ function RestrictionForm(props) {
 
     // 主要操作按钮禁用变量
     let [importButtonDisable, setImportButtonDisable] = useState(false);
-    // 提交loading
-    let [submitLoading, setSubmitLoading] = useState(false);
+    
     // 确认提交模态框显隐变量
     let [submitConfirmModalVisible, setSubmitConfirmModalVisible] = useState(false);
     // 确认提交模态框确定按钮loading变量
@@ -138,13 +158,18 @@ function RestrictionForm(props) {
     let [startTime, setStartTime] = useState(startDate);
     // 方案结束日期(8位字符串, 用于实时记录表单方案开始时间数值, 在提交数据时使用)
     let [endTime, setEndTime] = useState(endDate);
-    // 
+    // 动态航路集合
     let [dynamicRoute,setDynamicRoute] = useState([]);
+
+    // 备选航路表单字段集合
+    let [routeFieldList, setRouteFieldList] = useState(routeFieldSet);
+    // 原航路数据信息(用于提交时传递给接口)
+    let [originRoute, setOriginRoute] = useState({});
+    // 备选航路数据信息(用于提交时传递给接口)
+    let [alterRoutes, setAlterRoutes] = useState([]);
 
     // 忽略模态框显隐变量
     let [isIgnoreModalVisible, setIsIgnoreModalVisible] = useState(false);
-
-
 
     // 转换成区域标签
     function formatAreaLabel (labelData, airport) {
@@ -366,6 +391,17 @@ function RestrictionForm(props) {
     const updateDynamicRouteFieldSet = (fieldValue)=> {
         setDynamicRoute(fieldValue)
     }
+    const updateRouteFieldList = (routeData)=> {
+        setRouteFieldList(routeData)
+    }
+    // 更新原航路信息
+    const updateOriginRouteData = (originRouteData)=> {
+        setOriginRoute(originRouteData)
+    }
+    // 更新备选航路信息
+    const updateAlterRoutesData = (alterRoutesData)=> {
+        setAlterRoutes(alterRoutesData)
+    }
     const updateDataTime = () => {
         // 更新方案开始日期
         setStartDateString(startDate);
@@ -577,15 +613,29 @@ function RestrictionForm(props) {
             flowControlMeasure.distanceToTime = distanceToTime;
             // 更新MIT限制单位
             flowControlMeasure.restrictionMITValueUnit = restrictionMITValueUnit;
-        }else {
-            // 更新MIT流控时间间隔字段数值
-            // flowControlMeasure.restrictionMITTimeValue = null;
-            // 更新速度字段数值
-            // flowControlMeasure.distanceToTime = distanceToTime;
-            // 更新MIT限制单位
-            // flowControlMeasure.restrictionMITValueUnit = null;
+        }else if(restrictionMode === "CT") {
+            // 更新原航路数据信息
+            flowControlMeasure.originRouteData = originRoute;
+            let sortedAlterRouteData = alterRoutes.sort((item1, item2) => {
+                let nameA = item1.routeRank; // ignore upper and lowercase
+                let nameB = item2.routeRank; // ignore upper and lowercase
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                // names must be equal
+                return 0;
+            })
+            // 更新备选航路数据信息
+            flowControlMeasure.alterRouteData1 = sortedAlterRouteData[0]
+            flowControlMeasure.alterRouteData2 = sortedAlterRouteData[1]
+            flowControlMeasure.alterRouteData3 = sortedAlterRouteData[2]
+            flowControlMeasure.alterRouteData4 = sortedAlterRouteData[3]
+            flowControlMeasure.alterRouteData5 = sortedAlterRouteData[4]
         }
-
+        debugger
         // 更新流控交通流-包含-航班号
         flightPropertyDomain.flightId = flightId.join(';');
         // 更新流控交通流-包含-尾流类型
@@ -818,7 +868,7 @@ function RestrictionForm(props) {
                 'restrictionMode',
                 'restrictionModeValue',
                 'restrictionMITValueUnit',
-                'arrAp',
+                'originRoute',
             ];
             // 触发表单验证取表单数据
             const fieldData = await form.validateFields(fields);
@@ -845,7 +895,7 @@ function RestrictionForm(props) {
         };
         // 限制数值单位
         let unit = "";
-        let { startDate, startTime, targetUnit, restrictionMode, restrictionModeValue, arrAp, restrictionMITValueUnit } = fieldData;
+        let { startDate, startTime, targetUnit, restrictionMode, restrictionModeValue, arrAp, restrictionMITValueUnit, originRoute } = fieldData;
         const day = moment(startDate).format("YYYYMMDDHHmm").substring(6, 8);
         const dayTime = day +'/'+startTime;
         let autoName = "";
@@ -856,6 +906,11 @@ function RestrictionForm(props) {
             } else if (restrictionMITValueUnit === 'D') {
                 unit = '公里'
             }
+        }
+        if(restrictionMode == "CT"){
+            // 拼接名称
+            autoName = `${dayTime}-(${originRoute})-改航`;
+            return autoName
         }
         if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
             arrAp = arrAp.join(';').toUpperCase();
@@ -1124,6 +1179,10 @@ function RestrictionForm(props) {
                     autofillTacticName={autofillTacticName}
                     updateDynamicRouteFieldSet = {updateDynamicRouteFieldSet}
                     dynamicRoute = { dynamicRoute }
+                    routeFieldList = {routeFieldList}
+                    updateRouteFieldList = {updateRouteFieldList}
+                    updateOriginRouteData = {updateOriginRouteData}
+                    updateAlterRoutesData = {updateAlterRoutesData}
                     form={form}
                     areaLabelAirport = {areaLabelAirport}
 

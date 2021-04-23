@@ -11,6 +11,9 @@ import moment from 'moment'
 import { formatTimeString, parseFullTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
 import { REGEXP } from '../../utils/regExpUtil'
 import { request } from 'utils/request'
+import qs from 'qs'
+import { element } from 'prop-types';
+
 
 
 const { Option } = Select;
@@ -82,16 +85,25 @@ function StaticInfoCard(props) {
 
     // 更新限制数值单位
     let [mode, setMode] = useState(restrictionMode);
+    console.log(restrictionMode,"-----", mode)
+    console.log(mode)
 
     // 更新限制数值单位
     let [modeUnit, setModeUnit] = useState(unit);
-
+    // MIT限制类型下的限制单位
     let [restrictionMITValueUnit, setRestrictionMITValueUnit] = useState(MITValueUnit)
     // 起飞机场
     let [depApValue, setDepApValue] = useState(depAp);
     let [arrApValue, setArrApValue] = useState(arrAp);
     let [exemptDepApValue, setExemptDepApValue] = useState(exemptDepAp);
     let [exemptArrApValue, setExemptArrApValue] = useState(exemptArrAp);
+
+    useEffect(function(){
+        setMode(restrictionMode)
+    },[restrictionMode])
+    useEffect(function(){
+        setRestrictionMITValueUnit(MITValueUnit)
+    },[MITValueUnit])
 
     // 区域标签快捷点选按钮点击
     function areaBlockChange(value) {
@@ -310,7 +322,6 @@ function StaticInfoCard(props) {
         }
     };
 
-
     /**
      * 自动命名
      * */
@@ -372,7 +383,6 @@ function StaticInfoCard(props) {
                 const startTimeFormatValid = REGEXP.TIMEHHmm.test(startTime);
                 const endDateFormatValid = REGEXP.DATE8.test(endDateString);
                 const endTimeFormatValid = REGEXP.TIMEHHmm.test(endTime);
-
                 if (startDateFormatValid && startTimeFormatValid && endDateFormatValid && endTimeFormatValid) {
                     if (parseFullTime(startDateTime).getTime() > parseFullTime(endDateTime).getTime()) {
                         return Promise.reject('结束时间不能早于开始时间');
@@ -469,40 +479,194 @@ function StaticInfoCard(props) {
         })
     };
 
+    // 获取备选航路请求参数
+    const getRouteValueParams = () => {
+        // 备选航路表单配置集合
+        const { routeFieldList } = props;
+        // 返回值
+        let str = "";
+        // 原航路表单值
+        let originRoute = form.getFieldValue('originRoute');
+        originRoute = originRoute ? originRoute.toUpperCase() : "";
+        // 拼接返回值
+        str = `?originRoute=${originRoute}`
+        // 遍历备选航路表单配置集合拼接参数
+        for (let i = 0; i < routeFieldList.length; i++) {
+            let val = form.getFieldValue(routeFieldList[i].name);
+            val = val ? val.toUpperCase() : "";
+            str += `&alterRoute${i + 1}=${val}`;
+        }
+        return str;
+    }
+
     /**
-     * 校验航路格式
+     * 批量校验备选航路格式
      * */
-    const validateRouteFormat = (getFieldValue) => {
-
-        const validator = (rules, value, callback) => {
-            if (value) {
-                return new Promise((resolve, reject) => {
-                    // 请求校验
-                    const opt = {
-                        // url: "http://192.168.194.21:50012/runway/defaulat/and/dynamic/retrieve/new/100?airportStr=ZLXY,ZLLL&startTime=202104200000&endTime=202104202359",
-                        url: "http://192.168.194.21:29890/implementTactics?status=FUTURE,RUNNING&startTime=&endTime=&userId=100",
-                        method: 'GET',
-                        params: {},
-                        resFunc: (data) => {
-                            resolve()
-                        },
-                        errFunc: (err) => {
-                            reject("请输入正确格式的航路信息")
-                        },
-                    };
-                    // 发送请求
-                    request(opt);
-                })
-            } else {
-                return Promise.resolve();
-            }
-
+    const validateMultiRouteFormat = () => {
+        // 请求参数
+        let routsParams = getRouteValueParams();
+        // 请求校验
+        const opt = {
+            url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheck" + routsParams,
+            method: 'GET',
+            params: {},
+            resFunc: (data) => {
+                // 更新备选航路表单数据
+                updateRouteData(data);
+            },
+            errFunc: (err) => {
+                // 更新备选航路表单数据
+                updateRouteData();
+            },
         };
+        // 发送请求
+        request(opt);
+    };
+    // 更新航路数据
+    const updateRouteData = (data) => {
+        data = data || {}
+        const { alterRoutes, originRoute } = data;
+        if (Array.isArray(alterRoutes)) {
+            let routes = getRouteFieldList(alterRoutes);
+            // 更新备选航路表单配置数据
+            props.updateRouteFieldList(routes)
+            // 更新备选航路数据信息
+            props.updateAlterRoutesData(alterRoutes);
+        } else {
+            let routes = getRouteFieldList([]);
+            // 更新备选航路表单配置数据
+            props.updateRouteFieldList(routes)
+            // 更新备选航路数据信息
+            props.updateAlterRoutesData([]);
+        }
+        // 更新原航路数据信息
+        if (isValidObject(originRoute)) {
+            props.updateOriginRouteData(originRoute)
+        }else {
+            props.updateOriginRouteData({})
+        }
+    }
+    // 获取转换后的备选航路表单配置数据集合
+    const getRouteFieldList = (validateResult) => {
+        const { routeFieldList } = props;
+        const data = routeFieldList.map(item => {
+            return updateSingleRouteData(item, validateResult)
+        })
+        return data;
+    }
+    // 更新单条备选航路表单配置数据
+    const updateSingleRouteData = (item, validateResult) => {
+        let name = item.name;
+        let value = form.getFieldValue(name);
+        value = value ? value.toUpperCase() : "";
+        // 从校验结果集合中查找与此表单匹配的项:遍历每项的routeStr值与与当前表单name相同则匹配
+        let data = validateResult.find(element => element.routeStr === value) || {};
+        // 返回值
+        let obj = {
+            name: name
+        };
+        // 若找到与此表单相匹配的结果项
+        if (isValidObject(data)) {
+            // 若correct值为true,则此表单为校验通过
+            if (data.correct) {
+                obj.validateStatus = "success";
+                obj.help = `排名${data.routeRank}  航路总长度${data.distance}千米`;
+            } else {
+                // 反之,此表单未校验通过
+                form.setFields([{ name: name, errors: [`${data.errorReason}`] }])
+                obj.validateStatus = "error";
+                obj.help = `${data.errorReason}`;
+            }
+        } else {
+            // 若未找到此项则重置应该表单配置
+            obj.validateStatus = "";
+            obj.help = "";
+        }
+        return obj;
+    }
 
+    /**
+     * 校验原航路格式
+     * */
+    const validateOriginRouteFormat = (getFieldValue) => {
+        const validator = (rules, value, callback) => {
+            // 原航路表单值
+            value = value ? value.toUpperCase() : "";
+            // 校验请求参数
+            let params = `?originRoute=${value}`
+            return new Promise((resolve, reject) => {
+                // 请求校验
+                const opt = {
+                    url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheck" + params,
+                    method: 'GET',
+                    params: {},
+                    resFunc: (data) => {
+                        if (isValidObject(data) && isValidObject(data.originRoute)) {
+                            if (data.originRoute.correct) {
+                                resolve()
+                            } else {
+                                reject(data.originRoute.errorReason || "")
+                            }
+                        } else {
+                            resolve()
+                        }
+                    },
+                    errFunc: (err) => {
+                        resolve()
+                    },
+                };
+                // 发送请求
+                request(opt);
+            })
+        };
         return ({
             validator: validator,
         })
     };
+    /**
+     * 校验单条备选航路格式
+     * */
+    const validateSingleRouteFormat = (getFieldValue) => {
+        const validator = (rules, value, callback) => {
+            // 原航路表单值
+            let originRoute = getFieldValue('originRoute');
+            originRoute = originRoute ? originRoute.toUpperCase() : "";
+            // 当前表单值
+            value = value ? value.toUpperCase() : "";
+            // 校验请求参数
+            let params = `?originRoute=${originRoute}&alterRoute1=${value}`
+            return new Promise((resolve, reject) => {
+                // 请求校验
+                const opt = {
+                    url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheck" + params,
+                    method: 'GET',
+                    params: {},
+                    resFunc: (data) => {
+                        if (isValidObject(data) && Array.isArray(data.alterRoutes) && data.alterRoutes.length > 0) {
+                            // 取校验结果数据中alterRoutes字段第一项数据
+                            let routeValidate = data.alterRoutes[0];
+                            if (routeValidate.correct) {
+                                resolve()
+                            } else {
+                                reject(routeValidate.errorReason || "")
+                            }
+                        } else {
+                            resolve()
+                        }
+                    },
+                    errFunc: (err) => {
+                        resolve()
+                    },
+                };
+                // 发送请求
+                request(opt);
+            })
+        };
+        return ({
+            validator: validator,
+        })
+    };
+
 
     const disabledStartDate = (currentDate) => {
         return currentDate < moment().startOf('day') || currentDate > moment().add(2, 'day');
@@ -512,7 +676,6 @@ function StaticInfoCard(props) {
         const startDate = form.getFieldValue('startDate');
         return currentDate < startDate;
     };
-
 
     const drawMITModeValue = () => {
         return (
@@ -608,98 +771,42 @@ function StaticInfoCard(props) {
         )
     }
 
-
-
-
+    // 绘制备选航路表单
     const drawRoutes = () => {
+        const { routeFieldList } = props;
         return (
             <Fragment>
-                <Row gutter={24}>
-                    <Col span={8} className="">
-                    </Col>
-                    <Col span={8}>
-                        <Form.Item
-                            name="route1"
-                            label="备选航路1"
-                            validateTrigger={['onBlur']}
-                            rules={[
-                                // {
-                                //     required: true,
-                                //     whitespace: true,
-                                //     message: "请输入正确格式的航路",
-                                // },
-                                ({ getFieldValue }) => validateRouteFormat(getFieldValue),
-                            ]}
-                        >
-                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
-
-                        </Form.Item>
-                    </Col>
-                    <Col span={8} className="">
-                    </Col>
-                </Row>
-                <Row gutter={24}>
-                    <Col span={8} className="">
-                    </Col>
-                    <Col span={8}>
-                        <Form.Item
-                            name="route2"
-                            label="备选航路2"
-                            validateTrigger={['onBlur']}
-                            rules={[
-                                // {
-                                //     required: true,
-                                //     whitespace: true,
-                                //     message: "请输入正确格式的航路",
-                                // },
-                                ({ getFieldValue }) => validateRouteFormat(getFieldValue),
-                            ]}
-                        >
-                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
-
-                        </Form.Item>
-                    </Col>
-                    <Col span={8} className="">
-                    </Col>
-                </Row>
-                <Row gutter={24}>
-                    <Col span={8} className="">
-                    </Col>
-                    <Dropdown overlay={routeMenu} visible={routeMenuVisible} trigger={['click']} >
-                        <Col span={9}>
-                            <Row gutter={24}>
-                                <Col span={21}>
-                                    <Form.Item
-                                        name="route3"
-                                        label="备选航路3"
-                                        validateTrigger={['onBlur']}
-                                        rules={[
-                                            // {
-                                            //     required: true,
-                                            //     whitespace: true,
-                                            //     message: "请输入正确格式的航路",
-                                            // },
-                                            ({ getFieldValue }) => validateRouteFormat(getFieldValue),
-                                        ]}
-                                    >
-                                        <Input style={{ width: '101.9%' }} allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
-                                    </Form.Item>
-
-                                </Col>
-                                <Col span={2} className="">
-                                    <Badge count={dynamicRoute.length} style={{ backgroundColor: '#33cc99' }}>
-                                        <Button type="primary" onClick={() => { handleRouteMoreButtonClick() }} >更多</Button>
-                                    </Badge>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Dropdown>
-
-
-
-                </Row>
-
-
+                {routeFieldList.map((item, index) => {
+                    return (
+                        <Row gutter={24} key={item.name}>
+                            <Col span={8} className="">
+                            </Col>
+                            <Col span={8}>
+                                <Form.Item
+                                    {
+                                    ...item
+                                    }
+                                    label={`备选航路${index + 1}`}
+                                    validateTrigger={['onBlur']}
+                                    hasFeedback
+                                    rules={[
+                                        ({ getFieldValue }) => validateSingleRouteFormat(getFieldValue),
+                                    ]}
+                                    onBlur={() => { validateMultiRouteFormat() }}
+                                >
+                                    <Input className="text-uppercase" disabled={props.disabledForm} />
+                                </Form.Item>
+                            </Col>
+                            <Col span={8} className="">
+                            </Col>
+                        </Row>
+                    )
+                })}
+                {/* <Col span={2} className="">
+                    <Badge count={dynamicRoute.length} style={{ backgroundColor: '#33cc99' }}>
+                        <Button type="primary" onClick={() => { validateMultiRouteFormat() }} >校验</Button>
+                    </Badge>
+                </Col> */}
             </Fragment>
         )
     }
@@ -710,6 +817,8 @@ function StaticInfoCard(props) {
             setRouteMenuVisible(true);
         }
     }
+
+    console.log(form.getFieldValue('restrictionMode'))
 
     return (
         <Fragment>
@@ -962,13 +1071,17 @@ function StaticInfoCard(props) {
                         </Form.Item>
                     </Col>
                     {
-                        mode == "CT" ? <Col span={8}>
+                        mode === "CT" ? <Col span={8}>
                             <Form.Item
-                                name="originalRoute"
+                                name="originRoute"
                                 label="原航路"
                                 className="disabled-border-form-item"
+                                rules={[
+                                    ({ getFieldValue }) => validateOriginRouteFormat(getFieldValue),
+                                ]}
+                                onBlur={() => { validateMultiRouteFormat() }}
                             >
-                                <Input allowClear={true} className="text-uppercase" disabled={true} />
+                                <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                             </Form.Item>
                         </Col> : ""
                     }
@@ -995,7 +1108,7 @@ function StaticInfoCard(props) {
                     </Col>
                 </Row>
                 {
-                    mode == "CT" ? drawRoutes() : ""
+                    mode === "CT" ? drawRoutes() : ""
                 }
                 <Row gutter={24}>
                     <Col span={8}>
