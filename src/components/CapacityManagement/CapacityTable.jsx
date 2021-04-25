@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-04-25 16:08:13
+ * @LastEditTime: 2021-04-25 17:50:44
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -496,7 +496,7 @@ const ApproveBtn = function (props) {
     });
   });
   //处理 操作 同意/拒绝
-  const handleOk = async (type) => {
+  const handleOk = async () => {
     if (!isValidVariable(username)) {
       return;
     }
@@ -514,15 +514,15 @@ const ApproveBtn = function (props) {
       comment,
     };
     let title = "动态容量调整";
-    if (type === "agree") {
+    if (props.type === "agree") {
       //容量审核同意
       url = ReqUrls.capacityBaseUrl + "simulationTactics/approve/" + username;
       title = "动态容量调整【同意】操作";
-    } else if (type === "refuse") {
+    } else if (props.type === "refuse") {
       //容量审核拒绝
       url = ReqUrls.capacityBaseUrl + "simulationTactics/refuse/" + username;
       title = "动态容量调整【拒绝】操作";
-    } else if (type === "reback") {
+    } else if (props.type === "reback") {
       //容量审核撤回
       url = ReqUrls.capacityBaseUrl + "simulationTactics/withdraw/" + username;
       title = "动态容量调整【撤回】操作";
@@ -660,9 +660,6 @@ const CapacityTable = (props) => {
         // console.log("更新表格数据 ",airportName)
         props.capacity.updateDatas(kind, res);
         props.capacity.forceUpdateDynamicWorkFlowData = true;
-        console.log(
-          "forceUpdateDynamicWorkFlowData forceUpdateDynamicWorkFlowData"
-        );
       }
       return Promise.resolve(data);
     } catch (err) {

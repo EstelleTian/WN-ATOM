@@ -123,7 +123,7 @@ function MDRSOptionBtns(props) {
       }
       // props.MDRSData.setForceUpdate(true);
 
-      setLoad(false);
+      // setLoad(false);
     } catch (err) {
       if (isValidVariable(err)) {
         customNotice({
@@ -136,7 +136,7 @@ function MDRSOptionBtns(props) {
           message: title + "失败",
         });
       }
-      setLoad(false);
+      // setLoad(false);
     }
   };
   return (

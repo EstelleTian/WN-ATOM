@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-25 16:56:33
+ * @LastEditTime: 2021-04-25 18:29:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -196,8 +196,8 @@ function InfoCardItem(props) {
                         console.log(message);
                         const dataStr = message.data || "{}";
                         const data = JSON.parse(dataStr) || {};
-                        const { mdrs } = data;
-                        // openCapacityFlowMonitorUnitTclientFrame();
+                        const { region = "" } = data;
+                        openCapacityFlowMonitorUnitTclientFrame(region);
                         e.stopPropagation();
                       }}
                     >
