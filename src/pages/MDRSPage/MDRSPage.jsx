@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-23 15:47:35
+ * @LastEditTime: 2021-04-25 13:56:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRSPage\MDRSPage.jsx
@@ -52,9 +52,18 @@ function MDRSPage(props) {
       });
       // console.log("resData", resData);
       //数据赋值
-      const { result = {}, generateTime = "" } = resData;
-      //TODO 回头这个result改成对象
-      MDRSData.setMDRSData(result[0], generateTime);
+      const { result = [], generateTime = "" } = resData;
+      if (result.length == 0) {
+        customNotice({
+          type: "warn",
+          message: "暂无数据",
+          duration: 8,
+        });
+        MDRSData.setMDRSData({}, generateTime);
+      } else {
+        //TODO 回头这个result改成对象
+        MDRSData.setMDRSData(result[0], generateTime);
+      }
       setLoading(false);
       timerFunc();
     } catch (err) {
@@ -76,11 +85,20 @@ function MDRSPage(props) {
       requestData(true, true);
     }
   }, []);
+  useEffect(
+    function () {
+      if (MDRSData.forceUpdate) {
+        requestData(false, true);
+        props.MDRSData.setForceUpdate(false);
+      }
+    },
+    [MDRSData.forceUpdate]
+  );
   return (
     <Layout style={{ minWidth: "1400px", height: "inherit" }}>
       <Spin spinning={loading}>
         <MDRSWorkList></MDRSWorkList>
-        {false ? (
+        {update ? (
           <MDRSForm airport={airport}></MDRSForm>
         ) : (
           <MDRSDetail airport={airport}></MDRSDetail>

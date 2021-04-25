@@ -26,9 +26,9 @@ function MDRSOptionBtns(props) {
   let agree = authMap["AGREE"] || false;
   let refuse = authMap["REFUSE"] || false;
   let reback = authMap["REBACK"] || false;
-  agree = false;
-  refuse = false;
-  reback = true;
+  //   agree = false;
+  //   refuse = false;
+  //   reback = true;
   //表单提交
   const handleSave = async () => {
     try {
@@ -80,62 +80,64 @@ function MDRSOptionBtns(props) {
     }
     // const mdrsId = props.formData.id || ""; //MDRS预警数据主键ID
     let url = "";
-    let params = {
-      user: username,
-      mdrs: { ...formData },
-      optionType: type.toUpperCase(),
-    };
+    let params = formData;
     let title = "";
     //同意
     if (type === "agree") {
-      url = ReqUrls.mdrsWorkFlowUrl + "/approve";
+      url = ReqUrls.mdrsWorkFlowUrl;
       const formValues = await handleSave();
-      params = {
-        ...params,
-        mdrs: formValues,
-      };
+
+      params = formValues;
       title = "MDRS工作流【同意】审批";
     }
     //拒绝
     else if (type === "refuse") {
       const formValues = await handleSave();
-      params = {
-        ...params,
-        mdrs: formValues,
-      };
-      url = ReqUrls.mdrsWorkFlowUrl + "/approve";
+      params = formValues;
+      url = ReqUrls.mdrsWorkFlowUrl;
       title = "MDRS工作流【拒绝】审批";
     }
     //撤回
     else if (type === "reback") {
       //容量审核拒绝
-      url = ReqUrls.mdrsWorkFlowUrl + "/withdraw";
+      url = ReqUrls.mdrsWorkFlowUrl;
       title = "MDRS工作流【撤回】";
     }
     console.log("type", type, params);
-    //   try {
-    //     const res = await request2({ url, method: "POST", params: params });
-    //     customNotice({
-    //       type: "success",
-    //       message: title + "成功",
-    //       duration: 8,
-    //     });
-    //     setLoad(false);
-    //   } catch (err) {
-    //     if (isValidVariable(err)) {
-    //       customNotice({
-    //         type: "error",
-    //         message: err,
-    //       });
-    //     } else {
-    //       customNotice({
-    //         type: "error",
-    //         message: title + "失败",
-    //       });
-    //     }
-    //     setLoad(false);
-    //   }
-    // }
+    try {
+      const res = await request2({
+        url: url + "/" + username + "/" + type.toUpperCase(),
+        method: "POST",
+        params: params,
+      });
+      customNotice({
+        type: "success",
+        message: title + "成功",
+        duration: 8,
+      });
+      const { result = [], generateTime = "" } = res;
+      if (result.length == 0) {
+        props.MDRSData.setMDRSData({}, generateTime);
+      } else {
+        props.MDRSData.setMDRSData(result[0], generateTime);
+      }
+      // props.MDRSData.setForceUpdate(true);
+
+      setLoad(false);
+    } catch (err) {
+      if (isValidVariable(err)) {
+        customNotice({
+          type: "error",
+          message: err,
+        });
+      } else {
+        customNotice({
+          type: "error",
+          message: title + "失败",
+        });
+      }
+      setLoad(false);
+    }
   };
   return (
     <div className="step_btn">

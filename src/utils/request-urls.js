@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-23 16:29:41
+ * @LastEditTime: 2021-04-25 13:41:55
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -23,6 +23,9 @@ const capacityIP = "http://192.168.194.20:28482"
 const capacityFlowIP= "http://192.168.194.22:28875"
 //容流气象数据IP
 const capacityFlowWeatherIP= "http://192.168.210.131:28280"
+//总体监控-协调KPI-航班协调-数据IP
+const totalCollaborateIP= "http://192.168.194.21:28782"
+
 const ReqUrls = {
     //用户登录
     loginUrl: loginIP+"/uuma-server/client/login",
@@ -104,11 +107,11 @@ const ReqUrls = {
     // 跑道修改提交
     runwayDefaultUpdatelUrl: runwayIP+"/rwgap/default/update/new/",
     // MDRS+工作流数据获取
-    mdrsRetrieveDataUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/data/retrieval",
-    // MDRS数据修改
-    mdrsUpdateDataUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/data/update",
+    mdrsRetrieveDataUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/data/retrieval/handle",
     // MDRS数据-审批-同意、拒绝、撤回
-    mdrsWorkFlowUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/workflow",
+    mdrsWorkFlowUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/workflow/approve",
+    // 总体监控-协调KPI-航班协调
+    totalCollaborateUrl: totalCollaborateIP+"/flightRecord/retrieveFlightRecordByType",
     
 };
 
