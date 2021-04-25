@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-15 15:56:30
+ * @LastEditTime: 2021-04-25 19:18:18
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -133,6 +133,11 @@ const HandleBtn = function (props) {
         // console.log("容量审批流程",businessKey);
         const elementName = processVariables.elementName || "";
         openTclientFrameForMessage(elementName);
+        break;
+      case "MdrsApprovalProcess": //MDRS审批流程
+        // console.log("容量审批流程",businessKey);
+        // const elementName = processVariables.elementName || "";
+        // openTclientFrameForMessage(elementName);
         break;
     }
     //  console.log(orgdata);

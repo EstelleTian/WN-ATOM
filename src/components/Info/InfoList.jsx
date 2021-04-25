@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-25 18:29:45
+ * @LastEditTime: 2021-04-25 19:15:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -311,7 +311,7 @@ function InfoCardItem(props) {
   );
 }
 
-const InfoCard = inject("systemPage")(observer(InfoCardItem));
+const InfoCard = inject("systemPage", "newsList")(observer(InfoCardItem));
 
 //单个消息模块下详情
 function InfoCardDetail(props) {
@@ -383,7 +383,7 @@ function InfoList(props) {
             header={
               <InfoCard
                 message={newItem}
-                newsList={props.newsList}
+                // newsList={props.newsList}
                 index={index}
               />
             }
