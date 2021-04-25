@@ -34,14 +34,17 @@ function User(props){
     const user = localStorage.getItem("user");
 
     if( isValidVariable(user) ){
-        if( pathname === "/clearance" ){
-            const userObj = JSON.parse(user)
-            descriptionCN = userObj.descriptionCN || "";
-            props.systemPage.setUserData( userObj );
-        }
-        
+        // if( pathname === "/clearance" ){
+        //     const userObj = JSON.parse(user)
+        //     descriptionCN = userObj.descriptionCN || "";
+        //     props.systemPage.setUserData( userObj );
+        // }
+        const userObj = JSON.parse(user)
+        descriptionCN = userObj.descriptionCN || "";
+        props.systemPage.setUserData( userObj );
     }
     else{
+        
         // props.history.push('/')
     }
 
