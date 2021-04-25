@@ -332,8 +332,9 @@ function StaticInfoCard(props) {
         { "key": "AFP", "text": "AFP" },
         { "key": "MIT", "text": "MIT" },
         { "key": "CT", "text": "改航" },
+        {"key":"GS", "text": "GS"},
         // {"key":"GDP", "text": "GDP"},
-        // {"key":"GS", "text": "地面停止"},
+        
         // {"key":"AS", "text": "指定时隙"},
         // {"key":"BREQ", "text": "上客申请"},
         // {"key":"REQ", "text": "开车申请"},

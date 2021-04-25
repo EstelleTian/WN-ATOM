@@ -651,7 +651,6 @@ function RestrictionForm(props) {
             flowControlMeasure.alterRouteData4 = sortedAlterRouteData[3]
             flowControlMeasure.alterRouteData5 = sortedAlterRouteData[4]
         }
-        debugger
         // 更新流控交通流-包含-航班号
         flightPropertyDomain.flightId = flightId.join(';');
         // 更新流控交通流-包含-尾流类型
@@ -884,6 +883,7 @@ function RestrictionForm(props) {
                 'restrictionMode',
                 'restrictionModeValue',
                 'restrictionMITValueUnit',
+                'arrAp',
                 'originRoute',
             ];
             // 触发表单验证取表单数据
@@ -916,6 +916,11 @@ function RestrictionForm(props) {
         const dayTime = day +'/'+startTime;
         let autoName = "";
         unit = restrictionModeUnit[restrictionMode];
+        if(restrictionMode == "CT"){
+            // 拼接名称
+            autoName = `${dayTime}-(${originRoute})-改航`;
+            return autoName
+        }
         if (restrictionMode === "MIT") {
             if (restrictionMITValueUnit === 'T') {
                 unit = '分钟'
@@ -923,18 +928,24 @@ function RestrictionForm(props) {
                 unit = '公里'
             }
         }
-        if(restrictionMode == "CT"){
-            // 拼接名称
-            autoName = `${dayTime}-(${originRoute})-改航`;
-            return autoName
-        }
+        
         if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
             arrAp = arrAp.join(';').toUpperCase();
-            // 拼接名称
-            autoName = `${dayTime}-${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
+            if(restrictionMode === "MIT" || restrictionMode === "AFP"){
+                // 拼接名称
+                autoName = `${dayTime}-${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
+            }else if(restrictionMode == "GS"){
+                // 拼接名称
+                autoName = `${dayTime}-${targetUnit.toUpperCase()}-${arrAp}-地面停止`;
+            }
         } else {
-            // 拼接名称
-            autoName = `${dayTime}-${targetUnit.toUpperCase()}-${restrictionModeValue}${unit}`;
+            if(restrictionMode === "MIT" || restrictionMode === "AFP"){
+                // 拼接名称
+                autoName = `${dayTime}-${targetUnit.toUpperCase()}-${restrictionModeValue}${unit}`;
+            }else if(restrictionMode == "GS"){
+                // 拼接名称
+                autoName = `${dayTime}-${targetUnit.toUpperCase()}-地面停止`;
+            }
         }
         return autoName;
     }
