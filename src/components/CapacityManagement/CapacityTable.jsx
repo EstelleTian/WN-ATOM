@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-04-20 17:43:10
+ * @LastEditTime: 2021-04-25 16:08:13
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -15,10 +15,10 @@ import React, {
   useCallback,
   useMemo,
   Suspense,
-  useLayoutEffect,
+  memo,
 } from "react";
 import { inject, observer } from "mobx-react";
-import { request, requestGet } from "utils/request";
+import { request, requestGet, request2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import { QuestionCircleOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import {
@@ -38,7 +38,7 @@ import {
 } from "utils/basic-verify";
 import { REGEXP } from "utils/regExpUtil";
 import { customNotice } from "utils/common-funcs";
-import { OptionBtn } from "components/Common/OptionBtn";
+// import { OptionBtn } from "components/Common/OptionBtn";
 // import { data1, data24 } from '../../mockdata/static'
 import "./CapacityTable.scss";
 const EditableContext = React.createContext(null);
@@ -116,13 +116,13 @@ const EditableCell = ({
     }
   }
   const save = async () => {
-    let subvalues = await form.validateFields();
-    for (let key in subvalues) {
+    let values = await form.validateFields();
+    for (let key in values) {
       let resObj = record[key];
-      if (subvalues[key] === -1 || subvalues[key] === "") {
+      if (values[key] === -1 || values[key] === "") {
         resObj["value"] = -1;
       } else {
-        resObj["value"] = subvalues[key] * 1;
+        resObj["value"] = values[key] * 1;
       }
     }
     handleSave(record);
@@ -407,8 +407,8 @@ const requestErr = (err, content) => {
     duration: 10,
   });
 };
-
-const SaveBtn = function (props) {
+//提交按钮
+const SaveBtn = memo(function (props) {
   const { save } = props;
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -419,23 +419,21 @@ const SaveBtn = function (props) {
     setVisible(true);
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
     setConfirmLoading(true);
     const comment = inputVal;
-    save(comment)
-      .then((res) => {
-        //    console.log("保存响应:",res);
-        setConfirmLoading(false);
-        setVisible(false);
-        props.setEditable(false);
-        setInputVal("");
-      })
-      .catch((err) => {
-        setConfirmLoading(false);
-        setVisible(false);
-        setInputVal("");
-        // props.setEditable(false);
-      });
+    try {
+      const res = await save(comment);
+      // setInputVal("");
+      // setConfirmLoading(false);
+      // setVisible(false);
+      props.setEditable(false);
+    } catch (err) {
+      // setInputVal("");
+      // setConfirmLoading(false);
+      console.log(visible);
+      // setVisible(false);
+    }
   };
 
   const handleCancel = () => {
@@ -475,8 +473,8 @@ const SaveBtn = function (props) {
       </Button>
     </Popconfirm>
   );
-};
-
+});
+//同意 拒绝 撤回 按钮
 const ApproveBtn = function (props) {
   const { type, username, hisTasks, hisInstance, updateWorkFlow } = props;
   const [visible, setVisible] = useState(false);
@@ -498,7 +496,7 @@ const ApproveBtn = function (props) {
     });
   });
   //处理 操作 同意/拒绝
-  const sendResultRequest = (type) => {
+  const handleOk = async (type) => {
     if (!isValidVariable(username)) {
       return;
     }
@@ -519,56 +517,32 @@ const ApproveBtn = function (props) {
     if (type === "agree") {
       //容量审核同意
       url = ReqUrls.capacityBaseUrl + "simulationTactics/approve/" + username;
-      title = "动态容量调整审批完成";
+      title = "动态容量调整【同意】操作";
     } else if (type === "refuse") {
       //容量审核拒绝
       url = ReqUrls.capacityBaseUrl + "simulationTactics/refuse/" + username;
-      title = "动态容量调整拒绝完成";
+      title = "动态容量调整【拒绝】操作";
     } else if (type === "reback") {
       //容量审核撤回
       url = ReqUrls.capacityBaseUrl + "simulationTactics/withdraw/" + username;
-      title = "动态容量调整撤回完成";
+      title = "动态容量调整【撤回】操作";
     }
     if (isValidVariable(url)) {
-      const opt = {
-        url,
-        method: "POST",
-        params: params,
-        resFunc: (data) => {
-          requestSuccess(data, title);
-          setConfirmLoading(false);
-          setVisible(false);
-        },
-        errFunc: (err) => {
-          if (isValidVariable(err)) {
-            requestErr(err, err);
-          } else {
-            requestErr(err, title + "失败");
-          }
-          setConfirmLoading(false);
-          setVisible(false);
-        },
-      };
-      request(opt);
+      try {
+        const data = await request2({ url, method: "POST", params: params });
+        requestSuccess(data, title + "成功");
+        // setConfirmLoading(false);
+        setVisible(false);
+      } catch (err) {
+        if (isValidVariable(err)) {
+          requestErr(err, err);
+        } else {
+          requestErr(err, title + "失败");
+        }
+        // setConfirmLoading(false);
+        setVisible(false);
+      }
     }
-  };
-
-  const handleOk = () => {
-    setConfirmLoading(true);
-
-    sendResultRequest(type);
-
-    //   save(comment).then( res => {
-
-    //        setConfirmLoading(false);
-    //        setVisible(false);
-    //        props.setEditable(false);
-    //        setInputVal("")
-    //   }).catch( err => {
-    //         setConfirmLoading(false);
-    //         setVisible(false);
-    //         setInputVal("");
-    //   })
   };
 
   const handleCancel = () => {
@@ -637,7 +611,7 @@ const CapacityTable = (props) => {
     setTableData(newData);
   };
 
-  const updateOrgTableDatas = (kind, resolve, reject, comment = "") => {
+  const updateOrgTableDatas = async (kind, comment = "") => {
     let tableDataObj = {};
     tableData.map((item) => {
       // const key = item.capacityTime || "";
@@ -677,45 +651,34 @@ const CapacityTable = (props) => {
       };
     }
 
-    const opt = {
-      url,
-      method: "POST",
-      params,
-      resFunc: (data) => {
-        console.log(data);
-        const { capacityMap } = data;
-        props.capacity.setEditable(false);
-        for (let name in capacityMap) {
-          const res = capacityMap[name] || {};
-          // console.log("更新表格数据 ",airportName)
-          props.capacity.updateDatas(kind, res);
-          //
-          props.capacity.forceUpdateDynamicWorkFlowData = true;
-        }
-        customNotice({
-          type: "success",
-          message: title + "调整申请成功",
-          duration: 10,
-        });
-
-        resolve("success");
-      },
-      errFunc: (err, msg) => {
-        if (isValidVariable(err)) {
-          title = err;
-        } else {
-          title = title + "调整申请失败";
-        }
-        props.capacity.setEditable(false);
-        customNotice({
-          type: "error",
-          message: title,
-        });
-        resetOrgTableDatas();
-        reject("error");
-      },
-    };
-    request(opt);
+    try {
+      const data = await request2({ url, method: "POST", params });
+      const { capacityMap } = data;
+      props.capacity.setEditable(false);
+      for (let name in capacityMap) {
+        const res = capacityMap[name] || {};
+        // console.log("更新表格数据 ",airportName)
+        props.capacity.updateDatas(kind, res);
+        props.capacity.forceUpdateDynamicWorkFlowData = true;
+        console.log(
+          "forceUpdateDynamicWorkFlowData forceUpdateDynamicWorkFlowData"
+        );
+      }
+      return Promise.resolve(data);
+    } catch (err) {
+      if (isValidVariable(err)) {
+        title = err;
+      } else {
+        title = title + "调整申请失败";
+      }
+      props.capacity.setEditable(false);
+      customNotice({
+        type: "error",
+        message: title,
+      });
+      resetOrgTableDatas();
+      return Promise.reject(err);
+    }
   };
 
   const resetOrgTableDatas = (from = "") => {
@@ -764,10 +727,8 @@ const CapacityTable = (props) => {
 
   const save = useCallback(
     (comment) => {
-      return new Promise((resolve, reject) => {
-        //更新初始化数据
-        updateOrgTableDatas(kind, resolve, reject, comment);
-      });
+      //更新初始化数据
+      return updateOrgTableDatas(kind, comment);
     },
     [tableData]
   );
@@ -944,6 +905,7 @@ const CapacityTable = (props) => {
           )}
         {!authMap.AGREE && !authMap.REFUSE && !authMap.REBACK && editable && (
           <span>
+            {/* 提交按钮 */}
             <SaveBtn save={save} setEditable={props.capacity.setEditable} />
             <Button
               className="reset"

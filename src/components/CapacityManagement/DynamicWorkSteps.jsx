@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-04-25 14:12:22
+ * @LastEditTime: 2021-04-25 15:42:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -17,7 +17,7 @@ import React, {
 import { inject, observer } from "mobx-react";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Steps, Spin, Button, Collapse } from "antd";
-import { requestGet, request } from "utils/request";
+import { requestGet, request, request2 } from "utils/request";
 import {
   getFullTime,
   isValidVariable,
@@ -141,28 +141,6 @@ function stepsList(props) {
 }
 const StepsList = inject("capacity")(observer(stepsList));
 
-//折叠面板
-const StepCollapse = function (props) {
-  const text = `
-    A dog is a type of domesticated animal.
-    Known for its loyalty and faithfulness,
-    it can be found as a welcome guest in many households across the world.
-  `;
-  return (
-    <Collapse accordion>
-      <Panel header="This is panel header 1" key="1">
-        <p>{text}</p>
-      </Panel>
-      <Panel header="This is panel header 2" key="2">
-        <p>{text}</p>
-      </Panel>
-      <Panel header="This is panel header 3" key="3">
-        <p>{text}</p>
-      </Panel>
-    </Collapse>
-  );
-};
-
 //容量管理-工作流详情
 function DynamicWorkSteps(props) {
   const { pane = {}, capacity, systemPage, routeName } = props;
@@ -173,27 +151,22 @@ function DynamicWorkSteps(props) {
   const [dataLoaded, setDataLoaded] = useState(false);
   const timer = useRef();
 
-  const {
-    hisInstance = {},
-    hisTasks = [],
-    generateTime = "",
-    authMap = {},
-  } = useMemo(() => {
-    const taskMap = props.capacity.dynamicWorkFlowData.taskMap || {};
-    const generateTime = props.capacity.dynamicWorkFlowData.generateTime || {};
-    const values = Object.values(taskMap) || [];
-    if (values.length > 0) {
-      const taskObj = values[values.length - 1] || {};
-      const hisTasks = taskObj.hisTasks || [];
-      const hisInstance = taskObj.hisInstance || [];
-      const authMap = taskObj.authMap || {};
-      return { hisInstance, hisTasks, generateTime, authMap };
-    }
-    return [];
-  }, [props.capacity.dynamicWorkFlowData.generateTime]);
+  const taskMap = props.capacity.dynamicWorkFlowData.taskMap || {};
+  const generateTime = props.capacity.dynamicWorkFlowData.generateTime || {};
+  const values = Object.values(taskMap) || [];
+  let taskObj = {};
+  let hisTasks = [];
+  let hisInstance = [];
+  let authMap = {};
+  if (values.length > 0) {
+    taskObj = values[values.length - 1] || {};
+    hisTasks = taskObj.hisTasks || [];
+    hisInstance = taskObj.hisInstance || [];
+    authMap = taskObj.authMap || {};
+  }
 
   const requestDynamicWorkFlowData = useCallback(
-    (nextRefresh) => {
+    async (nextRefresh) => {
       const type = pane.type.toUpperCase();
       if (!isValidVariable(systemPage.user.username)) {
         return;
@@ -229,14 +202,17 @@ function DynamicWorkSteps(props) {
         };
       }
 
-      const opt = {
-        url:
-          ReqUrls.capacityBaseUrl +
-          "simulationTactics/retrieveSchemeFlows/" +
-          systemPage.user.username,
-        method: "POST",
-        params,
-        resFunc: (data) => {
+      if (!dataLoaded) {
+        setDataLoaded(true);
+        try {
+          const data = await request2({
+            url:
+              ReqUrls.capacityBaseUrl +
+              "simulationTactics/retrieveSchemeFlows/" +
+              systemPage.user.username,
+            method: "POST",
+            params,
+          });
           props.capacity.updateDynamicWorkFlowData(data);
           setDataLoaded(false);
           setLoading(false);
@@ -244,8 +220,7 @@ function DynamicWorkSteps(props) {
             props.capacity.forceUpdateDynamicWorkFlowData = false;
           }
           timerFunc();
-        },
-        errFunc: (err) => {
+        } catch (err) {
           customNotice({
             type: "error",
             message: "动态容量工作流数据获取失败",
@@ -256,12 +231,7 @@ function DynamicWorkSteps(props) {
             props.capacity.forceUpdateDynamicWorkFlowData = false;
           }
           timerFunc();
-        },
-      };
-
-      if (!dataLoaded) {
-        setDataLoaded(true);
-        request(opt);
+        }
       }
     },
     [systemPage.user.username, routeName]

@@ -88,20 +88,20 @@ function MDRSOptionBtns(props) {
       const formValues = await handleSave();
 
       params = formValues;
-      title = "MDRS工作流【同意】审批";
+      title = "MDRS【同意】操作";
     }
     //拒绝
     else if (type === "refuse") {
       const formValues = await handleSave();
       params = formValues;
       url = ReqUrls.mdrsWorkFlowUrl;
-      title = "MDRS工作流【拒绝】审批";
+      title = "MDRS【拒绝】操作";
     }
     //撤回
     else if (type === "reback") {
       //容量审核拒绝
       url = ReqUrls.mdrsWorkFlowUrl;
-      title = "MDRS工作流【撤回】";
+      title = "MDRS【撤回】操作";
     }
     console.log("type", type, params);
     try {
