@@ -122,8 +122,16 @@ function RestrictionForm(props) {
     let flowControlReason = basicFlowcontrol.flowControlReason || "";
 
     // 流控限制方式
-    const { restrictionMode, restrictionMITTimeValue = "" } = flowControlMeasure;
+    const { restrictionMode, restrictionMITTimeValue = "", } = flowControlMeasure;
     const restrictionMITValueUnit = flowControlMeasure.restrictionMITValueUnit || "T";
+    // 原航路
+    const originRouteData = flowControlMeasure.originRouteData || {};
+    //备选航路
+    const alterRouteData1 = flowControlMeasure.alterRouteData1 || {};
+    const alterRouteData2 = flowControlMeasure.alterRouteData2 || {};
+    const alterRouteData3 = flowControlMeasure.alterRouteData3 || {};
+    const alterRouteData4 = flowControlMeasure.alterRouteData4 || {};
+    const alterRouteData5 = flowControlMeasure.alterRouteData5 || {};
 
     // 流控方向领域对象
     const directionListData = directionList[0] || {};
@@ -337,6 +345,14 @@ function RestrictionForm(props) {
         restrictionMITTimeValue: restrictionMITTimeValue || restrictionModeValue ,
         // MIT限制方式下的速度值
         distanceToTime: "12",
+        // 原航路值(仅用于回显示)
+        originRoute: originRouteData.routeStr || "",
+        // 备选航路值(仅用于回显示)
+        Route1: alterRouteData1.routeStr || "",
+        Route2: alterRouteData2.routeStr || "",
+        Route3: alterRouteData3.routeStr || "",
+        Route4: alterRouteData4.routeStr || "",
+        Route5: alterRouteData5.routeStr || "",
 
 
         // 包含-航班号
