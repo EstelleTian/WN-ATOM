@@ -22,7 +22,9 @@ const PerformanceItemHeader = (props) => {
   } = props;
   // 显示tab面板
   const showTabPane = () => {
-    setActiveTabPane(TabPaneConfig);
+    if(setActiveTabPane){
+      setActiveTabPane(TabPaneConfig);
+    }
   };
   return (
     <div className="header" onClick={showTabPane}>

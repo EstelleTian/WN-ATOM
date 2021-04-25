@@ -24,7 +24,7 @@ import { openMapFrame, } from 'utils/client'
 
 import { isValidObject, isValidVariable, formatTimeString} from 'utils/basic-verify'
 import 'components/NavBar/NavBar.scss'
-// import './TotalPage.scss'
+import './PrimaryPane.scss'
 const FlightPerformance = lazy(() => import('components/FlightPerformance/FlightPerformance'));
 const CapacityFlowMonitor = lazy(() => import('components/CapacityFlowMonitor/CapacityFlowMonitor'));
 const { Header, Footer, Sider, Content } = Layout;
@@ -246,12 +246,6 @@ function PrimaryPane(props) {
                                 <Radio.Button value="ZLXY">西安机场塔台</Radio.Button>
                                 <Radio.Button value="ZLLL">兰州机场塔台</Radio.Button>
                             </Radio.Group>
-                        </div>
-                    </div>
-                    <div className="layout-nav-right layout-row">
-                        <div className="single_user">
-                            <Avatar className="user_icon" icon={<UserOutlined />} />
-                            <User />
                         </div>
                     </div>
                 </div>
