@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-23 13:40:57
+ * @LastEditTime: 2021-04-25 16:56:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -16,6 +16,7 @@ import { formatTimeString } from "utils/basic-verify";
 import {
   sendMsgToClient,
   openTclientFrameForMessage,
+  openCapacityFlowMonitorUnitTclientFrame,
   openDetails,
   openLocation,
 } from "utils/client";
@@ -191,8 +192,12 @@ function InfoCardItem(props) {
                       className="info_btn btn_blue"
                       size="small"
                       onClick={function (e) {
-                        alert("查看MDRS详情,开发中..");
-                        // openMDRSDetails(message);
+                        // alert("查看MDRS详情,开发中..");
+                        console.log(message);
+                        const dataStr = message.data || "{}";
+                        const data = JSON.parse(dataStr) || {};
+                        const { mdrs } = data;
+                        // openCapacityFlowMonitorUnitTclientFrame();
                         e.stopPropagation();
                       }}
                     >
@@ -217,6 +222,7 @@ function InfoCardItem(props) {
                   ) : (
                     <Link to="/restriction" target="_blank">
                       <Button
+                        className="info_btn btn_blue"
                         size="small"
                         onClick={(e) => {
                           //将data转换为对象再生成字符串对象传递，否则接收后转换不成正确的json

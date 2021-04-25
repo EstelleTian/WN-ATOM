@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-21 13:54:38
+ * @LastEditTime: 2021-04-25 16:38:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -126,29 +126,29 @@ function TotalPage(props) {
     }
   };
   return (
-      <div className="total-page">
-        <div className="user-bar layout-row">
-          <div className="single_user">
-            <Avatar className="user_icon" icon={<UserOutlined />} />
-            <User />
-          </div>
+    <div className="total-page">
+      <div className="user-bar layout-row">
+        <div className="single_user">
+          <div className="user_icon" />
+          <User />
         </div>
-
-        <Tabs
-          hideAdd
-          type="editable-card"
-          onChange={onChangeActivePane}
-          activeKey={activeKey}
-          onEdit={onEdit}
-          className="total-tabs"
-        >
-          {panes.map((pane) => (
-            <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
-              {pane.content}
-            </TabPane>
-          ))}
-        </Tabs>
       </div>
+
+      <Tabs
+        hideAdd
+        type="editable-card"
+        onChange={onChangeActivePane}
+        activeKey={activeKey}
+        onEdit={onEdit}
+        className="total-tabs"
+      >
+        {panes.map((pane) => (
+          <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
+            {pane.content}
+          </TabPane>
+        ))}
+      </Tabs>
+    </div>
   );
 }
 
