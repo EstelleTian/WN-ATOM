@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-22 15:51:53
+ * @LastEditTime: 2021-04-25 13:08:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRS\MSRSForm.jsx
@@ -270,6 +270,10 @@ function CustomDate(props) {
         className="date_item time_form"
         dependencies={["endDate", "startDate", "startTime"]}
         rules={[
+          {
+            required: true,
+            message: "请输入结束时间",
+          },
           {
             type: "string",
             pattern: REGEXP.TIMEHHmm,

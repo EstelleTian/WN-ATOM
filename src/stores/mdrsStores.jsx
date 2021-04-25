@@ -4,23 +4,25 @@ class mdrsData {
     makeObservable(this);
   }
   //工作流对象
-  @observable hisTasks = [];
+  @observable historyTaskResult = {};
   //数据时间
   @observable generateTime = "";
   //按钮权限对象
   @observable authMap = {};
   //是否处于表单编辑中
   @observable editable = false;
+  //是否强制更新
+  @observable forceUpdate = false;
   //mdrs表单数据
   @observable formData = {};
 
   @action setMDRSData = (data, generateTime) => {
     const {
-      historyTaskResult: { hisTasks = [] } = {},
+      historyTaskResult = {},
       authMap = {},
       mdrs = {},
     } = data;
-    this.hisTasks = hisTasks;
+    this.historyTaskResult = historyTaskResult;
     this.generateTime = generateTime;
     this.authMap = authMap;
     this.formData = mdrs;
@@ -28,6 +30,9 @@ class mdrsData {
 
   @action setEditable = (flag) => {
     this.editable = flag;
+  };
+  @action setForceUpdate = (flag) => {
+    this.forceUpdate = flag;
   };
 }
 const MDRSData = new mdrsData();

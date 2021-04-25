@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-04-23 15:41:07
+ * @LastEditTime: 2021-04-25 14:27:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\MDRSWorkList.jsx
@@ -84,7 +84,12 @@ function WorkStep(props) {
 //容量管理-工作流详情
 function MDRSWorkList(props) {
   const {
-    MDRSData: { hisTasks = [], authMap = {}, formData = {}, generateTime },
+    MDRSData: {
+      historyTaskResult: { hisTasks = [], hisInstance = {} } = {},
+      authMap = {},
+      formData = {},
+      generateTime,
+    },
   } = props;
 
   const len = hisTasks.length;
@@ -92,8 +97,8 @@ function MDRSWorkList(props) {
     <div className="mdrs_workflow">
       {hisTasks.length > 0 && (
         <ModalBox
-          // title={`工作流详情（流水号：${hisInstance.id || ""}）`}
-          title={`工作流详情`}
+          title={`工作流详情（流水号：${hisInstance.id || ""}）`}
+          // title={`工作流详情`}
           showDecorator={false}
           className="mdrs_modal"
         >
