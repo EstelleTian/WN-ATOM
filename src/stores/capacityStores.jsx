@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-04-25 18:26:41
+ * @LastEditTime: 2021-04-25 18:41:28
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -206,12 +206,15 @@ class Capacity {
   }
 
   //更新 动态data
-  @action setDynamicData(data, time = "", authMap, elementNameFs = "") {
+  @action setDynamicData(data) {
     for (let key in data) {
       const item = data[key] || {};
       item["key"] = key;
     }
     this.dynamicData = data;
+  }
+  //更新 动态data
+  @action setOtherData(time = "", authMap, elementNameFs = "") {
     this.dynamicDataGenerateTime = time;
     this.elementNameFs = elementNameFs;
     if (authMap !== undefined) {

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-04-25 17:50:44
+ * @LastEditTime: 2021-04-25 18:42:10
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -791,6 +791,7 @@ const CapacityTable = (props) => {
 
   useEffect(() => {
     props.capacity.setDynamicData({});
+    props.capacity.setOtherData("", {}, "");
   }, []);
 
   let authBtn = () => {

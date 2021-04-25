@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-04-25 18:25:43
+ * @LastEditTime: 2021-04-25 18:41:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -142,12 +142,8 @@ function CapacityCont(props) {
         for (let key in capacityMap) {
           obj = capacityMap[key];
         }
-        props.capacity.setDynamicData(
-          obj,
-          generateTime,
-          authMap,
-          elementNameFs
-        );
+        props.capacity.setDynamicData(obj);
+        props.capacity.setOtherData(generateTime, authMap, elementNameFs);
 
         if (props.capacity.forceUpdateDynamicData) {
           //获取数据
@@ -282,7 +278,10 @@ function CapacityCont(props) {
               )}
             </div>
             <ModalBox
-              title={`动态容量——时段配置(${formatTimeString(generateTime)})`}
+              //   title={`动态容量——时段配置(${formatTimeString(generateTime)})`}
+              title={`${
+                props.capacity.elementNameFs
+              } 动态容量配置(${formatTimeString(generateTime)})`}
               showDecorator={true}
               className="static_cap_modal static_cap_modal_24 modal_dynamic"
             >
