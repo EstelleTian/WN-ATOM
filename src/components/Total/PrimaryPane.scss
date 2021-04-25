@@ -1,0 +1,94 @@
+.main-wrapper {
+    //position: relative;
+    overflow-y: hidden;
+    .top{
+        flex: auto;
+        height: 710px;
+        margin-bottom: 10px;
+        .flex-row {
+            @include flex();
+            flex-wrap: nowrap;
+            margin-left: 11px;
+            margin-right: 11px;
+            .left-container {
+                flex: 1 1 auto;
+                width: 700px;
+                margin-right: 4px;
+                .map-module{
+                    .box_content {
+                        overflow: visible;
+                    }
+                }
+                .map-container {
+                    flex: 1;
+                    margin: 0 10px 10px;
+                    height: 100%;
+                    .ant-spin-nested-loading, .ant-spin-container{
+                        height: 100%;
+                    }
+                    .map-frame {
+                        border-radius: 8px;
+                        border: 1px solid #6c6c6c;
+                        padding-bottom: 1px;
+                    }
+                    .actions {
+                        visibility: hidden;
+                        display: flex;
+                        justify-content: flex-end;
+                        -webkit-flex-direction: row;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        position: relative;
+                        top: -36px;
+                        padding-left: 86px;
+                        padding-right: 10px;
+                        height: 0px;
+                        // color: #35a5da;
+                        .detail {
+                            cursor: pointer;
+                            font-size: 18px;
+                            &:hover {
+                                color: #266E90;
+                            }
+                        }
+                    }
+                }
+                &:hover {
+                    .actions {
+                        visibility: visible;
+                    }
+                }
+            }
+            
+            .right-container {
+                flex: 1 1 calc(100% - 700px);
+                width: calc(100% - 700px);
+                margin-left: 4px;
+                .ant-spin-nested-loading, .ant-spin-container{
+                    height: 100%;
+                }
+            }
+        }
+
+    }
+    .bottom {
+        flex: auto;
+        height: 654px;
+        overflow-y: auto;
+        .capacity-contianer {
+            flex: 1 1 0%;
+            height: 100%;
+            margin-left: 11px;
+            margin-right: 11px;
+            .ant-spin-nested-loading, .ant-spin-container{
+                height: 100%;
+            }
+        }
+    }
+    .module {
+        background: #343434;
+        border-radius: 6px;
+    }
+
+}
+
