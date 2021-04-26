@@ -85,8 +85,8 @@ function SchemeItem(props) {
 
     let { item, activeSchemeId, userHasAuth, generateTime } = props;
     let { id, isCalculated, tacticName, tacticStatus, tacticPublishUnit, basicTacticInfoReason, basicTacticInfoRemark,
-        tacticTimeInfo: { startTime, endTime, publishTime, createTime, startCalculateTime = "" },
-        basicFlowcontrol = {}, directionList = []
+        tacticTimeInfo: { startTime, endTime="", publishTime, createTime, startCalculateTime = "" },
+        basicFlowcontrol = {}, directionList = [], schemeRelative = "",
     } = item;
     let isActive = (activeSchemeId === id);
 
@@ -132,6 +132,17 @@ function SchemeItem(props) {
     }
     if (behindUnits !== "") {
         behindUnits = behindUnits.substring(0, targetUnits.length - 1);
+    }
+
+
+    // 开始时间格式化
+    let startTimeFormat =  getDayTimeFromString(startTime);
+    // 结束时间格式化
+    let endTimeFormat =  getDayTimeFromString(endTime);
+    // 若schemeRelative值为"100",则为相对时间
+    if(schemeRelative === "100"){
+        startTimeFormat = startTimeFormat ? `(${startTimeFormat})` : '';
+        endTimeFormat =  endTimeFormat ? `(${endTimeFormat})` : '';
     }
 
     const showDetail = useCallback((e) => {
@@ -274,7 +285,7 @@ function SchemeItem(props) {
                     </div>
                     <div className="layout-column double-column-box">
                         <div className="column-box  border-bottom">
-                            <div className="cell" title={startTime + "-" + endTime}>{getDayTimeFromString(startTime)} - {getDayTimeFromString(endTime)}</div>
+                            <div className="cell" title={startTime + "-" + endTime}>{  startTimeFormat } - {endTimeFormat}</div>
                         </div>
                         <div className="layout-row">
                             <div className="column-box">
