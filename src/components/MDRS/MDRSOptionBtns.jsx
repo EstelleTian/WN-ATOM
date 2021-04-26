@@ -26,6 +26,7 @@ function MDRSOptionBtns(props) {
   let agree = authMap["AGREE"] || false;
   let refuse = authMap["REFUSE"] || false;
   let reback = authMap["REBACK"] || false;
+  let update = authMap["UPDATE"] || false;
   //   agree = false;
   //   refuse = false;
   //   reback = true;
@@ -80,20 +81,23 @@ function MDRSOptionBtns(props) {
     }
     // const mdrsId = props.formData.id || ""; //MDRS预警数据主键ID
     let url = "";
-    let params = formData;
+    let params = formData || {};
     let title = "";
     //同意
     if (type === "agree") {
+      if (update) {
+        const formValues = await handleSave();
+        params = formValues;
+      }
       url = ReqUrls.mdrsWorkFlowUrl;
-      const formValues = await handleSave();
-
-      params = formValues;
       title = "MDRS【同意】操作";
     }
     //拒绝
     else if (type === "refuse") {
-      const formValues = await handleSave();
-      params = formValues;
+      if (update) {
+        const formValues = await handleSave();
+        params = formValues;
+      }
       url = ReqUrls.mdrsWorkFlowUrl;
       title = "MDRS【拒绝】操作";
     }
@@ -103,7 +107,7 @@ function MDRSOptionBtns(props) {
       url = ReqUrls.mdrsWorkFlowUrl;
       title = "MDRS【撤回】操作";
     }
-    console.log("type", type, params);
+    // console.log("type", type, params);
     try {
       const res = await request2({
         url: url + "/" + username + "/" + type.toUpperCase(),
