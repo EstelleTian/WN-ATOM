@@ -880,10 +880,13 @@ function RestrictionForm(props) {
                 'startDate',
                 'startTime',
                 'targetUnit',
+                'behindUnit',
+                'exemptBehindUnit',
                 'restrictionMode',
                 'restrictionModeValue',
                 'restrictionMITValueUnit',
                 'arrAp',
+                'exemptArrAp',
                 'originRoute',
             ];
             // 触发表单验证取表单数据
@@ -911,16 +914,20 @@ function RestrictionForm(props) {
         };
         // 限制数值单位
         let unit = "";
-        let { startDate, startTime, targetUnit, restrictionMode, restrictionModeValue, arrAp, restrictionMITValueUnit, originRoute } = fieldData;
+        let { startDate, startTime, targetUnit, behindUnit, exemptBehindUnit, restrictionMode, restrictionModeValue, arrAp, exemptArrAp, restrictionMITValueUnit, originRoute } = fieldData;
+        // 开始时间
         const day = moment(startDate).format("YYYYMMDDHHmm").substring(6, 8);
         const dayTime = day +'/'+startTime;
         let autoName = "";
+        //基准点
+        targetUnit = targetUnit.toUpperCase();
+        // 后序单元
+        behindUnit =  isValidVariable(behindUnit) ? behindUnit.toUpperCase() : "";
+        // 豁免后序单元
+        exemptBehindUnit =  isValidVariable(exemptBehindUnit) ? exemptBehindUnit.toUpperCase() : "";
+        
+        // 限制数值单位
         unit = restrictionModeUnit[restrictionMode];
-        if(restrictionMode == "CT"){
-            // 拼接名称
-            autoName = `${dayTime}-(${originRoute})-改航`;
-            return autoName
-        }
         if (restrictionMode === "MIT") {
             if (restrictionMITValueUnit === 'T') {
                 unit = '分钟'
@@ -928,25 +935,31 @@ function RestrictionForm(props) {
                 unit = '公里'
             }
         }
-        
-        if (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) {
-            arrAp = arrAp.join(';').toUpperCase();
-            if(restrictionMode === "MIT" || restrictionMode === "AFP"){
-                // 拼接名称
-                autoName = `${dayTime}-${targetUnit.toUpperCase()}-${arrAp}-${restrictionModeValue}${unit}`;
-            }else if(restrictionMode == "GS"){
-                // 拼接名称
-                autoName = `${dayTime}-${targetUnit.toUpperCase()}-${arrAp}-地面停止`;
-            }
-        } else {
-            if(restrictionMode === "MIT" || restrictionMode === "AFP"){
-                // 拼接名称
-                autoName = `${dayTime}-${targetUnit.toUpperCase()}-${restrictionModeValue}${unit}`;
-            }else if(restrictionMode == "GS"){
-                // 拼接名称
-                autoName = `${dayTime}-${targetUnit.toUpperCase()}-地面停止`;
-            }
+         
+        // 降落机场 
+        arrAp = (isValidVariable(arrAp) && isValidVariable(arrAp.join(';'))) ? arrAp.join(';').toUpperCase() : "";
+
+        // 豁免降落机场
+        exemptArrAp = (isValidVariable(exemptArrAp) && isValidVariable(exemptArrAp.join(';'))) ? exemptArrAp.join(';').toUpperCase() : "";
+
+        if(restrictionMode == "CT"){
+            // 拼接名称
+            autoName = `${originRoute} 改航`;
+            return autoName
         }
+        
+        let behindUnitLabel = isValidVariable(behindUnit) ? `去往${behindUnit} ` : "";
+        let exemptBehindUnitLabel = isValidVariable(exemptBehindUnit) ? `(${exemptBehindUnit}除外), ` : "";
+        let arrApLabel = isValidVariable(arrAp) ? `落地(${arrAp}) ` : "";
+        let exemptArrApLabel = isValidVariable(exemptArrAp) ? `(${exemptArrAp}除外) ` : "";
+        if(restrictionMode === "MIT" || restrictionMode === "AFP"){
+            // 拼接名称
+            autoName = `${targetUnit} ${exemptArrApLabel}${behindUnitLabel}${exemptBehindUnitLabel}${arrApLabel}${restrictionModeValue}${unit}`;
+        }else if(restrictionMode == "GS"){
+            // 拼接名称
+            autoName = `${targetUnit} 停放`;
+        }
+        
         return autoName;
     }
 

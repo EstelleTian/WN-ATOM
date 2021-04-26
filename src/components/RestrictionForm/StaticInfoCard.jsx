@@ -764,7 +764,7 @@ function StaticInfoCard(props) {
                     label=""
                     className={restrictionMITValueUnit === "D" ? "" : "hidden"}
                 >
-                    <div className="">分钟/架次</div>
+                    <div className="">分钟/架</div>
                 </Form.Item>
 
             </Form.Item>
