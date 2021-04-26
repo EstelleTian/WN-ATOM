@@ -31,7 +31,7 @@ function FlowcontrolDetailCard(props) {
         "AFP": {
             label: "AFP",
             key: "restrictionAFPValueSequence",
-            unit: "架次",
+            unit: "架",
         },
         "GS": {
             label: "GS",

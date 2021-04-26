@@ -115,7 +115,7 @@ function SchemeItem(props) {
             unit = "公里"
         }
     } else if (restrictionMode === "AFP") {
-        unit = "架次";
+        unit = "架";
     }
 
     let targetUnits = "";
