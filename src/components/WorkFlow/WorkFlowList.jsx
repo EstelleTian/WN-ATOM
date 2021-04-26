@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-25 19:18:18
+ * @LastEditTime: 2021-04-26 11:27:11
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -23,6 +23,7 @@ import {
   openConfirmFrame,
   openTimeSlotFrameWithFlightId,
   openTclientFrameForMessage,
+  openTclientFrameForMDRS,
 } from "utils/client";
 const { Search } = Input;
 //获取屏幕宽度，适配 2k
@@ -127,6 +128,7 @@ const HandleBtn = function (props) {
         break;
       case "SchemeApprovalProcess": //方案审批流程
         // console.log("方案审批流程",businessKey);
+
         openConfirmFrame(businessKey);
         break;
       case "VolumeApprovalProcess": //容量审批流程
@@ -136,8 +138,8 @@ const HandleBtn = function (props) {
         break;
       case "MdrsApprovalProcess": //MDRS审批流程
         // console.log("容量审批流程",businessKey);
-        // const elementName = processVariables.elementName || "";
-        // openTclientFrameForMessage(elementName);
+        const airport = processVariables.airport || "";
+        openTclientFrameForMDRS(airport);
         break;
     }
     //  console.log(orgdata);

@@ -5,6 +5,7 @@ import {
   openConfirmFrame,
   openTimeSlotFrameWithFlightId,
   openTclientFrameForMessage,
+  openTclientFrameForMDRS,
 } from "utils/client";
 import { requestGet } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
@@ -319,9 +320,8 @@ const WorkFlowContent = (props) => {
         openTclientFrameForMessage(elementName);
         break;
       case "MdrsApprovalProcess": //MDRS审批流程
-        // console.log("容量审批流程",businessKey);
-        // const elementName = processVariables.elementName || "";
-        // openTclientFrameForMessage(elementName);
+        const airport = processVariables.airport || "";
+        openTclientFrameForMDRS(airport);
         break;
     }
   };

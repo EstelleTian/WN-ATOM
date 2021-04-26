@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-04-25 18:41:48
+ * @LastEditTime: 2021-04-26 10:45:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -241,6 +241,7 @@ function CapacityCont(props) {
                         </ModalBox>
                     </div> */}
           <div className="right_wrapper">
+            <div className="capacity_title">{props.capacity.elementNameFs}</div>
             <div className="filter_menu">
               <Menu
                 selectedKeys={[capacity.dateRange + ""]}
@@ -277,11 +278,10 @@ function CapacityCont(props) {
                 />
               )}
             </div>
+
             <ModalBox
               //   title={`动态容量——时段配置(${formatTimeString(generateTime)})`}
-              title={`${
-                props.capacity.elementNameFs
-              } 动态容量配置(${formatTimeString(generateTime)})`}
+              title={`动态容量配置(${formatTimeString(generateTime)})`}
               showDecorator={true}
               className="static_cap_modal static_cap_modal_24 modal_dynamic"
             >
