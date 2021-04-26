@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-04-26 10:51:45
+ * @LastEditTime: 2021-04-26 14:24:42
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -730,24 +730,19 @@ const CapacityTable = (props) => {
     [tableData]
   );
 
-  const {
-    hisInstance = {},
-    hisTasks = [],
-    generateTime = "",
-    authMap = {},
-  } = useMemo(() => {
-    const taskMap = props.capacity.dynamicWorkFlowData.taskMap || {};
-    const generateTime = props.capacity.dynamicWorkFlowData.generateTime || {};
-    const values = Object.values(taskMap) || [];
-    if (values.length > 0) {
-      const taskObj = values[values.length - 1] || {};
-      const hisTasks = taskObj.hisTasks || [];
-      const hisInstance = taskObj.hisInstance || [];
-      const authMap = taskObj.authMap || {};
-      return { hisInstance, hisTasks, generateTime, authMap };
-    }
-    return [];
-  }, [props.capacity.dynamicWorkFlowData]);
+  let hisInstance = {};
+  let hisTasks = [];
+  let authMap = {};
+  let dynamicWorkFlowData = props.capacity.dynamicWorkFlowData || {};
+  const taskMap = dynamicWorkFlowData.taskMap || {};
+  const generateTime = dynamicWorkFlowData.generateTime || "";
+  const values = Object.values(taskMap) || [];
+  if (values.length > 0) {
+    const taskObj = values[values.length - 1] || {};
+    hisTasks = taskObj.hisTasks || [];
+    hisInstance = taskObj.hisInstance || [];
+    authMap = taskObj.authMap || {};
+  }
 
   const SUBMIT = useMemo(() => {
     const authMap = props.capacity.authMap || {};
@@ -794,6 +789,7 @@ const CapacityTable = (props) => {
     props.capacity.setOtherData("", {}, "");
   }, []);
 
+  // console.log("authMap", { ...authMap });
   let authBtn = () => {
     return (
       <div className="opt_btns">

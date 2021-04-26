@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-25 13:56:52
+ * @LastEditTime: 2021-04-26 14:23:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRSPage\MDRSPage.jsx
@@ -38,7 +38,7 @@ function MDRSPage(props) {
       if (nextRefresh) {
         timer.current = setTimeout(function () {
           requestData(nextRefresh, false);
-        }, 300 * 1000);
+        }, 30 * 1000);
       }
     };
     try {

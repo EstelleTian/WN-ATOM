@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-04-26 10:45:39
+ * @LastEditTime: 2021-04-26 14:12:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -241,7 +241,12 @@ function CapacityCont(props) {
                         </ModalBox>
                     </div> */}
           <div className="right_wrapper">
-            <div className="capacity_title">{props.capacity.elementNameFs}</div>
+            {elementType === "AREA" && (
+              <div className="capacity_title">
+                {props.capacity.elementNameFs}
+              </div>
+            )}
+
             <div className="filter_menu">
               <Menu
                 selectedKeys={[capacity.dateRange + ""]}
