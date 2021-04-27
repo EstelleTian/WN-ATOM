@@ -143,6 +143,7 @@ function SchemeItem(props) {
     if(schemeRelative === "100"){
         startTimeFormat = startTimeFormat ? `(${startTimeFormat})` : '';
         endTimeFormat =  endTimeFormat ? `(${endTimeFormat})` : '';
+        targetUnits =  targetUnits ? `(${targetUnits})` : '';
     }
 
     const showDetail = useCallback((e) => {
