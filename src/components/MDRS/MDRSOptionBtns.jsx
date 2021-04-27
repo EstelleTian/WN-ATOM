@@ -33,15 +33,15 @@ function MDRSOptionBtns(props) {
   //表单提交
   const handleSave = async () => {
     try {
-      const dateValues = await props.dateForm.validateFields();
-      let startDateString = moment(dateValues.startDate).format("YYYYMMDD");
-      let endDateString = moment(dateValues.endDate).format("YYYYMMDD");
+      // const dateValues = await props.dateForm.validateFields();
+      // let startDateString = moment(dateValues.startDate).format("YYYYMMDD");
+      // let endDateString = moment(dateValues.endDate).format("YYYYMMDD");
       const values = await props.form.validateFields();
       let formValues = {
         ...formData,
         ...values,
-        validperiodbegin: startDateString + dateValues.startTime,
-        validperiodend: endDateString + dateValues.endTime,
+        // validperiodbegin: startDateString + dateValues.startTime,
+        // validperiodend: endDateString + dateValues.endTime,
         // airport,
       };
       console.log(formValues);

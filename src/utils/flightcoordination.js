@@ -293,6 +293,7 @@ const FlightCoordination = {
             case 'LOCK': sourceCN = "锁定";break;
             case 'AUTO': sourceCN = "自动";break;
             case 'INVALID': sourceCN = "失效";break;
+            case 'WAIT': sourceCN = "流程中";break;
             default: sourceCN = source;
         }
         return sourceCN;
