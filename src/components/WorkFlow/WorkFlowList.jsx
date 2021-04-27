@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-26 11:27:11
+ * @LastEditTime: 2021-04-27 16:44:50
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -406,8 +406,8 @@ function WorkFlowList(props) {
 
       const processDefinitionName = hisInstance.processDefinitionName || "";
 
-      // const userNameCn = hisInstance.startUserName || ""; //提交人
-      const userNameCn = processVariables.userNameCn || ""; //提交人
+      const userNameCn = hisInstance.startUserName || ""; //提交人
+      // const userNameCn = processVariables.userNameCn || ""; //提交人
       const taskStatusName = hisInstance.activityName || ""; //工作所处环节
       let taskStatus = "进行中"; //流程状态
       if (isValidVariable(hisInstance.endTime)) {

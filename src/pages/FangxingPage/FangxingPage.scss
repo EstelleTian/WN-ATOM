@@ -1,4 +1,4 @@
-.layout{
+.site-layout{
     @include display_flex(column);
     .nav_bar{
         height: 44px;
@@ -81,9 +81,55 @@
             @include display_flex(column);
         }
     }
+    
 }
-
-
+.side_menu{
+    @include display_flex();
+    .side_menu_icon{
+        position: relative;
+        top: 16px;
+        font-size: 22px;
+        left: 11px;
+    }
+}
+.sider_canvas.ant-layout-sider-collapsed{
+    flex: 0 0 60px!important;
+    max-width: 60px!important;
+    min-width: 60px!important;
+    width: 60px!important;
+    .ant-menu-inline-collapsed{
+        width: 60px!important;
+        position: relative;
+        top: 14px;
+    }
+    .ant-menu-inline-collapsed > .ant-menu-item{
+        padding: 0 2px!important;
+        height: 56px;
+    }
+    .sider_icon{
+        width: 56px;
+        height: 56px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .clearance{
+        background: url("../LoginPage/images/m5.png") no-repeat;
+        background-size: cover;
+    }
+    .monitor{
+        background: url("../LoginPage/images/m2.png") no-repeat;
+        background-size: cover;
+    }
+}
+.sider_canvas{
+    flex: 0 0 100px!important;
+    max-width: 100px!important;
+    min-width: 100px!important;
+    width: 100px!important;
+    
+    
+    
+}
 .ant-notification{
     left: 40%!important;
     transform: translateX(-50%);
