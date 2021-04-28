@@ -24,51 +24,54 @@ const CollaborateKPI = function (props) {
   let subscribeData = userSubscribeData.subscribeData || {};
   // 区域
   let { focus } = subscribeData;
+  // console.log("focus", focus);
 
   //获取数据
-  const requestData = useCallback(
-    async (nextRefresh, showLoading) => {
-      if (showLoading) {
-        setLoading(true);
+  const requestData = useCallback(async (nextRefresh, showLoading) => {
+    if (showLoading) {
+      setLoading(true);
+    }
+    const timerFunc = function () {
+      if (nextRefresh) {
+        timer.current = setTimeout(function () {
+          requestData(nextRefresh, false);
+        }, 5 * 1000);
       }
-      const timerFunc = function () {
-        if (nextRefresh) {
-          timer.current = setTimeout(function () {
-            requestData(nextRefresh, false);
-          }, 30 * 1000);
-        }
-      };
+    };
 
-      try {
-        //获取数据
-        const resData = await requestGet2({
-          url: ReqUrls.totalCollaborateUrl,
-          params: {
-            targetUnit: focus,
-          },
-        });
-        // console.log("resData", resData);
-        //数据赋值
-        const {
-          flightRecordTypeNumMap = {},
-          fcMap = {},
-          generateTime = "",
-        } = resData;
-        setFlightRecordTypeMap(flightRecordTypeNumMap);
-        setFcMap(fcMap);
-        setLoading(false);
-        timerFunc();
-      } catch (err) {
-        customNotice({
-          type: "error",
-          message: "获取航班协调数据失败",
-        });
-        setLoading(false);
-        timerFunc();
-      }
-    },
-    [focus]
-  );
+    try {
+      const { userSubscribeData = {} } = props;
+      let subscribeData = userSubscribeData.subscribeData || {};
+      // 区域
+      let { focus } = subscribeData;
+      // console.log("focus", focus);
+      //获取数据
+      const resData = await requestGet2({
+        url: ReqUrls.totalCollaborateUrl,
+        params: {
+          targetUnit: focus,
+        },
+      });
+      // console.log("resData", resData);
+      //数据赋值
+      const {
+        flightRecordTypeNumMap = {},
+        fcMap = {},
+        generateTime = "",
+      } = resData;
+      setFlightRecordTypeMap(flightRecordTypeNumMap);
+      setFcMap(fcMap);
+      setLoading(false);
+      timerFunc();
+    } catch (err) {
+      customNotice({
+        type: "error",
+        message: "获取航班协调数据失败",
+      });
+      setLoading(false);
+      timerFunc();
+    }
+  }, []);
 
   const {
     INTERVAL = 0,
