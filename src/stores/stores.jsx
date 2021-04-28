@@ -25,6 +25,8 @@ import { todoList } from "./todoListStores";
 import { myApplicationList } from "./myApplicationListStores";
 import { runwayListData } from "./runwayStores";
 import { MDRSData } from "./mdrsStores";
+import { flightDetailData } from "./FlightDetailStores";
+import { schemeFormData } from "./SchemeFormStores";
 
 export {
   schemeListData,
@@ -45,4 +47,6 @@ export {
   myApplicationList,
   runwayListData,
   MDRSData,
+  flightDetailData,
+  schemeFormData
 };
