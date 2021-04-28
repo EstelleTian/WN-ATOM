@@ -24,7 +24,7 @@ const DraggableModal = (props) => {
         handleOk,
         handleCancel,
         footer,
-        wrapClassName=""
+        className=""
     } = props;
     const draggleRef = React.createRef();
     const onStart = (event, uiData) => {
@@ -68,7 +68,7 @@ const DraggableModal = (props) => {
             width={width}
             destroyOnClose = { destroyOnClose }
             footer = { footer }
-            wrapClassName="pointer-events-none"
+            wrapClassName= {`pointer-events-none ${className}`}
             modalRender={modal => (
                 <Draggable
                     disabled={disabled}
