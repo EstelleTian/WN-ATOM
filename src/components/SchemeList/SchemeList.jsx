@@ -604,10 +604,11 @@ function usePerformanceKPIData(props) {
   }, []);
 }
 
-const useSchemeModal = () => {
+const useSchemeModal = (props) => {
   const [visible, setVisible] = useState(false); //详情模态框显隐
   const [modalId, setModalId] = useState(""); //当前选中方案详情的id，不一定和激活方案id一样
   const [modalType, setModalType] = useState(""); //当前选中方案详情的id，不一定和激活方案id一样
+  const { systemPage } = props;
 
   //方案模态框显隐
   const toggleModalVisible = useCallback((flag, id) => {
@@ -625,6 +626,7 @@ const useSchemeModal = () => {
     visible,
     modalId,
     modalType,
+    userId: systemPage.user.id,
     setVisible,
     toggleModalVisible,
     toggleModalType,
@@ -659,13 +661,14 @@ function SList(props) {
   useExecuteKPIData(props);
   //   usePerformanceKPIData(props);
   const {
+    userId,
     visible,
     modalId,
     modalType,
     setVisible,
     toggleModalVisible,
     toggleModalType,
-  } = useSchemeModal();
+  } = useSchemeModal(props);
 
   const { schemeListData } = props;
   const { sortedList, activeSchemeId, loading } = schemeListData; //获取排序后的方案列表
@@ -801,6 +804,7 @@ function SList(props) {
         )}
         {visible ? (
           <SchemeModal
+            userId = {userId}
             visible={visible}
             setVisible={setVisible}
             modalType={modalType}

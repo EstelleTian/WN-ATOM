@@ -9,7 +9,7 @@ import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
 
 const SchemeModal = (props) => {
     let [ flowData, setFlowData ] = useState({})
-    const { visible, modalId, modalType, setVisible } = props;
+    const { visible, modalId, modalType, setVisible, userId } = props;
 
     //更新方案列表数据
     const updateDetailData = useCallback( data => {
@@ -26,7 +26,7 @@ const SchemeModal = (props) => {
     //根据modalId获取方案详情
     const requestSchemeDetail = useCallback(() => {
         const opt = {
-            url: ReqUrls.schemeDetailByIdUrl + modalId,
+            url: ReqUrls.schemeDetailByIdUrl + userId+ '/' +modalId,
             method: 'GET',
             params:{},
             resFunc: (data)=> {
