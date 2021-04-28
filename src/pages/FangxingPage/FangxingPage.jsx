@@ -1,15 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-27 21:06:03
+ * @LastEditTime: 2021-04-28 10:12:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
-import React, { lazy, Suspense, useState, useEffect, Fragment } from "react";
+import React, { lazy, Suspense, useState, useEffect, useMemo } from "react";
 import { Layout, Spin, Menu } from "antd";
 import { inject, observer } from "mobx-react";
 import { withRouter } from "react-router-dom";
+import { ReqUrls } from "utils/request-urls";
+
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import NavBar from "components/NavBar/NavBar.jsx";
 import Topic from "components/NavBar/Topic.jsx";
@@ -34,7 +36,14 @@ function FangxingPage(props) {
   const [login, setLogin] = useState(false);
   const params = match.params || {};
   const from = params.from || "";
-  console.log("from", from, leftActiveName);
+
+  const { carriers, airports } = useMemo(() => {
+    const userStr = localStorage.getItem("user") || "{}";
+    const user = JSON.parse(userStr);
+    const { carriers, airports } = user;
+    return { carriers, airports };
+  }, []);
+
   useEffect(
     function () {
       const id = user.id;
@@ -64,6 +73,7 @@ function FangxingPage(props) {
 
   return (
     <Layout className="">
+      <Topic></Topic>
       {from === "web" && (
         <Sider
           trigger={null}
@@ -88,7 +98,15 @@ function FangxingPage(props) {
               key="monitor"
               icon={collapsed && <div className="sider_icon monitor" />}
               onClick={(e) => {
-                window.open("./#/web/monitor", "_self");
+                // window.open("./#/web/monitor", "_self");
+                const url =
+                  ReqUrls.mapWebUrl +
+                  "?airport=" +
+                  airports +
+                  "&airline=" +
+                  carriers;
+                alert(url);
+                window.open(url, "_self");
               }}
             >
               态势监控
@@ -120,7 +138,7 @@ function FangxingPage(props) {
               username=""
             />
           </div>
-          <Topic></Topic>
+
           {login && (
             <div className="nav_body">
               <div className="cont_left">

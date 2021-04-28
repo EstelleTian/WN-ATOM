@@ -141,6 +141,7 @@ const WorkFlowContent = (props) => {
   const processVariables = instance.processVariables || {};
   const processDefinitionKey = instance.processDefinitionKey || "";
   const endTime = instance.endTime || "";
+  const workStatus = instance.workStatus * 1; //工作所处环节
   const businessName = processVariables.businessName || "";
 
   const getName = () => {
@@ -343,11 +344,7 @@ const WorkFlowContent = (props) => {
             </div>
           </div>
         )}
-        {/* {
-                    processDefinitionKey === "VolumeApprovalProcess" &&
-                    <CapacityMiniTable elementType={elementType} updateData={updateData} />
 
-                } */}
         <div className="cont_canvas">
           <Table
             columns={columns}
@@ -367,9 +364,7 @@ const WorkFlowContent = (props) => {
           />
         </div>
         <div className="win_btns">
-          {isValidVariable(endTime) ? (
-            ""
-          ) : (
+          {workStatus === 100 && (
             <Button
               type="primary"
               className="btn_confirm"
@@ -378,9 +373,6 @@ const WorkFlowContent = (props) => {
                 if (isValidVariable(props.window)) {
                   props.window.hide();
                 }
-                // else{
-                //     window.close();
-                // }
               }}
             >
               主办
