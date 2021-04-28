@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-28 10:12:51
+ * @LastEditTime: 2021-04-28 13:30:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -101,11 +101,11 @@ function FangxingPage(props) {
                 // window.open("./#/web/monitor", "_self");
                 const url =
                   ReqUrls.mapWebUrl +
-                  "?airport=" +
+                  "?fullscreen=true&airport=" +
                   airports +
                   "&airline=" +
                   carriers;
-                alert(url);
+                // alert(url);
                 window.open(url, "_self");
               }}
             >

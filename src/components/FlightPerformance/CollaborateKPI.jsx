@@ -71,12 +71,12 @@ const CollaborateKPI = function (props) {
   );
 
   const {
-    INTERVAL,
-    EXEMPT,
-    SINGLEEXEMPT,
-    INPOOL,
-    CTD,
-    TOBT,
+    INTERVAL = 0,
+    EXEMPT = 0,
+    SINGLEEXEMPT = 0,
+    INPOOL = 0,
+    CTD = 0,
+    TOBT = 0,
   } = flightRecordTypeMap;
 
   //componentDidMount
