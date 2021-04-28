@@ -364,7 +364,7 @@ const WorkFlowContent = (props) => {
           />
         </div>
         <div className="win_btns">
-          {workStatus === 100 && (
+          {/* {workStatus === 100 && (
             <Button
               type="primary"
               className="btn_confirm"
@@ -377,7 +377,7 @@ const WorkFlowContent = (props) => {
             >
               主办
             </Button>
-          )}
+          )} */}
           {/**{
                         from === "simple" ? "" : 
                             <Button onClick={ (e)=>{ 
