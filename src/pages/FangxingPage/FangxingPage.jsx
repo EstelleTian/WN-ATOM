@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-28 13:30:15
+ * @LastEditTime: 2021-04-28 13:32:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -82,7 +82,7 @@ function FangxingPage(props) {
           className="sider_canvas"
         >
           <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={["clearance"]}>
+          <Menu theme="dark" mode="inline" selectedKeys={["clearance"]}>
             {/* <Menu.Item key="clearance" className="sider_icon clearance"> */}
             <Menu.Item
               key="clearance"
@@ -106,7 +106,7 @@ function FangxingPage(props) {
                   "&airline=" +
                   carriers;
                 // alert(url);
-                window.open(url, "_self");
+                window.open(url);
               }}
             >
               态势监控
