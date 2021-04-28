@@ -32,7 +32,7 @@ const ReqUrls = {
     //缩略地图
     mapUrl: "http://192.168.194.40:8081/#/map",
     //根据modalId获取方案详情
-    schemeDetailByIdUrl: schemeIP+"/scheme-flow-server/implementTactics/",
+    schemeDetailByIdUrl: clearanceIP+"/implementTacticDetails/",
     //获取--方案列表
     schemeListUrl: clearanceIP+"/implementTactics",
     //获取--模拟方案详情
