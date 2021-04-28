@@ -914,7 +914,9 @@ function RestrictionForm(props) {
         };
         // 限制数值单位
         let unit = "";
-        let { startDate, startTime, targetUnit, behindUnit, exemptBehindUnit, restrictionMode, restrictionModeValue, arrAp, exemptArrAp, restrictionMITValueUnit, originRoute } = fieldData;
+        let { startDate="", startTime="", targetUnit="", behindUnit="", 
+        exemptBehindUnit="", restrictionMode="", restrictionModeValue="", 
+        arrAp=[], exemptArrAp=[], restrictionMITValueUnit=[], originRoute="" } = fieldData;
         // 开始时间
         const day = moment(startDate).format("YYYYMMDDHHmm").substring(6, 8);
         const dayTime = day +'/'+startTime;
