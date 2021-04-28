@@ -65,7 +65,7 @@ function LoginPage(props) {
           });
           saveUserInfo(username, password, value + "");
         } else if (pageType === "web") {
-          window.open("./#/clearance", "_self");
+          window.open("./#/clearance/web", "_self");
         }
 
         setLoading(false);

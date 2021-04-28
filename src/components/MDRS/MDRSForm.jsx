@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-23 15:48:06
+ * @LastEditTime: 2021-04-27 09:09:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRS\MSRSForm.jsx
  */
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Fragment } from "react";
 import { inject, observer } from "mobx-react";
 import moment from "moment";
 import { Radio, Row, Col, Input, InputNumber, Form, Button } from "antd";
@@ -35,13 +35,14 @@ const TypeOptions = [
 ];
 //MDRS-详情模块
 function DetailModule(props) {
+  const [form] = Form.useForm();
   const {
     airport,
     MDRSData: { formData = {}, authMap = {} },
   } = props;
-  // let update = authMap["UPDATE"] || false;
+  let update = authMap["UPDATE"] || false;
   //TODO 测试用
-  let update = true;
+  // let update = true;
   const {
     validperiodbegin,
     validperiodend,
@@ -59,7 +60,7 @@ function DetailModule(props) {
       showDecorator={false}
       className="mdrs_form_modal mdrs_detail_modal"
     >
-      <MDRSOptionBtns />
+      <MDRSOptionBtns form={form} />
       <div className="form_content">
         <Row gutter={24} className="line_row">
           <Col span={5} className="line_title">
@@ -100,29 +101,87 @@ function DetailModule(props) {
             ></Radio.Group>
           </Col>
         </Row>
-        <Row gutter={24} className="line_row">
-          <Col span={5} className="line_title">
-            原因类型预警：
-          </Col>
-
-          <Col span={18}>
-            <Radio.Group
-              className="reason_type_radio_group"
-              value={alarmtype}
-              disabled={true}
-              options={TypeOptions}
-            ></Radio.Group>
-          </Col>
-        </Row>
-
-        <Row gutter={24} className="line_row" style={{ position: "relative" }}>
-          <Col span={5} className="line_title">
-            预警原因：
-          </Col>
-          <Col span={18} className="line_cont">
-            <div>{alarmreason || "无"}</div>
-          </Col>
-          {/* {update && (
+        {update ? (
+          <Form
+            form={form}
+            initialValues={{
+              alarmtype: alarmtype || "WHEATHER",
+              alarmreason,
+            }}
+            className="custom_date_form"
+          >
+            <Row gutter={24} className="line_row">
+              <Col span={5} className="line_title">
+                原因类型预警：
+              </Col>
+              <Col span={18}>
+                <Form.Item name="alarmtype">
+                  <Radio.Group
+                    className="reason_type_radio_group"
+                    options={TypeOptions}
+                  ></Radio.Group>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={24} className="line_row">
+              <Col span={5} className="line_title">
+                预警原因：
+              </Col>
+              <Col span={18}>
+                <Form.Item name="alarmreason">
+                  <Input.TextArea
+                    className="reason_text"
+                    maxLength={100}
+                    showCount={true}
+                    autoSize={{ minRows: 4, maxRows: 4 }}
+                  ></Input.TextArea>
+                </Form.Item>
+                {/* <Button
+                // size={size}
+                loading={load}
+                className="c-btn-blue save_btn"
+                onClick={handleSave}
+              >
+                保存修改
+              </Button>
+              <Button
+                className=" un_edit_btn"
+                onClick={() => {
+                  props.MDRSData.setEditable(false);
+                }}
+              >
+                取消编辑
+              </Button> */}
+              </Col>
+            </Row>
+          </Form>
+        ) : (
+          <Fragment>
+            <Row gutter={24} className="line_row">
+              <Col span={5} className="line_title">
+                原因类型预警：
+              </Col>
+              <Col span={18}>
+                <Radio.Group
+                  className="reason_type_radio_group"
+                  value={alarmtype}
+                  disabled={true}
+                  options={TypeOptions}
+                ></Radio.Group>
+              </Col>
+            </Row>
+            <Row
+              gutter={24}
+              className="line_row"
+              style={{ position: "relative" }}
+            >
+              <Col span={5} className="line_title">
+                预警原因：
+              </Col>
+              <Col span={18} className="line_cont">
+                <div>{alarmreason || "无"}</div>
+              </Col>
+              {/* {update && (
             <Button
               className="c-btn-blue edit_btn"
               onClick={() => {
@@ -132,7 +191,9 @@ function DetailModule(props) {
               编辑
             </Button>
           )} */}
-        </Row>
+            </Row>
+          </Fragment>
+        )}
       </div>
     </ModalBox>
   );

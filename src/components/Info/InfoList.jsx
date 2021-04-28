@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-25 16:56:33
+ * @LastEditTime: 2021-04-26 11:29:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -16,7 +16,7 @@ import { formatTimeString } from "utils/basic-verify";
 import {
   sendMsgToClient,
   openTclientFrameForMessage,
-  openCapacityFlowMonitorUnitTclientFrame,
+  openTclientFrameForMDRS,
   openDetails,
   openLocation,
 } from "utils/client";
@@ -193,11 +193,11 @@ function InfoCardItem(props) {
                       size="small"
                       onClick={function (e) {
                         // alert("查看MDRS详情,开发中..");
-                        console.log(message);
+                        // console.log(message);
                         const dataStr = message.data || "{}";
                         const data = JSON.parse(dataStr) || {};
-                        const { mdrs } = data;
-                        // openCapacityFlowMonitorUnitTclientFrame();
+                        const { region = "" } = data;
+                        openTclientFrameForMDRS(region);
                         e.stopPropagation();
                       }}
                     >
@@ -311,7 +311,7 @@ function InfoCardItem(props) {
   );
 }
 
-const InfoCard = inject("systemPage")(observer(InfoCardItem));
+const InfoCard = inject("systemPage", "newsList")(observer(InfoCardItem));
 
 //单个消息模块下详情
 function InfoCardDetail(props) {
@@ -383,7 +383,7 @@ function InfoList(props) {
             header={
               <InfoCard
                 message={newItem}
-                newsList={props.newsList}
+                // newsList={props.newsList}
                 index={index}
               />
             }

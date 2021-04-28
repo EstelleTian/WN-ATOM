@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-25 13:41:55
+ * @LastEditTime: 2021-04-27 21:20:04
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -31,6 +31,7 @@ const ReqUrls = {
     loginUrl: loginIP+"/uuma-server/client/login",
     //缩略地图
     mapUrl: "http://192.168.194.40:8081/#/map",
+    mapWebUrl: "http://192.168.194.40:8082/#/map",
     //根据modalId获取方案详情
     schemeDetailByIdUrl: clearanceIP+"/implementTacticDetails/",
     //获取--方案列表

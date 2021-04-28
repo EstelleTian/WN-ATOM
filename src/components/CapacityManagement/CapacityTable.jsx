@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-04-25 16:08:13
+ * @LastEditTime: 2021-04-26 14:24:42
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -496,7 +496,7 @@ const ApproveBtn = function (props) {
     });
   });
   //处理 操作 同意/拒绝
-  const handleOk = async (type) => {
+  const handleOk = async () => {
     if (!isValidVariable(username)) {
       return;
     }
@@ -514,15 +514,15 @@ const ApproveBtn = function (props) {
       comment,
     };
     let title = "动态容量调整";
-    if (type === "agree") {
+    if (props.type === "agree") {
       //容量审核同意
       url = ReqUrls.capacityBaseUrl + "simulationTactics/approve/" + username;
       title = "动态容量调整【同意】操作";
-    } else if (type === "refuse") {
+    } else if (props.type === "refuse") {
       //容量审核拒绝
       url = ReqUrls.capacityBaseUrl + "simulationTactics/refuse/" + username;
       title = "动态容量调整【拒绝】操作";
-    } else if (type === "reback") {
+    } else if (props.type === "reback") {
       //容量审核撤回
       url = ReqUrls.capacityBaseUrl + "simulationTactics/withdraw/" + username;
       title = "动态容量调整【撤回】操作";
@@ -657,12 +657,9 @@ const CapacityTable = (props) => {
       props.capacity.setEditable(false);
       for (let name in capacityMap) {
         const res = capacityMap[name] || {};
-        // console.log("更新表格数据 ",airportName)
+        console.log("更新表格数据 ", res);
         props.capacity.updateDatas(kind, res);
         props.capacity.forceUpdateDynamicWorkFlowData = true;
-        console.log(
-          "forceUpdateDynamicWorkFlowData forceUpdateDynamicWorkFlowData"
-        );
       }
       return Promise.resolve(data);
     } catch (err) {
@@ -733,24 +730,19 @@ const CapacityTable = (props) => {
     [tableData]
   );
 
-  const {
-    hisInstance = {},
-    hisTasks = [],
-    generateTime = "",
-    authMap = {},
-  } = useMemo(() => {
-    const taskMap = props.capacity.dynamicWorkFlowData.taskMap || {};
-    const generateTime = props.capacity.dynamicWorkFlowData.generateTime || {};
-    const values = Object.values(taskMap) || [];
-    if (values.length > 0) {
-      const taskObj = values[values.length - 1] || {};
-      const hisTasks = taskObj.hisTasks || [];
-      const hisInstance = taskObj.hisInstance || [];
-      const authMap = taskObj.authMap || {};
-      return { hisInstance, hisTasks, generateTime, authMap };
-    }
-    return [];
-  }, [props.capacity.dynamicWorkFlowData]);
+  let hisInstance = {};
+  let hisTasks = [];
+  let authMap = {};
+  let dynamicWorkFlowData = props.capacity.dynamicWorkFlowData || {};
+  const taskMap = dynamicWorkFlowData.taskMap || {};
+  const generateTime = dynamicWorkFlowData.generateTime || "";
+  const values = Object.values(taskMap) || [];
+  if (values.length > 0) {
+    const taskObj = values[values.length - 1] || {};
+    hisTasks = taskObj.hisTasks || [];
+    hisInstance = taskObj.hisInstance || [];
+    authMap = taskObj.authMap || {};
+  }
 
   const SUBMIT = useMemo(() => {
     const authMap = props.capacity.authMap || {};
@@ -794,8 +786,10 @@ const CapacityTable = (props) => {
 
   useEffect(() => {
     props.capacity.setDynamicData({});
+    props.capacity.setOtherData("", {}, "");
   }, []);
 
+  // console.log("authMap", { ...authMap });
   let authBtn = () => {
     return (
       <div className="opt_btns">

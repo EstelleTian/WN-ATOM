@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-15 15:56:30
+ * @LastEditTime: 2021-04-28 09:28:43
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -23,6 +23,7 @@ import {
   openConfirmFrame,
   openTimeSlotFrameWithFlightId,
   openTclientFrameForMessage,
+  openTclientFrameForMDRS,
 } from "utils/client";
 const { Search } = Input;
 //获取屏幕宽度，适配 2k
@@ -127,12 +128,18 @@ const HandleBtn = function (props) {
         break;
       case "SchemeApprovalProcess": //方案审批流程
         // console.log("方案审批流程",businessKey);
+
         openConfirmFrame(businessKey);
         break;
       case "VolumeApprovalProcess": //容量审批流程
         // console.log("容量审批流程",businessKey);
         const elementName = processVariables.elementName || "";
         openTclientFrameForMessage(elementName);
+        break;
+      case "MdrsApprovalProcess": //MDRS审批流程
+        // console.log("容量审批流程",businessKey);
+        const airport = processVariables.airport || "";
+        openTclientFrameForMDRS(airport);
         break;
     }
     //  console.log(orgdata);
@@ -145,7 +152,6 @@ const HandleBtn = function (props) {
         e.stopPropagation();
       }}
     >
-      {" "}
       {props.activeTab === "todo" ? "主办" : "已办"}
     </a>
   );
@@ -399,11 +405,14 @@ function WorkFlowList(props) {
 
       const processDefinitionName = hisInstance.processDefinitionName || "";
 
-      // const userNameCn = hisInstance.startUserName || ""; //提交人
-      const userNameCn = processVariables.userNameCn || ""; //提交人
+      const userNameCn = hisInstance.startUserName || ""; //提交人
+      // const userNameCn = processVariables.userNameCn || ""; //提交人
       const taskStatusName = hisInstance.activityName || ""; //工作所处环节
-      let taskStatus = "进行中"; //流程状态
-      if (isValidVariable(hisInstance.endTime)) {
+      const workStatus = hisInstance.workStatus * 1; //工作所处环节
+      let taskStatus = ""; //流程状态
+      if (workStatus === 100) {
+        taskStatus = "进行中";
+      } else if (workStatus === 200) {
         taskStatus = "已结束";
       }
       //获取第一个hisTasks对象

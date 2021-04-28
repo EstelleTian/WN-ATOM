@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-04-23 13:40:20
+ * @LastEditTime: 2021-04-26 11:26:38
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -39,6 +39,16 @@ const openTclientFrameForMessage =( name = "") => {
         //方案id
         // alert("跳转到容量管理=>name:" +name);
         jsEntity.openTclientFrameForMessage(name);
+    }catch(error){
+        console.error(error);
+    }
+};
+//消息模块-【查看MDRS管理】
+const openTclientFrameForMDRS =( name = "") => {
+    try {
+        //方案id
+        // alert("跳转到MDRS管理=>name:" +name);
+        jsEntity.openTclientFrameForMDRS(name);
     }catch(error){
         console.error(error);
     }
@@ -240,5 +250,5 @@ export {
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
     openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem, openRunningControlFlow,openDetails,
-    openLocation,
+    openLocation,openTclientFrameForMDRS
 }

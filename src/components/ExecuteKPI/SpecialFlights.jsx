@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-07 20:19:37
- * @LastEditTime: 2021-04-23 10:35:54
+ * @LastEditTime: 2021-04-26 14:13:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\ExecuteKPI\ImpactFlights.jsx
@@ -79,7 +79,7 @@ function SpecialFlights(props) {
                   props.performanceKPIData.setShowTableName("exempt");
                 }}
               >
-                <div className="block-title">全局豁免</div>
+                <div className="block-title">豁免</div>
                 <div className="block-content flex">
                   <div className="layout-row">
                     <div className="num layout-column justify-content-center">

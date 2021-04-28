@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-25 16:38:38
+ * @LastEditTime: 2021-04-27 19:18:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\NavBar\NavBar.jsx
@@ -25,7 +25,7 @@ function NavBar(props) {
     const pathname = location.pathname || "";
     // console.log( "当前url是：",props.location.pathname );
     //放行监控页面
-    if (pathname === "/clearance") {
+    if (pathname.indexOf("/clearance") > -1) {
       return (
         <div className="layout-row space-between multi_nav">
           <LeftNav />

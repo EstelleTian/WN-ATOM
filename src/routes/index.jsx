@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-04-22 16:34:13
+ * @LastEditTime: 2021-04-27 21:03:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -46,6 +46,7 @@ const InfoHistoryPage = lazy(() => import("../pages/InfoPage/InfoHistoryPage"));
 const EditDirectionDataPage = lazy(() =>
   import("../pages/EditDirectionDataPage/EditDirectionDataPage")
 );
+const MonitorWebPage = lazy(() => import("../pages/monitor/MonitorWebPage"));
 
 export default [
   // 客户端登录页面
@@ -75,7 +76,7 @@ export default [
     title: "近两小时消息历史",
   },
   {
-    path: "/clearance",
+    path: "/clearance/:from?",
     component: withRouter(FangxingPage),
     exact: true,
     title: "放行监控",
@@ -160,5 +161,12 @@ export default [
     component: withRouter(LoginWeb),
     exact: true,
     title: "登录页面",
+  },
+  // web端登录页面
+  {
+    path: "/web/monitor",
+    component: withRouter(MonitorWebPage),
+    exact: true,
+    title: "运行态势页面",
   },
 ];

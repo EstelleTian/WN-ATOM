@@ -26,21 +26,22 @@ function MDRSOptionBtns(props) {
   let agree = authMap["AGREE"] || false;
   let refuse = authMap["REFUSE"] || false;
   let reback = authMap["REBACK"] || false;
+  let update = authMap["UPDATE"] || false;
   //   agree = false;
   //   refuse = false;
   //   reback = true;
   //表单提交
   const handleSave = async () => {
     try {
-      const dateValues = await props.dateForm.validateFields();
-      let startDateString = moment(dateValues.startDate).format("YYYYMMDD");
-      let endDateString = moment(dateValues.endDate).format("YYYYMMDD");
+      // const dateValues = await props.dateForm.validateFields();
+      // let startDateString = moment(dateValues.startDate).format("YYYYMMDD");
+      // let endDateString = moment(dateValues.endDate).format("YYYYMMDD");
       const values = await props.form.validateFields();
       let formValues = {
         ...formData,
         ...values,
-        validperiodbegin: startDateString + dateValues.startTime,
-        validperiodend: endDateString + dateValues.endTime,
+        // validperiodbegin: startDateString + dateValues.startTime,
+        // validperiodend: endDateString + dateValues.endTime,
         // airport,
       };
       console.log(formValues);
@@ -80,20 +81,23 @@ function MDRSOptionBtns(props) {
     }
     // const mdrsId = props.formData.id || ""; //MDRS预警数据主键ID
     let url = "";
-    let params = formData;
+    let params = formData || {};
     let title = "";
     //同意
     if (type === "agree") {
+      if (update) {
+        const formValues = await handleSave();
+        params = formValues;
+      }
       url = ReqUrls.mdrsWorkFlowUrl;
-      const formValues = await handleSave();
-
-      params = formValues;
       title = "MDRS【同意】操作";
     }
     //拒绝
     else if (type === "refuse") {
-      const formValues = await handleSave();
-      params = formValues;
+      if (update) {
+        const formValues = await handleSave();
+        params = formValues;
+      }
       url = ReqUrls.mdrsWorkFlowUrl;
       title = "MDRS【拒绝】操作";
     }
@@ -103,7 +107,7 @@ function MDRSOptionBtns(props) {
       url = ReqUrls.mdrsWorkFlowUrl;
       title = "MDRS【撤回】操作";
     }
-    console.log("type", type, params);
+    // console.log("type", type, params);
     try {
       const res = await request2({
         url: url + "/" + username + "/" + type.toUpperCase(),
@@ -123,7 +127,7 @@ function MDRSOptionBtns(props) {
       }
       // props.MDRSData.setForceUpdate(true);
 
-      setLoad(false);
+      // setLoad(false);
     } catch (err) {
       if (isValidVariable(err)) {
         customNotice({
@@ -136,7 +140,7 @@ function MDRSOptionBtns(props) {
           message: title + "失败",
         });
       }
-      setLoad(false);
+      // setLoad(false);
     }
   };
   return (

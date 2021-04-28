@@ -143,7 +143,7 @@ const FmeToday = {
 	 * 
 	 * @return 起飞机场四字码
 	 */
-	getRPsdepap : function(fme) {
+	getRPsdepap : function(fme={}) {
 		if (isValidVariable(fme.rdepap)) {
 			return fme.rdepap;
 		} else if (isValidVariable(fme.pdepap)) {
@@ -159,7 +159,7 @@ const FmeToday = {
 	 * 
 	 * @return 降落机场四字码
 	 */
-	getRPsarrap : function(fme) {
+	getRPsarrap : function(fme={}) {
 		if (isValidVariable(fme.rarrtime)) {
 			if (isValidVariable(fme.rarrap)) {
 				return fme.rarrap;
@@ -184,7 +184,7 @@ const FmeToday = {
 	 * 
 	 * @return 起飞机场四字码
 	 */
-	getSPrdepap : function(fme) {
+	getSPrdepap : function(fme={}) {
 		if (isValidVariable(fme.sdepap)) {
 			return fme.sdepap;
 		} else if (isValidVariable(fme.pdepap)) {
@@ -200,7 +200,7 @@ const FmeToday = {
 	 * 
 	 * @return 降落机场四字码
 	 */
-	getSPrarrap : function(fme) {
+	getSPrarrap : function(fme={}) {
 		if (isValidVariable(fme.sarrap)) {
 			return fme.sarrap;
 		} else if (isValidVariable(fme.parrap)) {
@@ -216,7 +216,7 @@ const FmeToday = {
 	 * 
 	 * @return 起飞时间 格式：yyyyMMddHHmm
 	 */
-	getRPSDepTime : function(fme) {
+	getRPSDepTime : function(fme={}) {
 		if (isValidVariable(fme.rdeptime)) {
 			return fme.rdeptime;
 		} else if (isValidVariable(fme.pdeptime)) {
@@ -232,7 +232,7 @@ const FmeToday = {
 	 * 
 	 * @return 降落时间 格式：yyyyMMddHHmm
 	 */
-	getRPSArrTime : function(fme) {
+	getRPSArrTime : function(fme={}) {
 		if (isValidVariable(fme.rarrtime)) {
 			return fme.rarrtime;
 		} else if (isValidVariable(fme.PArrtime)) {
@@ -248,7 +248,7 @@ const FmeToday = {
 	 * 
 	 * @return 起飞时间 格式：yyyyMMddHHmm
 	 */
-	getSPrdeptime : function(fme) {
+	getSPrdeptime : function(fme={}) {
 		if (isValidVariable(fme.SDeptime)) {
 			return fme.SDeptime;
 		} else if (isValidVariable(fme.pdeptime)) {
@@ -264,7 +264,7 @@ const FmeToday = {
 	 * 
 	 * @return 降落时间 格式：yyyyMMddHHmm
 	 */
-	getSPrarrtime : function(fme) {
+	getSPrarrtime : function(fme={}) {
 		if (isValidVariable(fme.SArrtime)) {
 			return fme.SArrtime;
 		} else if (isValidVariable(fme.PArrtime)) {
@@ -280,7 +280,7 @@ const FmeToday = {
 	 * 
 	 * @return 机型
 	 */
-	getPSAircrafttype : function(fme) {
+	getPSAircrafttype : function(fme={}) {
 		if (isValidVariable(fme.PAircrafttype)) {
 			return fme.PAircrafttype;
 		} else if (isValidVariable(fme.SAircrafttype)) {
@@ -294,7 +294,7 @@ const FmeToday = {
 	 * 
 	 * @return 起飞时间 格式：yyyyMMddHHmm
 	 */
-	getRPASDepTime : function(fme) {
+	getRPASDepTime : function(fme={}) {
 		if (isValidVariable(fme.rdeptime)) {
 			return fme.rdeptime;
 		} else if (isValidVariable(fme.pdeptime)) {
@@ -312,7 +312,7 @@ const FmeToday = {
 	 * 
 	 * @return 降落时间 格式：yyyyMMddHHmm
 	 */
-	getRPASArrTime : function(fme) {
+	getRPASArrTime : function(fme={}) {
 		if (isValidVariable(fme.rarrtime)) {
 			return fme.rarrtime;
 		} else if (isValidVariable(fme.PArrtime)) {
@@ -330,7 +330,7 @@ const FmeToday = {
 	 * 
 	 * @return 起飞时间 格式：yyyyMMddHHmm
 	 */
-	getSAPrdeptime : function(fme) {
+	getSAPrdeptime : function(fme={}) {
 		if (isValidVariable(fme.SDeptime)) {
 			return fme.SDeptime;
 		} else if (isValidVariable(fme.alDeptime)) {
@@ -348,7 +348,7 @@ const FmeToday = {
 	 * 
 	 * @return 降落时间 格式：yyyyMMddHHmm
 	 */
-	getSAPrarrtime : function(fme) {
+	getSAPrarrtime : function(fme={}) {
 		if (isValidVariable(fme.SArrtime)) {
 			return fme.SArrtime;
 		} else if (isValidVariable(fme.alArrtime)) {
@@ -367,7 +367,7 @@ const FmeToday = {
 	 * 
 	 * @return 机型
 	 */
-	getPASAircrafttype : function(fme) {
+	getPASAircrafttype : function(fme={}) {
 		if (isValidVariable(fme.PAircrafttype)) {
 			return fme.PAircrafttype;
 		} else if (isValidVariable(fme.alAircrafttype)) {
@@ -408,7 +408,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	hadFPL : function(fme) {
+	hadFPL : function(fme={}) {
 		if (this.isFPLStatus(fme) || this.isDEPStatus(fme)
 				|| this.isARRStatus(fme) || this.isDLAStatus(fme)
 				|| this.isCPLStatus(fme)) {
@@ -434,7 +434,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	hadDEP : function(fme) {
+	hadDEP : function(fme={}) {
 		if (this.hadTele(fme, "DEP") && (isValidVariable(fme.rdeptime) || isValidVariable(fme.rarrtime))) {
 			return true;
 		}
@@ -452,7 +452,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	hadARR : function(fme) {
+	hadARR : function(fme={}) {
 		if (this.hadTele(fme, "ARR") && isValidVariable(fme.rarrtime)) {
 			return true;
 		}
@@ -470,7 +470,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	hadCNL : function(fme) {
+	hadCNL : function(fme={}) {
 		if (this.hadTele(fme, "CNL") || this.isCNLStatus(fme)) {
 			return true;
 		}
@@ -488,7 +488,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	hadCPL : function(fme) {
+	hadCPL : function(fme={}) {
 		if (this.hadTele(fme, "CPL") || this.isCPLStatus(fme)) {
 			return true;
 		}
@@ -500,7 +500,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	hadRTN : function(fme) {
+	hadRTN : function(fme={}) {
 		if (this.hadTele(fme, "RTN")
 				|| (isValidVariable(fme.cplinfo) 
 						&& fme.cplinfo.indexOf('RTN') >= 0)) {
@@ -514,7 +514,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	hadALN : function(fme) {
+	hadALN : function(fme={}) {
 		if (this.hadTele(fme, "ALN")
 				|| (isValidVariable(fme.cplinfo) 
 						&& fme.cplinfo.indexOf('ALN') >= 0)) {
@@ -528,7 +528,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	isSCHStatus : function(fme) {
+	isSCHStatus : function(fme={}) {
 		if (isValidObject(fme) && isValidVariable(fme.status)
 				&& parseInt(fme.status, 10) == FmeToday.STATUS_SCH) {
 			return true;
@@ -541,7 +541,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	isFPLStatus : function(fme) {
+	isFPLStatus : function(fme={}) {
 		if (isValidVariable(fme.status)
 				&& parseInt(fme.status, 10) == FmeToday.STATUS_FPL) {
 			return true;
@@ -554,7 +554,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	isDEPStatus : function(fme) {
+	isDEPStatus : function(fme={}) {
 		if (isValidVariable(fme.status)
 				&& parseInt(fme.status, 10) == FmeToday.STATUS_DEP) {
 			return true;
@@ -567,7 +567,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	isARRStatus : function(fme) {
+	isARRStatus : function(fme={}) {
 		if (isValidVariable(fme.status)
 				&& parseInt(fme.status, 10) == FmeToday.STATUS_ARR) {
 			return true;
@@ -580,7 +580,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	isDLAStatus : function(fme) {
+	isDLAStatus : function(fme={}) {
 		if (isValidVariable(fme.status)
 				&& parseInt(fme.status, 10) == FmeToday.STATUS_DLA) {
 			return true;
@@ -593,7 +593,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	isCPLStatus : function(fme) {
+	isCPLStatus : function(fme={}) {
 		if (isValidVariable(fme.status)
 				&& parseInt(fme.status, 10) == FmeToday.STATUS_RTN_CPL) {
 			return true;
@@ -606,7 +606,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	isCNLStatus : function(fme) {
+	isCNLStatus : function(fme={}) {
 		if (isValidVariable(fme.status)
 				&& parseInt(fme.status, 10) == FmeToday.STATUS_CNL) {
 			return true;
@@ -619,7 +619,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	isSCancel : function(fme) {
+	isSCancel : function(fme={}) {
 		if (isValidVariable(fme.editStatus)
 				&& parseInt(fme.editStatus, 10) == FmeToday.EDIT_STATUS_AOC_CANCEL) {
 			return true;
@@ -634,7 +634,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	isPCancel : function(fme) {
+	isPCancel : function(fme={}) {
 		if (isValidVariable(fme.editStatusToday)
 				&& parseInt(fme.editStatusToday, 10) == FmeToday.EDIT_STATUS_TODAY_AOC_CANCEL) {
 			return true;
@@ -650,7 +650,7 @@ const FmeToday = {
 	 * 
 	 * @return true / false
 	 */
-	isStartFlight : function(fme) {
+	isStartFlight : function(fme={}) {
 		if (isValidVariable(fme.startflt) && fme.startflt == 'Y') {
 			return true;
 		}
@@ -663,7 +663,7 @@ const FmeToday = {
 	 * @param fme
 	 * @returns {Boolean}
 	 */
-	isVIPFlight : function(fme) {
+	isVIPFlight : function(fme={}) {
 		let task = null;
 		if (isValidVariable(fme.PTask)) {
 			task = fme.PTask;
