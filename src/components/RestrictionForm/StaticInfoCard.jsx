@@ -483,20 +483,36 @@ function StaticInfoCard(props) {
     const getRouteValueParams = () => {
         // 备选航路表单配置集合
         const { routeFieldList } = props;
-        // 返回值
-        let str = "";
+        
         // 原航路表单值
         let originRoute = form.getFieldValue('originRoute');
         originRoute = originRoute ? originRoute.toUpperCase() : "";
-        // 拼接返回值
-        str = `?originRoute=${originRoute}`
+    
+        let  originRouteObj = {
+            originRoute: originRoute
+        }
+
+        let alterRouteObj = {}
+
         // 遍历备选航路表单配置集合拼接参数
         for (let i = 0; i < routeFieldList.length; i++) {
             let val = form.getFieldValue(routeFieldList[i].name);
             val = val ? val.toUpperCase() : "";
-            str += `&alterRoute${i + 1}=${val}`;
+            let key = `alterRoute${i + 1}`
+            let obj ={
+                [key] : val
+            }
+            alterRouteObj = {
+                ... alterRouteObj,
+                ... obj
+            }
+            
         }
-        return str;
+        let result = {
+            ... originRouteObj,
+            ... alterRouteObj
+        }
+        return result
     }
 
     /**
@@ -507,9 +523,9 @@ function StaticInfoCard(props) {
         let routsParams = getRouteValueParams();
         // 请求校验
         const opt = {
-            url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheck" + routsParams,
-            method: 'GET',
-            params: {},
+            url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheckPost",
+            method: 'POST',
+            params: routsParams,
             resFunc: (data) => {
                 // 更新备选航路表单数据
                 updateRouteData(data);
@@ -593,13 +609,16 @@ function StaticInfoCard(props) {
             // 原航路表单值
             value = value ? value.toUpperCase() : "";
             // 校验请求参数
-            let params = `?originRoute=${value}`
+            let params = {
+                originRoute: value,
+            }
+
             return new Promise((resolve, reject) => {
                 // 请求校验
                 const opt = {
-                    url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheck" + params,
-                    method: 'GET',
-                    params: {},
+                    url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheckPost",
+                    method: 'POST',
+                    params: params,
                     resFunc: (data) => {
                         if (isValidObject(data) && isValidObject(data.originRoute)) {
                             if (data.originRoute.correct) {
@@ -608,11 +627,18 @@ function StaticInfoCard(props) {
                                 reject(data.originRoute.errorReason || "")
                             }
                         } else {
-                            resolve()
+                            reject("校验失败")
                         }
                     },
                     errFunc: (err) => {
-                        resolve()
+                        let errMsg=""
+                        if (isValidObject(err) && isValidVariable(err.message)) {
+                            errMsg = err.message;
+                        } else if (isValidVariable(err)) {
+                            errMsg = err;
+                        }
+
+                        reject("校验失败"+errMsg)
                     },
                 };
                 // 发送请求
@@ -634,13 +660,16 @@ function StaticInfoCard(props) {
             // 当前表单值
             value = value ? value.toUpperCase() : "";
             // 校验请求参数
-            let params = `?originRoute=${originRoute}&alterRoute1=${value}`
+            let params = {
+                originRoute: originRoute,
+                alterRoute1: value,
+            }
             return new Promise((resolve, reject) => {
                 // 请求校验
                 const opt = {
-                    url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheck" + params,
-                    method: 'GET',
-                    params: {},
+                    url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheckPost",
+                    method: 'POST',
+                    params: params,
                     resFunc: (data) => {
                         if (isValidObject(data) && Array.isArray(data.alterRoutes) && data.alterRoutes.length > 0) {
                             // 取校验结果数据中alterRoutes字段第一项数据
@@ -1077,7 +1106,7 @@ function StaticInfoCard(props) {
                                 rules={[
                                     ({ getFieldValue }) => validateOriginRouteFormat(getFieldValue),
                                 ]}
-                                onBlur={() => { validateMultiRouteFormat() }}
+                                // onBlur={() => { validateMultiRouteFormat() }}
                             >
                                 <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                             </Form.Item>
