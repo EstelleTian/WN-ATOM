@@ -1102,6 +1102,7 @@ function StaticInfoCard(props) {
                             <Form.Item
                                 name="originRoute"
                                 label="原航路"
+                                validateTrigger={['onBlur']}
                                 // className="disabled-border-form-item"
                                 rules={[
                                     ({ getFieldValue }) => validateOriginRouteFormat(getFieldValue),
