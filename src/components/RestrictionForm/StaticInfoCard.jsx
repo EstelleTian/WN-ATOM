@@ -1106,7 +1106,7 @@ function StaticInfoCard(props) {
                                 rules={[
                                     ({ getFieldValue }) => validateOriginRouteFormat(getFieldValue),
                                 ]}
-                                // onBlur={() => { validateMultiRouteFormat() }}
+                                onBlur={() => { validateMultiRouteFormat() }}
                             >
                                 <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                             </Form.Item>
