@@ -572,11 +572,12 @@ function StaticInfoCard(props) {
     }
     // 更新单条备选航路表单配置数据
     const updateSingleRouteData = (item, validateResult) => {
+        // 备选航路表单配置中字段name
         let name = item.name;
         let value = form.getFieldValue(name);
         value = value ? value.toUpperCase() : "";
-        // 从校验结果集合中查找与此表单匹配的项:遍历每项的routeStr值与与当前表单name相同则匹配
-        let data = validateResult.find(element => element.routeStr === value) || {};
+        // 从校验结果集合中查找与此表单匹配的项:遍历校验结果每项的paramIndex值(传递参数时的数字), 当Route+paramIndex 与当前表单name相同则匹配
+        let data = validateResult.find(element => `Route${element.paramIndex}`=== name) || {};
         // 返回值
         let obj = {
             name: name
@@ -609,16 +610,14 @@ function StaticInfoCard(props) {
             // 原航路表单值
             value = value ? value.toUpperCase() : "";
             // 校验请求参数
-            let params = {
-                originRoute: value,
-            }
+            let routsParams = getRouteValueParams();
 
             return new Promise((resolve, reject) => {
                 // 请求校验
                 const opt = {
                     url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheckPost",
                     method: 'POST',
-                    params: params,
+                    params: routsParams,
                     resFunc: (data) => {
                         if (isValidObject(data) && isValidObject(data.originRoute)) {
                             if (data.originRoute.correct) {
@@ -660,16 +659,13 @@ function StaticInfoCard(props) {
             // 当前表单值
             value = value ? value.toUpperCase() : "";
             // 校验请求参数
-            let params = {
-                originRoute: originRoute,
-                alterRoute1: value,
-            }
+            let routsParams = getRouteValueParams();
             return new Promise((resolve, reject) => {
                 // 请求校验
                 const opt = {
                     url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheckPost",
                     method: 'POST',
-                    params: params,
+                    params: routsParams,
                     resFunc: (data) => {
                         if (isValidObject(data) && Array.isArray(data.alterRoutes) && data.alterRoutes.length > 0) {
                             // 取校验结果数据中alterRoutes字段第一项数据
