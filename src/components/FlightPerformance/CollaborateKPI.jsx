@@ -168,42 +168,42 @@ const CollaborateKPI = function (props) {
             <div className="item_name">全局豁免</div>
             <div className="item_value">
               <span className="number">{EXEMPT}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
           <Col span={4} className="sub_item">
             <div className="item_name">单方案豁免</div>
             <div className="item_value">
               <span className="number">{SINGLEEXEMPT}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
           <Col span={4} className="sub_item">
             <div className="item_name">半数间隔</div>
             <div className="item_value">
               <span className="number">{INTERVAL}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
           <Col span={4} className="sub_item">
             <div className="item_name">出入池</div>
             <div className="item_value">
               <span className="number">{INPOOL}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
           <Col span={4} className="sub_item">
             <div className="item_name">调整CTOT</div>
             <div className="item_value">
               <span className="number">{CTD}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
           <Col span={4} className="sub_item">
             <div className="item_name">TOBT变更</div>
             <div className="item_value">
               <span className="number">{TOBT}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
         </Row>
