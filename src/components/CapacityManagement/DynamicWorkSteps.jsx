@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-04-25 15:42:23
+ * @LastEditTime: 2021-04-30 10:16:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -214,6 +214,35 @@ function DynamicWorkSteps(props) {
             params,
           });
           props.capacity.updateDynamicWorkFlowData(data);
+          if (props.capacity.isFirstLoadDynamicWorkFlowData) {
+            // console.log("data", data);
+            const taskMap = data.taskMap || {};
+            //工作流基准日期【用于判断选中‘昨日’‘今日’‘明日’】
+            let insDate = "";
+            for (let key in taskMap) {
+              let taskObj = taskMap[key] || {};
+              let hisInstance = taskObj.hisInstance || {};
+              let businessKey = hisInstance.businessKey || "";
+              let businessKeyArr = businessKey.split(",") || [];
+              if (businessKeyArr.length > 0) {
+                insDate = businessKeyArr[businessKeyArr.length - 1];
+              }
+            }
+            const curDate = props.capacity.getDate();
+            console.log("insDate", insDate, "curDate", curDate);
+            if (insDate.length > 8) {
+              insDate = insDate.substring(0, 8);
+            }
+            if (insDate * 1 > curDate * 1) {
+              props.capacity.dateRange = 1;
+            } else if (insDate * 1 < curDate * 1) {
+              props.capacity.dateRange = -1;
+            } else if (insDate * 1 === curDate * 1) {
+              props.capacity.dateRange = 0;
+            }
+            props.capacity.isFirstLoadDynamicWorkFlowData = false;
+          }
+
           setDataLoaded(false);
           setLoading(false);
           if (props.capacity.forceUpdateDynamicWorkFlowData) {
@@ -308,13 +337,14 @@ function DynamicWorkSteps(props) {
     function () {
       if (isValidVariable(username)) {
         setLoading(true);
-        if (pane.type === "ROUTE" && isValidVariable(routeName)) {
-          //获取数据
-          requestDynamicWorkFlowData(true);
-        } else {
-          //获取数据
-          requestDynamicWorkFlowData(true);
-        }
+        // if (pane.type === "ROUTE" && isValidVariable(routeName)) {
+        //   //获取数据
+        //   requestDynamicWorkFlowData(true);
+        // } else {
+        //   //获取数据
+        //   requestDynamicWorkFlowData(true);
+        // }
+        requestDynamicWorkFlowData(true);
       }
       return () => {
         clearTimeout(timer.current);

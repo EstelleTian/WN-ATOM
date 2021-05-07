@@ -24,51 +24,54 @@ const CollaborateKPI = function (props) {
   let subscribeData = userSubscribeData.subscribeData || {};
   // 区域
   let { focus } = subscribeData;
+  // console.log("focus", focus);
 
   //获取数据
-  const requestData = useCallback(
-    async (nextRefresh, showLoading) => {
-      if (showLoading) {
-        setLoading(true);
+  const requestData = useCallback(async (nextRefresh, showLoading) => {
+    if (showLoading) {
+      setLoading(true);
+    }
+    const timerFunc = function () {
+      if (nextRefresh) {
+        timer.current = setTimeout(function () {
+          requestData(nextRefresh, false);
+        }, 5 * 1000);
       }
-      const timerFunc = function () {
-        if (nextRefresh) {
-          timer.current = setTimeout(function () {
-            requestData(nextRefresh, false);
-          }, 30 * 1000);
-        }
-      };
+    };
 
-      try {
-        //获取数据
-        const resData = await requestGet2({
-          url: ReqUrls.totalCollaborateUrl,
-          params: {
-            targetUnit: focus,
-          },
-        });
-        // console.log("resData", resData);
-        //数据赋值
-        const {
-          flightRecordTypeNumMap = {},
-          fcMap = {},
-          generateTime = "",
-        } = resData;
-        setFlightRecordTypeMap(flightRecordTypeNumMap);
-        setFcMap(fcMap);
-        setLoading(false);
-        timerFunc();
-      } catch (err) {
-        customNotice({
-          type: "error",
-          message: "获取航班协调数据失败",
-        });
-        setLoading(false);
-        timerFunc();
-      }
-    },
-    [focus]
-  );
+    try {
+      const { userSubscribeData = {} } = props;
+      let subscribeData = userSubscribeData.subscribeData || {};
+      // 区域
+      let { focus } = subscribeData;
+      // console.log("focus", focus);
+      //获取数据
+      const resData = await requestGet2({
+        url: ReqUrls.totalCollaborateUrl,
+        params: {
+          targetUnit: focus,
+        },
+      });
+      // console.log("resData", resData);
+      //数据赋值
+      const {
+        flightRecordTypeNumMap = {},
+        fcMap = {},
+        generateTime = "",
+      } = resData;
+      setFlightRecordTypeMap(flightRecordTypeNumMap);
+      setFcMap(fcMap);
+      setLoading(false);
+      timerFunc();
+    } catch (err) {
+      customNotice({
+        type: "error",
+        message: "获取航班协调数据失败",
+      });
+      setLoading(false);
+      timerFunc();
+    }
+  }, []);
 
   const {
     INTERVAL = 0,
@@ -165,42 +168,42 @@ const CollaborateKPI = function (props) {
             <div className="item_name">全局豁免</div>
             <div className="item_value">
               <span className="number">{EXEMPT}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
           <Col span={4} className="sub_item">
             <div className="item_name">单方案豁免</div>
             <div className="item_value">
               <span className="number">{SINGLEEXEMPT}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
           <Col span={4} className="sub_item">
             <div className="item_name">半数间隔</div>
             <div className="item_value">
               <span className="number">{INTERVAL}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
           <Col span={4} className="sub_item">
             <div className="item_name">出入池</div>
             <div className="item_value">
               <span className="number">{INPOOL}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
           <Col span={4} className="sub_item">
             <div className="item_name">调整CTOT</div>
             <div className="item_value">
               <span className="number">{CTD}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
           <Col span={4} className="sub_item">
             <div className="item_name">TOBT变更</div>
             <div className="item_value">
               <span className="number">{TOBT}</span>
-              <span>架次</span>
+              <span>次</span>
             </div>
           </Col>
         </Row>

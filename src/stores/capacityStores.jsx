@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:31:45
- * @LastEditTime: 2021-04-26 10:54:13
+ * @LastEditTime: 2021-04-30 10:07:48
  * @LastEditors: Please set LastEditors
  * @Description: 容量管理store
  * @FilePath: \WN-ATOM\src\stores\capacityStores.jsx
@@ -70,6 +70,7 @@ class Capacity {
   //容量模块名称
   @observable elementNameFs = "";
   //动态容量 工作流
+  @observable isFirstLoadDynamicWorkFlowData = true;
   @observable dynamicWorkFlowData = {};
   @observable forceUpdateDynamicWorkFlowData = false;
 

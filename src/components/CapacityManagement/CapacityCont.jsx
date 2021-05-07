@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-04-26 14:12:38
+ * @LastEditTime: 2021-04-30 10:19:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -217,6 +217,13 @@ function CapacityCont(props) {
     [props.capacity.forceUpdateDynamicData]
   );
 
+  useEffect(
+    function () {
+      requestDynamicData(false);
+    },
+    [props.capacity.dateRange]
+  );
+
   return (
     <div style={{ overflowX: "auto" }}>
       <div className="cap_set_canvas">
@@ -258,9 +265,9 @@ function CapacityCont(props) {
                     capacity.dateRange = key * 1;
                     props.capacity.toggleLoad(true);
                     //强制刷新
-                    props.capacity.forceUpdateDynamicData = true;
+                    // props.capacity.forceUpdateDynamicData = true;
                     //获取数据
-                    requestDynamicData(false);
+                    // requestDynamicData(false);
                   } else {
                     customNotice({
                       type: "warn",
