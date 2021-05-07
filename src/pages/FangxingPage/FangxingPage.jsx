@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-28 13:32:52
+ * @LastEditTime: 2021-05-07 08:54:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -27,7 +27,9 @@ const { Sider, Content, Header } = Layout;
 const FlightTableModal = lazy(() =>
   import("components/FlightTable/FlightTable")
 );
-
+// const VirtualModal = lazy(() =>
+//   import("components/FlightVirtualTable/VirtualModal")
+// );
 //放行监控布局模块
 function FangxingPage(props) {
   const { systemPage, match } = props;
@@ -159,6 +161,7 @@ function FangxingPage(props) {
                       }
                     >
                       <FlightTableModal />
+                      {/* <VirtualModal /> */}
                     </Suspense>
                   </div>
                 </div>

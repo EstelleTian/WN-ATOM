@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-23 09:36:21
+ * @LastEditTime: 2021-05-06 14:44:49
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -26,7 +26,7 @@ import {
 } from "components/FlightTable/TableColumns";
 import { isValidVariable, formatTimeString } from "utils/basic-verify";
 import debounce from "lodash/debounce";
-// import VTable from './VirtualTable'
+
 import "./FlightTable.scss";
 
 /** start *****航班表格标题************/
@@ -267,7 +267,6 @@ const TSpin = inject("flightTableData")(
     return (
       <Spin spinning={loading}>
         <FlightTable />
-        {/* <VTable /> */}
       </Spin>
     );
   })
