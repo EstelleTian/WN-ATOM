@@ -24,6 +24,7 @@ import {
   scrollTopById,
   highlightRowByDom,
 } from "components/FlightTable/TableColumns";
+import  FlightDetail from "components/FlightDetail/FlightDetail";
 import { isValidVariable, formatTimeString } from "utils/basic-verify";
 import debounce from "lodash/debounce";
 
@@ -350,6 +351,7 @@ const TotalDom = inject("flightTableData")(
 
 /** start *****航班表格 列表框架************/
 function FlightTableModal(props) {
+  let [flightDetailModalVisible, setFlightDetailModalVisible] = useState(false);
   return (
     <ModalBox
       className="flight_canvas"
@@ -363,6 +365,10 @@ function FlightTableModal(props) {
         <TotalDom />
       </div>
       <TSpin />
+      <FlightDetail 
+      flightDetailModalVisible = {true}
+      setFlightDetailModalVisible = { setFlightDetailModalVisible }
+      ></FlightDetail>
     </ModalBox>
   );
 }
