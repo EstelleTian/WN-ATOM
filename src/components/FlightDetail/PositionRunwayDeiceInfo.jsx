@@ -1,19 +1,20 @@
+
 import React, { Fragment } from "react";
 import { Row, Col } from "antd";
 import { inject, observer } from "mobx-react";
 
-//运行分析信息
-const PosAndRunwayInfo = (props) => {
+//机位&跑道&除冰信息
+const PositionRunwayDeiceInfo = (props) => {
   const { flightDetailData } = props;
   const { flight } = flightDetailData;
   return (
     <Fragment>
       <Row className="info-row">
-        <Col span={12}>
+        <Col span={8}>
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-label ant-form-item-label-left">
-              <label className="ant-form-item-no-colon" title="关门等待">
-                关门等待
+              <label className="ant-form-item-no-colon" title="机位">
+                机位
               </label>
             </div>
             <div className="ant-col ant-form-item-control">
@@ -23,11 +24,11 @@ const PosAndRunwayInfo = (props) => {
             </div>
           </div>
         </Col>
-        <Col span={12}>
+        <Col span={8}>
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-label ant-form-item-label-left">
-              <label className="ant-form-item-no-colon" title="滑行等待">
-                滑行等待
+              <label className="ant-form-item-no-colon" title="跑道">
+                跑道
               </label>
             </div>
             <div className="ant-col ant-form-item-control">
@@ -37,27 +38,11 @@ const PosAndRunwayInfo = (props) => {
             </div>
           </div>
         </Col>
-      </Row>
-      <Row className="info-row">
-        <Col span={12}>
+        <Col span={8}>
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-label ant-form-item-label-left">
-              <label className="ant-form-item-no-colon" title="离港延误SCH">
-                离港延误SCH
-              </label>
-            </div>
-            <div className="ant-col ant-form-item-control">
-              <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
-              </div>
-            </div>
-          </div>
-        </Col>
-        <Col span={12}>
-          <div className="ant-row ant-form-item">
-            <div className="ant-col ant-form-item-label ant-form-item-label-left">
-              <label className="ant-form-item-no-colon" title="离港延误FPL">
-                离港延误FPL
+              <label className="ant-form-item-no-colon" title="滑行时间">
+                滑行时间
               </label>
             </div>
             <div className="ant-col ant-form-item-control">
@@ -69,14 +54,11 @@ const PosAndRunwayInfo = (props) => {
         </Col>
       </Row>
       <Row className="info-row">
-        <Col span={12}>
+        <Col span={8}>
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-label ant-form-item-label-left">
-              <label
-                className="ant-form-item-no-colon"
-                title="推出偏离(AOBT-COBT)"
-              >
-                推出偏离(AOBT-COBT)
+              <label className="ant-form-item-no-colon" title="是否除冰">
+                是否除冰
               </label>
             </div>
             <div className="ant-col ant-form-item-control">
@@ -86,14 +68,11 @@ const PosAndRunwayInfo = (props) => {
             </div>
           </div>
         </Col>
-        <Col span={12}>
+        <Col span={8}>
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-label ant-form-item-label-left">
-              <label
-                className="ant-form-item-no-colon"
-                title="关门偏离(AGCT-COBT)"
-              >
-                关门偏离(AGCT-COBT)
+              <label className="ant-form-item-no-colon" title="除冰位">
+                除冰位
               </label>
             </div>
             <div className="ant-col ant-form-item-control">
@@ -103,16 +82,11 @@ const PosAndRunwayInfo = (props) => {
             </div>
           </div>
         </Col>
-      </Row>
-      <Row className="info-row">
-        <Col span={24}>
+        <Col span={8}>
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-label ant-form-item-label-left">
-              <label
-                className="ant-form-item-no-colon"
-                title="起飞偏离(ATOT-CTOT)"
-              >
-                起飞偏离(ATOT-CTOT)
+              <label className="ant-form-item-no-colon" title="除冰组">
+                除冰组
               </label>
             </div>
             <div className="ant-col ant-form-item-control">
@@ -127,4 +101,4 @@ const PosAndRunwayInfo = (props) => {
   );
 };
 
-export default inject("flightDetailData")(observer(PosAndRunwayInfo));
+export default inject("flightDetailData")(observer(PositionRunwayDeiceInfo));

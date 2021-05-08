@@ -4973,6 +4973,11 @@ dom-helpers@^5.0.1:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
 
+dom-lib@^1.2.1:
+  version "1.3.1"
+  resolved "https://registry.npm.taobao.org/dom-lib/download/dom-lib-1.3.1.tgz?cache=0&sync_timestamp=1612323635540&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdom-lib%2Fdownload%2Fdom-lib-1.3.1.tgz#88502a967052c74406aa286ddf99e3fbc9905177"
+  integrity sha1-iFAqlnBSx0QGqiht35nj+8mQUXc=
+
 dom-serializer@0:
   version "0.2.2"
   resolved "https://registry.npm.taobao.org/dom-serializer/download/dom-serializer-0.2.2.tgz?cache=0&sync_timestamp=1607193036175&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdom-serializer%2Fdownload%2Fdom-serializer-0.2.2.tgz#1afb81f533717175d478655debc5e332d9f9bb51"
@@ -5114,6 +5119,11 @@ electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.30, electron-to-chromium@
   version "1.3.631"
   resolved "https://registry.npm.taobao.org/electron-to-chromium/download/electron-to-chromium-1.3.631.tgz?cache=0&sync_timestamp=1608604429592&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Felectron-to-chromium%2Fdownload%2Felectron-to-chromium-1.3.631.tgz#b28ebc7bfb348bb0aede2fae8888d775ddb6f5ee"
   integrity sha1-so68e/s0i7Cu3i+uiIjXdd229e4=
+
+element-resize-event@^3.0.2:
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/element-resize-event/download/element-resize-event-3.0.3.tgz#3f59facef6b8f23fbd678a5f364ee5723af98a2a"
+  integrity sha1-P1n6zva48j+9Z4pfNk7lcjr5iio=
 
 elliptic@^6.5.3:
   version "6.5.3"
@@ -12094,6 +12104,17 @@ rollup@^1.31.1:
     "@types/estree" "*"
     "@types/node" "*"
     acorn "^7.1.0"
+
+rsuite-table@^3.15.0:
+  version "3.15.0"
+  resolved "https://registry.nlark.com/rsuite-table/download/rsuite-table-3.15.0.tgz#4e5dac22a85cbce85f4cfeb158d73467e9906256"
+  integrity sha1-Tl2sIqhcvOhfTP6xWNc0Z+mQYlY=
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    classnames "^2.2.5"
+    dom-lib "^1.2.1"
+    element-resize-event "^3.0.2"
+    lodash "^4.17.20"
 
 rsvp@^4.8.4:
   version "4.8.5"

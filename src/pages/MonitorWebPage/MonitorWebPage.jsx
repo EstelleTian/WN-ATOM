@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-27 21:30:31
+ * @LastEditTime: 2021-05-08 13:16:21
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
+ * @Description:web端登录-运行态势页面
+ * @FilePath: \WN-CDM\src\pages\MonitorWebPage\MonitorWebPage.jsx
  */
 import React, {
   Fragment,
@@ -59,7 +59,7 @@ function LoadingIframe(props) {
   );
 }
 
-//总体监控布局模块
+//web端登录-运行态势页面
 function MonitorWebPage(props) {
   const { user = {} } = props.systemPage;
   const userId = user.id || "";

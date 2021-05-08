@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-04-28 13:18:53
+ * @LastEditTime: 2021-05-08 16:00:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -9,7 +9,8 @@
 import React, { useEffect } from "react";
 import { observer, inject } from "mobx-react";
 import { withRouter } from "react-router-dom";
-import { isValidVariable } from "utils/basic-verify";
+import { isValidVariable, isValidObject } from "utils/basic-verify";
+import { customNotice } from "utils/common-funcs";
 import Stomp from "stompjs";
 
 function Topic(props) {
@@ -89,13 +90,30 @@ function Topic(props) {
           }
         });
       });
-      //收到异步协调操作成功/失败消息-【更新多条航班数据】
+      //收到异步协调操作成功/失败消息-【更新航班数据】
       const topic_EVENT_CENTER_FC_CHANGE =
         "/exchange/EXCHANGE.EVENT_CENTER_FC_CHANGE";
       stompClient.subscribe(topic_EVENT_CENTER_FC_CHANGE, function (d) {
         //收到消息
-        console.log("收到异步协调操作成功/失败消息,更新多条航班数据");
+        console.log("收到异步协调消息,更新航班数据");
         console.log(d);
+        const body = d.body;
+        const msgObj = JSON.parse(body);
+        const { status, flightCoordination } = msgObj;
+        //消息
+        if (status * 1 === 500) {
+          const {
+            error: { message = "" },
+          } = msgObj;
+          customNotice({
+            type: "error",
+            message: content,
+          });
+        }
+        //更新航班数据（一定是单条）
+        if (isValidObject(flightCoordination)) {
+          props.flightTableData.updateSingleFlight(flightCoordination);
+        }
       });
     };
 

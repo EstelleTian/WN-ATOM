@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-22 14:13:07
+ * @LastEditTime: 2021-05-08 13:35:21
  * @LastEditors: Please set LastEditors
  * @Description: store集合
  * @FilePath: \WN-CDM\src\stores\stores.jsx
@@ -27,6 +27,7 @@ import { runwayListData } from "./runwayStores";
 import { MDRSData } from "./mdrsStores";
 import { flightDetailData } from "./FlightDetailStores";
 import { schemeFormData } from "./SchemeFormStores";
+import { newsSubscribe } from "./newsSubscribeStore";
 
 export {
   schemeListData,
@@ -48,5 +49,6 @@ export {
   runwayListData,
   MDRSData,
   flightDetailData,
-  schemeFormData
+  schemeFormData,
+  newsSubscribe,
 };

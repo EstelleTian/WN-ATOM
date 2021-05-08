@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-05-06 14:24:29
+ * @LastEditTime: 2021-05-08 15:52:20
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -393,15 +393,18 @@ function useExecuteKPIData(props) {
 
   //更新--执行KPI store数据
   const updateKPIData = useCallback((data) => {
-    // console.log(data)
+    const { generateTime = "", tacticProcessInfo = {} } = data;
     if (
       isValidObject(data) &&
       isValidObject(data.tacticProcessInfo) &&
       isValidObject(data.tacticProcessInfo.kpi)
     ) {
-      executeKPIData.updateExecuteKPIData(data.tacticProcessInfo.kpi);
+      executeKPIData.updateExecuteKPIData(
+        data.tacticProcessInfo.kpi,
+        generateTime
+      );
     } else {
-      executeKPIData.updateExecuteKPIData({});
+      executeKPIData.updateExecuteKPIData({}, generateTime);
       customNotice({
         type: "error",
         content: "获取的KPI数据为空",

@@ -1,0 +1,74 @@
+.subscribe_canvas{
+    width: 850px;
+    height: 660px;
+    background:  #313131;
+    overflow: hidden;
+    @include display_flex(column);
+    font-size: 18px;
+    
+    .subscribe_header{
+        @include display_flex(row);
+        justify-content: space-between;
+        position: relative;
+        padding: 4px 10px 4px 20px;
+        background: #2c2c2c;
+        .ant-collapse-header {
+            padding-right: 0;
+            padding-left: 0;
+        }
+        .title {
+            flex: 1;
+            font-size: 16px;
+            color: #eeeeee;
+        }
+    
+        .close{
+            padding: 0 5px;
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+
+    .subscribe_body{
+        background:  #313131;
+        border: none;
+        @include display_flex(row);
+        @include flex(1);
+        border-top: 1px solid #6b6868;
+        .subscribe_side{
+            border-right: 1px solid #6b6868;
+            padding: 10px 4px;
+        }
+        .subscribe_cont{
+            @include flex(1);
+            .subscribe_cont_buttons{
+                padding: 2px 0 6px 10px;
+                border-bottom: 1px solid #6b6868;
+                .active{
+                    background-color: rgb(248, 192, 35);
+                    color: #000;
+                }
+            }
+            .subscribe_tabs{
+                padding: 6px;
+                margin-left: 30px;
+                .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+                    margin-left: 0;
+                }
+                .tab_row{
+                    width: 33%;
+                    padding-bottom: 4px;
+                }
+            }
+        }
+
+    }
+    .subscribe_footer{
+        border-top: 1px solid #6b6868;
+        text-align: right;
+        padding: 4px 10px;
+    }
+
+}
+

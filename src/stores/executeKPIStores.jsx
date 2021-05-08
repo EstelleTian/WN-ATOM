@@ -23,8 +23,9 @@ class ExecuteKPIData {
   @observable flightListCategoryZh = "";
 
   //更新KPI数据
-  @action updateExecuteKPIData(KPIData) {
+  @action updateExecuteKPIData(KPIData, generateTime) {
     this.KPIData = KPIData;
+    this.generateTime = generateTime;
   }
   //更新loading状态
   @action toggleLoad(load) {
