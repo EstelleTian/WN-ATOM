@@ -28,7 +28,7 @@ class NewsSubscribe {
         const children = item.children || [];
         children.map((child) => {
           if (child !== null && child.code === code) {
-            child.isSubscribe = checked;
+            child.subscribe = checked;
           }
         });
       }

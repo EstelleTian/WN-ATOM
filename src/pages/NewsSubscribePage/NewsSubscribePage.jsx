@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-08 14:44:44
+ * @LastEditTime: 2021-05-10 14:01:12
  * @LastEditors: Please set LastEditors
  * @Description: 消息订阅
  * @FilePath: \WN-CDM\src\pages\NewsSubscribePage\NewsSubscribePage.jsx
@@ -16,9 +16,9 @@ import React, {
 } from "react";
 import { inject, observer } from "mobx-react";
 import { CloseOutlined } from "@ant-design/icons";
-
+import { customNotice } from "utils/common-funcs";
 import { Layout, Tooltip, Tree, Button } from "antd";
-import { requestGet2 } from "utils/request";
+import { requestGet2, request2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import {
   isValidObject,
@@ -429,14 +429,36 @@ function NewsSubscribePage(props) {
       props.systemPage.setUserData(user);
       const userId = user.id || "";
       if (isValidVariable(userId)) {
-        // const res = await requestGet2("");
-        updateResData(mockData);
+        const res = await requestGet2({
+          url: ReqUrls.getUserSubscribeUrl,
+          params: {
+            userId: userId,
+          },
+        });
+        // console.log("res", res);
+        updateResData(res);
       } else {
         alert("未获取到用户信息，请重新登录");
       }
     }
   };
 
+  //应用
+  const saveData = async () => {
+    const res = await request2({
+      url: ReqUrls.setUserSubscribeUrl,
+      method: "POST",
+      params: {
+        ...props.newsSubscribe.data,
+      },
+    });
+    // console.log(res);
+    customNotice({
+      type: "success",
+      message: "消息订阅应用成功",
+      duration: 5,
+    });
+  };
   // 初始化用户信息
   useEffect(function () {
     // 从localStorage取用户信息并存入stores
@@ -490,10 +512,27 @@ function NewsSubscribePage(props) {
           </div>
         </div>
         <div className="subscribe_footer">
-          <Button size="small" type="primary" style={{ marginRight: "15px" }}>
+          <Button
+            size="small"
+            type="primary"
+            style={{ marginRight: "15px" }}
+            onClick={saveData}
+          >
             应用
           </Button>
-          <Button size="small">重置</Button>
+          <Button
+            size="small"
+            onClick={(e) => {
+              getSubscribeData();
+              customNotice({
+                type: "success",
+                message: "消息订阅已重置",
+                duration: 5,
+              });
+            }}
+          >
+            重置
+          </Button>
         </div>
       </div>
     </Layout>

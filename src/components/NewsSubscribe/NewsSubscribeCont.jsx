@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-08 15:57:59
+ * @LastEditTime: 2021-05-10 14:01:19
  * @LastEditors: Please set LastEditors
  * @Description: 消息订阅
  * @FilePath: \WN-CDM\src\pages\NewsSubscribePage\NewsSubscribePage.jsx
@@ -47,19 +47,19 @@ function tabCont(props) {
       {children.map((child) => {
         if (isValidVariable(child)) {
           // {
-          //     children: [],
-          //     seq: 1,
-          //     isSubscribe: true,
-          //     id: 66,
-          //     code: "FLAC",
-          //     name: "航班异常编码",
-          //     type: "FLAI",
+          //      children: []
+          //      code: "FLAC"
+          //      id: 66
+          //      name: "航班异常编码"
+          //      seq: 1
+          //      subscribe: true
+          //      type: "FLAI"
           // }
           return (
             <Checkbox
               className="tab_row"
               key={child.id}
-              checked={child.isSubscribe}
+              checked={child.subscribe}
               code={child.code}
               parentType={child.type}
               onChange={handleSubscribe}
@@ -82,7 +82,7 @@ function NewsSubscribeCont(props) {
   const { categorySubscribeConfigs = [] } = data;
 
   function callback(key) {
-    console.log(key);
+    // console.log(key);
     newsSubscribe.setTabSelect(key);
   }
 

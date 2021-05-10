@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-27 21:20:04
+ * @LastEditTime: 2021-05-10 13:48:31
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -10,6 +10,9 @@
 const workflowIP = "http://192.168.194.22:29891";
 //路武臣
 const mdrsIP = "http://192.168.194.21:27580";
+//路武臣
+const userSubscribeIP = "http://192.168.194.21:28680";
+//
 const runwayIP = "http://192.168.194.21:50012";
 const clearanceIP = "http://192.168.194.21:29890";
 const schemeIP = "http://192.168.194.21:58190";
@@ -113,7 +116,10 @@ const ReqUrls = {
     mdrsWorkFlowUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/workflow/approve",
     // 总体监控-协调KPI-航班协调
     totalCollaborateUrl: totalCollaborateIP+"/flightRecord/retrieveFlightRecordByType",
-    
+    // 消息订阅-查
+    getUserSubscribeUrl: userSubscribeIP+"/cdm-nw-event-center-server/user-subscribe/retrieval/user/subscribe/category",
+    // 消息订阅-应用 存
+    setUserSubscribeUrl: userSubscribeIP+"/cdm-nw-event-center-server/user-subscribe/user/subscribe",
 };
 
 //协调相关url

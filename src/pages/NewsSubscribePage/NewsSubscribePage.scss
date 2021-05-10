@@ -52,14 +52,29 @@
             }
             .subscribe_tabs{
                 padding: 6px;
-                margin-left: 30px;
-                .ant-checkbox-wrapper + .ant-checkbox-wrapper {
-                    margin-left: 0;
+                .ant-tabs-tab.ant-tabs-tab-active{
+                    background-color: #266e90;
+                    .ant-tabs-tab-btn{
+                        color: #fff;
+                    }
+                } 
+                .ant-tabs-tab:hover {
+                    background-color: #194a61;
+                    .ant-tabs-tab-btn{
+                        color: #fff;
+                    }
                 }
-                .tab_row{
-                    width: 33%;
-                    padding-bottom: 4px;
+                .subscribe_tabs_cont{
+                    margin-left: 30px;
+                    .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+                        margin-left: 0;
+                    }
+                    .tab_row{
+                        width: 33%;
+                        padding-bottom: 4px;
+                    }
                 }
+                
             }
         }
 
