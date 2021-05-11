@@ -1,16 +1,16 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-11 13:32:05
+ * @LastEditTime: 2021-05-11 15:03:39
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
  */
 //工作流ip
 const workflowIP = "http://192.168.194.22:29891";
-//路武臣
+//MDRS(路武臣)
 const mdrsIP = "http://192.168.194.21:27580";
-//路武臣
+//消息订阅(路武臣)
 const userSubscribeIP = "http://192.168.194.21:28680";
 //
 const runwayIP = "http://192.168.194.21:50012";
@@ -18,9 +18,9 @@ const clearanceIP = "http://192.168.194.21:29890";
 const schemeIP = "http://192.168.194.21:58190";
 //协调ip
 const CollaborateIP = "http://192.168.194.21:28781";
-//登录IP
+//登录IP(姜浩)
 const loginIP = "http://192.168.194.21:18380";
-//容量管理IP
+//容量管理IP(韩涛)
 const capacityIP = "http://192.168.194.20:28482"
 //容流数据IP
 const capacityFlowIP= "http://192.168.194.22:28875"
@@ -28,6 +28,8 @@ const capacityFlowIP= "http://192.168.194.22:28875"
 const capacityFlowWeatherIP= "http://192.168.210.131:28280"
 //总体监控-协调KPI-航班协调-数据IP
 const totalCollaborateIP= "http://192.168.194.21:28782"
+//航班详情、略情查询IP(韩涛)
+const flightInfoIP= "http://192.168.194.20:38188"
 
 const ReqUrls = {
     //用户登录
@@ -92,7 +94,10 @@ const ReqUrls = {
     //获取工作流-详情
     taskDetailUrl: workflowIP+"/hydrogen-duties-server/instance/",
     // 航班查询
-    searchFlightUrl: "http://192.168.194.20:38188/hydrogen-flight-plan-server/retrieveFlightDetailsByFlightId/",
+    searchFlightUrl: flightInfoIP+"/hydrogen-flight-plan-server/retrieveFlightDetailsByFlightId/",
+    // 航班详情
+    getFlightDetailUrl: flightInfoIP+"/hydrogen-flight-plan-server/retrieveFlightDetailsById/",
+   
     //待办航班列表-放行监控页面中的
     todoListUrl: "http://192.168.194.21:29891/flight/backlog/task/",
     //我的申请列表-放行监控页面中的

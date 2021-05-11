@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 13:47:11
- * @LastEditTime: 2021-05-07 12:52:55
+ * @LastEditTime: 2021-05-11 15:07:00
  * @LastEditors: Please set LastEditors
  * @Description: 执行KPI
  * @FilePath: WN-ATOM\src\components\FlightDetail\FlightDetail.jsx
@@ -21,6 +21,13 @@ import {
   Tooltip,
 } from "antd";
 import { inject, observer } from "mobx-react";
+import { requestGet2 } from "utils/request";
+import { ReqUrls } from "utils/request-urls";
+import {
+  isValidObject,
+  isValidVariable,
+  formatTimeString,
+} from "utils/basic-verify";
 import DraggableModal from "components/DraggableModal/DraggableModal";
 import FlightInfo from "./FlightInfo";
 import FormerInfo from "./FormerInfo";
@@ -43,10 +50,36 @@ const FlightDetail = (props) => {
   const { modalVisible, id, generateTime = "", flight } = flightDetailData;
   console.log(flight);
   console.log("FlightDetail render");
+
   // 关闭航班详情
   const closeModal = () => {
     flightDetailData.toggleModalVisible(false);
   };
+
+  //获取航班详情数据
+  const getDetailData = async () => {
+    // 从localStorage取用户信息并存入stores
+    const userStr = localStorage.getItem("user");
+    if (isValidVariable(userStr)) {
+      const user = JSON.parse(userStr);
+      const userId = user.id || "";
+      if (isValidVariable(userId)) {
+        const res = await requestGet2({
+          url: ReqUrls.getFlightDetailUrl + flight.id,
+        });
+        // console.log("res", res);
+        updateResData(res);
+      } else {
+        alert("未获取到航班信息，请重新登录");
+      }
+    }
+  };
+
+  // 初始化用户信息
+  useEffect(function () {
+    // 从localStorage取用户信息并存入stores
+    getDetailData();
+  }, []);
   return (
     <DraggableModal
       title="航班详情"
@@ -151,13 +184,13 @@ const FlightDetail = (props) => {
                 >
                   <PositionRunwayDeiceInfo />
                 </Panel> */}
-                <Panel
+                {/* <Panel
                   showArrow={false}
                   header="协调信息"
                   key="coordinationInfo"
                 >
                   <CoordinationInfo />
-                </Panel>
+                </Panel> */}
                 <Panel showArrow={false} header="命中方案" key="schemeInfo">
                   <SchemeInfo />
                 </Panel>

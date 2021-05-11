@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-10 14:01:19
+ * @LastEditTime: 2021-05-11 14:57:15
  * @LastEditors: Please set LastEditors
  * @Description: 消息订阅
  * @FilePath: \WN-CDM\src\pages\NewsSubscribePage\NewsSubscribePage.jsx
@@ -16,10 +16,7 @@ import React, {
 } from "react";
 import { inject, observer } from "mobx-react";
 import { CloseOutlined } from "@ant-design/icons";
-
 import { Layout, Tooltip, Tabs, Button, Checkbox } from "antd";
-import { requestGet2 } from "utils/request";
-import { ReqUrls } from "utils/request-urls";
 import {
   isValidObject,
   isValidVariable,

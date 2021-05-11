@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-06 14:44:49
+ * @LastEditTime: 2021-05-11 15:08:17
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -24,7 +24,7 @@ import {
   scrollTopById,
   highlightRowByDom,
 } from "components/FlightTable/TableColumns";
-import  FlightDetail from "components/FlightDetail/FlightDetail";
+import FlightDetail from "components/FlightDetail/FlightDetail";
 import { isValidVariable, formatTimeString } from "utils/basic-verify";
 import debounce from "lodash/debounce";
 
@@ -365,10 +365,12 @@ function FlightTableModal(props) {
         <TotalDom />
       </div>
       <TSpin />
-      <FlightDetail 
-      flightDetailModalVisible = {true}
-      setFlightDetailModalVisible = { setFlightDetailModalVisible }
-      ></FlightDetail>
+      {flightDetailModalVisible && (
+        <FlightDetail
+          flightDetailModalVisible={true}
+          setFlightDetailModalVisible={setFlightDetailModalVisible}
+        ></FlightDetail>
+      )}
     </ModalBox>
   );
 }

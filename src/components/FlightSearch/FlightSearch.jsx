@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-05-11 13:41:28
+ * @LastEditTime: 2021-05-11 18:03:47
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -79,6 +79,7 @@ const FlightSearch = (props) => {
    * 显示单个航班信息
    * */
   const showSingleFlightSummary = useCallback(function (flight) {
+    props.flightTableData.focusFlightId = flight.id;
     setSelectedID(flight.id);
     // 更新航班略情抽屉中的航班数据
     setFlight(flight);
@@ -196,7 +197,7 @@ const FlightSearch = (props) => {
         <div className="flight-summary-section">
           <Form layout="vertical ">
             <Row className="summary-row">
-              <Col className="vertical-span" span={4}>
+              {/* <Col className="vertical-span" span={4}>
                 <div className="ant-row ant-form-item">
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input">
@@ -206,10 +207,10 @@ const FlightSearch = (props) => {
                     </div>
                   </div>
                 </div>
-              </Col>
+              </Col> */}
               <Col span={5}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label ">
+                  <div className="ant-col ant-form-item-label" title="起降机场">
                     <label className="ant-form-item-no-colon">ADEP-ADES</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
@@ -221,10 +222,8 @@ const FlightSearch = (props) => {
               </Col>
               <Col span={3}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label ">
-                    <label className="ant-form-item-no-colon" title="">
-                      AGCT
-                    </label>
+                  <div className="ant-col ant-form-item-label" title="AGCT">
+                    <label className="ant-form-item-no-colon">AGCT</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input ">
@@ -239,10 +238,8 @@ const FlightSearch = (props) => {
               </Col>
               <Col span={3}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label ">
-                    <label className="ant-form-item-no-colon" title="">
-                      AOBT
-                    </label>
+                  <div className="ant-col ant-form-item-label" title="AOBT">
+                    <label className="ant-form-item-no-colon">AOBT</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input ">
@@ -257,10 +254,8 @@ const FlightSearch = (props) => {
               </Col>
               <Col span={3}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label ">
-                    <label className="ant-form-item-no-colon" title="">
-                      ATOT
-                    </label>
+                  <div className="ant-col ant-form-item-label " title="ATOT">
+                    <label className="ant-form-item-no-colon">ATOT</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input ">
@@ -275,10 +270,8 @@ const FlightSearch = (props) => {
               </Col>
               <Col span={3}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label ">
-                    <label className="ant-form-item-no-colon " title="">
-                      RWY
-                    </label>
+                  <div className="ant-col ant-form-item-label " title="跑道">
+                    <label className="ant-form-item-no-colon ">RWY</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input ">
@@ -291,10 +284,8 @@ const FlightSearch = (props) => {
               </Col>
               <Col span={3}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label ">
-                    <label className="ant-form-item-no-colon" title="">
-                      SID
-                    </label>
+                  <div className="ant-col ant-form-item-label " title="SID">
+                    <label className="ant-form-item-no-colon">SID</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input ">
@@ -305,11 +296,30 @@ const FlightSearch = (props) => {
                   </div>
                 </div>
               </Col>
+              <Col className="vertical-span" span={3}>
+                <div className="ant-row ant-form-item">
+                  <div className="ant-col ant-form-item-control">
+                    <div className="ant-form-item-control-input ">
+                      <div
+                        className="ant-form-item-control-input-content"
+                        title={STATUS}
+                      >
+                        <Tag className="flight-status-tag" color="#2db7f5">
+                          {STATUSZH}
+                        </Tag>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
             </Row>
             <Row className="summary-row">
-              <Col className="vertical-span" span={4}>
+              <Col className="vertical-span" span={5}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label ">
+                  <div
+                    className="ant-col ant-form-item-label"
+                    title="前段航班号"
+                  >
                     <label className="ant-form-item-no-colon">FORMER</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
@@ -323,7 +333,10 @@ const FlightSearch = (props) => {
               </Col>
               <Col span={5}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label ">
+                  <div
+                    className="ant-col ant-form-item-label"
+                    title="前段起降机场"
+                  >
                     <label className="ant-form-item-no-colon">ADEP-ADES</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
@@ -335,10 +348,8 @@ const FlightSearch = (props) => {
               </Col>
               <Col span={3}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label ">
-                    <label className="ant-form-item-no-colon" title="">
-                      ACTYPE
-                    </label>
+                  <div className="ant-col ant-form-item-label " title="机型">
+                    <label className="ant-form-item-no-colon">ACTYPE</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input ">
@@ -351,10 +362,11 @@ const FlightSearch = (props) => {
               </Col>
               <Col span={3}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label ">
-                    <label className="ant-form-item-no-colon" title="">
-                      REG
-                    </label>
+                  <div
+                    className="ant-col ant-form-item-label "
+                    title="本段机尾号"
+                  >
+                    <label className="ant-form-item-no-colon">REG</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input ">
@@ -367,31 +379,16 @@ const FlightSearch = (props) => {
               </Col>
               <Col span={3}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label ">
-                    <label className="ant-form-item-no-colon" title="">
-                      ALDT
-                    </label>
+                  <div
+                    className="ant-col ant-form-item-label"
+                    title="前段A/C/T/E LDT"
+                  >
+                    <label className="ant-form-item-no-colon">ALDT</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input ">
                       <div className="ant-form-item-control-input-content">
                         {ALDT}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col className="vertical-span" span={6}>
-                <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-control">
-                    <div className="ant-form-item-control-input ">
-                      <div
-                        className="ant-form-item-control-input-content"
-                        title={STATUS}
-                      >
-                        <Tag className="flight-status-tag" color="#2db7f5">
-                          {STATUSZH}
-                        </Tag>
                       </div>
                     </div>
                   </div>
@@ -420,7 +417,28 @@ const FlightSearch = (props) => {
    *  获取航班略情抽屉标题
    * */
   const getDrawerTitle = useCallback(function () {
-    return <span className="title-flight-id">{flight.flightId}</span>;
+    // const STATUS = flight.status;
+    // const STATUSZH = FlightCoordination.getStatusZh(STATUS);
+    return (
+      <div>
+        <span
+          className="title-flight-id"
+          style={{
+            color: "#36a5da",
+          }}
+          onClick={(e) => {
+            props.flightTableData.focusFlightId = flight.id;
+          }}
+        >
+          {flight.flightId}
+        </span>
+        {/* <span>
+          <Tag className="flight-status-tag" color="#2db7f5">
+            {STATUSZH}
+          </Tag>
+        </span> */}
+      </div>
+    );
   });
 
   /**
