@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-10 16:04:11
+ * @LastEditTime: 2021-05-11 20:58:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -147,7 +147,7 @@ function FangxingPage(props) {
               <div className="cont_left">
                 {/*<SchemeTitle />*/}
                 <div className="left_cont">
-                  {from !== "web" && leftActiveName !== "" && (
+                  {!isValidVariable(from) && leftActiveName !== "" && (
                     <div className="left_left">{<LeftMultiCanvas />}</div>
                   )}
                   <div className="left_right">

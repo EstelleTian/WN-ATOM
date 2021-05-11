@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-05-06 14:24:04
+ * @LastEditTime: 2021-05-11 21:06:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -11,25 +11,39 @@ import React, { useMemo } from "react";
 import { observer, inject } from "mobx-react";
 import { Radio } from "antd";
 import RefreshBtn from "components/SchemeList/RefreshBtn";
+import { withRouter } from "react-router-dom";
+import { isValidVariable } from "utils/basic-verify";
 
 //顶部 左导航模块
 function LeftNav(props) {
+  const { match } = props;
+  const params = match.params || {};
+  const from = params.from || "";
+
   const groupNameChange = (e) => {
     const value = e.target.value;
-    console.log(e.target.value);
-    if (props.systemPage.leftNavSelectedName !== value) {
-      props.systemPage.setLeftNavSelectedName(value);
-      props.schemeListData.toggleSchemeActive(value);
-    } else {
-      props.systemPage.setLeftNavSelectedName("");
-      props.schemeListData.toggleSchemeActive("");
-    }
+    console.log(value);
+    window.open("./#/clearance/" + value);
+    //打开新的放行页面
+    //2021-05-11改版默认交通流方向单独弹窗
+    // if (props.systemPage.leftNavSelectedName !== value) {
+    //   props.systemPage.setLeftNavSelectedName(value);
+    //   props.schemeListData.toggleSchemeActive(value);
+    // } else {
+    //   props.systemPage.setLeftNavSelectedName("");
+    //   props.schemeListData.toggleSchemeActive("");
+    // }
   };
+
   let userConcernTrafficListStr = localStorage.getItem(
     "userConcernTrafficList"
   );
   let userConcernTrafficList = useMemo(
     function () {
+      let showAll = true;
+      if (isValidVariable(from) && from !== "web") {
+        showAll = false;
+      }
       let list = [];
       if (props.systemPage.userHasAuth(12510)) {
         const arr = JSON.parse(userConcernTrafficListStr) || [];
@@ -38,14 +52,19 @@ function LeftNav(props) {
         for (let i = 0; i < arr.length; i++) {
           let item = arr[i] || {};
           if (item.concernStatus) {
-            name = "focus-" + item.concernTrafficId || "";
+            // name = "focus-" + item.concernTrafficId || "";
+            name = item.concernTrafficId || "";
             idsList.push(name);
-            if (i === 0) {
-              props.systemPage.setLeftNavSelectedName(name);
-              props.schemeListData.toggleSchemeActive(name);
+            if (showAll) {
+              list.push(item);
+            } else if (name === from) {
+              list.push(item);
             }
-
-            list.push(item);
+            //2021-05-11改版默认交通流方向单独弹窗
+            // if (i === 0) {
+            //   props.systemPage.setLeftNavSelectedName(name);
+            //   props.schemeListData.toggleSchemeActive(name);
+            // }
           }
         }
 
@@ -67,13 +86,18 @@ function LeftNav(props) {
       {/*</div>*/}
       {props.systemPage.userHasAuth(12510) && (
         <Radio.Group
-          value={props.systemPage.leftNavSelectedName}
+          value={
+            isValidVariable(from) && from !== "web"
+              ? from
+              : props.systemPage.leftNavSelectedName
+          }
           buttonStyle="solid"
         >
           {userConcernTrafficList.map((item) => (
             <Radio.Button
               key={item.concernTrafficName || ""}
-              value={`focus-${item.concernTrafficId}`}
+              value={`${item.concernTrafficId}`}
+              // value={`focus-${item.concernTrafficId}`}
               onClick={groupNameChange}
             >
               {item.concernTrafficName}
@@ -89,4 +113,6 @@ function LeftNav(props) {
   );
 }
 
-export default inject("systemPage", "schemeListData")(observer(LeftNav));
+export default withRouter(
+  inject("systemPage", "schemeListData")(observer(LeftNav))
+);

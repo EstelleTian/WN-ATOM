@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-11 18:14:46
+ * @LastEditTime: 2021-05-11 21:44:21
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -57,7 +57,12 @@ function TTitle(props) {
       <span>航班列表({formatTimeString(generateTime)})</span>
       {tacticName !== "" && <span>—</span>}
       {tacticName !== "" && (
-        <span style={{ color: "#36a5da" }} className="tactic_name">
+        <span
+          // style={{ color: "#36a5da" }}
+          className="tactic_name "
+          title={tacticName}
+          // className="tactic_name ellipsis_name"
+        >
           {tacticName}
         </span>
       )}

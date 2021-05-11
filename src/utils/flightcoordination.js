@@ -53,6 +53,7 @@ const FlightCoordination = {
     ALARM_TYPE_EXCHANGE: 600, // 时隙交换
     ALARM_TYPE_DEXIT_SLOT: 700, // 退出时隙分配
     ALARM_TYPE_SINGLE_EXEMPTION: 800, // 单方案豁免
+    ALARM_TYPE_CHANGE_ROUTE: 99, // 改航
 
 
 
@@ -229,6 +230,12 @@ const FlightCoordination = {
                 descriptions="临界";
                 pos = 1;
                 break;
+            case FlightCoordination.ALARM_TYPE_SINGLE_EXEMPTION:
+                zh = '单';
+                color="#007bbb";
+                descriptions="单方案豁免";
+                pos = 2;
+                break;
             case FlightCoordination.ALARM_TYPE_EXEMPTION:
                 zh = '豁';
                 color="rgba(139, 68, 88, 0.76)";
@@ -259,11 +266,12 @@ const FlightCoordination = {
                 descriptions="退出时隙分配";
                 pos = 3;
                 break;
-            case FlightCoordination.ALARM_TYPE_SINGLE_EXEMPTION:
-                zh = '单';
-                color="#007bbb";
-                descriptions="单方案豁免";
-                pos = 2;
+            
+            case FlightCoordination.ALARM_TYPE_CHANGE_ROUTE:
+                zh = '改';
+                color="#47a618";
+                descriptions="改航";
+                pos = 3;
                 break;
             default:
                 break;

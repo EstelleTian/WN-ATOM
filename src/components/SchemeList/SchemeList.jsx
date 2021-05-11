@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-05-10 13:57:02
+ * @LastEditTime: 2021-05-11 21:28:50
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -15,8 +15,7 @@ import React, {
   useRef,
 } from "react";
 import debounce from "lodash/debounce";
-// import PropTypes from 'prop-types';
-// import Stomp from 'stompjs'
+import { withRouter } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 import { Checkbox, Empty, Spin, notification, Modal } from "antd";
 import { requestGet } from "utils/request";
@@ -70,6 +69,7 @@ function useSchemeList(props) {
     schemeListData: { statusValues = [] } = {},
     systemPage: { pageRefresh, user: { id = "" } = {} } = {},
   } = props;
+
   const curStatusValues = useRef();
   const schemeTimeoutId = useRef("");
 
@@ -200,9 +200,11 @@ function useSchemeList(props) {
 //航班请求 hook
 function useFlightsList(props) {
   const flightsTimeoutId = useRef([]);
-  const { schemeListData, flightTableData, systemPage } = props;
+  const { schemeListData, flightTableData, systemPage, match } = props;
   const { activeSchemeId, generateTime = "" } = schemeListData;
   const { pageRefresh, user: { id = "" } = {} } = systemPage;
+  const params = match.params || {};
+  const from = params.from || ""; //来源
 
   // 获取选中方案计算状态值
   const getCalculateSatus = (activeSchemeData, generateTime) => {
@@ -222,8 +224,11 @@ function useFlightsList(props) {
 
   //更新--航班列表 store数据
   const updateFlightTableData = useCallback(
-    (flightData) => {
-      if (isValidVariable(props.schemeListData.activeSchemeId)) {
+    (flightData = {}) => {
+      if (
+        (isValidVariable(from) && from !== "web") ||
+        isValidVariable(props.schemeListData.activeSchemeId)
+      ) {
         let { flights, generateTime, performKpiResult } = flightData;
         if (flights !== null) {
           flightTableData.updateFlightsList(
@@ -252,7 +257,10 @@ function useFlightsList(props) {
       let url = "";
       let params = {};
       let activeSchemeId = schemeListData.activeSchemeId;
-      if (!isValidVariable(activeSchemeId)) {
+      if (
+        (!isValidVariable(from) || from === "web") &&
+        !isValidVariable(activeSchemeId)
+      ) {
         flightTableData.updateFlightsList([], "", "");
         return;
       }
@@ -274,10 +282,13 @@ function useFlightsList(props) {
       }
       let reqId = activeSchemeId;
       let trafficId = "";
-      if (activeSchemeId.indexOf("focus") > -1) {
-        trafficId = activeSchemeId.replace(/focus-/g, "");
-        activeSchemeId = "";
-        reqId = "";
+      // if (activeSchemeId.indexOf("focus") > -1) {
+      //   trafficId = activeSchemeId.replace(/focus-/g, "");
+      //   activeSchemeId = "";
+      //   reqId = "";
+      // }
+      if (isValidVariable(from) && from !== "web") {
+        trafficId = from;
       }
       params = {
         startTime: baseTime + "000000",
@@ -342,7 +353,21 @@ function useFlightsList(props) {
   }, []);
 
   useEffect(() => {
-    if (isValidVariable(activeSchemeId)) {
+    if (isValidVariable(from) && from !== "web") {
+      if (isValidVariable(activeSchemeId)) {
+        flightsTimeoutId.current.map((t) => {
+          clearTimeout(t);
+        });
+        flightsTimeoutId.current = [];
+        getFlightTableData(false, true);
+      } else {
+        flightsTimeoutId.current.map((t) => {
+          clearTimeout(t);
+        });
+        flightsTimeoutId.current = [];
+        getFlightTableData(true, true);
+      }
+    } else {
       flightsTimeoutId.current.map((t) => {
         clearTimeout(t);
       });
@@ -659,6 +684,9 @@ const SchemeTitle = inject("schemeListData")(observer(STitle));
 
 //方案列表
 function SList(props) {
+  const { match } = props;
+  const params = match.params || {};
+  const from = params.from || ""; //来源
   const getSchemeList = useSchemeList(props);
   useFlightsList(props);
   useExecuteKPIData(props);
@@ -772,11 +800,14 @@ function SList(props) {
     ) {
       //默认选第一条 已计算
       let defaultId = "";
-      sortedList.map((item) => {
-        if (item.isCalculated && defaultId === "") {
-          defaultId = item.id;
-        }
-      });
+      //如果没from或者来自web,选中第一条方案
+      if (!isValidVariable(from) || from === "web") {
+        sortedList.map((item) => {
+          if (item.isCalculated && defaultId === "") {
+            defaultId = item.id;
+          }
+        });
+      }
 
       handleActive(defaultId, "", "init");
     }
@@ -821,14 +852,16 @@ function SList(props) {
   );
 }
 
-const SchemeList = inject(
-  "schemeListData",
-  "flightTableData",
-  "executeKPIData",
-  "performanceKPIData",
-  "systemPage",
-  "todoList"
-)(observer(SList));
+const SchemeList = withRouter(
+  inject(
+    "schemeListData",
+    "flightTableData",
+    "executeKPIData",
+    "performanceKPIData",
+    "systemPage",
+    "todoList"
+  )(observer(SList))
+);
 
 const SchemeListModal = () => {
   return (

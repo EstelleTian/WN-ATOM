@@ -141,3 +141,22 @@
         margin-bottom: 0;
     }
   }
+  .ellipsis_name{
+    color: rgb(54, 165, 218);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: top;
+  }
+
+  @media screen and ( max-width: 1920px){
+    .ellipsis_name{
+        width: 210px;
+    }
+  }
+  @media screen and ( min-width: 1921px){
+    .ellipsis_name{
+        width: 270px;
+    }
+  }
