@@ -33,11 +33,6 @@ function RightNav(props) {
         <span>
           {/* <RefreshBtn /> */}
 
-          {systemPage.userHasAuth(12512) && (
-            <Button type="default" icon={<SearchOutlined />}>
-              航班查询{" "}
-            </Button>
-          )}
           <Radio.Group
             value={systemPage.leftActiveName}
             buttonStyle="solid"
@@ -76,6 +71,23 @@ function RightNav(props) {
               <Radio.Button value="system">参数设置</Radio.Button>
             </Radio.Group>
           )}
+          {/* {systemPage.userHasAuth(12512) && ( */}
+
+          <Radio.Group
+            value={systemPage.activeFlightSearch ? "search" : ""}
+            buttonStyle="solid"
+          >
+            <Radio.Button
+              value="search"
+              onClick={(e) => {
+                const value = e.target.value;
+                systemPage.toggleFlightSearch();
+              }}
+            >
+              航班查询
+            </Radio.Button>
+          </Radio.Group>
+          {/*  )} */}
         </span>
       )}
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-08 15:49:23
+ * @LastEditTime: 2021-05-10 16:04:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -15,7 +15,7 @@ import { ReqUrls } from "utils/request-urls";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import NavBar from "components/NavBar/NavBar.jsx";
 import Topic from "components/NavBar/Topic.jsx";
-// import ModalBox from 'components/ModalBox/ModalBox'
+import FlightSearch from "components/FlightSearch/FlightSearch";
 import LeftMultiCanvas from "components/LeftMultiCanvas/LeftMultiCanvas";
 import RightMultiCanvas from "components/RightMultiCanvas/RightMultiCanvas";
 import { isValidVariable } from "utils/basic-verify";
@@ -143,16 +143,14 @@ function FangxingPage(props) {
 
           {login && (
             <div className="nav_body">
+              {/* <FlightSearch /> */}
               <div className="cont_left">
                 {/*<SchemeTitle />*/}
                 <div className="left_cont">
                   {from !== "web" && leftActiveName !== "" && (
-                    <div className="left_left">
-                      <LeftMultiCanvas />
-                    </div>
+                    <div className="left_left">{<LeftMultiCanvas />}</div>
                   )}
                   <div className="left_right">
-                    {/***/}
                     <Suspense
                       fallback={
                         <div className="load_spin">

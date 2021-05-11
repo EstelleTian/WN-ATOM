@@ -60,6 +60,10 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                &.time_range{
+                    text-align: left;
+                    padding-left: 10px;
+                }
 
             }
             .options-box {

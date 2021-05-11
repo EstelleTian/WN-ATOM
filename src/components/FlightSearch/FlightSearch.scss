@@ -1,4 +1,5 @@
 .flight_search {
+  margin-top: 5px;
   &.modal_box {
     .box_content {
       overflow: visible;
@@ -19,6 +20,14 @@
         height: 24px;
         flex-direction: row-reverse
       }
+      .close{
+        margin-right: 2%;
+        color: #b5b5b5;
+        &:hover{
+          cursor: pointer;
+          color: #fff;
+        }
+      }
     }
     .content {
       @include display_flex(column);
@@ -26,6 +35,7 @@
       position: relative;
     }
     .flight-list {
+
       @include display_flex(column);
       @include flex();
       width: 100%;
@@ -39,6 +49,7 @@
         &:hover {
           background: #262626
         }
+      ;
         &.selected {
           background: #266E90;
         }
@@ -53,6 +64,7 @@
         box-shadow: -6px 0 16px -8px rgba(0, 0, 0, .5), -9px 0 28px 0 rgba(0, 0, 0, .5), -12px 0 48px 16px rgba(0, 0, 0, .5);
         @include display_flex();
         flex: 0 1 auto;
+
         .flight-prop {
           @include flex();
           visibility: visible;
@@ -64,6 +76,10 @@
         .num {
           flex: 0 0 60px;
         }
+        .flight-id, .flight-sobt, .flight-former {
+          //flex: 1 1 10%;
+        }
+
       }
       .flight-item {
         @include display_flex();
@@ -81,6 +97,7 @@
               @include flex(2);
             }
           }
+
           .num {
             flex: 0 0 60px;
           }
@@ -108,59 +125,26 @@
           margin: 0;
           font-size: 0.85rem;
         }
+      }
 
-
-        .summary-container {
-
-          .summary-row {
-            margin-bottom: 10px;
-          }
-          .vertical-span {
-            display: flex;
-            flex-direction: column;
-            .ant-row {
-              flex: 1;
-              justify-content: center;
-              .ant-form-item-control {
-
-                .ant-form-item-control-input {
-                  display: flex;
-                  flex: 1;
-
-                }
-              }
-              .flight-id {
-                font-weight: 500;
-                font-size: 1rem;
-                &:hover {
-                  //cursor: pointer;
-                  //text-decoration: underline;
-                }
-              }
-            }
-          }
-          .ant-form-item-label, .ant-form-item-control-input-content {
-            text-align: center;
-            padding: 0;
-          }
-          .ant-form-item-label > label {
-            color: #5bc0de;
-          }
-          .flight-status-tag {
-            font-size: 1rem;
-            padding: 5px 15px;
-          }
+      .flight-summary {
+        @include display_flex();
+        .descriptions {
+          @include flex();
+        }
+        .ap {
+          flex: 0 1 80px;
         }
       }
+      .summary-nav {
+        color: #5bc0de;
+      }
     }
+
   }
   .flight-search {
     .ant-input {
       text-transform: uppercase;
     }
   }
-}
-.flight-summer-tab-bar {
-  z-index: 1;
-  background: #343434;
 }

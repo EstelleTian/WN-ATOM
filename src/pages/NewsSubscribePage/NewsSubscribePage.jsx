@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-10 14:01:12
+ * @LastEditTime: 2021-05-11 13:04:48
  * @LastEditors: Please set LastEditors
  * @Description: 消息订阅
  * @FilePath: \WN-CDM\src\pages\NewsSubscribePage\NewsSubscribePage.jsx
@@ -468,7 +468,7 @@ function NewsSubscribePage(props) {
   return (
     <Layout>
       <div className="subscribe_canvas">
-        <div className="subscribe_header">
+        {/* <div className="subscribe_header">
           <div className="title">消息订阅</div>
           <Tooltip title="关闭">
             <div
@@ -480,7 +480,7 @@ function NewsSubscribePage(props) {
               <CloseOutlined />
             </div>
           </Tooltip>
-        </div>
+        </div> */}
         <div className="subscribe_body">
           <div className="subscribe_side">
             <Tree

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2021-01-07 20:35:06
- * @LastEditTime: 2021-04-29 16:40:01
+ * @LastEditTime: 2021-05-10 15:36:30
  * @LastEditors: Please set LastEditors
  * @Description: 左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-ATOM\src\components\RightMultiCanvas\RightMultiCanvas.jsx
@@ -10,6 +10,8 @@ import React, { lazy, Suspense } from "react";
 import { inject, observer } from "mobx-react";
 import { Empty, Spin } from "antd";
 import ModalBox from "components/ModalBox/ModalBox";
+import FlightSearch from "components/FlightSearch/FlightSearch";
+
 import { formatTimeString } from "utils/basic-verify";
 import "./RightMultiCanvas.scss";
 
@@ -21,7 +23,7 @@ const RunwayList = lazy(() => import("components/Runway/RunwayList"));
 
 function RightMultiCanvas(props) {
   const { systemPage } = props;
-  const { rightActiveName } = systemPage;
+  const { rightActiveName, activeFlightSearch } = systemPage;
   return (
     <div className="cont_right">
       {rightActiveName === "scheme" || rightActiveName === "runway" ? (
@@ -76,6 +78,9 @@ function RightMultiCanvas(props) {
         </ModalBox>
       ) : (
         ""
+      )}
+      {activeFlightSearch && (<FlightSearch />
+        
       )}
     </div>
   );
