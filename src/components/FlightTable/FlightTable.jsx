@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-11 15:08:17
+ * @LastEditTime: 2021-05-11 18:14:46
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -14,6 +14,7 @@ import React, {
   useCallback,
   useRef,
   useMemo,
+  Suspense,
 } from "react";
 import { inject, observer } from "mobx-react";
 import { Table, Input, Checkbox, message, Spin } from "antd";
@@ -24,7 +25,9 @@ import {
   scrollTopById,
   highlightRowByDom,
 } from "components/FlightTable/TableColumns";
-import FlightDetail from "components/FlightDetail/FlightDetail";
+const FlightDetail = React.lazy(() =>
+  import("components/FlightDetail/FlightDetail")
+);
 import { isValidVariable, formatTimeString } from "utils/basic-verify";
 import debounce from "lodash/debounce";
 
@@ -351,7 +354,6 @@ const TotalDom = inject("flightTableData")(
 
 /** start *****航班表格 列表框架************/
 function FlightTableModal(props) {
-  let [flightDetailModalVisible, setFlightDetailModalVisible] = useState(false);
   return (
     <ModalBox
       className="flight_canvas"
@@ -365,12 +367,9 @@ function FlightTableModal(props) {
         <TotalDom />
       </div>
       <TSpin />
-      {flightDetailModalVisible && (
-        <FlightDetail
-          flightDetailModalVisible={true}
-          setFlightDetailModalVisible={setFlightDetailModalVisible}
-        ></FlightDetail>
-      )}
+      <Suspense fallback={<div></div>}>
+        <FlightDetail />
+      </Suspense>
     </ModalBox>
   );
 }

@@ -19,7 +19,7 @@ const PositionRunwayDeiceInfo = (props) => {
             </div>
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content">{flight.position}</div>
               </div>
             </div>
           </div>
@@ -33,7 +33,7 @@ const PositionRunwayDeiceInfo = (props) => {
             </div>
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content">{flight.runWay}</div>
               </div>
             </div>
           </div>

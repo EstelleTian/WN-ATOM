@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-05-11 18:03:47
+ * @LastEditTime: 2021-05-11 19:23:21
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -31,7 +31,7 @@ import {
 } from "antd";
 import ModalBox from "components/ModalBox/ModalBox";
 
-import { FlightCoordination } from "utils/flightcoordination.js";
+import { FlightCoordination } from "utils/flightcoordination";
 import DraggableModal from "components/DraggableModal/DraggableModal";
 
 import { request } from "utils/request";

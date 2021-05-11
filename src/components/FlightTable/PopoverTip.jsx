@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-04-23 11:11:22
+ * @LastEditTime: 2021-05-11 19:37:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -189,12 +189,9 @@ const PopoverTip = (props) => {
           params["changeVal"] = timestr;
         } else if (col === "FFIXT") {
           urlKey = "/updateFlightFFixT";
-          if (type === "clear") {
-            urlKey = "/clearFlightFFixT";
-          }
           url = CollaborateUrl.ffixtUrl;
           if (type === "clear") {
-            urlKey = "/clearFlightCtd";
+            urlKey = "/clearFlightFFixT";
           }
           const ffixField = orgFlight.ffixField || {};
           const name = ffixField.name || "";

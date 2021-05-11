@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-21 16:52:12
+ * @LastEditTime: 2021-05-11 18:39:48
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -75,13 +75,13 @@ let FLIGHTIDPopover = (props) => {
   const showFlightDetail = (record) => {
     //关闭协调窗口popover
     closePopover();
-    let orgData = record.orgdata || "{}"
+    let orgData = record.orgdata || "{}";
     let orgFlight = JSON.parse(orgData) || {};
-    console.log(orgFlight)
+    console.log(orgFlight);
     props.flightDetailData.toggleFlightId(record.id);
-    props.flightDetailData.updateFlightDetailData(orgFlight);
-    props.flightDetailData.toggleModalVisible(true)
-  }
+    // props.flightDetailData.updateFlightDetailData(orgFlight);
+    props.flightDetailData.toggleModalVisible(true);
+  };
 
   //标记豁免 取消标记豁免
   const handleExempt = useCallback((type, record, title) => {
@@ -242,10 +242,17 @@ let FLIGHTIDPopover = (props) => {
   const content = useMemo(() => {
     return (
       <div className="clr_flightid">
-        <button className="c-btn c-btn-blue" onClick={() => { showFlightDetail(record) }} >查看航班详情</button>
+        <button
+          className="c-btn c-btn-blue"
+          onClick={() => {
+            showFlightDetail(record);
+          }}
+        >
+          查看航班详情
+        </button>
         {priority === FlightCoordination.PRIORITY_NORMAL &&
-          hasAuth &&
-          systemPage.userHasAuth(13401) ? (
+        hasAuth &&
+        systemPage.userHasAuth(13401) ? (
           <PopconfirmFlightIdBtn
             loading={exemptLoad}
             handleExempt={handleExempt}
@@ -257,8 +264,8 @@ let FLIGHTIDPopover = (props) => {
           ""
         )}
         {priority === FlightCoordination.PRIORITY_EXEMPT &&
-          hasAuth &&
-          systemPage.userHasAuth(13404) ? (
+        hasAuth &&
+        systemPage.userHasAuth(13404) ? (
           <Button
             loading={exemptLoad}
             className="c-btn c-btn-red"
@@ -272,8 +279,8 @@ let FLIGHTIDPopover = (props) => {
           ""
         )}
         {alarms.indexOf("800") === -1 &&
-          hasAuth &&
-          systemPage.userHasAuth(13407) ? (
+        hasAuth &&
+        systemPage.userHasAuth(13407) ? (
           <PopconfirmFlightIdBtn
             loading={singleExemptLoad}
             handleExempt={handleExempt}
@@ -285,8 +292,8 @@ let FLIGHTIDPopover = (props) => {
           ""
         )}
         {alarms.indexOf("800") > -1 &&
-          hasAuth &&
-          systemPage.userHasAuth(13410) ? (
+        hasAuth &&
+        systemPage.userHasAuth(13410) ? (
           <Button
             loading={singleExemptLoad}
             className="c-btn c-btn-red"
@@ -300,8 +307,8 @@ let FLIGHTIDPopover = (props) => {
           ""
         )}
         {alarms.indexOf("400") === -1 &&
-          hasAuth &&
-          systemPage.userHasAuth(13413) ? (
+        hasAuth &&
+        systemPage.userHasAuth(13413) ? (
           <PopconfirmFlightIdBtn
             loading={intervalLoad}
             handleExempt={handleExempt}
@@ -313,8 +320,8 @@ let FLIGHTIDPopover = (props) => {
           ""
         )}
         {alarms.indexOf("400") > -1 &&
-          hasAuth &&
-          systemPage.userHasAuth(13416) ? (
+        hasAuth &&
+        systemPage.userHasAuth(13416) ? (
           <Button
             loading={intervalLoad}
             className="c-btn c-btn-red"
@@ -381,10 +388,12 @@ let FLIGHTIDPopover = (props) => {
       >
         <div className={` ${colorClass}`}>
           <div
-            className={`text_cell_center ${isValidVariable(text) ? "" : "empty_cell"
-              }`}
-            title={`${text}-${PriorityList[priority]} ${isInAreaFlight ? "区内" : "区外"
-              } ${hadInAir ? "空中" : "地面"}`}
+            className={`text_cell_center ${
+              isValidVariable(text) ? "" : "empty_cell"
+            }`}
+            title={`${text}-${PriorityList[priority]} ${
+              isInAreaFlight ? "区内" : "区外"
+            } ${hadInAir ? "空中" : "地面"}`}
           >
             <span className={`${isInAreaFlight ? "inArea" : "outArea"}`}>
               {text}
