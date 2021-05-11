@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-10 13:48:31
+ * @LastEditTime: 2021-05-11 13:32:05
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -92,14 +92,14 @@ const ReqUrls = {
     //获取工作流-详情
     taskDetailUrl: workflowIP+"/hydrogen-duties-server/instance/",
     // 航班查询
-    searchFlightUrl: "http://192.168.194.20:38188/hydrogen-flight-plan-server/flightPlan/retrieveDataByFlightId/",
+    searchFlightUrl: "http://192.168.194.20:38188/hydrogen-flight-plan-server/retrieveFlightDetailsByFlightId/",
     //待办航班列表-放行监控页面中的
     todoListUrl: "http://192.168.194.21:29891/flight/backlog/task/",
     //我的申请列表-放行监控页面中的
     myApplicationListUrl: "http://192.168.194.20:28087/workflow/procInst/",
     //待办
     runTaskTableUrl:workflowIP+"/flight/runtask/",
-    //已结
+    //已办
     histaskTableUrl:workflowIP+"/flight/histask/",
 
     //容量管理-基础接口

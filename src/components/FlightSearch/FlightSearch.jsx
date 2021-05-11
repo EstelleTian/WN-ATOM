@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-05-10 16:04:22
+ * @LastEditTime: 2021-05-11 13:41:28
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -385,7 +385,10 @@ const FlightSearch = (props) => {
                 <div className="ant-row ant-form-item">
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input ">
-                      <div className="ant-form-item-control-input-content">
+                      <div
+                        className="ant-form-item-control-input-content"
+                        title={STATUS}
+                      >
                         <Tag className="flight-status-tag" color="#2db7f5">
                           {STATUSZH}
                         </Tag>
