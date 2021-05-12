@@ -106,6 +106,8 @@ function SchemeForm(props) {
     const restrictionMITValueUnit = schemeFormData.restrictionMITValueUnit;
     // 速度值
     const distanceToTime = schemeFormData.distanceToTime;
+    // 基准点
+    const targetUnit = schemeFormData.targetUnit;
 
 
     //方案交通流录入方式 shortcut:快捷录入  custom:自定义
@@ -1776,10 +1778,10 @@ function SchemeForm(props) {
         }
     }, [restrictionMITValueUnit]);
 
-    // 表单可编辑状态变更
+    // 快捷录入勾选项数据变化、基准点变化更新速度值
     useEffect(function () {
         updateDistanceToTimeValue();   
-    }, [shortcutFormSelecedData]);
+    }, [shortcutFormSelecedData, targetUnit]);
 
     return (
         <div className="scheme-form-container">
