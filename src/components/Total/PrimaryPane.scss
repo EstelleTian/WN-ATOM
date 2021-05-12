@@ -2,7 +2,7 @@
     //position: relative;
     overflow-y: hidden;
     .top{
-        flex: auto;
+        // flex: auto;
         height: 710px;
         margin-bottom: 10px;
         .flex-row {
@@ -77,7 +77,6 @@
         overflow-y: auto;
         .capacity-contianer {
             flex: 1 1 0%;
-            height: 100%;
             margin-left: 11px;
             margin-right: 11px;
             .ant-spin-nested-loading, .ant-spin-container{

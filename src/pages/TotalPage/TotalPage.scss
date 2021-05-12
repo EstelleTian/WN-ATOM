@@ -8,6 +8,15 @@
     }
     .total-tabs{
         height: 100%;
+        .ant-tabs-content {
+            height: 100%;
+        }
+        .primay-pane-layout {
+            height: 100%;
+        }
+        > .ant-tabs-nav{
+            margin: 0;
+        }
     }
     .ant-layout-header {
         background: #2c2c2c!important;

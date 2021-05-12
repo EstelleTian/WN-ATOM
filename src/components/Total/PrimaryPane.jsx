@@ -228,7 +228,7 @@ function PrimaryPane(props) {
 
     return (
 
-        <Layout>
+        <Layout className="primay-pane-layout">
             <Header className="nav_header">
                 <div className="nav_bar layout-row space-between multi_nav">
                     <div className="layout-nav-left layout-row">
