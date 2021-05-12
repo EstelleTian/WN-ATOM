@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-05-10 15:25:47
+ * @LastEditTime: 2021-05-12 09:10:36
  * @LastEditors: Please set LastEditors
  * @Description: 页面相关store
  * @FilePath: \WN-CDM\src\stores\pageStores.jsx
@@ -34,7 +34,7 @@ class SystemPage {
   //右侧切换模块名称 豁免、等待池、特殊、失效、航班协调
   @observable modalActiveName = "";
   //航班查询
-  @observable activeFlightSearch = false;
+  @observable activeFlightSearch = true;
   //左侧导航席位
   @observable xiwei = "";
   //左侧导航-时间范围

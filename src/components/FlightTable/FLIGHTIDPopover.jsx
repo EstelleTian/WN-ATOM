@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-11 20:26:32
+ * @LastEditTime: 2021-05-11 21:53:54
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -279,16 +279,16 @@ let FLIGHTIDPopover = (props) => {
           ""
         )}
         {alarms.indexOf("800") === -1 &&
-        hasAuth &&
-        systemPage.userHasAuth(13407) && (
-          <PopconfirmFlightIdBtn
-            loading={singleExemptLoad}
-            handleExempt={handleExempt}
-            type="singleExempt"
-            record={record}
-            alarms={alarms}
-          />
-        ) }
+          hasAuth &&
+          systemPage.userHasAuth(13407) && (
+            <PopconfirmFlightIdBtn
+              loading={singleExemptLoad}
+              handleExempt={handleExempt}
+              type="singleExempt"
+              record={record}
+              alarms={alarms}
+            />
+          )}
         {alarms.indexOf("800") > -1 &&
         hasAuth &&
         systemPage.userHasAuth(13410) ? (

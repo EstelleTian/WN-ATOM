@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 13:47:11
- * @LastEditTime: 2021-05-11 20:14:31
+ * @LastEditTime: 2021-05-12 09:26:29
  * @LastEditors: Please set LastEditors
  * @Description: 执行KPI
  * @FilePath: WN-ATOM\src\components\FlightDetail\FlightDetail.jsx
@@ -38,7 +38,7 @@ const FlightInfo = (props) => {
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
-                  {flight.flightId}
+                  {flight.flightId || ""}
                 </div>
               </div>
             </div>
@@ -54,7 +54,7 @@ const FlightInfo = (props) => {
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
-                  {flight.carrier}
+                  {flight.carrier || ""}
                 </div>
               </div>
             </div>
@@ -72,7 +72,7 @@ const FlightInfo = (props) => {
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
-                  {flight.registeNum}
+                  {flight.registeNum || ""}
                 </div>
               </div>
             </div>
@@ -88,7 +88,7 @@ const FlightInfo = (props) => {
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
-                  {flight.aircraftType}
+                  {flight.aircraftType || ""}
                 </div>
               </div>
             </div>
@@ -106,7 +106,7 @@ const FlightInfo = (props) => {
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
-                  {flight.teleType}
+                  {flight.teleType || ""}
                 </div>
               </div>
             </div>
@@ -122,7 +122,7 @@ const FlightInfo = (props) => {
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
-                  {flight.teleNew}
+                  {flight.teleNew || ""}
                 </div>
               </div>
             </div>
@@ -140,7 +140,7 @@ const FlightInfo = (props) => {
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
-                  {flight.depAp}
+                  {flight.depAp || ""}
                 </div>
               </div>
             </div>
@@ -156,7 +156,7 @@ const FlightInfo = (props) => {
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
-                  {flight.arrAp}
+                  {flight.arrAp || ""}
                 </div>
               </div>
             </div>
@@ -177,7 +177,7 @@ const FlightInfo = (props) => {
                   className="ant-form-item-control-input-content"
                   title={flight.sDeptime}
                 >
-                  {getDayTimeFromString(flight.sDeptime, "", 2)}
+                  {getDayTimeFromString(flight.sDeptime, "", 2) || ""}
                 </div>
               </div>
             </div>
@@ -196,7 +196,7 @@ const FlightInfo = (props) => {
                   className="ant-form-item-control-input-content"
                   title={flight.sArrtime}
                 >
-                  {getDayTimeFromString(flight.sArrtime, "", 2)}
+                  {getDayTimeFromString(flight.sArrtime, "", 2) || ""}
                 </div>
               </div>
             </div>
@@ -214,7 +214,7 @@ const FlightInfo = (props) => {
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
-                  {flight.sRoute}
+                  {flight.sRoute || ""}
                 </div>
               </div>
             </div>
@@ -235,7 +235,7 @@ const FlightInfo = (props) => {
                   className="ant-form-item-control-input-content"
                   title={flight.pDeptime}
                 >
-                  {getDayTimeFromString(flight.pDeptime, "", 2)}
+                  {getDayTimeFromString(flight.pDeptime, "", 2) || ""}
                 </div>
               </div>
             </div>
@@ -254,7 +254,7 @@ const FlightInfo = (props) => {
                   className="ant-form-item-control-input-content"
                   title={flight.pArrtime}
                 >
-                  {getDayTimeFromString(flight.pArrtime, "", 2)}
+                  {getDayTimeFromString(flight.pArrtime, "", 2) || ""}
                 </div>
               </div>
             </div>
@@ -272,7 +272,7 @@ const FlightInfo = (props) => {
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
-                  {flight.pRoute}
+                  {flight.pRoute || ""}
                 </div>
               </div>
             </div>
@@ -290,7 +290,7 @@ const FlightInfo = (props) => {
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
-                  {flight.cplInfo}
+                  {flight.cplInfo || ""}
                 </div>
               </div>
             </div>
@@ -311,7 +311,7 @@ const FlightInfo = (props) => {
                   <div className="ant-form-item-control-input">
                     <div
                       className="ant-form-item-control-input-content"
-                      title={flight.rCldtime}
+                      title={flight.rCldtime || ""}
                     >
                       {getDayTimeFromString(flight.rCldtime, "", 2)}
                     </div>
@@ -330,7 +330,7 @@ const FlightInfo = (props) => {
                   <div className="ant-form-item-control-input">
                     <div
                       className="ant-form-item-control-input-content"
-                      title={flight.rOutTime}
+                      title={flight.rOutTime || ""}
                     >
                       {getDayTimeFromString(flight.rOutTime, "", 2)}
                     </div>
@@ -357,7 +357,7 @@ const FlightInfo = (props) => {
                   <div className="ant-form-item-control-input">
                     <div
                       className="ant-form-item-control-input-content"
-                      title={flight.formerArrtime}
+                      title={flight.formerArrtime || ""}
                     >
                       {getDayTimeFromString(flight.formerArrtime, "", 2)}
                     </div>
@@ -379,7 +379,7 @@ const FlightInfo = (props) => {
                   <div className="ant-form-item-control-input">
                     <div
                       className="ant-form-item-control-input-content"
-                      title={flight.ctobt}
+                      title={flight.ctobt || ""}
                     >
                       {getDayTimeFromString(flight.ctobt, "", 2)}
                     </div>
@@ -419,7 +419,7 @@ const FlightInfo = (props) => {
                   <div className="ant-form-item-control-input">
                     <div
                       className="ant-form-item-control-input-content"
-                      title={flight.rCldtime}
+                      title={flight.rCldtime || ""}
                     >
                       {getDayTimeFromString(flight.rCldtime, "", 2)}
                     </div>
@@ -442,9 +442,9 @@ const FlightInfo = (props) => {
               <div className="ant-form-item-control-input">
                 <div
                   className="ant-form-item-control-input-content"
-                  title={flight.rCldtime}
+                  title={flight.rDeptime}
                 >
-                  {getDayTimeFromString(flight.rCldtime, "", 2)}
+                  {getDayTimeFromString(flight.rDeptime, "", 2) || ""}
                 </div>
               </div>
             </div>
@@ -461,9 +461,9 @@ const FlightInfo = (props) => {
               <div className="ant-form-item-control-input">
                 <div
                   className="ant-form-item-control-input-content"
-                  title={flight.rCldtime}
+                  title={flight.rArrtime}
                 >
-                  {getDayTimeFromString(flight.rCldtime, "", 2)}
+                  {getDayTimeFromString(flight.rArrtime, "", 2) || ""}
                 </div>
               </div>
             </div>

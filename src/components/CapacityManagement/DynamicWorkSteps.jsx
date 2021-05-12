@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-04-30 10:16:59
+ * @LastEditTime: 2021-05-12 09:09:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -228,18 +228,23 @@ function DynamicWorkSteps(props) {
                 insDate = businessKeyArr[businessKeyArr.length - 1];
               }
             }
-            const curDate = props.capacity.getDate();
-            console.log("insDate", insDate, "curDate", curDate);
-            if (insDate.length > 8) {
-              insDate = insDate.substring(0, 8);
-            }
-            if (insDate * 1 > curDate * 1) {
-              props.capacity.dateRange = 1;
-            } else if (insDate * 1 < curDate * 1) {
-              props.capacity.dateRange = -1;
-            } else if (insDate * 1 === curDate * 1) {
+            if (insDate === "") {
               props.capacity.dateRange = 0;
+            } else {
+              const curDate = props.capacity.getDate();
+              console.log("insDate", insDate, "curDate", curDate);
+              if (insDate.length > 8) {
+                insDate = insDate.substring(0, 8);
+              }
+              if (insDate * 1 > curDate * 1) {
+                props.capacity.dateRange = 1;
+              } else if (insDate * 1 < curDate * 1) {
+                props.capacity.dateRange = -1;
+              } else if (insDate * 1 === curDate * 1) {
+                props.capacity.dateRange = 0; //今天
+              }
             }
+
             props.capacity.isFirstLoadDynamicWorkFlowData = false;
           }
 

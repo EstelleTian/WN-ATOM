@@ -1,12 +1,11 @@
-
 import React, { Fragment } from "react";
 import { Row, Col } from "antd";
 import { inject, observer } from "mobx-react";
 
 //机位&跑道&除冰信息
 const PositionRunwayDeiceInfo = (props) => {
-  const { flightDetailData } = props;
-  const { flight } = flightDetailData;
+  const { flightDetailData = {} } = props;
+  const { flight = {} } = flightDetailData;
   return (
     <Fragment>
       <Row className="info-row">
@@ -19,7 +18,9 @@ const PositionRunwayDeiceInfo = (props) => {
             </div>
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">{flight.position}</div>
+                <div className="ant-form-item-control-input-content">
+                  {flight.position || ""}
+                </div>
               </div>
             </div>
           </div>
@@ -33,7 +34,9 @@ const PositionRunwayDeiceInfo = (props) => {
             </div>
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">{flight.runWay}</div>
+                <div className="ant-form-item-control-input-content">
+                  {flight.runWay || ""}
+                </div>
               </div>
             </div>
           </div>
@@ -47,7 +50,7 @@ const PositionRunwayDeiceInfo = (props) => {
             </div>
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content">{}</div>
               </div>
             </div>
           </div>
@@ -63,7 +66,7 @@ const PositionRunwayDeiceInfo = (props) => {
             </div>
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -77,7 +80,7 @@ const PositionRunwayDeiceInfo = (props) => {
             </div>
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -91,7 +94,7 @@ const PositionRunwayDeiceInfo = (props) => {
             </div>
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>

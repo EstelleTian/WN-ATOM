@@ -69,26 +69,27 @@ const columns = [
 const SchemeInfo = (props) => {
   const { flightDetailData } = props;
   const { flight } = flightDetailData;
-  let data = [
-    {
-      key: "100",
-      schemeName: "AGULU 1分钟/架",
-      type: "时间",
-      value: "1",
-      reason: "其他",
-      resource: "ATOM",
-      status: "正在执行",
-    },
-    {
-      key: "101",
-      schemeName: "AGULU 1分钟/架",
-      type: "时间",
-      value: "1",
-      reason: "其他",
-      resource: "ATOM",
-      status: "正在执行",
-    },
-  ];
+  let data = [];
+  // let data = [
+  //   {
+  //     key: "100",
+  //     schemeName: "AGULU 1分钟/架",
+  //     type: "时间",
+  //     value: "1",
+  //     reason: "其他",
+  //     resource: "ATOM",
+  //     status: "正在执行",
+  //   },
+  //   {
+  //     key: "101",
+  //     schemeName: "AGULU 1分钟/架",
+  //     type: "时间",
+  //     value: "1",
+  //     reason: "其他",
+  //     resource: "ATOM",
+  //     status: "正在执行",
+  //   },
+  // ];
   return (
     <Fragment>
       <Table

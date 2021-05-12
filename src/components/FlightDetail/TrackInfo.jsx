@@ -49,22 +49,23 @@ const columns = [
 const TrackInfo = (props) => {
   const { flightDetailData } = props;
   const { flight } = flightDetailData;
-  let data = [
-    {
-      key: "100",
-      ffixt: "ZUUU",
-      ptime: "07/1450",
-      ctime: "07/1450",
-      atime: "07/1450",
-    },
-    {
-      key: "200",
-      ffixt: "NOBIK",
-      ptime: "07/1450",
-      ctime: "07/1450",
-      atime: "07/1450",
-    },
-  ];
+  // let data = [
+  //   {
+  //     key: "100",
+  //     ffixt: "ZUUU",
+  //     ptime: "07/1450",
+  //     ctime: "07/1450",
+  //     atime: "07/1450",
+  //   },
+  //   {
+  //     key: "200",
+  //     ffixt: "NOBIK",
+  //     ptime: "07/1450",
+  //     ctime: "07/1450",
+  //     atime: "07/1450",
+  //   },
+  // ];
+  let data = [];
   return (
     <Fragment>
       <div className="info-row">最新动态修正时间：XXXX</div>

@@ -89,19 +89,20 @@ const columns = [
 const CoordinationRecord = (props) => {
   const { flightDetailData } = props;
   const { flight } = flightDetailData;
-  let data = [
-    {
-      key: "100",
-      type: "发布预撤COBT",
-      orgValue: "",
-      value: "06/2151 06/2201",
-      comment: "",
-      status: "调整",
-      time: "06/2108",
-      user: "时隙分配程序",
-      ip: "",
-    },
-  ];
+  // let data = [
+  //   {
+  //     key: "100",
+  //     type: "发布预撤COBT",
+  //     orgValue: "",
+  //     value: "06/2151 06/2201",
+  //     comment: "",
+  //     status: "调整",
+  //     time: "06/2108",
+  //     user: "时隙分配程序",
+  //     ip: "",
+  //   },
+  // ];
+  let data = []
   return (
     <Fragment>
       <Table
