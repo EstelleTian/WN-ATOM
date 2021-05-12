@@ -269,7 +269,7 @@ const FlightCoordination = {
             
             case FlightCoordination.ALARM_TYPE_CHANGE_ROUTE:
                 zh = '改';
-                color="#47a618";
+                color="#7d550d";
                 descriptions="改航";
                 pos = 3;
                 break;

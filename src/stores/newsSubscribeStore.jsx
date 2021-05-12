@@ -14,6 +14,12 @@ class NewsSubscribe {
   @observable tabSelect = "";
   @action setData(data) {
     this.data = data;
+    if (this.tabSelect === "") {
+      const { categorySubscribeConfigs = [] } = data;
+      const config = categorySubscribeConfigs[0] || {};
+      const type = config.type || "";
+      this.setTabSelect(type);
+    }
   }
   @action setButtonSelect(name) {
     this.buttonSelect = name;
@@ -34,12 +40,50 @@ class NewsSubscribe {
       }
     });
   }
-  //   @action getTabs() {
-  //     const {categorySubscribeConfigs}=this.data;
-  //     categorySubscribeConfigs.map(item=>{
-  //         let obj = {}
-  //     })
-  //   }
+  //不是全选中 - 全选   全选中->全不选
+  @action hasAllChecked() {
+    const { categorySubscribeConfigs = [] } = this.data;
+
+    let tabItems = categorySubscribeConfigs.filter((item) => {
+      if (item.type === this.tabSelect) {
+        return item;
+      }
+    });
+
+    if (tabItems.length > 0) {
+      tabItems = tabItems[0] || {};
+    }
+    const children = tabItems.children || [];
+    const unCheckedChildren = children.filter((child) => {
+      if (!child.subscribe) {
+        return child;
+      }
+    });
+
+    return unCheckedChildren.length;
+  }
+  @action changeChecked(type) {
+    const { categorySubscribeConfigs } = this.data;
+    let tabItems = categorySubscribeConfigs.filter((item) => {
+      if (item.type === this.tabSelect) {
+        return item;
+      }
+    });
+
+    if (tabItems.length > 0) {
+      tabItems = tabItems[0] || {};
+    }
+    const children = tabItems.children || [];
+    if (type === "all") {
+      children.map((child) => {
+        child.subscribe = true;
+      });
+    } else {
+      children.map((child) => {
+        child.subscribe = false;
+      });
+    }
+  }
 }
 let newsSubscribe = new NewsSubscribe();
 export { newsSubscribe };

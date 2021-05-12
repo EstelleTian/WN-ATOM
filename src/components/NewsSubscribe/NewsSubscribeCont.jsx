@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-11 14:57:15
+ * @LastEditTime: 2021-05-12 13:13:04
  * @LastEditors: Please set LastEditors
  * @Description: 消息订阅
  * @FilePath: \WN-CDM\src\pages\NewsSubscribePage\NewsSubscribePage.jsx
@@ -12,6 +12,7 @@ import React, {
   Suspense,
   useState,
   useEffect,
+  useMemo,
   useCallback,
 } from "react";
 import { inject, observer } from "mobx-react";
@@ -26,7 +27,8 @@ const { TabPane } = Tabs;
 
 //订阅事件-tab+内容
 function tabCont(props) {
-  const { children = [], newsSubscribe } = props;
+  const { checked, setChecked } = useState(false);
+  const { children = [], newsSubscribe, type } = props;
   const data = newsSubscribe.data || {};
   const { categorySubscribeConfigs = [] } = data;
 
@@ -38,9 +40,33 @@ function tabCont(props) {
     const checked = target.checked;
     newsSubscribe.updateSubChecked(type, code, checked);
   }
+  let btnType = "all";
 
+  if (
+    isValidVariable(newsSubscribe.tabSelect) &&
+    type === newsSubscribe.tabSelect
+  ) {
+    let checkedItem = newsSubscribe.hasAllChecked();
+    console.log("checkedItem", checkedItem);
+    if (checkedItem * 1 === 0) {
+      btnType = "none";
+    }
+  }
+
+  console.log(111);
   return (
     <div className="subscribe_tabs_cont">
+      <div className="check_all">
+        <Button
+          type="primary"
+          size="small"
+          onClick={(e) => {
+            newsSubscribe.changeChecked(btnType);
+          }}
+        >
+          {btnType === "all" ? "全选" : "全不选"}
+        </Button>
+      </div>
       {children.map((child) => {
         if (isValidVariable(child)) {
           // {
@@ -64,8 +90,6 @@ function tabCont(props) {
               {child.name}
             </Checkbox>
           );
-        } else {
-          return "";
         }
       })}
     </div>
@@ -85,10 +109,10 @@ function NewsSubscribeCont(props) {
 
   return (
     <div className="subscribe_tabs">
-      <Tabs onChange={callback} type="card">
+      <Tabs activeKey={newsSubscribe.tabSelect} onChange={callback} type="card">
         {categorySubscribeConfigs.map((item) => (
           <TabPane tab={item.name} key={item.type}>
-            <TabCont children={item.children}></TabCont>
+            <TabCont type={item.type} children={item.children}></TabCont>
           </TabPane>
         ))}
       </Tabs>
