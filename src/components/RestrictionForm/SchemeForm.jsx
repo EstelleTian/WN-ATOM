@@ -84,7 +84,8 @@ function SchemeForm(props) {
 
     // 备选航路表单字段配置集合
     let [alterRoutesField, setAlterRoutesField] = useState(initialAlterRoutesFieldData);
-
+    // 主按钮是否禁用
+    let [primaryBtnDisabled, setPrimaryBtnDisabled] = useState(false);
     const { systemPage, schemeFormData, operationType, primaryButtonName, operationDescription } = props;
     // 编辑按钮
     const showEditBtn = props.showEditBtn || false;
@@ -811,6 +812,7 @@ function SchemeForm(props) {
                 <div className="button-container">
                     <Button
                         type="primary"
+                        disabled={primaryBtnDisabled}
                         onClick={handlePrimaryBtnClick}
                     >
                         {primaryButtonName}
@@ -1058,6 +1060,8 @@ function SchemeForm(props) {
             opt.url = ReqUrls.modifySimulationSchemeUrl + user.id;
             opt.method = "PUT";
         }
+        // 禁用主按钮
+        setPrimaryBtnDisabled(true);
         request(opt);
     };
 
@@ -1612,6 +1616,7 @@ function SchemeForm(props) {
         if (props.hasOwnProperty("setDisabledForm")) {
             props.setDisabledForm(false);
         }
+        setPrimaryBtnDisabled(false);
         let errMsg = "";
         if (isValidObject(err) && isValidVariable(err.message)) {
             errMsg = err.message;
@@ -1757,10 +1762,19 @@ function SchemeForm(props) {
            schemeFormData.updateInputMethod("shortcut");
         }    
     }, [operationType]);
-    // 速度值、MIT限制方式下的限制单位、快捷录入勾选变更后更新MIT流控时间间隔字段数值
+    // MIT限制方式下的限制单位、快捷录入勾选变更后更新MIT流控时间间隔字段数值
     useEffect(function () {
-        updateMITTimeValueChange();   
-    }, [restrictionMITValueUnit, distanceToTime, shortcutFormSelecedData]);
+        if(isValidVariable(distanceToTime) || shortcutFormSelecedData.length > 0){
+            updateMITTimeValueChange(); 
+        }
+    }, [ distanceToTime, shortcutFormSelecedData]);
+
+    // 速度值变更后更新MIT流控时间间隔字段数值
+    useEffect(function () {
+        if(isValidVariable(restrictionMITValueUnit) && restrictionMITValueUnit ==="D"){
+            updateMITTimeValueChange();   
+        }
+    }, [restrictionMITValueUnit]);
 
     // 表单可编辑状态变更
     useEffect(function () {
