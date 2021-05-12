@@ -10,6 +10,8 @@ import React, {useEffect, useState} from 'react'
 import { Row, Col, message as antdMessage,  } from 'antd'
 import NTFMDetail  from 'components/RestrictionDetail/NTFM/NTFMDetail'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
+import SchemeForm from 'components/RestrictionForm/SchemeForm'
+import { inject, observer } from "mobx-react";
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 // NTFM新增导入生成方案
@@ -25,6 +27,9 @@ function NTFMAdd(props){
             antdMessage.error('获取的流控数据为空');
         }else{
             setFlowData(data);
+            // 更新方案表单store数据
+            let tacticProcessInfo = data.tacticProcessInfo || {};
+            props.schemeFormData.updateSchemeData(tacticProcessInfo);
         }
     };
     // 请求NTFM数据失败
@@ -84,7 +89,7 @@ function NTFMAdd(props){
                 <Row className="title">
                     <span>流控导入</span>
                 </Row>
-                <RestrictionForm
+                {/* <RestrictionForm
                     operationType="IMPORT"
                     operationDescription="流控导入"
                     primaryButtonName="导入"
@@ -96,11 +101,24 @@ function NTFMAdd(props){
                     showIgnoreBtn={true}
                     bordered={ true }
                     operationBarClassName="outside"
-                />
+                /> */}
+                <SchemeForm
+                    operationType="IMPORT"
+                    operationDescription="流控导入"
+                    primaryButtonName="导入"
+                    disabledForm = {disabledForm}
+                    setDisabledForm = {setDisabledForm}
+                    message={message}
+                    showEditBtn={true}
+                    showIgnoreBtn={true}
+                    bordered={ true }
+                    operationBarClassName="outside"
+                ></SchemeForm>
             </Col>
         </Row>
     )
 }
-export default NTFMAdd;
+// export default NTFMAdd;
+export default inject("schemeFormData", "systemPage")(observer(NTFMAdd))
 
 
