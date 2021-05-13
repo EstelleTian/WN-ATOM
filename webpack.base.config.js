@@ -85,6 +85,10 @@ module.exports = {
             {
                 test: /\.jpg|png$/,
                 use: ['url-loader']
+            },
+            {
+                test: /\.mp3$/,
+                use: ['file-loader']
             }
         ]
     },

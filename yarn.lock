@@ -11390,6 +11390,13 @@ re-resizable@6.9.0:
   dependencies:
     fast-memoize "^2.5.1"
 
+react-audio-player@^0.17.0:
+  version "0.17.0"
+  resolved "https://registry.nlark.com/react-audio-player/download/react-audio-player-0.17.0.tgz#4be7b1952512801f36ba0865a9c98f7b108f991e"
+  integrity sha1-S+exlSUSgB82ughlqcmPexCPmR4=
+  dependencies:
+    prop-types "^15.7.2"
+
 react-content-loader@^5.0.4:
   version "5.1.4"
   resolved "https://registry.npm.taobao.org/react-content-loader/download/react-content-loader-5.1.4.tgz#854bafe4415dd9de07174621375bc308edd0ebb5"

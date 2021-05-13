@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-05-11 19:23:21
+ * @LastEditTime: 2021-05-13 09:41:52
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -94,7 +94,7 @@ const FlightSearch = (props) => {
     let FLIGHTID = item.flightId;
     let DEPAP = item.depAp || "N/A";
     let ARRAP = item.arrAp || "N/A";
-    let SOBT = item.SOBT || "N/A";
+    let SOBT = item.sobt || "N/A";
     let REG = item.registeNum || "N/A";
     let FORMER = formerFlight.flightId || "N/A";
     let FORMERDEPAP = formerFlight.depAp || "N/A";
@@ -115,7 +115,9 @@ const FlightSearch = (props) => {
             <div className="flight-prop num">{index + 1}</div>
             <div className="flight-prop flight-id">{FLIGHTID}</div>
             <div className="flight-prop flight-depap-arrap">{`${DEPAP}-${ARRAP}`}</div>
-            <div className="flight-prop flight-sobt">{SOBT}</div>
+            <div className="flight-prop flight-sobt" title={SOBT}>
+              {getDayTimeFromString(SOBT)}
+            </div>
             <div className="flight-prop flight-reg">{REG}</div>
             <div className="flight-prop flight-former">{FORMER}</div>
           </a>
@@ -170,24 +172,78 @@ const FlightSearch = (props) => {
     let ARRAP = flight.arrAp || "N/A";
     const id = flight.id;
     const FLIGHTID = flight.flightId || "N/A";
-    const AGCT = flight.AGCT;
+    const AGCT = flight.agct || "";
     const AGCTHHmm = getDayTimeFromString(AGCT) || "N/A";
-    const AOBT = flight.AOBT;
-    const AOBTHHmm = getDayTimeFromString(AOBT) || "N/A";
-    const ATOT = flight.atd;
+    const AOBT = flight.aobt || "";
+    const COBT = flight.cobt || "";
+    const TOBT = flight.tobt || "";
+    const EOBT = flight.eobt || "";
+    const ATD = flight.atd || "";
+    const CTD = flight.ctd || "";
+    const TTD = flight.ttd || "";
+    const ETD = flight.etd || "";
+
+    const ATOT = flight.atd || "";
     const ATOTHHmm = getDayTimeFromString(ATOT) || "N/A";
+    const SOBT = flight.sobt || "";
+    const SOBTHHmm = getDayTimeFromString(SOBT) || "N/A";
     const RWY = flight.runWay || "N/A";
     const SID = flight.SID || "N/A";
     const REG = flight.registeNum || "N/A";
     const ALDT = flight.ALDT || "N/A";
-    const ACTYPE = flight.aircraftType || "N/A";
-    const STATUS = flight.status;
+    const ACTYPE = flight.aCtype || "N/A";
+    const STATUS = flight.status || "";
     const STATUSZH = FlightCoordination.getStatusZh(STATUS);
     const STATUSColor = "";
+
+    let OBT = "N/A";
+    let OBTTitle = "";
+    if (isValidVariable(AOBT)) {
+      OBTTitle = "AOBT";
+      OBT = AOBT;
+    } else if (isValidVariable(COBT)) {
+      OBTTitle = "COBT";
+      OBT = COBT;
+    } else if (isValidVariable(TOBT)) {
+      if (isValidVariable(EOBT)) {
+        OBTTitle = "EOBT";
+        var eobtVal = EOBT.substring(EOBT.length - 4);
+        var tobtVal = TOBT.substring(TOBT.length - 4);
+        var difValue = tobtVal - eobtVal;
+        //TOBT大于 EOBT则显示EOBT加上 差值（作为角标）
+        if (tobtVal > eobtVal) {
+          OBT = EOBT;
+        } else {
+          OBT = TOBT;
+        }
+      }
+    } else if (isValidVariable(EOBT)) {
+      OBTTitle = "EOBT";
+      OBT = EOBT;
+    }
+    let OBTHHmm = getDayTimeFromString(OBT) || "N/A";
+
+    let TOT = "N/A";
+    let TOTTitle = "";
+    if (isValidVariable(ATD)) {
+      TOTTitle = "ATOT";
+      TOT = ATD;
+    } else if (isValidVariable(CTD)) {
+      TOTTitle = "CTOT";
+      TOT = CTD;
+    } else if (isValidVariable(TTD)) {
+      TOTTitle = "TTOT";
+      TOT = TTD;
+    } else if (isValidVariable(ETD)) {
+      TOTTitle = "ETOT";
+      TOT = ETD;
+    }
+    let TOTHHmm = getDayTimeFromString(TOT) || "N/A";
 
     let FORMER = formerFlight.flightId || "N/A";
     let FORMERDEPAP = formerFlight.depAp || "N/A";
     let FORMERARRAP = formerFlight.arrAp || "N/A";
+
     const text = <span>{`查看航班详情`}</span>;
 
     const schemeListData = [];
@@ -238,14 +294,14 @@ const FlightSearch = (props) => {
               </Col>
               <Col span={3}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label" title="AOBT">
-                    <label className="ant-form-item-no-colon">AOBT</label>
+                  <div className="ant-col ant-form-item-label" title={OBTTitle}>
+                    <label className="ant-form-item-no-colon">{OBTTitle}</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input ">
-                      <Tooltip title={formatTimeString(AOBT)}>
+                      <Tooltip title={formatTimeString(OBT)}>
                         <div className="ant-form-item-control-input-content">
-                          {AOBTHHmm}
+                          {OBTHHmm}
                         </div>
                       </Tooltip>
                     </div>
@@ -254,14 +310,17 @@ const FlightSearch = (props) => {
               </Col>
               <Col span={3}>
                 <div className="ant-row ant-form-item">
-                  <div className="ant-col ant-form-item-label " title="ATOT">
-                    <label className="ant-form-item-no-colon">ATOT</label>
+                  <div
+                    className="ant-col ant-form-item-label "
+                    title={TOTTitle}
+                  >
+                    <label className="ant-form-item-no-colon">{TOTTitle}</label>
                   </div>
                   <div className="ant-col ant-form-item-control">
                     <div className="ant-form-item-control-input ">
-                      <Tooltip title={formatTimeString(ATOT)}>
+                      <Tooltip title={formatTimeString(TOT)}>
                         <div className="ant-form-item-control-input-content">
-                          {ATOTHHmm}
+                          {TOTHHmm}
                         </div>
                       </Tooltip>
                     </div>
@@ -331,7 +390,7 @@ const FlightSearch = (props) => {
                   </div>
                 </div>
               </Col>
-              <Col span={5}>
+              <Col span={6}>
                 <div className="ant-row ant-form-item">
                   <div
                     className="ant-col ant-form-item-label"

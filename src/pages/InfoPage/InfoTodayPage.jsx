@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-22 16:09:16
- * @LastEditTime: 2021-04-30 09:07:11
+ * @LastEditTime: 2021-05-12 16:45:18
  * @LastEditors: Please set LastEditors
  * @Description: 消息当日全部数据
  * @FilePath: \WN-ATOM\src\pages\InfoPage\InfoListPage.jsx
@@ -11,7 +11,12 @@ import { Layout, Tooltip, Spin, Input, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { inject, observer } from "mobx-react";
 import { requestGet } from "utils/request";
-import { isValidVariable, formatTimeString } from "utils/basic-verify";
+import { customNotice } from "utils/common-funcs";
+import {
+  isValidVariable,
+  isValidObject,
+  formatTimeString,
+} from "utils/basic-verify";
 import { closeMessageDlg } from "utils/client";
 import InfoList from "components/Info/InfoList";
 import debounce from "lodash/debounce";

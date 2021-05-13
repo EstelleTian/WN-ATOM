@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-26 11:29:39
+ * @LastEditTime: 2021-05-12 17:14:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -13,6 +13,9 @@ import { CloseOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { formatTimeString } from "utils/basic-verify";
+import ReactAudioPlayer from "react-audio-player";
+
+import sounds from "./audio/info.mp3";
 import {
   sendMsgToClient,
   openTclientFrameForMessage,
@@ -68,7 +71,7 @@ function InfoCardItem(props) {
       setActive(false);
     }, 3000);
   }, []);
-  let { message, index } = props;
+  let { message, index, audioPlay } = props;
   let {
     level,
     sendTime,
@@ -306,6 +309,8 @@ function InfoCardItem(props) {
             </div>
           )}
         </div>
+
+        {audioPlay && <ReactAudioPlayer src={sounds} autoPlay={true} />}
       </div>
     </CSSTransition>
   );
@@ -385,6 +390,7 @@ function InfoList(props) {
                 message={newItem}
                 // newsList={props.newsList}
                 index={index}
+                audioPlay={props.audioPlay}
               />
             }
             key={newItem.id}

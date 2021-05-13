@@ -1,4 +1,4 @@
-import { isValidVariable } from './basic-verify';
+import { isValidObject, isValidVariable } from './basic-verify';
 /**
  * FlightCoordination对象常量
  */
@@ -306,23 +306,28 @@ const FlightCoordination = {
         }
         return sourceCN;
     },
-    // getSourceZh : (source) => {
-    //     let sourceCN = ""
-    //     if( source.indexOf('ATOM') > -1 ){
-    //         sourceCN = "引接ATOM";
-    //     }else if( source.indexOf('NTFM') > -1 ){
-    //         sourceCN = "引接NTFM";
-    //     }else if( source.indexOf('MANUAL') > -1 ){
-    //         sourceCN = "人工";
-    //     }else if( source.indexOf('LOCK') > -1 ){
-    //         sourceCN = "锁定";
-    //     }else if( source.indexOf('AUTO') > -1 ){
-    //         sourceCN = "自动";
-    //     }else {
-    //          sourceCN = source;
-    //     }
-    //     return sourceCN;
-    // },
+    //方案状态转化
+    getSchemeStatusZh: (status) => {
+        let newStatus = status;
+        switch (status) {
+        case "FUTURE":
+            newStatus = "将要执行";
+            break;
+        case "RUNNING":
+            newStatus = "正在执行";
+            break;
+        case "TERMINATED_MANUAL":
+            newStatus = "人工终止";
+            break;
+        case "TERMINATED_AUTO":
+            newStatus = "系统终止";
+            break;
+        case "FINISHED":
+            newStatus = "正常结束";
+            break;
+        }
+        return newStatus;
+    },
 
     /**
      * 获取优先级中文
@@ -1069,16 +1074,14 @@ const FlightCoordination = {
      *
      * @param flight
      */
-    parseMonitorPointInfo: (flight) => {
-        let result = new Object();
-        if (!isValidVariable(flight)
-            || !isValidVariable(flight.monitorPointInfo)) {
+    parseMonitorPointInfo: (monitorPointInfo) => {
+        let result = {};
+        if (!isValidVariable(monitorPointInfo)) {
             return result;
         }
-
         // 所经航路点信息
-        let rarr = new Array();
-        let mpis = flight.monitorPointInfo.split('?'); // 问号?转义
+        let rarr = [];
+        let mpis = monitorPointInfo.split('?'); // 问号?转义
         for (let index in mpis) {
             let mpiO = {};
             let mpi = mpis[index]; // 单个点的所有信息
@@ -1620,5 +1623,20 @@ const HandleStatusToCN = {
     "400": "拒绝",
     "500": "确认",
 };
-
-export { FlightCoordination, AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList, TodoType, StatusToCN, HandleStatusToCN };
+//方案原因
+const reasonType = {
+    AIRPORT: "机场",
+    MILITARY: "军事活动",
+    CONTROL: "流量",
+    WEATHER: "天气",
+    AIRLINE: "航空公司",
+    SCHEDULE: "航班时刻",
+    JOINT_INSPECTION: "联检",
+    OIL: "油料",
+    DEPART_SYSTEM: "离港系统",
+    PASSENGER: "旅客",
+    PUBLIC_SECURITY: "公共安全",
+    MAJOR_SECURITY_ACTIVITIES: "重大保障活动",
+    OTHER: "其它",
+  };
+export { FlightCoordination, reasonType,AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList, TodoType, StatusToCN, HandleStatusToCN };

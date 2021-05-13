@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-20 10:02:22
+ * @LastEditTime: 2021-05-12 17:13:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -25,6 +25,7 @@ function InfoPage(props) {
   const [login, setLogin] = useState(false);
   const [scrollChecked, setScrollChecked] = useState(true);
   const [autoOpen, setAutoOpen] = useState(true);
+  const [audioPlay, setAudioPlay] = useState(true);
   const autoOpenRef = useRef(true);
   const stompClientFunc = (username = "") => {
     if (!isValidVariable(username)) {
@@ -192,7 +193,16 @@ function InfoPage(props) {
         <div className="info_canvas">
           <div className="info_header">
             <div className="title">消息推送(共{len}条，最多100条)</div>
-
+            <div className="scroll">
+              <Checkbox
+                checked={audioPlay}
+                onChange={(e) => {
+                  setAudioPlay(e.target.checked);
+                }}
+              >
+                声音
+              </Checkbox>
+            </div>
             <div className="scroll">
               <Checkbox
                 checked={autoOpen}
@@ -245,7 +255,7 @@ function InfoPage(props) {
               </div>
             </Tooltip>
           </div>
-          <InfoList newsList={newsList} />
+          <InfoList newsList={newsList} audioPlay={audioPlay} />
         </div>
       ) : (
         ""

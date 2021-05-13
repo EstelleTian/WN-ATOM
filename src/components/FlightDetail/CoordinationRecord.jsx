@@ -1,15 +1,98 @@
 import React, { Fragment } from "react";
-import { Row, Col } from "antd";
+import { Row, Col, Tooltip } from "antd";
 import { Table, Spin, Modal } from "antd";
 import { inject, observer } from "mobx-react";
-
+import { FlightCoordination } from "utils/flightcoordination";
+import { FlightCoordinationRecordGridTableDataUtil } from "utils/flight-coordination-record-data-util";
+import { FlightCoordinationRecord } from "utils/flight-coordination-record";
+import {
+  isValidVariable,
+  isValidObject,
+  formatTimeString,
+  getDayTimeFromString,
+  getFullTime,
+} from "utils/basic-verify";
+//根据key识别列表列配置columns
+const getLockedCn = (value) => {
+  let res = "";
+  switch (value) {
+    case "1":
+      res = "禁止调整";
+      break;
+    case "0":
+      res = "自动";
+      break;
+  }
+  return res;
+};
+const convertValueFunc = (text, record, index) => {
+  const { type } = record;
+  if (type === "TOBT") {
+    if (isValidVariable(text) && text.length >= 12 && text * 1 > 0) {
+      return <div title={text}>{getDayTimeFromString(text)}</div>;
+    }
+  } else if (type === "EXEMPT" || type === "UNEXEMPT") {
+    // console.log(text)
+    return <div title={text}>{FlightCoordination.getPriorityZh(text)}</div>;
+  } else if (
+    type === "SINGLEEXEMPT" ||
+    type === "UNSINGLEEXEMPT" ||
+    type === "INTERVAL" ||
+    type === "UNINTERVAL"
+  ) {
+    if (isValidVariable(text)) {
+      const tacticName = record.tacticName || "";
+      return <div title={`${tacticName} - ${text}`}>{tacticName}</div>;
+    } else {
+      return <div title={text}>{text}</div>;
+    }
+  } else if (type === "INPOOL" || type === "OUTPOOL") {
+    return <div title={text}>{FlightCoordination.getPoolStatusZh(text)}</div>;
+  } else if (
+    type === "COBT" ||
+    type === "CTOT" ||
+    type === "CTD" ||
+    type === "FFIXT" ||
+    type === "CTO"
+  ) {
+    const obj = JSON.parse(text) || {};
+    const getCont = () => {
+      return (
+        <div>
+          {Object.keys(obj).map((key, index) => {
+            let val = obj[key];
+            if (isValidVariable(val) && val.length >= 12 && val * 1 > 0) {
+              return (
+                <div key={index}>
+                  {key}：{getDayTimeFromString(val, "", 2)}
+                </div>
+              );
+            } else {
+              return (
+                <div key={index}>
+                  {key}：{getLockedCn(val)}
+                </div>
+              );
+            }
+          })}
+        </div>
+      );
+    };
+    return <Tooltip title={getCont()}>{getCont()}</Tooltip>;
+  } else {
+    if (isValidVariable(text) && text.length >= 12 && text * 1 > 0) {
+      return <div title={text}>{getDayTimeFromString(text)}</div>;
+    }
+  }
+  return <div title={text}>{text}</div>;
+};
 const columns = [
   {
     title: "协调类型",
     dataIndex: "type",
     align: "center",
     key: "type",
-    width: 80,
+    width: 70,
     ellipsis: true,
     className: "type",
     showSorterTooltip: false,
@@ -19,29 +102,31 @@ const columns = [
     dataIndex: "orgValue",
     align: "center",
     key: "orgValue",
-    width: 80,
+    width: 100,
     ellipsis: true,
     className: "orgValue",
     showSorterTooltip: false,
+    render: convertValueFunc,
   },
   {
     title: "协调后",
     dataIndex: "value",
     align: "center",
     key: "value",
-    width: 80,
+    width: 100,
     ellipsis: true,
     className: "value",
     showSorterTooltip: false,
+    render: convertValueFunc,
   },
   {
     title: "协调备注",
-    dataIndex: "comment",
+    dataIndex: "comments",
     align: "center",
-    key: "comment",
-    width: 80,
+    key: "comments",
+    width: 60,
     ellipsis: true,
-    className: "comment",
+    className: "comments",
     showSorterTooltip: false,
   },
   {
@@ -49,7 +134,7 @@ const columns = [
     dataIndex: "status",
     align: "center",
     key: "status",
-    width: 80,
+    width: 60,
     ellipsis: true,
     className: "status",
     showSorterTooltip: false,
@@ -63,6 +148,14 @@ const columns = [
     ellipsis: true,
     className: "time",
     showSorterTooltip: false,
+    render: (text, record, index) => {
+      if (text.length > 14) {
+        text = text.substring(0, 14);
+      }
+      const timeTitle = formatTimeString(text);
+      const time = formatTimeString(text, 2);
+      return <div title={timeTitle}>{time}</div>;
+    },
   },
   {
     title: "协调用户",
@@ -85,24 +178,40 @@ const columns = [
     showSorterTooltip: false,
   },
 ];
+
+//转化为规定格式
+const convertToTableData = (recordMap = {}) => {
+  let res = [];
+  for (let key in recordMap) {
+    const record = recordMap[key] || {};
+    const statusZh = FlightCoordinationRecord.getStatusZh(record.status);
+    let obj = {
+      key: record.id || "",
+      type: record.type || "",
+      orgValue: record.originalValue || "",
+      value: record.value || "",
+      comments: record.comments || "",
+      status: statusZh || "",
+      time: record.timestamp || "",
+      user: record.username || "",
+      ip: record.ipAddress || "",
+    };
+
+    res.push(obj);
+  }
+  console.log(res);
+  return res;
+};
 //协调记录
 const CoordinationRecord = (props) => {
-  const { flightDetailData } = props;
-  const { flight } = flightDetailData;
-  // let data = [
-  //   {
-  //     key: "100",
-  //     type: "发布预撤COBT",
-  //     orgValue: "",
-  //     value: "06/2151 06/2201",
-  //     comment: "",
-  //     status: "调整",
-  //     time: "06/2108",
-  //     user: "时隙分配程序",
-  //     ip: "",
-  //   },
-  // ];
-  let data = []
+  const { flightDetailData = {} } = props;
+  const { flightData = {} } = flightDetailData;
+  const { recordMap = {} } = flightData;
+
+  let data = [];
+  if (isValidObject(recordMap)) {
+    data = convertToTableData(recordMap);
+  }
   return (
     <Fragment>
       <Table

@@ -8,6 +8,7 @@ import {
   isValidObject,
   calculateStringTimeDiff,
 } from "utils/basic-verify";
+import { FlightCoordination,reasonType } from "utils/flightcoordination";
 import { handleStopControl, openRunningControlFlow } from "utils/client";
 import { Window as WindowDHX } from "dhx-suite";
 import { openBaseSchemeFrame, openFilterFrame } from "utils/client";
@@ -18,44 +19,9 @@ import { DownOutlined } from "@ant-design/icons";
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 
-const reasonType = {
-  AIRPORT: "机场",
-  MILITARY: "军事活动",
-  CONTROL: "流量",
-  WEATHER: "天气",
-  AIRLINE: "航空公司",
-  SCHEDULE: "航班时刻",
-  JOINT_INSPECTION: "联检",
-  OIL: "油料",
-  DEPART_SYSTEM: "离港系统",
-  PASSENGER: "旅客",
-  PUBLIC_SECURITY: "公共安全",
-  MAJOR_SECURITY_ACTIVITIES: "重大保障活动",
-  OTHER: "其它",
-};
 
-//方案状态转化
-const convertSatus = (status) => {
-  let newStatus = status;
-  switch (status) {
-    case "FUTURE":
-      newStatus = "将要执行";
-      break;
-    case "RUNNING":
-      newStatus = "正在执行";
-      break;
-    case "TERMINATED_MANUAL":
-      newStatus = "人工终止";
-      break;
-    case "TERMINATED_AUTO":
-      newStatus = "系统终止";
-      break;
-    case "FINISHED":
-      newStatus = "正常结束";
-      break;
-  }
-  return newStatus;
-};
+
+
 
 const SummaryCell = memo(
   ({
@@ -336,7 +302,7 @@ function SchemeItem(props) {
           <div className="state">
             <div className="cell">
               <span className={`${tacticStatus} status`} title="方案状态">
-                {convertSatus(tacticStatus)}
+                {FlightCoordination.getSchemeStatusZh(tacticStatus)}
               </span>
               <span className="calculate" title="方案计算状态">
                 {isCalculated ? "已计算" : "计算中"}

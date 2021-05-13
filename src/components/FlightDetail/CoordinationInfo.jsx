@@ -2,11 +2,50 @@ import React, { Fragment } from "react";
 import { Row, Col } from "antd";
 import { Table, Spin, Modal } from "antd";
 import { inject, observer } from "mobx-react";
+import { FlightCoordination } from "utils/flightcoordination";
+import { FlightCoordinationRecordGridTableDataUtil } from "utils/flight-coordination-record-data-util";
+import {
+  isValidVariable,
+  isValidObject,
+  formatTimeString,
+  getDayTimeFromString,
+} from "utils/basic-verify";
+//转化为规定格式
+const convertToTableData = (recordMap = {}) => {
+  let res = [];
+  for (let key in recordMap) {
+    const record = recordMap[key] || {};
+    let data = FlightCoordinationRecordGridTableDataUtil.convertData(record);
 
+    let {
+      id = "",
+      tacticId = "",
+      flowControlName = "",
+      flowControlReason = "",
+      flowControlMeasure = "",
+      flowControlStatus = "",
+    } = item;
+    
+    let obj = {
+      key: id || index,
+      tacticId: tacticId,
+      schemeName: flowControlName,
+      type: restrictionMode,
+      value: interVal,
+      reason: reasonType[flowControlReason] || "",
+      resource: "",
+      status: status,
+    };
+
+    res.push(obj);
+  };
+  return res;
+};
 //协调信息
 const CoordinationInfo = (props) => {
-  const { flightDetailData } = props;
-  const { flight } = flightDetailData;
+  const { flightDetailData = {} } = props;
+  const { flightData = {} } = flightDetailData;
+  const { recordMap ={} } = flightData;
   const columns = [
     {
       title: "",
@@ -48,7 +87,7 @@ const CoordinationInfo = (props) => {
       className: "NOBIK",
       showSorterTooltip: false,
     },
-
+  
     {
       title: "AGULU",
       dataIndex: "AGULU",
@@ -60,64 +99,10 @@ const CoordinationInfo = (props) => {
       showSorterTooltip: false,
     },
   ];
-  const data = [
-    {
-      key: "100",
-      basename: "FPL(E)",
-      OBT: "07/1450",
-      TOT: "07/1450",
-      NOBIK: "07/1450",
-      AGULU: "07/1450",
-    },
-    {
-      key: "101",
-      basename: "预计(T)",
-      OBT: "07/1450",
-      TOT: "07/1450",
-      NOBIK: "07/1450",
-      AGULU: "07/1450",
-    },
-    {
-      key: "102",
-      basename: "协调(H)",
-      OBT: "07/1450",
-      TOT: "07/1450",
-      NOBIK: "07/1450",
-      AGULU: "07/1450",
-    },
-    {
-      key: "103",
-      basename: "计算(C)",
-      OBT: "07/1450",
-      TOT: "07/1450",
-      NOBIK: "07/1450",
-      AGULU: "07/1450",
-    },
-    {
-      key: "104",
-      basename: "NTFM(C)",
-      OBT: "07/1450",
-      TOT: "07/1450",
-      NOBIK: "07/1450",
-      AGULU: "07/1450",
-    },
-    {
-      key: "105",
-      basename: "全国计算(N)",
-      OBT: "07/1450",
-      TOT: "07/1450",
-      NOBIK: "07/1450",
-      AGULU: "07/1450",
-    },
-    {
-      key: "106",
-      basename: "实际(A)",
-      OBT: "07/1450",
-      TOT: "07/1450",
-      NOBIK: "07/1450",
-      AGULU: "07/1450",
-    },
-  ];
+  let data = [];
+  if (isValidObject(recordMap)) {
+    data = convertToTableData(recordMap);
+  }
   return (
     <Fragment>
       <Table

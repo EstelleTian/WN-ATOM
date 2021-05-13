@@ -45,6 +45,13 @@
             }
         }
     }
+    .tactic_blue{
+        color: #35a5da;
+        text-decoration: underline;
+        &:hover{
+            cursor: pointer;
+        }
+    }
 }
 .flight-detail-modal {
     .ant-modal-body {

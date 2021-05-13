@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 13:47:11
- * @LastEditTime: 2021-05-11 20:07:21
+ * @LastEditTime: 2021-05-12 18:39:25
  * @LastEditors: Please set LastEditors
  * @Description: 执行KPI
  * @FilePath: WN-ATOM\src\components\FlightDetail\FlightDetail.jsx
@@ -51,7 +51,6 @@ const FlightDetail = (props) => {
   const { modalVisible, flightData = {}, id = "" } = flightDetailData;
   const flight = flightData.flight || {};
   const generateTime = flightData.generateTime || "";
-  console.log(flight);
   // 关闭航班详情
   const closeModal = () => {
     flightDetailData.toggleModalVisible(false);
