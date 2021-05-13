@@ -238,7 +238,7 @@ function TacticMeasureForm(props) {
                                         style={{ width: 150 }}
                                         disabled={props.disabledForm}
                                         // onChange={handleRestrictionModeValueChange}
-                                        addonAfter="架"
+                                        addonAfter="架/小时"
                                     />
                                 </Form.Item> : ""
                         }
