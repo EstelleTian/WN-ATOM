@@ -119,7 +119,11 @@
         .ant-drawer-body {
           padding: 10px;
           .summary-row{
+            .ant-form-item{
+              margin-bottom: 4px;
+            }
             .ant-form-item-label{
+              padding:0;
               >label{
                 color: #807f7f;
     font-size: 12px;
@@ -157,6 +161,30 @@
   .flight-search {
     .ant-input {
       text-transform: uppercase;
+    }
+  }
+  .summary-container{
+    .scheme-list-section{
+      .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab, 
+      .ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab
+      {
+        padding: 4px 8px;
+      }
+      .ant-tabs-top > .ant-tabs-nav, 
+      .ant-tabs-bottom > .ant-tabs-nav, 
+      .ant-tabs-top > div > .ant-tabs-nav, 
+      .ant-tabs-bottom > div > .ant-tabs-nav{
+        margin: 0;
+      }
+    }
+    .summer_tacticName{
+      color: rgb(54, 165, 218);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &:hover{
+        cursor: pointer;
+      }
     }
   }
 }

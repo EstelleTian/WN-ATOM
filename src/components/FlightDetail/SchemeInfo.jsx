@@ -19,7 +19,7 @@ const convertToTableData = (flowcontrols = []) => {
       tacticId = "",
       flowControlName = "",
       flowControlReason = "",
-      flowControlMeasure = "",
+      flowControlMeasure = {},
       flowControlStatus = "",
     } = item;
     const restrictionMode = flowControlMeasure.restrictionMode || "";

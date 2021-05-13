@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-05-11 18:28:35
+ * @LastEditTime: 2021-05-13 15:29:44
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -45,6 +45,13 @@ class FlightDetail {
   // 更新时间戳
   @observable updateTimeStamp = "";
 
+  // 航班查询-数据值
+  @observable flightResult = {};
+  // 航班查询-单个略情是否显示
+  @observable drawerVisible = false;
+  // 航班查询-单个略情激活id
+  @observable drawerFlightId = "";
+
   //更新航班id
   @action toggleFlightId(id) {
     this.id = id;
@@ -63,7 +70,22 @@ class FlightDetail {
   @action updateFlightDetailData(data) {
     this.flightData = data;
   }
-
+  //航班查询-数据值
+  @action updateFlightResult(data) {
+    this.flightResult = data;
+  }
+  //航班查询-单个略情是否显示
+  @action setDrawerVisible(flag) {
+    this.drawerVisible = flag;
+  }
+  //航班查询-单个略情激活id
+  @action setDrawerFlightId(id) {
+    this.drawerFlightId = id;
+  }
+  //航班查询-根据激活id获取略情数据
+  @action getFlightBySelectedId() {
+    return this.flightResult[this.drawerFlightId] || {};
+  }
 }
 
 let flightDetailData = new FlightDetail();
