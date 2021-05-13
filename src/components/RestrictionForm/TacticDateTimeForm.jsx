@@ -43,9 +43,8 @@ function TacticDateTimeForm(props) {
     const startTimeString = isValidVariable(startTime) ? startTime.substring(8,12) : moment(now).format(dateTimeFormat).substring(8,12);
     // 结束时间 HHmm
     const endTimeString = isValidVariable(endTime) ? endTime.substring(8,12) : "";
-    // 结束日期和结束时间是否必须标记
+    // 结束日期和结束时间是否必填标记:限制方式为改航(CT)时为必填
     const endDateTimeRequired = restrictionMode === "CT";
-    console.log(endDateTimeRequired)
 
     //方案名称发生变化触发更新
     useEffect(function () {
