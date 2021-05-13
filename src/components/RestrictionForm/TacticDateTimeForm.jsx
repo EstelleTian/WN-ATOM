@@ -21,6 +21,8 @@ function TacticDateTimeForm(props) {
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
+    // 限制方式
+    const restrictionMode = schemeFormData.restrictionMode;
     // 终端当前时间+5分钟
     let now = moment().add(5, 'minutes');
     // 若方案开始时间无效则填充当前时间+5分钟
@@ -41,12 +43,24 @@ function TacticDateTimeForm(props) {
     const startTimeString = isValidVariable(startTime) ? startTime.substring(8,12) : moment(now).format(dateTimeFormat).substring(8,12);
     // 结束时间 HHmm
     const endTimeString = isValidVariable(endTime) ? endTime.substring(8,12) : "";
+    // 结束日期和结束时间是否必须标记
+    const endDateTimeRequired = restrictionMode === "CT";
+    console.log(endDateTimeRequired)
 
     //方案名称发生变化触发更新
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
     }, [tacticName]);
+
+    //方案限制方式变化触发表单重新校验结束日期和结束时间
+    useEffect(function () {
+        //重新校验结束日期和结束时间
+        form.validateFields(['endDate','endTime']);
+    }, [restrictionMode]);
+
+
+
 
     // 表单初始化默认值
     let initialValues = {
@@ -300,12 +314,17 @@ function TacticDateTimeForm(props) {
                                 <Form.Item
                                     label="结束时间"
                                     className="date-time-form-compact"
+                                    required={endDateTimeRequired}
                                 >
                                     <Form.Item
                                         name="endDate"
                                         className="date-picker-form"
                                         dependencies={['endTime']}
                                         rules={[
+                                            { 
+                                                required: endDateTimeRequired,
+                                                message: '请选择结束日期' 
+                                            },
                                             ({ getFieldValue }) => validateEndDateFormat(getFieldValue),
                                         ]}
                                     >
@@ -325,7 +344,12 @@ function TacticDateTimeForm(props) {
                                         label=""
                                         className="time-form"
                                         dependencies={['endDate', 'startDate', 'startTime']}
+                                        required={endDateTimeRequired}
                                         rules={[
+                                            { 
+                                                required: endDateTimeRequired,
+                                                message: '请输入结束时间',
+                                            },
                                             {
                                                 type: 'string',
                                                 pattern: REGEXP.TIMEHHmm,
