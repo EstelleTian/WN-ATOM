@@ -7,6 +7,7 @@ import { ThunderboltFilled, ExclamationCircleOutlined } from '@ant-design/icons'
 
 import TacticInputMethodRadioGroup from './TacticInputMethodRadioGroup'
 import TacticShortcutInputForm from './TacticShortcutInputForm'
+import TacticModeForm from './TacticModeForm'
 import TacticNameForm from './TacticNameForm'
 import TacticPublishUnitForm from './TacticPublishUnitForm'
 import TacticPublishUserForm from './TacticPublishUserForm'
@@ -112,6 +113,8 @@ function SchemeForm(props) {
 
     //方案交通流录入方式 shortcut:快捷录入  custom:自定义
     const inputMethod = schemeFormData.inputMethod || "shortcut";
+    // 方案模式表单
+    const [tacticModeForm] = Form.useForm();
     // 方案名称表单
     const [tacticNameForm] = Form.useForm();
     // 方案发布单位表单
@@ -188,6 +191,8 @@ function SchemeForm(props) {
                 promiseArray = [
                     tacticShortcutInputFormValidatePromise(),
                     tacticMeasureFormValidatePromise(),
+                    tacticArrApFormValidatePromise(),
+                    tacticExemptArrApFormValidatePromise(),
                 ]
             } else if (inputMethod === 'custom') {
                 promiseArray = [
@@ -220,6 +225,8 @@ function SchemeForm(props) {
                 promiseArray = [
                     ...promiseArray,
                     tacticShortcutInputFormValidatePromise(),
+                    tacticArrApFormValidatePromise(),
+                    tacticExemptArrApFormValidatePromise(),
                 ]
             } else if (inputMethod === 'custom') {
                 promiseArray = [
@@ -249,7 +256,7 @@ function SchemeForm(props) {
     const spliceName = (fieldData) => {
         // 限制数值单位集合
         const restrictionModeUnit = {
-            "AFP": "架",
+            "AFP": "架/小时",
         };
         // 限制数值单位
         let unit = "";
@@ -293,24 +300,25 @@ function SchemeForm(props) {
         let exemptBehindUnitLabel = isValidVariable(exemptBehindUnit) ? `(${exemptBehindUnit}除外), ` : "";
         let arrApLabel = isValidVariable(arrAp) ? `落地(${arrAp}) ` : "";
         let exemptArrApLabel = isValidVariable(exemptArrAp) ? `(${exemptArrAp}除外) ` : "";
+        let descriptions = `${exemptArrApLabel}${behindUnitLabel}${exemptBehindUnitLabel}${arrApLabel}`
         //  快捷录入
         if (inputMethod === 'shortcut') {
             // MIT或AFP限制类型
             if (restrictionMode === "MIT" || restrictionMode === "AFP") {
                 // 拼接名称
-                autoName = `${shortcutInputCheckboxSet} ${restrictionModeValue}${unit}`;
+                autoName = `${shortcutInputCheckboxSet} ${descriptions}${restrictionModeValue}${unit}`;
             } else if (restrictionMode == "GS") { // GS限制类型
                 // 拼接名称
-                autoName = `${shortcutInputCheckboxSet} 停放`;
+                autoName = `${shortcutInputCheckboxSet} ${descriptions}停放`;
             }
         } else if (inputMethod === 'custom') { // 自定义录入
             // MIT或AFP限制类型
             if (restrictionMode === "MIT" || restrictionMode === "AFP") {
                 // 拼接名称
-                autoName = `${targetUnit} ${exemptArrApLabel}${behindUnitLabel}${exemptBehindUnitLabel}${arrApLabel}${restrictionModeValue}${unit}`;
+                autoName = `${targetUnit} ${descriptions}${restrictionModeValue}${unit}`;
             } else if (restrictionMode == "GS") { // GS限制类型
                 // 拼接名称
-                autoName = `${targetUnit} 停放`;
+                autoName = `${targetUnit} ${descriptions}停放`;
             }
         }
         return autoName;
@@ -1789,6 +1797,14 @@ function SchemeForm(props) {
                 drawOperation()
             }
             <Card title="方案信息" bordered={false} size="">
+            <Row gutter={24} >
+                    <Col span={24}>
+                        <TacticModeForm
+                            disabledForm={props.disabledForm}
+                            form={tacticModeForm}
+                        />
+                    </Col>
+                </Row>
                 <Row gutter={24} >
                     <Col span={20}>
                         <TacticNameForm
