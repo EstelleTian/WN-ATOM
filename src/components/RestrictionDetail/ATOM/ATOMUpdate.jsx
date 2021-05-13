@@ -10,6 +10,8 @@ import React, {useEffect, useState} from 'react'
 import { Row, Col, message as antdMessage, Button  } from 'antd'
 import ATOMDetail  from 'components/RestrictionDetail/ATOM/ATOMDetail'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
+import SchemeForm from 'components/RestrictionForm/SchemeForm'
+import { inject, observer } from "mobx-react";
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 // ATOM变更导入生成方案
@@ -25,6 +27,9 @@ function ATOMUpdate(props){
             antdMessage.error('获取的流控数据为空');
         }else{
             setFlowData(data);
+            // 更新方案表单store数据
+            let tacticProcessInfo = data.tacticProcessInfo || {};
+            props.schemeFormData.updateSchemeData(tacticProcessInfo);
         }
     };
     // 请求ATOM数据失败
@@ -94,7 +99,7 @@ function ATOMUpdate(props){
                 <Row className="title">
                     <span>流控导入</span>
                 </Row>
-                <RestrictionForm
+                {/* <RestrictionForm
                     operationType="IMPORTWITHFORMER"
                     operationDescription="流控导入"
                     primaryButtonName="导入"
@@ -106,13 +111,27 @@ function ATOMUpdate(props){
                     showIgnoreBtn={true}
                     bordered={ true }
                     operationBarClassName="outside"
-                />
+                /> */}
+                <SchemeForm
+                    operationType="IMPORTWITHFORMER"
+                    operationDescription="流控导入"
+                    primaryButtonName="导入"
+                    disabledForm = {disabledForm}
+                    setDisabledForm = {setDisabledForm}
+                    message={message}
+                    showEditBtn={true}
+                    showIgnoreBtn={true}
+                    bordered={ true }
+                    operationBarClassName="outside"
+                ></SchemeForm>
             </Col>
         </Row>
     )
 }
 
 
-export default ATOMUpdate;
+// export default ATOMUpdate;
+export default inject("schemeFormData", "systemPage")(observer(ATOMUpdate))
+
 
 

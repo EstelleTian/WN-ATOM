@@ -5,19 +5,24 @@ import React, { useEffect, useState } from "react";
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
+import SchemeForm from 'components/RestrictionForm/SchemeForm'
+
 import { customNotice } from 'utils/common-funcs'
 
 
 function DisplaySchemeDetailPage(props) {
     //  方案数据
-    let [flowData, setFlowData] = useState({});
+    // let [flowData, setFlowData] = useState({});
     //  方案表单禁用状态
     let [disabledForm, setDisabledForm] = useState(true);
 
     //更新方案数据
     const updateSchemeData = data => {
-        let { status } = data;
-        setFlowData(data);
+        // let { status } = data;
+        // setFlowData(data);
+        // 更新方案表单store数据
+        let tacticProcessInfo = data.tacticProcessInfo || {};
+        props.schemeFormData.updateSchemeData(tacticProcessInfo);
     };
 
     // 请求方案数据失败
@@ -61,13 +66,18 @@ function DisplaySchemeDetailPage(props) {
     return (
         <div className="modify-scheme-container">
             <div className="content">
-                <RestrictionForm
+                {/* <RestrictionForm
                     flowData={flowData}
                     disabledForm={disabledForm}
                     setDisabledForm={setDisabledForm}
-                />
+                /> */}
+                <SchemeForm
+                    disabledForm = {disabledForm}
+                    setDisabledForm = {setDisabledForm}
+                ></SchemeForm>
             </div>
         </div>
     )
 }
-export default DisplaySchemeDetailPage;
+// export default DisplaySchemeDetailPage;
+export default inject("schemeFormData", "systemPage")(observer(DisplaySchemeDetailPage))

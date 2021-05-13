@@ -100,6 +100,10 @@ function AirportMonitor(props) {
             let data = flowMap[item];
             let flightNum = isValidVariable(data.flightNum) ? data.flightNum : 0;
             let capacity = isValidVariable(data.capacity) ? data.capacity : "";
+            // 若容量小于0则设置容量为空
+            if(isValidVariable(capacity) && capacity < 0){
+                capacity = "";
+            }
             let overflow = 0;
             let notOverflow = 0;
 
