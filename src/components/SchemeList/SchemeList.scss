@@ -53,7 +53,11 @@
             }
             .double-column-box  {
                 @include flex(2);
+                > .layout-row{
+                    @include flex();
+                }
             }
+            
 
             .cell {
                 padding: 5px 10px;

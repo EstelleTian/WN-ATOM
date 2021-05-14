@@ -127,21 +127,27 @@ function SchemeItem(props) {
     unit = "架";
   }
 
-  let targetUnits = "";
-  let behindUnits = "";
+  let targetUnits = [];
+  let behindUnits = [];
   if (!isValidVariable(directionList)) {
     directionList = [];
   }
   directionList.map((item) => {
-    targetUnits += item.targetUnit + ",";
-    behindUnits += item.behindUnit + ",";
+    if(isValidVariable(item.targetUnit)){
+      targetUnits.push(item.targetUnit);
+    }
+    if(isValidVariable(item.behindUnit)){
+      behindUnits.push(item.behindUnit);
+    }
   });
-  if (targetUnits !== "") {
-    targetUnits = targetUnits.substring(0, targetUnits.length - 1);
-  }
-  if (behindUnits !== "") {
-    behindUnits = behindUnits.substring(0, targetUnits.length - 1);
-  }
+  targetUnits = targetUnits.join(';')
+  behindUnits = behindUnits.join(';')
+  // if (targetUnits !== "") {
+  //   targetUnits = targetUnits.substring(0, targetUnits.length - 1);
+  // }
+  // if (behindUnits !== "") {
+  //   behindUnits = behindUnits.substring(0, targetUnits.length - 1);
+  // }
 
   // 开始时间格式化
   let startTimeFormat = getDayTimeFromString(startTime);
@@ -307,6 +313,9 @@ function SchemeItem(props) {
               <span className="calculate" title="方案计算状态">
                 {isCalculated ? "已计算" : "计算中"}
               </span>
+              {/* <span className="calculate" title="二类">
+                 <Tag color="#f50">Ⅱ</Tag>
+              </span> */}
             </div>
           </div>
         </div>
