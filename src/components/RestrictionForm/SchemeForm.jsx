@@ -359,7 +359,6 @@ function SchemeForm(props) {
                 'endDate',
                 'startTime',
                 'endTime',
-                'tacticName',
             ];
             // 触发表单验证取表单数据
             const fieldData = await tacticDateTimeForm.validateFields(fields);
@@ -1437,7 +1436,7 @@ function SchemeForm(props) {
 
         // 结束时间
         let endDateTime = (isValidVariable(moment(endDate).format("YYYYMMDDHHmm")) && isValidVariable(endTime)) ?
-            moment(startDate).format("YYYYMMDDHHmm").substring(0, 8) + endTime : "";
+            moment(endDate).format("YYYYMMDDHHmm").substring(0, 8) + endTime : "";
 
         let result = {
             tacticName,
