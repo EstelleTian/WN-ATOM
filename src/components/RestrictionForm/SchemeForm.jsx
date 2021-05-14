@@ -210,6 +210,7 @@ function SchemeForm(props) {
     // 校验并获取所有表单项字段值
     const getAllFieldsValue = () => {
         let promiseArray = [
+            tacticModeFormValidatePromise(),
             tacticNameFormValidatePromise(),
             tacticDateTimeFormValidatePromise(),
             tacticMeasureFormValidatePromise(),
@@ -323,6 +324,26 @@ function SchemeForm(props) {
         }
         return autoName;
     }
+    // 方案名称表单校验Promise
+    const tacticModeFormValidatePromise = () => {
+        return new Promise((resolve, reject) => {
+            tacticModeFormValidate(resolve, reject)
+        })
+    }
+    // 方案名称表单校验
+    const tacticModeFormValidate = async (resolve, reject) => {
+        try {
+            // 必要校验字段
+            const fields = [
+                'tacticMode',
+            ];
+            // 触发表单验证取表单数据
+            const fieldData = await tacticModeForm.validateFields(fields);
+            resolve(fieldData)
+        } catch (errorInfo) {
+            console.log('Failed:', errorInfo);
+        }
+    };
 
     // 方案名称表单校验Promise
     const tacticNameFormValidatePromise = () => {

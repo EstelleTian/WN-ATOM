@@ -31,6 +31,8 @@ function TacticModeForm(props) {
                 <Form.Item
                     name="tacticMode"
                     label="方案模式"
+                    rules={[{ required: true, message: '请选择方式模式' }]}
+
                 >
                     <Radio.Group disabled={props.disabledForm} >
                         <Radio  value="100">普通模式</Radio>
