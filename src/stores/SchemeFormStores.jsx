@@ -21,6 +21,8 @@ class SchemeForm {
     @observable counter = 0;
     //方案交通流录入方式 shortcut:快捷录入  custom:自定义
     @observable inputMethod = "custom";
+    // 方案模式 100普通模式 200二类模式
+    @observable tacticMode = "100";
     // 方案名称
     @observable tacticName = "";
     // 方案原因
@@ -145,6 +147,8 @@ class SchemeForm {
         this.schemeData = data;
         // 方案基础信息
         const basicTacticInfo = data.basicTacticInfo || {};
+        // 方案模式
+        const tacticMode = basicTacticInfo.tacticMode || "100";
         // 方案名称
         const tacticName = basicTacticInfo.tacticName || "";
         // 方案发布单位
@@ -266,6 +270,8 @@ class SchemeForm {
         // 不包含-受控机型
         const exemptionAircraftType = flightPropertyDomain.exemptionAircraftType || ""
 
+        // 更新方案模式
+        this.tacticMode = tacticMode;
         // 更新方案名称
         this.tacticName = tacticName;
         // 更新方案发布单位
@@ -364,6 +370,10 @@ class SchemeForm {
         this.exemptionAircraftType = exemptionAircraftType;
     }
 
+    // 更新方案模式
+    @action updateTacticMode(mode) {
+        this.tacticMode = mode;
+    }
     // 更新方案名称
     @action updateTacticName(name) {
         this.tacticName = name;
@@ -477,7 +487,6 @@ class SchemeForm {
             options,
         }
     }
-
     // 更新方案交通流快捷录入表单中选中的数据
     @action updateShortcutFormSelecedData(selecedData) {
         this.shortcutFormSelecedData = selecedData;

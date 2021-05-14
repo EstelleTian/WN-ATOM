@@ -10,8 +10,8 @@ function TacticModeForm(props) {
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
-    // 方案名称
-    const tacticMode = basicTacticInfo.tacticMode || "";
+    // 方案模式
+    const tacticMode = schemeFormData.tacticMode;
     //方案名称发生变化触发更新
     useEffect(function () {
         //重置表单，用以表单初始值赋值
@@ -19,7 +19,7 @@ function TacticModeForm(props) {
     }, [tacticName]);
     // 表单初始化默认值
     let initialValues = {
-        tacticMode:"1"
+        tacticMode
     }
 
     return (
@@ -32,9 +32,9 @@ function TacticModeForm(props) {
                     name="tacticMode"
                     label="方案模式"
                 >
-                    <Radio.Group buttonStyle="solid" disabled={props.disabledForm} >
-                        <Radio  value="1">普通模式</Radio>
-                        <Radio  value="2">二类模式</Radio>
+                    <Radio.Group disabled={props.disabledForm} >
+                        <Radio  value="100">普通模式</Radio>
+                        <Radio  value="200">二类模式</Radio>
                     </Radio.Group>
                 </Form.Item>
             </Form>

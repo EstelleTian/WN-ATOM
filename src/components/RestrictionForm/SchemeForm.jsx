@@ -1159,6 +1159,7 @@ function SchemeForm(props) {
         formDataValue = toUpperCaseValues(upperFields, formDataValue);
 
         const {
+            tacticMode,
             tacticName,
             tacticPublishUnit,
             tacticPublishUnitCH,
@@ -1202,6 +1203,8 @@ function SchemeForm(props) {
 
         } = formDataValue;
 
+        // 更新方案模式
+        basicTacticInfo.tacticMode = tacticMode;
         // 更新方案名称
         basicTacticInfo.tacticName = tacticName;
         // 方案发布单位
@@ -1328,6 +1331,8 @@ function SchemeForm(props) {
     // 获取所有表单数据
     const getAllFormValue = () => {
 
+        // 方案模式
+        const tacticMode = tacticModeForm.getFieldValue('tacticMode');
         // 方案名称
         const tacticName = tacticNameForm.getFieldValue('tacticName');
         // 发布单位
@@ -1439,6 +1444,7 @@ function SchemeForm(props) {
             moment(endDate).format("YYYYMMDDHHmm").substring(0, 8) + endTime : "";
 
         let result = {
+            tacticMode,
             tacticName,
             tacticPublishUnit,
             tacticPublishUnitCH,
