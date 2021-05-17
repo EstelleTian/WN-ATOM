@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-06 18:36:51
+ * @LastEditTime: 2021-05-17 16:20:45
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -108,6 +108,14 @@ let defaultNames = {
     en: "FFIXT",
     cn: "基准点时间",
   },
+  POS: {
+    en: "POS",
+    cn: "停机位",
+  },
+  RWY: {
+    en: "RWY",
+    cn: "跑道",
+  },
   CTO: {
     en: "CTO",
     cn: "计算基准点",
@@ -123,6 +131,10 @@ let defaultNames = {
   CTOT: {
     en: "CTOT",
     cn: "计算起飞时间",
+  },
+  SLOT: {
+    en: "SLOT",
+    cn: "时隙状态",
   },
   ACTYPE: {
     en: "ACTYPE",
@@ -217,6 +229,23 @@ let render = (opt) => {
     popover = <TOBTPopover opt={opt} />;
   } else if (col === "ATOT") {
     popover = <ColorPopover opt={opt} />;
+  } else if (col === "RWY" || col === "POS") {
+    const { source = "", value = "" } = text;
+    let sourceCN = FlightCoordination.getSourceZh(source);
+
+    popover = (
+      <div
+        col-key={col}
+        className={`full-cell ${isValidVariable(value) ? source : ""} ${col}`}
+      >
+        <div
+          className={`${isValidVariable(value) ? "" : "empty_cell"}`}
+          title={`${isValidVariable(value) ? value : ""}-${sourceCN}`}
+        >
+          <span className="">{value}</span>
+        </div>
+      </div>
+    );
   }
   let obj = {
     children: popover,
@@ -229,6 +258,7 @@ let render = (opt) => {
 
 //生成表配置
 const getColumns = (
+  collaboratePopoverData,
   names = defaultNames,
   sortable = false,
   onCellFilter = () => {}
@@ -270,6 +300,13 @@ const getColumns = (
         //配置表头属性，增加title值
         return {
           title: cn,
+        };
+      },
+      onCell: (record) => {
+        return {
+          onContextMenu: (event) => {
+            handleRightClickCell(event, record, collaboratePopoverData);
+          },
         };
       },
     };
@@ -354,6 +391,14 @@ const getColumns = (
     if (en === "STATUS") {
       tem["width"] = screenWidth > 1920 ? 75 : 65;
     }
+    // if (en === "SLOT") {
+    //   tem["width"] = screenWidth > 1920 ? 100 : 90;
+    //   tem["render"] = (text, record, index) => (
+    //     <div className="text_cell_center" title={text.title || ""}>
+    //       {text.name || ""}
+    //     </div>
+    //   );
+    // }
     // if( en === "FLIGHTID" ){
     //     tem["onCell"] = function(record, rowIndex){
     //         return {
@@ -405,6 +450,34 @@ const getColumns = (
   return columns;
 };
 
+// 单元格右键回调事件
+const handleRightClickCell = (event, record, collaboratePopoverData) => {
+  const currentTarget = event.currentTarget;
+  // 点击的列名
+  const clickColumnName = currentTarget.getAttribute("col-key");
+
+  //协调窗口显示
+  collaboratePopoverData.togglePopoverVisible(true);
+  //协调窗口 依托fc航班数据对象赋值
+  collaboratePopoverData.setData(record);
+
+  //获取点击坐标数据
+  const bounds = currentTarget.getBoundingClientRect();
+  const x = bounds.x || 0;
+  const y = bounds.y || 0;
+  const width = bounds.width || 0;
+  const height = bounds.height || 0;
+  //坐标数据 赋值
+  collaboratePopoverData.setSelectedObj({
+    name: clickColumnName,
+    target: currentTarget,
+    x,
+    y,
+    width,
+    height,
+  });
+};
+
 const { getAlarmValueZh } = FlightCoordination;
 
 const formatAlarmValue = (values) => {
@@ -415,32 +488,21 @@ const formatAlarmValue = (values) => {
 };
 //数据转换，将航班转化为表格格式
 const formatSingleFlight = (flight) => {
-  let {
-    alarmField,
-    taskField,
-    eapField,
-    oapField,
-    tobtField,
-    cobtField,
-    ctotField,
-    fmeToday,
-    ffixField,
-    ctoField,
-    etoField,
-    agctField,
-  } = flight;
-  alarmField = isValidVariable(alarmField) || {};
-  taskField = taskField || {};
-  eapField = eapField || {};
-  oapField = oapField || {};
-  tobtField = tobtField || {};
-  cobtField = cobtField || {};
-  ctotField = ctotField || {};
-  agctField = agctField || {};
-  fmeToday = fmeToday || {};
-  ffixField = ffixField || {};
-  ctoField = ctoField || {};
-  etoField = etoField || {};
+  const alarmField = flight.alarmField || {};
+  const taskField = flight.taskField || {};
+  const eapField = flight.eapField || {};
+  const oapField = flight.oapField || {};
+  const tobtField = flight.tobtField || {};
+  const cobtField = flight.cobtField || {};
+  const ctotField = flight.ctotField || {};
+  const agctField = flight.agctField || {};
+  // const slotField = flight.slotField || {};
+  const fmeToday = flight.fmeToday || {};
+  const ffixField = flight.ffixField || {};
+  const ctoField = flight.ctoField || {};
+  const etoField = flight.etoField || {};
+  const runwayField = flight.runwayField || {};
+  const positionField = flight.positionField || {};
   let taskVal = taskField.value || "";
   if (!isValidVariable(taskVal) || taskVal === "普通") {
     taskVal = "";
@@ -485,6 +547,9 @@ const formatSingleFlight = (flight) => {
     ETO: getTimeAndStatus(etoField.value),
     // STATUS: flight.runningStatus,
     STATUS: flight.flightStatus,
+    RWY: runwayField || {},
+    POS: positionField || {},
+    // SLOT: slotField || {},
     orgdata: JSON.stringify(flight),
   };
   return flightObj;

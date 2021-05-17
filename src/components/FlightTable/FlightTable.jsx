@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-11 21:44:21
+ * @LastEditTime: 2021-05-14 16:34:28
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -28,6 +28,7 @@ import {
 const FlightDetail = React.lazy(() =>
   import("components/FlightDetail/FlightDetail")
 );
+import CollaboratePopover from "components/CollaboratePopover/CollaboratePopover";
 import { isValidVariable, formatTimeString } from "utils/basic-verify";
 import debounce from "lodash/debounce";
 
@@ -227,10 +228,10 @@ function FTable(props) {
   const columns = useMemo(() => {
     if (filterable) {
       setHeight(tableHeight - 45);
-      return getColumns("", true, onCellFilter);
+      return getColumns(props.collaboratePopoverData, "", true, onCellFilter);
     } else {
       setHeight(tableHeight + 45);
-      return getColumns();
+      return getColumns(props.collaboratePopoverData);
     }
   }, [filterable]);
 
@@ -264,7 +265,8 @@ function FTable(props) {
 }
 const FlightTable = inject(
   "flightTableData",
-  "schemeListData"
+  "schemeListData",
+  "collaboratePopoverData"
 )(observer(FTable));
 /** end *****航班表格 纯表格************/
 
@@ -272,7 +274,7 @@ const TSpin = inject("flightTableData")(
   observer((props) => {
     const { flightTableData = {} } = props;
     const { loading } = flightTableData;
-    // console.log("航班loading render!!!")
+
     return (
       <Spin spinning={loading}>
         <FlightTable />
@@ -372,6 +374,10 @@ function FlightTableModal(props) {
         <TotalDom />
       </div>
       <TSpin />
+      {/* 一个popover专注做一件事 */}
+      <CollaboratePopover popoverName="FFIXT" />
+      <CollaboratePopover popoverName="POS" />
+      <CollaboratePopover popoverName="RWY" />
       <Suspense fallback={<div></div>}>
         <FlightDetail />
       </Suspense>

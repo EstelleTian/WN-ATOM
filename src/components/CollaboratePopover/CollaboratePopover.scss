@@ -1,0 +1,23 @@
+.collaborate_popover{
+    &.hidden{
+        visibility: hidden;
+    }
+    .ant-form-item{
+        margin-bottom: 0;
+    }
+    .popover_title{
+        .close{
+            display: inline-block;
+            float: right;
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+    &.RWY_popover{
+        .ant-radio-wrapper{
+            display: block;
+            margin-bottom: 8px;
+        }
+    }
+}
