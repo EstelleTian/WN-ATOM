@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-11 15:03:39
+ * @LastEditTime: 2021-05-17 10:20:06
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -28,6 +28,8 @@ const capacityFlowIP= "http://192.168.194.22:28875"
 const capacityFlowWeatherIP= "http://192.168.210.131:28280"
 //总体监控-协调KPI-航班协调-数据IP
 const totalCollaborateIP= "http://192.168.194.21:28782"
+//总体监控-协调KPI-运行配置-数据IP
+const totalOperationIP= "http://192.168.194.22:28379"
 //航班详情、略情查询IP(韩涛)
 const flightInfoIP= "http://192.168.194.20:38188"
 
@@ -111,14 +113,16 @@ const ReqUrls = {
     capacityBaseUrl: capacityIP+"/flow-capacity-rest/capacity/",
     // 跑道列表接口
     runwayListUrl: runwayIP+"/runway/defaulat/and/dynamic/retrieve/new/",
-    // 跑道详情
+    // 默认跑道配置详情
     runwayDefaultDetailUrl: runwayIP+"/open/runway/default/detail/dialog/",
-    // 跑道修改提交
+    // 默认跑道配置修改提交
     runwayDefaultUpdatelUrl: runwayIP+"/rwgap/default/update/new/",
     // MDRS+工作流数据获取
     mdrsRetrieveDataUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/data/retrieval/handle",
     // MDRS数据-审批-同意、拒绝、撤回
     mdrsWorkFlowUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/workflow/approve",
+    // 总体监控-协调KPI-运行配置
+    totalOperationUrl: totalOperationIP+"/operation-coordination-server/operation/record",
     // 总体监控-协调KPI-航班协调
     totalCollaborateUrl: totalCollaborateIP+"/flightRecord/retrieveFlightRecordByType",
     // 消息订阅-查
@@ -141,6 +145,10 @@ const CollaborateUrl = {
     cobtUrl : CollaborateIP + "/hydrogen-flight-coordination-server/flight",
     //FFIXT
     ffixtUrl : CollaborateIP + "/hydrogen-flight-coordination-server/flight",
+    //RWY /updateFlightRunway clearFlightRunway
+    runwayUrl : CollaborateIP + "/hydrogen-flight-coordination-server/flight",
+    //POSITION  /updateFlightPosition  clearFlightPosition
+    positionUrl : CollaborateIP + "/hydrogen-flight-coordination-server/flight",
 };
 
 export { ReqUrls, CollaborateIP, CollaborateUrl };

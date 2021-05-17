@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-05-06 14:55:23
+ * @LastEditTime: 2021-05-14 09:39:05
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -146,6 +146,8 @@ class FlightTableData {
   @observable timeoutId = "";
   //上一次请求的方案id
   @observable lastSchemeId = "";
+  //上一次请求的方案id
+  @observable runwayPopoverRef = {};
   //更新表格loading显示
   @action toggleLoad(showLoad, dataLoaded) {
     this.loading = showLoad;
