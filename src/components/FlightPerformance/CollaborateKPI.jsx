@@ -58,10 +58,7 @@ const Operation = function (props) {
       });
       console.log("resData", resData);
       //数据赋值
-      const {
-        stringLongHashMap = {},
-        generateTime = "",
-      } = resData;
+      const { stringLongHashMap = {}, generateTime = "" } = resData;
       setFlightRecordTypeMap(stringLongHashMap);
       setLoading(false);
       timerFunc();
@@ -85,7 +82,7 @@ const Operation = function (props) {
     SCVC = 0,
     SECI = 0,
     APWC = 0,
-    MDRS = 0,=
+    MDRS = 0,
   } = flightRecordTypeMap;
 
   //componentDidMount

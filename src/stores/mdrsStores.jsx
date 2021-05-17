@@ -15,6 +15,8 @@ class mdrsData {
   @observable forceUpdate = false;
   //mdrs表单数据
   @observable formData = {};
+  //mdrs 已发布数据
+  @observable publishData = [];
 
   @action setMDRSData = (data, generateTime) => {
     const {
@@ -26,6 +28,10 @@ class mdrsData {
     this.generateTime = generateTime;
     this.authMap = authMap;
     this.formData = mdrs;
+  };
+  @action setPublishData = (data) => {
+
+    this.publishData = data;
   };
 
   @action setEditable = (flag) => {

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-17 10:20:06
+ * @LastEditTime: 2021-05-17 16:26:22
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -9,7 +9,8 @@
 //工作流ip
 const workflowIP = "http://192.168.194.22:29891";
 //MDRS(路武臣)
-const mdrsIP = "http://192.168.194.21:27580";
+// const mdrsIP = "http://192.168.194.21:27580";
+const mdrsIP = "http://192.168.243.49:27580";
 //消息订阅(路武臣)
 const userSubscribeIP = "http://192.168.194.21:28680";
 //
