@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-14 16:37:17
+ * @LastEditTime: 2021-05-14 16:37:05
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -131,7 +131,7 @@ const CTPopover = (props) => {
   } else {
     textDom = (
       <div
-        col-key={col}
+      col-key={col}
         className={`full-cell ${
           isValidVariable(text) ? source : ""
         } ${col}_${bgStatus}`}

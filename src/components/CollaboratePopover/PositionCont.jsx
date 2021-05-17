@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-17 10:36:28
+ * @LastEditTime: 2021-05-17 16:21:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -31,17 +31,22 @@ const PositionCont = (props) => {
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
   const [refuseBtnLoading, serRefuseBtnLoading] = useState(false);
   const [form] = Form.useForm();
-  const { collaboratePopoverData = {} } = props;
+  const {
+    collaboratePopoverData = {},
+    systemPage = {},
+    schemeListData = {},
+  } = props;
   const { data = {} } = collaboratePopoverData;
-  const { FLIGHTID = "", POS = "" } = data;
+  const { FLIGHTID = "", POS = {} } = data;
+  const positionVal = POS.value || "";
   const user = systemPage.user || {};
   const userId = user.id || "";
   const activeSchemeId = schemeListData.activeSchemeId || "";
 
   useEffect(() => {
     if (collaboratePopoverData.selectedObj.name === "POS") {
-      console.log("PositionCont", POS);
-      form.setFieldsValue({ position: POS });
+      console.log("PositionCont", positionVal);
+      form.setFieldsValue({ position: positionVal });
     }
     return () => {
       form.resetFields();
@@ -81,7 +86,7 @@ const PositionCont = (props) => {
     <Form
       form={form}
       size="small"
-      initialValues={{ position: POS }}
+      initialValues={{ position: positionVal }}
       className="position_form"
     >
       <Descriptions size="small" bordered column={1}>
@@ -99,10 +104,10 @@ const PositionCont = (props) => {
           <Button
             loading={submitBtnLoading}
             size="small"
-            className="c-btn c-btn-green"
+            className="c-btn c-btn-blue"
             type="primary"
             onClick={(e) => {
-              // onCheck("approve");
+              onCheck("approve");
             }}
           >
             确定
@@ -114,7 +119,7 @@ const PositionCont = (props) => {
             type="primary"
             style={{ marginLeft: "8px" }}
             onClick={(e) => {
-              // onCheck("refuse");
+              onCheck("refuse");
             }}
           >
             清除

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-14 16:39:04
+ * @LastEditTime: 2021-05-17 16:20:45
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -229,6 +229,23 @@ let render = (opt) => {
     popover = <TOBTPopover opt={opt} />;
   } else if (col === "ATOT") {
     popover = <ColorPopover opt={opt} />;
+  } else if (col === "RWY" || col === "POS") {
+    const { source = "", value = "" } = text;
+    let sourceCN = FlightCoordination.getSourceZh(source);
+
+    popover = (
+      <div
+        col-key={col}
+        className={`full-cell ${isValidVariable(value) ? source : ""} ${col}`}
+      >
+        <div
+          className={`${isValidVariable(value) ? "" : "empty_cell"}`}
+          title={`${isValidVariable(value) ? value : ""}-${sourceCN}`}
+        >
+          <span className="">{value}</span>
+        </div>
+      </div>
+    );
   }
   let obj = {
     children: popover,
@@ -484,6 +501,8 @@ const formatSingleFlight = (flight) => {
   const ffixField = flight.ffixField || {};
   const ctoField = flight.ctoField || {};
   const etoField = flight.etoField || {};
+  const runwayField = flight.runwayField || {};
+  const positionField = flight.positionField || {};
   let taskVal = taskField.value || "";
   if (!isValidVariable(taskVal) || taskVal === "普通") {
     taskVal = "";
@@ -528,8 +547,8 @@ const formatSingleFlight = (flight) => {
     ETO: getTimeAndStatus(etoField.value),
     // STATUS: flight.runningStatus,
     STATUS: flight.flightStatus,
-    RWY: flight.runway || "",
-    POS: flight.position || "",
+    RWY: runwayField || {},
+    POS: positionField || {},
     // SLOT: slotField || {},
     orgdata: JSON.stringify(flight),
   };

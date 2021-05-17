@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-17 10:35:09
+ * @LastEditTime: 2021-05-17 16:18:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -37,7 +37,8 @@ const RunwayCont = (props) => {
     schemeListData = {},
   } = props;
   const { data = {} } = collaboratePopoverData;
-  const { FLIGHTID = "", RWY = "" } = data;
+  const { FLIGHTID = "", RWY = {} } = data;
+  const runwayVal = RWY.value || "";
   const user = systemPage.user || {};
   const userId = user.id || "";
   const activeSchemeId = schemeListData.activeSchemeId || "";
@@ -77,7 +78,7 @@ const RunwayCont = (props) => {
     if (collaboratePopoverData.selectedObj.name === "RWY") {
       console.log("RunwayCont", RWY);
       // form.setFieldsValue({ runway: RWY });
-      form.setFieldsValue({ runway: "02R" });
+      form.setFieldsValue({ runway: runwayVal });
     }
 
     return () => {
@@ -106,7 +107,7 @@ const RunwayCont = (props) => {
           <Button
             loading={submitBtnLoading}
             size="small"
-            className="c-btn c-btn-green"
+            className="c-btn c-btn-blue"
             type="primary"
             onClick={(e) => {
               onCheck("approve");
