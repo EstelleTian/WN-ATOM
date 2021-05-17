@@ -189,6 +189,10 @@ let defaultNames = {
     en: "SOBT",
     cn: "计划撤轮档",
   },
+  SLOTSTATUS: {
+    en: "SLOTSTATUS",
+    cn: "时隙分配状态",
+  },
   FETA: {
     en: "FETA",
     cn: "前段降落时间",
@@ -243,6 +247,24 @@ let render = (opt) => {
           title={`${isValidVariable(value) ? value : ""}-${sourceCN}`}
         >
           <span className="">{value}</span>
+        </div>
+      </div>
+    );
+  } else if(col === "SLOTSTATUS" ){ // 时隙分配状态
+    // 行原始数据
+    let orgdata = JSON.parse(record.orgdata);
+    // 未分配时隙原因
+    let unSlotStatusReason = orgdata.unSlotStatusReason || "";
+    popover = (
+      <div
+        col-key={col}
+        className={`full-cell ${col}`}
+      >
+        <div
+          className={`${isValidVariable(text) ? "" : "empty_cell"}`}
+          title={`${isValidVariable(unSlotStatusReason) ? unSlotStatusReason : ""}`}
+        >
+          <span className="">{text}</span>
         </div>
       </div>
     );
@@ -378,7 +400,7 @@ const getColumns = (
     //     tem["width"] = (screenWidth > 1920) ? 70 : 58
     // }
     if (en === "ALARM") {
-      tem["width"] = screenWidth > 1920 ? 105 : 90;
+      tem["width"] = screenWidth > 1920 ? 140 : 120;
     }
     // if( en === "CTO" || en === "CTOT" || en === "COBT" ){
     //     tem["align"] = "left"
@@ -534,6 +556,7 @@ const formatSingleFlight = (flight) => {
     DEPAP: flight.depap,
     ARRAP: flight.arrap,
     SOBT: getDayTimeFromString(flight.sobt),
+    SLOTSTATUS: flight.unSlotStatusReasonAbbr,
     EOBT: getDayTimeFromString(flight.eobt),
     TOBT: tobtField.value,
     COBT: cobtField.value,
