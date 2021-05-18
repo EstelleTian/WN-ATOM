@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-27 08:55:20
+ * @LastEditTime: 2021-05-17 17:02:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRSPage\MDRSPage.jsx
@@ -11,6 +11,7 @@ import { inject, observer } from "mobx-react";
 import { Layout, Spin } from "antd";
 import MDRSWorkList from "components/MDRS/MDRSWorkList";
 import { MDRSForm, MDRSDetail } from "components/MDRS/MDRSForm";
+import MDRSList from "components/MDRS/MDRSList";
 import { isValidVariable } from "utils/basic-verify.js";
 import { requestGet2 } from "utils/request.js";
 import { ReqUrls } from "utils/request-urls.js";
@@ -52,8 +53,12 @@ function MDRSPage(props) {
       });
       // console.log("resData", resData);
       //数据赋值
-      const { result = [], generateTime = "" } = resData;
-      if (result.length == 0) {
+      const {
+        backlogResult = [],
+        generateTime = "",
+        publishResult = [],
+      } = resData;
+      if (backlogResult.length == 0) {
         customNotice({
           type: "warn",
           message: "暂无数据",
@@ -62,7 +67,18 @@ function MDRSPage(props) {
         MDRSData.setMDRSData({}, generateTime);
       } else {
         //TODO 回头这个result改成对象
-        MDRSData.setMDRSData(result[0], generateTime);
+        MDRSData.setMDRSData(backlogResult[0], generateTime);
+      }
+      if (publishResult.length == 0) {
+        // customNotice({
+        //   type: "warn",
+        //   message: "暂无数据",
+        //   duration: 8,
+        // });
+        MDRSData.setPublishData([]);
+      } else {
+        //TODO 回头这个result改成对象
+        MDRSData.setPublishData(publishResult);
       }
       setLoading(false);
       timerFunc();
@@ -104,6 +120,7 @@ function MDRSPage(props) {
           <MDRSDetail airport={airport}></MDRSDetail>
         )} */}
         <MDRSDetail airport={airport}></MDRSDetail>
+        <MDRSList airport={airport}></MDRSList>
       </Spin>
     </Layout>
   );

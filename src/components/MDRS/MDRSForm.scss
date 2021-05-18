@@ -1,6 +1,4 @@
-.mdrs_form_modal{
-    // width: 900px;
-    height: 420px;
+.mdrs_form_modal,.mdrs_detail_modal{
     margin: 10px;
     position: relative;
     .box_header{
@@ -100,7 +98,7 @@
     
 }
 .mdrs_detail_modal{
-    height: 350px!important;
+    
     .line_cont{
         font-size: 16px;
         position: relative;
@@ -118,4 +116,10 @@
         color: #fff!important;
     }
     
+}
+.mdrs_form_modal{
+    height: 350px;
+}
+.mdrs_detail_modal{
+    height: 270px!important;
 }

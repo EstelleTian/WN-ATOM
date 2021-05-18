@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-27 09:09:53
+ * @LastEditTime: 2021-05-17 17:28:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRS\MSRSForm.jsx
@@ -58,7 +58,7 @@ function DetailModule(props) {
     <ModalBox
       title={`${airport} MDRS预警信息`}
       showDecorator={false}
-      className="mdrs_form_modal mdrs_detail_modal"
+      className={`${update ? "mdrs_form_modal" : "mdrs_detail_modal"}`}
     >
       <MDRSOptionBtns form={form} />
       <div className="form_content">
