@@ -28,6 +28,9 @@ import {
 const FlightDetail = React.lazy(() =>
   import("components/FlightDetail/FlightDetail")
 );
+const FormerFlightUpdateModal = React.lazy(() =>
+  import("components/FormerFlightUpdateModal/FormerFlightUpdateModal")
+);
 import CollaboratePopover from "components/CollaboratePopover/CollaboratePopover";
 import { isValidVariable, formatTimeString } from "utils/basic-verify";
 import debounce from "lodash/debounce";
@@ -380,6 +383,10 @@ function FlightTableModal(props) {
       <CollaboratePopover popoverName="RWY" />
       <Suspense fallback={<div></div>}>
         <FlightDetail />
+      </Suspense>
+
+      <Suspense fallback={<div></div>}>
+        <FormerFlightUpdateModal />
       </Suspense>
     </ModalBox>
   );

@@ -1,0 +1,13 @@
+.update-former-flight-form {
+    padding: 10px;
+    .ant-form-item-label {
+        min-width: 100px;
+    }
+    .btn-box {
+        display: flex;
+        justify-content: flex-end;
+        button + button {
+            margin-left: 8px;
+        }
+    }
+}

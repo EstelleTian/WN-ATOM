@@ -100,6 +100,9 @@ const ReqUrls = {
     searchFlightUrl: flightInfoIP+"/hydrogen-flight-plan-server/retrieveFlightDetailsByFlightId/",
     // 航班详情
     getFlightDetailUrl: flightInfoIP+"/hydrogen-flight-plan-server/retrieveFlightDetailsById/",
+
+    // 获取可选前序航班集合
+    getAlterFormerFlightListUrl: flightInfoIP+"/hydrogen-flight-plan-server/retrieveFormerFCData/",
    
     //待办航班列表-放行监控页面中的
     todoListUrl: "http://192.168.194.21:29891/flight/backlog/task/",
@@ -150,6 +153,8 @@ const CollaborateUrl = {
     runwayUrl : CollaborateIP + "/hydrogen-flight-coordination-server/flight",
     //POSITION  /updateFlightPosition  clearFlightPosition
     positionUrl : CollaborateIP + "/hydrogen-flight-coordination-server/flight",
+    // 指定前序航班 
+    updateFormerFlightUrl: CollaborateIP+"/hydrogen-flight-coordination-server/flight/updateFormerFlight"
 };
 
 export { ReqUrls, CollaborateIP, CollaborateUrl };

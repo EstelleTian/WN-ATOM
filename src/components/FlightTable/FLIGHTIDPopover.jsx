@@ -31,6 +31,7 @@ let FLIGHTIDPopover = (props) => {
   const [exemptLoad, setExemptLoad] = useState(false);
   const [singleExemptLoad, setSingleExemptLoad] = useState(false);
   const [poolLoad, setPoolLoad] = useState(false);
+  const [qualifications, setQualifications] = useState(false);
   const [tipObj, setTipObj] = useTip(2500);
   const { opt, systemPage } = props;
   const { text, record } = opt;
@@ -45,6 +46,7 @@ let FLIGHTIDPopover = (props) => {
     setSingleExemptLoad(false);
     setIntervalLoad(false);
     setPoolLoad(false);
+    setQualifications(false);
   });
   //数据提交成功回调
   const requestSuccess = useCallback((data, title) => {
@@ -55,6 +57,7 @@ let FLIGHTIDPopover = (props) => {
     setSingleExemptLoad(false);
     setIntervalLoad(false);
     setPoolLoad(false);
+    setQualifications(false);
 
     console.time("cod");
 
@@ -81,6 +84,15 @@ let FLIGHTIDPopover = (props) => {
     props.flightDetailData.toggleFlightId(record.id);
     // props.flightDetailData.updateFlightDetailData(orgFlight);
     props.flightDetailData.toggleModalVisible(true);
+  };
+  // 显示指定前序航班模态框
+  const showFormerFlightUpdateModal = (record) => {
+    //关闭协调窗口popover
+    closePopover();
+    let orgData = record.orgdata || "{}";
+    let orgFlight = JSON.parse(orgData) || {};
+    props.formerFlightUpdateFormData.updateFlightData(orgFlight);
+    props.formerFlightUpdateFormData.toggleModalVisible(true);
   };
 
   //标记豁免 取消标记豁免
@@ -198,6 +210,59 @@ let FLIGHTIDPopover = (props) => {
     [props.systemPage.user, props.schemeListData.activeSchemeId]
   );
 
+  //二类资质
+  const handleQualifications= useCallback(
+    (type, record, title) => {
+      console.log(props);
+      setQualifications(true);
+      const orgdata = record.orgdata || {};
+      let orgFlight = JSON.parse(orgdata) || {};
+      let urlKey = "/updateFlightQualifications";
+      if (isValidVariable(urlKey)) {
+        // console.log(JSON.stringify(orgFlight));
+        const userId = props.systemPage.user.id || "14";
+        const fid = orgFlight.flightid;
+        const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
+        const tacticName = props.schemeListData.getNameBySchemeActiveId(
+          schemeId
+        ); //方案名称
+        // 二类参数
+        let timeVal="";
+        if (type === "markQualifications") {
+          //标记二类
+          timeVal="2"
+        } else if (type === "markUnQualifications") {
+          //取消标记二类
+          timeVal=""
+        }
+        
+        const opt = {
+          url: CollaborateUrl.qualificationsUrl + urlKey,
+          method: "POST",
+          params: {
+            userId,
+            flightCoordination: orgFlight,
+            comment: "",
+            taskId: "",
+            tacticId: schemeId,
+            tacticName,
+            timeVal
+          },
+          resFunc: (data) => requestSuccess(data, fid + title),
+          errFunc: (err, msg) => {
+            if (isValidVariable(err)) {
+              requestErr(err, err);
+            } else {
+              requestErr(err, fid + title + "请求失败");
+            }
+          },
+        };
+        request(opt);
+      }
+    },
+    [props.systemPage.user, props.schemeListData.activeSchemeId]
+  );
+
   // const { record } = props.opt;
   let { orgdata } = record;
   if (isValidVariable(orgdata)) {
@@ -215,7 +280,8 @@ let FLIGHTIDPopover = (props) => {
   let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
   let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
   let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
-
+  let isCoordinationResponseWaitingFlight = FlightCoordination.isCoordinationResponseWaitingFlight(orgdata); //航班是否在协调响应等待中
+  let getCoordinationResponseWaitingType = FlightCoordination.getCoordinationResponseWaitingType
   let hadInAir = false;
   if (hadDEP && !hadARR) {
     hadInAir = true;
@@ -233,6 +299,11 @@ let FLIGHTIDPopover = (props) => {
   if (isInPoolFlight) {
     colorClass += " in_pool " + orgdata.poolStatus;
   }
+  if(isCoordinationResponseWaitingFlight){
+    colorClass +=" WAIT"
+  }
+
+
 
   // const { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP, alarms  } = useMemo( ()=>{
 
@@ -249,6 +320,15 @@ let FLIGHTIDPopover = (props) => {
           }}
         >
           查看航班详情
+        </button>
+
+        <button
+          className="c-btn c-btn-blue"
+          onClick={() => {
+            showFormerFlightUpdateModal(record);
+          }}
+        >
+          指定前序航班
         </button>
         {priority === FlightCoordination.PRIORITY_NORMAL &&
         hasAuth &&
@@ -358,6 +438,24 @@ let FLIGHTIDPopover = (props) => {
         ) : (
           ""
         )}
+        {/* <Button
+            loading={qualifications}
+            className="c-btn c-btn-green"
+            onClick={() => {
+              handleQualifications("markQualifications", record, "标记二类资质");
+            }}
+          >
+            标记二类资质
+          </Button>
+          <Button
+            loading={qualifications}
+            className="c-btn c-btn-red"
+            onClick={() => {
+              handleQualifications("markUnQualifications", record, "取消标记二类资质");
+            }}
+          >
+            取消二类资质
+          </Button> */}
       </div>
     );
   }, [
@@ -391,7 +489,7 @@ let FLIGHTIDPopover = (props) => {
             }`}
             title={`${text}-${PriorityList[priority]} ${
               isInAreaFlight ? "区内" : "区外"
-            } ${hadInAir ? "空中" : "地面"}`}
+            } ${hadInAir ? "空中" : "地面"} ${isCoordinationResponseWaitingFlight ? `${getCoordinationResponseWaitingType(orgdata)}协调中` : ""}` }
           >
             <span className={`${isInAreaFlight ? "inArea" : "outArea"}`}>
               {text}
@@ -414,5 +512,6 @@ export default inject(
   "flightTableData",
   "systemPage",
   "schemeListData",
-  "flightDetailData"
+  "flightDetailData",
+  "formerFlightUpdateFormData"
 )(observer(FLIGHTIDPopover));

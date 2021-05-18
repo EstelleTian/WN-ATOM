@@ -29,6 +29,8 @@ import { flightDetailData } from "./flightDetailStores";
 import { schemeFormData } from "./SchemeFormStores";
 import { newsSubscribe } from "./newsSubscribeStore";
 import { collaboratePopoverData } from "./collaboratePopoverStore";
+import { formerFlightUpdateFormData } from "./formerFlightUpdateModalStores";
+
 
 export {
   schemeListData,
@@ -53,4 +55,5 @@ export {
   schemeFormData,
   newsSubscribe,
   collaboratePopoverData,
+  formerFlightUpdateFormData
 };
