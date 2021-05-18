@@ -60,8 +60,8 @@ function mdrsItem(props) {
     alarmlevel = "",
     alarmtype = "",
     alarmreason = "",
-    effectiveStatus,
-    earlyTerminationReason,
+    effectiveStatus = "",
+    earlyTerminationReason = "",
   } = item;
   const startTime = formatTimeString(validperiodbegin);
   const endTime = formatTimeString(validperiodend);

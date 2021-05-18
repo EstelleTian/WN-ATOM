@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-05-18 18:12:17
+ * @LastEditTime: 2021-05-18 18:20:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRS\MSRSForm.jsx
@@ -44,14 +44,14 @@ function DetailModule(props) {
   //TODO 测试用
   // let update = true;
   const {
-    validperiodbegin,
-    validperiodend,
-    trafficcapacity,
-    alarmlevel,
-    alarmtype,
-    alarmreason,
-    effectiveStatus,
-    earlyTerminationReason,
+    validperiodbegin = "",
+    validperiodend = "",
+    trafficcapacity = "",
+    alarmlevel = "",
+    alarmtype = "",
+    alarmreason = "",
+    effectiveStatus = "",
+    earlyTerminationReason = "",
   } = formData;
   const startTime = formatTimeString(validperiodbegin);
   const endTime = formatTimeString(validperiodend);
