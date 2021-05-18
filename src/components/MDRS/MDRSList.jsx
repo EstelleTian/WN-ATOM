@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-05-18 17:44:24
+ * @LastEditTime: 2021-05-18 18:14:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRS\MSRSForm.jsx
@@ -61,6 +61,7 @@ function mdrsItem(props) {
     alarmtype = "",
     alarmreason = "",
     effectiveStatus,
+    earlyTerminationReason,
   } = item;
   const startTime = formatTimeString(validperiodbegin);
   const endTime = formatTimeString(validperiodend);
@@ -229,6 +230,20 @@ function mdrsItem(props) {
             <div>{alarmreason || "无"}</div>
           </Col>
         </Row>
+        {effectiveStatus === "提前终止" && (
+          <Row
+            gutter={24}
+            className="line_row"
+            style={{ position: "relative" }}
+          >
+            <Col span={5} className="line_title">
+              终止原因：
+            </Col>
+            <Col span={18} className="line_cont">
+              <div>{earlyTerminationReason || "无"}</div>
+            </Col>
+          </Row>
+        )}
       </div>
     </ModalBox>
   );

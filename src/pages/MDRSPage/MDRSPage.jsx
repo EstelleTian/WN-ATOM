@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-05-17 17:02:11
+ * @LastEditTime: 2021-05-18 18:11:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRSPage\MDRSPage.jsx
@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { inject, observer } from "mobx-react";
 import { Layout, Spin } from "antd";
 import MDRSWorkList from "components/MDRS/MDRSWorkList";
-import { MDRSForm, MDRSDetail } from "components/MDRS/MDRSForm";
+import MDRSDetail from "components/MDRS/MDRSForm";
 import MDRSList from "components/MDRS/MDRSList";
 import { isValidVariable } from "utils/basic-verify.js";
 import { requestGet2 } from "utils/request.js";
@@ -114,11 +114,7 @@ function MDRSPage(props) {
     <Layout style={{ minWidth: "1400px", height: "inherit" }}>
       <Spin spinning={loading}>
         <MDRSWorkList></MDRSWorkList>
-        {/* {update ? (
-          <MDRSForm airport={airport}></MDRSForm>
-        ) : (
-          <MDRSDetail airport={airport}></MDRSDetail>
-        )} */}
+
         <MDRSDetail airport={airport}></MDRSDetail>
         <MDRSList airport={airport}></MDRSList>
       </Spin>
