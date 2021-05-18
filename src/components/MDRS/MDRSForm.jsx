@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-05-17 17:28:57
+ * @LastEditTime: 2021-05-18 17:57:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRS\MSRSForm.jsx
@@ -50,13 +50,15 @@ function DetailModule(props) {
     alarmlevel,
     alarmtype,
     alarmreason,
+    effectiveStatus,
+    earlyTerminationReason,
   } = formData;
   const startTime = formatTimeString(validperiodbegin);
   const endTime = formatTimeString(validperiodend);
   // console.log("alarmlevel", alarmlevel);
   return (
     <ModalBox
-      title={`${airport} MDRS预警信息`}
+      title={`${airport} MDRS预警信息-${effectiveStatus}`}
       showDecorator={false}
       className={`${update ? "mdrs_form_modal" : "mdrs_detail_modal"}`}
     >
@@ -123,37 +125,39 @@ function DetailModule(props) {
                 </Form.Item>
               </Col>
             </Row>
-            <Row gutter={24} className="line_row">
-              <Col span={5} className="line_title">
-                预警原因：
-              </Col>
-              <Col span={18}>
-                <Form.Item name="alarmreason">
-                  <Input.TextArea
-                    className="reason_text"
-                    maxLength={100}
-                    showCount={true}
-                    autoSize={{ minRows: 4, maxRows: 4 }}
-                  ></Input.TextArea>
-                </Form.Item>
-                {/* <Button
-                // size={size}
-                loading={load}
-                className="c-btn-blue save_btn"
-                onClick={handleSave}
-              >
-                保存修改
-              </Button>
-              <Button
-                className=" un_edit_btn"
-                onClick={() => {
-                  props.MDRSData.setEditable(false);
-                }}
-              >
-                取消编辑
-              </Button> */}
-              </Col>
-            </Row>
+            {effectiveStatus === "提前终止" ? (
+              <Row gutter={24} className="line_row">
+                <Col span={5} className="line_title">
+                  终止原因：
+                </Col>
+                <Col span={18}>
+                  <Form.Item name="earlyTerminationReason">
+                    <Input.TextArea
+                      className="reason_text"
+                      maxLength={100}
+                      showCount={true}
+                      autoSize={{ minRows: 4, maxRows: 4 }}
+                    ></Input.TextArea>
+                  </Form.Item>
+                </Col>
+              </Row>
+            ) : (
+              <Row gutter={24} className="line_row">
+                <Col span={5} className="line_title">
+                  预警原因：
+                </Col>
+                <Col span={18}>
+                  <Form.Item name="alarmreason">
+                    <Input.TextArea
+                      className="reason_text"
+                      maxLength={100}
+                      showCount={true}
+                      autoSize={{ minRows: 4, maxRows: 4 }}
+                    ></Input.TextArea>
+                  </Form.Item>
+                </Col>
+              </Row>
+            )}
           </Form>
         ) : (
           <Fragment>
@@ -170,28 +174,33 @@ function DetailModule(props) {
                 ></Radio.Group>
               </Col>
             </Row>
-            <Row
-              gutter={24}
-              className="line_row"
-              style={{ position: "relative" }}
-            >
-              <Col span={5} className="line_title">
-                预警原因：
-              </Col>
-              <Col span={18} className="line_cont">
-                <div>{alarmreason || "无"}</div>
-              </Col>
-              {/* {update && (
-            <Button
-              className="c-btn-blue edit_btn"
-              onClick={() => {
-                props.MDRSData.setEditable(true);
-              }}
-            >
-              编辑
-            </Button>
-          )} */}
-            </Row>
+            {effectiveStatus === "提前终止" ? (
+              <Row
+                gutter={24}
+                className="line_row"
+                style={{ position: "relative" }}
+              >
+                <Col span={5} className="line_title">
+                  终止原因：
+                </Col>
+                <Col span={18} className="line_cont">
+                  <div>{earlyTerminationReason || "无"}</div>
+                </Col>
+              </Row>
+            ) : (
+              <Row
+                gutter={24}
+                className="line_row"
+                style={{ position: "relative" }}
+              >
+                <Col span={5} className="line_title">
+                  预警原因：
+                </Col>
+                <Col span={18} className="line_cont">
+                  <div>{alarmreason || "无"}</div>
+                </Col>
+              </Row>
+            )}
           </Fragment>
         )}
       </div>
@@ -203,7 +212,7 @@ const MDRSDetail = inject("MDRSData")(observer(DetailModule));
 //MDRS-表单模块
 function FormModule(props) {
   const [form] = Form.useForm();
-  const [load, setLoading] = useState(false);
+  // const [load, setLoading] = useState(false);
   const [dateForm, setDateForm] = useState({});
   const {
     airport,
@@ -216,15 +225,17 @@ function FormModule(props) {
     alarmlevel,
     alarmtype,
     alarmreason,
+    earlyTerminationReason,
+    effectiveStatus = "",
   } = formData;
   const startDate = moment(validperiodbegin, "YYYY-MM-DD");
   const startTime = validperiodbegin.substring(8, 12);
   const endDate = moment(validperiodend, "YYYY-MM-DD");
   const endTime = validperiodend.substring(8, 12);
-
+  console.log("effectiveStatus", effectiveStatus);
   return (
     <ModalBox
-      title={`${airport} MDRS预警信息`}
+      title={`${airport} MDRS预警信息-${effectiveStatus}`}
       showDecorator={false}
       className="mdrs_form_modal"
     >
@@ -253,6 +264,7 @@ function FormModule(props) {
             alarmlevel,
             alarmtype: alarmtype || "WHEATHER",
             alarmreason,
+            earlyTerminationReason,
           }}
           className="custom_date_form"
         >
@@ -305,37 +317,40 @@ function FormModule(props) {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={24} className="line_row">
-            <Col span={5} className="line_title">
-              预警原因：
-            </Col>
-            <Col span={18}>
-              <Form.Item name="alarmreason">
-                <Input.TextArea
-                  className="reason_text"
-                  maxLength={100}
-                  showCount={true}
-                  autoSize={{ minRows: 4, maxRows: 4 }}
-                ></Input.TextArea>
-              </Form.Item>
-              {/* <Button
-                // size={size}
-                loading={load}
-                className="c-btn-blue save_btn"
-                onClick={handleSave}
-              >
-                保存修改
-              </Button>
-              <Button
-                className=" un_edit_btn"
-                onClick={() => {
-                  props.MDRSData.setEditable(false);
-                }}
-              >
-                取消编辑
-              </Button> */}
-            </Col>
-          </Row>
+
+          {effectiveStatus === "提前终止" ? (
+            <Row gutter={24} className="line_row">
+              <Col span={5} className="line_title">
+                终止原因：
+              </Col>
+              <Col span={18}>
+                <Form.Item name="earlyTerminationReason">
+                  <Input.TextArea
+                    className="reason_text"
+                    maxLength={100}
+                    showCount={true}
+                    autoSize={{ minRows: 4, maxRows: 4 }}
+                  ></Input.TextArea>
+                </Form.Item>
+              </Col>
+            </Row>
+          ) : (
+            <Row gutter={24} className="line_row">
+              <Col span={5} className="line_title">
+                预警原因：
+              </Col>
+              <Col span={18}>
+                <Form.Item name="alarmreason">
+                  <Input.TextArea
+                    className="reason_text"
+                    maxLength={100}
+                    showCount={true}
+                    autoSize={{ minRows: 4, maxRows: 4 }}
+                  ></Input.TextArea>
+                </Form.Item>
+              </Col>
+            </Row>
+          )}
         </Form>
       </div>
     </ModalBox>

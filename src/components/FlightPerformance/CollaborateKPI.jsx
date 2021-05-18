@@ -37,7 +37,7 @@ const Operation = function (props) {
       if (nextRefresh) {
         timer.current = setTimeout(function () {
           requestData(nextRefresh, false);
-        }, 5 * 1000);
+        }, 60 * 1000);
       }
     };
 
@@ -51,12 +51,12 @@ const Operation = function (props) {
       const resData = await requestGet2({
         url: ReqUrls.totalOperationUrl,
         params: {
-          starTime: "",
+          startTime: "",
           endTime: "",
           name: focus,
         },
       });
-      console.log("resData", resData);
+      // console.log("resData", resData);
       //数据赋值
       const { stringLongHashMap = {}, generateTime = "" } = resData;
       setFlightRecordTypeMap(stringLongHashMap);
@@ -170,7 +170,7 @@ const Collaborate = function (props) {
       if (nextRefresh) {
         timer.current = setTimeout(function () {
           requestData(nextRefresh, false);
-        }, 5 * 1000);
+        }, 60 * 1000);
       }
     };
 

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-14 16:34:28
+ * @LastEditTime: 2021-05-18 15:11:41
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -83,9 +83,8 @@ function useAutoSize() {
     console.log("tableWidth, tableHeight: ", tableWidth, tableHeight);
     const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
     const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
-    const tableHeader = flightCanvas.getElementsByClassName(
-      "ant-table-header"
-    )[0];
+    const tableHeader =
+      flightCanvas.getElementsByClassName("ant-table-header")[0];
     let width = boxContent.offsetWidth;
     let height = boxContent.offsetHeight;
     // height -= 40;//标题高度“航班列表”
@@ -234,6 +233,7 @@ function FTable(props) {
       return getColumns(props.collaboratePopoverData);
     }
   }, [filterable]);
+  console.log("showList", showList);
 
   return (
     <Table

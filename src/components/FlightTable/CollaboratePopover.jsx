@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-15 15:57:12
+ * @LastEditTime: 2021-05-18 13:53:12
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -12,6 +12,7 @@ import {
   getDayTimeFromString,
   getTimeAndStatus,
   isValidVariable,
+  isValidObject,
 } from "utils/basic-verify";
 import { FlightCoordination } from "utils/flightcoordination.js";
 
@@ -48,13 +49,13 @@ const ColorPopover = (props) => {
     source = "INVALID";
   }
   let sourceCN = FlightCoordination.getSourceZh(source);
-  const fmeToday = orgdata.fmeToday;
+  const fmeToday = orgdata.fmeToday || {};
   let bgStatus = "";
   let subTitle = "";
   //航班状态验证 2021-4-2注释，后台接口校验，前台校验去掉
-  let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
-  let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
-  let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
+  let hadDEP = isValidObject(fmeToday) ? FmeToday.hadDEP(fmeToday) : false; //航班已起飞
+  let hadARR = isValidObject(fmeToday) ? FmeToday.hadARR(fmeToday) : false; //航班已落地
+  let hadFPL = isValidObject(fmeToday) ? FmeToday.hadFPL(fmeToday) : false; //航班已发FPL报
   let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
 
   //航班已起飞或者不在本区域内--不显示

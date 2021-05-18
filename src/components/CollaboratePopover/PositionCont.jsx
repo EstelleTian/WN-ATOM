@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-17 16:21:16
+ * @LastEditTime: 2021-05-18 15:25:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -29,46 +29,39 @@ import { closePopover, cgreen, cred } from "utils/collaborateUtils.js";
 const PositionCont = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
-  const [refuseBtnLoading, serRefuseBtnLoading] = useState(false);
+  const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
   const [form] = Form.useForm();
   const {
     collaboratePopoverData = {},
     systemPage = {},
     schemeListData = {},
+    flightTableData = {},
   } = props;
   const { data = {} } = collaboratePopoverData;
-  const { FLIGHTID = "", POS = {} } = data;
+  const { FLIGHTID = "", POS = {}, orgdata = "{}" } = data;
   const positionVal = POS.value || "";
   const user = systemPage.user || {};
   const userId = user.id || "";
   const activeSchemeId = schemeListData.activeSchemeId || "";
 
-  useEffect(() => {
-    if (collaboratePopoverData.selectedObj.name === "POS") {
-      console.log("PositionCont", positionVal);
-      form.setFieldsValue({ position: positionVal });
-    }
-    return () => {
-      form.resetFields();
-      console.log("PositionCont卸载");
-    };
-  }, [collaboratePopoverData.selectedObj]);
   const onCheck = async (type) => {
     try {
       const values = await form.validateFields();
       let url = "";
       let params = {
-        flightCoordination: data,
+        flightCoordination: JSON.parse(orgdata),
         userId,
         tacticId: activeSchemeId,
-        comment: values.comments,
+        comment: values.comments || "",
       };
       if (type === "approve") {
-        url = CollaborateUrl.runwayUrl + "/updateFlightPosition";
-        params["timeVal"] = values.runway;
+        setSubmitBtnLoading(true);
+        url = CollaborateUrl.positionUrl + "/updateFlightPosition";
+        params["timeVal"] = values.position || "";
       } else if (type === "refuse") {
+        setRefuseBtnLoading(true);
         //跑道清除
-        url = CollaborateUrl.runwayUrl + "/clearFlightPosition";
+        url = CollaborateUrl.positionUrl + "/clearFlightPosition";
         params["timeVal"] = "";
       }
       //提交参数拼装
@@ -77,11 +70,31 @@ const PositionCont = (props) => {
         params,
         method: "POST",
       });
+
+      setSubmitBtnLoading(false);
+      setRefuseBtnLoading(false);
+      const { flightCoordination } = res;
+      //单条数据更新
+      flightTableData.updateSingleFlight(flightCoordination);
+      //关闭popover
+      collaboratePopoverData.togglePopoverVisible(false);
+
       console.log("Success:", values);
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
     }
   };
+
+  useEffect(() => {
+    if (collaboratePopoverData.selectedObj.name === "POS") {
+      // console.log("PositionCont", positionVal);
+      form.setFieldsValue({ position: positionVal });
+    }
+    return () => {
+      form.resetFields();
+      // console.log("PositionCont卸载");
+    };
+  }, [collaboratePopoverData.selectedObj]);
   return (
     <Form
       form={form}
@@ -133,6 +146,7 @@ const PositionCont = (props) => {
 export default inject(
   "collaboratePopoverData",
   "systemPage",
-  "schemeListData"
+  "schemeListData",
+  "flightTableData"
 )(observer(PositionCont));
 // export default PositionCont;

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-11 19:37:25
+ * @LastEditTime: 2021-05-18 15:26:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -31,7 +31,7 @@ import moment from "moment";
 const PopoverTip = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
-  const [refuseBtnLoading, serRefuseBtnLoading] = useState(false);
+  const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
   const [form] = Form.useForm();
   const [tipObj, setTipObj] = useTip(2000);
   const { title } = props;
@@ -109,7 +109,7 @@ const PopoverTip = (props) => {
         color: cred,
       });
       setSubmitBtnLoading(false);
-      serRefuseBtnLoading(false);
+      setRefuseBtnLoading(false);
       //关闭协调窗口popover
       closePopover();
     });
@@ -125,7 +125,7 @@ const PopoverTip = (props) => {
         color: cgreen,
       });
       setSubmitBtnLoading(false);
-      serRefuseBtnLoading(false);
+      setRefuseBtnLoading(false);
       //关闭协调窗口popover
       closePopover();
     });
@@ -136,7 +136,7 @@ const PopoverTip = (props) => {
         //   console.log('Success:', values);
 
         if (type === "clear") {
-          serRefuseBtnLoading(true);
+          setRefuseBtnLoading(true);
         } else {
           setSubmitBtnLoading(true);
         }
@@ -151,9 +151,8 @@ const PopoverTip = (props) => {
         const locked = autoChecked ? "1" : "0";
 
         const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
-        const tacticName = props.schemeListData.getNameBySchemeActiveId(
-          schemeId
-        ); //方案名称
+        const tacticName =
+          props.schemeListData.getNameBySchemeActiveId(schemeId); //方案名称
 
         //传参
         let params = {

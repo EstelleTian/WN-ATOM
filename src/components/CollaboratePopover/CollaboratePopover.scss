@@ -21,3 +21,29 @@
         }
     }
 }
+.ffixt_col_container{
+    @include display_flex();
+    .ffixt_middle_canvas{
+        @include display_flex();
+        align-items: center;
+        margin: 0 5px;
+        >span:hover{
+            cursor: pointer;
+        }
+    }
+    .ffixt_right_canvas{
+        .ant-form-item-control-input {
+            min-height: 24px;
+            
+        }
+        .ffixt_right_date{
+            width: 130px;
+            height: 24px;
+        }
+        .ffixt_right_time{
+            width: 60px;
+            margin-left: 6px;
+            height: 24px;
+        }
+    }
+}

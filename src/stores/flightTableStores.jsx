@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-05-14 09:39:05
+ * @LastEditTime: 2021-05-18 16:23:14
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -52,7 +52,7 @@ class FlightItem {
       !isValidVariable(oldUpdateTimeStamp) &&
       !isValidVariable(newUpdateTimeStamp)
     ) {
-      for (let key in this) {
+      for (let key in newFlight) {
         this[key] = newFlight[key];
       }
     }
@@ -61,7 +61,7 @@ class FlightItem {
       !isValidVariable(oldUpdateTimeStamp) &&
       isValidVariable(newUpdateTimeStamp)
     ) {
-      for (let key in this) {
+      for (let key in newFlight) {
         this[key] = newFlight[key];
       }
     }
@@ -71,7 +71,7 @@ class FlightItem {
       isValidVariable(newUpdateTimeStamp) &&
       newUpdateTimeStamp * 1 >= oldUpdateTimeStamp * 1
     ) {
-      for (let key in this) {
+      for (let key in newFlight) {
         this[key] = newFlight[key];
       }
     }
@@ -254,6 +254,11 @@ class FlightTableData {
 
   //获取真正展示的航班
   @computed get getShowFlights() {
+    // 测试数据，只显示一条
+    // let testList = this.list.length > 0 ? [this.list[0]] : [];
+    // console.log("getShowFlights:", testList);
+    // let showList = testList.map((flight) => formatSingleFlight(flight));
+
     let showList = this.list.map((flight) => formatSingleFlight(flight));
     const searchVal = this.searchVal.toLowerCase();
     if (isValidVariable(searchVal)) {
@@ -292,6 +297,7 @@ class FlightTableData {
     }
 
     const targetFlight = this.getTargetFlight(showList);
+
     return { showList, targetFlight };
   }
 

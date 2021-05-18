@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-28 15:56:44
- * @LastEditTime: 2021-04-26 14:24:42
+ * @LastEditTime: 2021-05-17 19:09:50
  * @LastEditors: Please set LastEditors
  * @Description: 容量参数调整
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityParamsCont.jsx
@@ -469,7 +469,7 @@ const SaveBtn = memo(function (props) {
       overlayClassName="capacity-popconfirm"
     >
       <Button className="" type="primary" onClick={showPopconfirm}>
-        提交{" "}
+        提交
       </Button>
     </Popconfirm>
   );

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-17 08:56:14
+ * @LastEditTime: 2021-05-18 15:07:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -35,7 +35,7 @@ import moment from "moment";
 const FFixTCont = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
-  const [refuseBtnLoading, serRefuseBtnLoading] = useState(false);
+  const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
   const [form] = Form.useForm();
   const { collaboratePopoverData = {} } = props;
   const { data = {}, selectedObj = {} } = collaboratePopoverData;
@@ -99,93 +99,119 @@ const FFixTCont = (props) => {
   }, [collaboratePopoverData.selectedObj]);
   return (
     <div className="ffixt_col_container">
-      <Form
-        form={form}
-        size="small"
-        initialValues={initialValues}
-        className="ffixt_form"
-      >
-        <Descriptions size="small" bordered column={1}>
-          <Descriptions.Item label="航班">
-            <Form.Item name="flightid">
-              <Input disabled />
-            </Form.Item>
-          </Descriptions.Item>
-          <Descriptions.Item label="机场">
-            <Form.Item name="airport">
-              <Input disabled />
-            </Form.Item>
-          </Descriptions.Item>
-          <Descriptions.Item label="日期">
-            <Form.Item name="date">
-              <DatePicker className="clr_date" format="YYYY-MM-DD" />
-            </Form.Item>
-          </Descriptions.Item>
-          <Descriptions.Item label="时间">
-            <Form.Item
-              name="time"
-              rules={[
-                {
-                  type: "string",
-                  pattern: REGEXP.TIMEHHmm,
-                  message: "请输入有效的开始时间",
-                },
-                {
-                  required: true,
-                  message: "请输入开始时间",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </Descriptions.Item>
-          <Descriptions.Item label="">
-            <Form.Item name="locked">
-              <Checkbox
-                checked={autoChecked}
-                onChange={(e) => {
-                  setAutoChecked(e.target.checked);
-                }}
+      <div className="ffixt_left_canvas">
+        <Form
+          form={form}
+          size="small"
+          initialValues={initialValues}
+          className="ffixt_form"
+        >
+          <Descriptions size="small" bordered column={1}>
+            <Descriptions.Item label="航班">
+              <Form.Item name="flightid">
+                <Input disabled />
+              </Form.Item>
+            </Descriptions.Item>
+            <Descriptions.Item label="机场">
+              <Form.Item name="airport">
+                <Input disabled />
+              </Form.Item>
+            </Descriptions.Item>
+            <Descriptions.Item label="日期">
+              <Form.Item name="date">
+                <DatePicker className="clr_date" format="YYYY-MM-DD" />
+              </Form.Item>
+            </Descriptions.Item>
+            <Descriptions.Item label="时间">
+              <Form.Item
+                name="time"
+                rules={[
+                  {
+                    type: "string",
+                    pattern: REGEXP.TIMEHHmm,
+                    message: "请输入有效的开始时间",
+                  },
+                  {
+                    required: true,
+                    message: "请输入开始时间",
+                  },
+                ]}
               >
-                禁止系统自动调整
-              </Checkbox>
-            </Form.Item>
-          </Descriptions.Item>
-          <Descriptions.Item label="备注">
-            <Form.Item name="comment">
-              <Input.TextArea maxLength={100} />
-            </Form.Item>
-          </Descriptions.Item>
-          <div>
-            <Button
-              loading={submitBtnLoading}
-              size="small"
-              className="todo_opt_btn todo_agree c-btn-blue"
-              onClick={(e) => {
-                onCheck("");
-              }}
-            >
-              指定
-            </Button>
-            {source === "MANUAL" && hasRefuseAuth && (
+                <Input />
+              </Form.Item>
+            </Descriptions.Item>
+            <Descriptions.Item label="">
+              <Form.Item name="locked">
+                <Checkbox
+                  checked={autoChecked}
+                  onChange={(e) => {
+                    setAutoChecked(e.target.checked);
+                  }}
+                >
+                  禁止系统自动调整
+                </Checkbox>
+              </Form.Item>
+            </Descriptions.Item>
+            <Descriptions.Item label="备注">
+              <Form.Item name="comment">
+                <Input.TextArea maxLength={100} />
+              </Form.Item>
+            </Descriptions.Item>
+            <div>
               <Button
-                style={{ marginLeft: "8px" }}
-                loading={refuseBtnLoading}
-                className="todo_opt_btn todo_refuse c-btn-red"
-                onClick={(e) => {
-                  onCheck("clear");
-                }}
+                loading={submitBtnLoading}
                 size="small"
+                className="todo_opt_btn todo_agree c-btn-blue"
+                onClick={(e) => {
+                  onCheck("");
+                }}
               >
-                撤销
+                指定
               </Button>
-            )}
+              {source === "MANUAL" && hasRefuseAuth && (
+                <Button
+                  style={{ marginLeft: "8px" }}
+                  loading={refuseBtnLoading}
+                  className="todo_opt_btn todo_refuse c-btn-red"
+                  onClick={(e) => {
+                    onCheck("clear");
+                  }}
+                  size="small"
+                >
+                  撤销
+                </Button>
+              )}
 
-            {/* <Button style={{marginLeft: '8px'}}  size="small">重置</Button> */}
-          </div>
+              {/* <Button style={{marginLeft: '8px'}}  size="small">重置</Button> */}
+            </div>
+          </Descriptions>
+        </Form>
+      </div>
+      <div className="ffixt_middle_canvas">
+        <DoubleRightOutlined />
+      </div>
+      <div className="ffixt_right_canvas">
+        <Descriptions size="small" bordered column={1}>
+          <Descriptions.Item label="ZUUU">
+            <Form.Item>
+              <DatePicker className="ffixt_right_date" format="YYYY-MM-DD" />
+              <Input className="ffixt_right_time" />
+            </Form.Item>
+          </Descriptions.Item>
+          <Descriptions.Item label="ZYG">
+            <Form.Item>
+              <DatePicker className="ffixt_right_date" format="YYYY-MM-DD" />
+              <Input className="ffixt_right_time" />
+            </Form.Item>
+          </Descriptions.Item>
+          <Descriptions.Item label="XYO">
+            <Form.Item>
+              <DatePicker className="ffixt_right_date" format="YYYY-MM-DD" />
+              <Input className="ffixt_right_time" />
+            </Form.Item>
+          </Descriptions.Item>
         </Descriptions>
-      </Form>
-      <DoubleRightOutlined />
+      </div>
     </div>
   );
 };
