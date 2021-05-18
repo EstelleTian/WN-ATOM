@@ -48,12 +48,13 @@ const FlightCoordination = {
     ALARM_TYPE_DELAY: 100, // 延误
     ALARM_TYPE_CRITICAL: 200, // 临界
     ALARM_TYPE_EXEMPTION: 300, // 豁免
-    ALARM_TYPE_INPOOL:500, // 入池
-    ALARM_TYPE_HALF : 400, // 半数
+    ALARM_TYPE_INPOOL: 500, // 入池
+    ALARM_TYPE_HALF: 400, // 半数
     ALARM_TYPE_EXCHANGE: 600, // 时隙交换
     ALARM_TYPE_DEXIT_SLOT: 700, // 退出时隙分配
     ALARM_TYPE_SINGLE_EXEMPTION: 800, // 单方案豁免
     ALARM_TYPE_CHANGE_ROUTE: 99, // 改航
+    ALARM_TYPE_QUALIATIONS: 98, // 二类
 
 
 
@@ -138,29 +139,29 @@ const FlightCoordination = {
      * EFPS航班状态常量
      */
     //离港计划
-//    EFPS_STATUS_PRE: 'PRE', // 预激活
-//    EFPS_STATUS_REQ: 'REQ', // 申请放行
-//    EFPS_STATUS_CLD: 'CLD', // 已发放行
-//    EFPS_STATUS_HLD: 'HLD', // 等待
-//    EFPS_STATUS_PUS: 'PUS', // 推出
-//    EFPS_STATUS_STR: 'STR', // 开车
-//    EFPS_STATUS_P_S: 'P_S', // 推出开车
-//    EFPS_STATUS_TAX: 'TAX', // 滑行
-//    EFPS_STATUS_QUE: 'QUE', // 排队
-//    EFPS_STATUS_CTL: 'CTL', // 塔台管制
-//    EFPS_STATUS_LIN: 'LIN', // 上跑道
-//    EFPS_STATUS_DEP: 'DEP', // 起飞
-//    EFPS_STATUS_BRK: 'BRK', // 中断起飞
-//    //进港计划
-//    EFPS_STATUS_UCL: 'UCL', // 未管制（还处进近管制）
-//    EFPS_STATUS_CTL: 'CTL', // 塔台管制
-//    EFPS_STATUS_LND: 'LND', // 发了落地许可
-//    EFPS_STATUS_TOD: 'TOD', // 接地
-//    EFPS_STATUS_MIS: 'MIS', // 复飞
-//    EFPS_STATUS_TTX: 'TTX', // 脱离跑道
-//    EFPS_STATUS_TAX: 'TAX', // 地面滑行
-//    EFPS_STATUS_OVE: 'OVE', // 入位
-    
+    //    EFPS_STATUS_PRE: 'PRE', // 预激活
+    //    EFPS_STATUS_REQ: 'REQ', // 申请放行
+    //    EFPS_STATUS_CLD: 'CLD', // 已发放行
+    //    EFPS_STATUS_HLD: 'HLD', // 等待
+    //    EFPS_STATUS_PUS: 'PUS', // 推出
+    //    EFPS_STATUS_STR: 'STR', // 开车
+    //    EFPS_STATUS_P_S: 'P_S', // 推出开车
+    //    EFPS_STATUS_TAX: 'TAX', // 滑行
+    //    EFPS_STATUS_QUE: 'QUE', // 排队
+    //    EFPS_STATUS_CTL: 'CTL', // 塔台管制
+    //    EFPS_STATUS_LIN: 'LIN', // 上跑道
+    //    EFPS_STATUS_DEP: 'DEP', // 起飞
+    //    EFPS_STATUS_BRK: 'BRK', // 中断起飞
+    //    //进港计划
+    //    EFPS_STATUS_UCL: 'UCL', // 未管制（还处进近管制）
+    //    EFPS_STATUS_CTL: 'CTL', // 塔台管制
+    //    EFPS_STATUS_LND: 'LND', // 发了落地许可
+    //    EFPS_STATUS_TOD: 'TOD', // 接地
+    //    EFPS_STATUS_MIS: 'MIS', // 复飞
+    //    EFPS_STATUS_TTX: 'TTX', // 脱离跑道
+    //    EFPS_STATUS_TAX: 'TAX', // 地面滑行
+    //    EFPS_STATUS_OVE: 'OVE', // 入位
+
     /**
      * EFPS航班状态常量(新)
      */
@@ -185,11 +186,11 @@ const FlightCoordination = {
     EFPS_STATUS_LND: 'LND', // 降落
     EFPS_STATUS_TOD: 'TOD', // 落地
     EFPS_STATUS_OVE: 'OVE', // 入位
-    
+
     // 航班过滤
     FLIGHT_FILTER_ALL: 0, 	// 显示全部航班
     FLIGHT_FILTER_FLOWCONTROL: 1, // 显示受控航班
-    
+
     // 预锁状态
     STATUS_COBT_PRE_LOCK: 0,
 
@@ -206,72 +207,95 @@ const FlightCoordination = {
     SLOT_STATUS_MANUAL: 4, //人工
     SLOT_STATUS_NOSLOT: 5, //不参加
 
+    //协调类型
+    CoordinationType : {
+        "EXEMPT": "标记豁免",
+        "UNEXEMPT": "取消豁免",
+        "SINGLEEXEMPT": "标记单方案豁免",
+        "UNSINGLEEXEMPT": "取消单方案豁免",
+        "INTERVAL": "标记半数间隔",
+        "UNINTERVAL": "取消半数间隔",
+        "INPOOL": "申请入池",
+        "OUTPOOL": "申请出池",
+        "TOBT": "申请TOBT",
+        "COBT": "COBT调整",
+        "CTD": "CTOT调整",
+        "FFIXT": "过点时间调整",
+        "CTO": "过点时间调整",
+    },
 
 
-    getAlarmValueZh: function(alarm){
+
+    getAlarmValueZh: function (alarm) {
         if (!isValidVariable(alarm)) {
             return "";
         }
         let zh = "";
-        let color="";
-        let descriptions="";
-        let pos="";
+        let color = "";
+        let descriptions = "";
+        let pos = "";
         let s = parseInt(alarm, 10);
         switch (s) {
             case FlightCoordination.ALARM_TYPE_DELAY:
                 zh = '延';
-                color="#9a7c4d";
-                descriptions="延误";
+                color = "#9a7c4d";
+                descriptions = "延误";
                 pos = 1;
                 break;
             case FlightCoordination.ALARM_TYPE_CRITICAL:
                 zh = '临';
-                color="rgb(138 94 148)";
-                descriptions="临界";
+                color = "rgb(138 94 148)";
+                descriptions = "临界";
                 pos = 1;
                 break;
             case FlightCoordination.ALARM_TYPE_SINGLE_EXEMPTION:
                 zh = '单';
-                color="#007bbb";
-                descriptions="单方案豁免";
+                color = "#007bbb";
+                descriptions = "单方案豁免";
                 pos = 2;
                 break;
             case FlightCoordination.ALARM_TYPE_EXEMPTION:
                 zh = '豁';
-                color="rgba(139, 68, 88, 0.76)";
-                descriptions="豁免";
+                color = "rgba(139, 68, 88, 0.76)";
+                descriptions = "豁免";
                 pos = 2;
                 break;
             case FlightCoordination.ALARM_TYPE_HALF:
                 zh = '半';
-                color="#007bbb";
-                descriptions="半数间隔";
+                color = "#007bbb";
+                descriptions = "半数间隔";
                 pos = 2;
                 break;
             case FlightCoordination.ALARM_TYPE_INPOOL:
                 zh = '池';
-                color="#ff6600";
-                descriptions="入池";
+                color = "#ff6600";
+                descriptions = "入池";
                 pos = 3;
                 break;
             case FlightCoordination.ALARM_TYPE_EXCHANGE:
                 zh = '换';
-                color="#02794f";
-                descriptions="时隙交换";
+                color = "#02794f";
+                descriptions = "时隙交换";
                 pos = 3;
                 break;
             case FlightCoordination.ALARM_TYPE_DEXIT_SLOT:
                 zh = '退';
-                color="#769e28";
-                descriptions="退出时隙分配";
+                color = "#769e28";
+                descriptions = "退出时隙分配";
                 pos = 3;
                 break;
-            
+
             case FlightCoordination.ALARM_TYPE_CHANGE_ROUTE:
                 zh = '改';
-                color="#7d550d";
-                descriptions="改航";
+                color = "#7d550d";
+                descriptions = "改航";
                 pos = 3;
+                break;
+            case FlightCoordination.ALARM_TYPE_QUALIATIONS:
+                zh = 'Ⅱ';
+                color = "#f50";
+                descriptions = "二类";
+                pos = 4;
                 break;
             default:
                 break;
@@ -292,16 +316,16 @@ const FlightCoordination = {
      * @param priority
      * @returns
      */
-    getSourceZh : (source) => {
+    getSourceZh: (source) => {
         let sourceCN = ""
         switch (source) {
-            case 'ATOM': sourceCN = "引接ATOM";break;
-            case 'NTFM': sourceCN = "引接NTFM";break;
-            case 'MANUAL': sourceCN = "人工";break;
-            case 'LOCK': sourceCN = "锁定";break;
-            case 'AUTO': sourceCN = "自动";break;
-            case 'INVALID': sourceCN = "失效";break;
-            case 'WAIT': sourceCN = "流程中";break;
+            case 'ATOM': sourceCN = "引接ATOM"; break;
+            case 'NTFM': sourceCN = "引接NTFM"; break;
+            case 'MANUAL': sourceCN = "人工"; break;
+            case 'LOCK': sourceCN = "锁定"; break;
+            case 'AUTO': sourceCN = "自动"; break;
+            case 'INVALID': sourceCN = "失效"; break;
+            case 'WAIT': sourceCN = "流程中"; break;
             default: sourceCN = source;
         }
         return sourceCN;
@@ -310,21 +334,21 @@ const FlightCoordination = {
     getSchemeStatusZh: (status) => {
         let newStatus = status;
         switch (status) {
-        case "FUTURE":
-            newStatus = "将要执行";
-            break;
-        case "RUNNING":
-            newStatus = "正在执行";
-            break;
-        case "TERMINATED_MANUAL":
-            newStatus = "人工终止";
-            break;
-        case "TERMINATED_AUTO":
-            newStatus = "系统终止";
-            break;
-        case "FINISHED":
-            newStatus = "正常结束";
-            break;
+            case "FUTURE":
+                newStatus = "将要执行";
+                break;
+            case "RUNNING":
+                newStatus = "正在执行";
+                break;
+            case "TERMINATED_MANUAL":
+                newStatus = "人工终止";
+                break;
+            case "TERMINATED_AUTO":
+                newStatus = "系统终止";
+                break;
+            case "FINISHED":
+                newStatus = "正常结束";
+                break;
         }
         return newStatus;
     },
@@ -335,7 +359,7 @@ const FlightCoordination = {
      * @param priority
      * @returns
      */
-    getPriorityZh: function(priority, arrap){
+    getPriorityZh: function (priority, arrap) {
         if (!isValidVariable(priority)) {
             return "";
         }
@@ -345,9 +369,9 @@ const FlightCoordination = {
             case this.PRIORITY_NORMAL:
                 // 飞往香港（VHHH）、澳门（VMMC）、台湾（RC开头）的航班，在优先级列显示为“地区”航班
                 if (isValidVariable(arrap)
-                    && ( arrap === 'VHHH'
-                    || arrap === 'VMMC'
-                    || arrap.substring(0, 2) === 'RC')) {
+                    && (arrap === 'VHHH'
+                        || arrap === 'VMMC'
+                        || arrap.substring(0, 2) === 'RC')) {
                     zh = '地区';
                 } else {
                     zh = '普通';
@@ -389,7 +413,7 @@ const FlightCoordination = {
      * @param status
      * @returns
      */
-    getStatusZh: function(status){
+    getStatusZh: function (status) {
         if (!isValidVariable(status)) {
             return "";
         }
@@ -483,77 +507,77 @@ const FlightCoordination = {
      * @param status
      * @returns
      */
-//    getEfpsStatusZh: function(status) {
-//        let zh = null;
-//        switch (status) {
-//            case this.EFPS_STATUS_PRE:
-//                zh = '预激活';
-//                break;
-//            case this.EFPS_STATUS_REQ:
-//                zh = '申请放行';
-//                break;
-//            case this.EFPS_STATUS_CLD:
-//                zh = '已发放行';
-//                break;
-//            case this.EFPS_STATUS_HLD:
-//                zh = '等待';
-//                break;
-//            case this.EFPS_STATUS_PUS:
-//                zh = '推出';
-//                break;
-//            case this.EFPS_STATUS_STR:
-//                zh = '开车';
-//                break;
-//            case this.EFPS_STATUS_P_S:
-//                zh = '推出开车';
-//                break;
-//            case this.EFPS_STATUS_TAX:
-//                zh = '滑行';
-//                break;
-//            case this.EFPS_STATUS_QUE:
-//                zh = '排队';
-//                break;
-//            case this.EFPS_STATUS_CTL:
-//                zh = '塔台管制';
-//                break;
-//            case this.EFPS_STATUS_LIN:
-//                zh = '上跑道';
-//                break;
-//            case this.EFPS_STATUS_DEP:
-//                zh = '起飞';
-//                break;
-//            case this.EFPS_STATUS_BRK:
-//                zh = '中断起飞';
-//                break;
-//            case this.EFPS_STATUS_UCL:
-//                zh = '未管制(还处进近管制)';
-//                break;
-//            case this.EFPS_STATUS_CTL:
-//                zh = '塔台管制';
-//                break;
-//            case this.EFPS_STATUS_LND:
-//                zh = '发了落地许可';
-//                break;
-//            case this.EFPS_STATUS_TOD:
-//                zh = '接地';
-//                break;
-//            case this.EFPS_STATUS_MIS:
-//                zh = '复飞';
-//                break;
-//            case this.EFPS_STATUS_TTX:
-//                zh = '脱离跑道';
-//                break;
-//            case this.EFPS_STATUS_TAX:
-//                zh = '地面滑行';
-//                break;
-//            case this.EFPS_STATUS_OVE:
-//                zh = '入位';
-//                break;
-//            default:
-//                break;
-//        }
-//        return zh;
-//    },
+    //    getEfpsStatusZh: function(status) {
+    //        let zh = null;
+    //        switch (status) {
+    //            case this.EFPS_STATUS_PRE:
+    //                zh = '预激活';
+    //                break;
+    //            case this.EFPS_STATUS_REQ:
+    //                zh = '申请放行';
+    //                break;
+    //            case this.EFPS_STATUS_CLD:
+    //                zh = '已发放行';
+    //                break;
+    //            case this.EFPS_STATUS_HLD:
+    //                zh = '等待';
+    //                break;
+    //            case this.EFPS_STATUS_PUS:
+    //                zh = '推出';
+    //                break;
+    //            case this.EFPS_STATUS_STR:
+    //                zh = '开车';
+    //                break;
+    //            case this.EFPS_STATUS_P_S:
+    //                zh = '推出开车';
+    //                break;
+    //            case this.EFPS_STATUS_TAX:
+    //                zh = '滑行';
+    //                break;
+    //            case this.EFPS_STATUS_QUE:
+    //                zh = '排队';
+    //                break;
+    //            case this.EFPS_STATUS_CTL:
+    //                zh = '塔台管制';
+    //                break;
+    //            case this.EFPS_STATUS_LIN:
+    //                zh = '上跑道';
+    //                break;
+    //            case this.EFPS_STATUS_DEP:
+    //                zh = '起飞';
+    //                break;
+    //            case this.EFPS_STATUS_BRK:
+    //                zh = '中断起飞';
+    //                break;
+    //            case this.EFPS_STATUS_UCL:
+    //                zh = '未管制(还处进近管制)';
+    //                break;
+    //            case this.EFPS_STATUS_CTL:
+    //                zh = '塔台管制';
+    //                break;
+    //            case this.EFPS_STATUS_LND:
+    //                zh = '发了落地许可';
+    //                break;
+    //            case this.EFPS_STATUS_TOD:
+    //                zh = '接地';
+    //                break;
+    //            case this.EFPS_STATUS_MIS:
+    //                zh = '复飞';
+    //                break;
+    //            case this.EFPS_STATUS_TTX:
+    //                zh = '脱离跑道';
+    //                break;
+    //            case this.EFPS_STATUS_TAX:
+    //                zh = '地面滑行';
+    //                break;
+    //            case this.EFPS_STATUS_OVE:
+    //                zh = '入位';
+    //                break;
+    //            default:
+    //                break;
+    //        }
+    //        return zh;
+    //    },
 
     /**
      * 获取EFPS status中文(新)
@@ -561,7 +585,7 @@ const FlightCoordination = {
      * @param status
      * @returns
      */
-    getEfpsStatusZh: function(status){
+    getEfpsStatusZh: function (status) {
         let zh = null;
         switch (status) {
             case this.EFPS_STATUS_PRE:
@@ -633,7 +657,7 @@ const FlightCoordination = {
      * @param status
      * @returns
      */
-    getClearanceStatusZh: function(status){
+    getClearanceStatusZh: function (status) {
         let s = parseInt(status, 10);
         let zh = null;
         switch (s) {
@@ -667,7 +691,7 @@ const FlightCoordination = {
      * @param status
      * @returns
      */
-    getClearanceStatusZhFull: function(status){
+    getClearanceStatusZhFull: function (status) {
         let s = parseInt(status, 10);
         let zh = null;
         switch (s) {
@@ -725,7 +749,7 @@ const FlightCoordination = {
      * @param delayReason
      * @returns
      */
-    getDelayReasonZh: function(delayReason){
+    getDelayReasonZh: function (delayReason) {
         let zh = '';
         switch (delayReason) {
             case this.DELAY_REASON_MILITARY:
@@ -766,7 +790,7 @@ const FlightCoordination = {
             zh = '出池';
         } else if (status === '1') {
             zh = '系统入池';
-        } else if (status ==='2') {
+        } else if (status === '2') {
             zh = '协调入池';
         }
         return zh;
@@ -777,7 +801,7 @@ const FlightCoordination = {
      * @param status
      * @returns
      */
-    getSlotStatusZh: ( status ) => {
+    getSlotStatusZh: (status) => {
         status += ""
         let zh = '';
         if (status === '1') {
@@ -799,7 +823,7 @@ const FlightCoordination = {
      * @param status
      * @returns
      */
-    getClearanceZh: ( status ) => {
+    getClearanceZh: (status) => {
         let zh = '';
         if (status == '1') {
             zh = '已放行';
@@ -812,7 +836,7 @@ const FlightCoordination = {
      * @param status
      * @returns
      */
-    getQualificationsZh: ( status ) => {
+    getQualificationsZh: (status) => {
         let zh = '';
         if (status == '2') {
             zh = '二类飞行';
@@ -824,7 +848,7 @@ const FlightCoordination = {
      * 获取除冰状态中文
      * @param {} value
      */
-    getDeiceZh: function(deice){
+    getDeiceZh: function (deice) {
         let zh = '';
         let status = '';
         let position = '';
@@ -835,15 +859,15 @@ const FlightCoordination = {
         }
         if (deiceData.length == 3) {
             if (isValidVariable(deiceData[0])) {
-            	if(deiceData[0] == this.STATUS_DEICE_ON) {
-            		status = '除冰';
-            	} else if(deiceData[0] == this.STATUS_DEICE_ON_MANUAL) {
-            		status = '人工指定除冰';
-            	} else if(deiceData[0] == this.STATUS_DEICE_OFF_MANUAL) {
-            		status = '人工指定不除冰';
-            	} else if(deiceData[0] == this.STATUS_DEICE_OFF) {
-            		status = '默认不除冰';
-            	}
+                if (deiceData[0] == this.STATUS_DEICE_ON) {
+                    status = '除冰';
+                } else if (deiceData[0] == this.STATUS_DEICE_ON_MANUAL) {
+                    status = '人工指定除冰';
+                } else if (deiceData[0] == this.STATUS_DEICE_OFF_MANUAL) {
+                    status = '人工指定不除冰';
+                } else if (deiceData[0] == this.STATUS_DEICE_OFF) {
+                    status = '默认不除冰';
+                }
                 if (!isValidVariable(deiceData[1])) {
                     position = '待定';
                 } else {
@@ -854,17 +878,17 @@ const FlightCoordination = {
                 }
                 zh = status + ',' + position + ',' + group;
             }
-        } else if(deiceData.length == 1){
-        	if(deiceData[0] == this.STATUS_DEICE_ON) {
-        		status = '除冰';
-        	} else if(deiceData[0] == this.STATUS_DEICE_ON_MANUAL) {
-        		status = '人工指定除冰';
-        	} else if(deiceData[0] == this.STATUS_DEICE_OFF_MANUAL) {
-        		status = '人工指定不除冰';
-        	} else if(deiceData[0] == this.STATUS_DEICE_OFF) {
-        		status = '默认不除冰';
-        	}
-        	zh = status;
+        } else if (deiceData.length == 1) {
+            if (deiceData[0] == this.STATUS_DEICE_ON) {
+                status = '除冰';
+            } else if (deiceData[0] == this.STATUS_DEICE_ON_MANUAL) {
+                status = '人工指定除冰';
+            } else if (deiceData[0] == this.STATUS_DEICE_OFF_MANUAL) {
+                status = '人工指定不除冰';
+            } else if (deiceData[0] == this.STATUS_DEICE_OFF) {
+                status = '默认不除冰';
+            }
+            zh = status;
         }
         return zh;
     },
@@ -887,7 +911,7 @@ const FlightCoordination = {
     /**
      * 获取资质对应名称
      */
-    getMarkQualFlightZh:( status ) => {
+    getMarkQualFlightZh: (status) => {
         let zh = '';
         if (status == '2') {
             zh = '二类飞行';
@@ -949,8 +973,8 @@ const FlightCoordination = {
         } else if (isValidVariable(flight.fmeToday.PDeptime)
             && isValidVariable(flight.fmeToday.teletype)
             && (flight.fmeToday.teletype.indexOf('FPL') > -1
-            || flight.fmeToday.teletype.indexOf('CHG') > -1 || flight.fmeToday.teletype
-                .indexOf('DLA') > -1)) {
+                || flight.fmeToday.teletype.indexOf('CHG') > -1 || flight.fmeToday.teletype
+                    .indexOf('DLA') > -1)) {
             // 报文
             tobt = $.addStringTime(flight.fmeToday.PDeptime, -1 * 10 * 60 * 1000);
         }
@@ -960,7 +984,7 @@ const FlightCoordination = {
     /**
      * 获取TOBT时间及来源
      */
-    getTOBT: function(flight){
+    getTOBT: function (flight) {
         let tobt = null;
         let tobtSource = null;
         if (isValidVariable(flight.tobt)) {
@@ -1003,6 +1027,34 @@ const FlightCoordination = {
         } else {
             return false;
         }
+    },
+
+    /**
+     * 判断航班是否在协调响应等待中
+     *
+     * @param flight
+     * @returns {Boolean}
+     */
+    isCoordinationResponseWaitingFlight: (flight) => {
+        const taskField = flight.taskField || {};
+        const source = taskField.source;
+        if (isValidVariable(source) && source === "WAIT") {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    /**
+     * 获取在协调响应等待中航班的协调类型
+     *
+     * @param flight
+     * @returns {Boolean}
+     */
+    getCoordinationResponseWaitingType: (flight) => {
+        const taskField = flight.taskField || {};
+        const type = taskField.type || "";
+        const typeZH = CoordinationType[type] || "";
+        return typeZH;
     },
 
     /**
@@ -1100,7 +1152,7 @@ const FlightCoordination = {
         }
 
         // 按照E排序
-        rarr.sort(function(a, b){
+        rarr.sort(function (a, b) {
             if (isValidVariable(a.E) && isValidVariable(b.E)) {
                 return a.E - b.E;
             } else if (isValidVariable(a.E) && !isValidVariable(b.E)) {
@@ -1154,7 +1206,7 @@ const FlightCoordination = {
         }
 
         // 按照E排序
-        rarr.sort(function(a, b){
+        rarr.sort(function (a, b) {
             if (isValidVariable(a.E) && isValidVariable(b.E)) {
                 return a.E - b.E;
             } else if (isValidVariable(a.E) && !isValidVariable(b.E)) {
@@ -1192,17 +1244,17 @@ const FlightCoordination = {
      * @param flight
      * @return {Boolean}
      */
-    hasAOBT : ( flight ) => {
+    hasAOBT: (flight) => {
         // 判断来源
-        if(flight.efpsFlight != null && isValidVariable(flight.efpsFlight.pusTime)) {
+        if (flight.efpsFlight != null && isValidVariable(flight.efpsFlight.pusTime)) {
             return true;
-        }else if (isValidVariable(flight.aobt)) { // 引接
+        } else if (isValidVariable(flight.aobt)) { // 引接
             return true;
-        } else if(isValidVariable(flight.aobtAirline)){ // 人工指定
+        } else if (isValidVariable(flight.aobtAirline)) { // 人工指定
             return true;
         } else if (isValidVariable(flight.fmeToday.ROuttime)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     },
@@ -1215,37 +1267,37 @@ const AlarmType = {
     /**
      * 航班延误接近90分钟
      */
-    FLIGHT_DELAY : '1',
+    FLIGHT_DELAY: '1',
 
     /**
      * 航班接近HOBT未发关舱门
      */
-    FLIGHT_CLOSE : '2',
+    FLIGHT_CLOSE: '2',
 
     /**
      * 关舱门等待
      */
-    FLIGHT_CLOSE_WAIT : '3',
+    FLIGHT_CLOSE_WAIT: '3',
 
     /**
      * 流控发布/变更
      */
-    FLOW_CONTROL : '4',
+    FLOW_CONTROL: '4',
 
     /**
      * 申请时间  > 计划时间 + 10分钟
      */
-    FLIGHT_PDEPTIME : '5',
+    FLIGHT_PDEPTIME: '5',
 
     /**
      * 实关时间 > 协关时间 + 5分钟
      */
-    FLIGHT_HOBT : '6',
+    FLIGHT_HOBT: '6',
 
     /**
      * 时隙修改
      */
-    FLIGHT_SLOT_UPDATE : '7'
+    FLIGHT_SLOT_UPDATE: '7'
 };
 
 //协调操作常量---不可操作原因字典
@@ -1612,7 +1664,7 @@ const StatusToCN = {
     "200": "已同意",
     "300": "已拒绝",
     "400": "已失效",
-   
+
 };
 
 //本席位处理状态
@@ -1638,5 +1690,5 @@ const reasonType = {
     PUBLIC_SECURITY: "公共安全",
     MAJOR_SECURITY_ACTIVITIES: "重大保障活动",
     OTHER: "其它",
-  };
-export { FlightCoordination, reasonType,AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList, TodoType, StatusToCN, HandleStatusToCN };
+};
+export { FlightCoordination, reasonType, AlarmType, OperationTypeForFlightId, OperationTypeForTimeColumn, PriorityList, DelayReasonList, OperationReason, FmeStatusList, TodoType, StatusToCN, HandleStatusToCN };
