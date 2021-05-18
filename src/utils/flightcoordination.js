@@ -1053,7 +1053,7 @@ const FlightCoordination = {
     getCoordinationResponseWaitingType: (flight) => {
         const taskField = flight.taskField || {};
         const type = taskField.type || "";
-        const typeZH = CoordinationType[type] || "";
+        const typeZH = FlightCoordination.CoordinationType[type] || "";
         return typeZH;
     },
 
