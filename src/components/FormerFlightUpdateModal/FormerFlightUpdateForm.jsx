@@ -239,7 +239,7 @@ function FormerFlightUpdateForm(props) {
                     <Col span={24}>
                         <Form.Item
                             name="formerFlight"
-                            label="前序段航班"
+                            label="前段航班"
                             required={true}
                             rules={[{ required: true }]}
                             className="text-uppercase"
