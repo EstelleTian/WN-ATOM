@@ -24,7 +24,8 @@ const DraggableModal = (props) => {
         handleOk,
         handleCancel,
         footer,
-        className=""
+        className="",
+        centered = false,
     } = props;
     const draggleRef = React.createRef();
     const onStart = (event, uiData) => {
@@ -63,6 +64,7 @@ const DraggableModal = (props) => {
             mask={mask}
             onOk={handleOk}
             onCancel={handleCancel}
+            centered ={centered}
             style={style}
             maskClosable={ maskClosable }
             width={width}
