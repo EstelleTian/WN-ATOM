@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-04-25 14:27:08
+ * @LastEditTime: 2021-05-18 17:26:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\MDRSWorkList.jsx
@@ -83,21 +83,28 @@ function WorkStep(props) {
 
 //容量管理-工作流详情
 function MDRSWorkList(props) {
+  const { MDRSData = {} } = props;
   const {
-    MDRSData: {
-      historyTaskResult: { hisTasks = [], hisInstance = {} } = {},
-      authMap = {},
-      formData = {},
-      generateTime,
-    },
-  } = props;
-
+    historyTaskResult = {},
+    authMap = {},
+    formData = {},
+    generateTime,
+  } = MDRSData;
+  const { hisTasks = [], hisInstance = {} } = historyTaskResult;
+  const { processVariables = {} } = hisInstance;
+  const TASKTYPE = processVariables.TASKTYPE || "";
+  let taskCN = "";
+  if (TASKTYPE === "EARLYWARNING") {
+    taskCN = "超容预警";
+  } else if (TASKTYPE === "TERMINATION") {
+    taskCN = "提前终止";
+  }
   const len = hisTasks.length;
   return (
     <div className="mdrs_workflow">
       {hisTasks.length > 0 && (
         <ModalBox
-          title={`工作流详情（流水号：${hisInstance.id || ""}）`}
+          title={`${taskCN}-工作流详情（流水号：${hisInstance.id || ""}）`}
           // title={`工作流详情`}
           showDecorator={false}
           className="mdrs_modal"

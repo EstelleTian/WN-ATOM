@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-04-28 09:28:43
+ * @LastEditTime: 2021-05-18 15:33:59
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -128,8 +128,12 @@ const HandleBtn = function (props) {
         break;
       case "SchemeApprovalProcess": //方案审批流程
         // console.log("方案审批流程",businessKey);
+        if (props.activeTab === "finished") {
+          openDoneFrameById(businessKey);
+        } else {
+          openConfirmFrame(businessKey);
+        }
 
-        openConfirmFrame(businessKey);
         break;
       case "VolumeApprovalProcess": //容量审批流程
         // console.log("容量审批流程",businessKey);
@@ -274,12 +278,12 @@ function WorkFlowList(props) {
       return (
         <span className="opt_btns">
           <DetailBtn record={record} />
-          {/* <HandleBtn record={record} activeTab={activeTab} /> */}
-          {activeTab === "todo" ? (
+          <HandleBtn record={record} activeTab={activeTab} />
+          {/* {activeTab === "todo" ? (
             <HandleBtn activeTab={activeTab} record={record} />
           ) : (
             ""
-          )}
+          )} */}
 
           {/*<a>收回</a>*/}
           {/*<a>催办</a>*/}

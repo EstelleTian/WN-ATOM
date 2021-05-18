@@ -19,10 +19,8 @@ import { customNotice } from "utils/common-funcs";
 import { OptionBtn } from "components/Common/OptionBtn";
 //MDRS-表单 操作按钮
 function MDRSOptionBtns(props) {
-  const {
-    airport,
-    MDRSData: { formData = {}, authMap = {} },
-  } = props;
+  const { airport, MDRSData = {} } = props;
+  const { formData = {}, authMap = {}, historyTaskResult = {} } = MDRSData;
   let agree = authMap["AGREE"] || false;
   let refuse = authMap["REFUSE"] || false;
   let reback = authMap["REBACK"] || false;
@@ -82,32 +80,52 @@ function MDRSOptionBtns(props) {
     // const mdrsId = props.formData.id || ""; //MDRS预警数据主键ID
     let url = "";
     let params = formData || {};
+    // console.log("historyTaskResult", { ...historyTaskResult });
+    const {
+      hisInstance: { processVariables = {} },
+    } = historyTaskResult;
+    const TASKTYPE = processVariables.TASKTYPE || "";
     let title = "";
     //同意
     if (type === "agree") {
+      if (TASKTYPE === "TERMINATION") {
+        url = ReqUrls.mdrsTerminalWorkFlowUrl;
+        title = "MDRS提前终止【同意】操作";
+      } else {
+        url = ReqUrls.mdrsWorkFlowUrl;
+        title = "MDRS超容预警【同意】操作";
+      }
       if (update) {
         const formValues = await handleSave();
         params = formValues;
       }
-      url = ReqUrls.mdrsWorkFlowUrl;
-      title = "MDRS【同意】操作";
     }
     //拒绝
     else if (type === "refuse") {
+      if (TASKTYPE === "TERMINATION") {
+        url = ReqUrls.mdrsTerminalWorkFlowUrl;
+        title = "MDRS提前终止【拒绝】操作";
+      } else {
+        url = ReqUrls.mdrsWorkFlowUrl;
+        title = "MDRS超容预警【拒绝】操作";
+      }
       if (update) {
         const formValues = await handleSave();
         params = formValues;
       }
-      url = ReqUrls.mdrsWorkFlowUrl;
-      title = "MDRS【拒绝】操作";
     }
     //撤回
     else if (type === "reback") {
-      //容量审核拒绝
-      url = ReqUrls.mdrsWorkFlowUrl;
-      title = "MDRS【撤回】操作";
+      if (TASKTYPE === "TERMINATION") {
+        url = ReqUrls.mdrsTerminalWorkFlowUrl;
+        title = "MDRS提前终止【撤回】操作";
+      } else {
+        //容量审核拒绝
+        url = ReqUrls.mdrsWorkFlowUrl;
+        title = "MDRS超容预警【撤回】操作";
+      }
     }
-    // console.log("type", type, params);
+
     try {
       const res = await request2({
         url: url + "/" + username + "/" + type.toUpperCase(),
@@ -119,14 +137,31 @@ function MDRSOptionBtns(props) {
         message: title + "成功",
         duration: 8,
       });
-      const { result = [], generateTime = "" } = res;
-      if (result.length == 0) {
-        props.MDRSData.setMDRSData({}, generateTime);
+      console.log("res", res);
+      //数据赋值
+      const { backlogResult = [], generateTime = "", publishResult = [] } = res;
+      if (backlogResult.length == 0) {
+        customNotice({
+          type: "warn",
+          message: "暂无数据",
+          duration: 8,
+        });
+        MDRSData.setMDRSData({}, generateTime);
       } else {
-        props.MDRSData.setMDRSData(result[0], generateTime);
+        //TODO 回头这个result改成对象
+        MDRSData.setMDRSData(backlogResult[0], generateTime);
       }
-      // props.MDRSData.setForceUpdate(true);
-
+      if (publishResult.length == 0) {
+        // customNotice({
+        //   type: "warn",
+        //   message: "暂无数据",
+        //   duration: 8,
+        // });
+        MDRSData.setPublishData([]);
+      } else {
+        //TODO 回头这个result改成对象
+        MDRSData.setPublishData(publishResult);
+      }
       // setLoad(false);
     } catch (err) {
       if (isValidVariable(err)) {
@@ -175,7 +210,6 @@ function MDRSOptionBtns(props) {
           }}
         />
       )}
-      
     </div>
   );
 }

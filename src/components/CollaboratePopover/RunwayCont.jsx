@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-17 16:18:50
+ * @LastEditTime: 2021-05-18 15:27:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -29,15 +29,16 @@ import { closePopover, cgreen, cred } from "utils/collaborateUtils.js";
 const RunwayCont = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
-  const [refuseBtnLoading, serRefuseBtnLoading] = useState(false);
+  const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
   const [form] = Form.useForm();
   const {
     collaboratePopoverData = {},
     systemPage = {},
     schemeListData = {},
+    flightTableData = {},
   } = props;
   const { data = {} } = collaboratePopoverData;
-  const { FLIGHTID = "", RWY = {} } = data;
+  const { FLIGHTID = "", RWY = {}, orgdata = "{}" } = data;
   const runwayVal = RWY.value || "";
   const user = systemPage.user || {};
   const userId = user.id || "";
@@ -46,18 +47,19 @@ const RunwayCont = (props) => {
   const onCheck = async (type) => {
     try {
       const values = await form.validateFields();
-
       let url = "";
       let params = {
-        flightCoordination: data,
+        flightCoordination: JSON.parse(orgdata),
         userId,
         tacticId: activeSchemeId,
         comment: values.comments,
       };
       if (type === "approve") {
+        setSubmitBtnLoading(true);
         url = CollaborateUrl.runwayUrl + "/updateFlightRunway";
         params["timeVal"] = values.runway;
       } else if (type === "refuse") {
+        setRefuseBtnLoading(true);
         //跑道清除
         url = CollaborateUrl.runwayUrl + "/clearFlightRunway";
         params["timeVal"] = "";
@@ -68,22 +70,30 @@ const RunwayCont = (props) => {
         params,
         method: "POST",
       });
+      setSubmitBtnLoading(false);
+      setRefuseBtnLoading(false);
+      const { flightCoordination } = res;
+      //单条数据更新
+      flightTableData.updateSingleFlight(flightCoordination);
+      //关闭popover
+      collaboratePopoverData.togglePopoverVisible(false);
 
       console.log("Success:", res);
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
     }
   };
+
   useEffect(() => {
     if (collaboratePopoverData.selectedObj.name === "RWY") {
-      console.log("RunwayCont", RWY);
+      // console.log("RunwayCont", RWY);
       // form.setFieldsValue({ runway: RWY });
       form.setFieldsValue({ runway: runwayVal });
     }
 
     return () => {
       form.resetFields();
-      console.log("RunwayCont卸载");
+      // console.log("RunwayCont卸载");
     };
   }, [collaboratePopoverData.selectedObj]);
   return (
@@ -136,6 +146,7 @@ const RunwayCont = (props) => {
 export default inject(
   "collaboratePopoverData",
   "systemPage",
-  "schemeListData"
+  "schemeListData",
+  "flightTableData"
 )(observer(RunwayCont));
 // export default RunwayCont;

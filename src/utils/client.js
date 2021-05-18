@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-04-26 11:26:38
+ * @LastEditTime: 2021-05-18 15:33:19
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -201,6 +201,17 @@ const openConfirmFrame =(schemeId = "") => {
         console.error(error);
     }
 };
+//工作流-已办-方案
+const openDoneFrameById =(schemeId = "") => {
+    try {
+        //方案id
+        // alert("跳转到容流监控=>schemeId:" +schemeId);
+        jsEntity.openDoneFrameById(schemeId);
+    }catch(error){
+        console.error(error);
+    }
+};
+
 //工作流-主办-跳转到放行监控页面
 const openTimeSlotFrameWithFlightId =(schemeId = "", flightId = "") => {
     try {
@@ -248,7 +259,7 @@ const exitSystem =() => {
 export {
     updateMessageNum, sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
-    openConfirmFrame, openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
+    openConfirmFrame, openDoneFrameById,openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
     openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem, openRunningControlFlow,openDetails,
     openLocation,openTclientFrameForMDRS
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-14 16:37:05
+ * @LastEditTime: 2021-05-18 14:47:13
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -131,7 +131,7 @@ const CTPopover = (props) => {
   } else {
     textDom = (
       <div
-      col-key={col}
+        col-key={col}
         className={`full-cell ${
           isValidVariable(text) ? source : ""
         } ${col}_${bgStatus}`}
@@ -147,17 +147,13 @@ const CTPopover = (props) => {
   }
   //航班已起飞或者不在本区域内--不显示 2021-4-2注释，后台接口校验，前台校验去掉
   // if ( hadDEP || hadARR || !hadFPL || !isInAreaFlight || !hasAuth ) {
-  // if ( !hasAuth ) {
-  //     return (
-  //         <CellTip title={title}>
-  //             {textDom}
-  //         </CellTip>
-  //     )
-  // }else{
-  //     return(
-  //         <PopoverTip title={ title } textDom={textDom} opt={opt} field={field}/>
-  //     )
-  // }
+  if (!hasAuth) {
+    return <CellTip title={title}>{textDom}</CellTip>;
+  } else {
+    return (
+      <PopoverTip title={title} textDom={textDom} opt={opt} field={field} />
+    );
+  }
 
   return <Fragment>{textDom}</Fragment>;
 };

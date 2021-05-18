@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-17 16:20:45
+ * @LastEditTime: 2021-05-18 15:19:56
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -52,9 +52,9 @@ const scrollTopById = (id, classStr) => {
       const tr = boxContent[0].getElementsByClassName(id);
       if (tr.length > 0) {
         const trHeight = tr[0].clientHeight;
-        const rowIndex = tr[0].firstElementChild.getElementsByClassName(
-          "text_cell_center"
-        )[0].innerHTML; //当前航班所在行号
+        const rowIndex =
+          tr[0].firstElementChild.getElementsByClassName("text_cell_center")[0]
+            .innerHTML; //当前航班所在行号
 
         let mtop = rowIndex * trHeight;
         // console.log("目标定位航班是：",tr , trHeight, rowIndex, mtop);
@@ -235,6 +235,7 @@ let render = (opt) => {
     popover = <ColorPopover opt={opt} />;
   } else if (col === "RWY" || col === "POS") {
     const { source = "", value = "" } = text;
+    console.log("render text:", text);
     let sourceCN = FlightCoordination.getSourceZh(source);
 
     popover = (
@@ -525,6 +526,7 @@ const formatSingleFlight = (flight) => {
   const etoField = flight.etoField || {};
   const runwayField = flight.runwayField || {};
   const positionField = flight.positionField || {};
+
   let taskVal = taskField.value || "";
   if (!isValidVariable(taskVal) || taskVal === "普通") {
     taskVal = "";

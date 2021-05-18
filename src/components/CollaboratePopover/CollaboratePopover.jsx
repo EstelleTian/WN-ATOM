@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-14 16:40:50
+ * @LastEditTime: 2021-05-18 15:25:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -38,7 +38,7 @@ import "./CollaboratePopover.scss";
 const PositionPopover = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
-  const [refuseBtnLoading, serRefuseBtnLoading] = useState(false);
+  const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
   const [form] = Form.useForm();
   const { popoverName = "", collaboratePopoverData = {} } = props;
   const { selectedObj = {}, popoverVisible } = collaboratePopoverData;
@@ -80,7 +80,7 @@ const PositionPopover = (props) => {
     );
   };
   useEffect(() => {
-    console.log("挂载", { ...selectedObj });
+    // console.log("挂载", { ...selectedObj });
     const popoverDoms = document.getElementsByClassName(name + "_popover");
     if (popoverDoms.length > 0) {
       //定位
@@ -93,7 +93,7 @@ const PositionPopover = (props) => {
     }
     // }
     return () => {
-      console.log("卸载");
+      // console.log("卸载");
     };
   }, [
     collaboratePopoverData.popoverVisible,

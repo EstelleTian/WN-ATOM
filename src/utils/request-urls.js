@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-17 16:26:22
+ * @LastEditTime: 2021-05-18 16:57:29
  * @LastEditors: Please set LastEditors
  * @Description: 项目所有请求url
  * @FilePath: request-urls.js
@@ -125,6 +125,8 @@ const ReqUrls = {
     mdrsRetrieveDataUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/data/retrieval/handle",
     // MDRS数据-审批-同意、拒绝、撤回
     mdrsWorkFlowUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/workflow/approve",
+    // MDRS数据-终止-申请、同意、拒绝、撤回
+    mdrsTerminalWorkFlowUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/workflow/termination",
     // 总体监控-协调KPI-运行配置
     totalOperationUrl: totalOperationIP+"/operation-coordination-server/operation/record",
     // 总体监控-协调KPI-航班协调
