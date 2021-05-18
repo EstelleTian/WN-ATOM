@@ -235,10 +235,10 @@ const FmeToday = {
 	getRPSArrTime : function(fme={}) {
 		if (isValidVariable(fme.rarrtime)) {
 			return fme.rarrtime;
-		} else if (isValidVariable(fme.PArrtime)) {
-			return fme.PArrtime;
-		} else if (isValidVariable(fme.SArrtime)) {
-			return fme.SArrtime;
+		} else if (isValidVariable(fme.parrtime)) {
+			return fme.parrtime;
+		} else if (isValidVariable(fme.sarrtime)) {
+			return fme.sarrtime;
 		}
 		return "";
 	},
