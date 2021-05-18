@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect } from 'react'
 import { Form, Input } from 'antd'
 import { inject, observer } from "mobx-react";
+import { REGEXP } from 'utils/regExpUtil'
+
 
 //方案豁免后序表单
 function TacticExemptBehindUnitForm(props) {
@@ -40,6 +42,13 @@ function TacticExemptBehindUnitForm(props) {
                     className={isHide ? "hidden-form-item" : ""}
                     name="exemptBehindUnit"
                     label="豁免后序"
+                    rules={[
+                        {
+                            type: 'string',
+                            pattern: REGEXP.COMBINEDCHARSET,
+                            message: '请输入正确格式的豁免后序单元',
+                        },
+                    ]}
                 >
                     <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                 </Form.Item>

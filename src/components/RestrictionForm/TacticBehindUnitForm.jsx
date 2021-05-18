@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect } from 'react'
 import { Form, Input } from 'antd'
 import { inject, observer } from "mobx-react";
+import { REGEXP } from 'utils/regExpUtil'
+
 
 //方案后序单元表单
 function TacticBehindUnitForm(props) {
@@ -39,6 +41,13 @@ function TacticBehindUnitForm(props) {
                     name="behindUnit"
                     label="后序单元"
                     className={isHide ? "hidden-form-item" : ""}
+                    rules={[
+                        {
+                            type: 'string',
+                            pattern: REGEXP.COMBINEDCHARSET,
+                            message: '请输入正确格式的后序单元',
+                        },
+                    ]}
                 >
                     <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                 </Form.Item>

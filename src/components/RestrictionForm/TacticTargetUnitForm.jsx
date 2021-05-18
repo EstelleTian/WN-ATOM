@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect  } from 'react'
 import { Form, Input } from 'antd'
 import { inject, observer } from "mobx-react";
+import { REGEXP } from 'utils/regExpUtil'
+
 
 //方案基准单元表单
 function TacticTargetUnitForm(props) {
@@ -42,7 +44,14 @@ function TacticTargetUnitForm(props) {
                     name="targetUnit"
                     label="基准单元"
                     required={true}
-                    rules={[{ required: true }]}
+                    rules={[
+                        { required: true },
+                        {
+                            type: 'string',
+                            pattern: REGEXP.COMBINEDCHARSET,
+                            message: '请输入正确格式的基准单元',
+                        },
+                    ]}
                 >
                     <Input allowClear={true} onChange={() => { props.updateDistanceToTimeValue()}} className="text-uppercase" disabled={props.disabledForm} />
                 </Form.Item>
