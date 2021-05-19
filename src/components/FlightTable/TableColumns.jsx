@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-18 15:19:56
+ * @LastEditTime: 2021-05-19 15:31:26
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -215,9 +215,8 @@ let render = (opt) => {
   );
   if (col === "FLIGHTID") {
     popover = <FLIGHTIDPopover opt={opt} />;
-  } else if (col === "FFIXT") {
-    popover = <CTPopover opt={opt} />;
   } else if (col === "COBT") {
+    // else if (col === "COBT") {
     popover = <CTPopover opt={opt} />;
   } else if (col === "CTOT") {
     popover = <CTPopover opt={opt} />;
@@ -233,11 +232,45 @@ let render = (opt) => {
     popover = <TOBTPopover opt={opt} />;
   } else if (col === "ATOT") {
     popover = <ColorPopover opt={opt} />;
+  } else if (col === "FFIXT") {
+    // popover = <CTPopover opt={opt} />;
+    let { source = "", value = "", meetIntervalValue = "" } = text;
+    let ftime = "";
+    if (isValidVariable(value) && value.length >= 12) {
+      ftime = getTimeAndStatus(value);
+      if (source === "MANUAL") {
+        getTimeAndStatus(value);
+      }
+    }
+    if (ftime.indexOf("A") > -1) {
+      source = "DEP";
+    }
+    let sourceCN = FlightCoordination.getSourceZh(source);
+    popover = (
+      <div
+        // col-key={col}
+        className={`full-cell time_${ftime} ${
+          isValidVariable(value) ? source : ""
+        }`}
+      >
+        <div
+          className={`interval ${ftime !== "" ? source : ""}`}
+          title={`${value}-${sourceCN}`}
+        >
+          <span
+            className={`${
+              meetIntervalValue === "200" && ftime !== "" ? "interval_red" : ""
+            }`}
+          >
+            {ftime}
+          </span>
+        </div>
+      </div>
+    );
   } else if (col === "RWY" || col === "POS") {
     const { source = "", value = "" } = text;
-    console.log("render text:", text);
+    // console.log("render text:", text);
     let sourceCN = FlightCoordination.getSourceZh(source);
-
     popover = (
       <div
         col-key={col}
@@ -251,19 +284,19 @@ let render = (opt) => {
         </div>
       </div>
     );
-  } else if(col === "SLOTSTATUS" ){ // 时隙分配状态
+  } else if (col === "SLOTSTATUS") {
+    // 时隙分配状态
     // 行原始数据
     let orgdata = JSON.parse(record.orgdata);
     // 未分配时隙原因
     let unSlotStatusReason = orgdata.unSlotStatusReason || "";
     popover = (
-      <div
-        col-key={col}
-        className={`full-cell ${col}`}
-      >
+      <div col-key={col} className={`full-cell ${col}`}>
         <div
           className={`${isValidVariable(text) ? "" : "empty_cell"}`}
-          title={`${isValidVariable(unSlotStatusReason) ? unSlotStatusReason : ""}`}
+          title={`${
+            isValidVariable(unSlotStatusReason) ? unSlotStatusReason : ""
+          }`}
         >
           <span className="">{text}</span>
         </div>
@@ -479,8 +512,7 @@ const handleRightClickCell = (event, record, collaboratePopoverData) => {
   // 点击的列名
   const clickColumnName = currentTarget.getAttribute("col-key");
 
-  //协调窗口显示
-  collaboratePopoverData.togglePopoverVisible(true);
+
   //协调窗口 依托fc航班数据对象赋值
   collaboratePopoverData.setData(record);
 
@@ -567,7 +599,7 @@ const formatSingleFlight = (flight) => {
     ATOT: flight.atd,
     FETA: getDayTimeFromString(flight.formerArrtime),
     FFIX: ffixField.name,
-    FFIXT: ffixField.value,
+    FFIXT: ffixField || {},
     CTO: ctoField.value,
     ETO: getTimeAndStatus(etoField.value),
     // STATUS: flight.runningStatus,

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-18 14:47:13
+ * @LastEditTime: 2021-05-19 16:07:25
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -148,6 +148,7 @@ const CTPopover = (props) => {
   //航班已起飞或者不在本区域内--不显示 2021-4-2注释，后台接口校验，前台校验去掉
   // if ( hadDEP || hadARR || !hadFPL || !isInAreaFlight || !hasAuth ) {
   if (!hasAuth) {
+  // if (false) {
     return <CellTip title={title}>{textDom}</CellTip>;
   } else {
     return (

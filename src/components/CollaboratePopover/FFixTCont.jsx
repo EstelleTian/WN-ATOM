@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-18 15:07:11
+ * @LastEditTime: 2021-05-19 16:25:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -23,7 +23,7 @@ import { observer, inject } from "mobx-react";
 import { request } from "utils/request";
 import { CollaborateUrl } from "utils/request-urls";
 import { REGEXP } from "utils/regExpUtil";
-import { DoubleRightOutlined } from "@ant-design/icons";
+import { DoubleRightOutlined, DoubleLeftOutlined } from "@ant-design/icons";
 import {
   isValidVariable,
   isValidObject,
@@ -36,6 +36,8 @@ const FFixTCont = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
   const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
+  const [rightContShow, setRightContShow] = useState(false);
+
   const [form] = Form.useForm();
   const { collaboratePopoverData = {} } = props;
   const { data = {}, selectedObj = {} } = collaboratePopoverData;
@@ -79,7 +81,7 @@ const FFixTCont = (props) => {
       isValidVariable(collaboratePopoverData.selectedObj) &&
       collaboratePopoverData.selectedObj.name === "FFIXT"
     ) {
-      // console.log("FFixTCont", FFIXT);
+      console.log("FFixTCont挂载");
       // form.setFieldsValue({ runway: FFIXT });
       form.setFieldsValue({
         flightid: FLIGHTID || "",
@@ -97,6 +99,7 @@ const FFixTCont = (props) => {
       console.log("FFixTCont卸载");
     };
   }, [collaboratePopoverData.selectedObj]);
+
   return (
     <div className="ffixt_col_container">
       <div className="ffixt_left_canvas">
@@ -188,30 +191,44 @@ const FFixTCont = (props) => {
         </Form>
       </div>
       <div className="ffixt_middle_canvas">
-        <DoubleRightOutlined />
+        {rightContShow ? (
+          <DoubleLeftOutlined
+            onClick={(e) => {
+              setRightContShow(false);
+            }}
+          />
+        ) : (
+          <DoubleRightOutlined
+            onClick={(e) => {
+              setRightContShow(true);
+            }}
+          />
+        )}
       </div>
-      <div className="ffixt_right_canvas">
-        <Descriptions size="small" bordered column={1}>
-          <Descriptions.Item label="ZUUU">
-            <Form.Item>
-              <DatePicker className="ffixt_right_date" format="YYYY-MM-DD" />
-              <Input className="ffixt_right_time" />
-            </Form.Item>
-          </Descriptions.Item>
-          <Descriptions.Item label="ZYG">
-            <Form.Item>
-              <DatePicker className="ffixt_right_date" format="YYYY-MM-DD" />
-              <Input className="ffixt_right_time" />
-            </Form.Item>
-          </Descriptions.Item>
-          <Descriptions.Item label="XYO">
-            <Form.Item>
-              <DatePicker className="ffixt_right_date" format="YYYY-MM-DD" />
-              <Input className="ffixt_right_time" />
-            </Form.Item>
-          </Descriptions.Item>
-        </Descriptions>
-      </div>
+      {rightContShow && (
+        <div className="ffixt_right_canvas">
+          <Descriptions size="small" bordered column={1}>
+            <Descriptions.Item label="ZUUU">
+              <Form.Item>
+                <DatePicker className="ffixt_right_date" format="YYYY-MM-DD" />
+                <Input className="ffixt_right_time" />
+              </Form.Item>
+            </Descriptions.Item>
+            <Descriptions.Item label="ZYG">
+              <Form.Item>
+                <DatePicker className="ffixt_right_date" format="YYYY-MM-DD" />
+                <Input className="ffixt_right_time" />
+              </Form.Item>
+            </Descriptions.Item>
+            <Descriptions.Item label="XYO">
+              <Form.Item>
+                <DatePicker className="ffixt_right_date" format="YYYY-MM-DD" />
+                <Input className="ffixt_right_time" />
+              </Form.Item>
+            </Descriptions.Item>
+          </Descriptions>
+        </div>
+      )}
     </div>
   );
 };

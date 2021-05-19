@@ -45,15 +45,25 @@ const Operation = function (props) {
       const { userSubscribeData = {} } = props;
       let subscribeData = userSubscribeData.subscribeData || {};
       // 区域
-      let { focus } = subscribeData;
-      // console.log("focus", focus);
+      let { focus = "", monitorUnit = {} } = subscribeData;
+      let nameArr = [];
+      if (focus !== "") {
+        const focusObj = monitorUnit[focus] || {};
+        const { data = {} } = focusObj;
+        for (let key in data) {
+          const valArr = data[key] || "";
+          nameArr = [...nameArr, ...valArr];
+        }
+      }
+      let name = nameArr.join(",");
+      // console.log("name", name);
       //获取数据
       const resData = await requestGet2({
         url: ReqUrls.totalOperationUrl,
         params: {
           startTime: "",
           endTime: "",
-          name: focus,
+          name: name,
         },
       });
       // console.log("resData", resData);

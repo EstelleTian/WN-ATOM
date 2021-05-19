@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-05-12 17:13:24
+ * @LastEditTime: 2021-05-19 13:10:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -195,16 +195,6 @@ function InfoPage(props) {
             <div className="title">消息推送(共{len}条，最多100条)</div>
             <div className="scroll">
               <Checkbox
-                checked={audioPlay}
-                onChange={(e) => {
-                  setAudioPlay(e.target.checked);
-                }}
-              >
-                声音
-              </Checkbox>
-            </div>
-            <div className="scroll">
-              <Checkbox
                 checked={autoOpen}
                 onChange={(e) => {
                   autoOpenRef.current = e.target.checked;
@@ -212,6 +202,16 @@ function InfoPage(props) {
                 }}
               >
                 消息推送
+              </Checkbox>
+            </div>
+            <div className="scroll">
+              <Checkbox
+                checked={audioPlay}
+                onChange={(e) => {
+                  setAudioPlay(e.target.checked);
+                }}
+              >
+                声音
               </Checkbox>
             </div>
 

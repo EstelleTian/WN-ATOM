@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-18 15:25:25
+ * @LastEditTime: 2021-05-19 16:41:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -36,6 +36,7 @@ const PositionCont = (props) => {
     systemPage = {},
     schemeListData = {},
     flightTableData = {},
+    clearCollaboratePopoverData,
   } = props;
   const { data = {} } = collaboratePopoverData;
   const { FLIGHTID = "", POS = {}, orgdata = "{}" } = data;
@@ -77,9 +78,8 @@ const PositionCont = (props) => {
       //单条数据更新
       flightTableData.updateSingleFlight(flightCoordination);
       //关闭popover
-      collaboratePopoverData.togglePopoverVisible(false);
-
-      console.log("Success:", values);
+      clearCollaboratePopoverData();
+       console.log("Success:", values);
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
     }

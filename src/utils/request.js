@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:28
- * @LastEditTime: 2021-04-22 19:33:46
+ * @LastEditTime: 2021-05-19 13:57:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\utils\request.js
@@ -130,7 +130,7 @@ const request2 = async ( parameters ) => {
                 const status = data.status;
                 if( status === 200 ){
                     return Promise.resolve( data );
-                }else if( status === 500 ){
+                }else{
                     const error = data.error || {};
                     const message = error.message || "";
                     return Promise.reject(message);

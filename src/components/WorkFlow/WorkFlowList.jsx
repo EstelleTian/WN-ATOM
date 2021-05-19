@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-18 15:33:59
+ * @LastEditTime: 2021-05-18 19:06:59
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -24,6 +24,7 @@ import {
   openTimeSlotFrameWithFlightId,
   openTclientFrameForMessage,
   openTclientFrameForMDRS,
+  openDoneFrameById,
 } from "utils/client";
 const { Search } = Input;
 //获取屏幕宽度，适配 2k
