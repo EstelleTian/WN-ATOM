@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-18 15:19:56
+ * @LastEditTime: 2021-05-18 19:11:46
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -215,9 +215,11 @@ let render = (opt) => {
   );
   if (col === "FLIGHTID") {
     popover = <FLIGHTIDPopover opt={opt} />;
-  } else if (col === "FFIXT") {
-    popover = <CTPopover opt={opt} />;
-  } else if (col === "COBT") {
+  }
+  // } else if (col === "FFIXT") {
+  //   popover = <CTPopover opt={opt} />;
+  // } else if (col === "COBT") {
+  else if (col === "COBT") {
     popover = <CTPopover opt={opt} />;
   } else if (col === "CTOT") {
     popover = <CTPopover opt={opt} />;
@@ -237,7 +239,6 @@ let render = (opt) => {
     const { source = "", value = "" } = text;
     console.log("render text:", text);
     let sourceCN = FlightCoordination.getSourceZh(source);
-
     popover = (
       <div
         col-key={col}
@@ -251,19 +252,19 @@ let render = (opt) => {
         </div>
       </div>
     );
-  } else if(col === "SLOTSTATUS" ){ // 时隙分配状态
+  } else if (col === "SLOTSTATUS") {
+    // 时隙分配状态
     // 行原始数据
     let orgdata = JSON.parse(record.orgdata);
     // 未分配时隙原因
     let unSlotStatusReason = orgdata.unSlotStatusReason || "";
     popover = (
-      <div
-        col-key={col}
-        className={`full-cell ${col}`}
-      >
+      <div col-key={col} className={`full-cell ${col}`}>
         <div
           className={`${isValidVariable(text) ? "" : "empty_cell"}`}
-          title={`${isValidVariable(unSlotStatusReason) ? unSlotStatusReason : ""}`}
+          title={`${
+            isValidVariable(unSlotStatusReason) ? unSlotStatusReason : ""
+          }`}
         >
           <span className="">{text}</span>
         </div>
