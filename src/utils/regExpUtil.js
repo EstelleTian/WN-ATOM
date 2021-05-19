@@ -20,7 +20,7 @@ const REGEXP = {
     //1-999数字(不支持前缀0,如01,001)
     INTEGER1_999: /^([1-9][0-9]{0,2})$/,
     // 组合字符(字母不分大小写、数字、问号、逗号、分号)
-    COMBINEDCHARSET:/[a-zA-Z0-9,;?]+$/,
+    COMBINEDCHARSET:/^[\da-zA-Z\?\,\;]+$/g,
 };
 
 export { REGEXP };
