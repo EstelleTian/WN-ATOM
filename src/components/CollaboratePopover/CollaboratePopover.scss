@@ -1,4 +1,29 @@
 .collaborate_popover{
+    position: fixed;
+    z-index: 1003;
+    background-color: #363636;
+    background-clip: padding-box;
+    border-radius: 2px;
+    box-shadow: 0 3px 6px -4px rgba(0,0,0,0.48), 0 6px 16px 0 rgba(0,0,0,0.32), 0 9px 28px 8px rgba(0,0,0,0.2);
+    &:before{
+        content: "";
+        left: -5px;
+        top: 7px;
+        border-top-color: transparent;
+        border-right-color: transparent;
+        border-bottom-color: #363636;
+        border-left-color: #363636;
+        box-shadow: -3px 3px 7px rgba(54, 54, 54, .07);
+        position: absolute;
+        display: block;
+        width: 12px;
+        height: 12px;
+        background: transparent;
+        border-style: solid;
+        border-width: 6px;
+        transform: rotate(45deg);
+    
+    }
     &.hidden{
         visibility: hidden;
     }
@@ -6,6 +31,8 @@
         margin-bottom: 0;
     }
     .popover_title{
+        padding: 4px 16px;
+        border-bottom: 1px solid #625f5f;
         .close{
             display: inline-block;
             float: right;
@@ -14,12 +41,16 @@
             }
         }
     }
+    .popover_container{
+        padding: 8px 10px;
+    }
     &.RWY_popover{
         .ant-radio-wrapper{
             display: block;
             margin-bottom: 8px;
         }
     }
+    
 }
 .ffixt_col_container{
     @include display_flex();

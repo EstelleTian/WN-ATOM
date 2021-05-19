@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-19 13:07:58
+ * @LastEditTime: 2021-05-19 16:28:11
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -15,6 +15,7 @@ import React, {
   useRef,
   useMemo,
   Suspense,
+  Fragment,
 } from "react";
 import { inject, observer } from "mobx-react";
 import { Table, Input, Checkbox, message, Spin } from "antd";
@@ -25,18 +26,21 @@ import {
   scrollTopById,
   highlightRowByDom,
 } from "components/FlightTable/TableColumns";
+
+// import CollaboratePopover from "components/CollaboratePopover/CollaboratePopover";
+import { isValidVariable, formatTimeString } from "utils/basic-verify";
+import debounce from "lodash/debounce";
+
+import "./FlightTable.scss";
 const FlightDetail = React.lazy(() =>
   import("components/FlightDetail/FlightDetail")
 );
 const FormerFlightUpdateModal = React.lazy(() =>
   import("components/FormerFlightUpdateModal/FormerFlightUpdateModal")
 );
-import CollaboratePopover from "components/CollaboratePopover/CollaboratePopover";
-import { isValidVariable, formatTimeString } from "utils/basic-verify";
-import debounce from "lodash/debounce";
-
-import "./FlightTable.scss";
-
+const CollaboratePopover = React.lazy(() =>
+  import("components/CollaboratePopover/CollaboratePopover")
+);
 /** start *****航班表格标题************/
 function TTitle(props) {
   const { flightTableData = {}, schemeListData } = props;
@@ -83,7 +87,7 @@ function useAutoSize() {
   let [tableWidth, setWidth] = useState(0);
   let [tableHeight, setHeight] = useState(0);
   useEffect(() => {
-    console.log("tableWidth, tableHeight: ", tableWidth, tableHeight);
+    // console.log("tableWidth, tableHeight: ", tableWidth, tableHeight);
     const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
     const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
     const tableHeader =
@@ -236,7 +240,7 @@ function FTable(props) {
       return getColumns(props.collaboratePopoverData);
     }
   }, [filterable]);
-  console.log("showList", showList);
+  // console.log("showList", showList);
 
   return (
     <Table
@@ -314,7 +318,7 @@ const FilterBtn = inject("flightTableData")(
         <Checkbox.Group
           options={[{ label: "快速过滤", value: "quick_filter" }]}
           onChange={(checkedValues) => {
-            console.log("filterable", checkedValues);
+            // console.log("filterable", checkedValues);
             if (checkedValues.indexOf("quick_filter") === -1) {
               props.flightTableData.setFilterable(false);
               props.flightTableData.clearFilterValues();
@@ -365,30 +369,31 @@ const TotalDom = inject("flightTableData")(
 /** start *****航班表格 列表框架************/
 function FlightTableModal(props) {
   return (
-    <ModalBox
-      className="flight_canvas"
-      title={<TableTitle />}
-      showDecorator={false}
-    >
-      <div className="statistics">
-        <FilterBtn />
-        <AutoScrollBtn />
-        <SearchInput />
-        <TotalDom />
-      </div>
-      <TSpin />
-      {/* 一个popover专注做一件事 */}
-      {/* <CollaboratePopover popoverName="FFIXT" /> */}
-      <CollaboratePopover popoverName="POS" />
-      <CollaboratePopover popoverName="RWY" />
-      <Suspense fallback={<div></div>}>
-        <FlightDetail />
-      </Suspense>
+    <Fragment>
+      <ModalBox
+        className="flight_canvas"
+        title={<TableTitle />}
+        showDecorator={false}
+      >
+        <div className="statistics">
+          <FilterBtn />
+          <AutoScrollBtn />
+          <SearchInput />
+          <TotalDom />
+        </div>
+        <TSpin />
 
-      <Suspense fallback={<div></div>}>
-        <FormerFlightUpdateModal />
-      </Suspense>
-    </ModalBox>
+        <Suspense fallback={<div></div>}>
+          <FlightDetail />
+          {/* 一个popover专注做一件事 */}
+          <CollaboratePopover />
+        </Suspense>
+
+        <Suspense fallback={<div></div>}>
+          <FormerFlightUpdateModal />
+        </Suspense>
+      </ModalBox>
+    </Fragment>
   );
 }
 /** end *****航班表格 列表框架************/
