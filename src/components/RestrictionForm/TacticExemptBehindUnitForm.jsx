@@ -50,7 +50,7 @@ function TacticExemptBehindUnitForm(props) {
                         },
                     ]}
                 >
-                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
+                    <Input placeholder="可选填项，只可录入英文半角字母、数字、问号、分号、逗号" allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                 </Form.Item>
             </Form>
         </Fragment>
