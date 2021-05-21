@@ -92,7 +92,7 @@ const columns = [
     dataIndex: "type",
     align: "center",
     key: "type",
-    width: 70,
+    width: 100,
     ellipsis: true,
     className: "type",
     showSorterTooltip: false,
@@ -144,7 +144,7 @@ const columns = [
     dataIndex: "time",
     align: "center",
     key: "time",
-    width: 80,
+    width: 70,
     ellipsis: true,
     className: "time",
     showSorterTooltip: false,
@@ -162,7 +162,7 @@ const columns = [
     dataIndex: "user",
     align: "center",
     key: "user",
-    width: 80,
+    width: 70,
     ellipsis: true,
     className: "user",
     showSorterTooltip: false,
@@ -172,7 +172,7 @@ const columns = [
     dataIndex: "ip",
     align: "center",
     key: "ip",
-    width: 80,
+    width: 70,
     ellipsis: true,
     className: "ip",
     showSorterTooltip: false,
@@ -184,12 +184,12 @@ const convertToTableData = (recordMap = {}) => {
   let res = [];
   for (let key in recordMap) {
     const record = recordMap[key] || {};
-    const statusZh = FlightCoordinationRecord.getStatusZh(record.status||"");
-    const type = record.type ||"";
-    const typeZh = FFlightCoordination.CoordinationType[type];
+    const statusZh = FlightCoordinationRecord.getStatusZh(record.status || "");
+    const type = record.type || "";
+    const typeZh = FlightCoordination.CoordinationType[type];
     let obj = {
       key: record.id || "",
-      type: record.type || "",
+      type: typeZh || "",
       orgValue: record.originalValue || "",
       value: record.value || "",
       comments: record.comments || "",
