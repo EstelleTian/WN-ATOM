@@ -53,7 +53,7 @@ function TacticTargetUnitForm(props) {
                         },
                     ]}
                 >
-                    <Input allowClear={true} onChange={() => { props.updateDistanceToTimeValue()}} className="text-uppercase" disabled={props.disabledForm} />
+                    <Input placeholder="必填项，只可录入英文半角字母、数字、问号、分号、逗号" allowClear={true} onChange={() => { props.updateDistanceToTimeValue()}} className="text-uppercase" disabled={props.disabledForm} />
                 </Form.Item>
             </Form>
         </Fragment>
