@@ -184,7 +184,9 @@ const convertToTableData = (recordMap = {}) => {
   let res = [];
   for (let key in recordMap) {
     const record = recordMap[key] || {};
-    const statusZh = FlightCoordinationRecord.getStatusZh(record.status);
+    const statusZh = FlightCoordinationRecord.getStatusZh(record.status||"");
+    const type = record.type ||"";
+    const typeZh = FFlightCoordination.CoordinationType[type];
     let obj = {
       key: record.id || "",
       type: record.type || "",

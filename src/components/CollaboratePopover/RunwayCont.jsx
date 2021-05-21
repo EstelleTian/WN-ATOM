@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-18 15:27:15
+ * @LastEditTime: 2021-05-21 13:04:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -36,10 +36,15 @@ const RunwayCont = (props) => {
     systemPage = {},
     schemeListData = {},
     flightTableData = {},
+    clearCollaboratePopoverData,
   } = props;
   const { data = {} } = collaboratePopoverData;
   const { FLIGHTID = "", RWY = {}, orgdata = "{}" } = data;
-  const runwayVal = RWY.value || "";
+  const { value = "", name = "" } = RWY;
+  let runwayNames = [];
+  if (name !== "") {
+    runwayNames = name.split(",") || [];
+  }
   const user = systemPage.user || {};
   const userId = user.id || "";
   const activeSchemeId = schemeListData.activeSchemeId || "";
@@ -76,7 +81,7 @@ const RunwayCont = (props) => {
       //单条数据更新
       flightTableData.updateSingleFlight(flightCoordination);
       //关闭popover
-      collaboratePopoverData.togglePopoverVisible(false);
+      clearCollaboratePopoverData();
 
       console.log("Success:", res);
     } catch (errorInfo) {
@@ -88,7 +93,7 @@ const RunwayCont = (props) => {
     if (collaboratePopoverData.selectedObj.name === "RWY") {
       // console.log("RunwayCont", RWY);
       // form.setFieldsValue({ runway: RWY });
-      form.setFieldsValue({ runway: runwayVal });
+      form.setFieldsValue({ runway: value });
     }
 
     return () => {
@@ -100,12 +105,19 @@ const RunwayCont = (props) => {
     <Form form={form} size="small" initialValues={{}} className="runway_form">
       <Descriptions size="small" bordered column={1}>
         <Descriptions.Item label="跑道">
-          <Form.Item name="runway" rules={[]}>
-            <Radio.Group>
-              <Radio value="20L">20L</Radio>
-              <Radio value="02R">02R</Radio>
-            </Radio.Group>
-          </Form.Item>
+          {runwayNames.length > 0 ? (
+            <Form.Item name="runway" rules={[]}>
+              <Radio.Group>
+                {runwayNames.map((name, index) => (
+                  <Radio value={name} key={index}>
+                    {name}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </Form.Item>
+          ) : (
+            <span>无可选跑道</span>
+          )}
         </Descriptions.Item>
 
         <Descriptions.Item label="备注">
@@ -113,31 +125,33 @@ const RunwayCont = (props) => {
             <Input.TextArea maxLength={100} />
           </Form.Item>
         </Descriptions.Item>
-        <div>
-          <Button
-            loading={submitBtnLoading}
-            size="small"
-            className="c-btn c-btn-blue"
-            type="primary"
-            onClick={(e) => {
-              onCheck("approve");
-            }}
-          >
-            确定
-          </Button>
-          <Button
-            loading={refuseBtnLoading}
-            size="small"
-            className="c-btn c-btn-red"
-            type="primary"
-            style={{ marginLeft: "8px" }}
-            onClick={(e) => {
-              onCheck("refuse");
-            }}
-          >
-            清除
-          </Button>
-        </div>
+        {runwayNames.length > 0 && (
+          <div>
+            <Button
+              loading={submitBtnLoading}
+              size="small"
+              className="c-btn c-btn-blue"
+              type="primary"
+              onClick={(e) => {
+                onCheck("approve");
+              }}
+            >
+              确定
+            </Button>
+            <Button
+              loading={refuseBtnLoading}
+              size="small"
+              className="c-btn c-btn-red"
+              type="primary"
+              style={{ marginLeft: "8px" }}
+              onClick={(e) => {
+                onCheck("refuse");
+              }}
+            >
+              清除
+            </Button>
+          </div>
+        )}
       </Descriptions>
     </Form>
   );

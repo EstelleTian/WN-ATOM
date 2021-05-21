@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-19 16:40:34
+ * @LastEditTime: 2021-05-20 14:05:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -113,7 +113,6 @@ const PositionPopover = (props) => {
           <div className="popover_container">{getContent()}</div>
         </div>
       )}
-      ;
     </Fragment>
   );
 };
