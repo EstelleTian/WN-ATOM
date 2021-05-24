@@ -51,6 +51,10 @@ const FlightDetail = (props) => {
   const { modalVisible, flightData = {}, id = "" } = flightDetailData;
   const flight = flightData.flight || {};
   const generateTime = flightData.generateTime || "";
+  // 前序航班
+  const formerFlight = flightData.formerFlight || {};
+  // 前序航班是否为人工指定
+  const  isModifyAssign = formerFlight.isModifyAssign;
   // 关闭航班详情
   const closeModal = () => {
     flightDetailData.toggleModalVisible(false);
@@ -149,7 +153,7 @@ const FlightDetail = (props) => {
                   </Panel>
                   <Panel
                     showArrow={false}
-                    header="前段航班信息"
+                    header= { isModifyAssign ? `前段航班信息(人工指定)` : `前段航班信息`}
                     key="formerInfo"
                   >
                     {/* <FormerInfo type="former"></FormerInfo> */}

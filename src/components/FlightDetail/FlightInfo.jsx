@@ -39,6 +39,9 @@ const FlightInfo = (props) => {
               <div className="ant-form-item-control-input">
                 <div className="ant-form-item-control-input-content">
                   {flight.flightId || ""}
+                  {
+                    type === "former" ? `(ID:${flight.id})` : ``
+                  }
                 </div>
               </div>
             </div>
