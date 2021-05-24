@@ -52,6 +52,11 @@
             cursor: pointer;
         }
     }
+    .detail_coordination_record_table{
+        .ant-table-tbody{
+            font-size: 16px;
+        }
+    }
 }
 .flight-detail-modal {
     .ant-modal-body {
