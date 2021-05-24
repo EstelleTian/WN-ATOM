@@ -681,7 +681,7 @@ function SchemeForm(props) {
             return new Promise((resolve, reject) => {
                 // 请求校验
                 const opt = {
-                    url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheckPost",
+                    url: ReqUrls.validateRouteUrl,
                     method: 'POST',
                     params: routsParams,
                     resFunc: (data) => {
@@ -1682,7 +1682,7 @@ function SchemeForm(props) {
             return
         }
         const opt = {
-            url: "http://192.168.194.21:28480/flow-route-point-speed-calculate-server/speed-retrive/speed/info?pointName=" + pointName,
+            url: ReqUrls.speedUrl+"info?pointName=" + pointName,
             method: 'GET',
             params: {},
             resFunc: (data) => requestSpeedValueSuccess(data),
