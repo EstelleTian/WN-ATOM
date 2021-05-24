@@ -18,7 +18,7 @@ const ACDMOtherInfo = (props) => {
             </div>
           </div>
         </Col>
-      
+
         <Col span={3}>
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-label ant-form-item-label-left">
@@ -76,7 +76,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -85,7 +85,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -94,7 +94,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -112,7 +112,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -130,7 +130,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -139,7 +139,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -224,7 +224,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -233,7 +233,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -242,7 +242,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -251,7 +251,7 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>

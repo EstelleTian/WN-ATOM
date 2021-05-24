@@ -222,6 +222,8 @@ const FlightCoordination = {
         "CTD": "CTOT调整",
         "FFIXT": "过点时间调整",
         "CTO": "过点时间调整",
+        "RUNWAY": "跑道修改",
+        "POSITION": "停机位修改",
     },
 
 
@@ -1258,6 +1260,7 @@ const FlightCoordination = {
             return false;
         }
     },
+
 
 };
 

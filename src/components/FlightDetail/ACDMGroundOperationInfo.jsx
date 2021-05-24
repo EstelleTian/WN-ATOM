@@ -87,7 +87,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -96,7 +96,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -105,7 +105,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -114,7 +114,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -123,7 +123,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -132,7 +132,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -141,7 +141,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -150,7 +150,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -235,7 +235,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -244,7 +244,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -253,7 +253,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -262,7 +262,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -271,7 +271,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -280,7 +280,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -289,7 +289,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -298,7 +298,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -338,7 +338,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -347,7 +347,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
@@ -356,7 +356,7 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">xxx</div>
+                <div className="ant-form-item-control-input-content"></div>
               </div>
             </div>
           </div>
