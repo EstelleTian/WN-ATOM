@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-05-11 21:28:50
+ * @LastEditTime: 2021-05-21 14:43:52
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -225,6 +225,10 @@ function useFlightsList(props) {
   //更新--航班列表 store数据
   const updateFlightTableData = useCallback(
     (flightData = {}) => {
+      if (document.getElementsByClassName("collaborate_popover").length > 0) {
+        console.log("有协调窗口打开中，跳过此次航班更新");
+        return;
+      }
       if (
         (isValidVariable(from) && from !== "web") ||
         isValidVariable(props.schemeListData.activeSchemeId)
@@ -772,12 +776,10 @@ function SList(props) {
           //来自客户端定位，滚动到对应位置
           if (from === "client") {
             // 滚动条滚动到顶部
-            const canvas = document.getElementsByClassName(
-              "scheme_list_canvas"
-            )[0];
-            const boxContent = canvas.getElementsByClassName(
-              "list_container"
-            )[0];
+            const canvas =
+              document.getElementsByClassName("scheme_list_canvas")[0];
+            const boxContent =
+              canvas.getElementsByClassName("list_container")[0];
             boxContent.scrollTop = 0;
           }
         }

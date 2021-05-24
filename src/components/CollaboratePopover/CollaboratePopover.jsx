@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-20 14:05:52
+ * @LastEditTime: 2021-05-21 15:06:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -99,6 +99,7 @@ const PositionPopover = (props) => {
     );
   };
 
+  //TODO 计算距离屏幕底部距离，向上展示，防止遮挡。 目前仅向下展示了。
   let left = x + width + "px";
   let top = y + "px";
   console.log("left", left, "top", top);

@@ -63,6 +63,15 @@
         }
     }
     .ffixt_right_canvas{
+        .ffixt_right_canvas_form{
+            max-height: 270px;
+            overflow: auto;
+        }
+        .radio_canvas{
+            position: relative;
+            top: 10px;
+            left: 17px;
+        }
         .ant-form-item-control-input {
             min-height: 24px;
             

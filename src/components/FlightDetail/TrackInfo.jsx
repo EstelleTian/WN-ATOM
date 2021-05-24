@@ -110,8 +110,8 @@ const convertToTableData = (mpiInfo = {}, flight = {}) => {
       isValidVariable(estInfo) ||
       isValidVariable(updateTime)
     ) {
-      if (isValidVariable(tdE)) {
-        item["atime"] = traT + "E";
+      if (isValidVariable(traE)) {
+        item["atime"] = traE + "E";
       }
     }
     res.push(item);
@@ -145,7 +145,7 @@ const TrackInfo = (props) => {
   let mpiInfo = FlightCoordination.parseMonitorPointInfo(mpi, flight);
   let data = [];
   if (isValidObject(mpiInfo)) {
-    data = convertToTableData(mpiInfo);
+    data = convertToTableData(mpiInfo, flight);
   }
   // console.log("mpiInfo", mpiInfo, data);
   return (

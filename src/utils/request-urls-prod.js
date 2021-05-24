@@ -1,48 +1,47 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-24 13:17:41
+ * @LastEditTime: 2021-05-24 13:20:42
  * @LastEditors: Please set LastEditors
- * @Description: 开发环境-项目所有请求url
+ * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
  */
 // 工作流ip
-const workflowIP = "http://192.168.194.22:29891";
+const workflowIP = "http://192.168.210.120:81";
 //MDRS(路武臣)
-const mdrsIP = "http://192.168.194.21:27580";
-// const mdrsIP = "http://192.168.243.49:27580";
+const mdrsIP = "http://192.168.210.120:81";
 //消息订阅(路武臣)
-const userSubscribeIP = "http://192.168.194.21:28680";
+const userSubscribeIP = "http://192.168.210.120:81";
 //
-const runwayIP = "http://192.168.194.21:50012";
-const clearanceIP = "http://192.168.194.21:29890";
-const schemeIP = "http://192.168.194.21:58190";
+const runwayIP = "http://192.168.210.120:81";
+const clearanceIP = "http://192.168.210.120:81";
+const schemeIP = "http://192.168.210.120:81";
 //协调ip
-const CollaborateIP = "http://192.168.194.21:28781";
+const CollaborateIP = "http://192.168.210.120:81";
 //登录IP(姜浩)
 const loginIP = "http://192.168.194.21:18380";
 //容量管理IP(韩涛)
-const capacityIP = "http://192.168.194.20:28482"
+const capacityIP = "http://192.168.210.120:81"
 //容流数据IP
-const capacityFlowIP= "http://192.168.194.22:28875"
+const capacityFlowIP= "http://192.168.210.120:81"
 //容流气象数据IP
-const capacityFlowWeatherIP= "http://192.168.210.131:28280"
+const capacityFlowWeatherIP= "http://192.168.210.120:81"
 //总体监控-协调KPI-航班协调-数据IP
-const totalCollaborateIP= "http://192.168.194.21:28782"
+const totalCollaborateIP= "http://192.168.210.120:81"
 //总体监控-协调KPI-运行配置-数据IP
-const totalOperationIP= "http://192.168.194.22:28379"
+const totalOperationIP= "http://192.168.210.120:81"
 //航班详情、略情查询IP(韩涛)
-const flightInfoIP= "http://192.168.194.20:38188"
+const flightInfoIP= "http://192.168.210.120:81"
 //总体监控-执行KPI-IP(孔凡续)
-const executeKPIDataIP= "http://192.168.194.22:28787"
+const executeKPIDataIP= "http://192.168.210.120:81"
 //航班执行数据-IP()
-const performanceDataIP= "http://192.168.194.21:27780"
+const performanceDataIP= "http://192.168.210.120:81"
 // 获取用户订阅的容流监控单元数据-IP()
-const userSubscribeCapacityFlowMonitorUnitDataIP= "http://192.168.194.20:28485"
+const userSubscribeCapacityFlowMonitorUnitDataIP= "http://192.168.210.120:81"
 //待办航班列表-放行监控页面中的-IP(张杰)
-const todoListIP= "http://192.168.194.21:29891";
+const todoListIP= "http://192.168.210.120:81";
 //我的申请列表-放行监控页面中的-IP(张杰)
-const myApplicationListIP= "http://192.168.194.20:28087";
+const myApplicationListIP= "http://192.168.210.120:81";
 
 const ReqUrls = {
     //用户登录

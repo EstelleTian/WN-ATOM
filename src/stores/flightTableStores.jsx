@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-05-18 16:23:14
+ * @LastEditTime: 2021-05-21 14:36:42
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -255,7 +255,7 @@ class FlightTableData {
   //获取真正展示的航班
   @computed get getShowFlights() {
     // 测试数据，只显示一条
-    // let testList = this.list.length > 0 ? [this.list[0]] : [];
+    // let testList = this.list.length > 101 ? [this.list[99]] : [];
     // console.log("getShowFlights:", testList);
     // let showList = testList.map((flight) => formatSingleFlight(flight));
 
