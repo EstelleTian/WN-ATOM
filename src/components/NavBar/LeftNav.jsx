@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-05-11 21:06:06
+ * @LastEditTime: 2021-05-24 15:41:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -59,6 +59,8 @@ function LeftNav(props) {
               list.push(item);
             } else if (name === from) {
               list.push(item);
+              document.title =
+                (item.concernTrafficName || "") + "机场协同放行排序";
             }
             //2021-05-11改版默认交通流方向单独弹窗
             // if (i === 0) {
@@ -70,12 +72,13 @@ function LeftNav(props) {
 
         props.systemPage.leftNavNameList = idsList;
       }
+
       return list;
     },
     [props.systemPage.user.id]
   );
   return (
-    <div className="layout-nav-left layout-row">
+    <div className="layout-nav-left layout-row nav_bar">
       {/*<div className="time-range">*/}
       <Radio.Group defaultValue="a" buttonStyle="solid">
         <Radio.Button value="a">
@@ -105,7 +108,6 @@ function LeftNav(props) {
           ))}
         </Radio.Group>
       )}
-
       <Radio.Group buttonStyle="solid">
         <RefreshBtn />
       </Radio.Group>

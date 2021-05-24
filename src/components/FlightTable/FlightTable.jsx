@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-20 14:05:40
+ * @LastEditTime: 2021-05-24 16:15:56
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -157,7 +157,8 @@ function FTable(props) {
   //设置表格行的 class
   const setRowClassName = useCallback(
     (record, index) => {
-      let FFIXT = record.FFIXT || "";
+      let FFIXTField = record.FFIXT || {};
+      let FFIXT = FFIXTField.value || "";
       let id = record.id || "";
       if (
         sortKey === "FFIXT" &&

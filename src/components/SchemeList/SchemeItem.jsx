@@ -91,6 +91,7 @@ function SchemeItem(props) {
     basicFlowcontrol = {},
     directionList = [],
     schemeRelative = "",
+    tacticMode = ""
   } = item;
   let isActive = activeSchemeId === id;
 
@@ -313,9 +314,13 @@ function SchemeItem(props) {
               <span className="calculate" title="方案计算状态">
                 {isCalculated ? "已计算" : "计算中"}
               </span>
-              {/* <span className="calculate" title="二类">
-                 <Tag color="#f50">Ⅱ</Tag>
-              </span> */}
+              {
+                tacticMode === "200" ? 
+                <span className="calculate" title="二类">
+                  <Tag color="#f50">Ⅱ</Tag>
+                </span> : ""
+              }
+              
             </div>
           </div>
         </div>

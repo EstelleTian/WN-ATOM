@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-24 13:17:41
+ * @LastEditTime: 2021-05-24 15:23:52
  * @LastEditors: Please set LastEditors
  * @Description: 开发环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -55,7 +55,7 @@ const ReqUrls = {
     //获取--方案列表
     schemeListUrl: clearanceIP+"/implementTactics",
     //获取--模拟方案详情
-    simulationSchemeDetailUrl:schemeIP+"/simulationTactics/id/",
+    simulationSchemeDetailUrl:schemeIP+"/scheme-flow-server/simulationTactics/id/",
     //获取--航班列表数据
     flightsDataUrl: clearanceIP+"/tactic/",
     //获取--航班列表数据(id为空)
@@ -67,7 +67,7 @@ const ReqUrls = {
     //获取航班执行数据
     performanceDataUrl: performanceDataIP+"/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname",
     // 总体监控-获取限制数据
-    restrictionDataUrl: schemeIP+"/implementTactics/statistics",
+    restrictionDataUrl: schemeIP+"/scheme-flow-server/implementTactics/statistics",
     // 获取用户订阅的容流监控单元数据
     userSubscribeCapacityFlowMonitorUnitDataUrl: userSubscribeCapacityFlowMonitorUnitDataIP+"/user-template-rest/template/user/",
     // 获取容流数据
@@ -79,16 +79,17 @@ const ReqUrls = {
     //获取流控数据(ATOM变更)
     ATOMModifyDataUrl: schemeIP+"/scheme-flow-server/restrictions/modify/",
     //获取流控数据(NTFM新增)
-    NTFMCreateDataUrl: schemeIP+"/restrictions/createNtfm/",
+    //NTFMCreateDataUrl: schemeIP+"/restrictions/createNtfm/",
+    NTFMCreateDataUrl: schemeIP+"/scheme-flow-server/restrictions/createNtfm/",
 
     //获取流控数据(NTFM变更)
-    NTFMModifyDataUrl: schemeIP+"/restrictions/modifyNtfm/",
+    NTFMModifyDataUrl: schemeIP+"/scheme-flow-server/restrictions/modifyNtfm/",
     //创建方案(外区流控导入)-数据提交
     importSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/import/sim/",
     // 创建和修改方案-数据提交
     createSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/save/manual/",
     //修改模拟状态的方案-数据提交
-    modifySimulationSchemeUrl: schemeIP+"/simulationTactics/modifyScheme/",
+    modifySimulationSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/modifyScheme/",
     //获取工作流-办结列表
     hisTaskUrl: workflowIP+"/hydrogen-duties-server/histask/",
     //获取工作流-待办列表

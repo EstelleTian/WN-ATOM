@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-19 15:31:26
+ * @LastEditTime: 2021-05-24 16:18:42
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -108,14 +108,6 @@ let defaultNames = {
     en: "FFIXT",
     cn: "基准点时间",
   },
-  POS: {
-    en: "POS",
-    cn: "停机位",
-  },
-  RWY: {
-    en: "RWY",
-    cn: "跑道",
-  },
   CTO: {
     en: "CTO",
     cn: "计算基准点",
@@ -197,7 +189,14 @@ let defaultNames = {
     en: "FETA",
     cn: "前段降落时间",
   },
-
+  POS: {
+    en: "POS",
+    cn: "停机位",
+  },
+  RWY: {
+    en: "RWY",
+    cn: "跑道",
+  },
   orgdata: {
     en: "orgdata",
     cn: "原数据",
@@ -392,12 +391,13 @@ const getColumns = (
     tem["sorter"] = sortFunc;
     //特殊处理排序，FFIXT+EOBT
     if (en === "FFIXT") {
+      //field对象类型排序，用value再排
       const sorFunc2 = (a, b, sortName) => {
-        let data1 = a[sortName] + "";
+        let data1 = a[sortName].value + "";
         if (data1.length >= 12) {
           data1 = data1.substring(0, 12);
         }
-        let data2 = b[sortName] + "";
+        let data2 = b[sortName].value + "";
         if (data2.length >= 12) {
           data2 = data2.substring(0, 12);
         }
@@ -511,7 +511,6 @@ const handleRightClickCell = (event, record, collaboratePopoverData) => {
   const currentTarget = event.currentTarget;
   // 点击的列名
   const clickColumnName = currentTarget.getAttribute("col-key");
-
 
   //协调窗口 依托fc航班数据对象赋值
   collaboratePopoverData.setData(record);
