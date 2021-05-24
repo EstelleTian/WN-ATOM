@@ -20,7 +20,7 @@ const schemeIP = "http://192.168.194.21:58190";
 // 获取指定航路点对应的速度(路武臣)
 const speedIP = "http://192.168.194.21:28480"
 // 校验航路接口IP(李东骏)
-const validateRouteIP = "http://192.168.243.71:38481"
+const validateRouteIP = "http://192.168.194.21:38481"
 
 //协调ip
 const CollaborateIP = "http://192.168.194.21:28781";
