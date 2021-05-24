@@ -45,7 +45,7 @@ const ReqUrls = {
     //获取--方案列表
     schemeListUrl: clearanceIP+"/implementTactics",
     //获取--模拟方案详情
-    simulationSchemeDetailUrl:schemeIP+"/simulationTactics/id/",
+    simulationSchemeDetailUrl:schemeIP+"/scheme-flow-server/simulationTactics/id/",
     //获取--航班列表数据
     flightsDataUrl: clearanceIP+"/tactic/",
     //获取--航班列表数据(id为空)
@@ -60,7 +60,7 @@ const ReqUrls = {
     //获取航班执行数据
     performanceDataUrl: "http://192.168.194.21:27780/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname",
     // 总体监控-获取限制数据
-    restrictionDataUrl: schemeIP+"/implementTactics/statistics",
+    restrictionDataUrl: schemeIP+"/scheme-flow-server/implementTactics/statistics",
 
 
     // 获取用户订阅的容流监控单元数据
@@ -75,11 +75,11 @@ const ReqUrls = {
     //获取流控数据(ATOM变更)
     ATOMModifyDataUrl: schemeIP+"/scheme-flow-server/restrictions/modify/",
     //获取流控数据(NTFM新增)
-    NTFMCreateDataUrl: schemeIP+"/restrictions/createNtfm/",
+    NTFMCreateDataUrl: schemeIP+"/scheme-flow-server/restrictions/createNtfm/",
     // NTFMCreateDataUrl: "http://192.168.243.138:58190/restrictions/createNtfm/",
     
     //获取流控数据(NTFM变更)
-    NTFMModifyDataUrl: schemeIP+"/restrictions/modifyNtfm/",
+    NTFMModifyDataUrl: schemeIP+"/scheme-flow-server/restrictions/modifyNtfm/",
 
     //创建方案(外区流控导入)-数据提交
     importSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/import/sim/",
@@ -89,7 +89,7 @@ const ReqUrls = {
     
 
     //修改模拟状态的方案-数据提交
-    modifySimulationSchemeUrl: schemeIP+"/simulationTactics/modifyScheme/",
+    modifySimulationSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/modifyScheme/",
     //获取工作流-办结列表
     hisTaskUrl: workflowIP+"/hydrogen-duties-server/histask/",
     //获取工作流-待办列表
