@@ -169,7 +169,7 @@ function TrafficFlow(props) {
                                 <Col span={24}>
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                            <label className="ant-form-item-no-colon" title="机场">机场：</label>
+                                            <label className="ant-form-item-no-colon" title="机场">机场</label>
                                         </div>
                                         <div className="ant-col ant-form-item-control">
                                             <div className="ant-form-item-control-input">
@@ -183,7 +183,7 @@ function TrafficFlow(props) {
                                 <Col span={24}>
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                            <label className="ant-form-item-no-colon" title="省份">省/直辖市：</label>
+                                            <label className="ant-form-item-no-colon" title="省份">省/直辖市</label>
                                         </div>
                                         <div className="ant-col ant-form-item-control">
                                             <div className="ant-form-item-control-input">
@@ -197,7 +197,7 @@ function TrafficFlow(props) {
                                 <Col span={24}>
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                            <label className="ant-form-item-no-colon" title="国际">国际特区：</label>
+                                            <label className="ant-form-item-no-colon" title="国际">国际特区</label>
                                         </div>
                                         <div className="ant-col ant-form-item-control">
                                             <div className="ant-form-item-control-input">
@@ -211,7 +211,7 @@ function TrafficFlow(props) {
                                 <Col span={24}>
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                            <label className="ant-form-item-no-colon" title="区域">区域：</label>
+                                            <label className="ant-form-item-no-colon" title="区域">区域</label>
                                         </div>
                                         <div className="ant-col ant-form-item-control">
                                             <div className="ant-form-item-control-input">
@@ -225,7 +225,7 @@ function TrafficFlow(props) {
                                 <Col span={24}>
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                            <label className="ant-form-item-no-colon" title="空域">空域对象：</label>
+                                            <label className="ant-form-item-no-colon" title="空域">空域对象</label>
                                         </div>
                                         <div className="ant-col ant-form-item-control">
                                             <div className="ant-form-item-control-input">
