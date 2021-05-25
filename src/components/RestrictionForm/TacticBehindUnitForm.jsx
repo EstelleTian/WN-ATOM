@@ -43,13 +43,16 @@ function TacticBehindUnitForm(props) {
                     className={isHide ? "hidden-form-item" : ""}
                     rules={[
                         {
+                            whitespace: true,
+                        },
+                        {
                             type: 'string',
                             pattern: REGEXP.COMBINEDCHARSET,
                             message: '请输入正确格式的后序单元',
                         },
                     ]}
                 >
-                    <Input placeholder="可选填项，只可录入英文半角字母、数字、问号、分号、逗号" allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
+                    <Input placeholder="可选填项，只可录入英文半角字母、数字、问号、分号、逗号、中划线、空格" allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
                 </Form.Item>
             </Form>
         </Fragment>
