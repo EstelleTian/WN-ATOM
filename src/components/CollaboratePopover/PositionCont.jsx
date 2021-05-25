@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-24 19:23:50
+ * @LastEditTime: 2021-05-25 11:07:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -46,8 +46,13 @@ const PositionCont = (props) => {
   const activeSchemeId = schemeListData.activeSchemeId || "";
 
   const onCheck = async (type) => {
+    let values = {};
     try {
-      const values = await form.validateFields();
+      values = await form.validateFields();
+    } catch (errorInfo) {
+      return;
+    }
+    try {
       let url = "";
       let params = {
         flightCoordination: JSON.parse(orgdata),
@@ -77,18 +82,21 @@ const PositionCont = (props) => {
       const { flightCoordination } = res;
       //单条数据更新
       flightTableData.updateSingleFlight(flightCoordination);
-      //关闭popover
-      clearCollaboratePopoverData();
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         title: "停机位修改成功",
       });
+      //关闭popover
+      clearCollaboratePopoverData();
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
-        title: "停机位修改失败",
+        type: "warn",
+        title: errorInfo,
       });
+      //关闭popover
+      clearCollaboratePopoverData();
     }
   };
 

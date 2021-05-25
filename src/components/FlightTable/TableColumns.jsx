@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-24 16:18:42
+ * @LastEditTime: 2021-05-25 10:17:02
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -112,6 +112,14 @@ let defaultNames = {
     en: "CTO",
     cn: "计算基准点",
   },
+  POS: {
+    en: "POS",
+    cn: "停机位",
+  },
+  RWY: {
+    en: "RWY",
+    cn: "跑道",
+  },
   ETO: {
     en: "ETO",
     cn: "预计基准点",
@@ -189,14 +197,7 @@ let defaultNames = {
     en: "FETA",
     cn: "前段降落时间",
   },
-  POS: {
-    en: "POS",
-    cn: "停机位",
-  },
-  RWY: {
-    en: "RWY",
-    cn: "跑道",
-  },
+
   orgdata: {
     en: "orgdata",
     cn: "原数据",

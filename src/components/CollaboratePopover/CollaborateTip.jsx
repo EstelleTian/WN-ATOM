@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-24 19:53:03
+ * @LastEditTime: 2021-05-25 10:35:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -31,18 +31,26 @@ const PositionPopover = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
   const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
+  const [posObj, setPosObj] = useState({});
   const tipsRef = useRef();
   const { collaboratePopoverData = {} } = props;
   const { tipsObj = {} } = collaboratePopoverData;
-  let { name = "", x = 0, y = 0, width = 0, height = 0 } = tipsObj;
+  let {
+    name = "",
+    x = 0,
+    y = 0,
+    width = 0,
+    height = 0,
+    type = "",
+    title = "",
+  } = tipsObj;
 
   // 内容渲染
   const getContent = () => {
-    return <div>{tipsObj.title}</div>;
+    return <div>{title}</div>;
   };
-
-  //TODO 计算距离屏幕底部距离，向上展示，防止遮挡。 目前仅向下展示了。
-  let { left, top } = useMemo(() => {
+  //计算提示框位置
+  const reCalcPos = () => {
     if (x === null) {
       x = 0;
     }
@@ -72,22 +80,23 @@ const PositionPopover = (props) => {
         0;
       tipWidth =
         document.getElementsByClassName("collaborate_tips")[0].offsetWidth || 0;
-    } else {
-      tipHeight = 50;
-      tipWidth = 200;
     }
 
     top = y - tipHeight;
     left = x + width / 2 - tipWidth / 2;
     console.log("left", left, "top", top);
-    return { left, top };
-  }, [showPopoverNames, tipsObj]);
+    setPosObj({ left, top });
+  };
+
+  useEffect(() => {
+    reCalcPos();
+  }, [tipsObj]);
   return (
     <Fragment>
-      {tipsObj.title !== "" && (
+      {title !== "" && (
         <div
-          style={{ left: left + "px", top: top + "px" }}
-          className={`collaborate_tips ${name}_tips ${tipsObj.type}`}
+          style={{ left: posObj.left + "px", top: posObj.top + "px" }}
+          className={`collaborate_tips ${name}_tips ${type}`}
           ref={tipsRef}
         >
           <div className="tips_container">{getContent()}</div>

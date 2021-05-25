@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-24 19:33:01
+ * @LastEditTime: 2021-05-25 10:30:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -31,6 +31,8 @@ const ColPopover = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
   const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
+  const [posObj, setPosObj] = useState({});
+
   const popoverRef = useRef();
   const { collaboratePopoverData = {} } = props;
   const { selectedObj = {} } = collaboratePopoverData;
@@ -87,10 +89,8 @@ const ColPopover = (props) => {
       </div>
     );
   };
-
-  //TODO 计算距离屏幕底部距离，向上展示，防止遮挡。 目前仅向下展示了。
-
-  let { left, top, pos } = useMemo(() => {
+  //计算提示框位置
+  const reCalcPos = () => {
     let pos = "top-right";
     if (x === null) {
       x = 0;
@@ -119,22 +119,25 @@ const ColPopover = (props) => {
         popHeight =
           document.getElementsByClassName("collaborate_popover")[0]
             .offsetHeight || 0;
-      } else {
-        popHeight = 363;
       }
       console.log(popHeight);
       top = y - popHeight + height;
       pos = "bottom-right";
     }
     console.log("left", left, "top", top);
-    return { left, top, pos };
-  }, [showPopoverNames, popoverRef.current, selectedObj]);
+    setPosObj({ left, top, pos });
+  };
+
+  useEffect(() => {
+    reCalcPos();
+  }, [selectedObj]);
+
   return (
     <Fragment>
       {showPopoverNames.indexOf(name) > -1 && (
         <div
-          style={{ left: left + "px", top: top + "px" }}
-          className={`collaborate_popover ${name}_popover ${pos}`}
+          style={{ left: posObj.left + "px", top: posObj.top + "px" }}
+          className={`collaborate_popover ${name}_popover ${posObj.pos}`}
           ref={popoverRef}
         >
           {getTitle()}

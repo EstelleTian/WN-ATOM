@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-21 13:04:14
+ * @LastEditTime: 2021-05-25 11:07:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -42,7 +42,7 @@ const RunwayCont = (props) => {
   const { FLIGHTID = "", RWY = {}, orgdata = "{}" } = data;
   const { value = "", name = "" } = RWY;
   let runwayNames = [];
-  if (name !== "") {
+  if (name !== "" && name !== null) {
     runwayNames = name.split(",") || [];
   }
   const user = systemPage.user || {};
@@ -50,8 +50,14 @@ const RunwayCont = (props) => {
   const activeSchemeId = schemeListData.activeSchemeId || "";
 
   const onCheck = async (type) => {
+    let values = {};
     try {
-      const values = await form.validateFields();
+      values = await form.validateFields();
+    } catch (errorInfo) {
+      return;
+    }
+
+    try {
       let url = "";
       let params = {
         flightCoordination: JSON.parse(orgdata),
@@ -80,12 +86,22 @@ const RunwayCont = (props) => {
       const { flightCoordination } = res;
       //单条数据更新
       flightTableData.updateSingleFlight(flightCoordination);
+      collaboratePopoverData.setTipsObj({
+        ...collaboratePopoverData.selectedObj,
+        title: "跑道修改成功",
+      });
       //关闭popover
       clearCollaboratePopoverData();
-
       console.log("Success:", res);
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
+      collaboratePopoverData.setTipsObj({
+        ...collaboratePopoverData.selectedObj,
+        type: "warn",
+        title: errorInfo,
+      });
+      //关闭popover
+      clearCollaboratePopoverData();
     }
   };
 

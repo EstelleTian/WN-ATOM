@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-05-24 19:54:35
+ * @LastEditTime: 2021-05-25 10:42:50
  * @LastEditors: Please set LastEditors
  * @Description: 协调窗口相关store
  * @FilePath: \WN-CDM\src\stores\collaboratePopoverStore.jsx
@@ -27,7 +27,7 @@ class CollaboratePopoverData {
   //tips
   @observable tipsObj = {
     title: "",
-    type: "", //success fail
+    type: "success", //success fail warn
     name: "",
     target: null,
     x: null,
@@ -51,17 +51,18 @@ class CollaboratePopoverData {
       ...this.tipsObj,
       ...obj,
     };
-    // setTimeout(() => {
-    //   this.tipsObj = {
-    //     title: "",
-    //     name: "",
-    //     target: null,
-    //     x: null,
-    //     y: null,
-    //     width: null,
-    //     height: null,
-    //   };
-    // }, 3000);
+    setTimeout(() => {
+      this.tipsObj = {
+        title: "",
+        type: "success",
+        name: "",
+        target: null,
+        x: null,
+        y: null,
+        width: null,
+        height: null,
+      };
+    }, 3000);
   }
 }
 
