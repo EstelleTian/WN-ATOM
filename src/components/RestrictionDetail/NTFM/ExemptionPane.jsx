@@ -14,6 +14,10 @@ const { TabPane } = Tabs;
 
 // NTFM交通流限制-措施豁免(占量)
 function ExemptionPane(props) {
+    // 整体限制未成功转换标记
+    const unConvertedAll = props.unConvertedAll;
+    // 未成功转换的措施豁免字段数据
+    const unConvertedData = props.unConverted_expd || [];
     const dataArr = props.data || [];
     let [activePaneKey, setActivePaneKey] = useState("INCLUDE");
 
@@ -34,12 +38,12 @@ function ExemptionPane(props) {
             <Tabs key={index} onChange={changeActiveKeyPane} defaultActiveKey="INCLUDE" activeKey={activePaneKey}>
                 <TabPane tab="条件" key="INCLUDE">
                     {
-                        includeData.map((item, ind) => (<TrafficFlow key={ind} index={ind} data={item}></TrafficFlow>))
+                        includeData.map((item, ind) => (<TrafficFlow key={ind} index={ind} data={item} unConvertedAll={unConvertedAll} unConvertedData = {unConvertedData} ></TrafficFlow>))
                     }
                 </TabPane>
                 <TabPane tab="排除" key="EXCLUDE">
                     {
-                        excludeData.map((item, ind) => (<TrafficFlow key={ind} index={ind} data={item}></TrafficFlow>))
+                        excludeData.map((item, ind) => (<TrafficFlow key={ind} index={ind} data={item} unConvertedAll={unConvertedAll} unConvertedData = {unConvertedData} ></TrafficFlow>))
                     }
                 </TabPane>
             </Tabs>

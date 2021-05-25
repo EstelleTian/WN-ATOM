@@ -15,6 +15,10 @@ const { TabPane } = Tabs;
 // NTFM交通流限制-限制
 function RestrictionPane(props) {
     const dataArr = props.data || [];
+    // 整体限制未成功转换标记
+    const unConvertedAll = props.unConvertedAll;
+    // 未成功转换的限制数据
+    const unConvertedData = props.unConverted_trfd || {};
     let [activePaneKey, setActivePaneKey] = useState("INCLUDE");
     // 切换活动tab页
     const changeActiveKeyPane = (activeKey) => {
@@ -32,12 +36,12 @@ function RestrictionPane(props) {
             <Tabs key={index} onChange={changeActiveKeyPane} defaultActiveKey="INCLUDE" activeKey={activePaneKey}>
                 <TabPane tab="条件" key="INCLUDE">
                     {
-                        includeData.map((item, ind) => (<TrafficFlow key={ind} index={ind} data={item}></TrafficFlow>))
+                        includeData.map((item, ind) => (<TrafficFlow key={ind} index={ind} data={item} unConvertedAll={unConvertedAll} unConvertedData = {unConvertedData} ></TrafficFlow>))
                     }
                 </TabPane>
                 <TabPane tab="排除" key="EXCLUDE">
                     {
-                        excludeData.map((item, ind) => (<TrafficFlow key={ind} index={ind} data={item}></TrafficFlow>))
+                        excludeData.map((item, ind) => (<TrafficFlow key={ind} index={ind} data={item} unConvertedAll={unConvertedAll}  unConvertedData = {unConvertedData} ></TrafficFlow>))
                     }
                 </TabPane>
             </Tabs>

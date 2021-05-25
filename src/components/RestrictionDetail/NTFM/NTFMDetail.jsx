@@ -6,9 +6,9 @@
  * @LastEditors: Please set LastEditors
  * @Description: ATOM流控详情
  */
-import React, { useEffect, useState  } from 'react'
-import { Form, Tag, Space, Card, Row, Col, Checkbox, DatePicker, Tabs, Radio, Tooltip} from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react'
+import { Form, Tag, Space, Card, Row, Col, Checkbox, DatePicker, Tabs, Radio, Tooltip, Alert } from 'antd';
+import { DownOutlined, UpOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import ExemptionPane from 'components/RestrictionDetail/NTFM/ExemptionPane'
 import RestrictionPane from 'components/RestrictionDetail/NTFM/RestrictionPane'
 
@@ -31,13 +31,13 @@ function NTFMDetail(props) {
         }
     }
 
-    const setOperation = ()=> {
-        if(tabVisible){
-            return <Tooltip title="折叠"><span className="extra" onClick={()=>{setTabVisible(false) }}><UpOutlined /></span></Tooltip>
-        }else {
-            return <Tooltip title="展开"><span className="extra" onClick={()=>{setTabVisible(true) }}><DownOutlined /></span></Tooltip>
+    const setOperation = () => {
+        if (tabVisible) {
+            return <Tooltip title="折叠"><span className="extra" onClick={() => { setTabVisible(false) }}><UpOutlined /></span></Tooltip>
+        } else {
+            return <Tooltip title="展开"><span className="extra" onClick={() => { setTabVisible(true) }}><DownOutlined /></span></Tooltip>
         }
-        
+
     }
     const { flowData = {}, flowType, title } = props;
     const { formerNtfmFlowInfo = {}, ntfmFlowInfo = {} } = flowData;
@@ -61,8 +61,24 @@ function NTFMDetail(props) {
     const expdData = singleTypeFlowData.expd || [];
 
 
-    // 
+    // FtmiType数据
     const ntfmFtmiType = singleTypeFlowData.ntfmFtmiType || {};
+    // 未成功转换的数据集合
+    const unConvertedData = singleTypeFlowData.unConverted || [];
+    // 所有措施豁免未成功转换
+    const unConvertedAllExpd = unConvertedData.includes('expd');
+    // 所有限制未成功转换
+    const unConvertedAllTrfd = unConvertedData.includes('trfd');
+    // 所有FtmiType数据未成功转换
+    const unConvertedAllFtmiType = unConvertedData.includes('ntfmFtmiType');
+
+    // 未成功转换的措施豁免字段数据
+    const unConverted_expd = singleTypeFlowData.unConverted_expd || {}
+    // 未成功转换的限制字段数据
+    const unConverted_trfd = singleTypeFlowData.unConverted_trfd || {}
+    // 未成功转换的FtmiType数据字段集合
+    const unConverted_ntfmFtmiType = singleTypeFlowData.unConverted_ntfmFtmiType || []
+
     // NTFM流控名称
     const name = ntfmFtmiType.resgName || "";
 
@@ -159,9 +175,25 @@ function NTFMDetail(props) {
         }
         return info;
     }
+    // 校验是否为未成功转换的字段
+    const isUnConvertedField = (fields, fieldName) => {
+        let result = false;
+        if (Array.isArray(fields) && fields.length > 0) {
+            result = fields.includes(fieldName);
+        }
+        return result;
+    }
 
     return (
         <Row>
+            <Col span={24}>
+                <Alert
+                    message="标红项为未转换成功，请自行处理"
+                    type="warning"
+                    closable
+                    className="warning-alert"
+                />
+            </Col>
             <Col span={24}>
                 <Form
                     className="advanced_form NTFM_detail_form bordered-form"
@@ -176,15 +208,15 @@ function NTFMDetail(props) {
                                         <Radio.Group defaultValue="MIT" buttonStyle="solid">
                                             <Space >
                                                 <Radio.Button value="MIT">MIT</Radio.Button>
-                                                <Radio.Button value="GDP">GDP</Radio.Button>
+                                                {/* <Radio.Button value="GDP">GDP</Radio.Button>
                                                 <Radio.Button value="GS">GS</Radio.Button>
-                                                <Radio.Button value="AFT">AFT</Radio.Button>
+                                                <Radio.Button value="AFT">AFT</Radio.Button> */}
                                             </Space>
                                         </Radio.Group>
                                     </div>
                                 </Col>
                             </Row>
-                            
+
                             <Row className="info-row">
                                 <Col span={24}>
                                     <div className="ant-row ant-form-item">
@@ -225,9 +257,11 @@ function NTFMDetail(props) {
                                     </div>
                                 </Col>
                                 <Col span={8}>
-                                    <div className="ant-row ant-form-item">
+                                    <div className={isUnConvertedField(unConverted_ntfmFtmiType, 'priority') ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                            <label className="ant-form-item-no-colon" title="等级">等级</label>
+                                            <label className="ant-form-item-no-colon" title="等级">
+                                                等级
+                                                </label>
                                         </div>
                                         <div className="ant-col ant-form-item-control">
                                             <div className="ant-form-item-control-input">
@@ -277,12 +311,12 @@ function NTFMDetail(props) {
                                 <Col span={24}>
                                     <div className="ant-row ant-form-item">
                                         <Tabs className="traffic-flow-tab" defaultActiveKey="1" type="card" tabBarExtraContent={setOperation()}>
-                                            
+
                                             <TabPane tab="限制" key="RESTRICTION">
-                                                {tabVisible ? <RestrictionPane data={trfdData} ></RestrictionPane>:""}
+                                                {tabVisible ? <RestrictionPane data={trfdData} unConvertedAll={unConvertedAllTrfd} unConverted_trfd={unConverted_trfd} ></RestrictionPane> : ""}
                                             </TabPane>
                                             <TabPane tab="措施豁免(占量)" key="EXEMPTION">
-                                                {tabVisible ? <ExemptionPane data={expdData} ></ExemptionPane> : ""}
+                                                {tabVisible ? <ExemptionPane data={expdData} unConvertedAll={unConvertedAllExpd} unConverted_expd={unConverted_expd}  ></ExemptionPane> : ""}
                                             </TabPane>
                                         </Tabs>
                                     </div>

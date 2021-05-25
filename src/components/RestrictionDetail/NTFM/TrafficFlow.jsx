@@ -7,8 +7,10 @@
  * @Description: NTFM流控交通流信息模块
  */
 import React, { useEffect, Fragment } from 'react'
-import { Checkbox, Divider, Card, Row, Col, Radio, Tag } from 'antd'
-import { isValidVariable} from 'utils/basic-verify'
+import { Checkbox, Divider, Card, Row, Col, Radio, Tag, Tooltip } from 'antd'
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
+import { isValidVariable } from 'utils/basic-verify'
 
 
 //NTFM流控交通流信息模块
@@ -20,10 +22,13 @@ function TrafficFlow(props) {
         { label: '国际', value: 'I' },
     ];
 
-    const { data = {} , index } = props;
+    const { data = {}, index, unConvertedData = {}, unConvertedAll } = props;
     let groupRelation = data.groupRelation;
-    
-    
+
+    const id = data.id;
+    // 未成功转换的字段数据
+    const unConvertedFields = unConvertedData[id] || [];
+
     // 目标点
     let trafficObj = data.trafficObj || "";
     // 来向-机场
@@ -60,16 +65,25 @@ function TrafficFlow(props) {
     let groupConditionHeightKind = data.groupConditionHeightKind || "";
     // 高度值
     let groupConditionRfl = data.groupConditionRfl || "";
-    
+
+    // 校验是否为未成功转换的字段
+    const isUnConvertedField = (fields, fieldName) => {
+        let result = false;
+        if (Array.isArray(fields) && fields.length > 0) {
+            result = fields.includes(fieldName);
+        }
+        return result;
+    }
+
 
 
     return (
         <Fragment>
             {
-                (isValidVariable(groupRelation) && index > 0) ? (groupRelation ==="Y") ? 
-                <Divider className="traffice-relation-divider"><Tag color="#f50">且</Tag></Divider>
-                 : <Divider className="traffice-relation-divider" ><Tag color="#f50">或</Tag></Divider>
-                 :""
+                (isValidVariable(groupRelation) && index > 0) ? (groupRelation === "Y") ?
+                    <Divider className="traffice-relation-divider"><Tag color="#f50">且</Tag></Divider>
+                    : <Divider className="traffice-relation-divider" ><Tag color="#f50">或</Tag></Divider>
+                    : ""
             }
             <Card size="small" className="traffic-flow-wrapper-card" bordered={false} >
                 <Row gutter={12}>
@@ -77,7 +91,7 @@ function TrafficFlow(props) {
                         <Card className="traffic-flow-card" title="来向" bordered={false}>
                             <Row className="info-row" >
                                 <Col span={24}>
-                                    <div className="ant-row ant-form-item" >
+                                    <div className={(isUnConvertedField(unConvertedFields, 'directionComeAirport') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left" >
                                             <label className="ant-form-item-no-colon" title="机场">机场</label>
                                         </div>
@@ -91,7 +105,7 @@ function TrafficFlow(props) {
                             </Row>
                             <Row className="info-row" >
                                 <Col span={24}>
-                                    <div className="ant-row ant-form-item" >
+                                    <div className={(isUnConvertedField(unConvertedFields, 'directionComeProvince') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`}  >
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left" >
                                             <label className="ant-form-item-no-colon" title="省/直辖市">省/直辖市</label>
                                         </div>
@@ -105,7 +119,7 @@ function TrafficFlow(props) {
                             </Row>
                             <Row className="info-row" >
                                 <Col span={24}>
-                                    <div className="ant-row ant-form-item" >
+                                    <div className={(isUnConvertedField(unConvertedFields, 'directionComeDir') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`}  >
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left" >
                                             <label className="ant-form-item-no-colon" title="国际特区">国际特区</label>
                                         </div>
@@ -119,7 +133,7 @@ function TrafficFlow(props) {
                             </Row>
                             <Row className="info-row" >
                                 <Col span={24}>
-                                    <div className="ant-row ant-form-item" >
+                                    <div className={(isUnConvertedField(unConvertedFields, 'directionComeAirCode') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`}  >
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left" >
                                             <label className="ant-form-item-no-colon" title="区域">区域</label>
                                         </div>
@@ -133,7 +147,7 @@ function TrafficFlow(props) {
                             </Row>
                             <Row className="info-row">
                                 <Col span={24}>
-                                    <div className="ant-row ant-form-item">
+                                    <div className={(isUnConvertedField(unConvertedFields, 'directionComeAirspace') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                             <label className="ant-form-item-no-colon" title="空域对象">空域对象</label>
                                         </div>
@@ -151,7 +165,7 @@ function TrafficFlow(props) {
                         <Card title="目标对象" className="traffic-flow-card traffic-obj" bordered={false}>
                             <Row className="info-row">
                                 <Col span={24}>
-                                    <div className="ant-row ant-form-item">
+                                    <div className={(isUnConvertedField(unConvertedFields, 'trafficObj') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                                         <div className="ant-col ant-form-item-control">
                                             <div className="ant-form-item-control-input">
                                                 <div className="ant-form-item-control-input-content">{trafficObj}</div>
@@ -167,7 +181,7 @@ function TrafficFlow(props) {
                         <Card title="去向" className="traffic-flow-card" bordered={false}>
                             <Row className="info-row">
                                 <Col span={24}>
-                                    <div className="ant-row ant-form-item">
+                                    <div className={(isUnConvertedField(unConvertedFields, 'directionTargetAirport') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                             <label className="ant-form-item-no-colon" title="机场">机场</label>
                                         </div>
@@ -181,7 +195,7 @@ function TrafficFlow(props) {
                             </Row>
                             <Row className="info-row">
                                 <Col span={24}>
-                                    <div className="ant-row ant-form-item">
+                                    <div className={(isUnConvertedField(unConvertedFields, 'directionTargetProvince') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                             <label className="ant-form-item-no-colon" title="省份">省/直辖市</label>
                                         </div>
@@ -195,7 +209,7 @@ function TrafficFlow(props) {
                             </Row>
                             <Row className="info-row">
                                 <Col span={24}>
-                                    <div className="ant-row ant-form-item">
+                                    <div className={(isUnConvertedField(unConvertedFields, 'directionTargetDir') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                             <label className="ant-form-item-no-colon" title="国际">国际特区</label>
                                         </div>
@@ -209,7 +223,7 @@ function TrafficFlow(props) {
                             </Row>
                             <Row className="info-row">
                                 <Col span={24}>
-                                    <div className="ant-row ant-form-item">
+                                    <div className={(isUnConvertedField(unConvertedFields, 'directionTargetAirCode') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                             <label className="ant-form-item-no-colon" title="区域">区域</label>
                                         </div>
@@ -223,7 +237,7 @@ function TrafficFlow(props) {
                             </Row>
                             <Row className="info-row">
                                 <Col span={24}>
-                                    <div className="ant-row ant-form-item">
+                                    <div className={(isUnConvertedField(unConvertedFields, 'directionTargetAirspace') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                             <label className="ant-form-item-no-colon" title="空域">空域对象</label>
                                         </div>
@@ -240,7 +254,7 @@ function TrafficFlow(props) {
                 </Row>
                 <Row className="info-row">
                     <Col span={24}>
-                        <div className="ant-row ant-form-item">
+                        <div className={(isUnConvertedField(unConvertedFields, 'groupConditionArcId') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                             <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                 <label className="ant-form-item-no-colon" title="航班号">航班号</label>
                             </div>
@@ -254,7 +268,7 @@ function TrafficFlow(props) {
                 </Row>
                 <Row className="info-row">
                     <Col span={24}>
-                        <div className="ant-row ant-form-item">
+                        <div className={(isUnConvertedField(unConvertedFields, 'groupConditionFlightNature') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                             <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                 <label className="ant-form-item-no-colon" title="航班性质">航班性质</label>
                             </div>
@@ -270,9 +284,11 @@ function TrafficFlow(props) {
                 </Row>
                 <Row className="info-row">
                     <Col span={24}>
-                        <div className="ant-row ant-form-item">
+                        <div className={(isUnConvertedField(unConvertedFields, 'groupConditionSpecial') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`}>
                             <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                <label className="ant-form-item-no-colon" title="重要航班">重要航班</label>
+                                <label className="ant-form-item-no-colon" title="重要航班">
+                                    重要航班
+                                    </label>
                             </div>
                             <div className="ant-col ant-form-item-control">
                                 <div className="ant-form-item-control-input">
@@ -284,9 +300,11 @@ function TrafficFlow(props) {
                 </Row>
                 <Row className="info-row">
                     <Col span={12}>
-                        <div className="ant-row ant-form-item">
+                        <div className={(isUnConvertedField(unConvertedFields, 'groupConditionHeightKind') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                             <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                <label className="ant-form-item-no-colon" title="巡航高度">巡航高度</label>
+                                <label className="ant-form-item-no-colon" title="巡航高度">
+                                    巡航高度
+                                    </label>
                             </div>
                             <div className="ant-col ant-form-item-control">
                                 <div className="ant-form-item-control-input">
@@ -303,9 +321,11 @@ function TrafficFlow(props) {
                         </div>
                     </Col>
                     <Col span={12}>
-                        <div className="ant-row ant-form-item">
+                        <div className={(isUnConvertedField(unConvertedFields, 'groupConditionRfl') || unConvertedAll) ? `ant-row ant-form-item un-coverted-item` : `ant-row ant-form-item`} >
                             <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                <label className="ant-form-item-no-colon" title="高度值">高度值</label>
+                                <label className="ant-form-item-no-colon" title="高度值">
+                                    高度值
+                                    </label>
                             </div>
                             <div className="ant-col ant-form-item-control">
                                 <div className="ant-form-item-control-input">
