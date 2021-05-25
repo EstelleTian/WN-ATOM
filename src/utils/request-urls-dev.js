@@ -17,6 +17,11 @@ const userSubscribeIP = "http://192.168.194.21:28680";
 const runwayIP = "http://192.168.194.21:50012";
 const clearanceIP = "http://192.168.194.21:29890";
 const schemeIP = "http://192.168.194.21:58190";
+// 获取指定航路点对应的速度(路武臣)
+const speedIP = "http://192.168.194.21:28480"
+// 校验航路接口IP(李东骏)
+const validateRouteIP = "http://192.168.243.71:38481"
+
 //协调ip
 const CollaborateIP = "http://192.168.194.21:28781";
 //登录IP(姜浩)
@@ -88,6 +93,11 @@ const ReqUrls = {
     importSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/import/sim/",
     // 创建和修改方案-数据提交
     createSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/save/manual/",
+    // 获取指定航路点对应的速度
+    speedUrl: speedIP+"/flow-route-point-speed-calculate-server/speed-retrive/speed/",
+    // 校验航路接口
+    validateRouteUrl: validateRouteIP+"/hydrogen_reroute_check_server/reroute/rerouteCheckPost",
+
     //修改模拟状态的方案-数据提交
     modifySimulationSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/modifyScheme/",
     //获取工作流-办结列表

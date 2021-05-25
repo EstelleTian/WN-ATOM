@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
+import { inject, observer } from "mobx-react";
 import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
 import SchemeForm from 'components/RestrictionForm/SchemeForm'
 
