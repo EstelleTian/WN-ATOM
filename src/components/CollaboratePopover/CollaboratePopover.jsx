@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-25 10:30:38
+ * @LastEditTime: 2021-05-25 13:42:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -23,9 +23,28 @@ import { closePopover, cgreen, cred } from "utils/collaborateUtils.js";
 import PositionCont from "./PositionCont";
 import RunwayCont from "./RunwayCont";
 import FFixTCont from "./FFixTCont";
+import TimeFormCont from "./TimeFormCont";
 import "./CollaboratePopover.scss";
 
-let showPopoverNames = ["FFIXT", "POS", "RWY"];
+const showPopoverNames = [
+  "FFIXT",
+  "POS",
+  "RWY",
+  "AOBT",
+  "AGCT",
+  "ASBT",
+  "TOBT",
+];
+const PopoverCNNames = {
+  POS: "停机位修改",
+  RWY: "跑道修改",
+  FFIXT: "受控过点时间修改",
+  AOBT: "推出时间修改",
+  AGCT: "关舱门时间修改",
+  ASBT: "上客时间修改",
+  TOBT: "TOBT申请变更",
+};
+
 //popover和tip组合协调窗口
 const ColPopover = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
@@ -67,19 +86,23 @@ const ColPopover = (props) => {
       return (
         <FFixTCont clearCollaboratePopoverData={clearCollaboratePopoverData} />
       );
+    } else if (
+      name === "AOBT" ||
+      name === "AGCT" ||
+      name === "ASBT" ||
+      name === "TOBT"
+    ) {
+      return (
+        <TimeFormCont
+          clearCollaboratePopoverData={clearCollaboratePopoverData}
+        />
+      );
     }
     return "";
   };
 
   const getTitle = () => {
-    let titleName = "";
-    if (name === "POS") {
-      titleName = "停机位修改";
-    } else if (name === "RWY") {
-      titleName = "跑道修改";
-    } else if (name === "FFIXT") {
-      titleName = "受控过点时间修改";
-    }
+    let titleName = PopoverCNNames[name] || "";
     return (
       <div className="popover_title">
         <span>{`${titleName}`}</span>

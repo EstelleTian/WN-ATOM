@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-19 16:15:05
+ * @LastEditTime: 2021-05-25 15:15:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -354,18 +354,21 @@ const PopoverTip = (props) => {
               <Input />
             </Form.Item>
           </Descriptions.Item>
-          <Descriptions.Item label="">
-            <Form.Item name="locked">
-              <Checkbox
-                checked={autoChecked}
-                onChange={(e) => {
-                  setAutoChecked(e.target.checked);
-                }}
-              >
-                禁止系统自动调整
-              </Checkbox>
-            </Form.Item>
-          </Descriptions.Item>
+          {(col === "COBT" || col === "CTOT") && (
+            <Descriptions.Item label="">
+              <Form.Item name="locked">
+                <Checkbox
+                  checked={autoChecked}
+                  onChange={(e) => {
+                    setAutoChecked(e.target.checked);
+                  }}
+                >
+                  禁止系统自动调整
+                </Checkbox>
+              </Form.Item>
+            </Descriptions.Item>
+          )}
+
           <Descriptions.Item label="备注">
             <Form.Item name="comment">
               <Input.TextArea maxLength={100} />

@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-25 11:13:49
+ * @LastEditTime: 2021-05-25 16:11:59
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
+ * @Description: 过点时间修改
+ * @FilePath:
  */
 import React, {
   useCallback,
@@ -314,7 +314,7 @@ const RightForm = (props) => {
   );
 };
 
-//popover和tip组合协调窗口
+//协调窗口
 const FFixTCont = (props) => {
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
   const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
@@ -380,7 +380,7 @@ const FFixTCont = (props) => {
       } else if (type === "clear") {
         setRefuseBtnLoading(true);
       }
-      let url = CollaborateUrl.ffixtUrl;
+      let url = CollaborateUrl.baseUrl;
       let urlKey = "/updateFlightFFixT";
       if (type === "clear") {
         urlKey = "/clearFlightFFixT";

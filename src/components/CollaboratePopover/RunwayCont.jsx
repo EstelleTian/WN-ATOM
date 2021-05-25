@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-25 11:07:27
+ * @LastEditTime: 2021-05-25 16:11:36
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
+ * @Description: 跑道修改
+ * @FilePath:
  */
 import React, { useCallback, useState, useEffect, useRef } from "react";
 import {
@@ -25,7 +25,7 @@ import { REGEXP } from "utils/regExpUtil";
 import { isValidVariable, getFullTime } from "utils/basic-verify";
 import { closePopover, cgreen, cred } from "utils/collaborateUtils.js";
 
-//popover和tip组合协调窗口
+//协调窗口
 const RunwayCont = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
@@ -67,12 +67,12 @@ const RunwayCont = (props) => {
       };
       if (type === "approve") {
         setSubmitBtnLoading(true);
-        url = CollaborateUrl.runwayUrl + "/updateFlightRunway";
+        url = CollaborateUrl.baseUrl + "/updateFlightRunway";
         params["timeVal"] = values.runway;
       } else if (type === "refuse") {
         setRefuseBtnLoading(true);
         //跑道清除
-        url = CollaborateUrl.runwayUrl + "/clearFlightRunway";
+        url = CollaborateUrl.baseUrl + "/clearFlightRunway";
         params["timeVal"] = "";
       }
       //提交参数拼装
@@ -179,4 +179,3 @@ export default inject(
   "schemeListData",
   "flightTableData"
 )(observer(RunwayCont));
-// export default RunwayCont;

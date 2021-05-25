@@ -1,9 +1,9 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-25 10:35:14
+ * @LastEditTime: 2021-05-25 13:35:51
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @Description:tip提示框
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
  */
 import React, {
@@ -26,7 +26,7 @@ import FFixTCont from "./FFixTCont";
 import "./CollaboratePopover.scss";
 
 let showPopoverNames = ["FFIXT", "POS", "RWY"];
-//popover和tip组合协调窗口
+//tip提示框
 const PositionPopover = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
