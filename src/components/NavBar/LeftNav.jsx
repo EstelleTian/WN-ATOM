@@ -1,22 +1,23 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-05-24 15:41:37
+ * @LastEditTime: 2021-05-26 16:06:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
  */
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { observer, inject } from "mobx-react";
-import { Radio } from "antd";
+import { Radio, Tag } from "antd";
 import RefreshBtn from "components/SchemeList/RefreshBtn";
 import { withRouter } from "react-router-dom";
 import { isValidVariable } from "utils/basic-verify";
 
 //顶部 左导航模块
 function LeftNav(props) {
-  const { match } = props;
+  const [dateRangeStr, setDateRangeStr] = useState("");
+  const { match, systemPage } = props;
   const params = match.params || {};
   const from = params.from || "";
 
@@ -77,16 +78,28 @@ function LeftNav(props) {
     },
     [props.systemPage.user.id]
   );
+  useEffect(() => {
+    const dateRangeData = systemPage.getDateRangeData();
+    setDateRangeStr(dateRangeData);
+    console.log("dateRangeData", dateRangeData);
+  }, [systemPage.dateRangeData]);
   return (
     <div className="layout-nav-left layout-row nav_bar">
-      {/*<div className="time-range">*/}
-      <Radio.Group defaultValue="a" buttonStyle="solid">
-        <Radio.Button value="a">
+      <Radio.Group buttonStyle="solid">
+        <Radio.Button
+          value="a"
+          onClick={(e) => {
+            props.systemPage.setDateRangeVisible(true);
+          }}
+        >
           计划范围
-          {/*<Tag color="#3d8424">29/00-29/23</Tag>*/}
+          {dateRangeStr !== "" && (
+            <Tag className="range_tag" color="#3d8424">
+              {dateRangeStr}
+            </Tag>
+          )}
         </Radio.Button>
       </Radio.Group>
-      {/*</div>*/}
       {props.systemPage.userHasAuth(12510) && (
         <Radio.Group
           value={

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-05-26 13:39:20
+ * @LastEditTime: 2021-05-26 16:30:41
  * @LastEditors: Please set LastEditors
  * @Description: 页面相关store
  * @FilePath: \WN-CDM\src\stores\pageStores.jsx
@@ -43,21 +43,46 @@ class SystemPage {
   @observable user = {};
   //全局刷新按钮
   @observable pageRefresh = false;
+  //计划时间范围-基准日期（方案列表获取时候赋值）
+  @observable baseDate = "";
   //计划时间范围显隐
-  @observable dateRangeVisible = true;
-  // @observable dateRangeVisible = false;
+  @observable dateRangeVisible = false;
   //计划时间范围内容
-  @observable dateRangeData = { startTime: "0_0000", endTime: "0_2359" };
+  @observable dateRangeData = [];
+  @observable dateBarRangeData = [24, 47];
   //计划时间范围显隐
   @action setDateRangeVisible(flag) {
     this.dateRangeVisible = flag;
   }
   //计划时间范围内容
-  @action setDateRangeData({ startTime = "0_0000", endTime = "0_2359" }) {
-    this.dateRangeData = {
-      startTime,
-      endTime,
-    };
+  @action setDateRangeData(range) {
+    this.dateRangeData = [...range];
+  }
+  //计划时间范围内容-获取
+  @action getDateRangeData() {
+    const dateRangeData = this.dateRangeData;
+    let start = dateRangeData[0] || "";
+    let end = dateRangeData[1] || "";
+    if (isValidVariable(start) && start.length >= 10) {
+      start = start.substring(6, 8) + "/" + start.substring(8, 10);
+    }
+    if (isValidVariable(end) && end.length >= 10) {
+      end = end.substring(6, 8) + "/" + end.substring(8, 10);
+    }
+    if (isValidVariable(start) && isValidVariable(end)) {
+      return start + "-" + end;
+    }
+    return "";
+  }
+  //计划时间范围-基准日期（方案列表获取时候赋值）
+  @action setBaseDate(generateTime) {
+    if (generateTime.length >= 8) {
+      const base = generateTime.substring(0, 8);
+      this.baseDate = base;
+      if (this.dateRangeData.length === 0) {
+        this.setDateRangeData([base + "0000", base + "2359"]);
+      }
+    }
   }
   //左上导航选中 模块名称
   @action setLeftNavSelectedName(name) {

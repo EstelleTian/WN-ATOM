@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-26 13:50:51
+ * @LastEditTime: 2021-05-26 14:10:25
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -398,11 +398,9 @@ function FlightTableModal(props) {
         <Suspense fallback={<div></div>}>
           <FormerFlightUpdateModal />
         </Suspense>
-        {/*<Suspense fallback={<div></div>}>
-          计划时间范围
+        <Suspense fallback={<div></div>}>
           <DateRangeChangeModal />
         </Suspense>
-        */}
       </ModalBox>
     </Fragment>
   );

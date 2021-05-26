@@ -1,1 +1,20 @@
-.date-range-modal{}
+.date-range-modal{
+    .range_title{
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    .range_bar{
+        .ant-slider-dot-active {
+            border-color: #529abe;
+        }
+        .ant-slider-track {
+            background-color: #529abe;
+        }
+        .ant-slider-handle{
+            border: solid 2px #529abe;
+        }
+    }
+    .range_btns{
+        margin-top: 50px;
+    }
+}
