@@ -117,7 +117,7 @@ function TacticShortcutInputForm(props) {
     const requeShortcutInputFormData = () => {
         // 请求参数
         const opt = {
-            url: "http://192.168.194.21:29890/flowcontrol/fast/input?region=ZLXY",
+            url: ReqUrls.shortcutInputFormDataUrl+"input?region=ZLXY",
             method: 'GET',
             params: {},
             resFunc: (data) => updateShortcutInputFormData(data),

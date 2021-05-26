@@ -105,6 +105,8 @@ const ReqUrls = {
     createSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/save/manual/",
     // 获取指定航路点对应的速度
     speedUrl: speedIP+"/flow-route-point-speed-calculate-server/speed-retrive/speed/",
+    // 获取交通流快捷录入表单依赖数据
+    shortcutInputFormDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/flowcontrol/fast/",
     // 校验航路接口
     validateRouteUrl: validateRouteIP+"/hydrogen-reroute-check-server/reroute/rerouteCheckPost",
 
