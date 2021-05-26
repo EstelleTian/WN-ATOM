@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-25 16:11:45
+ * @LastEditTime: 2021-05-26 09:50:05
  * @LastEditors: Please set LastEditors
  * @Description: 停机位修改
  * @FilePath:
@@ -93,7 +93,7 @@ const PositionCont = (props) => {
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         type: "warn",
-        title: errorInfo,
+        title: errorInfo === "" ? "停机位修改失败" : errorInfo,
       });
       //关闭popover
       clearCollaboratePopoverData();

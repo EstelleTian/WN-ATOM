@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-25 16:25:40
+ * @LastEditTime: 2021-05-26 09:49:00
  * @LastEditors: Please set LastEditors
  * @Description: 时间类协调窗口-
  * @FilePath: \WN-ATOM\src\components\FlightTable\TimeFormCont.jsx
@@ -82,6 +82,14 @@ const TimeFormCont = (props) => {
         const tobtField = flight.tobtField || {};
         fieldValue = tobtField.value || "";
         fieldSource = tobtField.source || "";
+      } else if (name === "COBT") {
+        const cobtField = flight.cobtField || {};
+        fieldValue = cobtField.value || "";
+        fieldSource = cobtField.source || "";
+      } else if (name === "CTOT") {
+        const ctotField = flight.ctotField || {};
+        fieldValue = ctotField.value || "";
+        fieldSource = ctotField.source || "";
       }
       if (isValidVariable(fieldValue) && fieldValue.length >= 12) {
         time = fieldValue.substring(8, 12);
@@ -118,31 +126,45 @@ const TimeFormCont = (props) => {
       if (name === "TOBT") {
         url = CollaborateUrl.baseUrl + "/applyTobt";
         params["changeVal"] = timeStr;
-        tipTitle = flightId + " TOBT申请变更成功";
+        tipTitle = flightId + " TOBT申请变更提交";
       } else if (name === "ASBT") {
         url = CollaborateUrl.baseUrl + "/updateFlightAsbt";
         params["timeVal"] = timeStr;
-        tipTitle = flightId + " 上客时间修改成功";
+        tipTitle = flightId + " 上客时间变更提交";
       } else if (name === "AOBT") {
         url = CollaborateUrl.baseUrl + "/updateFlightAobt";
         params["timeVal"] = timeStr;
-        tipTitle = flightId + " 推出时间修改成功";
+        tipTitle = flightId + " 推出时间变更提交";
       } else if (name === "AGCT") {
         url = CollaborateUrl.baseUrl + "/updateFlightAgct";
         params["timeVal"] = timeStr;
-        tipTitle = flightId + " 关门时间修改成功";
+        tipTitle = flightId + " 关门时间变更提交";
+      } else if (name === "COBT") {
+        url = CollaborateUrl.baseUrl + "/updateFlightCobt";
+        params["timeVal"] = timeStr;
+        tipTitle = flightId + " COBT时间变更提交";
+      } else if (name === "CTOT") {
+        url = CollaborateUrl.baseUrl + "/updateFlightCtd";
+        params["timeVal"] = timeStr;
+        tipTitle = flightId + " CTOT时间变更提交";
       }
     } else if (type === "clear") {
       setRefuseBtnLoading(true);
       if (name === "ASBT") {
         url = CollaborateUrl.baseUrl + "/clearFlightAsbt";
-        tipTitle = flightId + " 上客时间撤销成功";
+        tipTitle = flightId + " 上客时间撤销变更提交";
       } else if (name === "AOBT") {
         url = CollaborateUrl.baseUrl + "/clearFlightAobt";
-        tipTitle = flightId + " 推出时间撤销成功";
+        tipTitle = flightId + " 推出时间撤销变更提交";
       } else if (name === "AGCT") {
         url = CollaborateUrl.baseUrl + "/clearFlightAgct";
-        tipTitle = flightId + " 关门时间撤销成功";
+        tipTitle = flightId + " 关门时间撤销变更提交";
+      } else if (name === "COBT") {
+        url = CollaborateUrl.baseUrl + "/clearFlightCobt";
+        tipTitle = flightId + " COBT时间撤销变更提交";
+      } else if (name === "CTOT") {
+        url = CollaborateUrl.baseUrl + "/clearFlightCtd";
+        tipTitle = flightId + " CTOT时间撤销变更提交";
       }
     }
     return { url, params, tipTitle };
@@ -155,13 +177,12 @@ const TimeFormCont = (props) => {
     } catch (errorInfo) {
       return;
     }
+    let {
+      url = "",
+      params = {},
+      tipTitle = "",
+    } = handleUrlAndParams(type, values);
     try {
-      let {
-        url = "",
-        params = {},
-        tipTitle = "",
-      } = handleUrlAndParams(type, values);
-
       if (!isValidVariable(url)) {
         return;
       }
@@ -179,16 +200,17 @@ const TimeFormCont = (props) => {
       flightTableData.updateSingleFlight(flightCoordination);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
-        title: tipTitle,
+        title: tipTitle + "成功",
       });
       //关闭popover
       clearCollaboratePopoverData();
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
+
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         type: "warn",
-        title: errorInfo,
+        title: errorInfo === "" ? tipTitle + "失败" : errorInfo,
       });
       //关闭popover
       clearCollaboratePopoverData();
@@ -300,7 +322,7 @@ const TimeFormCont = (props) => {
             >
               指定
             </Button>
-            {fieldSource === "MANUAL" && hasRefuseAuth && (
+            {fieldSource === "MANUAL" && (
               <Button
                 style={{ marginLeft: "8px" }}
                 loading={refuseBtnLoading}

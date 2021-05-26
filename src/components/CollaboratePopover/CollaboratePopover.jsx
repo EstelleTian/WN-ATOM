@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-25 13:42:50
+ * @LastEditTime: 2021-05-25 16:44:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -34,6 +34,8 @@ const showPopoverNames = [
   "AGCT",
   "ASBT",
   "TOBT",
+  "COBT",
+  "CTOT",
 ];
 const PopoverCNNames = {
   POS: "停机位修改",
@@ -43,6 +45,8 @@ const PopoverCNNames = {
   AGCT: "关舱门时间修改",
   ASBT: "上客时间修改",
   TOBT: "TOBT申请变更",
+  COBT: "COBT时间变更",
+  CTOT: "CTOT时间变更",
 };
 
 //popover和tip组合协调窗口
@@ -90,6 +94,8 @@ const ColPopover = (props) => {
       name === "AOBT" ||
       name === "AGCT" ||
       name === "ASBT" ||
+      name === "COBT" ||
+      name === "CTOT" ||
       name === "TOBT"
     ) {
       return (

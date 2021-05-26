@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-18 13:53:12
+ * @LastEditTime: 2021-05-26 09:36:17
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -15,34 +15,20 @@ import {
   isValidObject,
 } from "utils/basic-verify";
 import { FlightCoordination } from "utils/flightcoordination.js";
-
-import "./CollaboratePopover.scss";
 import FmeToday from "../../utils/fmetoday";
+import "./RenderCell.scss";
 
-const ColorPopover = (props) => {
-  let { text, record, index, col } = props.opt;
+const RenderCell = (props) => {
+  let { record, index, col } = props.opt;
+  let field = props.opt.text || {};
   let { orgdata } = record;
   if (isValidVariable(orgdata)) {
     orgdata = JSON.parse(orgdata);
   }
-  if (!isValidVariable(text)) {
-    text = "";
-  }
-  let showVal = "";
-  let field = {};
-  if (col === "CTO") {
-    field = orgdata.ctoField || {};
-    showVal = getTimeAndStatus(text);
-  } else if (col === "ATOT") {
-    field = orgdata.ctoField || {};
-    showVal = getDayTimeFromString(text);
-  } else if (col === "EAWT") {
-    field = orgdata.eapField || {};
-    showVal = getTimeAndStatus(text);
-  } else if (col === "OAWT") {
-    field = orgdata.oapField || {};
-    showVal = getTimeAndStatus(text);
-  }
+
+  let value = field.value || "";
+  let showVal = getDayTimeFromString(value) || "";
+
   let source = field.source || "";
   let effectStatus = field.effectStatus || "";
   if (effectStatus * 1 === 200) {
@@ -60,22 +46,22 @@ const ColorPopover = (props) => {
 
   //航班已起飞或者不在本区域内--不显示
   if (hadDEP) {
-    if (isValidVariable(text)) {
+    if (isValidVariable(value)) {
       bgStatus = "DEP";
     }
     subTitle = "已起飞";
   } else if (hadARR) {
-    if (isValidVariable(text)) {
+    if (isValidVariable(value)) {
       bgStatus = "ARR";
     }
     subTitle = "已落地";
   } else if (!hadFPL) {
-    if (isValidVariable(text)) {
+    if (isValidVariable(value)) {
       bgStatus = "FPL";
     }
     subTitle = "未拍发FPL报";
   } else if (!isInAreaFlight) {
-    if (isValidVariable(text)) {
+    if (isValidVariable(value)) {
       bgStatus = "notArea";
     }
     subTitle = "非本区域";
@@ -83,16 +69,16 @@ const ColorPopover = (props) => {
   return (
     <div
       className={`full-cell ${col} ${
-        isValidVariable(text) ? source : ""
+        isValidVariable(value) ? source : ""
       }  ${col}_${bgStatus}`}
     >
       <div
-        className={`${isValidVariable(text) ? "" : "empty_cell"}  ${bgStatus}`}
-        title={`${text}-${sourceCN}-${subTitle}`}
+        className={`${isValidVariable(value) ? "" : "empty_cell"}  ${bgStatus}`}
+        title={`${value}-${sourceCN}-${subTitle}`}
       >
         <span className="">{showVal}</span>
       </div>
     </div>
   );
 };
-export { ColorPopover };
+export default RenderCell;

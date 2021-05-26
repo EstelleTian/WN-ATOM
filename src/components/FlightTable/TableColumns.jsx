@@ -1,24 +1,24 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-25 16:23:02
+ * @LastEditTime: 2021-05-26 09:44:41
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
  */
 import React from "react";
+import { Tag, Tooltip, Input } from "antd";
 import {
   isValidVariable,
   getDayTimeFromString,
   getTimeAndStatus,
 } from "utils/basic-verify";
 import { FlightCoordination } from "utils/flightcoordination";
-import { ColorPopover } from "./CollaboratePopover";
+import RenderCell from "./RenderCell";
 import FLIGHTIDPopover from "./FLIGHTIDPopover";
-import TOBTPopover from "./TOBTPopover";
-import CTPopover from "./CTPopover";
+// import TOBTPopover from "./TOBTPopover";
+// import CTPopover from "./CTPopover";
 import debounce from "lodash/debounce";
-import { Tag, Tooltip, Input } from "antd";
 
 /**
  * 告警列单元格渲染格式化
@@ -223,40 +223,21 @@ let render = (opt) => {
   );
   if (col === "FLIGHTID") {
     popover = <FLIGHTIDPopover opt={opt} />;
-  } else if (col === "COBT") {
-    // else if (col === "COBT") {
-    popover = <CTPopover opt={opt} />;
-  } else if (col === "CTOT") {
-    popover = <CTPopover opt={opt} />;
-  } else if (col === "CTO") {
-    popover = <ColorPopover opt={opt} />;
-  } else if (col === "EAWT") {
-    popover = <ColorPopover opt={opt} />;
-  } else if (col === "OAWT") {
-    popover = <ColorPopover opt={opt} />;
-  } else if (col === "ALARM") {
-    popover = randerAlarmCellChildren(opt);
   } else if (
+    col === "CTO" ||
+    col === "EAWT" ||
+    col === "OAWT" ||
+    col === "ATOT" ||
     col === "TOBT" ||
     col === "AOBT" ||
     col === "ASBT" ||
+    col === "COBT" ||
+    col === "CTOT" ||
     col === "AGCT"
   ) {
-    let { source = "", value = "" } = text;
-    source = source === null ? "" : source;
-    let sourceCN = FlightCoordination.getSourceZh(source);
-    popover = (
-      <div className={`full-cell ${isValidVariable(value) && source}`}>
-        <div
-          className={`${isValidVariable(value) ? "" : "empty_cell"}`}
-          title={`${isValidVariable(value) ? value : ""}-${sourceCN}`}
-        >
-          <span className="">{getDayTimeFromString(value)}</span>
-        </div>
-      </div>
-    );
-  } else if (col === "ATOT") {
-    popover = <ColorPopover opt={opt} />;
+    popover = <RenderCell opt={opt} />;
+  } else if (col === "ALARM") {
+    popover = randerAlarmCellChildren(opt);
   } else if (col === "FFIXT") {
     let { source = "", value = "", meetIntervalValue = "" } = text;
     let ftime = "";
@@ -568,6 +549,12 @@ const formatSingleFlight = (flight) => {
   const agctField = flight.agctField || {};
   const aobtField = flight.aobtField || {};
   const asbtField = flight.asbtField || {};
+  let atd = flight.atd || "";
+  atd = atd === null ? "" : atd;
+  const atotField = {
+    value: atd,
+    source: isValidVariable(atd) ? "DEP" : "",
+  };
 
   let taskVal = taskField.value || "";
   if (!isValidVariable(taskVal) || taskVal === "普通") {
@@ -593,9 +580,11 @@ const formatSingleFlight = (flight) => {
     TASK: taskVal,
     // TASK: PriorityList[flight.priority],
     EAW: eapField.name,
-    EAWT: eapField.value,
+    // EAWT: eapField.value,
+    EAWT: eapField,
     OAW: oapField.name,
-    OAWT: oapField.value,
+    // OAWT: oapField.value,
+    OAWT: oapField,
     ACTYPE: flight.aircrafttype,
     DEPAP: flight.depap,
     ARRAP: flight.arrap,
@@ -604,17 +593,20 @@ const formatSingleFlight = (flight) => {
     EOBT: getDayTimeFromString(flight.eobt),
     // TOBT: tobtField.value,
     TOBT: tobtField,
-    COBT: cobtField.value,
-    CTOT: ctotField.value,
+    // COBT: cobtField.value,
+    // CTOT: ctotField.value,
+    COBT: cobtField,
+    CTOT: ctotField,
     // AGCT: getDayTimeFromString(agctField.value),
     AOBT: aobtField || {},
     AGCT: agctField || {},
     ASBT: asbtField || {},
-    ATOT: flight.atd,
+    ATOT: atotField,
     FETA: getDayTimeFromString(flight.formerArrtime),
     FFIX: ffixField.name,
     FFIXT: ffixField || {},
-    CTO: ctoField.value,
+    // CTO: ctoField.value,
+    CTO: ctoField,
     ETO: getTimeAndStatus(etoField.value),
     STATUS: flight.flightStatus,
     RWY: runwayField || {},

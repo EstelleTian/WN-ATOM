@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-25 16:11:59
+ * @LastEditTime: 2021-05-26 09:50:15
  * @LastEditors: Please set LastEditors
  * @Description: 过点时间修改
  * @FilePath:
@@ -425,7 +425,7 @@ const FFixTCont = (props) => {
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         type: "warn",
-        title: errorInfo,
+        title: errorInfo === "" ? "过点时间修改失败" : errorInfo,
       });
       //关闭popover
       clearCollaboratePopoverData();

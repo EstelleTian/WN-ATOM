@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-25 16:11:36
+ * @LastEditTime: 2021-05-26 09:49:33
  * @LastEditors: Please set LastEditors
  * @Description: 跑道修改
  * @FilePath:
@@ -98,7 +98,7 @@ const RunwayCont = (props) => {
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         type: "warn",
-        title: errorInfo,
+        title: errorInfo === "" ? "跑道修改失败" : errorInfo,
       });
       //关闭popover
       clearCollaboratePopoverData();
