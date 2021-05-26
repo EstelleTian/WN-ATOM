@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-24 16:18:42
+ * @LastEditTime: 2021-05-25 16:23:02
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -112,6 +112,7 @@ let defaultNames = {
     en: "CTO",
     cn: "计算基准点",
   },
+
   ETO: {
     en: "ETO",
     cn: "预计基准点",
@@ -152,9 +153,17 @@ let defaultNames = {
     en: "TOBT",
     cn: "目标撤轮档",
   },
+  ASBT: {
+    en: "ASBT",
+    cn: "上客时间",
+  },
   AGCT: {
     en: "AGCT",
     cn: "关舱门时间",
+  },
+  AOBT: {
+    en: "AOBT",
+    cn: "推出时间",
   },
   STATUS: {
     en: "STATUS",
@@ -227,12 +236,28 @@ let render = (opt) => {
     popover = <ColorPopover opt={opt} />;
   } else if (col === "ALARM") {
     popover = randerAlarmCellChildren(opt);
-  } else if (col === "TOBT") {
-    popover = <TOBTPopover opt={opt} />;
+  } else if (
+    col === "TOBT" ||
+    col === "AOBT" ||
+    col === "ASBT" ||
+    col === "AGCT"
+  ) {
+    let { source = "", value = "" } = text;
+    source = source === null ? "" : source;
+    let sourceCN = FlightCoordination.getSourceZh(source);
+    popover = (
+      <div className={`full-cell ${isValidVariable(value) && source}`}>
+        <div
+          className={`${isValidVariable(value) ? "" : "empty_cell"}`}
+          title={`${isValidVariable(value) ? value : ""}-${sourceCN}`}
+        >
+          <span className="">{getDayTimeFromString(value)}</span>
+        </div>
+      </div>
+    );
   } else if (col === "ATOT") {
     popover = <ColorPopover opt={opt} />;
   } else if (col === "FFIXT") {
-    // popover = <CTPopover opt={opt} />;
     let { source = "", value = "", meetIntervalValue = "" } = text;
     let ftime = "";
     if (isValidVariable(value) && value.length >= 12) {
@@ -249,16 +274,16 @@ let render = (opt) => {
       <div
         // col-key={col}
         className={`full-cell time_${ftime} ${
-          isValidVariable(value) ? source : ""
+          isValidVariable(value) && source
         }`}
       >
         <div
-          className={`interval ${ftime !== "" ? source : ""}`}
+          className={`interval ${ftime !== "" && source}`}
           title={`${value}-${sourceCN}`}
         >
           <span
             className={`${
-              meetIntervalValue === "200" && ftime !== "" ? "interval_red" : ""
+              meetIntervalValue === "200" && ftime !== "" && "interval_red"
             }`}
           >
             {ftime}
@@ -268,12 +293,11 @@ let render = (opt) => {
     );
   } else if (col === "RWY" || col === "POS") {
     const { source = "", value = "" } = text;
-    // console.log("render text:", text);
     let sourceCN = FlightCoordination.getSourceZh(source);
     popover = (
       <div
         col-key={col}
-        className={`full-cell ${isValidVariable(value) ? source : ""} ${col}`}
+        className={`full-cell ${isValidVariable(value) && source} ${col}`}
       >
         <div
           className={`${isValidVariable(value) ? "" : "empty_cell"}`}
@@ -389,15 +413,24 @@ const getColumns = (
     };
     //排序
     tem["sorter"] = sortFunc;
-    //特殊处理排序，FFIXT+EOBT
+    //特殊处理排序，FFIXT->EOBT
     if (en === "FFIXT") {
       //field对象类型排序，用value再排
       const sorFunc2 = (a, b, sortName) => {
-        let data1 = a[sortName].value + "";
+        let data1 = "";
+        let data2 = "";
+
+        if (sortName === "FFIXT") {
+          data1 = a[sortName].value || "";
+          data2 = b[sortName].value || "";
+        } else if (sortName === "EOBT") {
+          data1 = a[sortName] || "";
+          data2 = b[sortName] || "";
+        }
+        // console.log(sortName, a.FLIGHTID, data1, b.FLIGHTID, data2);
         if (data1.length >= 12) {
           data1 = data1.substring(0, 12);
         }
-        let data2 = b[sortName].value + "";
         if (data2.length >= 12) {
           data2 = data2.substring(0, 12);
         }
@@ -406,6 +439,7 @@ const getColumns = (
           if (0 !== res) {
             return res;
           }
+          // return res;
         } else if (isValidVariable(data1)) {
           return -1;
         } else if (isValidVariable(data2)) {
@@ -430,15 +464,10 @@ const getColumns = (
       tem["defaultSortOrder"] = "ascend";
       tem["width"] = screenWidth > 1920 ? 95 : 80;
     }
-    // if( en === "FFIXT" || en === "CTO" || en === "CTOT" || en === "ETO"|| en === "EAWT" || en === "OAWT"){
-    //     tem["width"] = (screenWidth > 1920) ? 70 : 58
-    // }
     if (en === "ALARM") {
       tem["width"] = screenWidth > 1920 ? 140 : 120;
     }
-    // if( en === "CTO" || en === "CTOT" || en === "COBT" ){
-    //     tem["align"] = "left"
-    // }
+
     if (en === "FLIGHTID") {
       tem["width"] = screenWidth > 1920 ? 120 : 100;
       tem["fixed"] = "left";
@@ -447,25 +476,6 @@ const getColumns = (
     if (en === "STATUS") {
       tem["width"] = screenWidth > 1920 ? 75 : 65;
     }
-    // if (en === "SLOT") {
-    //   tem["width"] = screenWidth > 1920 ? 100 : 90;
-    //   tem["render"] = (text, record, index) => (
-    //     <div className="text_cell_center" title={text.title || ""}>
-    //       {text.name || ""}
-    //     </div>
-    //   );
-    // }
-    // if( en === "FLIGHTID" ){
-    //     tem["onCell"] = function(record, rowIndex){
-    //         return {
-    //             onContextMenu: event => {
-    //                 console.log(event, record, rowIndex);
-    //                 const cellDom = event.target;
-    //                 ReactDOM.render( <FLIGHTIDPopover2 opt={record} /> ,cellDom)
-    //             },
-    //         };
-    //     };
-    // }
 
     //隐藏列
     if (en === "orgdata") {
@@ -549,14 +559,15 @@ const formatSingleFlight = (flight) => {
   const tobtField = flight.tobtField || {};
   const cobtField = flight.cobtField || {};
   const ctotField = flight.ctotField || {};
-  const agctField = flight.agctField || {};
-  // const slotField = flight.slotField || {};
   const fmeToday = flight.fmeToday || {};
   const ffixField = flight.ffixField || {};
   const ctoField = flight.ctoField || {};
   const etoField = flight.etoField || {};
   const runwayField = flight.runwayField || {};
   const positionField = flight.positionField || {};
+  const agctField = flight.agctField || {};
+  const aobtField = flight.aobtField || {};
+  const asbtField = flight.asbtField || {};
 
   let taskVal = taskField.value || "";
   if (!isValidVariable(taskVal) || taskVal === "普通") {
@@ -591,21 +602,24 @@ const formatSingleFlight = (flight) => {
     SOBT: getDayTimeFromString(flight.sobt),
     SLOTSTATUS: flight.unSlotStatusReasonAbbr,
     EOBT: getDayTimeFromString(flight.eobt),
-    TOBT: tobtField.value,
+    // TOBT: tobtField.value,
+    TOBT: tobtField,
     COBT: cobtField.value,
     CTOT: ctotField.value,
-    AGCT: getDayTimeFromString(agctField.value),
+    // AGCT: getDayTimeFromString(agctField.value),
+    AOBT: aobtField || {},
+    AGCT: agctField || {},
+    ASBT: asbtField || {},
     ATOT: flight.atd,
     FETA: getDayTimeFromString(flight.formerArrtime),
     FFIX: ffixField.name,
     FFIXT: ffixField || {},
     CTO: ctoField.value,
     ETO: getTimeAndStatus(etoField.value),
-    // STATUS: flight.runningStatus,
     STATUS: flight.flightStatus,
     RWY: runwayField || {},
     POS: positionField || {},
-    // SLOT: slotField || {},
+
     orgdata: JSON.stringify(flight),
   };
   return flightObj;

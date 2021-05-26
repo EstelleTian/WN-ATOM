@@ -1,3 +1,4 @@
+//协调窗口类
 .collaborate_popover{
     position: fixed;
     z-index: 1003;
@@ -7,8 +8,6 @@
     box-shadow: 0 3px 6px -4px rgba(0,0,0,0.48), 0 6px 16px 0 rgba(0,0,0,0.32), 0 9px 28px 8px rgba(0,0,0,0.2);
     &:before{
         content: "";
-        left: -5px;
-        top: 7px;
         border-top-color: transparent;
         border-right-color: transparent;
         border-bottom-color: #363636;
@@ -22,13 +21,24 @@
         border-style: solid;
         border-width: 6px;
         transform: rotate(45deg);
-    
+    }
+    &.top-right:before{
+        left: -5px;
+        top: 16px;
+    }
+    &.bottom-right:before{
+        left: -5px;
+        bottom: 16px;
     }
     &.hidden{
         visibility: hidden;
     }
     .ant-form-item{
         margin-bottom: 0;
+    }
+    //协调窗口日期宽度和时间一致的样式
+    .col_form_date{
+        width: 172px;
     }
     .popover_title{
         padding: 4px 16px;
@@ -85,5 +95,52 @@
             margin-left: 6px;
             height: 24px;
         }
+    }
+}
+
+
+//tips气泡框类
+.collaborate_tips{
+    position: fixed;
+    z-index: 1003;
+    background-color: #286908;
+    background-clip: padding-box;
+    border-radius: 6px;
+    box-shadow: 0 3px 6px -4px rgba(0,0,0,0.48), 0 6px 16px 0 rgba(0,0,0,0.32), 0 9px 28px 8px rgba(0,0,0,0.2);
+    &:before{
+        content: "";
+        border-top-color: transparent;
+        border-right-color: #286908;
+        border-bottom-color: #286908;
+        border-left-color: transparent;
+        box-shadow: -3px 3px 7px rgba(54,54,54,0.07);
+        position: absolute;
+        display: block;
+        width: 12px;
+        height: 12px;
+        background: transparent;
+        border-style: solid;
+        border-width: 6px;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+    }
+    &.fail{
+        background-color: #a95a5e;
+    }
+    &.fail:before{
+        border-right-color: #a95a5e;
+        border-bottom-color: #a95a5e;
+    }
+    &.warn{
+        background-color: #b3752e;
+    }
+    &.warn:before{
+        border-right-color: #b3752e;
+        border-bottom-color: #b3752e;
+    }
+
+    .tips_container{
+        padding: 2px 8px;
     }
 }

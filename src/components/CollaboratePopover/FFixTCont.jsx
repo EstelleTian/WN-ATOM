@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-24 15:16:15
+ * @LastEditTime: 2021-05-25 16:11:59
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
+ * @Description: 过点时间修改
+ * @FilePath:
  */
 import React, {
   useCallback,
@@ -26,6 +26,7 @@ import {
   Checkbox,
   Tooltip,
 } from "antd";
+import { request2 } from "utils/request";
 import { observer, inject } from "mobx-react";
 import { request } from "utils/request";
 import { CollaborateUrl } from "utils/request-urls";
@@ -144,48 +145,29 @@ const RightForm = (props) => {
   const { rightForm, orgdata, rightContShow, collaboratePopoverData } = props;
   let initialRightFormValues = {};
 
+  //联动按钮组切换事件
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
+    // console.log("radio checked", e.target.value);
     setLinkedRadioVal(e.target.value);
   };
   //监听时间输入框实时内容
   const handleInputTimeVal = debounce((name, values) => {
     if (values.length === 4) {
-      //获取日期
-      // const date = rightForm.getFieldValue(name + "_date");
-      // let endDateString = moment(date).format("YYYYMMDD");
-      // console.log(name + "_time", values, endDateString);
-      // setTargetName(name);
       handleLinked(name);
     }
   }, 800);
   //监听日期选择内容
   const handleDateVal = (name, date, dateString) => {
-    //获取时间
-    // const time = rightForm.getFieldValue(name + "_time");
-    // console.log(name + "_date", time, dateString);
-    // setTargetName(name);
     handleLinked(name);
   };
-  // const validateValue = (getFieldValue, fieldName) => {
-  //   const fieldVal = getFieldValue(fieldName);
-  //   if (fieldName.indexOf("_time") > -1) {
-  //     if (fieldVal.length === 4) {
-  //       console.log(fieldName, fieldVal, formOrgData[fieldName]);
-  //     }
-  //   } else {
-  //     const orgDate = moment(formOrgData[fieldName]).format("YYYYMMDD");
-  //     const newDate = moment(fieldVal).format("YYYYMMDD");
-  //     console.log(fieldName, newDate, orgDate);
-  //   }
-  // };
+
   //屏蔽不可选择日期
   const disabledDateFunc = (current, name) => {
     const targetDate = rightForm.getFieldValue(name);
 
     return current < targetDate || current > moment(targetDate).add(1, "days");
   };
-
+  //处理联动
   const handleLinked = (targetName) => {
     if (
       rightContShow &&
@@ -196,6 +178,9 @@ const RightForm = (props) => {
       // 计算与原值的毫秒差;
       let diffMs = 0;
       const newDate = rightForm.getFieldValue(targetName + "_date");
+      if (newDate === null) {
+        return;
+      }
       const newTime = rightForm.getFieldValue(targetName + "_time");
       const newDateString = moment(newDate).format("YYYYMMDD");
       const newMs = parseFullTime(newDateString + newTime).getTime();
@@ -275,10 +260,7 @@ const RightForm = (props) => {
                   <Descriptions.Item label={name}>
                     <Form.Item
                       name={`${name}_date`}
-                      // rules={[
-                      //   ({ getFieldValue }) =>
-                      //     validateValue(getFieldValue, name + "_date"),
-                      // ]}
+                      rules={[{ required: true, message: "请选择日期" }]}
                     >
                       <DatePicker
                         className="ffixt_right_date"
@@ -299,11 +281,11 @@ const RightForm = (props) => {
                         {
                           type: "string",
                           pattern: REGEXP.TIMEHHmm,
-                          message: "请输入有效的开始时间",
+                          message: "请输入有效的时间",
                         },
                         {
                           required: true,
-                          message: "请输入开始时间",
+                          message: "请输入时间",
                         },
                       ]}
                     >
@@ -332,16 +314,22 @@ const RightForm = (props) => {
   );
 };
 
-//popover和tip组合协调窗口
+//协调窗口
 const FFixTCont = (props) => {
-  const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
   const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
   const [rightContShow, setRightContShow] = useState(false);
-
   const [form] = Form.useForm();
   const [rightForm] = Form.useForm();
-  const { collaboratePopoverData = {} } = props;
+  const {
+    collaboratePopoverData = {},
+    schemeListData = {},
+    systemPage = {},
+    flightTableData = {},
+    clearCollaboratePopoverData,
+  } = props;
+  const user = systemPage.user || {};
+  const userId = user.id || "";
   const { data = {}, selectedObj = {} } = collaboratePopoverData;
   // console.log(data);
   const { FLIGHTID = "", DEPAP = "", ARRAP = "" } = data;
@@ -357,7 +345,9 @@ const FFixTCont = (props) => {
     time = fieldValue.substring(8, 12);
     date = moment(fieldValue.substring(0, 8), "YYYY-MM-DD");
   }
-
+  if (!isValidVariable(date)) {
+    date = moment();
+  }
   //按钮权限
   let hasConfirmAuth = props.systemPage.userHasAuth(13440); //申请权限
   let hasRefuseAuth = props.systemPage.userHasAuth(13443); //撤销权限
@@ -366,19 +356,79 @@ const FFixTCont = (props) => {
     flightid: FLIGHTID || "",
     airport: DEPAP + "-" + ARRAP,
     unit: "",
-    locked: "",
+    locked: true,
     time,
     date,
     comment: "",
   };
 
   const onCheck = async (type) => {
-    form.setFieldsValue({ runway: FFIXT });
+    let formValues = {};
+    let rightFormValues = {};
     try {
-      const values = await form.validateFields();
-      console.log("Success:", values);
+      formValues = await form.validateFields();
+      if (rightContShow) {
+        rightFormValues = await rightForm.validateFields();
+      }
+    } catch (errorInfo) {
+      return;
+    }
+
+    try {
+      if (type === "approve") {
+        setSubmitBtnLoading(true);
+      } else if (type === "clear") {
+        setRefuseBtnLoading(true);
+      }
+      let url = CollaborateUrl.baseUrl;
+      let urlKey = "/updateFlightFFixT";
+      if (type === "clear") {
+        urlKey = "/clearFlightFFixT";
+      }
+      const { date, time } = formValues;
+      let timeVal = moment(date).format("YYYYMMDD") + time;
+
+      const schemeId = schemeListData.activeSchemeId || ""; //方案id
+      const tacticName = schemeListData.getNameBySchemeActiveId(schemeId); //方案名称
+      let locked = formValues.locked ? "1" : "0";
+      //传参
+      let params = {
+        flightCoordination: orgdata, //航班原fc
+        comment: formValues.comment, //备注
+        tacticId: schemeId,
+        tacticName,
+        userId,
+        locked,
+        timeVal,
+        fix: field.name || "",
+      };
+      console.log("Success:", formValues, params);
+      //提交参数拼装
+      const res = await request2({
+        url: url + urlKey,
+        params,
+        method: "POST",
+      });
+      setSubmitBtnLoading(false);
+      setRefuseBtnLoading(false);
+      const { flightCoordination } = res;
+      //单条数据更新
+      flightTableData.updateSingleFlight(flightCoordination);
+      collaboratePopoverData.setTipsObj({
+        ...collaboratePopoverData.selectedObj,
+        title: "过点时间修改成功",
+      });
+      //关闭popover
+      clearCollaboratePopoverData();
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
+      collaboratePopoverData.setTipsObj({
+        ...collaboratePopoverData.selectedObj,
+        type: "warn",
+        title: errorInfo,
+      });
+      //关闭popover
+      clearCollaboratePopoverData();
     }
   };
 
@@ -402,7 +452,7 @@ const FFixTCont = (props) => {
         flightid: FLIGHTID || "",
         airport: DEPAP + "-" + ARRAP,
         unit: "",
-        locked: "",
+        locked: true,
         time,
         date,
         comment: "",
@@ -436,8 +486,11 @@ const FFixTCont = (props) => {
               </Form.Item>
             </Descriptions.Item>
             <Descriptions.Item label="日期">
-              <Form.Item name="date">
-                <DatePicker className="clr_date" format="YYYY-MM-DD" />
+              <Form.Item
+                name="date"
+                rules={[{ required: true, message: "请选择日期" }]}
+              >
+                <DatePicker className="col_form_date" format="YYYY-MM-DD" />
               </Form.Item>
             </Descriptions.Item>
             <Descriptions.Item label="时间">
@@ -447,11 +500,11 @@ const FFixTCont = (props) => {
                   {
                     type: "string",
                     pattern: REGEXP.TIMEHHmm,
-                    message: "请输入有效的开始时间",
+                    message: "请输入有效的时间",
                   },
                   {
                     required: true,
-                    message: "请输入开始时间",
+                    message: "请输入时间",
                   },
                 ]}
               >
@@ -459,15 +512,8 @@ const FFixTCont = (props) => {
               </Form.Item>
             </Descriptions.Item>
             <Descriptions.Item label="">
-              <Form.Item name="locked">
-                <Checkbox
-                  checked={autoChecked}
-                  onChange={(e) => {
-                    setAutoChecked(e.target.checked);
-                  }}
-                >
-                  禁止系统自动调整
-                </Checkbox>
+              <Form.Item name="locked" valuePropName="checked">
+                <Checkbox>禁止系统自动调整</Checkbox>
               </Form.Item>
             </Descriptions.Item>
             <Descriptions.Item label="备注">
@@ -479,9 +525,9 @@ const FFixTCont = (props) => {
               <Button
                 loading={submitBtnLoading}
                 size="small"
-                className="todo_opt_btn todo_agree c-btn-blue"
+                className="todo_opt_btn c-btn-blue"
                 onClick={(e) => {
-                  onCheck("");
+                  onCheck("approve");
                 }}
               >
                 指定
@@ -490,7 +536,7 @@ const FFixTCont = (props) => {
                 <Button
                   style={{ marginLeft: "8px" }}
                   loading={refuseBtnLoading}
-                  className="todo_opt_btn todo_refuse c-btn-red"
+                  className="todo_opt_btn c-btn-red"
                   onClick={(e) => {
                     onCheck("clear");
                   }}
@@ -501,7 +547,8 @@ const FFixTCont = (props) => {
               )}
               <Button
                 size="small"
-                className="todo_opt_btn todo_reset"
+                style={{ marginLeft: "8px" }}
+                className="todo_opt_btn"
                 onClick={(e) => {
                   resetForm();
                 }}
@@ -543,6 +590,8 @@ const FFixTCont = (props) => {
 
 export default inject(
   "collaboratePopoverData",
-  "systemPage"
+  "systemPage",
+  "flightTableData",
+  "schemeListData"
 )(observer(FFixTCont));
 // export default FFixTCont;

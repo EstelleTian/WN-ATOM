@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-19 16:41:02
+ * @LastEditTime: 2021-05-25 16:11:45
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
+ * @Description: 停机位修改
+ * @FilePath:
  */
 import React, { useCallback, useState, useEffect, useRef } from "react";
 import {
@@ -25,7 +25,7 @@ import { REGEXP } from "utils/regExpUtil";
 import { isValidVariable, getFullTime } from "utils/basic-verify";
 import { closePopover, cgreen, cred } from "utils/collaborateUtils.js";
 
-//popover和tip组合协调窗口
+//协调窗口
 const PositionCont = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
@@ -46,8 +46,13 @@ const PositionCont = (props) => {
   const activeSchemeId = schemeListData.activeSchemeId || "";
 
   const onCheck = async (type) => {
+    let values = {};
     try {
-      const values = await form.validateFields();
+      values = await form.validateFields();
+    } catch (errorInfo) {
+      return;
+    }
+    try {
       let url = "";
       let params = {
         flightCoordination: JSON.parse(orgdata),
@@ -57,12 +62,12 @@ const PositionCont = (props) => {
       };
       if (type === "approve") {
         setSubmitBtnLoading(true);
-        url = CollaborateUrl.positionUrl + "/updateFlightPosition";
+        url = CollaborateUrl.baseUrl + "/updateFlightPosition";
         params["timeVal"] = values.position || "";
       } else if (type === "refuse") {
         setRefuseBtnLoading(true);
         //跑道清除
-        url = CollaborateUrl.positionUrl + "/clearFlightPosition";
+        url = CollaborateUrl.baseUrl + "/clearFlightPosition";
         params["timeVal"] = "";
       }
       //提交参数拼装
@@ -77,11 +82,21 @@ const PositionCont = (props) => {
       const { flightCoordination } = res;
       //单条数据更新
       flightTableData.updateSingleFlight(flightCoordination);
+      collaboratePopoverData.setTipsObj({
+        ...collaboratePopoverData.selectedObj,
+        title: "停机位修改成功",
+      });
       //关闭popover
       clearCollaboratePopoverData();
-       console.log("Success:", values);
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
+      collaboratePopoverData.setTipsObj({
+        ...collaboratePopoverData.selectedObj,
+        type: "warn",
+        title: errorInfo,
+      });
+      //关闭popover
+      clearCollaboratePopoverData();
     }
   };
 

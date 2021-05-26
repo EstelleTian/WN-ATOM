@@ -55,6 +55,7 @@ const convertValueFunc = (text, record, index) => {
     type === "FFIXT" ||
     type === "CTO"
   ) {
+    console.log(text);
     const obj = JSON.parse(text) || {};
     const getCont = () => {
       return (
@@ -96,6 +97,9 @@ const columns = [
     ellipsis: true,
     className: "type",
     showSorterTooltip: false,
+    render: (text, record, index) => {
+      return FlightCoordination.CoordinationType[text] || "";
+    },
   },
   {
     title: "协调前",
@@ -186,10 +190,9 @@ const convertToTableData = (recordMap = {}) => {
     const record = recordMap[key] || {};
     const statusZh = FlightCoordinationRecord.getStatusZh(record.status || "");
     const type = record.type || "";
-    const typeZh = FlightCoordination.CoordinationType[type];
     let obj = {
       key: record.id || "",
-      type: typeZh || "",
+      type: type || "",
       orgValue: record.originalValue || "",
       value: record.value || "",
       comments: record.comments || "",
@@ -222,6 +225,7 @@ const CoordinationRecord = (props) => {
         size="small"
         bordered
         pagination={false}
+        className="detail_coordination_record_table"
       />
     </Fragment>
   );

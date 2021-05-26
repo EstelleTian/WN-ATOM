@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-21 13:04:14
+ * @LastEditTime: 2021-05-25 16:11:36
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
+ * @Description: 跑道修改
+ * @FilePath:
  */
 import React, { useCallback, useState, useEffect, useRef } from "react";
 import {
@@ -25,7 +25,7 @@ import { REGEXP } from "utils/regExpUtil";
 import { isValidVariable, getFullTime } from "utils/basic-verify";
 import { closePopover, cgreen, cred } from "utils/collaborateUtils.js";
 
-//popover和tip组合协调窗口
+//协调窗口
 const RunwayCont = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
@@ -42,7 +42,7 @@ const RunwayCont = (props) => {
   const { FLIGHTID = "", RWY = {}, orgdata = "{}" } = data;
   const { value = "", name = "" } = RWY;
   let runwayNames = [];
-  if (name !== "") {
+  if (name !== "" && name !== null) {
     runwayNames = name.split(",") || [];
   }
   const user = systemPage.user || {};
@@ -50,8 +50,14 @@ const RunwayCont = (props) => {
   const activeSchemeId = schemeListData.activeSchemeId || "";
 
   const onCheck = async (type) => {
+    let values = {};
     try {
-      const values = await form.validateFields();
+      values = await form.validateFields();
+    } catch (errorInfo) {
+      return;
+    }
+
+    try {
       let url = "";
       let params = {
         flightCoordination: JSON.parse(orgdata),
@@ -61,12 +67,12 @@ const RunwayCont = (props) => {
       };
       if (type === "approve") {
         setSubmitBtnLoading(true);
-        url = CollaborateUrl.runwayUrl + "/updateFlightRunway";
+        url = CollaborateUrl.baseUrl + "/updateFlightRunway";
         params["timeVal"] = values.runway;
       } else if (type === "refuse") {
         setRefuseBtnLoading(true);
         //跑道清除
-        url = CollaborateUrl.runwayUrl + "/clearFlightRunway";
+        url = CollaborateUrl.baseUrl + "/clearFlightRunway";
         params["timeVal"] = "";
       }
       //提交参数拼装
@@ -80,12 +86,22 @@ const RunwayCont = (props) => {
       const { flightCoordination } = res;
       //单条数据更新
       flightTableData.updateSingleFlight(flightCoordination);
+      collaboratePopoverData.setTipsObj({
+        ...collaboratePopoverData.selectedObj,
+        title: "跑道修改成功",
+      });
       //关闭popover
       clearCollaboratePopoverData();
-
       console.log("Success:", res);
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
+      collaboratePopoverData.setTipsObj({
+        ...collaboratePopoverData.selectedObj,
+        type: "warn",
+        title: errorInfo,
+      });
+      //关闭popover
+      clearCollaboratePopoverData();
     }
   };
 
@@ -163,4 +179,3 @@ export default inject(
   "schemeListData",
   "flightTableData"
 )(observer(RunwayCont));
-// export default RunwayCont;

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-24 15:23:52
+ * @LastEditTime: 2021-05-25 16:10:48
  * @LastEditors: Please set LastEditors
  * @Description: 开发环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -149,6 +149,7 @@ const ReqUrls = {
 
 //协调相关url
 const CollaborateUrl = {
+    baseUrl: CollaborateIP + "/hydrogen-flight-coordination-server/flight",
     //标记豁免、取消豁免
     exemptUrl : CollaborateIP + "/hydrogen-flight-coordination-server/flight",
     //入池、出池

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-24 16:15:56
+ * @LastEditTime: 2021-05-24 19:33:59
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -40,6 +40,9 @@ const FormerFlightUpdateModal = React.lazy(() =>
 );
 const CollaboratePopover = React.lazy(() =>
   import("components/CollaboratePopover/CollaboratePopover")
+);
+const CollaborateTip = React.lazy(() =>
+  import("components/CollaboratePopover/CollaborateTip")
 );
 /** start *****航班表格标题************/
 function TTitle(props) {
@@ -387,6 +390,7 @@ function FlightTableModal(props) {
         <Suspense fallback={<div></div>}>
           <FlightDetail />
           {/* 一个popover专注做一件事 */}
+          <CollaborateTip />
           <CollaboratePopover />
         </Suspense>
 

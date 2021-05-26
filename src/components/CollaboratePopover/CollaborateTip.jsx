@@ -1,9 +1,9 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-19 16:40:34
+ * @LastEditTime: 2021-05-25 13:35:51
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
+ * @Description:tip提示框
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
  */
 import React, {
@@ -11,20 +11,9 @@ import React, {
   useState,
   useEffect,
   useMemo,
-  useLayoutEffect,
+  useRef,
   Fragment,
 } from "react";
-import {
-  message,
-  Popover,
-  Button,
-  Form,
-  Descriptions,
-  Input,
-  DatePicker,
-  Checkbox,
-  Tooltip,
-} from "antd";
 import { observer, inject } from "mobx-react";
 import { request } from "utils/request";
 import { CollaborateUrl } from "utils/request-urls";
@@ -37,83 +26,82 @@ import FFixTCont from "./FFixTCont";
 import "./CollaboratePopover.scss";
 
 let showPopoverNames = ["FFIXT", "POS", "RWY"];
-//popover和tip组合协调窗口
+//tip提示框
 const PositionPopover = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
   const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
-  const [form] = Form.useForm();
+  const [posObj, setPosObj] = useState({});
+  const tipsRef = useRef();
   const { collaboratePopoverData = {} } = props;
-  const { selectedObj = {} } = collaboratePopoverData;
-  const { name = "", x = 0, y = 0, width = 0 } = selectedObj;
+  const { tipsObj = {} } = collaboratePopoverData;
+  let {
+    name = "",
+    x = 0,
+    y = 0,
+    width = 0,
+    height = 0,
+    type = "",
+    title = "",
+  } = tipsObj;
 
-  //重置数据
-  const clearCollaboratePopoverData = () => {
-    collaboratePopoverData.setData({});
-    //坐标数据 赋值
-    collaboratePopoverData.setSelectedObj({
-      name: "",
-      target: null,
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    });
-  };
   // 内容渲染
   const getContent = () => {
-    if (name === "POS") {
-      return (
-        <PositionCont
-          clearCollaboratePopoverData={clearCollaboratePopoverData}
-        />
-      );
-    } else if (name === "RWY") {
-      return (
-        <RunwayCont clearCollaboratePopoverData={clearCollaboratePopoverData} />
-      );
-    } else if (name === "FFIXT") {
-      return (
-        <FFixTCont clearCollaboratePopoverData={clearCollaboratePopoverData} />
-      );
+    return <div>{title}</div>;
+  };
+  //计算提示框位置
+  const reCalcPos = () => {
+    if (x === null) {
+      x = 0;
     }
-    return "";
+    if (width === null) {
+      width = 0;
+    }
+    if (height === null) {
+      height = 0;
+    }
+    if (y === null) {
+      y = 0;
+    }
+    let left = x;
+    let screenHeight = document.getElementsByTagName("body")[0].offsetHeight;
+    let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
+    let top = y;
+
+    const current = tipsRef.current;
+    let tipHeight = 0;
+    let tipWidth = 0;
+    if (isValidVariable(current)) {
+      tipHeight = current.offsetHeight || 0;
+      tipWidth = current.offsetWidth || 0;
+    } else if (document.getElementsByClassName("collaborate_tips").length > 0) {
+      tipHeight =
+        document.getElementsByClassName("collaborate_tips")[0].offsetHeight ||
+        0;
+      tipWidth =
+        document.getElementsByClassName("collaborate_tips")[0].offsetWidth || 0;
+    }
+
+    top = y - tipHeight;
+    left = x + width / 2 - tipWidth / 2;
+    console.log("left", left, "top", top);
+    setPosObj({ left, top });
   };
 
-  const getTitle = () => {
-    let titleName = "";
-    if (name === "POS") {
-      titleName = "停机位修改";
-    } else if (name === "RWY") {
-      titleName = "跑道修改";
-    } else if (name === "FFIXT") {
-      titleName = "受控过点时间修改";
-    }
-    return (
-      <div className="popover_title">
-        <span>{`${titleName}`}</span>
-        <span className="close" onClick={clearCollaboratePopoverData}>
-          X
-        </span>
-      </div>
-    );
-  };
-
-  let left = x + width + "px";
-  let top = y + "px";
-  console.log("left", left, "top", top);
+  useEffect(() => {
+    reCalcPos();
+  }, [tipsObj]);
   return (
     <Fragment>
-      {showPopoverNames.indexOf(name) > -1 && (
+      {title !== "" && (
         <div
-          style={{ left: left, top: top }}
-          className={`collaborate_popover ${name}_popover`}
+          style={{ left: posObj.left + "px", top: posObj.top + "px" }}
+          className={`collaborate_tips ${name}_tips ${type}`}
+          ref={tipsRef}
         >
-          {getTitle()}
-          <div className="popover_container">{getContent()}</div>
+          <div className="tips_container">{getContent()}</div>
         </div>
       )}
-      ;
     </Fragment>
   );
 };

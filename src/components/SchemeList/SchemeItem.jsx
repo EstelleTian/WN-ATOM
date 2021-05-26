@@ -8,7 +8,7 @@ import {
   isValidObject,
   calculateStringTimeDiff,
 } from "utils/basic-verify";
-import { FlightCoordination,reasonType } from "utils/flightcoordination";
+import { FlightCoordination, reasonType } from "utils/flightcoordination";
 import { handleStopControl, openRunningControlFlow } from "utils/client";
 import { Window as WindowDHX } from "dhx-suite";
 import { openBaseSchemeFrame, openFilterFrame } from "utils/client";
@@ -18,10 +18,6 @@ import { DownOutlined } from "@ant-design/icons";
 
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
-
-
-
-
 
 const SummaryCell = memo(
   ({
@@ -91,7 +87,7 @@ function SchemeItem(props) {
     basicFlowcontrol = {},
     directionList = [],
     schemeRelative = "",
-    tacticMode = ""
+    tacticMode = "",
   } = item;
   let isActive = activeSchemeId === id;
 
@@ -134,15 +130,15 @@ function SchemeItem(props) {
     directionList = [];
   }
   directionList.map((item) => {
-    if(isValidVariable(item.targetUnit)){
+    if (isValidVariable(item.targetUnit)) {
       targetUnits.push(item.targetUnit);
     }
-    if(isValidVariable(item.behindUnit)){
+    if (isValidVariable(item.behindUnit)) {
       behindUnits.push(item.behindUnit);
     }
   });
-  targetUnits = targetUnits.join(';')
-  behindUnits = behindUnits.join(';')
+  targetUnits = targetUnits.join(";");
+  behindUnits = behindUnits.join(";");
   // if (targetUnits !== "") {
   //   targetUnits = targetUnits.substring(0, targetUnits.length - 1);
   // }
@@ -193,6 +189,18 @@ function SchemeItem(props) {
 
   const onChange = useCallback(
     (e) => {
+      if (document.getElementsByClassName("collaborate_popover").length > 0) {
+        console.log("有协调窗口打开，强制关闭");
+        //清理协调窗口
+        props.collaboratePopoverData.setSelectedObj({
+          name: "",
+          target: null,
+          x: 0,
+          y: 0,
+          width: 0,
+          height: 0,
+        });
+      }
       const { activeSchemeCalculatingModalVisible } = props.schemeListData;
       if (!isCalculated) {
         if (!activeSchemeCalculatingModalVisible) {
@@ -314,13 +322,13 @@ function SchemeItem(props) {
               <span className="calculate" title="方案计算状态">
                 {isCalculated ? "已计算" : "计算中"}
               </span>
-              {
-                tacticMode === "200" ? 
+              {tacticMode === "200" ? (
                 <span className="calculate" title="二类">
                   <Tag color="#f50">Ⅱ</Tag>
-                </span> : ""
-              }
-              
+                </span>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
@@ -340,7 +348,10 @@ function SchemeItem(props) {
           </div>
           <div className="layout-column double-column-box">
             <div className="column-box  border-bottom">
-              <div className="cell time_range" title={startTime + "-" + endTime}>
+              <div
+                className="cell time_range"
+                title={startTime + "-" + endTime}
+              >
                 {startTimeFormat} - {endTimeFormat}
               </div>
             </div>
@@ -468,4 +479,8 @@ function SchemeItem(props) {
   );
 }
 
-export default inject("systemPage", "schemeListData")(observer(SchemeItem));
+export default inject(
+  "systemPage",
+  "schemeListData",
+  "collaboratePopoverData"
+)(observer(SchemeItem));
