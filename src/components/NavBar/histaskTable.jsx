@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-26 16:56:13
+ * @LastEditTime: 2021-05-26 16:58:41
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -474,9 +474,9 @@ const HistaskTable = (props) => {
       const opt = {
         url,
         params: {
-          startTime:
+          start:
             dateRangeData.length > 0 ? dateRangeData[0] : baseTime + "0000",
-          endTime:
+          end:
             dateRangeData.length > 0 ? dateRangeData[1] : baseTime + "2359",
         },
         method: "GET",
