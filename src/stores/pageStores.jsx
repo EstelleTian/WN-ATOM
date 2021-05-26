@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-05-12 09:10:36
+ * @LastEditTime: 2021-05-26 13:39:20
  * @LastEditors: Please set LastEditors
  * @Description: 页面相关store
  * @FilePath: \WN-CDM\src\stores\pageStores.jsx
@@ -43,6 +43,22 @@ class SystemPage {
   @observable user = {};
   //全局刷新按钮
   @observable pageRefresh = false;
+  //计划时间范围显隐
+  @observable dateRangeVisible = true;
+  // @observable dateRangeVisible = false;
+  //计划时间范围内容
+  @observable dateRangeData = { startTime: "0_0000", endTime: "0_2359" };
+  //计划时间范围显隐
+  @action setDateRangeVisible(flag) {
+    this.dateRangeVisible = flag;
+  }
+  //计划时间范围内容
+  @action setDateRangeData({ startTime = "0_0000", endTime = "0_2359" }) {
+    this.dateRangeData = {
+      startTime,
+      endTime,
+    };
+  }
   //左上导航选中 模块名称
   @action setLeftNavSelectedName(name) {
     this.leftNavSelectedName = name;

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-25 16:10:48
+ * @LastEditTime: 2021-05-26 11:01:42
  * @LastEditors: Please set LastEditors
  * @Description: 开发环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -145,6 +145,10 @@ const ReqUrls = {
     getUserSubscribeUrl: userSubscribeIP+"/cdm-nw-event-center-server/user-subscribe/retrieval/user/subscribe/category",
     // 消息订阅-应用 存
     setUserSubscribeUrl: userSubscribeIP+"/cdm-nw-event-center-server/user-subscribe/user/subscribe",
+    // 消息记录-当日
+    getTodayNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/lately",
+    // 消息记录-历史
+    getHistoryNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/history",
 };
 
 //协调相关url

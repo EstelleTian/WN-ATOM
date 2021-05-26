@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-24 19:33:59
+ * @LastEditTime: 2021-05-26 13:50:51
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -37,6 +37,9 @@ const FlightDetail = React.lazy(() =>
 );
 const FormerFlightUpdateModal = React.lazy(() =>
   import("components/FormerFlightUpdateModal/FormerFlightUpdateModal")
+);
+const DateRangeChangeModal = React.lazy(() =>
+  import("components/DateRangeChangeModal/DateRangeChangeModal")
 );
 const CollaboratePopover = React.lazy(() =>
   import("components/CollaboratePopover/CollaboratePopover")
@@ -386,17 +389,20 @@ function FlightTableModal(props) {
           <TotalDom />
         </div>
         <TSpin />
-
         <Suspense fallback={<div></div>}>
           <FlightDetail />
           {/* 一个popover专注做一件事 */}
           <CollaborateTip />
           <CollaboratePopover />
         </Suspense>
-
         <Suspense fallback={<div></div>}>
           <FormerFlightUpdateModal />
         </Suspense>
+        {/*<Suspense fallback={<div></div>}>
+          计划时间范围
+          <DateRangeChangeModal />
+        </Suspense>
+        */}
       </ModalBox>
     </Fragment>
   );

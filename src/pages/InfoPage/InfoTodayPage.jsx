@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-22 16:09:16
- * @LastEditTime: 2021-05-12 16:45:18
+ * @LastEditTime: 2021-05-26 11:03:17
  * @LastEditors: Please set LastEditors
  * @Description: 消息当日全部数据
  * @FilePath: \WN-ATOM\src\pages\InfoPage\InfoListPage.jsx
@@ -11,6 +11,7 @@ import { Layout, Tooltip, Spin, Input, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { inject, observer } from "mobx-react";
 import { requestGet } from "utils/request";
+import { ReqUrls } from "utils/request-urls";
 import { customNotice } from "utils/common-funcs";
 import {
   isValidVariable,
@@ -57,8 +58,7 @@ function InfoTodayPage(props) {
       return;
     }
     setLoading(true);
-    let url =
-      "http://192.168.194.21:28680/cdm-nw-event-center-server/event/info/lately";
+    let url = ReqUrls.getTodayNewsUrl;
     let params = {};
     const opt = {
       url,

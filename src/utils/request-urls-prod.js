@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-26 10:25:42
+ * @LastEditTime: 2021-05-26 13:51:56
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -56,19 +56,19 @@ const ReqUrls = {
     mapUrl: "http://192.168.194.40:8081/#/map",
     mapWebUrl: "http://192.168.194.40:8082/#/map",
     //根据modalId获取方案详情
-    schemeDetailByIdUrl: clearanceIP+"/implementTacticDetails/",
+    schemeDetailByIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTacticDetails/",
     //获取--方案列表
-    schemeListUrl: clearanceIP+"/implementTactics",
+    schemeListUrl: clearanceIP+"/scheme-flow-server/implementTactics",
     //获取--模拟方案详情
     simulationSchemeDetailUrl:schemeIP+"/scheme-flow-server/simulationTactics/id/",
     //获取--航班列表数据
-    flightsDataUrl: clearanceIP+"/tactic/",
+    flightsDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/tactic/",
     //获取--航班列表数据(id为空)
-    flightsDataNoIdUrl: clearanceIP+"/influence/flights/",
+    flightsDataNoIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/influence/flights/",
     //获取--执行KPI数据(孔凡续)
     executeKPIDataUrl: executeKPIDataIP+"/kpi/",
     //获取--执行KPI数据(薛满林)
-    performanceKPIDataUrl: clearanceIP+"/performkpi/",
+    performanceKPIDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/performkpi/",
     //获取航班执行数据
     performanceDataUrl: performanceDataIP+"/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname",
     // 总体监控-获取限制数据
@@ -96,7 +96,7 @@ const ReqUrls = {
     // 获取指定航路点对应的速度
     speedUrl: speedIP+"/flow-route-point-speed-calculate-server/speed-retrive/speed/",
     // 校验航路接口
-    validateRouteUrl: validateRouteIP+"/hydrogen_reroute_check_server/reroute/rerouteCheckPost",
+    validateRouteUrl: validateRouteIP+"/hydrogen-reroute-check-server/reroute/rerouteCheckPost",
 
     //修改模拟状态的方案-数据提交
     modifySimulationSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/modifyScheme/",
@@ -115,22 +115,22 @@ const ReqUrls = {
     getAlterFormerFlightListUrl: flightInfoIP+"/hydrogen-flight-plan-server/retrieveFormerFCData/",
    
     //待办航班列表-放行监控页面中的
-    todoListUrl: todoListIP+"/flight/backlog/task/",
+    todoListUrl: todoListIP+"/hydrogen-duties-server/flight/backlog/task/",
     //我的申请列表-放行监控页面中的
-    myApplicationListUrl: myApplicationListIP+"/workflow/procInst/",
+    myApplicationListUrl: myApplicationListIP+"/hydrogen-duties-server/workflow/procInst/",
     //待办
-    runTaskTableUrl:workflowIP+"/flight/runtask/",
+    runTaskTableUrl:workflowIP+"/hydrogen-duties-server/flight/runtask/",
     //已办
-    histaskTableUrl:workflowIP+"/flight/histask/",
+    histaskTableUrl:workflowIP+"/hydrogen-duties-server/flight/histask/",
 
     //容量管理-基础接口
     capacityBaseUrl: capacityIP+"/flow-capacity-rest/capacity/",
     // 跑道列表接口
-    runwayListUrl: runwayIP+"/runway/defaulat/and/dynamic/retrieve/new/",
+    runwayListUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/defaulat/and/dynamic/retrieve/new/",
     // 默认跑道配置详情
-    runwayDefaultDetailUrl: runwayIP+"/open/runway/default/detail/dialog/",
+    runwayDefaultDetailUrl: runwayIP+"/hydrogen-cdm-runway-server/open/runway/default/detail/dialog/",
     // 默认跑道配置修改提交
-    runwayDefaultUpdatelUrl: runwayIP+"/rwgap/default/update/new/",
+    runwayDefaultUpdatelUrl: runwayIP+"/hydrogen-cdm-runway-server/rwgap/default/update/new/",
     // MDRS+工作流数据获取
     mdrsRetrieveDataUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/data/retrieval/handle",
     // MDRS数据-审批-同意、拒绝、撤回
@@ -140,11 +140,15 @@ const ReqUrls = {
     // 总体监控-协调KPI-运行配置
     totalOperationUrl: totalOperationIP+"/operation-coordination-server/operation/record",
     // 总体监控-协调KPI-航班协调
-    totalCollaborateUrl: totalCollaborateIP+"/flightRecord/retrieveFlightRecordByType",
+    totalCollaborateUrl: totalCollaborateIP+"/hydrogen-flight-record-server/flightRecord/retrieveFlightRecordByType",
     // 消息订阅-查
     getUserSubscribeUrl: userSubscribeIP+"/cdm-nw-event-center-server/user-subscribe/retrieval/user/subscribe/category",
     // 消息订阅-应用 存
     setUserSubscribeUrl: userSubscribeIP+"/cdm-nw-event-center-server/user-subscribe/user/subscribe",
+    // 消息记录-当日
+    getTodayNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/lately",
+    // 消息记录-历史
+    getHistoryNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/history",
 };
 
 //协调相关url
