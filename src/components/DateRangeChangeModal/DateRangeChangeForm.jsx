@@ -87,7 +87,8 @@ const calcShowTimeStr = (num, range) => {
 };
 //指定前序航班表单
 function DateRangeChangeForm(props) {
-  const { systemPage, schemeListData, flightTableData } = props;
+  const { systemPage, schemeListData, flightTableData, myApplicationList } =
+    props;
   const [range, setRange] = useState(systemPage.dateBarRangeData);
   const [startStr, setStartStr] = useState(
     calcShowTimeStr(systemPage.dateBarRangeData[0], "start")
@@ -137,6 +138,7 @@ function DateRangeChangeForm(props) {
     // console.log(start, end);
     schemeListData.setForceUpdate(true);
     flightTableData.setForceUpdate(true);
+    myApplicationList.setForceUpdate(true); //办结
 
     systemPage.setDateRangeVisible(false);
   };
@@ -218,5 +220,6 @@ function DateRangeChangeForm(props) {
 export default inject(
   "systemPage",
   "schemeListData",
-  "flightTableData"
+  "flightTableData",
+  "myApplicationList"
 )(observer(DateRangeChangeForm));
