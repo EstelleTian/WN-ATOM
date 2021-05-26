@@ -727,7 +727,7 @@ function SchemeForm(props) {
             return new Promise((resolve, reject) => {
                 // 请求校验
                 const opt = {
-                    url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheckPost",
+                    url: ReqUrls.validateRouteUrl,
                     method: 'POST',
                     params: routsParams,
                     resFunc: (data) => {
@@ -771,7 +771,7 @@ function SchemeForm(props) {
         let routsParams = getRouteValueParams();
         // 请求校验
         const opt = {
-            url: "http://192.168.243.71:38481/hydrogen_reroute_check_server/reroute/rerouteCheckPost",
+            url: ReqUrls.validateRouteUrl,
             method: 'POST',
             params: routsParams,
             resFunc: (data) => {
