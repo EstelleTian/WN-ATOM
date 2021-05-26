@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react'
-import { Form, Input, Row, Col, Button, Select, Spin, Modal } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Spin, Modal, Space, Typography, Divider } from 'antd'
 import { inject, observer } from "mobx-react";
 import debounce from 'lodash/debounce'
 import { requestGet2, request } from "utils/request";
@@ -195,7 +195,7 @@ function FormerFlightUpdateForm(props) {
             ),
             centered: true,
             okText: '确定',
-          });
+        });
 
     });
     //数据提交成功回调
@@ -224,6 +224,21 @@ function FormerFlightUpdateForm(props) {
                 initialValues={initialValues}
                 className="update-former-flight-form"
             >
+                <Row gutter={24} >
+                    <Col span={24}>
+                        <Form.Item label="数据解释" className="form-text-item">
+                            <span className="ant-form-text">
+                                <Space size={4} split={<Divider type="vertical" />}>
+                                    <span>航班号</span>
+                                    <span>起降机场</span>
+                                    <span>SOBT</span>
+                                    <span>降落时间</span>
+                                    <span>状态</span>
+                                </Space>
+                            </span>
+                        </Form.Item>
+                    </Col>
+                </Row>
                 <Row gutter={24} >
                     <Col span={24}>
                         <Form.Item
