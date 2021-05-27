@@ -6,31 +6,28 @@ import { requestGet2, request } from "utils/request";
 import { ReqUrls, CollaborateUrl } from "utils/request-urls";
 import FmeToday from "utils/fmetoday";
 import { parseFullTime, getFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
-
-import "./FormerFlightUpdateForm.scss";
+import "./FlightExchangeSlotForm.scss";
 const { Option } = Select;
 
-//指定前序航班表单
-function FormerFlightUpdateForm(props) {
+//航班时隙交换表单
+function FlightExchangeSlotForm(props) {
 
-    // 备选航路表单字段配置集合
+    // 获取备选目标航班请求中标记
     let [fetching, setFetching] = useState(false);
-    const { formerFlightUpdateFormData, systemPage } = props;
+
+    const { flightExchangeSlotFormData, systemPage } = props;
     // 用户信息
     const user = systemPage.user || {};
-    // 本段航班数据
-    const flightData = formerFlightUpdateFormData.flightData;
-    // 本段航班航班id
-    const flightid = formerFlightUpdateFormData.flightid;
-    // 本段航班格式化后的信息
-    const flightInfo = convertFlightDataInfo(flightData);
-    // 备选前序航班id集合
-    // const alterFormerFlightIdList = formerFlightUpdateFormData.alterFormerFlightIdList || [];
-    // 备选前序航班集合
-    const alterFormerFlightList = formerFlightUpdateFormData.alterFormerFlightList || [];
-
-    // 格式转换后的备选前序航班集合
-    const alterFormerFlightData = alterFormerFlightList.map((item) => {
+    // 申请航班数据
+    const claimantFlightData = flightExchangeSlotFormData.claimantFlightData;
+    // 申请航班航班id
+    const claimantFlightid = flightExchangeSlotFormData.claimantFlightid;
+    // 申请航班格式化后的信息
+    const claimantFlightInfo = convertFlightDataInfo(claimantFlightData);
+    // 备选目标航班集合
+    const alterTargetFlightList = flightExchangeSlotFormData.alterTargetFlightList || [];
+    // 格式转换后的备选目标航班集合
+    const alterTargetFlightData = alterTargetFlightList.map((item) => {
         // 航班格式化后的信息
         const flightInfo = convertFlightDataInfo(item);
         let data = {
@@ -42,34 +39,34 @@ function FormerFlightUpdateForm(props) {
 
     // 表单初始化默认值
     let initialValues = {
-        flight: flightInfo,
+        claimantFlightid: claimantFlightInfo,
     }
     //方案名称发生变化触发更新
     useEffect(function () {
-        // 重置备选前序航班集合store
-        formerFlightUpdateFormData.updateAlterFormerFlightList({});
+        // 重置备选目标航班集合store
+        flightExchangeSlotFormData.updateAlterTargetFlightList({});
         //重置表单，用以表单初始值赋值
         form.resetFields();
-    }, [flightid]);
+    }, [claimantFlightid]);
 
     // 表单
     const [form] = Form.useForm();
-    // 前序航班下拉选项
-    const options = alterFormerFlightData.map((item) => <Option key={item.value}>{item.text}</Option>)
-    // 请求备选前序航班数据
+    // 目标航班下拉选项
+    const options = alterTargetFlightData.map((item) => <Option key={item.value}>{item.text}</Option>)
+    // 请求备选目标航班数据
     const debounceFetcher = debounce((value) => {
         let val = value.trim().toUpperCase();
         if (!isValidVariable(val)) {
             return
         }
-        // 重置备选前序航班集合store
-        formerFlightUpdateFormData.updateAlterFormerFlightList({});
+        // 重置备选目标航班集合store
+        flightExchangeSlotFormData.updateAlterTargetFlightList({});
         setFetching(true);
-        fetchAlterFormerFlightList(val);
+        fetchAlterTargetFlightList(val);
     }, 500)
 
     // 变更选中航班
-    const handleChangeSelectedFormerFlight = (value) => {
+    const handleChangeSelectedTargetFlight = (value) => {
         console.log(value)
     }
 
@@ -78,8 +75,6 @@ function FormerFlightUpdateForm(props) {
         try {
             // 触发表单验证取表单数据
             const values = await form.validateFields();
-            console.log(values)
-
             // 处理提交数据
             const paramsData = handleSubmitData(values);
             Modal.info({
@@ -87,7 +82,7 @@ function FormerFlightUpdateForm(props) {
                 // icon: <ExclamationCircleOutlined />,
                 centered: true,
                 closable: true,
-                content: <div><p>确定提交指定前序航班?</p></div>,
+                content: <div><p>确定提交指定目标航班?</p></div>,
                 okText: '确定',
                 cancelText: '取消',
                 onOk: () => { submitData(paramsData) },
@@ -100,10 +95,11 @@ function FormerFlightUpdateForm(props) {
 
     // 提交数据
     const submitData = (paramsData) => {
-        let fid = flightData.flightid;
-        let title = "指定前序航班"
+        // 申请航班的航班号
+        let fid = claimantFlightData.flightid;
+        let title = "时隙交换"
         const opt = {
-            url: CollaborateUrl.updateFormerFlightUrl,
+            url: CollaborateUrl.updateTargetFlightUrl,
             method: "POST",
             params: paramsData,
             resFunc: (data) => requestSuccess(data, fid + title),
@@ -114,12 +110,12 @@ function FormerFlightUpdateForm(props) {
 
     // 处理表单提交数据
     const handleSubmitData = (values) => {
-        //前序航班id
-        let formerFlightid = values.formerFlight;
-        // 本段航班数据
-        let flightCoordination = flightData;
-        // 本段航班id
-        let id = flightid;
+        //目标航班id
+        let targetFlightid = values.targetFlight;
+        // 申请航班数据
+        let flightCoordination = claimantFlightData;
+        // 申请航班id
+        let id = claimantFlightid;
         let userId = user.id;
 
         let params = {
@@ -129,30 +125,29 @@ function FormerFlightUpdateForm(props) {
             timeVal: formerFlightid,
 
         };
-
         return params;
     }
     // 清空表单数据
     const handleClearForm = () => {
-        // 重置备选前序航班集合store
-        formerFlightUpdateFormData.updateAlterFormerFlightList({});
+        // 重置备选目标航班集合store
+        flightExchangeSlotFormData.updateAlterTargetFlightList({});
         //重置表单，用以表单初始值赋值
         form.resetFields();
     }
-    //获取备选前序航班列表数据
-    const fetchAlterFormerFlightList = async (val) => {
+    //获取备选目标航班列表数据
+    const fetchAlterTargetFlightList = async (val) => {
         try {
             const userId = user.id || "";
             const result = await requestGet2({
-                url: ReqUrls.getAlterFormerFlightListUrl + userId + "?param=" + val,
+                url: ReqUrls.getAlterTargetFlightListUrl + userId + "?param=" + val,
             });
-            const alterFormerFlights = result.result || {}
-            formerFlightUpdateFormData.updateAlterFormerFlightList(alterFormerFlights);
+            const alterTargetFlights = result.result || {}
+            flightExchangeSlotFormData.updateAlterTargetFlightList(alterTargetFlights);
             setFetching(false);
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
             setFetching(false);
-            formerFlightUpdateFormData.updateAlterFormerFlightList({});
+            flightExchangeSlotFormData.updateAlterTargetFlightList({});
         }
 
     };
@@ -222,7 +217,7 @@ function FormerFlightUpdateForm(props) {
             <Form
                 form={form}
                 initialValues={initialValues}
-                className="update-former-flight-form"
+                className="flight-exchange-slot-form"
             >
                 <Row gutter={24} >
                     <Col span={24}>
@@ -243,7 +238,7 @@ function FormerFlightUpdateForm(props) {
                     <Col span={24}>
                         <Form.Item
                             name="flight"
-                            label="本段航班"
+                            label="航班A"
                             rules={[{ required: true }]}
                         >
                             <Input onBlur={(e) => { }} disabled={true} />
@@ -253,8 +248,8 @@ function FormerFlightUpdateForm(props) {
                 <Row gutter={24} >
                     <Col span={24}>
                         <Form.Item
-                            name="formerFlight"
-                            label="前段航班"
+                            name="targetFlight"
+                            label="航班B"
                             required={true}
                             rules={[{ required: true }]}
                             className="text-uppercase"
@@ -266,7 +261,7 @@ function FormerFlightUpdateForm(props) {
                                 allowClear={true}
                                 filterOption={false}
                                 onSearch={debounceFetcher}
-                                onChange={handleChangeSelectedFormerFlight}
+                                onChange={handleChangeSelectedTargetFlight}
                                 notFoundContent={fetching ? <Spin size="small" /> : null}
                                 placeholder="请输入航班号"
                             >
@@ -287,4 +282,4 @@ function FormerFlightUpdateForm(props) {
     )
 }
 
-export default inject("flightTableData", "formerFlightUpdateFormData", "systemPage")(observer(FormerFlightUpdateForm));
+export default inject("flightTableData", "flightExchangeSlotFormData", "systemPage")(observer(FlightExchangeSlotForm));

@@ -95,6 +95,17 @@ let FLIGHTIDPopover = (props) => {
     props.formerFlightUpdateFormData.toggleModalVisible(true);
   };
 
+  // 显示航班时隙交换模态框
+  const showFlightExchangeSlotModal = (record) => {
+    debugger
+    //关闭协调窗口popover
+    closePopover();
+    let orgData = record.orgdata || "{}";
+    let orgFlight = JSON.parse(orgData) || {};
+    props.flightExchangeSlotFormData.updateClaimantFlightData(orgFlight);
+    props.flightExchangeSlotFormData.toggleModalVisible(true);
+  };
+
   //标记豁免 取消标记豁免
   const handleExempt = useCallback((type, record, title) => {
     console.log(props);
@@ -330,6 +341,14 @@ let FLIGHTIDPopover = (props) => {
         >
           指定前序航班
         </button>
+        <button
+          className="c-btn c-btn-green"
+          onClick={() => {
+            showFlightExchangeSlotModal(record);
+          }}
+        >
+          时隙交换
+        </button>
         {priority === FlightCoordination.PRIORITY_NORMAL &&
         hasAuth &&
         systemPage.userHasAuth(13401) ? (
@@ -513,5 +532,6 @@ export default inject(
   "systemPage",
   "schemeListData",
   "flightDetailData",
-  "formerFlightUpdateFormData"
+  "formerFlightUpdateFormData",
+  "flightExchangeSlotFormData",
 )(observer(FLIGHTIDPopover));
