@@ -438,7 +438,8 @@ function SchemeItem(props) {
               </Dropdown>
             )}
 
-            {props.systemPage.userHasAuth(11201) && (
+            {props.systemPage.userHasAuth(11201) &&  
+              ["FUTURE", "RUNNING"].includes(tacticStatus) && (
               <div
                 className="opt"
                 onClick={(e) => {
