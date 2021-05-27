@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-26 09:49:33
+ * @LastEditTime: 2021-05-27 10:56:32
  * @LastEditors: Please set LastEditors
  * @Description: 跑道修改
  * @FilePath:
@@ -59,8 +59,9 @@ const RunwayCont = (props) => {
 
     try {
       let url = "";
+      let flight = JSON.parse(orgdata) || {};
       let params = {
-        flightCoordination: JSON.parse(orgdata),
+        flightCoordination: flight,
         userId,
         tacticId: activeSchemeId,
         comment: values.comments,
@@ -88,6 +89,7 @@ const RunwayCont = (props) => {
       flightTableData.updateSingleFlight(flightCoordination);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
+        id: flight.id || "",
         title: "跑道修改成功",
       });
       //关闭popover
@@ -97,6 +99,7 @@ const RunwayCont = (props) => {
       console.log("Failed:", errorInfo);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
+        id: flight.id || "",
         type: "warn",
         title: errorInfo === "" ? "跑道修改失败" : errorInfo,
       });

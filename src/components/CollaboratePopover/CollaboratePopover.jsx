@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-25 16:44:17
+ * @LastEditTime: 2021-05-27 11:11:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -149,11 +149,11 @@ const ColPopover = (props) => {
           document.getElementsByClassName("collaborate_popover")[0]
             .offsetHeight || 0;
       }
-      console.log(popHeight);
+      // console.log(popHeight);
       top = y - popHeight + height;
       pos = "bottom-right";
     }
-    console.log("left", left, "top", top);
+    // console.log("left", left, "top", top);
     setPosObj({ left, top, pos });
   };
 

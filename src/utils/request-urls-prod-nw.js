@@ -1,11 +1,20 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-26 18:00:21
+ * @LastEditTime: 2021-05-27 10:41:15
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
  */
+//消息监听地址
+const TopicConstant={
+    ip:"10.25.1.62",
+    port: 5672,
+    username:"admin",
+    password:"admin",
+}
+
+
 // 工作流ip
 const workflowIP = "http://10.25.1.10:80";
 //MDRS(路武臣)
@@ -174,4 +183,4 @@ const CollaborateUrl = {
     // 指定前序航班 
     updateFormerFlightUrl: CollaborateIP+"/hydrogen-flight-coordination-server/flight/updateFormerFlight"
 };
-export { ReqUrls, CollaborateIP, CollaborateUrl } 
+export { TopicConstant,ReqUrls, CollaborateIP, CollaborateUrl } 

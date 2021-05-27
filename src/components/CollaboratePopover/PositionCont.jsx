@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-26 09:50:05
+ * @LastEditTime: 2021-05-27 10:56:56
  * @LastEditors: Please set LastEditors
  * @Description: 停机位修改
  * @FilePath:
@@ -54,8 +54,9 @@ const PositionCont = (props) => {
     }
     try {
       let url = "";
+      let flight = JSON.parse(orgdata) || {};
       let params = {
-        flightCoordination: JSON.parse(orgdata),
+        flightCoordination: flight,
         userId,
         tacticId: activeSchemeId,
         comment: values.comments || "",
@@ -84,6 +85,7 @@ const PositionCont = (props) => {
       flightTableData.updateSingleFlight(flightCoordination);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
+        id: flight.id || "",
         title: "停机位修改成功",
       });
       //关闭popover
@@ -92,6 +94,7 @@ const PositionCont = (props) => {
       console.log("Failed:", errorInfo);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
+        id: flight.id || "",
         type: "warn",
         title: errorInfo === "" ? "停机位修改失败" : errorInfo,
       });
