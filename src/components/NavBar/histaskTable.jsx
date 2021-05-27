@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-20 10:35:25
+ * @LastEditTime: 2021-05-26 16:58:41
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -359,7 +359,9 @@ const HistaskTable = (props) => {
           const { type } = record;
           if (type === "TOBT") {
             if (isValidVariable(text) && text.length >= 12 && text * 1 > 0) {
-              return <div title={text}>{getDayTimeFromString(text)}</div>;
+              return (
+                <div title={text}>{getDayTimeFromString(text, "", 2)}</div>
+              );
             }
           } else if (type === "EXEMPT" || type === "UNEXEMPT") {
             // console.log(text)
@@ -392,17 +394,17 @@ const HistaskTable = (props) => {
             const obj = JSON.parse(text) || {};
             return (
               <div>
-                {Object.keys(obj).map((key) => {
+                {Object.keys(obj).map((key, index) => {
                   let val = obj[key];
                   if (isValidVariable(val) && val.length >= 12 && val * 1 > 0) {
                     return (
-                      <div>
+                      <div key={index}>
                         {key}：{getDayTimeFromString(val, "", 2)}
                       </div>
                     );
                   } else {
                     return (
-                      <div>
+                      <div key={index}>
                         {key}：{getLockedCn(val)}
                       </div>
                     );
@@ -458,9 +460,25 @@ const HistaskTable = (props) => {
           }, 60 * 1000);
         }
       };
-
+      let dateRangeData = props.systemPage.dateRangeData || [];
+      if (dateRangeData.length === 0) {
+        const date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        year = "" + year;
+        month = month < 10 ? "0" + month : "" + month;
+        day = day < 10 ? "0" + day : "" + day;
+        baseTime = year + "" + month + "" + day;
+      }
       const opt = {
         url,
+        params: {
+          start:
+            dateRangeData.length > 0 ? dateRangeData[0] : baseTime + "0000",
+          end:
+            dateRangeData.length > 0 ? dateRangeData[1] : baseTime + "2359",
+        },
         method: "GET",
         resFunc: (data) => {
           //更新办结数据
@@ -469,7 +487,7 @@ const HistaskTable = (props) => {
           timerFunc();
         },
         errFunc: (err) => {
-          requestErr(err, "待办工作数据获取失败");
+          requestErr(err, "办结工作数据获取失败");
           props.myApplicationList.toggleLoad(false);
           timerFunc();
         },
