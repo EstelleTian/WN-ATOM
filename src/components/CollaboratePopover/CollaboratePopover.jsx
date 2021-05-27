@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-27 11:11:22
+ * @LastEditTime: 2021-05-27 11:42:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -24,9 +24,11 @@ import PositionCont from "./PositionCont";
 import RunwayCont from "./RunwayCont";
 import FFixTCont from "./FFixTCont";
 import TimeFormCont from "./TimeFormCont";
+import FlightIdCont from "./FlightIdCont";
 import "./CollaboratePopover.scss";
 
 const showPopoverNames = [
+  "FLIGHTID",
   "FFIXT",
   "POS",
   "RWY",
@@ -38,6 +40,7 @@ const showPopoverNames = [
   "CTOT",
 ];
 const PopoverCNNames = {
+  FLIGHTID: "",
   POS: "停机位修改",
   RWY: "跑道修改",
   FFIXT: "受控过点时间修改",
@@ -67,6 +70,7 @@ const ColPopover = (props) => {
     //坐标数据 赋值
     collaboratePopoverData.setSelectedObj({
       name: "",
+      flightId: "",
       target: null,
       x: 0,
       y: 0,
@@ -85,6 +89,12 @@ const ColPopover = (props) => {
     } else if (name === "RWY") {
       return (
         <RunwayCont clearCollaboratePopoverData={clearCollaboratePopoverData} />
+      );
+    } else if (name === "FLIGHTID") {
+      return (
+        <FlightIdCont
+          clearCollaboratePopoverData={clearCollaboratePopoverData}
+        />
       );
     } else if (name === "FFIXT") {
       return (

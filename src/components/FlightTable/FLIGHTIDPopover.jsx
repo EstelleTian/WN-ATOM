@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-11 21:53:54
+ * @LastEditTime: 2021-05-27 11:35:52
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -97,7 +97,7 @@ let FLIGHTIDPopover = (props) => {
 
   // 显示航班时隙交换模态框
   const showFlightExchangeSlotModal = (record) => {
-    debugger
+    debugger;
     //关闭协调窗口popover
     closePopover();
     let orgData = record.orgdata || "{}";
@@ -192,9 +192,8 @@ let FLIGHTIDPopover = (props) => {
         const userId = props.systemPage.user.id || "14";
         const fid = orgFlight.flightid;
         const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
-        const tacticName = props.schemeListData.getNameBySchemeActiveId(
-          schemeId
-        ); //方案名称
+        const tacticName =
+          props.schemeListData.getNameBySchemeActiveId(schemeId); //方案名称
         const opt = {
           url: CollaborateUrl.poolUrl + urlKey,
           method: "POST",
@@ -222,7 +221,7 @@ let FLIGHTIDPopover = (props) => {
   );
 
   //二类资质
-  const handleQualifications= useCallback(
+  const handleQualifications = useCallback(
     (type, record, title) => {
       console.log(props);
       setQualifications(true);
@@ -234,19 +233,18 @@ let FLIGHTIDPopover = (props) => {
         const userId = props.systemPage.user.id || "14";
         const fid = orgFlight.flightid;
         const schemeId = props.schemeListData.activeSchemeId || ""; //方案id
-        const tacticName = props.schemeListData.getNameBySchemeActiveId(
-          schemeId
-        ); //方案名称
+        const tacticName =
+          props.schemeListData.getNameBySchemeActiveId(schemeId); //方案名称
         // 二类参数
-        let timeVal="";
+        let timeVal = "";
         if (type === "markQualifications") {
           //标记二类
-          timeVal="2"
+          timeVal = "2";
         } else if (type === "markUnQualifications") {
           //取消标记二类
-          timeVal=""
+          timeVal = "";
         }
-        
+
         const opt = {
           url: CollaborateUrl.qualificationsUrl + urlKey,
           method: "POST",
@@ -257,7 +255,7 @@ let FLIGHTIDPopover = (props) => {
             taskId: "",
             tacticId: schemeId,
             tacticName,
-            timeVal
+            timeVal,
           },
           resFunc: (data) => requestSuccess(data, fid + title),
           errFunc: (err, msg) => {
@@ -291,8 +289,10 @@ let FLIGHTIDPopover = (props) => {
   let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
   let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
   let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
-  let isCoordinationResponseWaitingFlight = FlightCoordination.isCoordinationResponseWaitingFlight(orgdata); //航班是否在协调响应等待中
-  let getCoordinationResponseWaitingType = FlightCoordination.getCoordinationResponseWaitingType
+  let isCoordinationResponseWaitingFlight =
+    FlightCoordination.isCoordinationResponseWaitingFlight(orgdata); //航班是否在协调响应等待中
+  let getCoordinationResponseWaitingType =
+    FlightCoordination.getCoordinationResponseWaitingType;
   let hadInAir = false;
   if (hadDEP && !hadARR) {
     hadInAir = true;
@@ -310,11 +310,9 @@ let FLIGHTIDPopover = (props) => {
   if (isInPoolFlight) {
     colorClass += " in_pool " + orgdata.poolStatus;
   }
-  if(isCoordinationResponseWaitingFlight){
-    colorClass +=" WAIT"
+  if (isCoordinationResponseWaitingFlight) {
+    colorClass += " WAIT";
   }
-
-
 
   // const { priority, isInPoolFlight, hasAuth, colorClass, isInAreaFlight, hadDEP, alarms  } = useMemo( ()=>{
 
@@ -508,7 +506,11 @@ let FLIGHTIDPopover = (props) => {
             }`}
             title={`${text}-${PriorityList[priority]} ${
               isInAreaFlight ? "区内" : "区外"
-            } ${hadInAir ? "空中" : "地面"} ${isCoordinationResponseWaitingFlight ? `${getCoordinationResponseWaitingType(orgdata)}协调中` : ""}` }
+            } ${hadInAir ? "空中" : "地面"} ${
+              isCoordinationResponseWaitingFlight
+                ? `${getCoordinationResponseWaitingType(orgdata)}协调中`
+                : ""
+            }`}
           >
             <span className={`${isInAreaFlight ? "inArea" : "outArea"}`}>
               {text}
@@ -533,5 +535,5 @@ export default inject(
   "schemeListData",
   "flightDetailData",
   "formerFlightUpdateFormData",
-  "flightExchangeSlotFormData",
+  "flightExchangeSlotFormData"
 )(observer(FLIGHTIDPopover));

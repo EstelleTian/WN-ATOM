@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-26 09:44:41
+ * @LastEditTime: 2021-05-27 11:43:16
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -502,6 +502,10 @@ const handleRightClickCell = (event, record, collaboratePopoverData) => {
   const currentTarget = event.currentTarget;
   // 点击的列名
   const clickColumnName = currentTarget.getAttribute("col-key");
+  let flightId = "";
+  if (clickColumnName === "FLIGHTID") {
+    flightId = currentTarget.textContent;
+  }
 
   //协调窗口 依托fc航班数据对象赋值
   collaboratePopoverData.setData(record);
@@ -516,6 +520,7 @@ const handleRightClickCell = (event, record, collaboratePopoverData) => {
   collaboratePopoverData.setSelectedObj({
     name: clickColumnName,
     target: currentTarget,
+    flightId,
     x,
     y,
     width,

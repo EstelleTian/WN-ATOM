@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-05-27 11:12:03
+ * @LastEditTime: 2021-05-27 11:43:08
  * @LastEditors: Please set LastEditors
  * @Description: 协调窗口相关store
  * @FilePath: \WN-CDM\src\stores\collaboratePopoverStore.jsx
@@ -16,6 +16,7 @@ class CollaboratePopoverData {
   //右键选中的列名
   @observable selectedObj = {
     name: "",
+    flightId: "",
     target: null,
     x: null,
     y: null,
