@@ -1,9 +1,9 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-27 10:56:56
+ * @LastEditTime: 2021-05-27 11:37:00
  * @LastEditors: Please set LastEditors
- * @Description: 停机位修改
+ * @Description: 航班号右键协调框
  * @FilePath:
  */
 import React, { useCallback, useState, useEffect, useRef } from "react";
@@ -14,7 +14,7 @@ import {
   Form,
   Descriptions,
   Input,
-  DatePicker,
+  Radio,
   Checkbox,
   Tooltip,
 } from "antd";
@@ -26,7 +26,7 @@ import { isValidVariable, getFullTime } from "utils/basic-verify";
 import { closePopover, cgreen, cred } from "utils/collaborateUtils.js";
 
 //协调窗口
-const PositionCont = (props) => {
+const FlightIdCont = (props) => {
   const [autoChecked, setAutoChecked] = useState(true);
   const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
   const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
@@ -39,8 +39,12 @@ const PositionCont = (props) => {
     clearCollaboratePopoverData,
   } = props;
   const { data = {} } = collaboratePopoverData;
-  const { FLIGHTID = "", POS = {}, orgdata = "{}" } = data;
-  const positionVal = POS.value || "";
+  const { FLIGHTID = "", RWY = {}, orgdata = "{}" } = data;
+  const { value = "", name = "" } = RWY;
+  let runwayNames = [];
+  if (name !== "" && name !== null) {
+    runwayNames = name.split(",") || [];
+  }
   const user = systemPage.user || {};
   const userId = user.id || "";
   const activeSchemeId = schemeListData.activeSchemeId || "";
@@ -52,6 +56,7 @@ const PositionCont = (props) => {
     } catch (errorInfo) {
       return;
     }
+
     try {
       let url = "";
       let flight = JSON.parse(orgdata) || {};
@@ -59,16 +64,16 @@ const PositionCont = (props) => {
         flightCoordination: flight,
         userId,
         tacticId: activeSchemeId,
-        comment: values.comments || "",
+        comment: values.comments,
       };
       if (type === "approve") {
         setSubmitBtnLoading(true);
-        url = CollaborateUrl.baseUrl + "/updateFlightPosition";
-        params["timeVal"] = values.position || "";
+        url = CollaborateUrl.baseUrl + "/updateFlightRunway";
+        params["timeVal"] = values.runway;
       } else if (type === "refuse") {
         setRefuseBtnLoading(true);
         //跑道清除
-        url = CollaborateUrl.baseUrl + "/clearFlightPosition";
+        url = CollaborateUrl.baseUrl + "/clearFlightRunway";
         params["timeVal"] = "";
       }
       //提交参数拼装
@@ -77,7 +82,6 @@ const PositionCont = (props) => {
         params,
         method: "POST",
       });
-
       setSubmitBtnLoading(false);
       setRefuseBtnLoading(false);
       const { flightCoordination } = res;
@@ -86,17 +90,18 @@ const PositionCont = (props) => {
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         id: flight.id || "",
-        title: "停机位修改成功",
+        title: "跑道修改成功",
       });
       //关闭popover
       clearCollaboratePopoverData();
+      console.log("Success:", res);
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         id: flight.id || "",
         type: "warn",
-        title: errorInfo === "" ? "停机位修改失败" : errorInfo,
+        title: errorInfo === "" ? "跑道修改失败" : errorInfo,
       });
       //关闭popover
       clearCollaboratePopoverData();
@@ -104,58 +109,68 @@ const PositionCont = (props) => {
   };
 
   useEffect(() => {
-    if (collaboratePopoverData.selectedObj.name === "POS") {
-      // console.log("PositionCont", positionVal);
-      form.setFieldsValue({ position: positionVal });
+    if (collaboratePopoverData.selectedObj.name === "RWY") {
+      // console.log("RunwayCont", RWY);
+      // form.setFieldsValue({ runway: RWY });
+      form.setFieldsValue({ runway: value });
     }
+
     return () => {
       form.resetFields();
-      // console.log("PositionCont卸载");
+      // console.log("RunwayCont卸载");
     };
   }, [collaboratePopoverData.selectedObj]);
   return (
-    <Form
-      form={form}
-      size="small"
-      initialValues={{ position: positionVal }}
-      className="position_form"
-    >
+    <Form form={form} size="small" initialValues={{}} className="runway_form">
       <Descriptions size="small" bordered column={1}>
-        <Descriptions.Item label="停机位">
-          <Form.Item name="position" rules={[]}>
-            <Input />
-          </Form.Item>
+        <Descriptions.Item label="跑道">
+          {runwayNames.length > 0 ? (
+            <Form.Item name="runway" rules={[]}>
+              <Radio.Group>
+                {runwayNames.map((name, index) => (
+                  <Radio value={name} key={index}>
+                    {name}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </Form.Item>
+          ) : (
+            <span>无可选跑道</span>
+          )}
         </Descriptions.Item>
+
         <Descriptions.Item label="备注">
           <Form.Item name="comments">
             <Input.TextArea maxLength={100} />
           </Form.Item>
         </Descriptions.Item>
-        <div>
-          <Button
-            loading={submitBtnLoading}
-            size="small"
-            className="c-btn c-btn-blue"
-            type="primary"
-            onClick={(e) => {
-              onCheck("approve");
-            }}
-          >
-            确定
-          </Button>
-          <Button
-            loading={refuseBtnLoading}
-            size="small"
-            className="c-btn c-btn-red"
-            type="primary"
-            style={{ marginLeft: "8px" }}
-            onClick={(e) => {
-              onCheck("refuse");
-            }}
-          >
-            清除
-          </Button>
-        </div>
+        {runwayNames.length > 0 && (
+          <div>
+            <Button
+              loading={submitBtnLoading}
+              size="small"
+              className="c-btn c-btn-blue"
+              type="primary"
+              onClick={(e) => {
+                onCheck("approve");
+              }}
+            >
+              确定
+            </Button>
+            <Button
+              loading={refuseBtnLoading}
+              size="small"
+              className="c-btn c-btn-red"
+              type="primary"
+              style={{ marginLeft: "8px" }}
+              onClick={(e) => {
+                onCheck("refuse");
+              }}
+            >
+              清除
+            </Button>
+          </div>
+        )}
       </Descriptions>
     </Form>
   );
@@ -166,5 +181,4 @@ export default inject(
   "systemPage",
   "schemeListData",
   "flightTableData"
-)(observer(PositionCont));
-// export default PositionCont;
+)(observer(FlightIdCont));

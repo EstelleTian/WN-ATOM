@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-25 13:35:51
+ * @LastEditTime: 2021-05-27 11:11:05
  * @LastEditors: Please set LastEditors
  * @Description:tip提示框
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -35,15 +35,7 @@ const PositionPopover = (props) => {
   const tipsRef = useRef();
   const { collaboratePopoverData = {} } = props;
   const { tipsObj = {} } = collaboratePopoverData;
-  let {
-    name = "",
-    x = 0,
-    y = 0,
-    width = 0,
-    height = 0,
-    type = "",
-    title = "",
-  } = tipsObj;
+  let { name = "", id = "", type = "", title = "" } = tipsObj;
 
   // 内容渲染
   const getContent = () => {
@@ -51,18 +43,20 @@ const PositionPopover = (props) => {
   };
   //计算提示框位置
   const reCalcPos = () => {
-    if (x === null) {
-      x = 0;
+    //根据id和name获取dom位置
+    let canvasDom = document.getElementsByClassName("flight_canvas")[0];
+    let trDom = canvasDom.getElementsByClassName(id);
+    if (trDom.length === 0) {
+      return;
     }
-    if (width === null) {
-      width = 0;
-    }
-    if (height === null) {
-      height = 0;
-    }
-    if (y === null) {
-      y = 0;
-    }
+    let tdDom = trDom[0].getElementsByClassName(name)[0];
+    //获取点击坐标数据
+    const bounds = tdDom.getBoundingClientRect();
+    const x = bounds.x || 0;
+    const y = bounds.y || 0;
+    const width = bounds.width || 0;
+    const height = bounds.height || 0;
+
     let left = x;
     let screenHeight = document.getElementsByTagName("body")[0].offsetHeight;
     let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
@@ -84,7 +78,7 @@ const PositionPopover = (props) => {
 
     top = y - tipHeight;
     left = x + width / 2 - tipWidth / 2;
-    console.log("left", left, "top", top);
+    // console.log("left", left, "top", top);
     setPosObj({ left, top });
   };
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-26 09:50:15
+ * @LastEditTime: 2021-05-27 10:58:01
  * @LastEditors: Please set LastEditors
  * @Description: 过点时间修改
  * @FilePath:
@@ -416,6 +416,7 @@ const FFixTCont = (props) => {
       flightTableData.updateSingleFlight(flightCoordination);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
+        id: orgdata.id || "",
         title: "过点时间修改成功",
       });
       //关闭popover
@@ -424,6 +425,7 @@ const FFixTCont = (props) => {
       console.log("Failed:", errorInfo);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
+        id: orgdata.id || "",
         type: "warn",
         title: errorInfo === "" ? "过点时间修改失败" : errorInfo,
       });

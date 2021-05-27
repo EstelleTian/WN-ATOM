@@ -6,6 +6,13 @@
  * @Description: 开发环境-项目所有请求url
  * @FilePath: request-urls.js
  */
+//消息监听地址
+const TopicConstant={
+    ip:"192.168.210.150",
+    port: 15674,
+    username:"guest",
+    password:"guest",
+}
 // 工作流ip
 const workflowIP = "http://192.168.194.22:29891";
 //MDRS(路武臣)
@@ -174,4 +181,4 @@ const CollaborateUrl = {
     updateFormerFlightUrl: CollaborateIP+"/hydrogen-flight-coordination-server/flight/updateFormerFlight"
 };
 
-export { ReqUrls, CollaborateIP, CollaborateUrl };
+export { TopicConstant,ReqUrls, CollaborateIP, CollaborateUrl };

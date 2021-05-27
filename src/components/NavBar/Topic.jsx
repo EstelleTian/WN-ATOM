@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-05-25 14:57:21
+ * @LastEditTime: 2021-05-27 10:45:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -11,6 +11,7 @@ import { observer, inject } from "mobx-react";
 import { withRouter } from "react-router-dom";
 import { isValidVariable, isValidObject } from "utils/basic-verify";
 import { customNotice } from "utils/common-funcs";
+import { TopicConstant } from "utils/request-urls";
 import Stomp from "stompjs";
 
 function Topic(props) {
@@ -26,7 +27,9 @@ function Topic(props) {
     // alert("建立连接:" + username);
     // console.log("建立连接");
     // 建立连接
-    let ws = new WebSocket("ws://192.168.210.150:15674/ws");
+    let ws = new WebSocket(
+      "ws://" + TopicConstant.ip + ":" + TopicConstant.port + "/ws"
+    );
     let stompClient = Stomp.over(ws);
     stompClient.heartbeat.outgoing = 200;
     stompClient.heartbeat.incoming = 0;
@@ -125,7 +128,14 @@ function Topic(props) {
       }, 5000);
     };
     // 连接消息服务器
-    stompClient.connect("guest", "guest", on_connect, on_error, "/");
+    // stompClient.connect("guest", "guest", on_connect, on_error, "/");
+    stompClient.connect(
+      TopicConstant.username,
+      TopicConstant.password,
+      on_connect,
+      on_error,
+      "/"
+    );
   };
   if (isValidVariable(user)) {
     if (pathname.indexOf("/clearance") > -1) {

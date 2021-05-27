@@ -1,67 +1,68 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-27 10:43:42
+ * @LastEditTime: 2021-05-27 10:41:15
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
  */
 //消息监听地址
 const TopicConstant={
-    ip:"192.168.210.150",
-    port: 15674,
-    username:"guest",
-    password:"guest",
+    ip:"10.25.1.62",
+    port: 5672,
+    username:"admin",
+    password:"admin",
 }
+
+
 // 工作流ip
-const workflowIP = "http://192.168.210.120:81";
+const workflowIP = "http://10.25.1.10:80";
 //MDRS(路武臣)
-const mdrsIP = "http://192.168.210.120:81";
-// const mdrsIP = "http://192.168.210.120:81"
+const mdrsIP = "http://10.25.1.10:80";
 //消息订阅(路武臣)
-const userSubscribeIP = "http://192.168.210.120:81";
+const userSubscribeIP = "http://10.25.1.10:80";
 //
-const runwayIP = "http://192.168.210.120:81";
-const clearanceIP = "http://192.168.210.120:81";
-const schemeIP = "http://192.168.210.120:81";
+const runwayIP = "http://10.25.1.10:80";
+const clearanceIP = "http://10.25.1.10:80";
+const schemeIP = "http://10.25.1.10:80";
 // 获取指定航路点对应的速度(路武臣)
-const speedIP = "http://192.168.210.120:81";
+const speedIP = "http://10.25.1.10:80";
 // 校验航路接口IP(李东骏)
-const validateRouteIP = "http://192.168.210.120:81";
+const validateRouteIP = "http://10.25.1.10:80";
 
 //协调ip
-const CollaborateIP = "http://192.168.210.120:81";
+const CollaborateIP = "http://10.25.1.10:80";
 //登录IP(姜浩)
-const loginIP = "http://192.168.194.21:18380";
+const loginIP = "http://10.25.1.57:18380";
 //容量管理IP(韩涛)
-const capacityIP = "http://192.168.210.120:81";
+const capacityIP = "http://10.25.1.10:80";
 //容流数据IP
-const capacityFlowIP= "http://192.168.210.120:81";
+const capacityFlowIP= "http://10.25.1.10:80";
 //容流气象数据IP
-const capacityFlowWeatherIP= "http://192.168.210.120:81";
+const capacityFlowWeatherIP= "http://10.25.1.10:80";
 //总体监控-协调KPI-航班协调-数据IP
-const totalCollaborateIP= "http://192.168.210.120:81";
+const totalCollaborateIP= "http://10.25.1.10:80";
 //总体监控-协调KPI-运行配置-数据IP
-const totalOperationIP= "http://192.168.210.120:81";
+const totalOperationIP= "http://10.25.1.10:80";
 //航班详情、略情查询IP(韩涛)
-const flightInfoIP= "http://192.168.210.120:81";
+const flightInfoIP= "http://10.25.1.10:80";
 //总体监控-执行KPI-IP(孔凡续)
-const executeKPIDataIP= "http://192.168.210.120:81";
+const executeKPIDataIP= "http://10.25.1.10:80";
 //航班执行数据-IP()
-const performanceDataIP= "http://192.168.210.120:81";
+const performanceDataIP= "http://10.25.1.10:80";
 // 获取用户订阅的容流监控单元数据-IP()
-const userSubscribeCapacityFlowMonitorUnitDataIP= "http://192.168.210.120:81";
+const userSubscribeCapacityFlowMonitorUnitDataIP= "http://10.25.1.10:80";
 //待办航班列表-放行监控页面中的-IP(张杰)
-const todoListIP= "http://192.168.210.120:81";
+const todoListIP= "http://10.25.1.10:80";
 //我的申请列表-放行监控页面中的-IP(张杰)
-const myApplicationListIP= "http://192.168.210.120:81";
+const myApplicationListIP= "http://10.25.1.10:80";
 
 const ReqUrls = {
     //用户登录
     loginUrl: loginIP+"/uuma-server/client/login",
     //缩略地图
-    mapUrl: "http://192.168.194.40:8081/#/map",
-    mapWebUrl: "http://192.168.194.40:8082/#/map",
+    mapUrl: "http://10.25.1.51:8081/#/map",
+    mapWebUrl: "http://10.25.1.51:8082/#/map",
     //根据modalId获取方案详情
     schemeDetailByIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTacticDetails/",
     //获取--方案列表
@@ -182,5 +183,4 @@ const CollaborateUrl = {
     // 指定前序航班 
     updateFormerFlightUrl: CollaborateIP+"/hydrogen-flight-coordination-server/flight/updateFormerFlight"
 };
-
 export { TopicConstant,ReqUrls, CollaborateIP, CollaborateUrl } 

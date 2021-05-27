@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-05-19 13:10:37
+ * @LastEditTime: 2021-05-27 10:46:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -11,6 +11,7 @@ import { Layout, Tooltip, Checkbox, Button } from "antd";
 import { DeleteOutlined, CloseOutlined } from "@ant-design/icons";
 import { inject, observer } from "mobx-react";
 import { isValidVariable } from "utils/basic-verify";
+import { TopicConstant } from "utils/request-urls";
 import {
   closeMessageDlg,
   openMessageDlg,
@@ -34,7 +35,9 @@ function InfoPage(props) {
     // alert("建立连接:" + username);
     // console.log("建立连接");
     // 建立连接
-    let ws = new WebSocket("ws://192.168.210.150:15674/ws");
+    let ws = new WebSocket(
+      "ws://" + TopicConstant.ip + ":" + TopicConstant.port + "/ws"
+    );
     let stompClient = Stomp.over(ws);
     stompClient.heartbeat.outgoing = 200;
     stompClient.heartbeat.incoming = 0;
@@ -72,7 +75,13 @@ function InfoPage(props) {
       }, 5000);
     };
     // 连接消息服务器
-    stompClient.connect("guest", "guest", on_connect, on_error, "/");
+    stompClient.connect(
+      TopicConstant.username,
+      TopicConstant.password,
+      on_connect,
+      on_error,
+      "/"
+    );
   };
 
   // 检查消息，用于弹框并阻止用户交互

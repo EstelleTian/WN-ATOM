@@ -36,7 +36,7 @@ function LoginPage(props) {
         username: username,
         cipher: cipher,
         macaddress: "4C-CC-6A-C9-BA-15",
-        clientVersion: "1.5.6",
+        clientVersion: "9.9.9",
       };
       console.log(params);
       message.destroy();
