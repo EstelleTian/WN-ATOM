@@ -228,7 +228,7 @@ function FormerFlightUpdateForm(props) {
                     <Col span={24}>
                         <Form.Item label="数据解释" className="form-text-item">
                             <span className="ant-form-text">
-                                <Space size={4} split={<Divider type="vertical" />}>
+                                <Space size={0} split={<Divider type="vertical" />}>
                                     <span>航班号</span>
                                     <span>起降机场</span>
                                     <span>SOBT</span>
