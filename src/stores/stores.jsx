@@ -30,6 +30,7 @@ import { schemeFormData } from "./SchemeFormStores";
 import { newsSubscribe } from "./newsSubscribeStore";
 import { collaboratePopoverData } from "./collaboratePopoverStore";
 import { formerFlightUpdateFormData } from "./formerFlightUpdateModalStores";
+import { flightExchangeSlotFormData } from "./flightExchangeSlotFormStores";
 
 
 export {
@@ -55,5 +56,6 @@ export {
   schemeFormData,
   newsSubscribe,
   collaboratePopoverData,
-  formerFlightUpdateFormData
+  formerFlightUpdateFormData,
+  flightExchangeSlotFormData
 };
