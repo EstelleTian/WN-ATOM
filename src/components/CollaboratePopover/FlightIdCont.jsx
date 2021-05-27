@@ -1,178 +1,387 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-27 11:37:00
+ * @LastEditTime: 2021-05-27 14:54:19
  * @LastEditors: Please set LastEditors
  * @Description: 航班号右键协调框
  * @FilePath:
  */
-import React, { useCallback, useState, useEffect, useRef } from "react";
+
+import React, { useCallback, useState, useEffect, memo, useMemo } from "react";
+import { observer, inject } from "mobx-react";
 import {
+  message as antdMessage,
   message,
   Popover,
   Button,
-  Form,
-  Descriptions,
-  Input,
-  Radio,
-  Checkbox,
   Tooltip,
+  Popconfirm,
 } from "antd";
-import { observer, inject } from "mobx-react";
-import { request2 } from "utils/request";
+import { isValidVariable } from "utils/basic-verify";
+import { FlightCoordination, PriorityList } from "utils/flightcoordination.js";
+import { request, request2 } from "utils/request";
 import { CollaborateUrl } from "utils/request-urls";
-import { REGEXP } from "utils/regExpUtil";
-import { isValidVariable, getFullTime } from "utils/basic-verify";
-import { closePopover, cgreen, cred } from "utils/collaborateUtils.js";
+import { cgreen, cred } from "utils/collaborateUtils.js";
+import FmeToday from "utils/fmetoday";
+import PopconfirmFlightIdBtn from "./PopconfirmFlightIdBtn";
 
 //协调窗口
 const FlightIdCont = (props) => {
-  const [autoChecked, setAutoChecked] = useState(true);
-  const [submitBtnLoading, setSubmitBtnLoading] = useState(false);
-  const [refuseBtnLoading, setRefuseBtnLoading] = useState(false);
-  const [form] = Form.useForm();
+  const [intervalLoad, setIntervalLoad] = useState(false);
+  const [exemptLoad, setExemptLoad] = useState(false);
+  const [singleExemptLoad, setSingleExemptLoad] = useState(false);
+  const [poolLoad, setPoolLoad] = useState(false);
+  const [qualifications, setQualifications] = useState(false);
   const {
-    collaboratePopoverData = {},
-    systemPage = {},
-    schemeListData = {},
-    flightTableData = {},
     clearCollaboratePopoverData,
+    flightDetailData,
+    formerFlightUpdateFormData,
+    collaboratePopoverData,
+    systemPage,
+    schemeListData,
+    flightTableData,
+    flightExchangeSlotFormData,
   } = props;
-  const { data = {} } = collaboratePopoverData;
-  const { FLIGHTID = "", RWY = {}, orgdata = "{}" } = data;
-  const { value = "", name = "" } = RWY;
-  let runwayNames = [];
-  if (name !== "" && name !== null) {
-    runwayNames = name.split(",") || [];
-  }
-  const user = systemPage.user || {};
-  const userId = user.id || "";
-  const activeSchemeId = schemeListData.activeSchemeId || "";
+  const record = collaboratePopoverData.data || {};
+  const orgdata = record.orgdata || "{}";
+  let flight = JSON.parse(orgdata) || {};
+  let { priority } = flight;
+  const fmeToday = flight.fmeToday || {};
+  let alarms = flight.alarms || [];
+  alarms = alarms.join("-");
+  let hasAuth = true;
+  //航班状态验证 2021-4-2注释，后台接口校验，前台校验去掉
+  let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
+  let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
+  let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
+  let isInAreaFlight = FmeToday.isInAreaFlight(flight); //航班在本区域内
+  let isInPoolFlight = FlightCoordination.isInPoolFlight(flight); //航班是否在等待池中
 
-  const onCheck = async (type) => {
-    let values = {};
-    try {
-      values = await form.validateFields();
-    } catch (errorInfo) {
-      return;
-    }
+  // 显示航班详情
+  const showFlightDetail = useCallback(() => {
+    //关闭协调窗口popover
+    clearCollaboratePopoverData();
+    flightDetailData.toggleFlightId(flight.id);
+    flightDetailData.toggleModalVisible(true);
+  }, []);
+  // 显示指定前序航班模态框
+  const showFormerFlightUpdateModal = useCallback(() => {
+    //关闭协调窗口popover
+    clearCollaboratePopoverData();
+    formerFlightUpdateFormData.updateFlightData(flight);
+    formerFlightUpdateFormData.toggleModalVisible(true);
+  }, []);
 
+  // 显示航班时隙交换模态框
+  const showFlightExchangeSlotModal = useCallback(() => {
+    //关闭协调窗口popover
+    clearCollaboratePopoverData();
+    flightExchangeSlotFormData.updateClaimantFlightData(flight);
+    flightExchangeSlotFormData.toggleModalVisible(true);
+  }, []);
+  //数据提交失败回调
+  const requestErr = (err, content) => {
+    collaboratePopoverData.setTipsObj({
+      ...collaboratePopoverData.selectedObj,
+      id: flight.id || "",
+      type: "fail",
+      title: content,
+    });
+    setExemptLoad(false);
+    setSingleExemptLoad(false);
+    setIntervalLoad(false);
+    setPoolLoad(false);
+    setQualifications(false);
+    //关闭协调窗口popover
+    clearCollaboratePopoverData();
+  };
+
+  //数据提交成功回调
+  const requestSuccess = (data, title) => {
+    setExemptLoad(false);
+    setSingleExemptLoad(false);
+    setIntervalLoad(false);
+    setPoolLoad(false);
+    setQualifications(false);
+    const { flightCoordination } = data;
+    //更新单条航班数据
+    flightTableData.updateSingleFlight(flightCoordination);
+    collaboratePopoverData.setTipsObj({
+      ...collaboratePopoverData.selectedObj,
+      id: flight.id || "",
+      title: title + "提交成功",
+    });
+    //关闭协调窗口popover
+    clearCollaboratePopoverData();
+  };
+  //异步请求发送
+  const sendRequest = async (url, params, title) => {
     try {
-      let url = "";
-      let flight = JSON.parse(orgdata) || {};
-      let params = {
-        flightCoordination: flight,
-        userId,
-        tacticId: activeSchemeId,
-        comment: values.comments,
-      };
-      if (type === "approve") {
-        setSubmitBtnLoading(true);
-        url = CollaborateUrl.baseUrl + "/updateFlightRunway";
-        params["timeVal"] = values.runway;
-      } else if (type === "refuse") {
-        setRefuseBtnLoading(true);
-        //跑道清除
-        url = CollaborateUrl.baseUrl + "/clearFlightRunway";
-        params["timeVal"] = "";
-      }
-      //提交参数拼装
       const res = await request2({
         url,
-        params,
         method: "POST",
+        params,
       });
-      setSubmitBtnLoading(false);
-      setRefuseBtnLoading(false);
-      const { flightCoordination } = res;
-      //单条数据更新
-      flightTableData.updateSingleFlight(flightCoordination);
-      collaboratePopoverData.setTipsObj({
-        ...collaboratePopoverData.selectedObj,
-        id: flight.id || "",
-        title: "跑道修改成功",
-      });
-      //关闭popover
-      clearCollaboratePopoverData();
-      console.log("Success:", res);
-    } catch (errorInfo) {
-      console.log("Failed:", errorInfo);
-      collaboratePopoverData.setTipsObj({
-        ...collaboratePopoverData.selectedObj,
-        id: flight.id || "",
-        type: "warn",
-        title: errorInfo === "" ? "跑道修改失败" : errorInfo,
-      });
-      //关闭popover
-      clearCollaboratePopoverData();
+      requestSuccess(res, flight.flightid + title);
+    } catch (err) {
+      if (isValidVariable(err)) {
+        requestErr(err, err);
+      } else {
+        requestErr(err, flight.flightid + title + "请求失败");
+      }
+    }
+  };
+  //标记豁免 取消标记豁免
+  const handleExempt = async (type, record, title) => {
+    let urlKey = "";
+    let taskId = "";
+    if (type === "exempt") {
+      //申请豁免
+      urlKey = "/applyExempt";
+      setExemptLoad(true);
+    } else if (type === "unExempt") {
+      //申请取消豁免
+      urlKey = "/applyUnExempt";
+      setExemptLoad(true);
+    } else if (type === "singleExempt") {
+      //申请单方案豁免
+      urlKey = "/applySingleExempt";
+      setSingleExemptLoad(true);
+    } else if (type === "singleUnExempt") {
+      //申请取消单方案豁免
+      urlKey = "/applyUnSingleExempt";
+      setSingleExemptLoad(true);
+    } else if (type === "interval") {
+      //申请半数间隔
+      urlKey = "/applyInterval";
+      setIntervalLoad(true);
+    } else if (type === "unInterval") {
+      //申请取消半数间隔
+      urlKey = "/applyUnInterval";
+      setIntervalLoad(true);
+    }
+
+    if (isValidVariable(urlKey)) {
+      const userId = systemPage.user.id || "";
+      const schemeId = schemeListData.activeSchemeId || ""; //方案id
+      const tacticName = schemeListData.getNameBySchemeActiveId(schemeId); //方案名称
+
+      const url = CollaborateUrl.baseUrl + urlKey;
+      const params = {
+        userId,
+        flightCoordination: flight,
+        comment: "",
+        tacticId: schemeId,
+        tacticName,
+      };
+      sendRequest(url, params, title);
     }
   };
 
-  useEffect(() => {
-    if (collaboratePopoverData.selectedObj.name === "RWY") {
-      // console.log("RunwayCont", RWY);
-      // form.setFieldsValue({ runway: RWY });
-      form.setFieldsValue({ runway: value });
+  //等待池
+  const handlePool = async (type, record, title) => {
+    setPoolLoad(true);
+    let urlKey = "";
+    if (type === "direct-in-pool") {
+      //申请入池
+      urlKey = "/applyInpool";
+      // flight.poolStatus = FlightCoordination.IN_POOL_M; //2
+    } else if (type === "direct-out-pool") {
+      //申请出池
+      urlKey = "/applyOutpool";
+      // flight.poolStatus = FlightCoordination.OUT_POOL; //0
     }
 
-    return () => {
-      form.resetFields();
-      // console.log("RunwayCont卸载");
-    };
-  }, [collaboratePopoverData.selectedObj]);
-  return (
-    <Form form={form} size="small" initialValues={{}} className="runway_form">
-      <Descriptions size="small" bordered column={1}>
-        <Descriptions.Item label="跑道">
-          {runwayNames.length > 0 ? (
-            <Form.Item name="runway" rules={[]}>
-              <Radio.Group>
-                {runwayNames.map((name, index) => (
-                  <Radio value={name} key={index}>
-                    {name}
-                  </Radio>
-                ))}
-              </Radio.Group>
-            </Form.Item>
-          ) : (
-            <span>无可选跑道</span>
-          )}
-        </Descriptions.Item>
+    if (isValidVariable(urlKey)) {
+      console.log(flight.flightid);
+      const userId = systemPage.user.id || "";
+      const schemeId = schemeListData.activeSchemeId || ""; //方案id
+      const tacticName = schemeListData.getNameBySchemeActiveId(schemeId); //方案名称
+      const url = CollaborateUrl.baseUrl + urlKey;
+      const params = {
+        userId,
+        flightCoordination: flight,
+        comment: "",
+        taskId: "",
+        tacticId: schemeId,
+        tacticName,
+      };
+      sendRequest(url, params, title);
+    }
+  };
 
-        <Descriptions.Item label="备注">
-          <Form.Item name="comments">
-            <Input.TextArea maxLength={100} />
-          </Form.Item>
-        </Descriptions.Item>
-        {runwayNames.length > 0 && (
-          <div>
-            <Button
-              loading={submitBtnLoading}
-              size="small"
-              className="c-btn c-btn-blue"
-              type="primary"
-              onClick={(e) => {
-                onCheck("approve");
-              }}
-            >
-              确定
-            </Button>
-            <Button
-              loading={refuseBtnLoading}
-              size="small"
-              className="c-btn c-btn-red"
-              type="primary"
-              style={{ marginLeft: "8px" }}
-              onClick={(e) => {
-                onCheck("refuse");
-              }}
-            >
-              清除
-            </Button>
-          </div>
+  //二类资质
+  const handleQualifications = async (type, record, title) => {
+    setQualifications(true);
+    let urlKey = "/updateFlightQualifications";
+    if (isValidVariable(urlKey)) {
+      // console.log(JSON.stringify(flight));
+      const userId = systemPage.user.id || "";
+      const schemeId = schemeListData.activeSchemeId || ""; //方案id
+      const tacticName = schemeListData.getNameBySchemeActiveId(schemeId); //方案名称
+      // 二类参数
+      let timeVal = "";
+      if (type === "markQualifications") {
+        //标记二类
+        timeVal = "2";
+      } else if (type === "markUnQualifications") {
+        //取消标记二类
+        timeVal = "";
+      }
+      const url = CollaborateUrl.baseUrl + urlKey;
+      const params = {
+        userId,
+        flightCoordination: flight,
+        comment: "",
+        taskId: "",
+        tacticId: schemeId,
+        tacticName,
+        timeVal,
+      };
+      sendRequest(url, params, title);
+    }
+  };
+
+  return (
+    <div className="clr_flightid">
+      <button
+        className="c-btn c-btn-blue"
+        onClick={() => {
+          showFlightDetail(record);
+        }}
+      >
+        查看航班详情
+      </button>
+
+      <button
+        className="c-btn c-btn-blue"
+        onClick={() => {
+          showFormerFlightUpdateModal(record);
+        }}
+      >
+        指定前序航班
+      </button>
+      <button
+        className="c-btn c-btn-green"
+        onClick={() => {
+          showFlightExchangeSlotModal(record);
+        }}
+      >
+        时隙交换
+      </button>
+      {priority === FlightCoordination.PRIORITY_NORMAL &&
+        systemPage.userHasAuth(13401) && (
+          <PopconfirmFlightIdBtn
+            loading={exemptLoad}
+            handleExempt={handleExempt}
+            type="exempt"
+            record={record}
+            alarms={alarms}
+          />
         )}
-      </Descriptions>
-    </Form>
+      {priority === FlightCoordination.PRIORITY_EXEMPT &&
+        systemPage.userHasAuth(13404) && (
+          <Button
+            loading={exemptLoad}
+            className="c-btn c-btn-red"
+            onClick={() => {
+              handleExempt("unExempt", record, "取消豁免");
+            }}
+          >
+            取消豁免
+          </Button>
+        )}
+      {alarms.indexOf("800") === -1 && systemPage.userHasAuth(13407) && (
+        <PopconfirmFlightIdBtn
+          loading={singleExemptLoad}
+          handleExempt={handleExempt}
+          type="singleExempt"
+          record={record}
+          alarms={alarms}
+        />
+      )}
+      {alarms.indexOf("800") > -1 && systemPage.userHasAuth(13410) ? (
+        <Button
+          loading={singleExemptLoad}
+          className="c-btn c-btn-red"
+          onClick={() => {
+            handleExempt("singleUnExempt", record, "取消单方案豁免");
+          }}
+        >
+          取消单方案豁免
+        </Button>
+      ) : (
+        ""
+      )}
+      {alarms.indexOf("400") === -1 && systemPage.userHasAuth(13413) ? (
+        <PopconfirmFlightIdBtn
+          loading={intervalLoad}
+          handleExempt={handleExempt}
+          type="interval"
+          record={record}
+          alarms={alarms}
+        />
+      ) : (
+        ""
+      )}
+      {alarms.indexOf("400") > -1 && systemPage.userHasAuth(13416) ? (
+        <Button
+          loading={intervalLoad}
+          className="c-btn c-btn-red"
+          onClick={() => {
+            handleExempt("unInterval", record, "取消半数间隔");
+          }}
+        >
+          取消半数间隔
+        </Button>
+      ) : (
+        ""
+      )}
+      {!isInPoolFlight && systemPage.userHasAuth(13419) ? (
+        <Button
+          loading={poolLoad}
+          className="c-btn c-btn-green"
+          onClick={() => {
+            handlePool("direct-in-pool", record, "申请入池");
+          }}
+        >
+          申请入池
+        </Button>
+      ) : (
+        ""
+      )}
+      {isInPoolFlight && systemPage.userHasAuth(13422) ? (
+        <Button
+          loading={poolLoad}
+          className="c-btn c-btn-red"
+          onClick={() => {
+            handlePool("direct-out-pool", record, "申请出池");
+          }}
+        >
+          申请出池
+        </Button>
+      ) : (
+        ""
+      )}
+      {/* <Button
+    loading={qualifications}
+    className="c-btn c-btn-green"
+    onClick={() => {
+      handleQualifications("markQualifications", record, "标记二类资质");
+    }}
+  >
+    标记二类资质
+  </Button>
+  <Button
+    loading={qualifications}
+    className="c-btn c-btn-red"
+    onClick={() => {
+      handleQualifications("markUnQualifications", record, "取消标记二类资质");
+    }}
+  >
+    取消二类资质
+  </Button> */}
+    </div>
   );
 };
 
@@ -180,5 +389,9 @@ export default inject(
   "collaboratePopoverData",
   "systemPage",
   "schemeListData",
-  "flightTableData"
+  "systemPage",
+  "flightTableData",
+  "flightDetailData",
+  "formerFlightUpdateFormData",
+  "flightExchangeSlotFormData"
 )(observer(FlightIdCont));

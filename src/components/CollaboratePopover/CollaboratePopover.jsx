@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-27 11:42:56
+ * @LastEditTime: 2021-05-27 13:28:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -62,7 +62,14 @@ const ColPopover = (props) => {
   const popoverRef = useRef();
   const { collaboratePopoverData = {} } = props;
   const { selectedObj = {} } = collaboratePopoverData;
-  let { name = "", x = 0, y = 0, width = 0, height = 0 } = selectedObj;
+  let {
+    name = "",
+    x = 0,
+    y = 0,
+    width = 0,
+    height = 0,
+    flightId = "",
+  } = selectedObj;
 
   //重置数据
   const clearCollaboratePopoverData = useCallback(() => {
@@ -119,6 +126,9 @@ const ColPopover = (props) => {
 
   const getTitle = () => {
     let titleName = PopoverCNNames[name] || "";
+    if (name === "FLIGHTID") {
+      titleName = flightId || "";
+    }
     return (
       <div className="popover_title">
         <span>{`${titleName}`}</span>

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-27 11:43:16
+ * @LastEditTime: 2021-05-27 13:26:40
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -13,11 +13,11 @@ import {
   getDayTimeFromString,
   getTimeAndStatus,
 } from "utils/basic-verify";
-import { FlightCoordination } from "utils/flightcoordination";
+import { FlightCoordination, PriorityList } from "utils/flightcoordination.js";
 import RenderCell from "./RenderCell";
+import FmeToday from "utils/fmetoday";
 import FLIGHTIDPopover from "./FLIGHTIDPopover";
-// import TOBTPopover from "./TOBTPopover";
-// import CTPopover from "./CTPopover";
+
 import debounce from "lodash/debounce";
 
 /**
@@ -222,7 +222,60 @@ let render = (opt) => {
     </div>
   );
   if (col === "FLIGHTID") {
-    popover = <FLIGHTIDPopover opt={opt} />;
+    let { orgdata } = record;
+    if (isValidVariable(orgdata)) {
+      orgdata = JSON.parse(orgdata);
+    }
+    let { priority } = orgdata;
+    const fmeToday = orgdata.fmeToday || {};
+    let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
+    let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
+    let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
+    let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
+    let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
+    let isCoordinationResponseWaitingFlight =
+      FlightCoordination.isCoordinationResponseWaitingFlight(orgdata); //航班是否在协调响应等待中
+    let getCoordinationResponseWaitingType =
+      FlightCoordination.getCoordinationResponseWaitingType;
+    let hadInAir = false;
+    if (hadDEP && !hadARR) {
+      hadInAir = true;
+    }
+    let colorClass = "";
+    if (isValidVariable(priority) && priority * 1 > 0) {
+      colorClass = "priority_" + priority;
+    }
+    if (isInPoolFlight) {
+      colorClass += " in_pool " + orgdata.poolStatus;
+    }
+    if (isCoordinationResponseWaitingFlight) {
+      colorClass += " WAIT";
+    }
+    popover = (
+      <div className={` ${colorClass}`}>
+        <div
+          className={`text_cell_center ${
+            isValidVariable(text) ? "" : "empty_cell"
+          }`}
+          title={`${text}-${PriorityList[priority]} ${
+            isInAreaFlight ? "区内" : "区外"
+          } ${hadInAir ? "空中" : "地面"} ${
+            isCoordinationResponseWaitingFlight
+              ? `${getCoordinationResponseWaitingType(orgdata)}协调中`
+              : ""
+          }`}
+        >
+          <span className={`${isInAreaFlight ? "inArea" : "outArea"}`}>
+            {text}
+          </span>
+        </div>
+
+        <div
+          title={`${hadInAir ? "空中" : "地面"}`}
+          className={`status_flag ${hadInAir ? "inAir" : "inGround"}`}
+        ></div>
+      </div>
+    );
   } else if (
     col === "CTO" ||
     col === "EAWT" ||

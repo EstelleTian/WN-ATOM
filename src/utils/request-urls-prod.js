@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-27 10:43:42
+ * @LastEditTime: 2021-05-27 15:02:30
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -65,7 +65,7 @@ const ReqUrls = {
     //根据modalId获取方案详情
     schemeDetailByIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTacticDetails/",
     //获取--方案列表
-    schemeListUrl: clearanceIP+"/scheme-flow-server/implementTactics",
+    schemeListUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTactics",
     //获取--模拟方案详情
     simulationSchemeDetailUrl:schemeIP+"/scheme-flow-server/simulationTactics/id/",
     //获取--航班列表数据
