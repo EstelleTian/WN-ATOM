@@ -75,7 +75,9 @@
                 padding: 0 10px;
                 @include flex();
                 @include display_flex();
+                justify-content: flex-end;
             }
+            
             .opt{
                 font-size: 0.85rem;
                 color: #36a5da;
@@ -92,13 +94,17 @@
                     cursor: pointer;
                 }
             }
-            .tactic-name, .status {
+            .tactic-name, .runway-status  {
                 color: #36a5da;
             }
+            .EXECUTING, .OUT_OF_DYNAMIC_RANGE_EXECUTING {
+                color: #36a5da;
+            }
+
             .FUTURE{
                 color: #10e99a;
             }
-            .TERMINATED, .TERMINATED_MANUAL, .STOP, .FINISHED, .DISCARD{
+            .TERMINATED_MANUAL, .FINISHED {
                 color: #e95354;
             }
 

@@ -5,9 +5,9 @@ import ReactDom from "react-dom";
 import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
 import { Tag, Menu, Dropdown } from 'antd'
 import { DownOutlined } from '@ant-design/icons';
+import { RunwayConfigUtil } from "utils/runway-config-util";
 
-//获取屏幕宽度，适配 2k
-let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
+
 
 //方案状态转化
 const convertSatus = (status) => {
@@ -30,9 +30,9 @@ const convertSatus = (status) => {
 }
 
 const SummaryCell = memo(({
-    createTime,
-    basicTacticInfoReasonZh,
-    basicTacticInfoRemark
+    startTime,
+    endTime,
+    generateTime
 }) => {
     const [visible, setVisible] = useState(false);
 
@@ -42,7 +42,7 @@ const SummaryCell = memo(({
 
     const menu = (
         <Menu>
-            <Menu.Item key="2">创建时间: {getTimeFromString(createTime)}</Menu.Item>
+            <Menu.Item key="2">创建时间: {getDayTimeFromString(generateTime, false, 2)}</Menu.Item>
         </Menu>
     );
     return (
@@ -54,8 +54,8 @@ const SummaryCell = memo(({
             <span className="ant-dropdown-link">
                 <span style={{
                     padding: '0 10px',
-                    fontSize: '0.8rem',
-                }}>有效时间:</span>{} <DownOutlined />
+                    fontSize: '14px'
+                }}>有效时间:{`${getDayTimeFromString(startTime, false, 2)}-${getDayTimeFromString(endTime, false, 2)}`}</span> <DownOutlined />
             </span>
         </Dropdown>
     )
@@ -64,19 +64,7 @@ const SummaryCell = memo(({
 
 //单条方案
 function RunwayItem(props) {
-    const [window, setWindow] = useState("");
-    const [windowClass, setWindowClass] = useState("");
-
-    // 跑道类型转换
-    const covertRunwayType = (type) => {
-        let typeZH = "";
-        if (type === "default") {
-            typeZH = "默认"
-        } else if (type === "dynamic") {
-            typeZH = "动态"
-        }
-        return typeZH
-    }
+    
     // 转换跑道使用情况
     const covertRunwayUseStatus = (isDepRWs) => {
         var isUse = "";
@@ -137,27 +125,33 @@ function RunwayItem(props) {
     let airportName = singleGroupRunwayData.airportName || "";
     //  单个跑道组类型 default:默认 dynamic:动态
     let type = singleGroupRunwayData.type || "";
-    let typeZH = covertRunwayType(type);
+    let typeZH = RunwayConfigUtil.getRunwayTypeZh(type);
     // 跑道集合
     let runway = singleGroupRunwayData.runway || [];
     // 单个跑道组名称
     let runwayName = `(${airportName}) ${typeZH}配置`;
+    //  跑道执行状态
+    let status = RunwayConfigUtil.getExecutionStatus(singleGroupRunwayData, type);
+    // 跑道执行状态中文
+    let statusZh = RunwayConfigUtil.getExecutionStatusZH(singleGroupRunwayData, type);
+    // 跑道使用状态文字className
+    let statusClassName = RunwayConfigUtil.getExecutionStatusClassName(singleGroupRunwayData, type);
+    // 开始时间
+    let startTime = singleGroupRunwayData.startTime || "";
+    // 结束时间
+    let endTime = singleGroupRunwayData.endTime || "";
+    // 创建时间
+    let generateTime = singleGroupRunwayData.generateTime || "";
 
 
-    let startTime = "";
-    let endTime = "";
-    let generateTime = "";
+
     let updateTime = "";
     // 执行情况
     let isExecuting =  "";
     let runwayType = "";
     let ids = [];
     runway.map( item => {
-         startTime = item.startTime || ""; //起始时间
-         endTime = item.endTime || ""; //结束时间
-         generateTime = item.generateTime || ""; //创建时间
          updateTime = item.updateTime || "";//终止时间
-        
         isExecuting = item.isExecuting || "";
 
         runwayType = item.type || "";
@@ -222,7 +216,7 @@ function RunwayItem(props) {
                     </div>
                     <div className="state">
                         <div className="cell">
-                            <span className={`status`}>{`状态`}</span>
+                            <span className={`runway-status ${statusClassName}`}>{statusZh}</span>
                         </div>
                     </div>
                 </div>
@@ -280,9 +274,9 @@ function RunwayItem(props) {
             <div className="layout-row">
                 <div className="summary">
                     <SummaryCell
-                        createTime={`111`}
-                        basicTacticInfoReasonZh={`111`}
-                        basicTacticInfoRemark={`111`}
+                        startTime={startTime}
+                        endTime={endTime}
+                        generateTime={generateTime}
                     />
                 </div>
                 <div className="right-column2">
@@ -291,7 +285,13 @@ function RunwayItem(props) {
                             showDetail(e)
                             e.stopPropagation();
                         }}>详情</div>
-                        <div className="opt" onClick={showModify}>修改</div>
+                        {
+                           [RunwayConfigUtil.EXECUTION_STATUS_EXECUTING, 
+                            RunwayConfigUtil.EXECUTION_STATUS_FUTURE,
+                            RunwayConfigUtil.EXECUTION_STATUS_OUT_OF_DYNAMIC_RANGE_EXECUTING,
+                        ].includes(status) &&  <div className="opt" onClick={showModify}>修改</div>
+                        }
+                        
                         {/* <div className="opt" onClick={e => {
                             
                             e.stopPropagation();
