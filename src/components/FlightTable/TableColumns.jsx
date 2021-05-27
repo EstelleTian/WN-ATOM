@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-27 16:04:50
+ * @LastEditTime: 2021-05-27 16:08:16
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -16,8 +16,6 @@ import {
 import { FlightCoordination, PriorityList } from "utils/flightcoordination.js";
 import RenderCell from "./RenderCell";
 import FmeToday from "utils/fmetoday";
-import FLIGHTIDPopover from "./FLIGHTIDPopover";
-
 import debounce from "lodash/debounce";
 
 /**
