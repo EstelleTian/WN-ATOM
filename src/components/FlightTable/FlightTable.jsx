@@ -38,6 +38,9 @@ const FlightDetail = React.lazy(() =>
 const FormerFlightUpdateModal = React.lazy(() =>
   import("components/FormerFlightUpdateModal/FormerFlightUpdateModal")
 );
+const FlightExchangeSlotModal = React.lazy(() =>
+  import("components/FlightExchangeSlotModal/FlightExchangeSlotModal")
+);
 const DateRangeChangeModal = React.lazy(() =>
   import("components/DateRangeChangeModal/DateRangeChangeModal")
 );
@@ -397,6 +400,9 @@ function FlightTableModal(props) {
         </Suspense>
         <Suspense fallback={<div></div>}>
           <FormerFlightUpdateModal />
+        </Suspense>
+        <Suspense fallback={<div></div>}>
+          <FlightExchangeSlotModal />
         </Suspense>
         <Suspense fallback={<div></div>}>
           <DateRangeChangeModal />
