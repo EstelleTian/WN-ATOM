@@ -35,7 +35,10 @@ const FilterBar = inject("runwayListData")(observer(Filter))
 function List(props) {
     const { runwayListData, systemPage, toggleModalVisible, toggleModalType } = props;
     const { filterList, loading } = runwayListData;
+    // 用户id
     const userId = systemPage.user.id || ""
+    // 用户所属机场
+    const airport = systemPage.user.region || "";
     const sortedList = filterList;
     const { counter } = runwayListData;
 
@@ -64,7 +67,7 @@ function List(props) {
         const end = nowDate+'2359';
         // 请求参数
         const opt = {
-            url: ReqUrls.runwayListUrl + userId +'?airportStr='+'ZLXY,ZLLL'+'&startTime='+ start+'&endTime='+end,
+            url: ReqUrls.runwayListUrl + userId +'?airportStr='+ airport+'&startTime='+ start+'&endTime='+end,
             method:'GET',
             params:{},
             resFunc: (data)=> updateRunwayListData(data),
