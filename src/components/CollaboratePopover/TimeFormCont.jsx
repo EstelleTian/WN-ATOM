@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-26 09:49:00
+ * @LastEditTime: 2021-05-26 19:55:28
  * @LastEditors: Please set LastEditors
  * @Description: 时间类协调窗口-
  * @FilePath: \WN-ATOM\src\components\FlightTable\TimeFormCont.jsx
@@ -142,10 +142,14 @@ const TimeFormCont = (props) => {
       } else if (name === "COBT") {
         url = CollaborateUrl.baseUrl + "/updateFlightCobt";
         params["timeVal"] = timeStr;
+        let locked = values.locked ? "1" : "0";
+        params["locked"] = locked;
         tipTitle = flightId + " COBT时间变更提交";
       } else if (name === "CTOT") {
         url = CollaborateUrl.baseUrl + "/updateFlightCtd";
         params["timeVal"] = timeStr;
+        let locked = values.locked ? "1" : "0";
+        params["locked"] = locked;
         tipTitle = flightId + " CTOT时间变更提交";
       }
     } else if (type === "clear") {
@@ -226,6 +230,7 @@ const TimeFormCont = (props) => {
         time,
         date,
         comment: "",
+        locked: true,
       });
     }
     return () => {
@@ -278,15 +283,8 @@ const TimeFormCont = (props) => {
         </Descriptions.Item>
         {(name === "COBT" || name === "CTOT") && (
           <Descriptions.Item label="">
-            <Form.Item name="locked">
-              <Checkbox
-                checked={autoChecked}
-                onChange={(e) => {
-                  setAutoChecked(e.target.checked);
-                }}
-              >
-                禁止系统自动调整
-              </Checkbox>
+            <Form.Item name="locked" valuePropName="checked">
+              <Checkbox>禁止系统自动调整</Checkbox>
             </Form.Item>
           </Descriptions.Item>
         )}
