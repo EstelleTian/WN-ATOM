@@ -1,12 +1,17 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react'
-import { Form, Input, Row, Col, Button, Select, Spin, Modal, Space, Typography, Divider } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Spin, Modal, Space, Divider, Collapse } from 'antd'
+import { QuestionCircleOutlined, } from '@ant-design/icons'
+
 import { inject, observer } from "mobx-react";
 import debounce from 'lodash/debounce'
 import { requestGet2, request } from "utils/request";
 import { ReqUrls, CollaborateUrl } from "utils/request-urls";
 import FmeToday from "utils/fmetoday";
 import { parseFullTime, getFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
+import RulesDescription from "components/FlightExchangeSlotModal/RulesDescription";
 import "./FlightExchangeSlotForm.scss";
+const { Panel } = Collapse;
+
 const { Option } = Select;
 
 //航班时隙交换表单
@@ -219,8 +224,21 @@ function FlightExchangeSlotForm(props) {
                 initialValues={initialValues}
                 className="flight-exchange-slot-form"
             >
-                <Row gutter={24} >
+                <Row gutter={24}>
                     <Col span={24}>
+                        <div>
+                            <Collapse bordered={false} ghost className="description-collapse">
+                                <Panel showArrow={false} header={<span>时隙交换规则<QuestionCircleOutlined /></span>} key="1">
+                                    <RulesDescription />
+                                </Panel>
+                                
+                            </Collapse>
+                            
+                        </div>
+                    </Col>
+                </Row>
+                <Row gutter={24} >
+                    <Col span={18}>
                         <Form.Item label="数据解释" className="form-text-item">
                             <span className="ant-form-text">
                                 <Space size={0} split={<Divider type="vertical" />}>
@@ -233,6 +251,7 @@ function FlightExchangeSlotForm(props) {
                             </span>
                         </Form.Item>
                     </Col>
+
                 </Row>
                 <Row gutter={24} >
                     <Col span={24}>
