@@ -6,13 +6,13 @@
  * @LastEditors: Please set LastEditors
  * @Description: ATOM流控详情
  */
-import React, { useEffect, useState } from 'react'
-import { Form, Tag, Space, Card, Row, Col, Checkbox, DatePicker, Tabs, Radio, Tooltip, Alert } from 'antd';
-import { DownOutlined, UpOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import React, { useState } from 'react'
+import { Form, Tag, Space, Card, Row, Col, Checkbox, DatePicker, Tabs, Radio, Tooltip, Alert, Badge } from 'antd';
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import ExemptionPane from 'components/RestrictionDetail/NTFM/ExemptionPane'
 import RestrictionPane from 'components/RestrictionDetail/NTFM/RestrictionPane'
 
-import { formatTimeString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify';
+import { formatTimeString, isValidVariable } from 'utils/basic-verify';
 const { RangePicker } = DatePicker;
 const { TabPane } = Tabs;
 import './NTFMDetail.scss'
@@ -59,7 +59,6 @@ function NTFMDetail(props) {
     const trfdData = singleTypeFlowData.trfd || [];
     // 措施豁免数据
     const expdData = singleTypeFlowData.expd || [];
-
 
     // FtmiType数据
     const ntfmFtmiType = singleTypeFlowData.ntfmFtmiType || {};
@@ -118,7 +117,7 @@ function NTFMDetail(props) {
     // 最小间隔值单位
     const minIntvUnit = intvOption[minIntvType] ? intvOption[minIntvType].unit : "";
     // 是否同高度
-    let sameAlt = ntfmFtmiType.sameAlt === "Y";
+    const sameAlt = ntfmFtmiType.sameAlt === "Y";
 
     // 特殊限制
     const resSpecial = ntfmFtmiType.resSpecial || "";
@@ -183,6 +182,48 @@ function NTFMDetail(props) {
         }
         return result;
     }
+
+
+    
+
+
+    // 检查数据中是否包含未成功转换的字段项
+    const checkIsIncludesUnConvertedField = (data, unConvertedData) => {
+
+        for (let i = 0; i < data.length; i++) {
+            let id = data[i].id + "";
+            if (isValidVariable(unConvertedData[id])) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    const checkTrafficFlowDataIsIncludesUnConvertedField = (data, unConvertedData) => {
+        for(let i=0; i<data.length; i++){
+            let item = data[i];
+            // 条件数据
+            let conditionTraffic = item.conditionTraffic || [];
+            // 排除数据
+            let exemptTraffic = item.exemptTraffic || [];
+            // 条件数据里是否包含未成功转换的字段项
+            const conditionTraffic_isIncludesUnConvertedField = checkIsIncludesUnConvertedField(conditionTraffic, unConvertedData);
+            // 排除数据里是否包含未成功转换的字段项
+            const exemptTraffic_isIncludesUnConvertedField = checkIsIncludesUnConvertedField(exemptTraffic, unConvertedData);
+            if(conditionTraffic_isIncludesUnConvertedField || exemptTraffic_isIncludesUnConvertedField) {
+                return true;
+            }
+            
+        }
+        return false;
+    }
+
+    // 限制数据里是否包含未成功转换的字段
+    const trfdDataIsIncludesUnConvertedField = unConvertedAllTrfd || checkTrafficFlowDataIsIncludesUnConvertedField(trfdData, unConverted_trfd)
+     // 措施豁免数据里是否包含未成功转换的字段
+    const expdDataIsIncludesUnConvertedField = unConvertedAllExpd || checkTrafficFlowDataIsIncludesUnConvertedField(expdData, unConverted_expd)
+    
 
     return (
         <Row>
@@ -312,10 +353,10 @@ function NTFMDetail(props) {
                                     <div className="ant-row ant-form-item">
                                         <Tabs className="traffic-flow-tab" defaultActiveKey="1" type="card" tabBarExtraContent={setOperation()}>
 
-                                            <TabPane tab="限制" key="RESTRICTION">
+                                            <TabPane  tab={trfdDataIsIncludesUnConvertedField ? <Badge offset={[8,0]} dot><span>限制</span></Badge> : "限制"} key="RESTRICTION">
                                                 {tabVisible ? <RestrictionPane data={trfdData} unConvertedAll={unConvertedAllTrfd} unConverted_trfd={unConverted_trfd} ></RestrictionPane> : ""}
                                             </TabPane>
-                                            <TabPane tab="措施豁免(占量)" key="EXEMPTION">
+                                            <TabPane tab={expdDataIsIncludesUnConvertedField ? <Badge offset={[8,0]} dot><span>措施豁免(占量)</span></Badge> : "措施豁免(占量)"} key="EXEMPTION">
                                                 {tabVisible ? <ExemptionPane data={expdData} unConvertedAll={unConvertedAllExpd} unConverted_expd={unConverted_expd}  ></ExemptionPane> : ""}
                                             </TabPane>
                                         </Tabs>

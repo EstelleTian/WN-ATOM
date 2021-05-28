@@ -12,6 +12,10 @@ import NTFMDetail  from 'components/RestrictionDetail/NTFM/NTFMDetail'
 import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
 import SchemeForm from 'components/RestrictionForm/SchemeForm'
 import { inject, observer } from "mobx-react";
+import { customNotice } from 'utils/common-funcs'
+import { isValidObject, isValidVariable } from 'utils/basic-verify'
+
+
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 // NTFM新增导入生成方案
@@ -34,10 +38,20 @@ function NTFMAdd(props){
     };
     // 请求NTFM数据失败
     const requestErr = (err, content) => {
-        antdMessage.error({
-            content,
-            duration: 4,
-        });
+        let errMsg = "";
+        if (isValidObject(err) && isValidVariable(err.message)) {
+            errMsg = err.message;
+        } else if (isValidVariable(err)) {
+            errMsg = err;
+        }
+
+        customNotice({
+            type: 'error',
+            message: <div>
+                <p>{content}</p>
+                <p>{errMsg}</p>
+            </div>
+        })
     };
     // 请求NTFM数据
     const requestNTFMData = (data) => {
