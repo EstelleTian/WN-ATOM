@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import { inject, observer } from "mobx-react";
-import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
 import SchemeForm from 'components/RestrictionForm/SchemeForm'
 
 import { customNotice } from 'utils/common-funcs'
@@ -67,11 +66,7 @@ function DisplaySchemeDetailPage(props) {
     return (
         <div className="modify-scheme-container">
             <div className="content">
-                {/* <RestrictionForm
-                    flowData={flowData}
-                    disabledForm={disabledForm}
-                    setDisabledForm={setDisabledForm}
-                /> */}
+                
                 <SchemeForm
                     disabledForm = {disabledForm}
                     setDisabledForm = {setDisabledForm}

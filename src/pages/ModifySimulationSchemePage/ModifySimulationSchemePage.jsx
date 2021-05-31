@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import { isValidObject, isValidVariable, } from 'utils/basic-verify'
-import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
 import SchemeForm from 'components/RestrictionForm/SchemeForm'
 import { inject, observer } from "mobx-react";
 import { customNotice } from 'utils/common-funcs'
@@ -66,17 +65,7 @@ function ModifySchemePage(props) {
     return (
         <div className="modify-scheme-container">
             <div className="content">
-                {/* <RestrictionForm
-                    pageType="MODIFYSIM" // MODIFYSIM:修改模拟方案
-                    operationDescription="提交修改方案"
-                    primaryButtonName="提交修改"
-                    flowData={flowData}
-                    disabledForm={disabledForm}
-                    setDisabledForm={setDisabledForm}
-                    flowData={flowData}
-                    showEditBtn={true}
-                    showIgnoreBtn={false}
-                /> */}
+                
                 <SchemeForm
                     pageType="MODIFYSIM" // MODIFYSIM:修改模拟方案
                     operationDescription="提交修改方案"

@@ -9,7 +9,6 @@
 import React, {useEffect, useState} from 'react'
 import { Row, Col, message as antdMessage, Button  } from 'antd'
 import ATOMDetail  from 'components/RestrictionDetail/ATOM/ATOMDetail'
-import RestrictionForm  from 'components/RestrictionForm/RestrictionForm'
 import SchemeForm from 'components/RestrictionForm/SchemeForm'
 import { inject, observer } from "mobx-react";
 import { request } from 'utils/request'
@@ -99,19 +98,7 @@ function ATOMUpdate(props){
                 <Row className="title">
                     <span>流控导入</span>
                 </Row>
-                {/* <RestrictionForm
-                    pageType="IMPORTWITHFORMER"
-                    operationDescription="流控导入"
-                    primaryButtonName="导入"
-                    disabledForm = {disabledForm}
-                    setDisabledForm = {setDisabledForm}
-                    flowData={ flowData }
-                    message={message}
-                    showEditBtn={true}
-                    showIgnoreBtn={true}
-                    bordered={ true }
-                    operationBarClassName="outside"
-                /> */}
+                
                 <SchemeForm
                     pageType="IMPORTWITHFORMER"
                     operationDescription="流控导入"

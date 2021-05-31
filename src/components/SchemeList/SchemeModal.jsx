@@ -4,7 +4,6 @@ import { requestGet } from 'utils/request'
 import { isValidObject } from 'utils/basic-verify'
 import { ReqUrls } from 'utils/request-urls'
 import SchemeDetail from 'components/SchemeList/SchemeDetail'
-import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
 import SchemeForm from 'components/RestrictionForm/SchemeForm'
 import { inject, observer } from "mobx-react";
 
@@ -94,13 +93,7 @@ const SchemeModal = (props) => {
                     destroyOnClose={true}
                     footer={null}
                 >
-                    {/* <RestrictionForm
-                        pageType="MODIFY"
-                        operationDescription="提交模拟方案调整"
-                        primaryButtonName="提交修改"
-                        setModalVisible={setVisible}
-                        bordered={false}
-                    /> */}
+                    
                     <SchemeForm
                         pageType="MODIFY"
                         operationDescription="提交模拟方案调整"
@@ -123,13 +116,7 @@ const SchemeModal = (props) => {
                     destroyOnClose={true}
                     footer={null}
                 >
-                    {/* <RestrictionForm
-                        pageType="RECREATE"
-                        operationDescription="创建方案"
-                        primaryButtonName="创建方案"
-                        setModalVisible={setVisible}
-                        bordered={false}
-                    /> */}
+                    
                     <SchemeForm
                         pageType="RECREATE"
                         operationDescription="创建方案"

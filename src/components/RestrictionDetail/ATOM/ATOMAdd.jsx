@@ -9,7 +9,6 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Col, message as antdMessage, } from 'antd'
 import ATOMDetail from 'components/RestrictionDetail/ATOM/ATOMDetail'
-import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
 import SchemeForm from 'components/RestrictionForm/SchemeForm'
 import { inject, observer } from "mobx-react";
 
@@ -88,19 +87,7 @@ function ATOMAdd(props) {
                 <Row className="title">
                     <span>流控导入</span>
                 </Row>
-                {/* <RestrictionForm
-                    operationType="IMPORT"
-                    operationDescription="流控导入"
-                    primaryButtonName="导入"
-                    disabledForm={disabledForm}
-                    setDisabledForm={setDisabledForm}
-                    flowData={flowData}
-                    message={message}
-                    showEditBtn={true}
-                    showIgnoreBtn={true}
-                    bordered={true}
-                    operationBarClassName="outside"
-                /> */}
+                
                 <SchemeForm
                     pageType="IMPORT"
                     operationDescription="流控导入"

@@ -4,7 +4,6 @@
 import React , {useEffect, useState}from "react";
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
-import RestrictionForm from 'components/RestrictionForm/RestrictionForm'
 import SchemeForm from 'components/RestrictionForm/SchemeForm'
 
 import { customNotice } from 'utils/common-funcs'
@@ -61,11 +60,7 @@ function DisplaySimulationSchemeDetailPage(props){
     return (
         <div className="modify-scheme-container">
             <div className="content">
-                {/* <RestrictionForm
-                    flowData = {flowData}
-                    disabledForm = {disabledForm}
-                    setDisabledForm = {setDisabledForm}
-                /> */}
+                
                 <SchemeForm
                 disabledForm = {disabledForm}
                 setDisabledForm = {setDisabledForm}
