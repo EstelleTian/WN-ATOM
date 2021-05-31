@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react'
 import { Form, Radio } from 'antd'
 import { ThunderboltFilled, EditFilled } from '@ant-design/icons'
+import { SchemeFormUtil } from 'utils/scheme-form-util'
 
 import { inject, observer } from "mobx-react";
 
@@ -27,8 +28,8 @@ function TacticInputMethodRadioGroup(props) {
     // }, [tacticName]);
     return (
         <Radio.Group onChange={onChange} value={value} disabled={disabledForm}>
-            <Radio value="shortcut"><ThunderboltFilled />快捷录入</Radio>
-            <Radio value="custom"><EditFilled />自定义录入</Radio>
+            <Radio value={SchemeFormUtil.INPUTMETHOD_SHORTCUT}><ThunderboltFilled />快捷录入</Radio>
+            <Radio value={SchemeFormUtil.INPUTMETHOD_CUSTOM}><EditFilled />自定义录入</Radio>
         </Radio.Group>
     )
 }

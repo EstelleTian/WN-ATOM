@@ -12,12 +12,12 @@ function CreateFlowPage(props){
         <div className="create-flow-container">
             <div className="content">
                 {/* <RestrictionForm
-                    operationType="CREATE"
+                    pageType="CREATE"
                     operationDescription="创建方案"
                     primaryButtonName="创建方案"
                 /> */}
                 <SchemeForm
-                    operationType="CREATE"
+                    pageType="CREATE"
                     operationDescription="创建方案"
                     primaryButtonName="创建方案"
                 />

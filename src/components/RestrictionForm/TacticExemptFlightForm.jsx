@@ -1,6 +1,8 @@
-import React, { Fragment, useEffect } from 'react'
-import { Card, Checkbox, Col, DatePicker, Descriptions, Form, Input, Radio, Select, Row, Tag, Tooltip } from "antd";
-import { formatTimeString, parseFullTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
+import React, { useEffect } from 'react'
+import { Card, Checkbox, Col,  Form,  Select, Row, } from "antd";
+import { isValidVariable } from 'utils/basic-verify'
+import { SchemeFormUtil } from 'utils/scheme-form-util'
+
 
 import { inject, observer } from "mobx-react";
 //尾流类型选项
@@ -59,7 +61,7 @@ const exemptionAbilityOptions = [
 //不包含航班表单
 function TacticExemptFlightForm(props) {
 
-    const { schemeFormData, form } = props;
+    const { schemeFormData, form, pageType } = props;
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
@@ -87,6 +89,10 @@ function TacticExemptFlightForm(props) {
         // 不包含-受控机型
         exemptionAircraftType: isValidVariable(exemptionAircraftType) ? exemptionAircraftType.split(';') : [],
     }
+    // 是否为禁用页面类型
+    const isDisabledPageType = SchemeFormUtil.getIsDisabledPageType().includes(pageType)
+    // 是否禁用
+    const disabled = props.disabledForm  || isDisabledPageType;
     //方案名称发生变化触发更新
     useEffect(function () {
         //重置表单，用以表单初始值赋值
@@ -105,7 +111,7 @@ function TacticExemptFlightForm(props) {
                             label="航班号"
                         >
                             <Select
-                                disabled={props.disabledForm}
+                                disabled={disabled}
                                 mode="tags"
                                 style={{ width: '100%' }}
                                 placeholder=""
@@ -122,7 +128,7 @@ function TacticExemptFlightForm(props) {
                             name="exemptionWakeFlowLevel"
                             label="尾流类型"
                         >
-                            <Checkbox.Group options={exemptionWakeFlowLevelOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={exemptionWakeFlowLevelOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -130,7 +136,7 @@ function TacticExemptFlightForm(props) {
                             name="exemptionAuType"
                             label="运营人"
                         >
-                            <Checkbox.Group options={exemptionAuTypeOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={exemptionAuTypeOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -138,7 +144,7 @@ function TacticExemptFlightForm(props) {
                             name="exemptionAirlineType"
                             label="航班类型"
                         >
-                            <Checkbox.Group options={exemptionAirlineTypeOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={exemptionAirlineTypeOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -146,7 +152,7 @@ function TacticExemptFlightForm(props) {
                             name="exemptionMissionType"
                             label="客货类型"
                         >
-                            <Checkbox.Group options={exemptionMissionTypeOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={exemptionMissionTypeOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -154,7 +160,7 @@ function TacticExemptFlightForm(props) {
                             name="exemptionTask"
                             label="任务类型"
                         >
-                            <Checkbox.Group options={exemptionTaskOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={exemptionTaskOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -162,7 +168,7 @@ function TacticExemptFlightForm(props) {
                             name="exemptionOrganization"
                             label="军民航"
                         >
-                            <Checkbox.Group options={exemptionOrganizationOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={exemptionOrganizationOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -170,7 +176,7 @@ function TacticExemptFlightForm(props) {
                             name="exemptionAbility"
                             label="限制资质"
                         >
-                            <Checkbox.Group options={exemptionAbilityOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={exemptionAbilityOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -179,7 +185,7 @@ function TacticExemptFlightForm(props) {
                             label="受控机型"
                         >
                             <Select
-                                disabled={props.disabledForm}
+                                disabled={disabled}
                                 mode="tags"
                                 style={{ width: '100%' }}
                                 placeholder=""
@@ -197,7 +203,7 @@ function TacticExemptFlightForm(props) {
                         label="受控高度"
                     >
                         <Select
-                            disabled={ props.disabledForm }
+                            disabled={ disabled }
                             mode="tags"
                             style={{ width: '100%' }}
                             placeholder=""

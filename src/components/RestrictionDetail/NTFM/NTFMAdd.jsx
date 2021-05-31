@@ -117,7 +117,7 @@ function NTFMAdd(props){
                     operationBarClassName="outside"
                 /> */}
                 <SchemeForm
-                    operationType="IMPORT"
+                    pageType="IMPORT"
                     operationDescription="流控导入"
                     primaryButtonName="导入"
                     disabledForm = {disabledForm}

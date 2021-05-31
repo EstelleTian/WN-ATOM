@@ -33,61 +33,20 @@ import { handleImportControl, handleImportControlForUpdate, handleUpdateFlowCont
 import { parseFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
+import { SchemeFormUtil } from 'utils/scheme-form-util'
 
 import './SchemeForm.scss'
 import { inject, observer } from "mobx-react";
 import { element } from 'prop-types'
 //方案表单
 function SchemeForm(props) {
-
-    // 区域标签机场集合
-    const areaLabelAirport = [
-        {
-            label: '兰州',
-            airport: 'ZBAL;ZBAR;ZBEN;ZBUH;ZLDH;ZLDL;ZLGL;ZLGM;ZLGY;ZLHB;ZLHX;ZLIC;ZLJC;ZLJQ;ZLLL;ZLLN;ZLTS;ZLXH;ZLXN;ZLYS;ZLZW;ZLZY',
-            code: 'ZLLL'
-        },
-        {
-            label: '西安',
-            airport: 'ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL',
-            code: 'ZLXY'
-        },
-        {
-            label: '山东',
-            airport: 'ZSHZ;ZSJG;ZSJN;ZSDY;ZSWF;ZSRZ;ZSLY;ZSYT;ZSWH;ZSQD',
-            code: 'ZSQD'
-        },
-    ]
-
-    // 备选航路表单字段集合
-    const initialAlterRoutesFieldData = [
-        {
-            name: 'alterRoute1',
-            extra: ""
-        },
-        {
-            name: 'alterRoute2',
-            extra: "",
-        },
-        {
-            name: 'alterRoute3',
-            extra: "",
-        },
-        {
-            name: 'alterRoute4',
-            extra: "",
-        },
-        {
-            name: 'alterRoute5',
-            extra: "",
-        },
-    ]
-
+    // 可显示快捷录入表单的页面类型集合
+    const isShowShortcutFormPageType = SchemeFormUtil.getIsShowShortcutFormPageType();
     // 备选航路表单字段配置集合
-    let [alterRoutesField, setAlterRoutesField] = useState(initialAlterRoutesFieldData);
+    let [alterRoutesField, setAlterRoutesField] = useState(SchemeFormUtil.InitialAlterRoutesFieldData);
     // 主按钮是否禁用
     let [primaryBtnDisabled, setPrimaryBtnDisabled] = useState(false);
-    const { systemPage, schemeFormData, operationType, primaryButtonName, operationDescription } = props;
+    const { systemPage, schemeFormData, pageType, primaryButtonName, operationDescription } = props;
     // 编辑按钮
     const showEditBtn = props.showEditBtn || false;
     // 忽略按钮
@@ -110,9 +69,8 @@ function SchemeForm(props) {
     // 基准点
     const targetUnit = schemeFormData.targetUnit;
 
-
     //方案交通流录入方式 shortcut:快捷录入  custom:自定义
-    const inputMethod = schemeFormData.inputMethod || "shortcut";
+    const inputMethod = schemeFormData.inputMethod;
     // 方案模式表单
     const [tacticModeForm] = Form.useForm();
     // 方案名称表单
@@ -187,14 +145,14 @@ function SchemeForm(props) {
                 tacticAlterRouteFormValidatePromise(),
             ];
         } else {
-            if (inputMethod === 'shortcut') {
+            if (inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
                 promiseArray = [
                     tacticShortcutInputFormValidatePromise(),
                     tacticMeasureFormValidatePromise(),
                     tacticArrApFormValidatePromise(),
                     tacticExemptArrApFormValidatePromise(),
                 ]
-            } else if (inputMethod === 'custom') {
+            } else if (inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) {
                 promiseArray = [
                     tacticTargetUnitFormValidatePromise(),
                     tacticBehindtUnitFormValidatePromise(),
@@ -222,14 +180,14 @@ function SchemeForm(props) {
                 tacticAlterRouteFormValidatePromise(),
             ];
         } else {
-            if (inputMethod === 'shortcut') {
+            if (inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
                 promiseArray = [
                     ...promiseArray,
                     tacticShortcutInputFormValidatePromise(),
                     tacticArrApFormValidatePromise(),
                     tacticExemptArrApFormValidatePromise(),
                 ]
-            } else if (inputMethod === 'custom') {
+            } else if (inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) {
                 promiseArray = [
                     ...promiseArray,
                     tacticTargetUnitFormValidatePromise(),
@@ -261,7 +219,7 @@ function SchemeForm(props) {
         };
         // 限制数值单位
         let unit = "";
-        let { startDate = "", startTime = "", targetUnit = "", behindUnit = "",
+        let { targetUnit = "", behindUnit = "",
             exemptBehindUnit = "", restrictionModeValue = "",
             arrAp = [], exemptArrAp = [], restrictionMITValueUnit = [], originRoute = "",
             shortcutInputCheckboxSet = [],
@@ -303,7 +261,7 @@ function SchemeForm(props) {
         let exemptArrApLabel = isValidVariable(exemptArrAp) ? `(${exemptArrAp}除外) ` : "";
         let descriptions = `${exemptArrApLabel}${behindUnitLabel}${exemptBehindUnitLabel}${arrApLabel}`
         //  快捷录入
-        if (inputMethod === 'shortcut') {
+        if (inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
             // MIT或AFP限制类型
             if (restrictionMode === "MIT" || restrictionMode === "AFP") {
                 // 拼接名称
@@ -312,7 +270,7 @@ function SchemeForm(props) {
                 // 拼接名称
                 autoName = `${shortcutInputCheckboxSet} ${descriptions}停放`;
             }
-        } else if (inputMethod === 'custom') { // 自定义录入
+        } else if (inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) { // 自定义录入
             // MIT或AFP限制类型
             if (restrictionMode === "MIT" || restrictionMode === "AFP") {
                 // 拼接名称
@@ -593,8 +551,8 @@ function SchemeForm(props) {
         }
         let alterRouteObj = {}
         // 遍历备选航路表单配置集合拼接参数
-        for (let i = 0; i < initialAlterRoutesFieldData.length; i++) {
-            let val = tacticAlterRouteForm.getFieldValue(initialAlterRoutesFieldData[i].name);
+        for (let i = 0; i < SchemeFormUtil.InitialAlterRoutesFieldData.length; i++) {
+            let val = tacticAlterRouteForm.getFieldValue(SchemeFormUtil.InitialAlterRoutesFieldData[i].name);
             val = val ? val.toUpperCase() : "";
             let key = `alterRoute${i + 1}`
             let obj = {
@@ -621,7 +579,7 @@ function SchemeForm(props) {
                 disabledForm={props.disabledForm}
                 alterRoutesFieldData={alterRoutesField}
                 validateSingleRouteFormat={validateSingleRouteFormat}
-                // validateMultiRouteFormat={validateMultiRouteFormat}
+            // validateMultiRouteFormat={validateMultiRouteFormat}
             >
             </TacticAlterRouteForm>
         )
@@ -662,7 +620,7 @@ function SchemeForm(props) {
     // 获取转换后的备选航路表单配置数据集合
     const getRouteFieldList = (validateResult) => {
 
-        const data = initialAlterRoutesFieldData.map(item => {
+        const data = SchemeFormUtil.InitialAlterRoutesFieldData.map(item => {
             return updateSingleAlterRouteData(item, validateResult)
         })
         return data;
@@ -817,14 +775,13 @@ function SchemeForm(props) {
     /*********************改航相关end**************************/
     // 交通卡片标题
     const getTitle = () => {
-        // 改航限制类型
-        if (restrictionMode === "CT" || operationType !== "CREATE") {
+        if (restrictionMode != "CT" && isShowShortcutFormPageType.includes(pageType)) {
+            // 除改航限制类型外的且操作为可显示快捷录入的
+            return <Space size={20}>交通流信息 <TacticInputMethodRadioGroup disabledForm={props.disabledForm} /></Space>
+        } else {
             return (
                 <Space size={20}>交通流信息</Space>
             )
-        } else {
-            // 除改航限制类型外的增加显示录入方式单选按钮组
-            return <Space size={20}>交通流信息 <TacticInputMethodRadioGroup disabledForm={props.disabledForm}  /></Space>
         }
     }
 
@@ -835,7 +792,7 @@ function SchemeForm(props) {
      * */
     const drawprimaryBtn = () => {
         //  若表单为不可编辑状态且为MODIFYSIM(模拟状态的方案修改)操作
-        if (props.disabledForm && operationType === "MODIFYSIM") {
+        if (props.disabledForm && pageType === SchemeFormUtil.PAGETYPE_MODIFYSIM) {
             return ""
         } else {
             return (
@@ -878,7 +835,7 @@ function SchemeForm(props) {
      * 编辑按钮
      *
      * */
-     const drawEditBtn = () => {
+    const drawEditBtn = () => {
         return (
             props.disabledForm ?
                 <div className="button-container">
@@ -892,10 +849,10 @@ function SchemeForm(props) {
                 : ""
         )
     };
-     /**
-     * 打开编辑
-     * */
-      const handleOpenEdit = () => {
+    /**
+    * 打开编辑
+    * */
+    const handleOpenEdit = () => {
         if (props.hasOwnProperty("setDisabledForm")) {
             props.setDisabledForm(false);
         }
@@ -922,7 +879,7 @@ function SchemeForm(props) {
                             onOk: () => {
                                 window.close();
                             },
-                            
+
                         });
                     }}
                 >
@@ -952,7 +909,7 @@ function SchemeForm(props) {
         let valided = validateStartDateTimeRange();
         if (valided) {
             // 校验方案名称是否与限制条件相符
-            checkTacticName(fieldData);
+            checkTacticName(fieldData, false);
         } else {
             Modal.confirm({
                 title: '提示',
@@ -969,7 +926,7 @@ function SchemeForm(props) {
                     // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
                     if (typeof close === 'function') {
                         // 校验方案名称是否与限制条件相符
-                        checkTacticName(fieldData);
+                        checkTacticName(fieldData, true );
                         // 关闭模态框
                         close();
                     }
@@ -994,13 +951,24 @@ function SchemeForm(props) {
 
     /**
      * 方案名称检查
+     * 
+     * @param fieldData 表单数据
+     * @param skipConfirm 跳过确认提示框 boolean
      *
      * */
-    const checkTacticName = (fieldData) => {
+    const checkTacticName = (fieldData, skipConfirm) => {
         // 方案名称
         const tacticName = tacticNameForm.getFieldValue('tacticName');
         let autoName = spliceName(fieldData);
-        if (autoName.trim() === tacticName.trim()) {
+        let isValid = autoName.trim() === tacticName.trim()
+        // 若方案名称比对通过
+        if ( isValid ) {
+            // 若跳过确认提示框则直接提交
+            if(skipConfirm){
+                submitData();
+                return
+            }
+            // 弹出确认提交提示框
             Modal.info({
                 title: `${primaryButtonName}`,
                 // icon: <ExclamationCircleOutlined />,
@@ -1047,24 +1015,6 @@ function SchemeForm(props) {
         submitData();
     }
 
-    // 将数值批量转换为大写
-    const toUpperCaseValues = (upperFields, values) => {
-        for (var v in values) {
-            if (upperFields.includes(v)) {
-                values[v] = upperCaseValue(values[v]);
-            }
-        }
-        return values;
-    };
-
-    // 转换为大写
-    const upperCaseValue = (values) => {
-        if (typeof values === 'string') {
-            return values.toUpperCase();
-        } else if (Array.isArray(values)) {
-            return values.join(',').toUpperCase().split(',')
-        }
-    }
 
     /**
      * 数据提交
@@ -1082,11 +1032,11 @@ function SchemeForm(props) {
         };
 
         // 若为手动创建或修改正式的方案操作，则使用createSchemeUrl
-        if (operationType === "MODIFY" || operationType === "CREATE") {
+        if (pageType === SchemeFormUtil.PAGETYPE_MODIFY || pageType === SchemeFormUtil.PAGETYPE_CREATE) {
             opt.url = ReqUrls.createSchemeUrl + user.id;
         }
         // 若为模拟状态的方案修改，则使用modifySimulationSchemeUrl
-        if (operationType === "MODIFYSIM") {
+        if (pageType === SchemeFormUtil.PAGETYPE_MODIFYSIM) {
             opt.url = ReqUrls.modifySimulationSchemeUrl + user.id;
             opt.method = "PUT";
         }
@@ -1135,19 +1085,6 @@ function SchemeForm(props) {
             tacticTimeInfo = basicTacticInfo.tacticTimeInfo
         }
 
-        // 方案方向信息集合
-        let directionList = basicTacticInfo.directionList;
-        if (!isValidVariable(directionList)) {
-            basicTacticInfo.directionList = [];
-            directionList = basicTacticInfo.directionList
-        }
-        // 方案方向信息第一个数据项
-        let directionListData = directionList[0];
-        if (!isValidVariable(directionListData)) {
-            directionList[0] = {};
-            directionListData = directionList[0]
-        }
-
         // 方案流控领域对象
         let basicFlowcontrol = basicTacticInfo.basicFlowcontrol;
         if (!isValidObject(basicFlowcontrol)) {
@@ -1177,7 +1114,7 @@ function SchemeForm(props) {
         // 所有表单数值
         let formDataValue = getAllFormValue();
         // 转换为大写
-        formDataValue = toUpperCaseValues(upperFields, formDataValue);
+        formDataValue = SchemeFormUtil.toUpperCaseValues(formDataValue);
 
         const {
             tacticMode,
@@ -1189,9 +1126,9 @@ function SchemeForm(props) {
             flowControlReason,
             startTime,
             endTime,
+            restrictionModeValue,
             useHeight,
             exemptHeight,
-            restrictionModeValue,
             targetUnit,
             formerUnit,
             behindUnit,
@@ -1226,6 +1163,8 @@ function SchemeForm(props) {
 
         // 更新方案模式
         basicTacticInfo.tacticMode = tacticMode;
+        // 更新方案录入方式
+        basicTacticInfo.inputMethod = inputMethod;
         // 更新方案名称
         basicTacticInfo.tacticName = tacticName;
         // 方案发布单位
@@ -1248,28 +1187,10 @@ function SchemeForm(props) {
         // 更新流控限制方式相应的字段数值
         let modeKey = restrictionModeData[restrictionMode];
         flowControlMeasure[modeKey] = restrictionModeValue;
-        // 更新基准单元
-        directionListData.targetUnit = targetUnit;
-        // 更新前序单元
-        directionListData.formerUnit = formerUnit;
-        // 更新后序单元
-        directionListData.behindUnit = behindUnit;
-        // 更新豁免前序
-        directionListData.exemptFormerUnit = exemptFormerUnit;
-        // 更新豁免后序
-        directionListData.exemptBehindUnit = exemptBehindUnit;
-        // 起飞机场
-        directionListData.depAp = depAp;
-        // 降落机场
-        directionListData.arrAp = arrAp;
-        // 豁免起飞机场
-        directionListData.exemptDepAp = exemptDepAp;
-        // 豁免降落机场
-        directionListData.exemptArrAp = exemptArrAp;
-        // 更新限制高度
-        directionListData.useHeight = useHeight;
-        // 更新豁免高度
-        directionListData.exemptHeight = exemptHeight;
+        // 获取方案方向信息集合数据
+        let directionList = getDirectionListData(formDataValue);
+        // 更新方案方向信息集合
+        basicTacticInfo.directionList = directionList;
 
         // 更新流控交通流-包含-航班号
         flightPropertyDomain.flightId = flightId;
@@ -1332,7 +1253,7 @@ function SchemeForm(props) {
             flowControlMeasure.alterRouteData3 = sortedAlterRouteData[2]
             flowControlMeasure.alterRouteData4 = sortedAlterRouteData[3]
             flowControlMeasure.alterRouteData5 = sortedAlterRouteData[4]
-        }else {
+        } else {
             // 更新速度字段数值
             flowControlMeasure.distanceToTime = schemeFormData.distanceToTime;
         }
@@ -1341,13 +1262,172 @@ function SchemeForm(props) {
         if (restrictionMode === "MIT") {
             // 更新MIT限制单位
             flowControlMeasure.restrictionMITValueUnit = restrictionMITValueUnit;
-             // 更新MIT流控时间间隔字段数值
-             flowControlMeasure.restrictionMITTimeValue = restrictionMITTimeValue;
+            // 更新MIT流控时间间隔字段数值
+            flowControlMeasure.restrictionMITTimeValue = restrictionMITTimeValue;
 
         }
 
         return schemeData;
     }
+    // 获取方案方向数据
+    const getDirectionListData = (formDataValue) => {
+        let list = [];
+        // 从所有表单数值取出指定项
+        const {
+            useHeight,
+            exemptHeight,
+            targetUnit,
+            formerUnit,
+            behindUnit,
+            exemptFormerUnit,
+            exemptBehindUnit,
+            depAp,
+            arrAp,
+            exemptDepAp,
+            exemptArrAp,
+        } = formDataValue;
+        // 自定义录入模式下取值
+        if (inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) {
+            const direction = {
+                useHeight,
+                exemptHeight,
+                targetUnit,
+                formerUnit,
+                behindUnit,
+                exemptFormerUnit,
+                exemptBehindUnit,
+                depAp,
+                arrAp,
+                exemptDepAp,
+                exemptArrAp,
+            }
+            list.push(direction);
+        } else if (inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
+            // 快捷录入模式取值
+            // list = getDirectionListDataByShortcutFormSelecedData(formDataValue);
+            // 快捷录入模式取值
+            list = getDirectionListSingleDataByShortcutFormSelecedData(formDataValue);
+            debugger
+
+        }
+        return list;
+    }
+    // // 快捷录入模式获取方案方向信息集合数据(单方向)
+    const getDirectionListSingleDataByShortcutFormSelecedData = (formDataValue) => {
+        const {
+            useHeight,
+            exemptHeight,
+            depAp,
+            arrAp,
+            exemptDepAp,
+            exemptArrAp,
+        } = formDataValue;
+        // 基准单元
+        let targetUnit = [];
+        // 前序单元
+        let formerUnit = [];
+        // 后序单元
+        let behindUnit = [];
+        // 豁免前序
+        let exemptFormerUnit = [];
+        // 豁免后序
+        let exemptBehindUnit = [];
+        // 全部基准点
+        let points = [];
+        for (let i = 0; i < shortcutFormData.length; i++) {
+            let directionData = shortcutFormData[i];
+            points = [...points, ...directionData.options]
+        }
+        // 勾选的基准点
+        let selecedPoints = points.filter((item) => {
+            return shortcutFormSelecedData.includes(item.value);
+        })
+
+        for (let j = 0; j < selecedPoints.length; j++) {
+            let element = selecedPoints[j].directionCriteria;
+            if (isValidVariable(element.targetUnit)) {
+                targetUnit = [...targetUnit, element.targetUnit];
+            }
+            if (isValidVariable(element.formerUnit)) {
+                formerUnit = [...formerUnit, element.formerUnit];
+            }
+            if (isValidVariable(element.behindUnit)) {
+                behindUnit = [...behindUnit, element.behindUnit];
+            }
+            if (isValidVariable(element.exemptFormerUnit)) {
+                exemptFormerUnit = [...exemptFormerUnit, element.exemptFormerUnit];
+            }
+            if (isValidVariable(element.exemptBehindUnit)) {
+                exemptBehindUnit = [...exemptBehindUnit, element.exemptBehindUnit];
+            }
+        }
+        let list = [
+            {
+                targetUnit: targetUnit.join(';'),
+                formerUnit: formerUnit.join(';'),
+                behindUnit: behindUnit.join(';'),
+                exemptFormerUnit: exemptFormerUnit.join(';'),
+                exemptBehindUnit: exemptBehindUnit.join(';'),
+                useHeight,
+                exemptHeight,
+                depAp,
+                arrAp,
+                exemptDepAp,
+                exemptArrAp,
+            }
+        ]
+        return list;
+    }
+
+
+
+
+
+    // 快捷录入模式获取方案方向信息集合数据(多方向)
+    const getDirectionListDataByShortcutFormSelecedData = (formDataValue) => {
+        let list = [];
+        const {
+            useHeight,
+            exemptHeight,
+            depAp,
+            arrAp,
+            exemptDepAp,
+            exemptArrAp,
+        } = formDataValue;
+
+        // 全部基准点
+        let points = [];
+        for (let i = 0; i < shortcutFormData.length; i++) {
+            // 快捷录入数据中单条方向数据
+            let data = shortcutFormData[i];
+            // 拷贝单条方向数据中的options数据到points数组中
+            points = [...points, ...data.options]
+        }
+        // 勾选的基准点
+        let selecedPoints = points.filter((item) => {
+            return shortcutFormSelecedData.includes(item.value);
+        })
+        for (let j = 0; j < selecedPoints.length; j++) {
+            // 单个基准点对应的directionCriteria数据，里面包括基准点、前序、后序、豁免前序、豁免后序字段
+            let element = selecedPoints[j].directionCriteria;
+            let singleDirection = {
+                useHeight,
+                exemptHeight,
+                depAp,
+                arrAp,
+                exemptDepAp,
+                exemptArrAp,
+                targetUnit: element.targetUnit || "",
+                formerUnit: element.formerUnit || "",
+                behindUnit: element.behindUnit || "",
+                exemptFormerUnit: element.exemptFormerUnit || "",
+                exemptBehindUnit: element.exemptBehindUnit || "",
+            }
+            list.push(singleDirection);
+        }
+        return list;
+    }
+
 
     // 获取所有表单数据
     const getAllFormValue = () => {
@@ -1392,19 +1472,17 @@ function SchemeForm(props) {
         let exemptFormerUnit = "";
         // 豁免后序
         let exemptBehindUnit = "";
-
-        if (restrictionMode !== "CT" && inputMethod === "shortcut") {
-            let units = getUnits();
-            targetUnit = units.targetUnit;
-            formerUnit = units.formerUnit;
-            behindUnit = units.behindUnit;
-            exemptFormerUnit = units.exemptFormerUnit;
-            exemptBehindUnit = units.exemptBehindUnit;
-        } else {
+        // 改航以外的限制类型且为自定义录入的
+        if (restrictionMode !== "CT" && inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) {
+            // 更新基准单元数值
             targetUnit = tacticTargetUnitForm.getFieldValue('targetUnit');
+            // 更新前序单元数值
             formerUnit = tacticFormerUnitForm.getFieldValue('formerUnit');
+            // 更新后序单元数值
             behindUnit = tacticBehindUnitForm.getFieldValue('behindUnit');
+            // 更新豁免前序数值
             exemptFormerUnit = tacticExemptFormerUnitForm.getFieldValue('exemptFormerUnit');
+            // 更新豁免后序数值
             exemptBehindUnit = tacticExemptBehindUnitForm.getFieldValue('exemptBehindUnit');
         }
 
@@ -1483,13 +1561,13 @@ function SchemeForm(props) {
             exemptFormerUnit,
             exemptBehindUnit,
             // 起飞机场
-            depAp: parseAreaLabelAirport(depAp).join(';'),
+            depAp: SchemeFormUtil.parseAreaLabelAirport(depAp).join(';'),
             // 降落机场
-            arrAp: parseAreaLabelAirport(arrAp).join(';'),
+            arrAp: SchemeFormUtil.parseAreaLabelAirport(arrAp).join(';'),
             // 豁免起飞机场
-            exemptDepAp: parseAreaLabelAirport(exemptDepAp).join(';'),
+            exemptDepAp: SchemeFormUtil.parseAreaLabelAirport(exemptDepAp).join(';'),
             // 豁免降落机场
-            exemptArrAp: parseAreaLabelAirport(exemptArrAp).join(';'),
+            exemptArrAp: SchemeFormUtil.parseAreaLabelAirport(exemptArrAp).join(';'),
 
             flightId: flightId.join(';'),
             wakeFlowLevel: wakeFlowLevel.join(';'),
@@ -1517,86 +1595,33 @@ function SchemeForm(props) {
     }
 
 
-    // 解析指定数值中的区域标签，转换为对应的机场
-    const parseAreaLabelAirport = (arr) => {
-        let result = [];
-        if (Array.isArray(arr)) {
-            if (arr.length == 0) {
-                return result;
-            }
-            for (let i = 0; i < arr.length; i++) {
-                let label = arr[i];
-                let airports = findAreadLabelAirport(label);
-                if (isValidVariable(airports)) {
-                    result = result.concat(airports);
-                } else {
-                    result = result.concat(label)
-                }
-            }
-        }
-        return result;
-    }
-    // 查找指定区域标签对应的机场集合
-    const findAreadLabelAirport = (label) => {
-        for (let i = 0; i < areaLabelAirport.length; i++) {
-            let data = areaLabelAirport[i];
-            let dataLabel = data.label.trim();
-            if (label === dataLabel) {
-                let arr = data.airport.split(';');
-                return arr;
-            }
-        }
-    }
-
-    // 获取各类基准单元数据
-    const getUnits = () => {
-        console.log(shortcutFormData, shortcutFormSelecedData)
+    
+    // 获取快捷录入方式下勾选中的基准点
+    const getTargetUnitByshortcutFormSelecedData = () => {
         // 基准单元
         let targetUnit = [];
-        // 前序单元
-        let formerUnit = [];
-        // 后序单元
-        let behindUnit = [];
-        // 豁免前序
-        let exemptFormerUnit = [];
-        // 豁免后序
-        let exemptBehindUnit = [];
         // 全部基准点
         let points = [];
         for (let i = 0; i < shortcutFormData.length; i++) {
+            // 单条方向数据
             let directionData = shortcutFormData[i];
+            // 拷贝单条方向数据中的options数据到points数组中
             points = [...points, ...directionData.options]
         }
         // 勾选的基准点
         let selecedPoints = points.filter((item) => {
             return shortcutFormSelecedData.includes(item.value);
         })
-
+        // 遍历勾选的基准点数据
         for (let j = 0; j < selecedPoints.length; j++) {
+            // 单个基准点对应的directionCriteria数据，里面包括基准点、前序、后序、豁免前序、豁免后序字段
             let element = selecedPoints[j].directionCriteria;
             if (isValidVariable(element.targetUnit)) {
                 targetUnit = [...targetUnit, element.targetUnit];
             }
-            if (isValidVariable(element.formerUnit)) {
-                formerUnit = [...formerUnit, element.formerUnit];
-            }
-            if (isValidVariable(element.behindUnit)) {
-                behindUnit = [...behindUnit, element.behindUnit];
-            }
-            if (isValidVariable(element.exemptFormerUnit)) {
-                exemptFormerUnit = [...exemptFormerUnit, element.exemptFormerUnit];
-            }
-            if (isValidVariable(element.exemptBehindUnit)) {
-                exemptBehindUnit = [...exemptBehindUnit, element.exemptBehindUnit];
-            }
         }
-        return {
-            targetUnit: targetUnit.join(';'),
-            formerUnit: formerUnit.join(';'),
-            behindUnit: behindUnit.join(';'),
-            exemptFormerUnit: exemptFormerUnit.join(';'),
-            exemptBehindUnit: exemptBehindUnit.join(';'),
-        }
+        let units = targetUnit.join(';');
+        return units
     }
 
     /**
@@ -1610,10 +1635,10 @@ function SchemeForm(props) {
         const { id } = basicTacticInfo;
 
         // 正式方案进行模拟修改操作且只修改了方案名称
-        if (operationType === 'MODIFY' && code === RESPONSECODE) {
+        if (pageType === SchemeFormUtil.PAGETYPE_MODIFY && code === RESPONSECODE) {
             Modal.success({
                 title: '方案修改成功',
-                content: '方案名称修改完成, 无需进入模拟阶段',
+                content: '方案修改成功',
                 okText: "确认",
                 onOk: () => {
                     // 关闭窗口
@@ -1625,17 +1650,17 @@ function SchemeForm(props) {
             return;
         }
         //发送到客户端
-        if (operationType === 'CREATE') { // 方案创建
+        if (pageType === SchemeFormUtil.PAGETYPE_CREATE) { // 方案创建
             handleImportControl(id);
-        } else if (operationType === 'IMPORT') { // 外区流控导入方案 
+        } else if (pageType === SchemeFormUtil.PAGETYPE_IMPORT) { // 外区流控导入方案 
             handleImportControl(id, props.message.id);
-        } else if (operationType === 'MODIFY') { // 正式方案进行模拟修改操作
+        } else if (pageType === SchemeFormUtil.PAGETYPE_MODIFY) { // 正式方案进行模拟修改操作
             if (code !== RESPONSECODE) {
                 handleImportControlForUpdate(oldId, id);
             }
-        } else if (operationType === 'IMPORTWITHFORMER') { //  外区流控导入方案，且已有关联的方案
+        } else if (pageType === SchemeFormUtil.PAGETYPE_IMPORTWITHFORMER) { //  外区流控导入方案，且已有关联的方案
             handleImportControlForUpdate(formerId, id);
-        } else if (operationType === 'MODIFYSIM') { // 模拟的方案进行修改操作
+        } else if (pageType === SchemeFormUtil.PAGETYPE_MODIFYSIM) { // 模拟的方案进行修改操作
             handleUpdateFlowControl(id);
         }
         // 关闭窗口
@@ -1671,9 +1696,9 @@ function SchemeForm(props) {
     };
 
     // 获取速度值
-    const updateDistanceToTimeValue = ()=> {
+    const updateDistanceToTimeValue = () => {
         let pointName = getTargetUnit();
-        if(!isValidVariable(pointName)){
+        if (!isValidVariable(pointName)) {
             schemeFormData.updateTacticMITDistanceToTime("");
             // 清空速度表单数值
             tacticMeasureForm.setFieldsValue({ 'distanceToTime': '' })
@@ -1682,7 +1707,7 @@ function SchemeForm(props) {
             return
         }
         const opt = {
-            url: ReqUrls.speedUrl+"info?pointName=" + pointName,
+            url: ReqUrls.speedUrl + "info?pointName=" + pointName,
             method: 'GET',
             params: {},
             resFunc: (data) => requestSpeedValueSuccess(data),
@@ -1691,11 +1716,10 @@ function SchemeForm(props) {
         request(opt)
     }
     // 获取基准单元
-    const getTargetUnit=()=> {
+    const getTargetUnit = () => {
         let targetUnit = "";
-        if (restrictionMode !== "CT" && inputMethod === "shortcut") {
-            let units = getUnits();
-            targetUnit = units.targetUnit;
+        if (restrictionMode !== "CT" && inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
+            targetUnit = getTargetUnitByshortcutFormSelecedData()
         } else {
             targetUnit = tacticTargetUnitForm.getFieldValue('targetUnit');
         }
@@ -1704,11 +1728,11 @@ function SchemeForm(props) {
     }
 
     // 获取速度数值成功
-    const requestSpeedValueSuccess=(data)=> {
+    const requestSpeedValueSuccess = (data) => {
         let value = "";
         let array = [];
-        const {result=[]}= data;
-        if(result.length > 0){
+        const { result = [] } = data;
+        if (result.length > 0) {
             array = result.map(item => item.speed);
             value = Math.max.apply(null, array);
         }
@@ -1720,13 +1744,13 @@ function SchemeForm(props) {
     /**
      * 数据提交失败回调
      * */
-     const requestSpeedValueErr = (err) => {
+    const requestSpeedValueErr = (err) => {
 
         // 清空速度表单数值
         tacticMeasureForm.setFieldsValue({ 'distanceToTime': '' })
         // 清空速度表单数值
         tacticMeasureForm.setFieldsValue({ 'restrictionMITTimeValue': '' })
-        
+
         let errMsg = "";
         if (isValidObject(err) && isValidVariable(err.message)) {
             errMsg = err.message;
@@ -1789,32 +1813,33 @@ function SchemeForm(props) {
     // 限制方式变更
     useEffect(function () {
         // 重置备选航路表单配置数据
-        setAlterRoutesField(initialAlterRoutesFieldData)
+        setAlterRoutesField(SchemeFormUtil.InitialAlterRoutesFieldData)
     }, [restrictionMode]);
-    // 表单可编辑状态变更
+    // 手动创建方案默认选中快捷录入方式
     useEffect(function () {
-        // shortcut:快捷录入  custom:自定义
-        if(operationType === "CREATE"){
-           schemeFormData.updateInputMethod("shortcut");
-        }    
-    }, [operationType]);
+        // SHORTCUT:快捷录入  CUSTOM:自定义
+        // 手动创建页面设置为快捷录入方式
+        if (pageType === SchemeFormUtil.PAGETYPE_CREATE) {
+            schemeFormData.updateInputMethod(SchemeFormUtil.INPUTMETHOD_SHORTCUT);
+        }
+    }, [pageType]);
     // MIT限制方式下的限制单位、快捷录入勾选变更后更新MIT流控时间间隔字段数值
     useEffect(function () {
-        if(isValidVariable(distanceToTime) || shortcutFormSelecedData.length > 0){
-            updateMITTimeValueChange(); 
+        if (isValidVariable(distanceToTime) || shortcutFormSelecedData.length > 0) {
+            updateMITTimeValueChange();
         }
-    }, [ distanceToTime, shortcutFormSelecedData]);
+    }, [distanceToTime, shortcutFormSelecedData]);
 
     // 速度值变更后更新MIT流控时间间隔字段数值
     useEffect(function () {
-        if(isValidVariable(restrictionMITValueUnit) && restrictionMITValueUnit ==="D"){
-            updateMITTimeValueChange();   
+        if (isValidVariable(restrictionMITValueUnit) && restrictionMITValueUnit === "D") {
+            updateMITTimeValueChange();
         }
     }, [restrictionMITValueUnit]);
 
     // 快捷录入勾选项数据变化、基准点变化更新速度值
     useEffect(function () {
-        updateDistanceToTimeValue();   
+        updateDistanceToTimeValue();
     }, [shortcutFormSelecedData, targetUnit]);
 
     return (
@@ -1823,7 +1848,7 @@ function SchemeForm(props) {
                 drawOperation()
             }
             <Card title="方案信息" bordered={false} size="">
-            <Row gutter={24} >
+                <Row gutter={24} >
                     <Col span={24}>
                         <TacticModeForm
                             disabledForm={props.disabledForm}
@@ -1849,47 +1874,50 @@ function SchemeForm(props) {
                 </Row>
                 <Row gutter={24} >
                     <Col span={8}>
-                        <TacticPublishUnitForm 
-                        disabledForm={props.disabledForm}
-                        form={tacticPublishUnitForm} />
+                        <TacticPublishUnitForm
+                            disabledForm={props.disabledForm}
+                            form={tacticPublishUnitForm} />
                     </Col>
                     <Col span={8}>
-                        <TacticPublishUserForm 
-                        disabledForm={props.disabledForm}
-                        form={tacticPublishUserForm} />
+                        <TacticPublishUserForm
+                            disabledForm={props.disabledForm}
+                            form={tacticPublishUserForm} />
                     </Col>
                     <Col span={8}>
-                        <TacticReasonForm 
-                        disabledForm={props.disabledForm}
-                        form={tacticReasonForm} />
+                        <TacticReasonForm
+                            disabledForm={props.disabledForm}
+                            form={tacticReasonForm} />
                     </Col>
                 </Row>
-                <TacticDateTimeForm 
-                disabledForm={props.disabledForm}
-                form={tacticDateTimeForm} />
+                <TacticDateTimeForm
+                    disabledForm={props.disabledForm}
+                    form={tacticDateTimeForm} />
             </Card>
             <Card title="措施信息" bordered={false} size="">
-                <TacticMeasureForm 
-                updateDistanceToTimeValue = {updateDistanceToTimeValue}
-                updateMITTimeValueChange = {updateMITTimeValueChange}
-                disabledForm={props.disabledForm}
-                form={tacticMeasureForm} />
+                <TacticMeasureForm
+                    pageType={pageType}
+                    updateDistanceToTimeValue={updateDistanceToTimeValue}
+                    updateMITTimeValueChange={updateMITTimeValueChange}
+                    disabledForm={props.disabledForm}
+                    form={tacticMeasureForm} />
             </Card>
             <Card title={getTitle()} bordered={false} className="flow-control-flight">
                 {
-                    (restrictionMode !== "CT" && inputMethod === "shortcut" && operationType==="CREATE") ?
-                        <TacticShortcutInputForm 
-                        updateDistanceToTimeValue = {updateDistanceToTimeValue}
-                        updateMITTimeValueChange = {updateMITTimeValueChange}
-                        disabledForm={props.disabledForm}
-                        form={tacticShortcutInputForm} /> : ""
+                    (restrictionMode !== "CT" && inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) ?
+                        <TacticShortcutInputForm
+                            pageType={pageType}    
+                            updateDistanceToTimeValue={updateDistanceToTimeValue}
+                            updateMITTimeValueChange={updateMITTimeValueChange}
+                            disabledForm={props.disabledForm}
+                            form={tacticShortcutInputForm} /> : ""
                 }
 
                 <Row gutter={24}>
                     <Col span={8}>
-                        <TacticFormerUnitForm 
-                        disabledForm={props.disabledForm}
-                        form={tacticFormerUnitForm} />
+                        <TacticFormerUnitForm
+                            pageType={pageType}
+                            disabledForm={props.disabledForm}
+                            form={tacticFormerUnitForm} />
                     </Col>
                     {
                         restrictionMode === "CT" ? <Col span={8}>
@@ -1897,23 +1925,25 @@ function SchemeForm(props) {
                                 disabledForm={props.disabledForm}
                                 form={tacticOriginRouteForm}
                                 validateOriginRouteFormat={validateOriginRouteFormat}
-                                // validateMultiRouteFormat={validateMultiRouteFormat}
+                            // validateMultiRouteFormat={validateMultiRouteFormat}
                             />
                         </Col> : ""
                     }
                     {
                         restrictionMode !== "CT" ? <Col span={8}>
-                            <TacticTargetUnitForm 
-                            updateDistanceToTimeValue = {updateDistanceToTimeValue}
-                            disabledForm={props.disabledForm}
-                            form={tacticTargetUnitForm} />
+                            <TacticTargetUnitForm
+                                pageType={pageType}
+                                updateDistanceToTimeValue={updateDistanceToTimeValue}
+                                disabledForm={props.disabledForm}
+                                form={tacticTargetUnitForm} />
                         </Col> : ""
                     }
 
                     <Col span={8}>
-                        <TacticBehindUnitForm 
-                        disabledForm={props.disabledForm}
-                        form={tacticBehindUnitForm} />
+                        <TacticBehindUnitForm
+                            pageType={pageType}
+                            disabledForm={props.disabledForm}
+                            form={tacticBehindUnitForm} />
                     </Col>
                 </Row>
                 {
@@ -1921,65 +1951,70 @@ function SchemeForm(props) {
                 }
                 <Row gutter={24}>
                     <Col span={8}>
-                        <TacticExemptFormerUnitForm 
-                        disabledForm={props.disabledForm}
-                        form={tacticExemptFormerUnitForm} />
+                        <TacticExemptFormerUnitForm
+                            pageType={pageType}
+                            disabledForm={props.disabledForm}
+                            form={tacticExemptFormerUnitForm} />
                     </Col>
                     <Col span={8} className="">
 
                     </Col>
                     <Col span={8}>
-                        <TacticExemptBehindUnitForm 
-                        disabledForm={props.disabledForm}                         
-                        form={tacticExemptBehindUnitForm} />
+                        <TacticExemptBehindUnitForm
+                            pageType={pageType}
+                            disabledForm={props.disabledForm}
+                            form={tacticExemptBehindUnitForm} />
                     </Col>
                 </Row>
                 <Row gutter={24}>
                     <Col span={8}>
-                        <TacticDepApForm 
-                        disabledForm={props.disabledForm} 
-                        areaLabelAirport={areaLabelAirport} form={tacticDepApForm} />
+                        <TacticDepApForm
+                            pageType={pageType}
+                            disabledForm={props.disabledForm}
+                            form={tacticDepApForm} />
                     </Col>
                     <Col span={8}>
-                        <TacticUseHeightForm 
-                        disabledForm={props.disabledForm}
-                        form={tacticUseHeightForm} />
+                        <TacticUseHeightForm
+                            pageType={pageType}
+                            disabledForm={props.disabledForm}
+                            form={tacticUseHeightForm} />
                     </Col>
                     <Col span={8}>
-                        <TacticArrApForm 
-                        areaLabelAirport={areaLabelAirport} 
-                        disabledForm={props.disabledForm}
-                        form={tacticArrApForm} />
+                        <TacticArrApForm
+                            pageType={pageType}
+                            disabledForm={props.disabledForm}
+                            form={tacticArrApForm} />
                     </Col>
                 </Row>
                 <Row gutter={24}>
                     <Col span={8}>
-                        <TacticExemptDepApForm 
-                        areaLabelAirport={areaLabelAirport} 
-                        form={tacticExemptDepApForm}
-                        disabledForm={props.disabledForm}
-                         />
+                        <TacticExemptDepApForm
+                            pageType={pageType}
+                            form={tacticExemptDepApForm}
+                            disabledForm={props.disabledForm}
+                        />
                     </Col>
                     <Col span={8}>
-                        <TacticExemptHeightForm 
-                        form={tacticExemptHeightForm}
-                        disabledForm={props.disabledForm}
-                         />
+                        <TacticExemptHeightForm
+                            pageType={pageType}
+                            form={tacticExemptHeightForm}
+                            disabledForm={props.disabledForm}
+                        />
                     </Col>
                     <Col span={8}>
-                        <TacticExemptArrApForm 
-                        areaLabelAirport={areaLabelAirport} 
-                        form={tacticExemptArrApForm}
-                        disabledForm={props.disabledForm}
-                         />
+                        <TacticExemptArrApForm
+                            pageType={pageType}
+                            form={tacticExemptArrApForm}
+                            disabledForm={props.disabledForm}
+                        />
                     </Col>
                 </Row>
                 <Row gutter={12}>
                     <Col span={12}>
-                        <TacticLimitedFlightForm title="包含" form={tacticLimitedFlightForm} disabledForm={props.disabledForm} />
+                        <TacticLimitedFlightForm title="包含" pageType={pageType} form={tacticLimitedFlightForm} disabledForm={props.disabledForm} />
                     </Col>
                     <Col span={12}>
-                        <TacticExemptFlightForm title="不包含" form={tacticExemptFlightForm} disabledForm={props.disabledForm} />
+                        <TacticExemptFlightForm title="不包含" pageType={pageType} form={tacticExemptFlightForm} disabledForm={props.disabledForm} />
                     </Col>
                 </Row>
             </Card>

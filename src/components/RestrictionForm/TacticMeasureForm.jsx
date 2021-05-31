@@ -3,6 +3,8 @@ import { Form, Input, Row, Col, Select } from 'antd'
 import { inject, observer } from "mobx-react";
 import { isValidVariable } from 'utils/basic-verify';
 import { REGEXP } from 'utils/regExpUtil'
+import { SchemeFormUtil } from 'utils/scheme-form-util'
+
 const { Option } = Select;
 
 
@@ -25,7 +27,7 @@ function TacticMeasureForm(props) {
 
 
 
-    const { schemeFormData, systemPage, form } = props;
+    const { schemeFormData, systemPage, form, pageType } = props;
     // 方案限制方式
     const restrictionMode = schemeFormData.restrictionMode || "";
 
@@ -47,6 +49,11 @@ function TacticMeasureForm(props) {
     const tacticName = basicTacticInfo.tacticName || "";
     // 限制数值
     let restrictionModeValue = schemeFormData.restrictionModeValue || "";
+
+    // 是否为禁用页面类型
+    const isDisabledPageType = SchemeFormUtil.getIsDisabledPageType().includes(pageType)
+    // 是否禁用
+    const disabled = props.disabledForm || isDisabledPageType;
 
     useEffect(function () {
         //重置表单，用以表单初始值赋值
@@ -204,7 +211,7 @@ function TacticMeasureForm(props) {
                             required={true}
                             rules={[{ required: true, message: '请选择限制方式' }]}
                         >
-                            <Select style={{ width: 120 }} onChange={handleRestrictionModeChange} disabled={props.disabledForm} >
+                            <Select style={{ width: 120 }} onChange={handleRestrictionModeChange} disabled={disabled} >
                                 {restrictionModeOptions.map(mode => (
                                     <Option key={mode.key}>{mode.text}</Option>
                                 ))}

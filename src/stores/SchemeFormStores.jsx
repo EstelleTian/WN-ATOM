@@ -9,6 +9,7 @@
 
 import { makeObservable, observable, action, computed } from 'mobx'
 import { isValidVariable, isValidObject } from 'utils/basic-verify'
+import { SchemeFormUtil } from 'utils/scheme-form-util'
 
 // 方案表单数据
 class SchemeForm {
@@ -19,8 +20,8 @@ class SchemeForm {
     @observable schemeData = {};
     //计数器用于变更此值以触发子组件更新
     @observable counter = 0;
-    //方案交通流录入方式 shortcut:快捷录入  custom:自定义
-    @observable inputMethod = "custom";
+    //方案交通流录入方式 SHORTCUT:快捷录入  CUSTOM:自定义
+    @observable inputMethod = SchemeFormUtil.INPUTMETHOD_CUSTOM;
     // 方案模式 100普通模式 200二类模式
     @observable tacticMode = "100";
     // 方案名称
@@ -53,7 +54,7 @@ class SchemeForm {
     @observable restrictionMITTimeValue = "";
     //速度字段数值
     @observable distanceToTime = "";
-    
+
     // AFP限制方式下限制数值
     @observable restrictionAFPValueSequence = "";
 
@@ -89,9 +90,11 @@ class SchemeForm {
 
     // 快捷录入表单基础数据
     @observable shortcutFormData = [];
+    // 快捷录入表单数据所有航路点格式化后的数据
+    @observable shortcutFormPointData={};
 
     // 快捷录入表单选中的复选框
-    @observable shortcutFormSelecedData =[];
+    @observable shortcutFormSelecedData = [];
     // 包含-航班号
     @observable flightId = "";
     // 包含-尾流类型
@@ -129,8 +132,8 @@ class SchemeForm {
     @observable exemptionAbility = "";
     // 不包含-受控机型
     @observable exemptionAircraftType = "";
-    
-    
+
+
 
 
     //更新计数器
@@ -142,13 +145,16 @@ class SchemeForm {
 
     // 更新原始方案数据
     @action updateSchemeData(data) {
-        
+
         // 更新原始方案数据
         this.schemeData = data;
         // 方案基础信息
         const basicTacticInfo = data.basicTacticInfo || {};
         // 方案模式
         const tacticMode = basicTacticInfo.tacticMode || "100";
+        // 方案录入方式
+        const inputMethod = basicTacticInfo.inputMethod || "custom";
+
         // 方案名称
         const tacticName = basicTacticInfo.tacticName || "";
         // 方案发布单位
@@ -173,7 +179,7 @@ class SchemeForm {
         const flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
         // 限制方式
         const restrictionMode = flowControlMeasure.restrictionMode || "";
-        
+
         // MIT限制方式下限制类型 T:时间 D:距离
         const restrictionMITValueUnit = flowControlMeasure.restrictionMITValueUnit || "";
         // MIT限制方式下限制数值
@@ -182,7 +188,7 @@ class SchemeForm {
         const distanceToTime = flowControlMeasure.distanceToTime || "";
         // MIT限制方式下时间间隔数值
         const restrictionMITTimeValue = flowControlMeasure.restrictionMITTimeValue || "";
-        
+
         // AFP限制方式下限制数值
         const restrictionAFPValueSequence = flowControlMeasure.restrictionAFPValueSequence || "";
         // 原航路信息数据集合
@@ -201,7 +207,7 @@ class SchemeForm {
             alterRouteData3,
             alterRouteData4,
             alterRouteData5,
-         ]
+        ]
 
         let directionList = basicTacticInfo.directionList || [];
         // 流控方向领域对象
@@ -272,6 +278,8 @@ class SchemeForm {
 
         // 更新方案模式
         this.tacticMode = tacticMode;
+        // 更新方案录入方式
+        this.inputMethod = inputMethod;
         // 更新方案名称
         this.tacticName = tacticName;
         // 更新方案发布单位
@@ -368,6 +376,10 @@ class SchemeForm {
         this.exemptionAbility = exemptionAbility;
         // 不包含-受控机型
         this.exemptionAircraftType = exemptionAircraftType;
+        if (inputMethod === "shortcut") {
+            // 更新方案交通流快捷录入表单中选中的数据
+            this.updateShortcutFormSelecedDataByDirectionListData();
+        }
     }
 
     // 更新方案模式
@@ -427,7 +439,7 @@ class SchemeForm {
     @action updateTacticRestrictionModeValue(restrictionModeValue) {
         this.restrictionModeValue = restrictionModeValue;
     }
-    
+
     // 更新原航路数据集合
     @action updateTacticOriginRouteData(originRouteData) {
         this.originRouteData = originRouteData;
@@ -455,7 +467,13 @@ class SchemeForm {
     @action updateShortcutFormData(data) {
         // 转换成表单需要的格式
         let directionListData = this.getDirectionListData(data);
+        // 更新方案交通流快捷录入表单数据
         this.shortcutFormData = directionListData;
+        // 方案交通流快捷录入表单数据所有航路点格式化后的数据
+        let shortcutFormPointData = this.getShortcutFormPointData(data);
+        // 更新方案交通流快捷录入表单数据所有航路点格式化后的数据
+        this.shortcutFormPointData = shortcutFormPointData;
+        console.log(shortcutFormPointData)
     }
 
     // 获取方向数据
@@ -470,6 +488,20 @@ class SchemeForm {
         }
         return list;
     }
+    // 获取方案交通流快捷录入表单数据所有航路点数据
+    @action getShortcutFormPointData(data) {
+        let dataMap = {};
+        if (isValidObject(data)) {
+            for (let i in data) {
+                let direction = data[i];
+                direction.map(item => {
+                    dataMap[item.name] = item
+                })
+            }
+        }
+        return dataMap;
+    }
+
     // 获取单条方向的复选框数据
     @action getSingleDirectionData(directionData) {
         // 方向中第一项
@@ -478,9 +510,9 @@ class SchemeForm {
         let description = point.description;
         // 方向中文
         let descriptionZh = point.descriptionZh;
-        
+
         // 方向中的复选框
-        let options = directionData.map((element , index) => ({ label: element.name, value: element.name, directionCriteria: element.directionCriteria }))
+        let options = directionData.map((element, index) => ({ label: element.name, value: element.name, directionCriteria: element.directionCriteria }))
         return {
             description,
             descriptionZh,
@@ -489,7 +521,45 @@ class SchemeForm {
     }
     // 更新方案交通流快捷录入表单中选中的数据
     @action updateShortcutFormSelecedData(selecedData) {
-        this.shortcutFormSelecedData = selecedData;
+        const filterList  = this.filterShortcutFormSelecedData(selecedData);
+        this.shortcutFormSelecedData = filterList;
+        console.log(filterList)
+    }
+    // 比对并计算中选中的数据
+    @action filterShortcutFormSelecedData(selecedData) {
+        let list = [];
+        const _data = this.shortcutFormSelecedData;
+        const len1 = _data.length;
+        const len2 = selecedData.length;
+        
+        // 增加勾选
+        if(len1 < len2){
+            // 查找出增加勾选的项
+            let addedSeleced = selecedData.filter((item)=>{
+                return !_data.includes(item);
+            });
+            const pointData = this.shortcutFormPointData
+            // 增加勾选的航路点
+            let addedData = addedSeleced[0];
+            let addedDataGroup = pointData[addedData].group;
+            let newList = selecedData.filter( item => pointData[item].group === addedDataGroup);
+            list = newList;
+        }else {
+            // 取消勾选则直接替换
+            list = selecedData;
+        }
+        return list;
+    }
+    // 数据回显示时，使用方案方向信息数据更新方案交通流快捷录入表单中选中的数据
+    @action updateShortcutFormSelecedDataByDirectionListData() {
+        // 方案基础信息
+        const basicTacticInfo = this.schemeData.basicTacticInfo || {};
+        let directionList = basicTacticInfo.directionList || [];
+        let selecedData = [];
+        if (directionList.length > 0) {
+            selecedData = directionList.map(item => item.targetUnit)
+            this.shortcutFormSelecedData = selecedData;
+        }
     }
 
 }

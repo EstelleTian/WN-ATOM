@@ -1,6 +1,7 @@
-import React, { Fragment, useEffect } from 'react'
-import { Card, Checkbox, Col, DatePicker, Descriptions, Form, Input, Radio, Select, Row, Tag, Tooltip } from "antd";
-import { formatTimeString, parseFullTime, isValidObject, isValidVariable } from '../../utils/basic-verify'
+import React, { useEffect } from 'react'
+import { Card, Checkbox, Col, Form, Select, Row,  } from "antd";
+import { isValidVariable } from 'utils/basic-verify'
+import { SchemeFormUtil } from 'utils/scheme-form-util'
 
 import { inject, observer } from "mobx-react";
 //尾流类型选项
@@ -59,7 +60,7 @@ const abilityOptions = [
 //包含航班表单
 function TacticLimitedFlightForm(props) {
 
-    const { schemeFormData, form } = props;
+    const { schemeFormData, form, pageType } = props;
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
@@ -67,6 +68,10 @@ function TacticLimitedFlightForm(props) {
     const {flightId, wakeFlowLevel, auType, airlineType, missionType,
             task, organization, ability, aircraftType,
         } = schemeFormData
+    // 是否为禁用页面类型
+    const isDisabledPageType = SchemeFormUtil.getIsDisabledPageType().includes(pageType)
+    // 是否禁用
+    const disabled = props.disabledForm  || isDisabledPageType;
     // 表单初始化默认值
     let initialValues = {
         // 包含-航班号
@@ -106,7 +111,7 @@ function TacticLimitedFlightForm(props) {
                             label="航班号"
                         >
                             <Select
-                                disabled={props.disabledForm}
+                                disabled={disabled}
                                 mode="tags"
                                 style={{ width: '100%' }}
                                 placeholder=""
@@ -123,7 +128,7 @@ function TacticLimitedFlightForm(props) {
                             name="wakeFlowLevel"
                             label="尾流类型"
                         >
-                            <Checkbox.Group options={wakeFlowLevelOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={wakeFlowLevelOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -131,7 +136,7 @@ function TacticLimitedFlightForm(props) {
                             name="auType"
                             label="运营人"
                         >
-                            <Checkbox.Group options={auTypeOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={auTypeOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -139,7 +144,7 @@ function TacticLimitedFlightForm(props) {
                             name="airlineType"
                             label="航班类型"
                         >
-                            <Checkbox.Group options={airlineTypeOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={airlineTypeOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -147,7 +152,7 @@ function TacticLimitedFlightForm(props) {
                             name="missionType"
                             label="客货类型"
                         >
-                            <Checkbox.Group options={missionTypeOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={missionTypeOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -155,7 +160,7 @@ function TacticLimitedFlightForm(props) {
                             name="task"
                             label="任务类型"
                         >
-                            <Checkbox.Group options={taskOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={taskOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -163,7 +168,7 @@ function TacticLimitedFlightForm(props) {
                             name="organization"
                             label="军民航"
                         >
-                            <Checkbox.Group options={organizationOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={organizationOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -171,7 +176,7 @@ function TacticLimitedFlightForm(props) {
                             name="ability"
                             label="限制资质"
                         >
-                            <Checkbox.Group options={abilityOptions} disabled={props.disabledForm} />
+                            <Checkbox.Group options={abilityOptions} disabled={disabled} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
@@ -180,7 +185,7 @@ function TacticLimitedFlightForm(props) {
                             label="受控机型"
                         >
                             <Select
-                                disabled={props.disabledForm}
+                                disabled={disabled}
                                 mode="tags"
                                 style={{ width: '100%' }}
                                 placeholder=""
@@ -198,7 +203,7 @@ function TacticLimitedFlightForm(props) {
                         label="受控高度"
                     >
                         <Select
-                            disabled={ props.disabledForm }
+                            disabled={ disabled }
                             mode="tags"
                             style={{ width: '100%' }}
                             placeholder=""

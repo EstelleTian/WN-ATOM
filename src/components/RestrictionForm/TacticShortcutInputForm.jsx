@@ -2,26 +2,30 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { Form, Checkbox, Row, Col, } from 'antd'
 import { inject, observer } from "mobx-react";
 import { isValidVariable, isValidObject } from 'utils/basic-verify';
-import { REGEXP } from 'utils/regExpUtil'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
+import { SchemeFormUtil } from 'utils/scheme-form-util'
 import { customNotice } from 'utils/common-funcs'
 
 //方案措施信息表单
 function TacticShortcutInputForm(props) {
 
-    const { schemeFormData, systemPage, form } = props;
+    const { schemeFormData, systemPage, form, pageType } = props;
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
     //方案交通流录入方式 shortcut:快捷录入  custom:自定义
-    const inputMethod = schemeFormData.inputMethod || "custom";
+    const inputMethod = schemeFormData.inputMethod || SchemeFormUtil.INPUTMETHOD_CUSTOM;
     // 表单基础数据
     const shortcutFormData = schemeFormData.shortcutFormData || [];
     // 选中的复选框
     const shortcutFormSelecedData = schemeFormData.shortcutFormSelecedData || [];
     const checkedList = shortcutFormSelecedData;
+    // 是否为禁用页面类型
+    const isDisabledPageType = SchemeFormUtil.getIsDisabledPageType().includes(pageType)
+    // 是否禁用
+    const disabled = props.disabledForm || isDisabledPageType;
     // 初始化获取数据
     useEffect(() => {
         // 请求交通流快捷录入表单依赖数据
@@ -39,16 +43,25 @@ function TacticShortcutInputForm(props) {
         form.resetFields();
     }, [tacticName]);
 
+    //方案名称发生变化触发更新
+    useEffect(function () {
+        //重置表单，用以表单初始值赋值
+        form.resetFields();
+    }, [shortcutFormSelecedData]);
+
     // 表单初始化默认值
     let initialValues = {
         // 勾选数值
         shortcutInputCheckboxSet: checkedList,
     }
 
-    //更新方案数据
+    //更新方案快捷录入表单基础数据
     const updateShortcutInputFormData = data => {
         if (isValidObject(data) && isValidObject(data.resultMap)) {
             schemeFormData.updateShortcutFormData(data.resultMap)
+            if(schemeFormData.inputMethod === "shortcut"){
+                schemeFormData.updateShortcutFormSelecedDataByDirectionListData()
+            }
         }
     };
 
@@ -73,7 +86,7 @@ function TacticShortcutInputForm(props) {
     const drawCheckbox = (list) => {
         return (
             list.map((item) => {
-                return <Checkbox key={item.label} value={item.label}>{item.label}</Checkbox>
+                return <Checkbox disabled={disabled} key={item.label} value={item.label}>{item.label}</Checkbox>
             })
         )
     }
@@ -150,24 +163,7 @@ function TacticShortcutInputForm(props) {
                                 return drawSingleDirectionFields(item)
                             }) : ""
                         }
-                        {/* <div className="ant-row">
-                            <div className="ant-col ant-form-item-label">
-                                <label for="NW_CDCQ" className="" title="重庆/成都">重庆/成都</label>
-                            </div>
-                            <div className="ant-col ant-form-item-control">
-                                <div className="ant-form-item-control-input">
-                                    <div className="ant-form-item-control-input-content">
-                                        <div className="ant-checkbox-group" >
-                                            <Checkbox value="B">B</Checkbox>
-                                            <Checkbox value="A">A</Checkbox>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
                     </Checkbox.Group>
-
-
                 </Form.Item>
 
             </Form>

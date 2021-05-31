@@ -100,7 +100,7 @@ function ATOMUpdate(props){
                     <span>流控导入</span>
                 </Row>
                 {/* <RestrictionForm
-                    operationType="IMPORTWITHFORMER"
+                    pageType="IMPORTWITHFORMER"
                     operationDescription="流控导入"
                     primaryButtonName="导入"
                     disabledForm = {disabledForm}
@@ -113,7 +113,7 @@ function ATOMUpdate(props){
                     operationBarClassName="outside"
                 /> */}
                 <SchemeForm
-                    operationType="IMPORTWITHFORMER"
+                    pageType="IMPORTWITHFORMER"
                     operationDescription="流控导入"
                     primaryButtonName="导入"
                     disabledForm = {disabledForm}

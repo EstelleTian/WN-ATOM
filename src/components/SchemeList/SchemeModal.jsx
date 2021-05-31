@@ -95,14 +95,14 @@ const SchemeModal = (props) => {
                     footer={null}
                 >
                     {/* <RestrictionForm
-                        operationType="MODIFY"
+                        pageType="MODIFY"
                         operationDescription="提交模拟方案调整"
                         primaryButtonName="提交修改"
                         setModalVisible={setVisible}
                         bordered={false}
                     /> */}
                     <SchemeForm
-                        operationType="MODIFY"
+                        pageType="MODIFY"
                         operationDescription="提交模拟方案调整"
                         primaryButtonName="提交修改"
                         setModalVisible={setVisible}
@@ -124,14 +124,14 @@ const SchemeModal = (props) => {
                     footer={null}
                 >
                     {/* <RestrictionForm
-                        operationType="RECREATE"
+                        pageType="RECREATE"
                         operationDescription="创建方案"
                         primaryButtonName="创建方案"
                         setModalVisible={setVisible}
                         bordered={false}
                     /> */}
                     <SchemeForm
-                        operationType="RECREATE"
+                        pageType="RECREATE"
                         operationDescription="创建方案"
                         primaryButtonName="创建方案"
                         setModalVisible={setVisible}

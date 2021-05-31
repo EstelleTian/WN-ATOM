@@ -67,7 +67,7 @@ function ModifySchemePage(props) {
         <div className="modify-scheme-container">
             <div className="content">
                 {/* <RestrictionForm
-                    operationType="MODIFYSIM" // MODIFYSIM:修改模拟方案
+                    pageType="MODIFYSIM" // MODIFYSIM:修改模拟方案
                     operationDescription="提交修改方案"
                     primaryButtonName="提交修改"
                     flowData={flowData}
@@ -78,7 +78,7 @@ function ModifySchemePage(props) {
                     showIgnoreBtn={false}
                 /> */}
                 <SchemeForm
-                    operationType="MODIFYSIM" // MODIFYSIM:修改模拟方案
+                    pageType="MODIFYSIM" // MODIFYSIM:修改模拟方案
                     operationDescription="提交修改方案"
                     primaryButtonName="提交修改"
                     disabledForm={disabledForm}
