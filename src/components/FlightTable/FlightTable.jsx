@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-26 14:10:25
+ * @LastEditTime: 2021-05-27 15:58:35
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -21,6 +21,7 @@ import { inject, observer } from "mobx-react";
 import { Table, Input, Checkbox, message, Spin } from "antd";
 import ModalBox from "components/ModalBox/ModalBox";
 import {
+  CDMNames,
   getColumns,
   formatSingleFlight,
   scrollTopById,
@@ -125,7 +126,7 @@ function FTable(props) {
   let [sortKey, setSortKey] = useState("FFIXT"); //表格排序字段
   let [sortOrder, setSortOrder] = useState("ascend"); //表格排序 顺序  升序ascend/降序
 
-  const { flightTableData = {}, schemeListData } = props;
+  const { flightTableData = {}, schemeListData, from } = props;
   const { autoScroll, filterable, focusFlightId, dataLoaded } = flightTableData;
   const { showList, targetFlight } = props.flightTableData.getShowFlights;
   // if( showList.length < 3){
@@ -244,10 +245,18 @@ function FTable(props) {
   const columns = useMemo(() => {
     if (filterable) {
       setHeight(tableHeight - 45);
-      return getColumns(props.collaboratePopoverData, "", true, onCellFilter);
+      return getColumns(
+        props.collaboratePopoverData,
+        isValidVariable(from) ? CDMNames : "",
+        true,
+        onCellFilter
+      );
     } else {
       setHeight(tableHeight + 45);
-      return getColumns(props.collaboratePopoverData);
+      return getColumns(
+        props.collaboratePopoverData,
+        isValidVariable(from) ? CDMNames : ""
+      );
     }
   }, [filterable]);
   // console.log("showList", showList);
@@ -289,12 +298,12 @@ const FlightTable = inject(
 
 const TSpin = inject("flightTableData")(
   observer((props) => {
-    const { flightTableData = {} } = props;
+    const { flightTableData = {}, from } = props;
     const { loading } = flightTableData;
 
     return (
       <Spin spinning={loading}>
-        <FlightTable />
+        <FlightTable from={from} />
       </Spin>
     );
   })
@@ -391,7 +400,7 @@ function FlightTableModal(props) {
           <SearchInput />
           <TotalDom />
         </div>
-        <TSpin />
+        <TSpin from={props.from} />
         <Suspense fallback={<div></div>}>
           <FlightDetail />
           {/* 一个popover专注做一件事 */}

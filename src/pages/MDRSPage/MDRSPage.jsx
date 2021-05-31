@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-05-18 18:11:11
+ * @LastEditTime: 2021-05-27 16:22:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRSPage\MDRSPage.jsx
@@ -12,7 +12,7 @@ import { Layout, Spin } from "antd";
 import MDRSWorkList from "components/MDRS/MDRSWorkList";
 import MDRSDetail from "components/MDRS/MDRSForm";
 import MDRSList from "components/MDRS/MDRSList";
-import { isValidVariable } from "utils/basic-verify.js";
+import { isValidVariable, isValidObject } from "utils/basic-verify.js";
 import { requestGet2 } from "utils/request.js";
 import { ReqUrls } from "utils/request-urls.js";
 import { customNotice } from "utils/common-funcs";
@@ -110,12 +110,15 @@ function MDRSPage(props) {
     },
     [MDRSData.forceUpdate]
   );
+  console.log("formData", MDRSData.formData, isValidObject(MDRSData.formData));
   return (
     <Layout style={{ minWidth: "1400px", height: "inherit" }}>
       <Spin spinning={loading}>
         <MDRSWorkList></MDRSWorkList>
+        {isValidObject(MDRSData.formData) && (
+          <MDRSDetail airport={airport}></MDRSDetail>
+        )}
 
-        <MDRSDetail airport={airport}></MDRSDetail>
         <MDRSList airport={airport}></MDRSList>
       </Spin>
     </Layout>
