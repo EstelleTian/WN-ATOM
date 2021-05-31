@@ -9,6 +9,8 @@
 
 import { makeObservable, observable, action, computed } from 'mobx'
 import { isValidVariable } from 'utils/basic-verify'
+import { RunwayConfigUtil } from "utils/runway-config-util";
+
 
 // 单条跑道对象
 class RunwayItem{
@@ -130,14 +132,25 @@ class RunwayListData{
         const getGroupRunwayList = (data, type)=>{
             const arr = [];
             for( let ap in data){
+                // 单个机场跑道数据
                 let apData = data[ap] || {};
                 for(let group in apData){
-                    let runway = apData[group] || {};
+                    let runwayList = apData[group] || [];
+                    let singleRunwayData = runwayList[0] || {};
+                    let isExecuting = singleRunwayData.isExecuting || "";
+                    let startTime = singleRunwayData.startTime || "";
+                    let endTime = singleRunwayData.endTime || "";
+                    let generateTime = singleRunwayData.generateTime || "";
+
                     let groupData = {
                         id: group,
                         airportName: ap,
                         type: type,
-                        runway:runway
+                        isExecuting: isExecuting,
+                        startTime: startTime,
+                        generateTime: generateTime,
+                        endTime: endTime,
+                        runway:runwayList
                     }
                     arr.push(groupData);
                 }
@@ -156,8 +169,8 @@ class RunwayListData{
         
         let defaultMap = getDefaultRunwayMap(map);
         let dynamicMap = getDdynamicRunwayMap(map);
-        let defaultList = getGroupRunwayList(defaultMap,'default');
-        let dynamicList = getGroupRunwayList(dynamicMap,'dynamic');
+        let defaultList = getGroupRunwayList(defaultMap,RunwayConfigUtil.TYPE_DEFAULT);
+        let dynamicList = getGroupRunwayList(dynamicMap,RunwayConfigUtil.TYPE_DYNAMIC);
         groupRunwayList = [...defaultList, ...dynamicList];
         return groupRunwayList;
     }
