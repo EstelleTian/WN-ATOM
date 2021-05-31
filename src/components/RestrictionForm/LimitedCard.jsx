@@ -1,45 +1,7 @@
 import React, {useEffect} from 'react'
 import {Card, Checkbox, Col, DatePicker, Descriptions, Form, Input, Radio, Select, Row, Tag, Tooltip  } from "antd";
 
-// 前序/后序表单
-function XuCard(props){
-    const { index, type } = props
-    return (
-        <Descriptions size="small"  bordered column={1}>
-            <Descriptions.Item label="机场" >
-                <Form.Item
-                    name={`${type}-airport`}
-                >
-                    <Input disabled={ props.disabledForm }/>
-                </Form.Item>
-            </Descriptions.Item>
-            <Descriptions.Item label="" >
-                <Radio.Group buttonStyle="solid">
-                    <Radio.Button value="b">陕西省</Radio.Button>
-                    <Radio.Button value="c">陕西省</Radio.Button>
-                    <Radio.Button value="d">陕西省</Radio.Button>
-                    <Radio.Button value="d">陕西省</Radio.Button>
-                    <Radio.Button value="d">陕西省</Radio.Button>
-                    <Radio.Button value="d">更&nbsp;&nbsp;&nbsp;&nbsp;多</Radio.Button>
-                </Radio.Group>
-            </Descriptions.Item>
-            <Descriptions.Item label="航路" >
-                <Form.Item
-                    name={`${type}-airline`}
-                >
-                    <Input disabled={ props.disabledForm }/>
-                </Form.Item>
-            </Descriptions.Item>
-            <Descriptions.Item label="区域" >
-                <Form.Item
-                    name={`${type}-area`}
-                >
-                    <Input disabled={ props.disabledForm }/>
-                </Form.Item>
-            </Descriptions.Item>
-        </Descriptions>
-    )
-}
+
 //尾流类型选项
 const wakeFlowLevel = [
     { label: 'G', value: 'G' },
@@ -94,11 +56,9 @@ const ability = [
 ];
 
 
-//交通流表单
+//交通流限制航班信息表单(方向数据表单使用)
 function LimitedCard(props){
-    // const index = props.index || "4";
-
-
+    
     return (
         <Card className="inner-card" title={props.title} size="">
             <Row gutter={24}>
