@@ -56,7 +56,7 @@ function FlightExchangeSlotForm(props) {
 
     // 表单
     const [form] = Form.useForm();
-    // 目标航班下拉选项
+    // 目标航班表单下拉选项
     const options = alterTargetFlightData.map((item) => <Option key={item.value}>{item.text}</Option>)
     // 请求备选目标航班数据
     const debounceFetcher = debounce((value) => {
@@ -104,7 +104,8 @@ function FlightExchangeSlotForm(props) {
         let fid = claimantFlightData.flightid;
         let title = "时隙交换"
         const opt = {
-            url: CollaborateUrl.updateTargetFlightUrl,
+            // 接口待定
+            // url: CollaborateUrl.updateTargetFlightUrl,
             method: "POST",
             params: paramsData,
             resFunc: (data) => requestSuccess(data, fid + title),
@@ -144,7 +145,8 @@ function FlightExchangeSlotForm(props) {
         try {
             const userId = user.id || "";
             const result = await requestGet2({
-                url: ReqUrls.getAlterTargetFlightListUrl + userId + "?param=" + val,
+                // 接口待定
+                // url: ReqUrls.getAlterTargetFlightListUrl + userId + "?param=" + val,
             });
             const alterTargetFlights = result.result || {}
             flightExchangeSlotFormData.updateAlterTargetFlightList(alterTargetFlights);
@@ -158,6 +160,7 @@ function FlightExchangeSlotForm(props) {
     };
     // 转换航班信息
     function convertFlightDataInfo(flight) {
+        //  GSOBT、 时隙状、 受控点、 受控过点时间、 机型字段转换待处理
         const { flightid = "", depap = "", arrap = "", sobt = "", fmeToday = {}, flightStatus = "" } = flight;
         // sobt时间
         let sobtStr = "";
@@ -172,7 +175,7 @@ function FlightExchangeSlotForm(props) {
             arrTimeStr = getFullTime(parseFullTime(arrTime), 2);
         }
 
-        return `${flightid} ${depap}-${arrap} ${sobtStr} ${arrTimeStr} ${flightStatus} `
+        return `${flightid} ${depap} ${arrap} ${sobtStr} ${arrTimeStr} ${flightStatus} `
     }
 
     //数据提交失败回调
@@ -238,15 +241,19 @@ function FlightExchangeSlotForm(props) {
                     </Col>
                 </Row>
                 <Row gutter={24} >
-                    <Col span={18}>
+                    <Col span={24}>
                         <Form.Item label="数据解释" className="form-text-item">
                             <span className="ant-form-text">
                                 <Space size={0} split={<Divider type="vertical" />}>
                                     <span>航班号</span>
-                                    <span>起降机场</span>
+                                    <span>起飞机场</span>
+                                    <span> 降落机场</span>
                                     <span>SOBT</span>
-                                    <span>降落时间</span>
-                                    <span>状态</span>
+                                    <span>GSOBT</span>
+                                    <span>时隙状态</span>
+                                    <span>受控点</span>
+                                    <span>受控过点时间</span>
+                                    <span>机型</span>
                                 </Space>
                             </span>
                         </Form.Item>
