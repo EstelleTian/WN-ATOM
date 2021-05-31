@@ -56,6 +56,10 @@ const convertValueFunc = (text, record, index) => {
     type === "CTO"
   ) {
     console.log(text);
+    // 校验数据有效性
+    if(!isValidVariable(text)){
+      return "";
+    }
     const obj = JSON.parse(text) || {};
     const getCont = () => {
       return (
