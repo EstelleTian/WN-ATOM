@@ -22,8 +22,13 @@ const LoginWeb = lazy(() => import("../pages/LoginPage/LoginWeb"));
 const CreateFlowPage = lazy(() =>
   import("../pages/CreateFlowPage/CreateFlowPage")
 );
+// 修改模拟状态方案页面
 const ModifySimulationSchemePage = lazy(() =>
   import("../pages/ModifySimulationSchemePage/ModifySimulationSchemePage")
+);
+// 依据已有模拟状态的方案创建方案
+const CreateSchemeBySimulationSchemePage = lazy(() =>
+  import("../pages/CreateSchemeBySimulationSchemePage/CreateSchemeBySimulationSchemePage")
 );
 const DisplaySimulationSchemeDetailPage = lazy(() =>
   import(
@@ -107,6 +112,12 @@ export default [
   {
     path: "/create_flow",
     component: withRouter(CreateFlowPage),
+    exact: true,
+    title: "方案创建",
+  },
+  {
+    path: "/createSchemeBySimulation",
+    component: withRouter(CreateSchemeBySimulationSchemePage),
     exact: true,
     title: "方案创建",
   },

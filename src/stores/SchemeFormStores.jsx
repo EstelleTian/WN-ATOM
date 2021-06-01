@@ -91,7 +91,7 @@ class SchemeForm {
     // 快捷录入表单基础数据
     @observable shortcutFormData = [];
     // 快捷录入表单数据所有航路点格式化后的数据
-    @observable shortcutFormPointData={};
+    @observable shortcutFormPointData = {};
 
     // 快捷录入表单选中的复选框
     @observable shortcutFormSelecedData = [];
@@ -153,7 +153,7 @@ class SchemeForm {
         // 方案模式
         const tacticMode = basicTacticInfo.tacticMode || "100";
         // 方案录入方式
-        const inputMethod = basicTacticInfo.inputMethod || "custom";
+        const inputMethod = basicTacticInfo.inputMethod || SchemeFormUtil.INPUTMETHOD_CUSTOM;
 
         // 方案名称
         const tacticName = basicTacticInfo.tacticName || "";
@@ -376,9 +376,9 @@ class SchemeForm {
         this.exemptionAbility = exemptionAbility;
         // 不包含-受控机型
         this.exemptionAircraftType = exemptionAircraftType;
-        if (inputMethod === "shortcut") {
+        if (inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
             // 更新方案交通流快捷录入表单中选中的数据
-            this.updateShortcutFormSelecedDataByDirectionListData();
+            this.updateShortcutFormSelecedDataBySingleDirectionListData();
         }
     }
 
@@ -521,7 +521,7 @@ class SchemeForm {
     }
     // 更新方案交通流快捷录入表单中选中的数据
     @action updateShortcutFormSelecedData(selecedData) {
-        const filterList  = this.filterShortcutFormSelecedData(selecedData);
+        const filterList = this.filterShortcutFormSelecedData(selecedData);
         this.shortcutFormSelecedData = filterList;
         console.log(filterList)
     }
@@ -531,27 +531,39 @@ class SchemeForm {
         const _data = this.shortcutFormSelecedData;
         const len1 = _data.length;
         const len2 = selecedData.length;
-        
+
         // 增加勾选
-        if(len1 < len2){
+        if (len1 < len2) {
             // 查找出增加勾选的项
-            let addedSeleced = selecedData.filter((item)=>{
+            let addedSeleced = selecedData.filter((item) => {
                 return !_data.includes(item);
             });
             const pointData = this.shortcutFormPointData
             // 增加勾选的航路点
             let addedData = addedSeleced[0];
             let addedDataGroup = pointData[addedData].group;
-            let newList = selecedData.filter( item => pointData[item].group === addedDataGroup);
+            let newList = selecedData.filter(item => pointData[item].group === addedDataGroup);
             list = newList;
-        }else {
+        } else {
             // 取消勾选则直接替换
             list = selecedData;
         }
         return list;
     }
-    // 数据回显示时，使用方案方向信息数据更新方案交通流快捷录入表单中选中的数据
-    @action updateShortcutFormSelecedDataByDirectionListData() {
+    // 数据回显示时使用方案单方向信息数据更新方案交通流快捷录入表单中选中的数据
+    @action updateShortcutFormSelecedDataBySingleDirectionListData() {
+        
+        // 基准单元
+        const targetUnit = this.targetUnit || "" 
+        let selecedData = [];
+
+        if (isValidVariable(targetUnit)) {
+            selecedData = targetUnit.split(';');
+        }
+        this.shortcutFormSelecedData = selecedData;
+    }
+    // 数据回显示时，使用方案多方向信息数据更新方案交通流快捷录入表单中选中的数据(暂未使用，预留方法)
+    @action updateShortcutFormSelecedDataByMultipleDirectionListData() {
         // 方案基础信息
         const basicTacticInfo = this.schemeData.basicTacticInfo || {};
         let directionList = basicTacticInfo.directionList || [];
