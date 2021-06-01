@@ -722,7 +722,7 @@ function SchemeForm(props) {
     };
 
     /**
-     * 批量校验备选航路格式
+     * 批量校验备选航路格式(暂未使用，预留方法)
      * */
     const validateMultiRouteFormat = () => {
         // 请求参数
@@ -1304,16 +1304,12 @@ function SchemeForm(props) {
             list.push(direction);
         } else if (inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
             // 快捷录入模式取值
-            // list = getDirectionListDataByShortcutFormSelecedData(formDataValue);
-            // 快捷录入模式取值
-            list = getDirectionListSingleDataByShortcutFormSelecedData(formDataValue);
-            debugger
-
+            list = getSingleDirectionListDataByShortcutFormSelecedData(formDataValue);
         }
         return list;
     }
     // // 快捷录入模式获取方案方向信息集合数据(单方向)
-    const getDirectionListSingleDataByShortcutFormSelecedData = (formDataValue) => {
+    const getSingleDirectionListDataByShortcutFormSelecedData = (formDataValue) => {
         const {
             useHeight,
             exemptHeight,
@@ -1379,12 +1375,8 @@ function SchemeForm(props) {
         return list;
     }
 
-
-
-
-
-    // 快捷录入模式获取方案方向信息集合数据(多方向)
-    const getDirectionListDataByShortcutFormSelecedData = (formDataValue) => {
+    // 快捷录入模式获取方案方向信息集合数据(多方向)(暂未使用，预留方法)
+    const getMultipleDirectionListDataByShortcutFormSelecedData = (formDataValue) => {
         let list = [];
         const {
             useHeight,
@@ -1837,10 +1829,10 @@ function SchemeForm(props) {
         }
     }, [restrictionMITValueUnit]);
 
-    // 快捷录入勾选项数据变化、基准点变化更新速度值
+    // 快捷录入表单数据变化、勾选项数据变化、基准点变化更新速度值
     useEffect(function () {
         updateDistanceToTimeValue();
-    }, [shortcutFormSelecedData, targetUnit]);
+    }, [shortcutFormData, shortcutFormSelecedData, targetUnit]);
 
     return (
         <div className="scheme-form-container">
