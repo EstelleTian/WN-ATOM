@@ -106,7 +106,7 @@ const openMessageDlg = (message) => {
         console.error(e);
     }
 }
-//流控详情--点击--导入
+//流控详情--点击--导入和手动创建(发布流控)
 const handleImportControl =(str, massageId) => {
     try {
         // alert("传入的id是："+massageId);
@@ -116,10 +116,14 @@ const handleImportControl =(str, massageId) => {
         console.error(error);
     }
 };
-//方案列表--点击方案调整
+/**
+ * 方案列表--点击方案调整
+ * @param oldID 正式方案id
+ * @param newId 生成的新的模拟状态的方案id
+ * 
+ * */ 
 const handleImportControlForUpdate =(oldId, newId) => {
     try {
-
         //传递被修改方案id和修改后的新方案id
         jsEntity.importControlForUpdate(oldId, newId);
     }catch(error){
@@ -127,10 +131,31 @@ const handleImportControlForUpdate =(oldId, newId) => {
     }
 };
 
-//模拟状态的方案调整
-const handleUpdateFlowControl =(id) => {
+/**
+ * 模拟状态的方案调整
+ * @param id 方案id
+ * @param simTacticId 方案simTacticId
+ * 
+ * */ 
+const handleUpdateFlowControl =(id, simTacticId) => {
     try {
-        jsEntity.updateFlowControl(id);
+        jsEntity.updateFlowControl(id, simTacticId);
+    }catch(error){
+        console.error(error);
+    }
+};
+
+
+
+/**
+ * 依据已有模拟状态方案创建模拟方案
+ * @param id 方案id
+ * @param simTacticId 方案simTacticId
+ * 
+ * */ 
+ const handleCreateSchemeBySimulation =(id, simTacticId) => {
+    try {
+        jsEntity.createFlowControl(id, simTacticId);
     }catch(error){
         console.error(error);
     }
@@ -261,5 +286,5 @@ export {
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openDoneFrameById,openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
     openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem, openRunningControlFlow,openDetails,
-    openLocation,openTclientFrameForMDRS
+    openLocation,openTclientFrameForMDRS, handleCreateSchemeBySimulation
 }
