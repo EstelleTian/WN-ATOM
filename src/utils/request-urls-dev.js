@@ -100,6 +100,8 @@ const ReqUrls = {
     importSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/import/sim/",
     // 创建和修改方案-数据提交
     createSchemeUrl: schemeIP+"/scheme-flow-server/simulationTactics/save/manual/",
+    // 依据已有模拟状态的方案创建方案-数据提交
+    createSchemeBySimulationUrl: schemeIP+"/scheme-flow-server/simulationTactics/save/simScheme/",
     // 获取指定航路点对应的速度
     speedUrl: speedIP+"/flow-route-point-speed-calculate-server/speed-retrive/speed/",
     // 校验航路接口
