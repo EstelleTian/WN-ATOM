@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-05-27 16:08:16
+ * @LastEditTime: 2021-06-01 17:06:47
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -382,14 +382,17 @@ let render = (opt) => {
     let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
     let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
     let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
-    let isInAreaFlight = FmeToday.isInAreaFlight(orgdata); //航班在本区域内
+    let isInAreaFlight = false; //航班在本区域内
+    if (orgdata.areaStatus === "INNER") {
+      isInAreaFlight = true;
+    }
     let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
     let isCoordinationResponseWaitingFlight =
       FlightCoordination.isCoordinationResponseWaitingFlight(orgdata); //航班是否在协调响应等待中
     let getCoordinationResponseWaitingType =
       FlightCoordination.getCoordinationResponseWaitingType;
     let hadInAir = false;
-    if (hadDEP && !hadARR) {
+    if (orgdata.flyStatus === "SKY") {
       hadInAir = true;
     }
     let colorClass = "";
@@ -444,6 +447,7 @@ let render = (opt) => {
     popover = randerAlarmCellChildren(opt);
   } else if (col === "FFIXT") {
     let { source = "", value = "", meetIntervalValue = "" } = text;
+
     let ftime = "";
     if (isValidVariable(value) && value.length >= 12) {
       ftime = getTimeAndStatus(value);
@@ -775,6 +779,7 @@ const formatSingleFlight = (flight) => {
     key: flight.id,
     id: flight.id,
     FLIGHTID: flight.flightid,
+    FLIGHTIDIATA: flight.flightidIATA,
     ALARM: formatAlarmValue(alarms).map((item) => (
       <Tooltip key={item.key} title={item.descriptions}>
         <Tag
@@ -793,7 +798,9 @@ const formatSingleFlight = (flight) => {
     OAWT: oapField,
     TYPE: flight.aircrafttype,
     DEPAP: flight.depap,
+    DEPAPIATA: flight.depapIATA,
     ARRAP: flight.arrap,
+    ARRAPIATA: flight.arrapIATA,
     SOBT: getDayTimeFromString(flight.sobt),
     SLOT: flight.unSlotStatusReasonAbbr,
     EOBT: getDayTimeFromString(flight.eobt),
@@ -819,7 +826,8 @@ const formatSingleFlight = (flight) => {
     HOBT: "",
     ALDT: "",
     EXOT: "",
-    FORMER: "",
+    FORMERIATA: flight.formerFlightidIATA,
+    FORMER: flight.formerFlightid,
     FEAT: "",
     FLIGT_STATUS: "",
     CLOSE_WAIT: "",
@@ -835,6 +843,7 @@ const formatSingleFlight = (flight) => {
 
     orgdata: JSON.stringify(flight),
   };
+
   return flightObj;
 };
 

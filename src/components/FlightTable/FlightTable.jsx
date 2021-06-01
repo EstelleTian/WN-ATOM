@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-31 15:18:22
+ * @LastEditTime: 2021-06-01 12:20:05
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -130,11 +130,6 @@ function FTable(props) {
   const { autoScroll, filterable, focusFlightId, dataLoaded, codeType } =
     flightTableData;
   let { showList, targetFlight } = props.flightTableData.getShowFlights;
-  showList = useMemo(() => {
-    console.log(codeType);
-    const { showList, targetFlight } = props.flightTableData.getShowFlights;
-    return showList;
-  }, [schemeListData.activeSchemeId, codeType, flightTableData.list]);
 
   const handleRow = useCallback((event, record) => {
     // 点击行

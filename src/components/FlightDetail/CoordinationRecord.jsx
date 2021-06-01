@@ -57,7 +57,7 @@ const convertValueFunc = (text, record, index) => {
   ) {
     console.log(text);
     // 校验数据有效性
-    if(!isValidVariable(text)){
+    if (!isValidVariable(text)) {
       return "";
     }
     const obj = JSON.parse(text) || {};
@@ -102,7 +102,7 @@ const columns = [
     className: "type",
     showSorterTooltip: false,
     render: (text, record, index) => {
-      return FlightCoordination.CoordinationType[text] || "";
+      return FlightCoordination.CoordinationType[text] || text;
     },
   },
   {

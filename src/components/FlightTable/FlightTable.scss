@@ -118,21 +118,24 @@
 }
 
 //表格 单元格 padding
-.ant-table.ant-table-small{
-    font-size: 1rem;
+.flight_canvas{
+    .ant-table.ant-table-small{
+        font-size: 1rem;
+    
+        .ant-table-title,
+        .ant-table-footer,
+        .ant-table-thead > tr > th,
+        .ant-table-tbody > tr > td,
+        tfoot > tr > th,
+        tfoot > tr > td {
+            padding: 0.35rem;
+        }
+        .ant-table-tbody{
+            font-size: 1.15rem;
+        }
+    } 
+}
 
-    .ant-table-title,
-    .ant-table-footer,
-    .ant-table-thead > tr > th,
-    .ant-table-tbody > tr > td,
-    tfoot > tr > th,
-    tfoot > tr > td {
-        padding: 0.35rem;
-    }
-    .ant-table-tbody{
-        font-size: 1.15rem;
-    }
-} 
 .alarm-tag.ant-tag {
     padding: 0 2px;
     margin-right: 4px;

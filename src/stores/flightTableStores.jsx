@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-05-31 15:05:35
+ * @LastEditTime: 2021-06-01 16:33:12
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -263,12 +263,9 @@ class FlightTableData {
 
   //获取真正展示的航班
   @computed get getShowFlights() {
-    // 测试数据，只显示一条
-    // let testList =
-    //   this.list.length > 55
-    //     ? [this.list[51], this.list[52], this.list[53]]
-    //     : [];
-    // console.log("getShowFlights:", testList);
+    //测试数据，只显示一条
+    // let testList = this.list.length > 55 ? [this.list[90]] : [];
+
     // let showList = testList.map((flight) => formatSingleFlight(flight));
 
     let showList = this.list.map((flight) => formatSingleFlight(flight));
@@ -311,14 +308,14 @@ class FlightTableData {
     if (this.codeType === "IATA") {
       showList = showList.map((flight) => {
         //切换四字码、三字码取值
-        // flight.FLIGHTID = "aaa";
-        // flight.DEPAP = "bbb";
-        // flight.ARRAP = "ccc";
+        flight.FLIGHTID = flight.FLIGHTIDIATA;
+        flight.DEPAP = flight.DEPAPIATA;
+        flight.ARRAP = flight.ARRAPIATA;
+        flight.FORMER = flight.FORMERIATA;
         return flight;
       });
     }
     const targetFlight = this.getTargetFlight(showList);
-    // console.log(showList);
 
     return { showList, targetFlight };
   }
