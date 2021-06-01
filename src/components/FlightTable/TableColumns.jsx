@@ -492,7 +492,7 @@ let render = (opt) => {
         </div>
       </div>
     );
-  } else if (col === "SLOTSTATUS") {
+  } else if (col === "SLOT") {
     // 时隙分配状态
     // 行原始数据
     let orgdata = JSON.parse(record.orgdata);
