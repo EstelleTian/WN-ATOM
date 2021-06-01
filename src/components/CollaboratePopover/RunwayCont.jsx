@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-27 10:56:32
+ * @LastEditTime: 2021-06-01 10:01:09
  * @LastEditors: Please set LastEditors
  * @Description: 跑道修改
  * @FilePath:
@@ -57,9 +57,9 @@ const RunwayCont = (props) => {
       return;
     }
 
+    let flight = JSON.parse(orgdata) || {};
     try {
       let url = "";
-      let flight = JSON.parse(orgdata) || {};
       let params = {
         flightCoordination: flight,
         userId,

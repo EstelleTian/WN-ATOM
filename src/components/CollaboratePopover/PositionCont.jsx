@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-27 10:56:56
+ * @LastEditTime: 2021-06-01 09:59:29
  * @LastEditors: Please set LastEditors
  * @Description: 停机位修改
  * @FilePath:
@@ -52,9 +52,10 @@ const PositionCont = (props) => {
     } catch (errorInfo) {
       return;
     }
+    let flight = JSON.parse(orgdata) || {};
     try {
       let url = "";
-      let flight = JSON.parse(orgdata) || {};
+
       let params = {
         flightCoordination: flight,
         userId,

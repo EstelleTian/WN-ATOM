@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-27 14:54:19
+ * @LastEditTime: 2021-06-01 10:01:41
  * @LastEditors: Please set LastEditors
  * @Description: 航班号右键协调框
  * @FilePath:
@@ -193,7 +193,7 @@ const FlightIdCont = (props) => {
     }
 
     if (isValidVariable(urlKey)) {
-      console.log(flight.flightid);
+      // console.log(flight.flightid);
       const userId = systemPage.user.id || "";
       const schemeId = schemeListData.activeSchemeId || ""; //方案id
       const tacticName = schemeListData.getNameBySchemeActiveId(schemeId); //方案名称

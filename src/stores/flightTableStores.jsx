@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-05-25 14:57:37
+ * @LastEditTime: 2021-05-31 15:05:35
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -146,6 +146,8 @@ class FlightTableData {
   @observable timeoutId = "";
   //上一次请求的方案id
   @observable lastSchemeId = "";
+  //四字码ICAO 三字码IATA 切换
+  @observable codeType = "ICAO";
   //上一次请求的方案id
   @observable runwayPopoverRef = {};
   //更新表格loading显示
@@ -211,7 +213,14 @@ class FlightTableData {
       this.selectFlightId = fid;
     }
   }
-
+  //四字码ICAO 三字码IATA 切换
+  @action setCodeType(flag) {
+    if (flag) {
+      this.codeType = "ICAO";
+    } else {
+      this.codeType = "IATA";
+    }
+  }
   //修改--航班列表-自动滚动状态
   @action setAutoScroll(flag) {
     this.autoScroll = flag;
@@ -298,7 +307,16 @@ class FlightTableData {
         }
       }
     }
-
+    //四字码、三字码
+    if (this.codeType === "IATA") {
+      showList = showList.map((flight) => {
+        //切换四字码、三字码取值
+        // flight.FLIGHTID = "aaa";
+        // flight.DEPAP = "bbb";
+        // flight.ARRAP = "ccc";
+        return flight;
+      });
+    }
     const targetFlight = this.getTargetFlight(showList);
     // console.log(showList);
 

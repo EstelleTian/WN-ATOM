@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-27 15:58:35
+ * @LastEditTime: 2021-05-31 15:18:22
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -18,7 +18,7 @@ import React, {
   Fragment,
 } from "react";
 import { inject, observer } from "mobx-react";
-import { Table, Input, Checkbox, message, Spin } from "antd";
+import { Table, Input, Checkbox, message, Spin, Switch } from "antd";
 import ModalBox from "components/ModalBox/ModalBox";
 import {
   CDMNames,
@@ -127,11 +127,14 @@ function FTable(props) {
   let [sortOrder, setSortOrder] = useState("ascend"); //表格排序 顺序  升序ascend/降序
 
   const { flightTableData = {}, schemeListData, from } = props;
-  const { autoScroll, filterable, focusFlightId, dataLoaded } = flightTableData;
-  const { showList, targetFlight } = props.flightTableData.getShowFlights;
-  // if( showList.length < 3){
-  //     console.log(showList)
-  // }
+  const { autoScroll, filterable, focusFlightId, dataLoaded, codeType } =
+    flightTableData;
+  let { showList, targetFlight } = props.flightTableData.getShowFlights;
+  showList = useMemo(() => {
+    console.log(codeType);
+    const { showList, targetFlight } = props.flightTableData.getShowFlights;
+    return showList;
+  }, [schemeListData.activeSchemeId, codeType, flightTableData.list]);
 
   const handleRow = useCallback((event, record) => {
     // 点击行
@@ -308,7 +311,26 @@ const TSpin = inject("flightTableData")(
     );
   })
 );
-
+//四字码ICAO 三字码IATA 切换
+const ICAOSwitch = inject("flightTableData")(
+  observer((props) => {
+    const onChange = (checked) => {
+      console.log(`switch to ${checked}`);
+      props.flightTableData.setCodeType(checked);
+    };
+    return (
+      <div className="auto_scroll">
+        <Switch
+          title="ICAO/IATA切换"
+          defaultChecked
+          checkedChildren="ICAO"
+          unCheckedChildren="IATA"
+          onChange={onChange}
+        />
+      </div>
+    );
+  })
+);
 //自动滚动
 const AutoScrollBtn = inject("flightTableData")(
   observer((props) => {
@@ -397,6 +419,7 @@ function FlightTableModal(props) {
         <div className="statistics">
           <FilterBtn />
           <AutoScrollBtn />
+          <ICAOSwitch />
           <SearchInput />
           <TotalDom />
         </div>
