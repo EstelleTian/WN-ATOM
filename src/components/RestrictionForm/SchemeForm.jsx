@@ -29,7 +29,7 @@ import TacticOriginRouteForm from './TacticOriginRouteForm'
 import TacticAlterRouteForm from './TacticAlterRouteForm'
 import TacticLimitedFlightForm from './TacticLimitedFlightForm'
 import TacticExemptFlightForm from './TacticExemptFlightForm'
-import { handleImportControl, handleImportControlForUpdate, handleUpdateFlowControl } from 'utils/client'
+import { handleImportControl, handleImportControlForUpdate, handleUpdateFlowControl, handleCreateSchemeBySimulation } from 'utils/client'
 import { parseFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
@@ -926,7 +926,7 @@ function SchemeForm(props) {
                     // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
                     if (typeof close === 'function') {
                         // 校验方案名称是否与限制条件相符
-                        checkTacticName(fieldData, true );
+                        checkTacticName(fieldData, true);
                         // 关闭模态框
                         close();
                     }
@@ -962,9 +962,9 @@ function SchemeForm(props) {
         let autoName = spliceName(fieldData);
         let isValid = autoName.trim() === tacticName.trim()
         // 若方案名称比对通过
-        if ( isValid ) {
+        if (isValid) {
             // 若跳过确认提示框则直接提交
-            if(skipConfirm){
+            if (skipConfirm) {
                 submitData();
                 return
             }
@@ -1022,6 +1022,7 @@ function SchemeForm(props) {
     const submitData = () => {
         const data = handleFormData();
         const { basicTacticInfo = {} } = schemeFormData.schemeData;
+        // 方案id
         const { id } = basicTacticInfo;
         const opt = {
             url: ReqUrls.importSchemeUrl + user.id,
@@ -1031,14 +1032,24 @@ function SchemeForm(props) {
             errFunc: (err) => requestErr(err),
         };
 
-        // 若为手动创建或修改正式的方案操作，则使用createSchemeUrl
-        if (pageType === SchemeFormUtil.PAGETYPE_MODIFY || pageType === SchemeFormUtil.PAGETYPE_CREATE) {
+        // 若为手动创建、修改正式的方案操作，则使用createSchemeUrl
+        if (pageType === SchemeFormUtil.PAGETYPE_CREATE ||
+            pageType === SchemeFormUtil.PAGETYPE_MODIFY) {
             opt.url = ReqUrls.createSchemeUrl + user.id;
-        }
-        // 若为模拟状态的方案修改，则使用modifySimulationSchemeUrl
-        if (pageType === SchemeFormUtil.PAGETYPE_MODIFYSIM) {
+            opt.method = "POST";
+        } else if (pageType === SchemeFormUtil.PAGETYPE_MODIFYSIM) {
+            // 若为模拟状态的方案修改，则使用modifySimulationSchemeUrl
             opt.url = ReqUrls.modifySimulationSchemeUrl + user.id;
             opt.method = "PUT";
+        } else if (pageType === SchemeFormUtil.PAGETYPE_IMPORT
+            || pageType === SchemeFormUtil.PAGETYPE_IMPORTWITHFORMER) {
+            // 外区流控导入、 外区流控导入方案已有关联的方案
+            opt.url = ReqUrls.importSchemeUrl + user.id;
+            opt.method = "POST";
+        } else if (pageType === SchemeFormUtil.PAGETYPE_CREATEBYSIM) {
+            // 依据已有模拟状态方案创建方案
+            opt.url = ReqUrls.createSchemeBySimulationUrl + user.id;
+            opt.method = "POST";
         }
         // 禁用主按钮
         setPrimaryBtnDisabled(true);
@@ -1587,7 +1598,7 @@ function SchemeForm(props) {
     }
 
 
-    
+
     // 获取快捷录入方式下勾选中的基准点
     const getTargetUnitByshortcutFormSelecedData = () => {
         // 基准单元
@@ -1618,13 +1629,18 @@ function SchemeForm(props) {
 
     /**
     * 数据提交成功回调
+    * @param oldId 原方案id(正式方案, 方案列表-点击方案调整弹出的页面)
+    * @param data 提交请求响应回的方案数据
     * */
     const requestSuccess = (oldId, data) => {
         // 正式方案修改操作仅修改了方案名称接口返回code标记
         const RESPONSECODE = "2002102000"
         const { tacticProcessInfo = {}, code = "" } = data;
         const { basicTacticInfo = {} } = tacticProcessInfo;
-        const { id } = basicTacticInfo;
+        // 方案id
+        const id = basicTacticInfo.id || "";
+        // 方案simTacticId 
+        const simTacticId = basicTacticInfo.simTacticId || "";
 
         // 正式方案进行模拟修改操作且只修改了方案名称
         if (pageType === SchemeFormUtil.PAGETYPE_MODIFY && code === RESPONSECODE) {
@@ -1648,12 +1664,20 @@ function SchemeForm(props) {
             handleImportControl(id, props.message.id);
         } else if (pageType === SchemeFormUtil.PAGETYPE_MODIFY) { // 正式方案进行模拟修改操作
             if (code !== RESPONSECODE) {
+                /**
+                * @param oldID 正式方案id
+                * @param newId 生成的新的模拟状态的方案id
+                * 
+                * */
                 handleImportControlForUpdate(oldId, id);
             }
         } else if (pageType === SchemeFormUtil.PAGETYPE_IMPORTWITHFORMER) { //  外区流控导入方案，且已有关联的方案
             handleImportControlForUpdate(formerId, id);
         } else if (pageType === SchemeFormUtil.PAGETYPE_MODIFYSIM) { // 模拟的方案进行修改操作
-            handleUpdateFlowControl(id);
+            handleUpdateFlowControl(id, simTacticId);
+        } else if (pageType === SchemeFormUtil.PAGETYPE_CREATEBYSIM) {
+            // 依据已有模拟状态方案创建模拟方案
+            handleCreateSchemeBySimulation(id, simTacticId)
         }
         // 关闭窗口
         if (typeof (setModalVisible) === 'function') {
@@ -1897,7 +1921,7 @@ function SchemeForm(props) {
                 {
                     (restrictionMode !== "CT" && inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) ?
                         <TacticShortcutInputForm
-                            pageType={pageType}    
+                            pageType={pageType}
                             updateDistanceToTimeValue={updateDistanceToTimeValue}
                             updateMITTimeValueChange={updateMITTimeValueChange}
                             disabledForm={props.disabledForm}
