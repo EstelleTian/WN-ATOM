@@ -59,9 +59,6 @@ function TacticShortcutInputForm(props) {
     const updateShortcutInputFormData = data => {
         if (isValidObject(data) && isValidObject(data.resultMap)) {
             schemeFormData.updateShortcutFormData(data.resultMap)
-            if(schemeFormData.inputMethod === "shortcut"){
-                schemeFormData.updateShortcutFormSelecedDataByDirectionListData()
-            }
         }
     };
 
