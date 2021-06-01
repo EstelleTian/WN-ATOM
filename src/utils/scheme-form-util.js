@@ -7,8 +7,9 @@ const SchemeFormUtil = {
     /* *
     * 页面类型
     */
-    PAGETYPE_CREATE: 'CREATE', //手动创建 
+    PAGETYPE_CREATE: 'CREATE', //手动创建
     PAGETYPE_MODIFYSIM: 'MODIFYSIM', //修改模拟状态的方案
+    PAGETYPE_CREATEBYSIM: 'CREATEBYSIM', //依据已有模拟状态的方案创建
     PAGETYPE_MODIFY: 'MODIFY', //修改正式的方案
     PAGETYPE_IMPORT: 'IMPORT', //外区流控导入方案 
     PAGETYPE_IMPORTWITHFORMER: 'IMPORTWITHFORMER', //外区流控导入方案已有关联的方案
@@ -100,6 +101,7 @@ const SchemeFormUtil = {
         return [
             this.PAGETYPE_MODIFY,
             this.PAGETYPE_MODIFYSIM,
+            this.PAGETYPE_CREATEBYSIM,
         ]
     },
 
