@@ -139,7 +139,8 @@ const handleImportControlForUpdate =(oldId, newId) => {
  * */ 
 const handleUpdateFlowControl =(id, simTacticId) => {
     try {
-        jsEntity.updateFlowControl(id, simTacticId);
+        // jsEntity.updateFlowControl(id, simTacticId);
+        jsEntity.updateFlowControl(id);
     }catch(error){
         console.error(error);
     }
