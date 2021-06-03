@@ -14,6 +14,7 @@ import TacticPublishUserForm from './TacticPublishUserForm'
 import TacticReasonForm from './TacticReasonForm'
 import TacticDateTimeForm from './TacticDateTimeForm'
 import TacticMeasureForm from './TacticMeasureForm'
+import TacticReserveSlotForm from './TacticReserveSlotForm'
 import TacticFormerUnitForm from './TacticFormerUnitForm'
 import TacticTargetUnitForm from './TacticTargetUnitForm'
 import TacticBehindUnitForm from './TacticBehindUnitForm'
@@ -85,6 +86,8 @@ function SchemeForm(props) {
     const [tacticDateTimeForm] = Form.useForm();
     // 方案措施信息表单
     const [tacticMeasureForm] = Form.useForm();
+    // 方案预留时隙表单
+    const [tacticReserveSlotForm] = Form.useForm();
     // 方案前序单元表单
     const [tacticFormerUnitForm] = Form.useForm();
     // 方案基准单元表单
@@ -1031,7 +1034,6 @@ function SchemeForm(props) {
             resFunc: (data) => requestSuccess(id, data),
             errFunc: (err) => requestErr(err),
         };
-
         // 若为手动创建、修改正式的方案操作，则使用createSchemeUrl
         if (pageType === SchemeFormUtil.PAGETYPE_CREATE ||
             pageType === SchemeFormUtil.PAGETYPE_MODIFY) {
@@ -1101,6 +1103,12 @@ function SchemeForm(props) {
         if (!isValidObject(basicFlowcontrol)) {
             basicTacticInfo.basicFlowcontrol = {};
             basicFlowcontrol = basicTacticInfo.basicFlowcontrol
+        }
+        // 方案方向数据信息集合
+        let directionList = basicTacticInfo.directionList;
+        if(!isValidVariable(directionList)){
+            directionList = [];
+            basicTacticInfo.directionList = [];
         }
 
         // 方案流控航班类型条件数据对象
@@ -1198,10 +1206,18 @@ function SchemeForm(props) {
         // 更新流控限制方式相应的字段数值
         let modeKey = restrictionModeData[restrictionMode];
         flowControlMeasure[modeKey] = restrictionModeValue;
-        // 获取方案方向信息集合数据
-        let directionList = getDirectionListData(formDataValue);
+        // 获取表单中方案方向信息数据
+        let formDirectionData = getDirectionListData(formDataValue);
+        // 方案方向信息集合中第一条数据
+
+        let directionData = directionList[0] || {};
+        // 将表单中方案方向数据字段值替换原方案方向数据字段值
+        directionData = {
+            ...directionData,
+            ...formDirectionData
+        }
         // 更新方案方向信息集合
-        basicTacticInfo.directionList = directionList;
+        basicTacticInfo.directionList[0] = directionData;
 
         // 更新流控交通流-包含-航班号
         flightPropertyDomain.flightId = flightId;
@@ -1282,7 +1298,8 @@ function SchemeForm(props) {
     }
     // 获取方案方向数据
     const getDirectionListData = (formDataValue) => {
-        let list = [];
+
+        let directionData = {};
         // 从所有表单数值取出指定项
         const {
             useHeight,
@@ -1299,7 +1316,7 @@ function SchemeForm(props) {
         } = formDataValue;
         // 自定义录入模式下取值
         if (inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) {
-            const direction = {
+            directionData = {
                 useHeight,
                 exemptHeight,
                 targetUnit,
@@ -1312,12 +1329,11 @@ function SchemeForm(props) {
                 exemptDepAp,
                 exemptArrAp,
             }
-            list.push(direction);
         } else if (inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
             // 快捷录入模式取值
-            list = getSingleDirectionListDataByShortcutFormSelecedData(formDataValue);
+            directionData = getSingleDirectionListDataByShortcutFormSelecedData(formDataValue);
         }
-        return list;
+        return directionData;
     }
     // // 快捷录入模式获取方案方向信息集合数据(单方向)
     const getSingleDirectionListDataByShortcutFormSelecedData = (formDataValue) => {
@@ -1368,22 +1384,22 @@ function SchemeForm(props) {
                 exemptBehindUnit = [...exemptBehindUnit, element.exemptBehindUnit];
             }
         }
-        let list = [
-            {
-                targetUnit: targetUnit.join(';'),
-                formerUnit: formerUnit.join(';'),
-                behindUnit: behindUnit.join(';'),
-                exemptFormerUnit: exemptFormerUnit.join(';'),
-                exemptBehindUnit: exemptBehindUnit.join(';'),
-                useHeight,
-                exemptHeight,
-                depAp,
-                arrAp,
-                exemptDepAp,
-                exemptArrAp,
-            }
-        ]
-        return list;
+
+        let data = {
+            targetUnit: targetUnit.join(';'),
+            formerUnit: formerUnit.join(';'),
+            behindUnit: behindUnit.join(';'),
+            exemptFormerUnit: exemptFormerUnit.join(';'),
+            exemptBehindUnit: exemptBehindUnit.join(';'),
+            useHeight,
+            exemptHeight,
+            depAp,
+            arrAp,
+            exemptDepAp,
+            exemptArrAp,
+        }
+        
+        return data;
     }
 
     // 快捷录入模式获取方案方向信息集合数据(多方向)(暂未使用，预留方法)
@@ -1817,6 +1833,14 @@ function SchemeForm(props) {
     // 初始化用户信息
     useEffect(function () {
         const user = localStorage.getItem("user");
+        // Modal.info({
+        //     content: (
+        //         <span>
+        //             <div>用户信息为:</div>
+        //             <div>{JSON.stringify(user)}</div>
+        //         </span>
+        //     ),
+        // });
         if (isValidVariable(user)) {
             props.systemPage.setUserData(JSON.parse(user));
         }
@@ -1916,6 +1940,13 @@ function SchemeForm(props) {
                     updateMITTimeValueChange={updateMITTimeValueChange}
                     disabledForm={props.disabledForm}
                     form={tacticMeasureForm} />
+                {/* <Row gutter={24} >
+                    <Col span={20}>
+                        <TacticReserveSlotForm
+                            disabledForm={props.disabledForm}
+                            form={tacticReserveSlotForm} />
+                    </Col>
+                </Row> */}
             </Card>
             <Card title={getTitle()} bordered={false} className="flow-control-flight">
                 {
