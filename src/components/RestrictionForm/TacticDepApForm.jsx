@@ -87,7 +87,7 @@ function TacticDepApForm(props) {
                         onChange={(val) => (handleValue(val))}
                         className="text-uppercase"
                         allowClear={true}
-                        placeholder="可选填项"
+                        placeholder="选填项"
                         tagRender={tagRender}
                     >
                     </Select>

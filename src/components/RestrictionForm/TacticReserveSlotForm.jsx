@@ -240,7 +240,6 @@ function TacticReserveSlotForm(props) {
                     rules={[
                         ({ getFieldValue }) => validateReserveSlotFormat(getFieldValue),
                     ]}
-                    extra="请输入4位或12位有效时间，若输入的4位时间小于开始时间的小时分钟数值，则自动填充为次日日期，反之自动填充为当日日期"
                 >
                     <Select
                         disabled={disabled}
@@ -248,9 +247,9 @@ function TacticReserveSlotForm(props) {
                         style={{ width: '100%' }}
                         open={false}
                         onChange={(val) => (handleValue(val))}
-                        className="text-uppercase"
+                        // className="text-uppercase"
                         allowClear={true}
-                        placeholder="可选填项"
+                        placeholder="选填项，可输入HHmm格式或者YYYYMMDDHHmm格式有效时间，按回车键分隔多个值"
                     >
                     </Select>
                 </Form.Item>
