@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import { Form, Input, Row, Col, DatePicker,  } from 'antd'
+import { Form, Input, Row, Col, DatePicker, } from 'antd'
 import { inject, observer } from "mobx-react";
 import { isValidVariable, parseFullTime, formatTimeString } from 'utils/basic-verify';
 
@@ -26,7 +26,7 @@ function TacticDateTimeForm(props) {
     // 终端当前时间+5分钟
     let now = moment().add(5, 'minutes');
     // 若方案开始时间无效则填充当前时间+5分钟
-    if(!isValidVariable(startTime)){
+    if (!isValidVariable(startTime)) {
         let timeString = moment(now).format(dateTimeFormat);
         console.log(timeString)
         schemeFormData.updateTacticStartTime(timeString);
@@ -36,13 +36,13 @@ function TacticDateTimeForm(props) {
     // 结束日期时间字符串(非编辑状态下显示)
     const endDateTimeString = isValidVariable(endTime) ? formatTimeString(endTime) : "";
     // 开始日期 Date类型
-    const startDate =isValidVariable(startTime) ? moment(startTime, dateFormat) : moment(now, dateFormat);
+    const startDate = isValidVariable(startTime) ? moment(startTime, dateFormat) : moment(now, dateFormat);
     // 结束日期 Date类型
     const endDate = isValidVariable(endTime) ? moment(endTime, dateFormat) : "";
     // 结束日期 HHmm
-    const startTimeString = isValidVariable(startTime) ? startTime.substring(8,12) : moment(now).format(dateTimeFormat).substring(8,12);
+    const startTimeString = isValidVariable(startTime) ? startTime.substring(8, 12) : moment(now).format(dateTimeFormat).substring(8, 12);
     // 结束时间 HHmm
-    const endTimeString = isValidVariable(endTime) ? endTime.substring(8,12) : "";
+    const endTimeString = isValidVariable(endTime) ? endTime.substring(8, 12) : "";
     // 结束日期和结束时间是否必填标记:限制方式为改航(CT)时为必填
     const endDateTimeRequired = restrictionMode === "CT";
 
@@ -96,6 +96,11 @@ function TacticDateTimeForm(props) {
         // 自动填充结束日期
         autoFillInEndDate(value);
     };
+    // 开始时间输入框变化
+    const handleStartTimeChange = ({ target: { value } }) => {
+        // 处理开始日期时间变化
+        handleUpdateStartDateTimeChange()
+    };
 
     // 开始日期日历插件变化
     const onOpenStartDatePickerChange = (open) => {
@@ -105,7 +110,10 @@ function TacticDateTimeForm(props) {
         // 若开始日期为空则填充当前日期
         if (open && !isValidVariable(startDate)) {
             form.setFieldsValue({ 'startDate': moment(now) });
+            // 更新方案开始时间(用于触发预留时隙表单校验)
+            schemeFormData.updateTacticStartTime();
         }
+
     };
     // 结束日期日历插件变化
     const onOpenEndDatePickerChange = (open) => {
@@ -117,11 +125,23 @@ function TacticDateTimeForm(props) {
         }
     };
 
+    // 处理开始日期时间变化
+    const handleUpdateStartDateTimeChange = () => {
+        // 开始时间HHmm
+        const startTime = form.getFieldValue('startTime');
+        // 开始日期 Date
+        const startDate = form.getFieldValue('startDate');
+        const startDateString = moment(startDate).format(dateTimeFormat).substring(0, 8);
+        //  开始日期时间 12位字符串
+        const startDateTimeString = startDateString + startTime;
+        // 更新store方案开始时间(用于触发预留时隙表单校验)
+        schemeFormData.updateTacticStartTime(startTimeString);
+    }
 
     /**
      * 校验结束日期是否完整
      * */
-     const validateEndDateFormat = (getFieldValue) => {
+    const validateEndDateFormat = (getFieldValue) => {
         const validator = (rules, value) => {
             const endTime = getFieldValue('endTime');
             const endDate = getFieldValue('endDate');
@@ -144,7 +164,7 @@ function TacticDateTimeForm(props) {
     /**
      * 校验开始时间和结束时间大小
      * */
-     const validateTimeRange = (getFieldValue) => {
+    const validateTimeRange = (getFieldValue) => {
         const validator = (rules, value) => {
             // 开始时间HHmm
             const startTime = getFieldValue('startTime');
@@ -292,7 +312,7 @@ function TacticDateTimeForm(props) {
                                         <Input
                                             allowClear={true}
                                             placeholder={timeFormat}
-                                            // onChange={updateStartTimeString}
+                                            onChange={handleStartTimeChange}
                                             disabled={props.disabledForm}
                                         />
                                     </Form.Item>
@@ -320,9 +340,9 @@ function TacticDateTimeForm(props) {
                                         className="date-picker-form"
                                         dependencies={['endTime']}
                                         rules={[
-                                            { 
+                                            {
                                                 required: endDateTimeRequired,
-                                                message: '请选择结束日期' 
+                                                message: '请选择结束日期'
                                             },
                                             ({ getFieldValue }) => validateEndDateFormat(getFieldValue),
                                         ]}
@@ -345,7 +365,7 @@ function TacticDateTimeForm(props) {
                                         dependencies={['endDate', 'startDate', 'startTime']}
                                         required={endDateTimeRequired}
                                         rules={[
-                                            { 
+                                            {
                                                 required: endDateTimeRequired,
                                                 message: '请输入结束时间',
                                             },

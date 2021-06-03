@@ -201,6 +201,13 @@ function SchemeForm(props) {
                 ]
             }
         }
+        if(restrictionMode === "AFP" || restrictionMode === "MIT" ){
+            // AFP 或 MIT 限制类型增加校验预留时隙表单
+            promiseArray = [
+                ...promiseArray,
+                tacticReserveSlotFormValidatePromise()
+            ]
+        }
         return Promise.all(promiseArray)
     }
     // 转换表单字段数值格式
@@ -535,6 +542,27 @@ function SchemeForm(props) {
             ];
             // 触发表单验证取表单数据
             const fieldData = await tacticAlterRouteForm.validateFields(fields);
+            resolve(fieldData)
+        } catch (errorInfo) {
+            console.log('Failed:', errorInfo);
+        }
+    };
+
+    // 方案预留时隙表单校验Promise
+    const tacticReserveSlotFormValidatePromise = () => {
+        return new Promise((resolve, reject) => {
+            tacticReserveSlotFormValidate(resolve, reject)
+        })
+    }
+    // 方案预留时隙表单校验
+    const tacticReserveSlotFormValidate = async (resolve, reject) => {
+        try {
+            // 必要校验字段
+            const fields = [
+                'reserveSlot',
+            ];
+            // 触发表单验证取表单数据
+            const fieldData = await tacticReserveSlotForm.validateFields(fields);
             resolve(fieldData)
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
@@ -1146,6 +1174,7 @@ function SchemeForm(props) {
             startTime,
             endTime,
             restrictionModeValue,
+            reserveSlot,
             useHeight,
             exemptHeight,
             targetUnit,
@@ -1201,6 +1230,11 @@ function SchemeForm(props) {
         tacticTimeInfo.startTime = startTime;
         // 更新方案结束时间
         tacticTimeInfo.endTime = endTime;
+        // AFP 或 MIT 限制类型增加预留时隙值
+        if(restrictionMode === "AFP" || restrictionMode === "MIT" ){
+            tacticTimeInfo.reserveSlot = reserveSlot;
+        }
+
         // 更新流控限制方式
         flowControlMeasure.restrictionMode = restrictionMode;
         // 更新流控限制方式相应的字段数值
@@ -1475,6 +1509,8 @@ function SchemeForm(props) {
         const endDate = tacticDateTimeForm.getFieldValue('endDate');
         // 结束时间
         const endTime = tacticDateTimeForm.getFieldValue('endTime');
+        // 预留时隙
+        const reserveSlot = tacticReserveSlotForm.getFieldValue('reserveSlot');
 
         // 限制数值
         const restrictionModeValue = tacticMeasureForm.getFieldValue('restrictionModeValue');
@@ -1579,6 +1615,7 @@ function SchemeForm(props) {
             behindUnit,
             exemptFormerUnit,
             exemptBehindUnit,
+            reserveSlot: isValidVariable(reserveSlot) ? reserveSlot.join(',') : "",
             // 起飞机场
             depAp: SchemeFormUtil.parseAreaLabelAirport(depAp).join(';'),
             // 降落机场
@@ -1931,7 +1968,7 @@ function SchemeForm(props) {
                 </Row>
                 <TacticDateTimeForm
                     disabledForm={props.disabledForm}
-                    form={tacticDateTimeForm} />
+                    form={tacticDateTimeForm}/>
             </Card>
             <Card title="措施信息" bordered={false} size="">
                 <TacticMeasureForm
@@ -1940,13 +1977,14 @@ function SchemeForm(props) {
                     updateMITTimeValueChange={updateMITTimeValueChange}
                     disabledForm={props.disabledForm}
                     form={tacticMeasureForm} />
-                {/* <Row gutter={24} >
+                <Row gutter={24} >
                     <Col span={20}>
                         <TacticReserveSlotForm
                             disabledForm={props.disabledForm}
+                            tacticDateTimeForm = {tacticDateTimeForm}
                             form={tacticReserveSlotForm} />
                     </Col>
-                </Row> */}
+                </Row>
             </Card>
             <Card title={getTitle()} bordered={false} className="flow-control-flight">
                 {
