@@ -249,7 +249,7 @@ function TacticReserveSlotForm(props) {
                         onChange={(val) => (handleValue(val))}
                         // className="text-uppercase"
                         allowClear={true}
-                        placeholder="选填项，可输入HHmm格式或者YYYYMMDDHHmm格式有效时间，按回车键分隔多个值"
+                        placeholder="选填项，可输入HHmm格式或YYYYMMDDHHmm格式有效时间，按回车键分隔多个值"
                     >
                     </Select>
                 </Form.Item>
