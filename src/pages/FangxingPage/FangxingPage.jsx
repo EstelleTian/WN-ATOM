@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-27 15:54:34
+ * @LastEditTime: 2021-06-03 16:01:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -11,15 +11,14 @@ import { Layout, Spin, Menu } from "antd";
 import { inject, observer } from "mobx-react";
 import { withRouter } from "react-router-dom";
 import { ReqUrls } from "utils/request-urls";
-
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import NavBar from "components/NavBar/NavBar.jsx";
 import Topic from "components/NavBar/Topic.jsx";
+import DateRange from "components/Common/DateRange.jsx";
 import FlightSearch from "components/FlightSearch/FlightSearch";
 import LeftMultiCanvas from "components/LeftMultiCanvas/LeftMultiCanvas";
 import RightMultiCanvas from "components/RightMultiCanvas/RightMultiCanvas";
 import { isValidVariable } from "utils/basic-verify";
-// import Stomp from 'stompjs'
 import "./FangxingPage.scss";
 
 const { Sider, Content, Header } = Layout;
@@ -76,6 +75,7 @@ function FangxingPage(props) {
   return (
     <Layout className="">
       <Topic></Topic>
+      <DateRange></DateRange>
       {from === "web" && (
         <Sider
           trigger={null}
@@ -165,7 +165,7 @@ function FangxingPage(props) {
                 </div>
               </div>
 
-              <RightMultiCanvas />
+              <RightMultiCanvas from={from} />
             </div>
           )}
         </Content>

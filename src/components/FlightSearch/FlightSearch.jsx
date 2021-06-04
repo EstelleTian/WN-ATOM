@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-05-13 15:40:04
+ * @LastEditTime: 2021-06-03 16:20:13
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -345,7 +345,7 @@ const FlightSearch = (props) => {
     <ModalBox
       title="航班查询"
       style={{
-        height: 330,
+        height: 420,
       }}
       showDecorator={true}
       className="flight_search"

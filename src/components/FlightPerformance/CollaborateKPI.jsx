@@ -189,7 +189,9 @@ const Collaborate = function (props) {
       let subscribeData = userSubscribeData.subscribeData || {};
       // 区域
       let { focus } = subscribeData;
-      // console.log("focus", focus);
+      if (!isValidVariable(focus)) {
+        return;
+      }
       //获取数据
       const resData = await requestGet2({
         url: ReqUrls.totalCollaborateUrl,

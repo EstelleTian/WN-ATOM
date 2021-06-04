@@ -156,6 +156,10 @@ const columns = [
     ellipsis: true,
     className: "time",
     showSorterTooltip: false,
+    defaultSortOrder: "descend",
+    sorter: (a, b) => {
+      return a.time * 1 - b.time * 1;
+    },
     render: (text, record, index) => {
       if (text.length > 14) {
         text = text.substring(0, 14);

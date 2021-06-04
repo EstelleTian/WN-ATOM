@@ -61,9 +61,9 @@ function RightNav(props) {
               {systemPage.userHasAuth(12506) && (
                 <Radio.Button value="scheme">方案列表</Radio.Button>
               )}
-              {systemPage.userHasAuth(12507) && (
+              {/* {systemPage.userHasAuth(12507) && (
                 <Radio.Button value="outer_scheme">外部流控</Radio.Button>
-              )}
+              )} */}
 
               <Radio.Button value="runway">跑道配置</Radio.Button>
             </Radio.Group>

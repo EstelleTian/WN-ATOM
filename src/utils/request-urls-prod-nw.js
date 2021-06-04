@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-27 15:03:18
+ * @LastEditTime: 2021-06-03 14:22:25
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -56,10 +56,13 @@ const userSubscribeCapacityFlowMonitorUnitDataIP= "http://10.25.1.10:80";
 const todoListIP= "http://10.25.1.10:80";
 //我的申请列表-放行监控页面中的-IP(张杰)
 const myApplicationListIP= "http://10.25.1.10:80";
+//计划时间范围获取-IP(薛满林)
+const rangeScopeIP= "http://10.25.1.10:80";
 
 const ReqUrls = {
     //用户登录
     loginUrl: loginIP+"/uuma-server/client/login",
+    loginVerifyUrl: loginIP+"/uuma-server/user/verify-password",
     //缩略地图
     mapUrl: "http://10.25.1.51:8081/#/map",
     mapWebUrl: "http://10.25.1.51:8082/#/map",
@@ -161,6 +164,8 @@ const ReqUrls = {
     getTodayNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/lately",
     // 消息记录-历史
     getHistoryNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/history",
+    //计划时间范围获取-(薛满林)
+    rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server/plan/time/scope"
 };
 
 //协调相关url

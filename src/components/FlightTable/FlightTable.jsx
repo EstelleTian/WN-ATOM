@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-01 12:20:05
+ * @LastEditTime: 2021-06-03 20:42:16
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -21,7 +21,6 @@ import { inject, observer } from "mobx-react";
 import { Table, Input, Checkbox, message, Spin, Switch } from "antd";
 import ModalBox from "components/ModalBox/ModalBox";
 import {
-  CDMNames,
   getColumns,
   formatSingleFlight,
   scrollTopById,
@@ -130,6 +129,10 @@ function FTable(props) {
   const { autoScroll, filterable, focusFlightId, dataLoaded, codeType } =
     flightTableData;
   let { showList, targetFlight } = props.flightTableData.getShowFlights;
+  // if (autoScroll && isValidVariable(targetFlight.id)) {
+  //   console.log("table autoScroll");
+  //   scrollTopById(targetFlight.id, "flight_canvas");
+  // }
 
   const handleRow = useCallback((event, record) => {
     // 点击行
@@ -212,7 +215,7 @@ function FTable(props) {
   }, []);
 
   useEffect(() => {
-    // console.log("table autoScroll")
+    console.log("table autoScroll");
     if (autoScroll && isValidVariable(targetFlight.id)) {
       scrollTopById(targetFlight.id, "flight_canvas");
     }
@@ -245,7 +248,7 @@ function FTable(props) {
       setHeight(tableHeight - 45);
       return getColumns(
         props.collaboratePopoverData,
-        isValidVariable(from) ? CDMNames : "",
+        isValidVariable(from) ? "cdm" : "",
         true,
         onCellFilter
       );
@@ -253,7 +256,7 @@ function FTable(props) {
       setHeight(tableHeight + 45);
       return getColumns(
         props.collaboratePopoverData,
-        isValidVariable(from) ? CDMNames : ""
+        isValidVariable(from) ? "cdm" : ""
       );
     }
   }, [filterable]);
@@ -316,6 +319,7 @@ const ICAOSwitch = inject("flightTableData")(
     return (
       <div className="auto_scroll">
         <Switch
+          className="icao_switch"
           title="ICAO/IATA切换"
           defaultChecked
           checkedChildren="ICAO"

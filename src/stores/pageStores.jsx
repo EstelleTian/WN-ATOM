@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-05-26 16:30:41
+ * @LastEditTime: 2021-06-02 14:48:41
  * @LastEditors: Please set LastEditors
  * @Description: 页面相关store
  * @FilePath: \WN-CDM\src\stores\pageStores.jsx
@@ -49,7 +49,7 @@ class SystemPage {
   @observable dateRangeVisible = false;
   //计划时间范围内容
   @observable dateRangeData = [];
-  @observable dateBarRangeData = [24, 47];
+  @observable dateBarRangeData = [];
   //计划时间范围显隐
   @action setDateRangeVisible(flag) {
     this.dateRangeVisible = flag;
