@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-04-30 10:19:15
+ * @LastEditTime: 2021-06-04 13:19:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -270,7 +270,7 @@ function CapacityCont(props) {
                     // requestDynamicData(false);
                   } else {
                     customNotice({
-                      type: "warn",
+                      type: "warning",
                       message: "容量处于编辑状态，请取消后再操作",
                     });
                   }

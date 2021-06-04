@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-27 14:39:33
+ * @LastEditTime: 2021-06-04 13:28:51
  * @LastEditors: Please set LastEditors
  * @Description:tip提示框
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -83,7 +83,7 @@ const PositionPopover = (props) => {
   };
 
   useEffect(() => {
-    console.log("重新计算位置");
+    // console.log("重新计算位置");
     reCalcPos();
   }, [selectedObj]);
   return (

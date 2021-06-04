@@ -2,16 +2,17 @@ import React, { Fragment } from "react";
 import { Radio, Badge, Button, Avatar } from "antd";
 import { UserOutlined, SearchOutlined } from "@ant-design/icons";
 import { observer, inject } from "mobx-react";
-// import RefreshBtn from "components/SchemeList/RefreshBtn";
+import { withRouter } from "react-router-dom";
 import TodoNav from "./TodoNav";
 import SubTableNav from "./SubTableNav";
-// import MyApplicationButton from "components/MyApplication/MyApplicationButton";
 import User from "./User";
 import "./RightNav.scss";
+import { isValidVariable } from "../../utils/basic-verify";
 
 function RightNav(props) {
-  const { systemPage } = props;
-
+  const { match, systemPage } = props;
+  const params = match.params || {};
+  const from = params.from || "";
   //执行KPI
   const groupRightChange = (e) => {
     const value = e.target.value;
@@ -32,17 +33,18 @@ function RightNav(props) {
       <div className="nav_bar">
         {systemPage.user.id !== "" && (
           <span>
-            {/* <RefreshBtn /> */}
+            {!isValidVariable(from) && (
+              <Radio.Group
+                value={systemPage.leftActiveName}
+                buttonStyle="solid"
+                onChange={groupRightChange}
+              >
+                {systemPage.userHasAuth(12513) && (
+                  <Radio.Button value="kpi">执行KPI</Radio.Button>
+                )}
+              </Radio.Group>
+            )}
 
-            <Radio.Group
-              value={systemPage.leftActiveName}
-              buttonStyle="solid"
-              onChange={groupRightChange}
-            >
-              {systemPage.userHasAuth(12513) && (
-                <Radio.Button value="kpi">执行KPI</Radio.Button>
-              )}
-            </Radio.Group>
             <Radio.Group
               value={systemPage.modalActiveName}
               buttonStyle="solid"
@@ -100,4 +102,4 @@ function RightNav(props) {
   );
 }
 
-export default inject("systemPage")(observer(RightNav));
+export default withRouter(inject("systemPage")(observer(RightNav)));

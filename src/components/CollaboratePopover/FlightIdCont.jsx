@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-06-01 10:01:41
+ * @LastEditTime: 2021-06-04 13:57:43
  * @LastEditors: Please set LastEditors
  * @Description: 航班号右键协调框
  * @FilePath:
@@ -17,12 +17,15 @@ import {
   Tooltip,
   Popconfirm,
 } from "antd";
+import { ReqUrls } from "utils/request-urls";
+import { requestGet2 } from "utils/request";
 import { isValidVariable } from "utils/basic-verify";
 import { FlightCoordination, PriorityList } from "utils/flightcoordination.js";
 import { request, request2 } from "utils/request";
 import { CollaborateUrl } from "utils/request-urls";
 import { cgreen, cred } from "utils/collaborateUtils.js";
 import FmeToday from "utils/fmetoday";
+import { customNotice } from "utils/common-funcs";
 import PopconfirmFlightIdBtn from "./PopconfirmFlightIdBtn";
 
 //协调窗口
@@ -58,12 +61,28 @@ const FlightIdCont = (props) => {
   let isInPoolFlight = FlightCoordination.isInPoolFlight(flight); //航班是否在等待池中
 
   // 显示航班详情
-  const showFlightDetail = useCallback(() => {
+  const showFlightDetail = async () => {
+    const flightId = flight.id || "";
+    if (isValidVariable(flightId)) {
+      flightDetailData.toggleModalVisible(true);
+      try {
+        const res = await requestGet2({
+          url: ReqUrls.getFlightDetailUrl + flightId,
+        });
+        //航班详情赋值
+        flightDetailData.toggleFlightId(flightId);
+        flightDetailData.updateFlightDetailData(res);
+      } catch (e) {
+        customNotice({
+          type: "error",
+          message: e,
+        });
+      }
+    }
+
     //关闭协调窗口popover
     clearCollaboratePopoverData();
-    flightDetailData.toggleFlightId(flight.id);
-    flightDetailData.toggleModalVisible(true);
-  }, []);
+  };
   // 显示指定前序航班模态框
   const showFormerFlightUpdateModal = useCallback(() => {
     //关闭协调窗口popover

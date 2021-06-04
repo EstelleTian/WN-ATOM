@@ -1,12 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2021-01-14 16:08:02
- * @LastEditTime: 2021-06-03 17:43:29
+ * @LastEditTime: 2021-06-04 13:24:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\utils\common-funcs.js
  */
 import { notification } from 'antd'
+import { isValidVariable } from './basic-verify';
 
 const closeNoticeByType = (str)=>{
     //消息类，只显示一个
@@ -15,7 +16,10 @@ const closeNoticeByType = (str)=>{
         noticeDom[0].remove()
     }
 }
-const customNotice = ({ type, message, description = "", placement="topLeft", duration = 30, msgType="" }) =>{
+const customNotice = ({ type, message="", description = "", placement="topLeft", duration = 30, msgType="" }) =>{
+    if( !isValidVariable(message) ){
+        return;
+    }
     //异步消息类，只显示一个
     closeNoticeByType("noti_async");
     

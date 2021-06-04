@@ -142,7 +142,7 @@ function MDRSOptionBtns(props) {
       const { backlogResult = [], generateTime = "", publishResult = [] } = res;
       if (backlogResult.length == 0) {
         customNotice({
-          type: "warn",
+          type: "warning",
           message: "暂无数据",
           duration: 8,
         });
