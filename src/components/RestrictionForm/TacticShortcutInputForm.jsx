@@ -11,6 +11,11 @@ import { customNotice } from 'utils/common-funcs'
 function TacticShortcutInputForm(props) {
 
     const { schemeFormData, systemPage, form, pageType } = props;
+    // 用户信息
+    const user = systemPage.user || {};
+    // 用户机场 
+    const region = user.region || ""; 
+
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
@@ -30,7 +35,7 @@ function TacticShortcutInputForm(props) {
     useEffect(() => {
         // 请求交通流快捷录入表单依赖数据
         requeShortcutInputFormData();
-    }, []);
+    }, [region]);
 
     // 录入方式变更后重置快捷录入表单
     useEffect(() => {
@@ -59,6 +64,13 @@ function TacticShortcutInputForm(props) {
     const updateShortcutInputFormData = data => {
         if (isValidObject(data) && isValidObject(data.resultMap)) {
             schemeFormData.updateShortcutFormData(data.resultMap)
+        }else {
+            customNotice({
+                type: 'error',
+                message: <div>
+                    <p>获取到的方案快捷录入表单数据为空</p>
+                </div>
+            })
         }
     };
 
@@ -125,9 +137,10 @@ function TacticShortcutInputForm(props) {
 
     // 请求交通流快捷录入表单依赖数据
     const requeShortcutInputFormData = () => {
+        
         // 请求参数
         const opt = {
-            url: ReqUrls.shortcutInputFormDataUrl+"input?region=ZLXY",
+            url: ReqUrls.shortcutInputFormDataUrl+"input?region="+region,
             method: 'GET',
             params: {},
             resFunc: (data) => updateShortcutInputFormData(data),
