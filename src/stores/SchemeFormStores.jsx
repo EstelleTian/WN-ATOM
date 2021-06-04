@@ -36,10 +36,12 @@ class SchemeForm {
     @observable tacticPublishUser = "";
     // 方案发布用户中文
     @observable tacticPublishUserCH = "";
-    // 方案发布用户中文
+    // 方案开始时间
     @observable startTime = "";
-    // 方案发布用户中文
+    // 方案结束时间
     @observable endTime = "";
+    // 方案预留时隙
+    @observable reserveSlot = "";
     // 方案限制方式
     @observable restrictionMode = "MIT";
     // MIT限制方式下限制类型 T:时间 D:距离
@@ -175,6 +177,9 @@ class SchemeForm {
         const startTime = tacticTimeInfo.startTime || "";
         // 方案结束时间(12位字符串)
         const endTime = tacticTimeInfo.endTime || "";
+        // 方案预留时隙时间
+        const reserveSlot = tacticTimeInfo.reserveSlot || "";
+
         // 方案措施信息对象
         const flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
         // 限制方式
@@ -296,6 +301,8 @@ class SchemeForm {
         this.startTime = startTime;
         // 更新方案结束时间
         this.endTime = endTime;
+        // 更新方案预留时隙
+        this.reserveSlot = reserveSlot;
 
         // 更新方案限制方式
         this.restrictionMode = restrictionMode || "MIT";

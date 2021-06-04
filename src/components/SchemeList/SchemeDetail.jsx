@@ -53,7 +53,7 @@ function SchemeDetail(props) {
 
     // 流控方向领域对象
     const directionListData = directionList[0] || {};
-    const {targetUnit, preorderUnit, behindUnit, exemptPreUnit, exemptbehindUnit, highLimit, } = directionListData;
+    const {targetUnit,  formerUnit, behindUnit, exemptPreUnit, exemptbehindUnit, } = directionListData;
 
     const basicTacticInfoReasonZh = reasonType[basicTacticInfoReason] || "";
 
@@ -215,7 +215,7 @@ function SchemeDetail(props) {
                                 </div>
                                 <div className="ant-col ant-form-item-control">
                                     <div className="ant-form-item-control-input">
-                                        <div className="ant-form-item-control-input-content">{preorderUnit}</div>
+                                        <div className="ant-form-item-control-input-content">{formerUnit}</div>
                                     </div>
                                 </div>
                             </div>
