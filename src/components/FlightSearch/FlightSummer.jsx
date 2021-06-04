@@ -8,13 +8,13 @@
  */
 import React, { useState, useEffect, useCallback } from "react";
 import { observer, inject } from "mobx-react";
+import { ReqUrls } from "utils/request-urls";
+import { requestGet2 } from "utils/request";
 import {
-  getFullTime,
   getDayTimeFromString,
   formatTimeString,
   isValidObject,
   isValidVariable,
-  addDateTime,
 } from "utils/basic-verify";
 import { FlightCoordination, reasonType } from "utils/flightcoordination";
 
@@ -30,7 +30,6 @@ import {
   Col,
   Tabs,
 } from "antd";
-import ModalBox from "components/ModalBox/ModalBox";
 
 import "./FlightSearch.scss";
 
@@ -38,9 +37,12 @@ const { TabPane } = Tabs;
 //单个航班略情展示
 const FlightSummer = (props) => {
   const { flightDetailData, flightTableData } = props;
+  // 略情激活航班id
+  const drawerFlightId = flightDetailData.drawerFlightId || "";
+
   const res = flightDetailData.getFlightBySelectedId() || {};
   const { flight = {}, formerFlight = {} } = res;
-  console.log(flight);
+  
   /**
    * 关闭单个航班信息抽屉
    * */
@@ -420,6 +422,30 @@ const FlightSummer = (props) => {
     );
   });
 
+ // 显示航班详情
+ const showFlightDetail = async () => {
+  const flightId = flight.id || "";
+  if (isValidVariable(flightId)) {
+    flightDetailData.toggleModalVisible(true);
+    try {
+      const res = await requestGet2({
+        url: ReqUrls.getFlightDetailUrl + flightId,
+      });
+      //航班详情赋值
+      flightDetailData.toggleFlightId(flightId);
+      flightDetailData.updateFlightDetailData(res);
+    } catch (e) {
+      customNotice({
+        type: "error",
+        message: e,
+      });
+    }
+  }
+
+  //关闭协调窗口popover
+  clearCollaboratePopoverData();
+};
+
   /**
    *  获取航班略情抽屉标题
    * */
@@ -435,6 +461,8 @@ const FlightSummer = (props) => {
           }}
           onClick={(e) => {
             props.flightTableData.focusFlightId = flight.id;
+            // 显示航班详情
+            showFlightDetail();
           }}
         >
           {flight.flightId}

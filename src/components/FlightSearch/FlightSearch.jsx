@@ -96,6 +96,7 @@ const FlightSearch = (props) => {
         className={item.id === selectedID ? "selected" : ""}
         key={item.id}
         onClick={() => {
+          // 显示单个航班信息
           showSingleFlightSummary(item);
           const flightId = item.id || "";
           props.flightTableData.focusFlightId = flightId;
@@ -344,9 +345,9 @@ const FlightSearch = (props) => {
   return (
     <ModalBox
       title="航班查询"
-      style={{
-        height: 420,
-      }}
+      // style={{
+      //   height: 420,
+      // }}
       showDecorator={true}
       className="flight_search"
     >

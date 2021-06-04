@@ -1,7 +1,13 @@
-.runway_modal{
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
+// .runway_modal{
+//     position: absolute;
+//     right: 0;
+//     left: 0;
+//     top: 0;
+//     bottom: 0;
+// }
+
+.modal_box{
+    &.hidden {
+        display: none;
+    }
 }

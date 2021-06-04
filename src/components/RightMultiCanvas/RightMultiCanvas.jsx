@@ -26,8 +26,10 @@ function RightMultiCanvas(props) {
   const { rightActiveName, activeFlightSearch } = systemPage;
   return (
     <div className="cont_right">
+      <div className="list-container">
       {rightActiveName === "scheme" || rightActiveName === "runway" ? (
         <ModalBox
+          className={rightActiveName === "scheme" ? "" : "hidden"}
           // title="方案列表"
           title={`方案列表 (数据时间:${formatTimeString(
             props.schemeListData.generateTime
@@ -79,7 +81,10 @@ function RightMultiCanvas(props) {
       ) : (
         ""
       )}
-      {activeFlightSearch && from !== "web" && <FlightSearch />}
+
+      </div>
+        {activeFlightSearch && from !== "web" && <div className="fixed-container"><FlightSearch /></div>}
+      
     </div>
   );
 }

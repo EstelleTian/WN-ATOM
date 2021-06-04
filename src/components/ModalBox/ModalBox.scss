@@ -17,6 +17,7 @@
     .box_content{
         @include display_flex(column);
         @include flex();
+        height: 0;
     }
 }
 
