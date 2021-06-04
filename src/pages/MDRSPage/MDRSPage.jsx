@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-05-27 16:22:08
+ * @LastEditTime: 2021-06-04 13:20:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRSPage\MDRSPage.jsx
@@ -60,7 +60,7 @@ function MDRSPage(props) {
       } = resData;
       if (backlogResult.length == 0) {
         customNotice({
-          type: "warn",
+          type: "warning",
           message: "暂无数据",
           duration: 8,
         });

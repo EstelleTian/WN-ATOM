@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-03 17:43:38
+ * @LastEditTime: 2021-06-04 13:22:58
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -356,11 +356,11 @@ function useFlightsList(props) {
             updateFlightTableData(data);
             timerFunc();
             if (props.flightTableData.loading) {
-            customNotice({
-              type: "success",
-              message: "航班列表数据获取成功",
-              duration: 5,
-            });
+              customNotice({
+                type: "success",
+                message: "航班列表数据获取成功",
+                duration: 5,
+              });
             }
             props.flightTableData.toggleLoad(false, false);
             props.performanceKPIData.toggleLoad(false, false);
