@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-06-04 13:57:43
+ * @LastEditTime: 2021-06-04 16:30:51
  * @LastEditors: Please set LastEditors
  * @Description: 航班号右键协调框
  * @FilePath:
@@ -79,7 +79,6 @@ const FlightIdCont = (props) => {
         });
       }
     }
-
     //关闭协调窗口popover
     clearCollaboratePopoverData();
   };

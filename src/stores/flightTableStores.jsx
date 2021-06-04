@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-03 16:31:51
+ * @LastEditTime: 2021-06-04 16:58:29
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -84,8 +84,14 @@ class FlightItem {
 // 新旧航班对象 时间戳对比
 const compareFlight = (oldFlight, newFlight) => {
   // console.log("单条--航班更新");
-  const newUpdateTimeStamp = newFlight.updateTimeStamp;
-  const oldUpdateTimeStamp = oldFlight.updateTimeStamp;
+  let newUpdateTimeStamp = newFlight.updateTimeStamp;
+  let oldUpdateTimeStamp = oldFlight.updateTimeStamp;
+  if (newUpdateTimeStamp.length > 14) {
+    newUpdateTimeStamp = newUpdateTimeStamp.substring(0, 14);
+  }
+  if (oldUpdateTimeStamp.length > 14) {
+    oldUpdateTimeStamp = oldUpdateTimeStamp.substring(0, 14);
+  }
 
   // console.log("newUpdateTimeStamp", newUpdateTimeStamp, "oldUpdateTimeStamp", oldUpdateTimeStamp );
   //前后都没updateTimeStamp，取最新航班数据
@@ -158,6 +164,13 @@ class FlightTableData {
 
   //更新航班数据-全部更新
   @action updateFlightsList(newList, generateTime, curSchemeId) {
+    // @action updateFlightsList(testnewList, generateTime, curSchemeId) {
+    //   let newList = testnewList.filter((flight) => {
+    //     let flightid = flight.flightid || "";
+    //     if (flightid === "CES9031") {
+    //       return true;
+    //     }
+    //   });
     let newMap = {};
     newList.map((nfc) => (newMap[nfc.id] = nfc));
     let mergeMap = {};
@@ -264,7 +277,12 @@ class FlightTableData {
   //获取真正展示的航班
   @computed get getShowFlights() {
     //测试数据，只显示一条
-    // let testList = this.list.length > 55 ? [this.list[90]] : [];
+    // let testList = this.list.filter((flight) => {
+    //   let flightid = flight.flightid || "";
+    //   if (flightid === "CES9031") {
+    //     return true;
+    //   }
+    // });
 
     // let showList = testList.map((flight) => formatSingleFlight(flight));
 

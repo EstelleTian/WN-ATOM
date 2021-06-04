@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-23 10:30:14
+ * @LastEditTime: 2021-06-04 16:40:36
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -50,22 +50,22 @@ function SpecialFlightsTable(props) {
     let subTableData = [];
     switch (tableName) {
       case "exempt":
-        subTableData = performanceData.exemptFlights || {};
+        subTableData = performanceData.exemptFlights || [];
         break;
       case "interval":
-        subTableData = performanceData.halfIntervalFlights || {};
+        subTableData = performanceData.halfIntervalFlights || [];
         break;
       case "critical":
-        subTableData = performanceData.criticalFlights || {};
+        subTableData = performanceData.criticalFlights || [];
         break;
       case "pool":
-        subTableData = performanceData.inPoolFlights || {};
+        subTableData = performanceData.inPoolFlights || [];
         break;
       case "coordination":
-        subTableData = performanceData.coordinationFlights || {};
+        subTableData = performanceData.coordinationFlights || [];
         break;
       case "closeWait":
-        subTableData = performanceData.closeWaitFlights || {};
+        subTableData = performanceData.closeWaitFlights || [];
         break;
       default:
     }

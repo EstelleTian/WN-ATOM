@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-04 15:16:08
+ * @LastEditTime: 2021-06-04 16:43:07
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -48,10 +48,14 @@ const scrollTopById = (id, classStr) => {
       //计算定位航班
       const tr = boxContent[0].getElementsByClassName(id);
       if (tr.length > 0) {
-        const trHeight = tr[0].clientHeight;
-        const rowIndex =
-          tr[0].firstElementChild.getElementsByClassName("text_cell_center")[0]
-            .innerHTML; //当前航班所在行号
+        const trDom = tr[0];
+        const trHeight = trDom.clientHeight;
+        const cellDom =
+          trDom.firstElementChild.getElementsByClassName("text_cell_center");
+        let rowIndex = 0;
+        if (cellDom.length > 0) {
+          rowIndex = cellDom[0].innerHTML; //当前航班所在行号
+        }
 
         let mtop = rowIndex * trHeight;
         // console.log("目标定位航班是：",tr , trHeight, rowIndex, mtop);
@@ -680,10 +684,10 @@ const getColumns = (
       dataIndex: "rowNum",
       align: "center",
       key: "rowNum",
-      width: screenWidth > 1920 ? 70 : 60,
+      width: screenWidth > 1920 ? 60 : 50,
       fixed: "left",
       render: (text, record, index) => (
-        <div className="text_cell_center">{index + 1}</div>
+        <div className="text_cell_right">{index + 1}</div>
       ),
     },
   ];
