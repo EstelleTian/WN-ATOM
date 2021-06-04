@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-05-27 10:45:17
+ * @LastEditTime: 2021-06-03 17:44:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -102,18 +102,19 @@ function Topic(props) {
         console.log(d);
         const body = d.body;
         const msgObj = JSON.parse(body);
-        const { status, flightCoordination } = msgObj;
+        const msg = msgObj.message || {};
         //消息
-        if (status * 1 === 500) {
-          const {
-            error: { message = "" },
-          } = msgObj;
+        if (status * 1 !== 200) {
+          const error = msg.error || {};
+          const message = error.message || "";
           customNotice({
-            type: "error",
-            message: content,
+            type: "warning",
+            message: message,
+            msgType: "async",
           });
         }
         //更新航班数据（一定是单条）
+        const flightCoordination = msg.flightCoordination || {};
         if (isValidObject(flightCoordination)) {
           props.flightTableData.updateSingleFlight(flightCoordination);
         }

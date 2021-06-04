@@ -32,15 +32,22 @@ function LoginPage(props) {
       // 对密码 base64编码 处理
       const password = values.password.trim();
       const cipher = md5(password);
-      const params = {
-        username: username,
-        cipher: cipher,
-        macaddress: "4C-CC-6A-C9-BA-15",
-        clientVersion: "9.9.9",
-      };
-      console.log(params);
+
       message.destroy();
       try {
+        //校验用户名密码是否正确
+        let params = {
+          username: username,
+          cipher: cipher,
+        };
+        const verifyObj = await requestGet2({
+          url: ReqUrls.loginVerifyUrl,
+          params,
+        });
+
+        params["macaddress"] = "4C-CC-6A-C9-BA-15";
+        params["clientVersion"] = "9.9.9";
+        //登录请求
         const data = await requestGet2({
           url: ReqUrls.loginUrl,
           params,

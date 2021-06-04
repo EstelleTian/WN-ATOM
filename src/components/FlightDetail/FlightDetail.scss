@@ -2,6 +2,7 @@
     .flight-info {
         font-size: 20px;
         text-align: center;
+        margin: 10px 0 5px;
     }
     .flight-detail-form {
         .ant-collapse-content-box {
@@ -59,7 +60,22 @@
     }
 }
 .flight-detail-modal {
+    // .ant-modal-content{
+    //     background-color: #646464;
+    // }
+    // .ant-modal-header{
+    //     background: #555555;
+    // }
     .ant-modal-body {
         padding: 4px 12px
     }
+    // .ant-modal .ant-picker-clear, .ant-modal .ant-slider-handle, .ant-modal .ant-anchor-wrapper, .ant-modal .ant-collapse-content, .ant-modal .ant-timeline-item-head, .ant-modal .ant-card{
+    //     background-color: #3f3d3d;
+    // }
+    // .ant-modal .ant-table.ant-table-small thead > tr > th {
+    //     background-color: #3f3d3d;
+    // }
+    // .ant-table-cell {
+    //     background: #3f3d3d;
+    // }
 }

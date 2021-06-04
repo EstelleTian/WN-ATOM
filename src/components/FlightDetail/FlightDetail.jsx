@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 13:47:11
- * @LastEditTime: 2021-05-12 18:39:25
+ * @LastEditTime: 2021-06-03 16:57:49
  * @LastEditors: Please set LastEditors
  * @Description: 执行KPI
  * @FilePath: WN-ATOM\src\components\FlightDetail\FlightDetail.jsx
@@ -47,6 +47,7 @@ const { Panel } = Collapse;
 
 //航班详情
 const FlightDetail = (props) => {
+  const [flightId, setFlightId] = useState("");
   const { flightDetailData } = props;
   const { modalVisible, flightData = {}, id = "" } = flightDetailData;
   const flight = flightData.flight || {};
@@ -54,7 +55,7 @@ const FlightDetail = (props) => {
   // 前序航班
   const formerFlight = flightData.formerFlight || {};
   // 前序航班是否为人工指定
-  const  isModifyAssign = formerFlight.isModifyAssign;
+  const isModifyAssign = formerFlight.isModifyAssign;
   // 关闭航班详情
   const closeModal = () => {
     flightDetailData.toggleModalVisible(false);
@@ -68,6 +69,7 @@ const FlightDetail = (props) => {
         url: ReqUrls.getFlightDetailUrl + id,
       });
       flightDetailData.updateFlightDetailData(res);
+      setFlightId(res.flight.flightId || "");
     } else {
       alert("未获取到航班信息");
     }
@@ -84,7 +86,7 @@ const FlightDetail = (props) => {
   );
   return (
     <DraggableModal
-      title="航班详情"
+      title={`${flightId}航班详情`}
       style={{ top: "100px", left: "0px" }}
       visible={modalVisible}
       handleOk={() => {}}
@@ -133,7 +135,7 @@ const FlightDetail = (props) => {
           </Row>
           <Form className="flight-detail-form" colon={false} labelAlign="left">
             <Row gutter={12}>
-              <Col span={12}>
+              <Col span={9}>
                 <Collapse
                   defaultActiveKey={[
                     "info",
@@ -153,7 +155,9 @@ const FlightDetail = (props) => {
                   </Panel>
                   <Panel
                     showArrow={false}
-                    header= { isModifyAssign ? `前段航班信息(人工指定)` : `前段航班信息`}
+                    header={
+                      isModifyAssign ? `前段航班信息(人工指定)` : `前段航班信息`
+                    }
                     key="formerInfo"
                   >
                     {/* <FormerInfo type="former"></FormerInfo> */}
@@ -172,7 +176,7 @@ const FlightDetail = (props) => {
                   </Panel>
                 </Collapse>
               </Col>
-              <Col span={12}>
+              <Col span={15}>
                 <Collapse
                   showArrow={false}
                   defaultActiveKey={[

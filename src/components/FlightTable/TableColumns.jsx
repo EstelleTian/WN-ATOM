@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-01 17:06:47
+ * @LastEditTime: 2021-06-04 13:05:07
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -36,7 +36,6 @@ const randerAlarmCellChildren = (opt) => {
  * @param classStr  定位容器class
  * */
 const scrollTopById = (id, classStr) => {
-  // console.log("目标定位航班是：",props.flightTableData.getTargetFlight.id, props.flightTableData.getTargetFlight.flightid );
   if (isValidVariable(id)) {
     const flightCanvas = document.getElementsByClassName(classStr);
     const boxContent = flightCanvas[0].getElementsByClassName("box_content");
@@ -85,7 +84,7 @@ const clearHighlightRowByDom = (trs) => {
 };
 
 //表格列名称-中英-字典-默认/CRS
-let defaultNames = {
+const defaultNames = {
   FLIGHTID: {
     en: "FLIGHTID",
     cn: "航班号",
@@ -200,7 +199,7 @@ let defaultNames = {
   },
 };
 //表格列名称-中英-字典-CDM
-let CDMNames = {
+const CDMNames = {
   FLIGHTID: {
     en: "FLIGHTID",
     cn: "航班号",
@@ -363,9 +362,11 @@ let CDMNames = {
   },
 };
 
+const CRSSortNames = ["FFIXT", "EOBT", "ID"];
+const CDMSortNames = ["ATOT", "CTOT", "TOBT", "EOBT", "SOBT", "ID"];
 // 右键渲染模块内容
 let render = (opt) => {
-  const { text, record, index, col, colCN } = opt;
+  const { text = "", record, index, col, colCN } = opt;
   let color = "";
   let popover = (
     <div className="text_cell_center" title={text}>
@@ -382,18 +383,24 @@ let render = (opt) => {
     let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
     let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
     let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
-    let isInAreaFlight = false; //航班在本区域内
-    if (orgdata.areaStatus === "INNER") {
-      isInAreaFlight = true;
+    let areaStatusStr = ""; //航班在本区域内
+    let areaStatus = orgdata.areaStatus || "";
+    if (areaStatus === "INNER") {
+      areaStatusStr = "区内";
+    } else if (areaStatus === "OUTER") {
+      areaStatusStr = "区外";
     }
     let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
     let isCoordinationResponseWaitingFlight =
       FlightCoordination.isCoordinationResponseWaitingFlight(orgdata); //航班是否在协调响应等待中
     let getCoordinationResponseWaitingType =
       FlightCoordination.getCoordinationResponseWaitingType;
-    let hadInAir = false;
-    if (orgdata.flyStatus === "SKY") {
-      hadInAir = true;
+    let flyStatusStr = "";
+    let flyStatus = orgdata.flyStatus || "";
+    if (flyStatus === "SKY") {
+      flyStatusStr = "空中";
+    } else if (flyStatus === "GROUND") {
+      flyStatusStr = "地面";
     }
     let colorClass = "";
     if (isValidVariable(priority) && priority * 1 > 0) {
@@ -411,22 +418,20 @@ let render = (opt) => {
           className={`text_cell_center ${
             isValidVariable(text) ? "" : "empty_cell"
           }`}
-          title={`${text}-${PriorityList[priority]} ${
-            isInAreaFlight ? "区内" : "区外"
-          } ${hadInAir ? "空中" : "地面"} ${
+          title={`${text}-${
+            PriorityList[priority] || ""
+          } ${areaStatusStr} ${flyStatusStr} ${
             isCoordinationResponseWaitingFlight
               ? `${getCoordinationResponseWaitingType(orgdata)}协调中`
               : ""
           }`}
         >
-          <span className={`${isInAreaFlight ? "inArea" : "outArea"}`}>
-            {text}
-          </span>
+          <span className={`${areaStatus}`}>{text}</span>
         </div>
 
         <div
-          title={`${hadInAir ? "空中" : "地面"}`}
-          className={`status_flag ${hadInAir ? "inAir" : "inGround"}`}
+          title={`${flyStatusStr}`}
+          className={`status_flag ${flyStatus}`}
         ></div>
       </div>
     );
@@ -527,12 +532,15 @@ let render = (opt) => {
 //生成表配置
 const getColumns = (
   collaboratePopoverData,
-  names = defaultNames,
+  namesStr = "",
   sortable = false,
   onCellFilter = () => {}
 ) => {
-  if (!isValidVariable(names)) {
+  let names = {};
+  if (!isValidVariable(namesStr)) {
     names = defaultNames;
+  } else if (namesStr === "cdm") {
+    names = CDMNames;
   }
   //获取屏幕宽度，适配 2k
   let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
@@ -580,11 +588,21 @@ const getColumns = (
     };
 
     const sortFunc = (a, b) => {
-      let data1 = a[en] + "";
+      let data1 = "";
+      let data2 = "";
+      if (typeof a[en] === "string") {
+        data1 = a[en] || "";
+        data2 = b[en] || "";
+      } else if (typeof a[en] === "object") {
+        const f1 = a[en] || {};
+        const f2 = b[en] || {};
+        data1 = f1.value || "";
+        data2 = f2.value || "";
+      }
       if (data1.length >= 12) {
         data1 = data1.substring(0, 12);
       }
-      let data2 = b[en] + "";
+
       if (data2.length >= 12) {
         data2 = data2.substring(0, 12);
       }
@@ -602,45 +620,6 @@ const getColumns = (
     };
     //排序
     tem["sorter"] = sortFunc;
-    //特殊处理排序，FFIXT->EOBT
-    if (en === "FFIXT") {
-      //field对象类型排序，用value再排
-      const sorFunc2 = (a, b, sortName) => {
-        let data1 = "";
-        let data2 = "";
-
-        if (sortName === "FFIXT") {
-          data1 = a[sortName].value || "";
-          data2 = b[sortName].value || "";
-        } else if (sortName === "EOBT") {
-          data1 = a[sortName] || "";
-          data2 = b[sortName] || "";
-        }
-        // console.log(sortName, a.FLIGHTID, data1, b.FLIGHTID, data2);
-        if (data1.length >= 12) {
-          data1 = data1.substring(0, 12);
-        }
-        if (data2.length >= 12) {
-          data2 = data2.substring(0, 12);
-        }
-        if (isValidVariable(data1) && isValidVariable(data2)) {
-          let res = data1.localeCompare(data2);
-          if (0 !== res) {
-            return res;
-          }
-          // return res;
-        } else if (isValidVariable(data1)) {
-          return -1;
-        } else if (isValidVariable(data2)) {
-          return 1;
-        } else {
-          return sorFunc2(a, b, "EOBT");
-        }
-      };
-      tem["sorter"] = (a, b) => {
-        return sorFunc2(a, b, "FFIXT");
-      };
-    }
 
     //默认排序
     if (en === "EAW" || en === "OAW") {
@@ -650,8 +629,99 @@ const getColumns = (
       tem["width"] = screenWidth > 1920 ? 95 : 80;
     }
     if (en === "FFIXT") {
-      tem["defaultSortOrder"] = "ascend";
       tem["width"] = screenWidth > 1920 ? 95 : 80;
+      if (namesStr !== "cdm") {
+        //CRS按过点时间基准开始排序
+        tem["defaultSortOrder"] = "ascend";
+        let sortNames = CRSSortNames;
+        //field对象类型排序，用value再排
+        const sorFunc2 = (a, b, sortNames, ind) => {
+          const sortName = sortNames[ind];
+          let data1 = "";
+          let data2 = "";
+          if (typeof a[sortName] === "string") {
+            data1 = a[sortName] || "";
+            data2 = b[sortName] || "";
+          } else if (typeof a[sortName] === "object") {
+            const f1 = a[sortName] || {};
+            const f2 = b[sortName] || {};
+            data1 = f1.value || "";
+            data2 = f2.value || "";
+          }
+          if (data1.length >= 12) {
+            data1 = data1.substring(0, 12);
+          }
+          if (data2.length >= 12) {
+            data2 = data2.substring(0, 12);
+          }
+          if (isValidVariable(data1) && isValidVariable(data2)) {
+            let res = data1.localeCompare(data2);
+            if (0 !== res) {
+              return res;
+            }
+            //  else {
+            //   return sorFunc2(a, b, sortNames, ++ind);
+            // }
+          } else if (isValidVariable(data1)) {
+            return -1;
+          } else if (isValidVariable(data2)) {
+            return 1;
+          } else {
+            return sorFunc2(a, b, sortNames, ++ind);
+          }
+        };
+        tem["sorter"] = (a, b) => {
+          return sorFunc2(a, b, sortNames, 0);
+        };
+      }
+    }
+    if (en === "ATOT") {
+      if (namesStr === "cdm") {
+        //CDM按起飞时间基准开始排序
+        tem["defaultSortOrder"] = "ascend";
+        let sortNames = CDMSortNames;
+        //field对象类型排序，用value再排
+        const sorFunc2 = (a, b, sortNames, ind) => {
+          const sortName = sortNames[ind];
+          let data1 = "";
+          let data2 = "";
+          if (typeof a[sortName] === "string") {
+            data1 = a[sortName];
+            data2 = b[sortName];
+          } else if (typeof a[sortName] === "object") {
+            const f1 = a[sortName] || {};
+            const f2 = b[sortName] || {};
+            data1 = f1.value || "";
+            data2 = f2.value || "";
+          }
+          if (data1.length >= 12) {
+            data1 = data1.substring(0, 12);
+          }
+          if (data2.length >= 12) {
+            data2 = data2.substring(0, 12);
+          }
+          if (isValidVariable(data1) && isValidVariable(data2)) {
+            let res = data1.localeCompare(data2);
+            if (0 !== res) {
+              return res;
+            }
+            //  else {
+            //   return sorFunc2(a, b, sortNames, ++ind);
+            // }
+          } else if (isValidVariable(data1)) {
+            return -1;
+          } else if (isValidVariable(data2)) {
+            return 1;
+          } else {
+            if (sortNames.length >= ind + 1) {
+              return sorFunc2(a, b, sortNames, ++ind);
+            }
+          }
+        };
+        tem["sorter"] = (a, b) => {
+          return sorFunc2(a, b, sortNames, 0);
+        };
+      }
     }
     if (en === "ALARM") {
       tem["width"] = screenWidth > 1920 ? 140 : 120;
@@ -713,6 +783,9 @@ const handleRightClickCell = (event, record, collaboratePopoverData) => {
   let flightId = "";
   if (clickColumnName === "FLIGHTID") {
     flightId = currentTarget.textContent;
+  }
+  if (!isValidVariable(record.FLIGHTID)) {
+    return;
   }
 
   //协调窗口 依托fc航班数据对象赋值

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-27 15:02:30
+ * @LastEditTime: 2021-06-03 14:21:38
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -13,14 +13,15 @@ const TopicConstant={
     username:"guest",
     password:"guest",
 }
+//登录IP(姜浩)
+const loginIP = "http://192.168.194.21:18380";
+
 // 工作流ip
 const workflowIP = "http://192.168.210.120:81";
 //MDRS(路武臣)
 const mdrsIP = "http://192.168.210.120:81";
-// const mdrsIP = "http://192.168.210.120:81"
 //消息订阅(路武臣)
 const userSubscribeIP = "http://192.168.210.120:81";
-//
 const runwayIP = "http://192.168.210.120:81";
 const clearanceIP = "http://192.168.210.120:81";
 const schemeIP = "http://192.168.210.120:81";
@@ -31,8 +32,7 @@ const validateRouteIP = "http://192.168.210.120:81";
 
 //协调ip
 const CollaborateIP = "http://192.168.210.120:81";
-//登录IP(姜浩)
-const loginIP = "http://192.168.194.21:18380";
+
 //容量管理IP(韩涛)
 const capacityIP = "http://192.168.210.120:81";
 //容流数据IP
@@ -55,10 +55,14 @@ const userSubscribeCapacityFlowMonitorUnitDataIP= "http://192.168.210.120:81";
 const todoListIP= "http://192.168.210.120:81";
 //我的申请列表-放行监控页面中的-IP(张杰)
 const myApplicationListIP= "http://192.168.210.120:81";
+//计划时间范围获取-IP(薛满林)
+const rangeScopeIP= "http://192.168.210.120:81";
 
 const ReqUrls = {
     //用户登录
     loginUrl: loginIP+"/uuma-server/client/login",
+    loginVerifyUrl: loginIP+"/uuma-server/user/verify-password",
+   
     //缩略地图
     mapUrl: "http://192.168.194.40:8081/#/map",
     mapWebUrl: "http://192.168.194.40:8082/#/map",
@@ -160,6 +164,8 @@ const ReqUrls = {
     getTodayNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/lately",
     // 消息记录-历史
     getHistoryNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/history",
+    //计划时间范围获取-(薛满林)
+    rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server/plan/time/scope"
 };
 
 //协调相关url

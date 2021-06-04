@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-01 16:33:12
+ * @LastEditTime: 2021-06-03 16:31:51
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -156,15 +156,14 @@ class FlightTableData {
     this.dataLoaded = dataLoaded;
   }
 
-  //更新航班数据-
+  //更新航班数据-全部更新
   @action updateFlightsList(newList, generateTime, curSchemeId) {
     let newMap = {};
     newList.map((nfc) => (newMap[nfc.id] = nfc));
-
     let mergeMap = {};
-
-    if (curSchemeId === this.lastSchemeId) {
-      // console.log("两次方案id一样 curSchemeId："+curSchemeId+" lastSchemeId: "+this.lastSchemeId )
+    //两次方案id不一样 直接取数据替换
+    if (curSchemeId !== this.lastSchemeId) {
+      // console.log("两次方案id不一样 curSchemeId："+curSchemeId+" lastSchemeId: "+this.lastSchemeId )
       for (let key in newMap) {
         let newFc = newMap[key];
         let newId = newFc.id;
@@ -172,19 +171,20 @@ class FlightTableData {
         mergeMap[newId] = itemIns;
       }
     } else {
-      // console.log("两次方案id不一样 curSchemeId："+curSchemeId+" lastSchemeId: "+this.lastSchemeId )
+      //两次方案id一样 逐一对比
+      // console.log("两次方案id一样 curSchemeId："+curSchemeId+" lastSchemeId: "+this.lastSchemeId )
       let orgMap = {};
       this.list.map((ofc) => (orgMap[ofc.id] = ofc));
 
       for (let key in newMap) {
         let newFc = newMap[key];
         let newId = newFc.id;
-        //新的航班没有出现在旧的中，添加
+        //新的航班在旧的没有出现，添加新航班
         if (!isValidObject(orgMap[newId])) {
           const itemIns = new FlightItem(newFc);
           mergeMap[newId] = itemIns;
         } else {
-          //新的航班出现在旧的中，按谁时间戳大更新
+          //新的航班在旧的出现，按谁时间戳大更新
           const resFlight = compareFlight(orgMap[newId], newFc);
           const itemIns = new FlightItem(resFlight);
           mergeMap[newId] = itemIns;
@@ -326,7 +326,8 @@ class FlightTableData {
     let resFlight = {};
     let time_interval = -1;
     newList.map((flight) => {
-      let ffixt = flight.FFIXT || "";
+      let field = flight.FFIXT || {};
+      let ffixt = field.value || "";
       if (isValidVariable(ffixt) && ffixt.length >= 12) {
         ffixt = ffixt.substring(0, 12);
         // 计算计划时间和当前时间的绝对差值 返回毫秒值

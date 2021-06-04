@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-05-26 16:37:01
+ * @LastEditTime: 2021-06-03 17:43:38
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -123,7 +123,7 @@ function useSchemeList(props) {
                 getSchemeList(true);
               }, 30 * 1000);
             }
-            notification.destroy();
+            // notification.destroy();
             resolve("success");
           },
           errFunc: (err) => {
@@ -310,23 +310,23 @@ function useFlightsList(props) {
           day = day < 10 ? "0" + day : "" + day;
           baseTime = year + "" + month + "" + day;
         }
-        let reqId = activeSchemeId;
+        let reqId = "";
         let trafficId = "";
-        // if (activeSchemeId.indexOf("focus") > -1) {
-        //   trafficId = activeSchemeId.replace(/focus-/g, "");
-        //   activeSchemeId = "";
-        //   reqId = "";
-        // }
-        if (isValidVariable(from) && from !== "web") {
-          trafficId = from;
+        if (activeSchemeId.indexOf("focus") > -1) {
+          trafficId = activeSchemeId.replace(/focus-/g, "");
+          activeSchemeId = "";
+          reqId = "";
+        } else {
+          reqId = activeSchemeId;
+          trafficId = "";
         }
         params = {
           startTime:
             dateRangeData.length > 0 ? dateRangeData[0] : baseTime + "0000",
           endTime:
             dateRangeData.length > 0 ? dateRangeData[1] : baseTime + "2359",
-          id: reqId,
-          trafficId,
+          id: reqId, //方案id
+          trafficId, //左上角选中的id
         };
         const timerFunc = function () {
           //开启定时
@@ -356,11 +356,11 @@ function useFlightsList(props) {
             updateFlightTableData(data);
             timerFunc();
             if (props.flightTableData.loading) {
-              customNotice({
-                type: "success",
-                message: "航班列表数据获取成功",
-                duration: 5,
-              });
+            customNotice({
+              type: "success",
+              message: "航班列表数据获取成功",
+              duration: 5,
+            });
             }
             props.flightTableData.toggleLoad(false, false);
             props.performanceKPIData.toggleLoad(false, false);
@@ -495,7 +495,7 @@ function useExecuteKPIData(props) {
               getKPIData(true);
             }, 60 * 1000);
           }
-          notification.destroy();
+          // notification.destroy();
           resolve("success");
         },
         errFunc: (err) => {
@@ -612,7 +612,7 @@ function usePerformanceKPIData(props) {
               getKPIData(true);
             }, 60 * 1000);
           }
-          notification.destroy();
+          // notification.destroy();
           resolve("success");
         },
         errFunc: (err) => {
