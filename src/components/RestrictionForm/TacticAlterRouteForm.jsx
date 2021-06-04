@@ -22,8 +22,8 @@ function TacticAlterRouteForm(props) {
         for(let i=0; i< alterRoutesFieldData.length; i++){
             let field = alterRoutesFieldData[i];
             let name = field.name;
-            // 从校验结果集合中查找与此表单匹配的项:遍历校验结果每项的paramIndex值(传递参数时的数字), 当alterRoute+routeRank 与当前表单name相同则匹配
-            let fieldData = alterRoutesData.find(element => `alterRoute${element.routeRank}` === name) || {};
+            // 从校验结果集合中查找与此表单匹配的项:遍历校验结果每项的paramIndex值(传递参数时的数字), 当alterRoute+paramIndex 与当前表单name相同则匹配
+            let fieldData = alterRoutesData.find(element => `alterRoute${element.paramIndex}` === name) || {};
             let val = fieldData.routeStr || ""
             obj[name] = val;
         }
