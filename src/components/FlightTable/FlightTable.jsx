@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-03 20:42:16
+ * @LastEditTime: 2021-06-04 15:10:26
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -125,7 +125,7 @@ function FTable(props) {
   let [sortKey, setSortKey] = useState("FFIXT"); //表格排序字段
   let [sortOrder, setSortOrder] = useState("ascend"); //表格排序 顺序  升序ascend/降序
 
-  const { flightTableData = {}, schemeListData, from } = props;
+  const { flightTableData = {}, schemeListData, systemPage, from } = props;
   const { autoScroll, filterable, focusFlightId, dataLoaded, codeType } =
     flightTableData;
   let { showList, targetFlight } = props.flightTableData.getShowFlights;
@@ -244,20 +244,27 @@ function FTable(props) {
   }, []);
 
   const columns = useMemo(() => {
+    let namesStr = "crs";
+    //获取用户信息
+    const user = systemPage.user || {};
+    const region = user.region || "";
+    if (region !== "ZLXY") {
+      namesStr = "fenju-crs"; //分局CRS
+    } else if (isValidVariable(from)) {
+      namesStr = "cdm";
+    }
+
     if (filterable) {
       setHeight(tableHeight - 45);
       return getColumns(
+        namesStr,
         props.collaboratePopoverData,
-        isValidVariable(from) ? "cdm" : "",
         true,
         onCellFilter
       );
     } else {
       setHeight(tableHeight + 45);
-      return getColumns(
-        props.collaboratePopoverData,
-        isValidVariable(from) ? "cdm" : ""
-      );
+      return getColumns(namesStr, props.collaboratePopoverData);
     }
   }, [filterable]);
   // console.log("showList", showList);
@@ -293,7 +300,8 @@ function FTable(props) {
 const FlightTable = inject(
   "flightTableData",
   "schemeListData",
-  "collaboratePopoverData"
+  "collaboratePopoverData",
+  "systemPage"
 )(observer(FTable));
 /** end *****航班表格 纯表格************/
 

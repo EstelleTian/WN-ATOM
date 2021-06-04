@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-04 13:05:07
+ * @LastEditTime: 2021-06-04 15:16:08
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -84,7 +84,7 @@ const clearHighlightRowByDom = (trs) => {
 };
 
 //表格列名称-中英-字典-默认/CRS
-const defaultNames = {
+const CRSNames = {
   FLIGHTID: {
     en: "FLIGHTID",
     cn: "航班号",
@@ -109,10 +109,10 @@ const defaultNames = {
     en: "ETO",
     cn: "预计基准点",
   },
-  COBT: {
-    en: "COBT",
-    cn: "计算预撤时间",
-  },
+  // COBT: {
+  //   en: "COBT",
+  //   cn: "计算预撤时间",
+  // },
   CTOT: {
     en: "CTOT",
     cn: "计算起飞时间",
@@ -141,10 +141,19 @@ const defaultNames = {
     en: "TOBT",
     cn: "目标撤轮档时间",
   },
+  NCOBT: {
+    en: "NCOBT",
+    cn: "NTFM计算撤轮档",
+  },
+  NCTOT: {
+    en: "NCTOT",
+    cn: "NTFM计算起飞",
+  },
   ASBT: {
     en: "ASBT",
     cn: "上客时间",
   },
+
   AGCT: {
     en: "AGCT",
     cn: "关舱门时间",
@@ -167,7 +176,7 @@ const defaultNames = {
   },
   EAWT: {
     en: "EAWT",
-    cn: "入区域点时间",
+    cn: "进区域点时间",
   },
   OAW: {
     en: "OAW",
@@ -181,6 +190,126 @@ const defaultNames = {
     en: "SOBT",
     cn: "计划撤轮档时间",
   },
+  // POS: {
+  //   en: "POS",
+  //   cn: "停机位",
+  // },
+  // RWY: {
+  //   en: "RWY",
+  //   cn: "跑道",
+  // },
+  // TYPE: {
+  //   en: "TYPE",
+  //   cn: "机型",
+  // },
+  orgdata: {
+    en: "orgdata",
+    cn: "原数据",
+  },
+};
+//表格列名称-中英-字典-分局CRS
+const FENJUCRSNames = {
+  FLIGHTID: {
+    en: "FLIGHTID",
+    cn: "航班号",
+  },
+  ALARM: {
+    en: "ALARM",
+    cn: "告警列",
+  },
+  OAW: {
+    en: "OAW",
+    cn: "出区域点",
+  },
+  OAWT: {
+    en: "OAWT",
+    cn: "出区域点时间",
+  },
+  FFIX: {
+    en: "FFIX",
+    cn: "基准点",
+  },
+  FFIXT: {
+    en: "FFIXT",
+    cn: "基准点时间",
+  },
+  CTO: {
+    en: "CTO",
+    cn: "计算基准点",
+  },
+  ETO: {
+    en: "ETO",
+    cn: "预计基准点",
+  },
+  CTOT: {
+    en: "CTOT",
+    cn: "计算起飞时间",
+  },
+  EAW: {
+    en: "EAW",
+    cn: "入区域点",
+  },
+  EAWT: {
+    en: "EAWT",
+    cn: "进区域点时间",
+  },
+  SLOT: {
+    en: "SLOT",
+    cn: "未分配时隙原因",
+  },
+  ATOT: {
+    en: "ATOT",
+    cn: "实际起飞时间",
+  },
+  DEPAP: {
+    en: "DEPAP",
+    cn: "起飞机场",
+  },
+  ARRAP: {
+    en: "ARRAP",
+    cn: "降落机场",
+  },
+  EOBT: {
+    en: "EOBT",
+    cn: "预计撤轮档时间",
+  },
+  TOBT: {
+    en: "TOBT",
+    cn: "目标撤轮档时间",
+  },
+  NCOBT: {
+    en: "NCOBT",
+    cn: "NTFM计算撤轮档",
+  },
+  NCTOT: {
+    en: "NCTOT",
+    cn: "NTFM计算起飞",
+  },
+  ASBT: {
+    en: "ASBT",
+    cn: "上客时间",
+  },
+
+  AGCT: {
+    en: "AGCT",
+    cn: "关舱门时间",
+  },
+  AOBT: {
+    en: "AOBT",
+    cn: "推出时间",
+  },
+  STATUS: {
+    en: "STATUS",
+    cn: "航班状态",
+  },
+  FEAL: {
+    en: "FEAL",
+    cn: "前段降落时间",
+  },
+  SOBT: {
+    en: "SOBT",
+    cn: "计划撤轮档时间",
+  },
   POS: {
     en: "POS",
     cn: "停机位",
@@ -188,10 +317,6 @@ const defaultNames = {
   RWY: {
     en: "RWY",
     cn: "跑道",
-  },
-  TYPE: {
-    en: "TYPE",
-    cn: "机型",
   },
   orgdata: {
     en: "orgdata",
@@ -208,21 +333,9 @@ const CDMNames = {
     en: "ALARM",
     cn: "告警列",
   },
-  REG: {
-    en: "REG",
-    cn: "注册号",
-  },
-  TYPE: {
-    en: "TYPE",
-    cn: "航班机型",
-  },
-  WAKE: {
-    en: "WAKE",
-    cn: "航班尾流类型",
-  },
-  ACODE: {
-    en: "ACODE",
-    cn: "航班ACODE",
+  POS: {
+    en: "POS",
+    cn: "停机位",
   },
   DEPAP: {
     en: "DEPAP",
@@ -244,10 +357,26 @@ const CDMNames = {
     en: "TOBT",
     cn: "目标撤轮档时间",
   },
-  HOBT: {
-    en: "HOBT",
-    cn: "协调撤轮档时间",
+  COBT: {
+    en: "COBT",
+    cn: "计算预撤时间",
   },
+  CTOT: {
+    en: "CTOT",
+    cn: "计算起飞时间",
+  },
+  SLOT: {
+    en: "SLOT",
+    cn: "未分配时隙原因",
+  },
+  STATUS: {
+    en: "STATUS",
+    cn: "状态",
+  },
+  // HOBT: {
+  //   en: "HOBT",
+  //   cn: "协调撤轮档时间",
+  // },
   ASBT: {
     en: "ASBT",
     cn: "上客时间",
@@ -256,46 +385,51 @@ const CDMNames = {
     en: "AGCT",
     cn: "关舱门时间",
   },
-  COBT: {
-    en: "COBT",
-    cn: "计算预撤时间",
-  },
   AOBT: {
     en: "AOBT",
     cn: "推出时间",
-  },
-  CTOT: {
-    en: "CTOT",
-    cn: "计算起飞时间",
   },
   ATOT: {
     en: "ATOT",
     cn: "实际起飞时间",
   },
-  SLOT: {
-    en: "SLOT",
-    cn: "未分配时隙原因",
+  RWY: {
+    en: "RWY",
+    cn: "跑道",
+  },
+  FFIX: {
+    en: "FFIX",
+    cn: "受控航路点",
+  },
+  FFIXT: {
+    en: "FFIXT",
+    cn: "受控过点时间",
   },
   ALDT: {
     en: "ALDT",
     cn: "实际降落时间",
   },
-  POS: {
-    en: "POS",
-    cn: "停机位",
+  REG: {
+    en: "REG",
+    cn: "注册号",
   },
-  RWY: {
-    en: "RWY",
-    cn: "跑道",
+  TYPE: {
+    en: "TYPE",
+    cn: "航班机型",
+  },
+  WAKE: {
+    en: "WAKE",
+    cn: "航班尾流类型",
+  },
+  CODE: {
+    en: "CODE",
+    cn: "航班ACODE",
   },
   EXOT: {
     en: "EXOT",
     cn: "预计出港滑行时间",
   },
-  STATUS: {
-    en: "STATUS",
-    cn: "状态",
-  },
+
   FORMER: {
     en: "FORMER",
     cn: "前段航班",
@@ -328,14 +462,7 @@ const CDMNames = {
     en: "CONTROL",
     cn: "流控状态",
   },
-  FFIX: {
-    en: "FFIX",
-    cn: "受控航路点",
-  },
-  FFIXT: {
-    en: "FFIXT",
-    cn: "受控过点时间",
-  },
+
   EFPS_SID: {
     en: "EFPS_SID",
     cn: "EFPS_SID",
@@ -531,14 +658,16 @@ let render = (opt) => {
 
 //生成表配置
 const getColumns = (
+  namesStr = "crs",
   collaboratePopoverData,
-  namesStr = "",
   sortable = false,
   onCellFilter = () => {}
 ) => {
   let names = {};
-  if (!isValidVariable(namesStr)) {
-    names = defaultNames;
+  if (!isValidVariable(namesStr) || namesStr === "crs") {
+    names = CRSNames;
+  } else if (namesStr === "fenju-crs") {
+    names = FENJUCRSNames;
   } else if (namesStr === "cdm") {
     names = CDMNames;
   }
@@ -913,6 +1042,8 @@ const formatSingleFlight = (flight) => {
     EFPS_TAXI: "",
     EFPS_ASRT: "",
     EFPS_ASAT: "",
+    NCOBT: "",
+    NCTOT: "",
 
     orgdata: JSON.stringify(flight),
   };
