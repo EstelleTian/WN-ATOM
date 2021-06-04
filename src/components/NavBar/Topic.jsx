@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-06-03 17:44:03
+ * @LastEditTime: 2021-06-04 16:58:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -70,6 +70,7 @@ function Topic(props) {
         function (d) {
           //收到消息
           console.log("收到交通流消息,更新航班列表+待办/已办列表");
+          // console.log(d);
           props.flightTableData.setForceUpdate(true);
           props.todoList.setForceUpdate(true);
           props.myApplicationList.setForceUpdate(true);
