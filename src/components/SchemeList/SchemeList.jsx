@@ -746,7 +746,12 @@ function SList(props) {
       //验证有没有这个方案
       const res = props.schemeListData.activeScheme(schemeId);
       if (isValidObject(res)) {
-        handleActive(schemeId, title, "client");
+        // 该方案是否已计算
+        const isCalculated = res.isCalculated;
+        // 若该方案已计算则切换为活动方案
+        if (isCalculated) {
+          handleActive(schemeId, title, "client");
+        } 
       } else {
         customNotice({
           type: "warning",
