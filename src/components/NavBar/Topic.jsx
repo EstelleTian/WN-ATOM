@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-06-04 16:58:14
+ * @LastEditTime: 2021-06-07 14:54:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -109,9 +109,10 @@ function Topic(props) {
           const error = msg.error || {};
           const message = error.message || "";
           customNotice({
-            type: "warning",
+            type: "fail",
             message: message,
             msgType: "async",
+            duration: 10,
           });
         }
         //更新航班数据（一定是单条）

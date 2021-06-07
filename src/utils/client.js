@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-05-18 15:33:19
+ * @LastEditTime: 2021-06-07 14:34:23
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -282,10 +282,18 @@ const exitSystem =() => {
         console.error(error);
     }
 }
+//网络检测
+const testInternet =() => {
+    try {
+        jsEntity.testInternet();
+    }catch(error){
+        console.error(error);
+    }
+}
 export {
     updateMessageNum, sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openDoneFrameById,openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
     openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem, openRunningControlFlow,openDetails,
-    openLocation,openTclientFrameForMDRS, handleCreateSchemeBySimulation
+    openLocation,openTclientFrameForMDRS, handleCreateSchemeBySimulation,testInternet
 }
