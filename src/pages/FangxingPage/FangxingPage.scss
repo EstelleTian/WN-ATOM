@@ -1,162 +1,173 @@
-.site-layout{
+.site-layout {
     @include display_flex(column);
-    .nav_bar{
+    .nav_bar {
         height: 44px;
-        margin: 0!important;
+        margin: 0 !important;
     }
-    .nav_body{
+    .nav_body {
         @include flex();
         @include display_flex();
-        .cont_left{
+        .cont_left {
             @include display_flex(column);
             @include flex();
             margin: 0 11px;
             width: 31.25rem;
-            .left_top{
+            .left_top {
                 height: 40px;
                 background: rgba(64, 64, 64, 0.8);
-                border: 1px solid #5D5D5D;
+                border: 1px solid #5d5d5d;
                 margin: 0 0 8px;
-                >div{
+                > div {
                     height: 40px;
                     font-size: 1.125rem;
                     line-height: 40px;
                     padding-left: 1rem;
                 }
             }
-            .left_cont{
+            .left_cont {
                 @include display_flex();
                 @include flex();
                 margin-bottom: 10px;
-                .left_left{
+                .left_left {
                     @include display_flex(column);
                     width: 31.25rem;
                     margin-right: 10px;
-                    .left_left_top{
+                    .left_left_top {
                         @include display_flex();
                         @include flex();
                         position: relative;
                         //margin-bottom: 10px;
                         // overflow: inherit;
                         overflow: auto;
-                        >.modal_box{
+                        > .modal_box {
                             @include flex();
                         }
-                        .unfold_icon{
+                        .unfold_icon {
                             position: absolute;
                             right: 10px;
                             top: 10px;
-                            &:hover{
+                            &:hover {
                                 cursor: pointer;
                             }
                         }
                     }
                 }
-                .left_right{
+                .left_right {
                     @include display_flex(column);
                     @include flex(5);
                 }
             }
-            .timeline_dom{
+            .timeline_dom {
                 height: 100%;
-                >div{
+                > div {
                     width: 300px;
                     display: inline-block;
                     height: 100%;
                 }
-                
             }
-            .kpi{
+            .kpi {
                 @include flex(1);
             }
-            
-    
         }
 
-        .cont_right{
+        .cont_right {
             width: 31.25rem;
             position: relative;
             margin-bottom: 10px;
             //@include flex(2);
             @include display_flex(column);
+            .list-container {
+                @include display_flex(column);
+                -webkit-box-flex: 1;
+                flex-grow: 1;
+                // overflow-y: auto;
+                box-sizing: border-box;
+                height: 0;
+            }
+            .fixed-container {
+                display: flex;
+                -webkit-box-pack: center;
+                justify-content: center;
+                flex-direction: column;
+                height: 450px;
+                width: 100%;
+                flex-shrink: 0;
+            }
         }
     }
-    
 }
-.side_menu{
+.side_menu {
     @include display_flex();
-    .side_menu_icon{
+    .side_menu_icon {
         position: relative;
         top: 16px;
         font-size: 22px;
         left: 11px;
     }
 }
-.sider_canvas.ant-layout-sider-collapsed{
-    flex: 0 0 60px!important;
-    max-width: 60px!important;
-    min-width: 60px!important;
-    width: 60px!important;
-    .ant-menu-inline-collapsed{
-        width: 60px!important;
+.sider_canvas.ant-layout-sider-collapsed {
+    flex: 0 0 60px !important;
+    max-width: 60px !important;
+    min-width: 60px !important;
+    width: 60px !important;
+    .ant-menu-inline-collapsed {
+        width: 60px !important;
         position: relative;
         top: 14px;
     }
-    .ant-menu-inline-collapsed > .ant-menu-item{
-        padding: 0 2px!important;
+    .ant-menu-inline-collapsed > .ant-menu-item {
+        padding: 0 2px !important;
         height: 56px;
     }
-    .sider_icon{
+    .sider_icon {
         width: 56px;
         height: 56px;
         display: inline-block;
         vertical-align: middle;
     }
-    .clearance{
+    .clearance {
         background: url("../LoginPage/images/m5.png") no-repeat;
         background-size: cover;
     }
-    .monitor{
+    .monitor {
         background: url("../LoginPage/images/m2.png") no-repeat;
         background-size: cover;
     }
 }
-.sider_canvas{
-    flex: 0 0 100px!important;
-    max-width: 100px!important;
-    min-width: 100px!important;
-    width: 100px!important;
-    
-    
-    
+.sider_canvas {
+    flex: 0 0 100px !important;
+    max-width: 100px !important;
+    min-width: 100px !important;
+    width: 100px !important;
 }
-.ant-notification{
-    left: 40%!important;
+.ant-notification {
+    left: 40% !important;
     transform: translateX(-50%);
     //通知栏宽度
-    .ant-notification-hook-holder, .ant-notification-notice{
-        width: inherit!important;
+    .ant-notification-hook-holder,
+    .ant-notification-notice {
+        width: inherit !important;
     }
-    .ant-notification-notice-message{
+    .ant-notification-notice-message {
         margin-bottom: 0;
     }
-  }
-  .ellipsis_name{
+}
+.ellipsis_name {
     color: rgb(54, 165, 218);
     text-overflow: ellipsis;
     overflow: hidden;
     display: inline-block;
     white-space: nowrap;
     vertical-align: top;
-  }
+}
 
-  @media screen and ( max-width: 1920px){
-    .ellipsis_name{
+@media screen and (max-width: 1920px) {
+    .ellipsis_name {
         width: 210px;
     }
-  }
-  @media screen and ( min-width: 1921px){
-    .ellipsis_name{
+}
+@media screen and (min-width: 1921px) {
+    .ellipsis_name {
         width: 270px;
     }
-  }
+}

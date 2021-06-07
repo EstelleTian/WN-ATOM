@@ -1297,8 +1297,8 @@ function SchemeForm(props) {
             // 备选航路数据信息
             let alterRoutesData = schemeFormData.alterRoutesData;
             let sortedAlterRouteData = alterRoutesData.sort((item1, item2) => {
-                let nameA = item1.routeRank; // ignore upper and lowercase
-                let nameB = item2.routeRank; // ignore upper and lowercase
+                let nameA = item1.paramIndex; // ignore upper and lowercase
+                let nameB = item2.paramIndex; // ignore upper and lowercase
                 if (nameA < nameB) {
                     return -1;
                 }
