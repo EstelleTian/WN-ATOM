@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-05-13 16:16:40
+ * @LastEditTime: 2021-06-07 15:05:44
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -42,7 +42,7 @@ const FlightSummer = (props) => {
 
   const res = flightDetailData.getFlightBySelectedId() || {};
   const { flight = {}, formerFlight = {} } = res;
-  
+
   /**
    * 关闭单个航班信息抽屉
    * */
@@ -422,29 +422,31 @@ const FlightSummer = (props) => {
     );
   });
 
- // 显示航班详情
- const showFlightDetail = async () => {
-  const flightId = flight.id || "";
-  if (isValidVariable(flightId)) {
-    flightDetailData.toggleModalVisible(true);
-    try {
-      const res = await requestGet2({
-        url: ReqUrls.getFlightDetailUrl + flightId,
-      });
-      //航班详情赋值
-      flightDetailData.toggleFlightId(flightId);
-      flightDetailData.updateFlightDetailData(res);
-    } catch (e) {
-      customNotice({
-        type: "error",
-        message: e,
-      });
+  // 显示航班详情
+  const showFlightDetail = async () => {
+    const flightId = flight.id || "";
+    if (isValidVariable(flightId)) {
+      flightDetailData.toggleModalVisible(true);
+      try {
+        const res = await requestGet2({
+          url: ReqUrls.getFlightDetailUrl + flightId,
+        });
+        //航班详情赋值
+        flightDetailData.toggleFlightId(flightId);
+        flightDetailData.updateFlightDetailData(res);
+      } catch (e) {
+        customNotice({
+          type: "error",
+          message: e,
+        });
+      }
     }
-  }
 
-  //关闭协调窗口popover
-  clearCollaboratePopoverData();
-};
+    //关闭协调窗口popover
+    if (typeof clearCollaboratePopoverData === "function") {
+      clearCollaboratePopoverData();
+    }
+  };
 
   /**
    *  获取航班略情抽屉标题

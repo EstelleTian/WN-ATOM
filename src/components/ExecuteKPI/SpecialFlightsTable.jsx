@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-04 16:40:36
+ * @LastEditTime: 2021-06-07 17:04:34
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -40,10 +40,13 @@ function SpecialFlightsTable(props) {
   let [sortKey, setSortKey] = useState("FFIXT"); //表格排序字段
   //   const [modalVisible, setModalVisible] = useState(true);
 
-  const { flightTableData, tableName } = props;
+  const { flightTableData, tableName, collaboratePopoverData } = props;
 
   const { tableData, columns, totalWidth } = useMemo(() => {
-    const columns = getColumns("");
+    const columns = getColumns(
+      props.flightTableData.systemName,
+      props.collaboratePopoverData
+    );
     const performanceKPIData = props.performanceKPIData || {};
     const performanceData = performanceKPIData.performanceData || {};
 
@@ -79,6 +82,7 @@ function SpecialFlightsTable(props) {
   }, [
     props.performanceKPIData.performanceData,
     props.performanceKPIData.showTableName,
+    props.flightTableData.systemName,
   ]);
 
   const hideModal = () => {
@@ -171,5 +175,6 @@ function SpecialFlightsTable(props) {
 
 export default inject(
   "performanceKPIData",
-  "flightTableData"
+  "flightTableData",
+  "collaboratePopoverData"
 )(observer(SpecialFlightsTable));

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-04 16:58:29
+ * @LastEditTime: 2021-06-07 15:55:13
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -84,8 +84,8 @@ class FlightItem {
 // 新旧航班对象 时间戳对比
 const compareFlight = (oldFlight, newFlight) => {
   // console.log("单条--航班更新");
-  let newUpdateTimeStamp = newFlight.updateTimeStamp;
-  let oldUpdateTimeStamp = oldFlight.updateTimeStamp;
+  let newUpdateTimeStamp = newFlight.updateTimeStamp || "";
+  let oldUpdateTimeStamp = oldFlight.updateTimeStamp || "";
   if (newUpdateTimeStamp.length > 14) {
     newUpdateTimeStamp = newUpdateTimeStamp.substring(0, 14);
   }
@@ -126,6 +126,8 @@ class FlightTableData {
   constructor() {
     makeObservable(this);
   }
+  //系统名称 CRS CDM CRS-WEB(web) CRS-REGION(分局)
+  @observable systemName = "";
   // 列表
   @observable list = [];
   //数据时间
@@ -333,24 +335,31 @@ class FlightTableData {
         return flight;
       });
     }
-    const targetFlight = this.getTargetFlight(showList);
+    const targetFlight = this.getTargetFlight(showList, this.systemName);
 
     return { showList, targetFlight };
   }
 
   //获取和generatetime时间比最近的航班对象，用以自动滚动
-  getTargetFlight(newList) {
+  getTargetFlight(newList, systemName) {
     // console.log("list长度:" + this.list.length);
     let resFlight = {};
     let time_interval = -1;
+
     newList.map((flight) => {
-      let field = flight.FFIXT || {};
-      let ffixt = field.value || "";
-      if (isValidVariable(ffixt) && ffixt.length >= 12) {
-        ffixt = ffixt.substring(0, 12);
+      let value = "";
+      if (systemName.indexOf("CDM") > -1) {
+        let field = flight.ATOT || {};
+        value = field.value || "";
+      } else {
+        let field = flight.FFIXT || {};
+        value = field.value || "";
+      }
+      if (isValidVariable(value) && value.length >= 12) {
+        value = value.substring(0, 12);
         // 计算计划时间和当前时间的绝对差值 返回毫秒值
         let tempTime = Math.abs(
-          calculateStringTimeDiff(ffixt, this.generateTime)
+          calculateStringTimeDiff(value, this.generateTime)
         );
         //如果时间间隔 小于记录的 赋值替换
         //tempTime  time_interval  取最小
