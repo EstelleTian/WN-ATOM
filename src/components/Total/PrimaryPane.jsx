@@ -228,9 +228,9 @@ function PrimaryPane(props) {
 
     return (
 
-        <Layout className="primay-pane-layout">
-            <Header className="nav_header">
-                <div className="nav_bar layout-row space-between multi_nav">
+        <Layout className="primay-pane-layout ">
+            <Header className="layout-header">
+                <div className="nav_bar layout-row space-between">
                     <div className="layout-nav-left layout-row">
                         <div className="area">
                             <Radio.Group
