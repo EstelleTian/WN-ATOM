@@ -34,7 +34,7 @@ function TacticAlterRouteForm(props) {
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
-    }, [tacticName]);
+    }, [tacticName, alterRoutesData]);
 
 
     return (

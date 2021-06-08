@@ -33,11 +33,10 @@ function TacticExemptBehindUnitForm(props) {
     let initialValues = {
         exemptBehindUnit,
     }
-    //方案名称发生变化触发更新
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
-    }, [tacticName, inputMethod]);
+    }, [tacticName, inputMethod, exemptBehindUnit]);
     return (
         <Fragment>
             <Form

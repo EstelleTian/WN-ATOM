@@ -10,15 +10,13 @@ function CreateFlowPage(props){
     return (
         <div className="create-flow-container">
             <div className="content">
-                
                 <SchemeForm
                     pageType="CREATE"
                     operationDescription="创建方案"
                     primaryButtonName="创建方案"
+                    showSaveAsTemplateBtn = {true}
                 />
-                
             </div>
-
         </div>
 
     )

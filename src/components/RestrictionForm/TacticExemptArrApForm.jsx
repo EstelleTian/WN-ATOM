@@ -24,11 +24,17 @@ function TacticExemptArrApForm(props) {
     let initialValues = {
         exemptArrAp: formatExemptArrAp,
     }
-    //方案名称发生变化触发更新
+    //
+    
+    /* 
+    方案名称变更后触发表单更新(方案数据回显)
+    方案豁免降落机场发生变化触发更新(方案模板数据回显)
+    */
+
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
-    }, [tacticName]);
+    }, [tacticName, exemptArrAp]);
 
     // 自定义 tag 内容 render
     const tagRender = ({ label, closable, onClose, value }) => {

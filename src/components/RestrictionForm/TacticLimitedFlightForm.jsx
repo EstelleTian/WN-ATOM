@@ -97,7 +97,8 @@ function TacticLimitedFlightForm(props) {
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
-    }, [tacticName]);
+    }, [tacticName, flightId, wakeFlowLevel, auType, airlineType, missionType,
+        task, organization, ability, aircraftType,]);
     return (
         <Form
             form={form}

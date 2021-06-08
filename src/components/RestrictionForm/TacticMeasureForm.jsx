@@ -49,20 +49,24 @@ function TacticMeasureForm(props) {
     const tacticName = basicTacticInfo.tacticName || "";
     // 限制数值
     let restrictionModeValue = schemeFormData.restrictionModeValue || "";
-
+    restrictionModeValue = isValidVariable(restrictionModeValue) ? restrictionModeValue : getRestrictionModeValue()
     // 是否为禁用页面类型
     const isDisabledPageType = SchemeFormUtil.getIsDisabledPageType().includes(pageType)
     // 是否禁用
     const disabled = props.disabledForm || isDisabledPageType;
-
+    // 方案名称变更后触发表单更新(方案数据回显)
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
     }, [tacticName]);
+    // 方案限制方式、限制数值、MIT限制类型变更后触发表单更新(方案模板数据回显)
+    useEffect(function () {
+        //重置表单，用以表单初始值赋值
+        form.resetFields();
+    }, [restrictionMode, restrictionModeValue, restrictionMITValueUnit]);
 
     // 依据流控限制方式取流控限制数值方法
-    const getRestrictionModeValue = () => {
-
+    function getRestrictionModeValue() {
         if (restrictionMode == "MIT") {
             return restrictionMITValue;
         } else if (restrictionMode == "AFP") {

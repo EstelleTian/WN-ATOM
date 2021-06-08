@@ -30,6 +30,8 @@ import TacticOriginRouteForm from './TacticOriginRouteForm'
 import TacticAlterRouteForm from './TacticAlterRouteForm'
 import TacticLimitedFlightForm from './TacticLimitedFlightForm'
 import TacticExemptFlightForm from './TacticExemptFlightForm'
+import TacticTemplateForm from './TacticTemplateForm'
+import TacticTemplateNameForm from './TacticTemplateNameForm'
 import { handleImportControl, handleImportControlForUpdate, handleUpdateFlowControl, handleCreateSchemeBySimulation } from 'utils/client'
 import { parseFullTime, isValidObject, isValidVariable } from 'utils/basic-verify'
 import { request } from 'utils/request'
@@ -39,6 +41,7 @@ import { SchemeFormUtil } from 'utils/scheme-form-util'
 import './SchemeForm.scss'
 import { inject, observer } from "mobx-react";
 import { element } from 'prop-types'
+import { schemeTemplateData } from '../../stores/schemeTemplateStores'
 //方案表单
 function SchemeForm(props) {
     // 可显示快捷录入表单的页面类型集合
@@ -47,11 +50,15 @@ function SchemeForm(props) {
     let [alterRoutesField, setAlterRoutesField] = useState(SchemeFormUtil.InitialAlterRoutesFieldData);
     // 主按钮是否禁用
     let [primaryBtnDisabled, setPrimaryBtnDisabled] = useState(false);
+    // 另存为模板框态框是否显示
+    let [saveAsTemplateModalVisible, setSaveAsTemplateModalVisible] = useState(false);
     const { systemPage, schemeFormData, pageType, primaryButtonName, operationDescription } = props;
     // 编辑按钮
     const showEditBtn = props.showEditBtn || false;
     // 忽略按钮
     const showIgnoreBtn = props.showIgnoreBtn || false;
+    // 另存为模拟按钮
+    const showSaveAsTemplateBtn = props.showSaveAsTemplateBtn || false;
     // 设置表单父级模态框是否可见(正式方案进行模拟调整操作)
     const setModalVisible = props.setModalVisible || {};
 
@@ -61,6 +68,8 @@ function SchemeForm(props) {
     const shortcutFormSelecedData = schemeFormData.shortcutFormSelecedData || [];
     // 用户信息
     const user = systemPage.user || {};
+    // 用户名
+    const userName = user.username || ""
     // 限制方式
     const restrictionMode = schemeFormData.restrictionMode;
     // MIT限制方式下的限制类型
@@ -120,6 +129,8 @@ function SchemeForm(props) {
     const [tacticLimitedFlightForm] = Form.useForm();
     // 不包含航班表单
     const [tacticExemptFlightForm] = Form.useForm();
+    // 方案模板名称表单
+    const [tacticTemplateNameForm] = Form.useForm();
 
     // 自动命名按钮点击事件
     const autofillTacticName = async () => {
@@ -137,7 +148,7 @@ function SchemeForm(props) {
         }
     };
 
-    // 获取必要校验表单项字段值
+    // 自动命名获取必要校验表单项字段值
     const getNecessaryFieldsValue = () => {
         let promiseArray = [
 
@@ -194,6 +205,8 @@ function SchemeForm(props) {
                 promiseArray = [
                     ...promiseArray,
                     tacticTargetUnitFormValidatePromise(),
+                    tacticExemptFormerUnitFormValidatePromise(),
+                    tacticFormerUnitFormValidatePromise(),
                     tacticBehindtUnitFormValidatePromise(),
                     tacticExemptBehindUnitFormValidatePromise(),
                     tacticArrApFormValidatePromise(),
@@ -201,7 +214,7 @@ function SchemeForm(props) {
                 ]
             }
         }
-        if(restrictionMode === "AFP" || restrictionMode === "MIT" ){
+        if (restrictionMode === "AFP" || restrictionMode === "MIT") {
             // AFP 或 MIT 限制类型增加校验预留时隙表单
             promiseArray = [
                 ...promiseArray,
@@ -210,6 +223,42 @@ function SchemeForm(props) {
         }
         return Promise.all(promiseArray)
     }
+
+    // 另存为模板获取必要校验表单项字段值
+    const getSaveAsTemplateNecessaryFieldsValue = () => {
+        let promiseArray = [
+            tacticMeasureFormValidatePromise(),
+        ];
+        if (restrictionMode === "CT") {
+            promiseArray = [
+                ...promiseArray,
+                tacticOriginRouteFormValidatePromise(),
+                tacticAlterRouteFormValidatePromise(),
+            ];
+        } else {
+            if (inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
+                promiseArray = [
+                    ...promiseArray,
+                    tacticShortcutInputFormValidatePromise(),
+                    tacticArrApFormValidatePromise(),
+                    tacticExemptArrApFormValidatePromise(),
+                ]
+            } else if (inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) {
+                promiseArray = [
+                    ...promiseArray,
+                    tacticTargetUnitFormValidatePromise(),
+                    tacticExemptFormerUnitFormValidatePromise(),
+                    tacticFormerUnitFormValidatePromise(),
+                    tacticBehindtUnitFormValidatePromise(),
+                    tacticExemptBehindUnitFormValidatePromise(),
+                    tacticArrApFormValidatePromise(),
+                    tacticExemptArrApFormValidatePromise(),
+                ]
+            }
+        }
+        return Promise.all(promiseArray)
+    }
+
     // 转换表单字段数值格式
     const convertFieldsValue = (fieldsValueArray) => {
         let result = {};
@@ -418,6 +467,51 @@ function SchemeForm(props) {
             console.log('Failed:', errorInfo);
         }
     };
+
+    // 前序单元表单校验Promise
+    const tacticFormerUnitFormValidatePromise = () => {
+        return new Promise((resolve, reject) => {
+            tacticFormerUnitFormValidate(resolve, reject)
+        })
+    }
+    // 前序单元表单校验
+    const tacticFormerUnitFormValidate = async (resolve, reject) => {
+        try {
+            // 必要校验字段
+            const fields = [
+                'formerUnit',
+            ];
+            // 触发表单验证取表单数据
+            const fieldData = await tacticFormerUnitForm.validateFields(fields);
+            resolve(fieldData)
+        } catch (errorInfo) {
+            console.log('Failed:', errorInfo);
+        }
+    };
+
+    // 豁免前序单元表单校验Promise
+    const tacticExemptFormerUnitFormValidatePromise = () => {
+        return new Promise((resolve, reject) => {
+            tacticExemptFormerUnitFormValidate(resolve, reject)
+        })
+    }
+    // 豁免前序单元表单校验
+    const tacticExemptFormerUnitFormValidate = async (resolve, reject) => {
+        try {
+            // 必要校验字段
+            const fields = [
+                'exemptFormerUnit',
+            ];
+            // 触发表单验证取表单数据
+            const fieldData = await tacticExemptFormerUnitForm.validateFields(fields);
+            resolve(fieldData)
+        } catch (errorInfo) {
+            console.log('Failed:', errorInfo);
+        }
+    };
+
+
+
     // 降落机场表单校验Promise
     const tacticArrApFormValidatePromise = () => {
         return new Promise((resolve, reject) => {
@@ -438,13 +532,13 @@ function SchemeForm(props) {
             console.log('Failed:', errorInfo);
         }
     };
-    // 降落机场表单校验Promise
+    // 豁免降落机场表单校验Promise
     const tacticExemptArrApFormValidatePromise = () => {
         return new Promise((resolve, reject) => {
             tacticExemptArrApFormValidate(resolve, reject)
         })
     }
-    // 降落机场表单校验
+    // 豁免降落机场表单校验
     const tacticExemptArrApFormValidate = async (resolve, reject) => {
         try {
             // 必要校验字段
@@ -568,6 +662,8 @@ function SchemeForm(props) {
             console.log('Failed:', errorInfo);
         }
     };
+
+
 
     /*********************改航相关start**************************/
 
@@ -840,6 +936,21 @@ function SchemeForm(props) {
             )
         }
     };
+
+    // 绘制另存为模板按钮
+    const drawSaveAsTemplateBtn = () => {
+        return (
+            <div className="button-container">
+                <Button
+                    type="primary"
+                    onClick={handleSaveAsTemplateBtnClick}
+                >
+                    另存为模板
+                </Button>
+            </div>
+        )
+    }
+
     /**
      * 操作栏
      * */
@@ -856,6 +967,9 @@ function SchemeForm(props) {
 
                     {
                         showIgnoreBtn ? (drawIgnoreBtn()) : ""
+                    }
+                    {
+                        showSaveAsTemplateBtn ? (drawSaveAsTemplateBtn()) : ""
                     }
                 </Space>
             </div>
@@ -933,6 +1047,159 @@ function SchemeForm(props) {
             console.log('Failed:', errorInfo);
         }
     };
+
+    // 关闭另存为模板确认框
+    const handleSaveAsTemplateModalClose = () => {
+        // 清空模板名称表单数值
+        tacticTemplateNameForm.setFieldsValue({ 'templateName': "" })
+        setSaveAsTemplateModalVisible(false);
+    }
+
+    // 另存为模板确认按钮点击事件
+    const handleSaveAsTemplateModalOk = async () => {
+        // 校验模板名称表单
+        try {
+            // 必要校验字段
+            const fields = [
+                'templateName',
+            ];
+            // 触发表单验证取表单数据
+            const fieldData = await tacticTemplateNameForm.validateFields(fields);
+            // 模板名称
+            let templateName = fieldData.templateName || "";
+            // 去首尾空格
+            templateName = templateName.trim();
+
+            checkTemplateName(templateName);
+
+            // 提交
+            // saveAsTemplateData(templateName)
+
+        } catch (errorInfo) {
+            console.log('Failed:', errorInfo);
+        }
+    };
+
+    // 另存为模板按钮点击事件
+    const handleSaveAsTemplateBtnClick = async () => {
+        try {
+            // 触发所有表单验证并获取表单数据
+            const fieldsValueArray = await getSaveAsTemplateNecessaryFieldsValue();
+            // 转换表单数值 
+            const fieldsValue = convertFieldsValue(fieldsValueArray);
+            // 显示另存为模板模态框
+            setSaveAsTemplateModalVisible(true)
+        } catch (errorInfo) {
+            console.log('Failed:', errorInfo);
+        }
+    };
+    // 检查方案名称是否已经存在
+    const checkTemplateName = (templateName) => {
+        let repeatTemplate = schemeTemplateData.getRepeatTemplateData(templateName);
+        let len = repeatTemplate.length;
+
+        if (len > 0) {
+            // 重名模板id
+            let templateId = repeatTemplate[0].id;
+            Modal.confirm({
+                title: '提示',
+                icon: <ExclamationCircleOutlined />,
+                centered: true,
+                closable: true,
+                content: <div><p>已存在同名模板,保存将覆盖同名模板数据</p></div>,
+                okText: '修改模板名称',
+                cancelText: '保存',
+                onOk: () => { },
+                onCancel: (close) => {
+                    // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
+                    if (typeof close === 'function') {
+                        // 提交存为模板
+                        saveAsTemplateData(templateName, templateId);
+                        // 关闭模态框
+                        close();
+                    }
+                },
+            });
+        } else {
+            // 提交存为模板
+            saveAsTemplateData(templateName);
+        }
+    }
+
+    // 提交存为模板
+    const saveAsTemplateData = (templateName, templateId) => {
+        // 方案表单数据
+        const formData = handleFormData();
+        // 将方案数据转换为JSON字符串
+        const value = JSON.stringify(formData);
+        let templateData = {
+            // 模板名称
+            name: templateName,
+            // 用户名
+            operator: userName,
+            // 模板类型
+            type: "schemeTemplateData",
+            generateTime: new Date().getTime(),
+            value
+        }
+
+        const opt = {
+            url: ReqUrls.schemeTemplateDataUrl,
+            // "POST" 为新增模板; "PUT"为修改模板
+            method: 'POST',
+            params: templateData,
+            resFunc: (data) => {
+                saveAsTemplateSuccess(data);
+            },
+            errFunc: (err) => {
+                saveAsTemplateErr(err)
+            },
+        };
+        // 若templateId有效则为存在同名模板，即为修改模板数据
+        if (isValidVariable(templateId)) {
+            // 增加id参数，值为已存在同名模板id
+            templateData.id = templateId;
+            // 请求方式要改为"PUT"
+            opt.method = 'PUT'
+        }
+        request(opt);
+    }
+    // 另存为模板失败
+    const saveAsTemplateErr = (err) => {
+        let errMsg = ""
+        if (isValidObject(err) && isValidVariable(err.message)) {
+            errMsg = err.message;
+        } else if (isValidVariable(err)) {
+            errMsg = err;
+        }
+        Modal.error({
+            content: (
+                <span>
+                    <span>另存为模板失败</span>
+                    <br />
+                    <span>{errMsg}</span>
+                </span>
+            ),
+            okText: "确认",
+        });
+
+    }
+    // 另存为模板成功
+    const saveAsTemplateSuccess = (data) => {
+        console.log(data);
+        if (isValidObject(data)) {
+            // 更新方案模板store计数器值,用于触发模板下拉框组件重新获取模板数据
+            schemeTemplateData.triggerCounterChange();
+            // 提示
+            Modal.success({
+                title: '另存为模板成功',
+                content: '另存为模板成功',
+                okText: "确认",
+                onOk: () => { setSaveAsTemplateModalVisible(false) }
+            });
+        }
+    }
+
 
     // 检查开始时间与当前时间大小
     const checkStartDateTimeRange = (fieldData) => {
@@ -1134,7 +1401,7 @@ function SchemeForm(props) {
         }
         // 方案方向数据信息集合
         let directionList = basicTacticInfo.directionList;
-        if(!isValidVariable(directionList)){
+        if (!isValidVariable(directionList)) {
             directionList = [];
             basicTacticInfo.directionList = [];
         }
@@ -1231,7 +1498,7 @@ function SchemeForm(props) {
         // 更新方案结束时间
         tacticTimeInfo.endTime = endTime;
         // AFP 或 MIT 限制类型增加预留时隙值
-        if(restrictionMode === "AFP" || restrictionMode === "MIT" ){
+        if (restrictionMode === "AFP" || restrictionMode === "MIT") {
             tacticTimeInfo.reserveSlot = reserveSlot;
         }
 
@@ -1369,7 +1636,7 @@ function SchemeForm(props) {
         }
         return directionData;
     }
-    // // 快捷录入模式获取方案方向信息集合数据(单方向)
+    // 快捷录入模式获取方案方向信息集合数据(单方向)
     const getSingleDirectionListDataByShortcutFormSelecedData = (formDataValue) => {
         const {
             useHeight,
@@ -1432,7 +1699,7 @@ function SchemeForm(props) {
             exemptDepAp,
             exemptArrAp,
         }
-        
+
         return data;
     }
 
@@ -1650,8 +1917,6 @@ function SchemeForm(props) {
         return result
     }
 
-
-
     // 获取快捷录入方式下勾选中的基准点
     const getTargetUnitByshortcutFormSelecedData = () => {
         // 基准单元
@@ -1761,6 +2026,7 @@ function SchemeForm(props) {
                     <span>{errMsg}</span>
                 </span>
             ),
+            okText: "确认",
         });
     };
 
@@ -1968,9 +2234,19 @@ function SchemeForm(props) {
                 </Row>
                 <TacticDateTimeForm
                     disabledForm={props.disabledForm}
-                    form={tacticDateTimeForm}/>
+                    form={tacticDateTimeForm} />
             </Card>
             <Card title="措施信息" bordered={false} size="">
+                {
+                    pageType === SchemeFormUtil.PAGETYPE_CREATE &&
+                    <Row gutter={24} >
+                        <Col span={20}>
+                            <TacticTemplateForm
+                                disabledForm={props.disabledForm}
+                            />
+                        </Col>
+                    </Row>
+                }
                 <TacticMeasureForm
                     pageType={pageType}
                     updateDistanceToTimeValue={updateDistanceToTimeValue}
@@ -1981,7 +2257,7 @@ function SchemeForm(props) {
                     <Col span={20}>
                         <TacticReserveSlotForm
                             disabledForm={props.disabledForm}
-                            tacticDateTimeForm = {tacticDateTimeForm}
+                            tacticDateTimeForm={tacticDateTimeForm}
                             form={tacticReserveSlotForm} />
                     </Col>
                 </Row>
@@ -2102,6 +2378,22 @@ function SchemeForm(props) {
                         <TacticExemptFlightForm title="不包含" pageType={pageType} form={tacticExemptFlightForm} disabledForm={props.disabledForm} />
                     </Col>
                 </Row>
+                <Modal
+                    title="另存为模板"
+                    destroyOnClose={true}
+                    width={800}
+                    maskClosable={false}
+                    visible={saveAsTemplateModalVisible}
+                    onOk={handleSaveAsTemplateModalOk}
+                    onCancel={handleSaveAsTemplateModalClose}>
+                    <Row gutter={12}>
+                        <Col span={24}>
+                            <TacticTemplateNameForm
+                                form={tacticTemplateNameForm}
+                            />
+                        </Col>
+                    </Row>
+                </Modal>
             </Card>
         </div>
     )

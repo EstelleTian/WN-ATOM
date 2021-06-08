@@ -7,7 +7,7 @@ import { SchemeFormUtil } from 'utils/scheme-form-util'
 
 //方案降落机场表单
 function TacticArrApForm(props) {
-    
+
     const { schemeFormData, form, pageType } = props;
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
@@ -25,11 +25,15 @@ function TacticArrApForm(props) {
     let initialValues = {
         arrAp: formatArrAp,
     }
-    //方案名称发生变化触发更新
+
+    /* 
+    *方案名称变更后触发表单更新(方案数据回显)
+    *方案降落机场发生变化触发更新(方案模板数据回显) 
+    */
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
-    }, [tacticName]);
+    }, [tacticName, arrAp]);
 
     // 自定义 tag 内容 render
     const tagRender = ({ label, closable, onClose, value }) => {
@@ -63,13 +67,13 @@ function TacticArrApForm(props) {
         form.setFieldsValue({ 'arrAp': valueArr });
     }
     // 处理降落机场数值
-    const handleValue = (val)=> {
+    const handleValue = (val) => {
         // 处理机场数值
         let newValue = SchemeFormUtil.handleAirportSelectInputValue(val);
         // 更新表单数值
         form.setFieldsValue({ 'arrAp': newValue });
     }
-    
+
     return (
         <Fragment>
             <Form
@@ -96,28 +100,28 @@ function TacticArrApForm(props) {
                 </Form.Item>
             </Form>
             {
-                disabled ? "" : 
-                <div className="ant-row shortcut-input-row">
-                    <div className="ant-col ant-form-item-label"></div>
-                    <div className="ant-col ant-form-item-control">
-                        <div className="ant-form-item-control-input">
-                            <div className="ant-form-item-control-input-content">
-                                <Space>
-                                    <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("兰州")}>
-                                        <Button size="small" onClick={() => { shortcutInputValue('兰州') }}>兰州</Button>
-                                    </Tooltip>
-                                    <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("西安")}>
-                                        <Button size="small" onClick={() => { shortcutInputValue('西安') }}>西安</Button>
-                                    </Tooltip>
-                                    <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("山东")}>
-                                        <Button size="small" onClick={() => { shortcutInputValue('山东') }}>山东</Button>
-                                    </Tooltip>
-                                    <Button size="small" onClick={() => { }}>更多</Button>
-                                </Space>
+                disabled ? "" :
+                    <div className="ant-row shortcut-input-row">
+                        <div className="ant-col ant-form-item-label"></div>
+                        <div className="ant-col ant-form-item-control">
+                            <div className="ant-form-item-control-input">
+                                <div className="ant-form-item-control-input-content">
+                                    <Space>
+                                        <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("兰州")}>
+                                            <Button size="small" onClick={() => { shortcutInputValue('兰州') }}>兰州</Button>
+                                        </Tooltip>
+                                        <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("西安")}>
+                                            <Button size="small" onClick={() => { shortcutInputValue('西安') }}>西安</Button>
+                                        </Tooltip>
+                                        <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("山东")}>
+                                            <Button size="small" onClick={() => { shortcutInputValue('山东') }}>山东</Button>
+                                        </Tooltip>
+                                        <Button size="small" onClick={() => { }}>更多</Button>
+                                    </Space>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             }
 
         </Fragment>

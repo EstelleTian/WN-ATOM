@@ -389,6 +389,207 @@ class SchemeForm {
         }
     }
 
+    // 依据模板数据更新原始方案数据
+    @action updateSchemeDataByTemplateData(templateData) {
+
+        
+        // 方案基础信息
+        const basicTacticInfo = templateData.basicTacticInfo || {};
+        // 方案录入方式
+        const inputMethod = basicTacticInfo.inputMethod || SchemeFormUtil.INPUTMETHOD_CUSTOM;
+        // 方案基础流控对象
+        const basicFlowcontrol = basicTacticInfo.basicFlowcontrol || {};
+        // 方案措施信息对象
+        const flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
+        // 限制方式
+        const restrictionMode = flowControlMeasure.restrictionMode || "";
+
+        // MIT限制方式下限制类型 T:时间 D:距离
+        const restrictionMITValueUnit = flowControlMeasure.restrictionMITValueUnit || "";
+        // MIT限制方式下限制数值
+        const restrictionMITValue = flowControlMeasure.restrictionMITValue || "";
+        // 速度数值
+        const distanceToTime = flowControlMeasure.distanceToTime || "";
+        // MIT限制方式下时间间隔数值
+        const restrictionMITTimeValue = flowControlMeasure.restrictionMITTimeValue || "";
+
+        // AFP限制方式下限制数值
+        const restrictionAFPValueSequence = flowControlMeasure.restrictionAFPValueSequence || "";
+        // 原航路信息数据集合
+        const originRouteData = flowControlMeasure.originRouteData || {};
+        // 原航路值
+        const originRoute = originRouteData.routeStr || "";
+        //备选航路
+        const alterRouteData1 = flowControlMeasure.alterRouteData1 || {};
+        const alterRouteData2 = flowControlMeasure.alterRouteData2 || {};
+        const alterRouteData3 = flowControlMeasure.alterRouteData3 || {};
+        const alterRouteData4 = flowControlMeasure.alterRouteData4 || {};
+        const alterRouteData5 = flowControlMeasure.alterRouteData5 || {};
+        let alterRoutesData = [
+            alterRouteData1,
+            alterRouteData2,
+            alterRouteData3,
+            alterRouteData4,
+            alterRouteData5,
+        ]
+
+        let directionList = basicTacticInfo.directionList || [];
+        // 流控方向领域对象
+        const directionListData = directionList[0] || {};
+        // 基准单元
+        const targetUnit = directionListData.targetUnit || ""
+        // 前序单元
+        const formerUnit = directionListData.formerUnit || ""
+        // 后序单元
+        const behindUnit = directionListData.behindUnit || ""
+        // 豁免前序
+        const exemptFormerUnit = directionListData.exemptFormerUnit || ""
+        // 豁免后序
+        const exemptBehindUnit = directionListData.exemptBehindUnit || ""
+        // 起飞机场
+        const depAp = directionListData.depAp || ""
+        // 降落机场
+        const arrAp = directionListData.arrAp || ""
+        // 豁免起飞机场
+        const exemptDepAp = directionListData.exemptDepAp || ""
+        // 豁免降落机场
+        const exemptArrAp = directionListData.exemptArrAp || ""
+        // 高度
+        const useHeight = directionListData.useHeight || ""
+        // 豁免高度
+        const exemptHeight = directionListData.exemptHeight || ""
+
+        // 流控航班类型条件
+        const flightPropertyDomain = isValidObject(basicFlowcontrol.flightPropertyDomain) ? basicFlowcontrol.flightPropertyDomain : {};
+
+        // 包含-航班号
+        const flightId = flightPropertyDomain.flightId || ""
+        // 包含-尾流类型
+        const wakeFlowLevel = flightPropertyDomain.wakeFlowLevel || ""
+        // 包含-运营人
+        const auType = flightPropertyDomain.auType || ""
+        // 包含-航班类型
+        const airlineType = flightPropertyDomain.airlineType || ""
+        // 包含-客货类型
+        const missionType = flightPropertyDomain.missionType || ""
+        // 包含-任务类型
+        const task = flightPropertyDomain.task || ""
+        // 包含-军民航
+        const organization = flightPropertyDomain.organization || ""
+        // 包含-限制资质
+        const ability = flightPropertyDomain.ability || ""
+        // 包含-受控机型
+        const aircraftType = flightPropertyDomain.aircraftType || ""
+
+        // 不包含-航班号
+        const exemptionFlightId = flightPropertyDomain.exemptionFlightId || ""
+        // 不包含-尾流类型
+        const exemptionWakeFlowLevel = flightPropertyDomain.exemptionWakeFlowLevel || ""
+        // 不包含-航班类型
+        const exemptionAirlineType = flightPropertyDomain.exemptionAirlineType || ""
+        // 不包含-运营人
+        const exemptionAuType = flightPropertyDomain.exemptionAuType || ""
+        // 不包含-客货类型
+        const exemptionMissionType = flightPropertyDomain.exemptionMissionType || ""
+        // 不包含-任务类型
+        const exemptionTask = flightPropertyDomain.exemptionTask || ""
+        // 不包含-军民航
+        const exemptionOrganization = flightPropertyDomain.exemptionOrganization || ""
+        // 不包含-限制资质
+        const exemptionAbility = flightPropertyDomain.exemptionAbility || ""
+        // 不包含-受控机型
+        const exemptionAircraftType = flightPropertyDomain.exemptionAircraftType || ""
+
+        /*
+            只更新措施信息和交通流信息
+        */
+        // 更新方案录入方式
+        this.inputMethod = inputMethod;
+        // 更新方案限制方式
+        this.restrictionMode = restrictionMode || "MIT";
+        // 更新MIT限制方式下限制类型 T:时间 D:距离
+        this.restrictionMITValueUnit = restrictionMITValueUnit || "T";
+        // 更新MIT限制方式下限制数值
+        this.restrictionMITValue = restrictionMITValue;
+        // 更新MIT限制方式下时间间隔数值
+        this.restrictionMITTimeValue = restrictionMITTimeValue;
+        // 更新速度数值
+        this.distanceToTime = distanceToTime;
+        // 更新AFP限制方式下限制数值
+        this.restrictionAFPValueSequence = restrictionAFPValueSequence;
+        // 更新基准单元
+        this.targetUnit = targetUnit;
+        // 更新前序单元
+        this.formerUnit = formerUnit;
+        // 更新后序单元
+        this.behindUnit = behindUnit;
+        // 更新豁免前序
+        this.exemptFormerUnit = exemptFormerUnit;
+        // 更新豁免后序
+        this.exemptBehindUnit = exemptBehindUnit;
+        // 更新起飞机场
+        this.depAp = depAp;
+        // 更新降落机场
+        this.arrAp = arrAp;
+        // 更新豁免起飞机场
+        this.exemptDepAp = exemptDepAp;
+        // 更新豁免降落机场
+        this.exemptArrAp = exemptArrAp;
+        // 更新高度
+        this.useHeight = useHeight;
+        // 更新豁免高度
+        this.exemptHeight = exemptHeight;
+        // 原航路
+        this.originRoute = originRoute;
+        // 原航路数据集合
+        this.originRouteData = originRouteData;
+        // 备选航路数据集合
+        // 航路校验接口返回值中备选航路数据集合, 仅用于记录
+        // 原始方案数据中不存在应该字段，且表单提交时也不需要提交应该字段
+        this.alterRoutesData = alterRoutesData;
+
+        // 包含-航班号
+        this.flightId = flightId;
+        // 包含-尾流类型
+        this.wakeFlowLevel = wakeFlowLevel;
+        // 包含-运营人
+        this.auType = auType;
+        // 包含-航班类型
+        this.airlineType = airlineType;
+        // 包含-客货类型
+        this.missionType = missionType;
+        // 包含-任务类型
+        this.task = task;
+        // 包含-军民航
+        this.organization = organization;
+        // 包含-限制资质
+        this.ability = ability;
+        // 包含-受控机型
+        this.aircraftType = aircraftType;
+        // 不包含-航班号
+        this.exemptionFlightId = exemptionFlightId;
+        // 不包含-尾流类型
+        this.exemptionWakeFlowLevel = exemptionWakeFlowLevel;
+        // 不包含-航班类型
+        this.exemptionAirlineType = exemptionAirlineType;
+        // 不包含-运营人
+        this.exemptionAuType = exemptionAuType;
+        // 不包含-客货类型
+        this.exemptionMissionType = exemptionMissionType;
+        // 不包含-任务类型
+        this.exemptionTask = exemptionTask;
+        // 不包含-军民航
+        this.exemptionOrganization = exemptionOrganization;
+        // 不包含-限制资质
+        this.exemptionAbility = exemptionAbility;
+        // 不包含-受控机型
+        this.exemptionAircraftType = exemptionAircraftType;
+        if (inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
+            // 更新方案交通流快捷录入表单中选中的数据
+            this.updateShortcutFormSelecedDataBySingleDirectionListData();
+        }
+    }
+
     // 更新方案模式
     @action updateTacticMode(mode) {
         this.tacticMode = mode;

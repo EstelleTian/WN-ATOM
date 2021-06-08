@@ -21,11 +21,10 @@ function TacticUseHeightForm(props) {
     let initialValues = {
         useHeight,
     }
-    //方案名称发生变化触发更新
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
-    }, [tacticName]);
+    }, [tacticName, useHeight]);
     return (
         <Fragment>
             <Form

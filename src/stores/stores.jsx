@@ -27,6 +27,8 @@ import { runwayListData } from "./runwayStores";
 import { MDRSData } from "./mdrsStores";
 import { flightDetailData } from "./flightDetailStores";
 import { schemeFormData } from "./SchemeFormStores";
+// 方案模板
+import { schemeTemplateData } from "./schemeTemplateStores";
 import { newsSubscribe } from "./newsSubscribeStore";
 import { collaboratePopoverData } from "./collaboratePopoverStore";
 import { formerFlightUpdateFormData } from "./formerFlightUpdateModalStores";
@@ -57,5 +59,6 @@ export {
   newsSubscribe,
   collaboratePopoverData,
   formerFlightUpdateFormData,
-  flightExchangeSlotFormData
+  flightExchangeSlotFormData,
+  schemeTemplateData
 };

@@ -97,7 +97,8 @@ function TacticExemptFlightForm(props) {
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
-    }, [tacticName]);
+    }, [tacticName,exemptionFlightId, exemptionWakeFlowLevel, exemptionAirlineType, exemptionAuType, exemptionMissionType,
+        exemptionTask, exemptionOrganization, exemptionAbility, exemptionAircraftType,]);
     return (
         <Form
             form={form}

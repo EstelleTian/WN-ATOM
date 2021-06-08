@@ -51,6 +51,8 @@ const executeKPIDataIP= "http://192.168.210.120:81";
 const performanceDataIP= "http://192.168.210.120:81";
 // 获取用户订阅的容流监控单元数据-IP()
 const userSubscribeCapacityFlowMonitorUnitDataIP= "http://192.168.210.120:81";
+// 获取方案模板数据-IP(韩涛)
+const schemeTemplateIP= "http://192.168.210.120:81";
 //待办航班列表-放行监控页面中的-IP(张杰)
 const todoListIP= "http://192.168.210.120:81";
 //我的申请列表-放行监控页面中的-IP(张杰)
@@ -72,6 +74,8 @@ const ReqUrls = {
     schemeListUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTactics",
     //获取--模拟方案详情
     simulationSchemeDetailUrl:schemeIP+"/scheme-flow-server/simulationTactics/id/",
+    // 获取方案模板数据
+    schemeTemplateDataUrl: schemeTemplateIP+"/user-template-rest/template/user/",
     //获取--航班列表数据
     flightsDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/tactic/",
     //获取--航班列表数据(id为空)
