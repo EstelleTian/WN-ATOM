@@ -4,7 +4,8 @@
     .ant-spin-nested-loading, .ant-spin-container{
         @include display_flex(column);
         @include flex();
-        height: 0;
+        // height: 0;
+        min-height: 0;
     }
     .ant-spin-container {
         padding-top: 10px;
