@@ -82,7 +82,8 @@
                 flex-grow: 1;
                 // overflow-y: auto;
                 box-sizing: border-box;
-                height: 0;
+                // height: 0;
+                min-height: 0;
             }
             .fixed-container {
                 display: flex;
@@ -98,6 +99,7 @@
 }
 .side_menu {
     @include display_flex();
+    flex-shrink: 0;
     .side_menu_icon {
         position: relative;
         top: 16px;
