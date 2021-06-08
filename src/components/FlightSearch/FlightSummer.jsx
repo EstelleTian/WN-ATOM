@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-06-07 15:05:44
+ * @LastEditTime: 2021-06-08 14:07:28
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -84,7 +84,7 @@ const FlightSummer = (props) => {
 
     return (
       <List.Item
-        className={""}
+        className={"scheme-list-section—item"}
         key={tacticId}
         onClick={() => {
           // showSingleFlightSummary(item)

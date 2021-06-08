@@ -1156,28 +1156,19 @@ const FlightCoordination = {
                 let value = is[1];
                 mpiO[key] = value;
             }
-            rarr.push(mpiO);
-        }
-
-        // 按照E排序
-        rarr.sort(function (a, b) {
-            if (isValidVariable(a.E) && isValidVariable(b.E)) {
-                return a.E - b.E;
-            } else if (isValidVariable(a.E) && !isValidVariable(b.E)) {
-                return 1;
-            } else if (!isValidVariable(a.E) && isValidVariable(b.E)) {
-                return -1;
-            } else {
-                return 0;
+            if(rarr.length < 11){
+                rarr.push(mpiO);
             }
-        });
+            
+        }
+        
 
         // 创建返回结果
         for (let index in rarr) {
             let r = rarr[index];
             result[r.ID] = r;
         }
-
+        
         return result;
     },
 
@@ -1213,18 +1204,6 @@ const FlightCoordination = {
             rarr.push(mpiO);
         }
 
-        // 按照E排序
-        rarr.sort(function (a, b) {
-            if (isValidVariable(a.E) && isValidVariable(b.E)) {
-                return a.E - b.E;
-            } else if (isValidVariable(a.E) && !isValidVariable(b.E)) {
-                return 1;
-            } else if (!isValidVariable(a.E) && isValidVariable(b.E)) {
-                return -1;
-            } else {
-                return 0;
-            }
-        });
 
         for (let index in rarr) {
             let r = rarr[index];

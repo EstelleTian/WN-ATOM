@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-07 17:13:59
+ * @LastEditTime: 2021-06-07 17:50:48
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -173,6 +173,7 @@ function FTable(props) {
       let FFIXT = FFIXTField.value || "";
       let id = record.id || "";
       if (
+        systemName.indexOf("CRS") > -1 &&
         sortKey === "FFIXT" &&
         isValidVariable(props.schemeListData.activeSchemeId) &&
         props.schemeListData.activeSchemeId.indexOf("focus") === -1
@@ -206,7 +207,7 @@ function FTable(props) {
       // }
       return id;
     },
-    [schemeStartTime, schemeEndTime]
+    [schemeStartTime, schemeEndTime, systemName]
   );
 
   const onChange = useCallback((pagination, filters, sorter, extra) => {

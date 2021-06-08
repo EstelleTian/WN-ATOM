@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-07 16:54:31
+ * @LastEditTime: 2021-06-08 14:32:26
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -767,7 +767,7 @@ const getColumns = (
 
     //默认排序
     if (en === "EAW" || en === "OAW") {
-      tem["width"] = screenWidth > 1920 ? 95 : 65;
+      tem["width"] = screenWidth > 1920 ? 95 : 80;
     }
     if (en === "FFIX") {
       tem["width"] = screenWidth > 1920 ? 95 : 80;
@@ -880,7 +880,13 @@ const getColumns = (
     }
 
     if (en === "STATUS") {
-      tem["width"] = screenWidth > 1920 ? 75 : 65;
+      tem["width"] = screenWidth > 1920 ? 90 : 78;
+    }
+    if (en === "NCOBT" || en === "NCTOT") {
+      tem["width"] = screenWidth > 1920 ? 90 : 78;
+    }
+    if (en === "DEPAP" || en === "ARRAP") {
+      tem["width"] = screenWidth > 1920 ? 95 : 82;
     }
 
     //隐藏列

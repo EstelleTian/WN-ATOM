@@ -218,3 +218,23 @@
 .icao_switch{
     background-color: #266E90;
 }
+
+.flight_canvas .ant-table.ant-table-small .ant-table-thead > tr > th{
+    padding: 0.35rem 0!important;
+    .ant-table-column-sorters{
+        padding: 0!important;
+        .ant-table-column-sorter{
+            margin-top: -5px;
+            
+        }
+        @media screen and ( min-width: 1921px){
+            .ant-table-column-sorter{
+                margin-top: -8px!important;
+                .ant-table-column-sorter-up, .ant-table-column-sorter-down {
+                    font-size: 14px;
+                }
+            }
+          }
+        
+    }
+}

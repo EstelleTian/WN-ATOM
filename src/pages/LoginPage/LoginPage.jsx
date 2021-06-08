@@ -6,7 +6,6 @@ import { ReqUrls } from "utils/request-urls";
 import { isValidVariable } from "utils/basic-verify";
 import { saveUserInfo, exitSystem, testInternet } from "utils/client";
 
-
 const msgStyle = {
   top: "110px",
   // left: '-55px',
@@ -22,6 +21,7 @@ function LoginPage(props) {
   const usernameInput = useRef(null);
   const pwdInput = useRef(null);
   const pageType = props.pageType;
+  // alert(navigator.userAgent);
 
   // 点击登录按钮登录
   const handleSubmit = useCallback(async () => {
