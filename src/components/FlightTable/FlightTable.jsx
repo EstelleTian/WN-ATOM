@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-04 15:10:26
+ * @LastEditTime: 2021-06-07 17:50:48
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -96,7 +96,6 @@ function useAutoSize() {
   let [tableWidth, setWidth] = useState(0);
   let [tableHeight, setHeight] = useState(0);
   useEffect(() => {
-    // console.log("tableWidth, tableHeight: ", tableWidth, tableHeight);
     const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
     const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
     const tableHeader =
@@ -125,14 +124,16 @@ function FTable(props) {
   let [sortKey, setSortKey] = useState("FFIXT"); //表格排序字段
   let [sortOrder, setSortOrder] = useState("ascend"); //表格排序 顺序  升序ascend/降序
 
-  const { flightTableData = {}, schemeListData, systemPage, from } = props;
-  const { autoScroll, filterable, focusFlightId, dataLoaded, codeType } =
-    flightTableData;
+  const { flightTableData = {}, schemeListData, systemPage } = props;
+  const {
+    autoScroll,
+    filterable,
+    focusFlightId,
+    dataLoaded,
+    codeType,
+    systemName,
+  } = flightTableData;
   let { showList, targetFlight } = props.flightTableData.getShowFlights;
-  // if (autoScroll && isValidVariable(targetFlight.id)) {
-  //   console.log("table autoScroll");
-  //   scrollTopById(targetFlight.id, "flight_canvas");
-  // }
 
   const handleRow = useCallback((event, record) => {
     // 点击行
@@ -172,6 +173,7 @@ function FTable(props) {
       let FFIXT = FFIXTField.value || "";
       let id = record.id || "";
       if (
+        systemName.indexOf("CRS") > -1 &&
         sortKey === "FFIXT" &&
         isValidVariable(props.schemeListData.activeSchemeId) &&
         props.schemeListData.activeSchemeId.indexOf("focus") === -1
@@ -205,7 +207,7 @@ function FTable(props) {
       // }
       return id;
     },
-    [schemeStartTime, schemeEndTime]
+    [schemeStartTime, schemeEndTime, systemName]
   );
 
   const onChange = useCallback((pagination, filters, sorter, extra) => {
@@ -215,7 +217,6 @@ function FTable(props) {
   }, []);
 
   useEffect(() => {
-    console.log("table autoScroll");
     if (autoScroll && isValidVariable(targetFlight.id)) {
       scrollTopById(targetFlight.id, "flight_canvas");
     }
@@ -236,39 +237,41 @@ function FTable(props) {
     }
   }, [focusFlightId, dataLoaded]);
 
-  // console.log("航班表格 render!!! filterable",filterable)
-
   const onCellFilter = useCallback((name, value) => {
     // console.log(name,value);
     props.flightTableData.setFilterValues(name, value);
   }, []);
 
-  const columns = useMemo(() => {
-    let namesStr = "crs";
-    //获取用户信息
-    const user = systemPage.user || {};
-    const region = user.region || "";
-    if (region !== "ZLXY") {
-      namesStr = "fenju-crs"; //分局CRS
-    } else if (isValidVariable(from)) {
-      namesStr = "cdm";
-    }
-
+  let columns = useMemo(() => {
     if (filterable) {
       setHeight(tableHeight - 45);
       return getColumns(
-        namesStr,
+        props.flightTableData.systemName,
         props.collaboratePopoverData,
         true,
         onCellFilter
       );
     } else {
       setHeight(tableHeight + 45);
-      return getColumns(namesStr, props.collaboratePopoverData);
+      return getColumns(
+        props.flightTableData.systemName,
+        props.collaboratePopoverData
+      );
+    }
+  }, [filterable, props.flightTableData.systemName]);
+  useEffect(() => {
+    columns = getColumns(
+      props.flightTableData.systemName,
+      props.collaboratePopoverData
+    );
+  }, [props.flightTableData.systemName]);
+  useEffect(() => {
+    if (filterable) {
+      setHeight(tableHeight - 45);
+    } else {
+      setHeight(tableHeight + 45);
     }
   }, [filterable]);
-  // console.log("showList", showList);
-
   return (
     <Table
       columns={columns}
@@ -312,7 +315,7 @@ const TSpin = inject("flightTableData")(
 
     return (
       <Spin spinning={loading}>
-        <FlightTable from={from} />
+        <FlightTable />
       </Spin>
     );
   })
@@ -366,7 +369,6 @@ const FilterBtn = inject("flightTableData")(
         <Checkbox.Group
           options={[{ label: "快速过滤", value: "quick_filter" }]}
           onChange={(checkedValues) => {
-            // console.log("filterable", checkedValues);
             if (checkedValues.indexOf("quick_filter") === -1) {
               props.flightTableData.setFilterable(false);
               props.flightTableData.clearFilterValues();

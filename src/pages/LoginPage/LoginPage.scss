@@ -24,6 +24,14 @@
       cursor: pointer;
     }
   }
+  //网络连通检测
+  .net_btn{
+    position: absolute;
+    color: #fff;
+    &:hover{
+      cursor: pointer;
+    }
+  }
   .ant-form,.ant-form-item,.ant-input-affix-wrapper,.ant-btn-sm{
     font-size: 10px;
   }

@@ -4,8 +4,7 @@ import md5 from "js-md5";
 import { requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import { isValidVariable } from "utils/basic-verify";
-import { saveUserInfo, exitSystem } from "utils/client";
-// import './LoginPage.scss'
+import { saveUserInfo, exitSystem, testInternet } from "utils/client";
 
 const msgStyle = {
   top: "110px",
@@ -22,6 +21,7 @@ function LoginPage(props) {
   const usernameInput = useRef(null);
   const pwdInput = useRef(null);
   const pageType = props.pageType;
+  // alert(navigator.userAgent);
 
   // 点击登录按钮登录
   const handleSubmit = useCallback(async () => {
@@ -179,6 +179,16 @@ function LoginPage(props) {
         </div>
         <div className="line_bar"></div>
       </div>
+      {pageType === "client" && (
+        <div
+          className="net_btn"
+          onClick={(e) => {
+            testInternet();
+          }}
+        >
+          网络连通检测
+        </div>
+      )}
       <div className="center">
         <div className="title"></div>
         <div className="login_cont">

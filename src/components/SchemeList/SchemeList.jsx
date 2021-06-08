@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-04 13:22:58
+ * @LastEditTime: 2021-06-07 14:55:54
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -343,7 +343,7 @@ function useFlightsList(props) {
                 // console.log(" success 航班列表定时器-执行:"+flightsTimeoutId.current)
                 getFlightTableData(true);
               }
-            }, 30 * 1000);
+            }, 60 * 1000);
             flightsTimeoutId.current.push(timer);
           }
         };

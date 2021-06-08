@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-14 16:08:02
- * @LastEditTime: 2021-06-04 13:24:54
+ * @LastEditTime: 2021-06-07 14:54:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\utils\common-funcs.js
@@ -9,10 +9,10 @@
 import { notification } from 'antd'
 import { isValidVariable } from './basic-verify';
 
-const closeNoticeByType = (str)=>{
+const closeNoticeByType = (str, num=1)=>{
     //消息类，只显示一个
     const noticeDom = document.getElementsByClassName("ant-notification-notice "+str);
-    if(noticeDom.length > 0 ){
+    if(noticeDom.length === num ){
         noticeDom[0].remove()
     }
 }
@@ -21,7 +21,7 @@ const customNotice = ({ type, message="", description = "", placement="topLeft",
         return;
     }
     //异步消息类，只显示一个
-    closeNoticeByType("noti_async");
+    closeNoticeByType("noti_async", 10);
     
     //成功消息类，只显示一个
     closeNoticeByType("custom_noti_success");

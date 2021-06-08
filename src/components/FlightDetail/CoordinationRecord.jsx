@@ -129,12 +129,12 @@ const columns = [
   },
   {
     title: "协调备注",
-    dataIndex: "comments",
+    dataIndex: "comment",
     align: "center",
-    key: "comments",
+    key: "comment",
     width: 60,
     ellipsis: true,
-    className: "comments",
+    className: "comment",
     showSorterTooltip: false,
   },
   {
@@ -181,12 +181,12 @@ const columns = [
   },
   {
     title: "协调用户IP",
-    dataIndex: "ip",
+    dataIndex: "ipAddress",
     align: "center",
-    key: "ip",
+    key: "ipAddress",
     width: 70,
     ellipsis: true,
-    className: "ip",
+    className: "ipAddress",
     showSorterTooltip: false,
   },
 ];
@@ -203,11 +203,11 @@ const convertToTableData = (recordMap = {}) => {
       type: type || "",
       orgValue: record.originalValue || "",
       value: record.value || "",
-      comments: record.comments || "",
+      comment: record.comment || "",
       status: statusZh || "",
       time: record.timestamp || "",
       user: record.username || "",
-      ip: record.ipAddress || "",
+      ipAddress: record.ipAddress || "",
     };
 
     res.push(obj);

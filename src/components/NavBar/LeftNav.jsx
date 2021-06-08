@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-06-03 15:49:23
+ * @LastEditTime: 2021-06-07 16:58:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -86,6 +86,23 @@ function LeftNav(props) {
     },
     [props.systemPage.user.id]
   );
+  //系统名称赋值
+  useEffect(() => {
+    let name = "CRS";
+    if (isValidVariable(from)) {
+      if (from === "web") {
+        name = "CRS-WEB";
+      } else {
+        name = "CDM";
+      }
+    }
+    const user = systemPage.user || {};
+    const region = user.region || "";
+    if (region !== "ZLXY") {
+      name = "CRS-REGION"; //分局CRS
+    }
+    props.flightTableData.systemName = name;
+  }, []);
   useEffect(() => {
     if (from !== "" && from !== "web") {
       props.systemPage.setLeftNavSelectedName(fromKey1);
@@ -140,5 +157,5 @@ function LeftNav(props) {
 }
 
 export default withRouter(
-  inject("systemPage", "schemeListData")(observer(LeftNav))
+  inject("flightTableData", "systemPage", "schemeListData")(observer(LeftNav))
 );

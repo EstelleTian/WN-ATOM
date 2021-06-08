@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-04 16:43:07
+ * @LastEditTime: 2021-06-08 14:32:26
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -43,7 +43,7 @@ const scrollTopById = (id, classStr) => {
     const tableBody = boxContent[0].getElementsByClassName("ant-table-body");
     const tableTBody = boxContent[0].getElementsByClassName("ant-table-tbody");
     const tableTBodyH = tableTBody[0].clientHeight; //表格总高度
-    // console.log("目标定位航班[contentH]是：",contentH, "tableBodyH:", tableBodyH );
+    console.log("目标定位航班[contentH]是：");
     if (tableTBodyH * 1 > contentH * 1) {
       //计算定位航班
       const tr = boxContent[0].getElementsByClassName(id);
@@ -51,7 +51,7 @@ const scrollTopById = (id, classStr) => {
         const trDom = tr[0];
         const trHeight = trDom.clientHeight;
         const cellDom =
-          trDom.firstElementChild.getElementsByClassName("text_cell_center");
+          trDom.firstElementChild.getElementsByClassName("row_cell_pos");
         let rowIndex = 0;
         if (cellDom.length > 0) {
           rowIndex = cellDom[0].innerHTML; //当前航班所在行号
@@ -662,19 +662,30 @@ let render = (opt) => {
 
 //生成表配置
 const getColumns = (
-  namesStr = "crs",
+  systemName,
   collaboratePopoverData,
   sortable = false,
   onCellFilter = () => {}
 ) => {
-  let names = {};
-  if (!isValidVariable(namesStr) || namesStr === "crs") {
-    names = CRSNames;
-  } else if (namesStr === "fenju-crs") {
-    names = FENJUCRSNames;
-  } else if (namesStr === "cdm") {
-    names = CDMNames;
+  console.log("systemName2", systemName);
+  let names = [];
+  let sortKey = "";
+  if (typeof systemName === "string") {
+    if (systemName === "CRS-WEB" || systemName === "CRS") {
+      names = CRSNames;
+      sortKey = "FFIXT";
+    } else if (systemName === "CRS-REGION") {
+      names = FENJUCRSNames;
+      sortKey = "FFIXT";
+    } else if (systemName === "CDM") {
+      names = CDMNames;
+      sortKey = "ATOT";
+    }
+  } else {
+    names = systemName;
+    sortKey = "FLIGHTID";
   }
+
   //获取屏幕宽度，适配 2k
   let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
   //表格列配置-默认-计数列
@@ -687,7 +698,7 @@ const getColumns = (
       width: screenWidth > 1920 ? 60 : 50,
       fixed: "left",
       render: (text, record, index) => (
-        <div className="text_cell_right">{index + 1}</div>
+        <div className="text_cell_right row_cell_pos">{index + 1}</div>
       ),
     },
   ];
@@ -756,14 +767,14 @@ const getColumns = (
 
     //默认排序
     if (en === "EAW" || en === "OAW") {
-      tem["width"] = screenWidth > 1920 ? 95 : 65;
+      tem["width"] = screenWidth > 1920 ? 95 : 80;
     }
     if (en === "FFIX") {
       tem["width"] = screenWidth > 1920 ? 95 : 80;
     }
     if (en === "FFIXT") {
       tem["width"] = screenWidth > 1920 ? 95 : 80;
-      if (namesStr !== "cdm") {
+      if (sortKey === en) {
         //CRS按过点时间基准开始排序
         tem["defaultSortOrder"] = "ascend";
         let sortNames = CRSSortNames;
@@ -809,7 +820,7 @@ const getColumns = (
       }
     }
     if (en === "ATOT") {
-      if (namesStr === "cdm") {
+      if (sortKey === en) {
         //CDM按起飞时间基准开始排序
         tem["defaultSortOrder"] = "ascend";
         let sortNames = CDMSortNames;
@@ -863,10 +874,19 @@ const getColumns = (
     if (en === "FLIGHTID") {
       tem["width"] = screenWidth > 1920 ? 120 : 100;
       tem["fixed"] = "left";
+      if (sortKey === en) {
+        tem["defaultSortOrder"] = "ascend";
+      }
     }
 
     if (en === "STATUS") {
-      tem["width"] = screenWidth > 1920 ? 75 : 65;
+      tem["width"] = screenWidth > 1920 ? 90 : 78;
+    }
+    if (en === "NCOBT" || en === "NCTOT") {
+      tem["width"] = screenWidth > 1920 ? 90 : 78;
+    }
+    if (en === "DEPAP" || en === "ARRAP") {
+      tem["width"] = screenWidth > 1920 ? 95 : 82;
     }
 
     //隐藏列

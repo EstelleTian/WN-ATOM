@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-03 16:01:12
+ * @LastEditTime: 2021-06-07 15:44:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -76,7 +76,7 @@ function FangxingPage(props) {
     <Layout className="">
       <Topic></Topic>
       <DateRange></DateRange>
-      {from === "web" && (
+      {/* {from === "web" && (
         <Sider
           trigger={null}
           collapsible
@@ -85,7 +85,6 @@ function FangxingPage(props) {
         >
           <div className="logo" />
           <Menu theme="dark" mode="inline" selectedKeys={["clearance"]}>
-            {/* <Menu.Item key="clearance" className="sider_icon clearance"> */}
             <Menu.Item
               key="clearance"
               icon={collapsed && <div className="sider_icon clearance" />}
@@ -95,19 +94,16 @@ function FangxingPage(props) {
             >
               放行监控
             </Menu.Item>
-            {/* <Menu.Item key="monitor" className="sider_icon monitor"> */}
             <Menu.Item
               key="monitor"
               icon={collapsed && <div className="sider_icon monitor" />}
               onClick={(e) => {
-                // window.open("./#/web/monitor", "_self");
                 const url =
                   ReqUrls.mapWebUrl +
                   "?fullscreen=true&airport=" +
                   airports +
                   "&airline=" +
                   carriers;
-                // alert(url);
                 window.open(url);
               }}
             >
@@ -115,11 +111,11 @@ function FangxingPage(props) {
             </Menu.Item>
           </Menu>
         </Sider>
-      )}
+      )} */}
       <Layout className="">
         <Content className="site-layout">
           <div className="side_menu">
-            {from === "web" && (
+            {/* {from === "web" && (
               <div className="side_menu_icon">
                 {collapsed ? (
                   <MenuUnfoldOutlined
@@ -133,7 +129,7 @@ function FangxingPage(props) {
                   />
                 )}
               </div>
-            )}
+            )} */}
             <NavBar
               className="nav_bar"
               title="空中交通运行放行监控系统"

@@ -141,7 +141,7 @@ const TrackInfo = (props) => {
   //     atime: "07/1450",
   //   },
   // ];
-
+  // alert(mpi);
   let mpiInfo = FlightCoordination.parseMonitorPointInfo(mpi, flight);
   let data = [];
   if (isValidObject(mpiInfo)) {
