@@ -7,9 +7,19 @@
         padding: 4px 16px;
     }
     .total-tabs{
-        height: 100%;
-        .ant-tabs-content {
-            height: 100%;
+        // height: 100%;
+        flex:1;
+        .ant-tabs-content-holder{
+            display: flex;
+            flex: 1;
+            flex-direction: column; 
+            .ant-tabs-content {
+                flex: 1;
+                .ant-tabs-tabpane {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
         }
         .primay-pane-layout {
             height: 100%;

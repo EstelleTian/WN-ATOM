@@ -66,6 +66,7 @@ function TotalPage(props) {
     {
       title: "总体监控",
       content: <PrimaryPane setActiveTabPane={setActiveTabPane}></PrimaryPane>,
+      // content: <div style={{background:"red"}}>ssss</div>,
       key: "primary",
       closable: false,
     },
@@ -126,7 +127,7 @@ function TotalPage(props) {
     }
   };
   return (
-    <div className="total-page">
+    <div className="total-page layout-column">
       <div className="user-bar layout-row">
         <div className="single_user">
           <div className="user_icon" />

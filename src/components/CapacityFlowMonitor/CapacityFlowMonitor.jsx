@@ -311,8 +311,9 @@ const CapacityFlowMonitor = (props) => {
 
     return (
         <Spin spinning={loading} >
-            <div className="capacity_flow_monitor_container no-scrollbar">
+            <div className="capacity_flow_monitor_container layout-column no-scrollbar">
                 <List
+                    className="layout-column"
                     grid={{ gutter: 6, column: 10 }}
                     dataSource={monitorDataist}
                     renderItem={item => (

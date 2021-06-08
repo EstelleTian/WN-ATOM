@@ -309,7 +309,7 @@ function PrimaryPane(props) {
                         </Col>
                     </Row>
                 </div>
-                <div className="bottom">
+                <div className="bottom layout-column">
                     <div className="capacity-contianer">
                         <CapacityFlowMonitor />
                     </div>
