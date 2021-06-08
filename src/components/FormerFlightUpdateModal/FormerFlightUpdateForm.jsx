@@ -203,6 +203,8 @@ function FormerFlightUpdateForm(props) {
         const { flightCoordination } = data;
         //更新单条航班数据
         props.flightTableData.updateSingleFlight(flightCoordination);
+        // 关闭表单模态框
+        formerFlightUpdateFormData.toggleModalVisible(false);
         Modal.success({
             title: '提交成功',
             content: (
