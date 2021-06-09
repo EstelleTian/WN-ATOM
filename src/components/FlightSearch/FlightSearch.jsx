@@ -381,7 +381,7 @@ const FlightSearch = (props) => {
             </Tooltip>
             <Select
               size="small"
-              style={{ marginRight: "2%" }}
+              style={{ width: "15%" , marginRight: "2%" }}
               defaultValue={defaultDate}
               onChange={handleChangeDate}
             >

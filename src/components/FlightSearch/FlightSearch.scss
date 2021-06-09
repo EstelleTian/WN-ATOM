@@ -63,7 +63,7 @@
         z-index: 1;
         box-shadow: -6px 0 16px -8px rgba(0, 0, 0, .5), -9px 0 28px 0 rgba(0, 0, 0, .5), -12px 0 48px 16px rgba(0, 0, 0, .5);
         @include display_flex();
-        flex: 0 1 auto;
+        flex-shrink: 0;
 
         .flight-prop {
           @include flex();
