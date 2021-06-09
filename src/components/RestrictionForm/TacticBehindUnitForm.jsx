@@ -21,7 +21,7 @@ function TacticBehindUnitForm(props) {
     const restrictionMode = schemeFormData.restrictionMode || "";
 
     let isHide = false;
-    if(restrictionMode !=="CT" && inputMethod ===SchemeFormUtil.INPUTMETHOD_SHORTCUT){
+    if(restrictionMode !=="CR" && inputMethod ===SchemeFormUtil.INPUTMETHOD_SHORTCUT){
         isHide = true;
     }
     // 是否为禁用页面类型

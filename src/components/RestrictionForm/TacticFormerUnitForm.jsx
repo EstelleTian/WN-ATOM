@@ -24,7 +24,7 @@ function TacticExemptFormerUnitForm(props) {
     const isDisabledPageType = SchemeFormUtil.getIsDisabledPageType().includes(pageType)
     // 是否禁用
     const disabled = props.disabledForm || isDisabledPageType;
-    if(restrictionMode !=="CT" && inputMethod ===SchemeFormUtil.INPUTMETHOD_SHORTCUT){
+    if(restrictionMode !=="CR" && inputMethod ===SchemeFormUtil.INPUTMETHOD_SHORTCUT){
         isHide = true;
     }
     // 表单初始化默认值

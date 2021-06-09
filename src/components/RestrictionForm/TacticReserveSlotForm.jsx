@@ -26,7 +26,7 @@ function TacticReserveSlotForm(props) {
     const restrictionMode = schemeFormData.restrictionMode;
     // 是否隐藏
     let isHide = false;
-    if (restrictionMode === "CT" || restrictionMode === "GS") {
+    if (restrictionMode === "CR" || restrictionMode === "GS") {
         isHide = true;
     }
     // 预留时隙

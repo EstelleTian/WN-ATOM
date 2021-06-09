@@ -153,7 +153,7 @@ function SchemeForm(props) {
         let promiseArray = [
 
         ];
-        if (restrictionMode === "CT") {
+        if (restrictionMode === "CR") {
             promiseArray = [
                 tacticOriginRouteFormValidatePromise(),
                 tacticAlterRouteFormValidatePromise(),
@@ -187,7 +187,7 @@ function SchemeForm(props) {
             tacticDateTimeFormValidatePromise(),
             tacticMeasureFormValidatePromise(),
         ];
-        if (restrictionMode === "CT") {
+        if (restrictionMode === "CR") {
             promiseArray = [
                 ...promiseArray,
                 tacticOriginRouteFormValidatePromise(),
@@ -229,7 +229,7 @@ function SchemeForm(props) {
         let promiseArray = [
             tacticMeasureFormValidatePromise(),
         ];
-        if (restrictionMode === "CT") {
+        if (restrictionMode === "CR") {
             promiseArray = [
                 ...promiseArray,
                 tacticOriginRouteFormValidatePromise(),
@@ -287,7 +287,7 @@ function SchemeForm(props) {
 
         let autoName = "";
         // 改航限制类型
-        if (restrictionMode == "CT") {
+        if (restrictionMode == "CR") {
             // 拼接名称
             autoName = `${originRoute} 改航`;
             return autoName
@@ -902,7 +902,7 @@ function SchemeForm(props) {
     /*********************改航相关end**************************/
     // 交通卡片标题
     const getTitle = () => {
-        if (restrictionMode != "CT" && isShowShortcutFormPageType.includes(pageType)) {
+        if (restrictionMode != "CR" && isShowShortcutFormPageType.includes(pageType)) {
             // 除改航限制类型外的且操作为可显示快捷录入的
             return <Space size={20}>交通流信息 <TacticInputMethodRadioGroup disabledForm={props.disabledForm} /></Space>
         } else {
@@ -1558,7 +1558,7 @@ function SchemeForm(props) {
         // 更新流控交通流-不包含-受控机型
         flightPropertyDomain.exemptionAircraftType = exemptionAircraftType;
 
-        if (restrictionMode === "CT") {
+        if (restrictionMode === "CR") {
             // 更新原航路数据信息
             flowControlMeasure.originRouteData = schemeFormData.originRouteData;
             // 备选航路数据信息
@@ -1795,7 +1795,7 @@ function SchemeForm(props) {
         // 豁免后序
         let exemptBehindUnit = "";
         // 改航以外的限制类型且为自定义录入的
-        if (restrictionMode !== "CT" && inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) {
+        if (restrictionMode !== "CR" && inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) {
             // 更新基准单元数值
             targetUnit = tacticTargetUnitForm.getFieldValue('targetUnit');
             // 更新前序单元数值
@@ -2053,7 +2053,7 @@ function SchemeForm(props) {
     // 获取基准单元
     const getTargetUnit = () => {
         let targetUnit = "";
-        if (restrictionMode !== "CT" && inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
+        if (restrictionMode !== "CR" && inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
             targetUnit = getTargetUnitByshortcutFormSelecedData()
         } else {
             targetUnit = tacticTargetUnitForm.getFieldValue('targetUnit');
@@ -2264,7 +2264,7 @@ function SchemeForm(props) {
             </Card>
             <Card title={getTitle()} bordered={false} className="flow-control-flight">
                 {
-                    (restrictionMode !== "CT" && inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) ?
+                    (restrictionMode !== "CR" && inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) ?
                         <TacticShortcutInputForm
                             pageType={pageType}
                             updateDistanceToTimeValue={updateDistanceToTimeValue}
@@ -2281,7 +2281,7 @@ function SchemeForm(props) {
                             form={tacticFormerUnitForm} />
                     </Col>
                     {
-                        restrictionMode === "CT" ? <Col span={8}>
+                        restrictionMode === "CR" ? <Col span={8}>
                             <TacticOriginRouteForm
                                 disabledForm={props.disabledForm}
                                 form={tacticOriginRouteForm}
@@ -2291,7 +2291,7 @@ function SchemeForm(props) {
                         </Col> : ""
                     }
                     {
-                        restrictionMode !== "CT" ? <Col span={8}>
+                        restrictionMode !== "CR" ? <Col span={8}>
                             <TacticTargetUnitForm
                                 pageType={pageType}
                                 updateDistanceToTimeValue={updateDistanceToTimeValue}
@@ -2308,7 +2308,7 @@ function SchemeForm(props) {
                     </Col>
                 </Row>
                 {
-                    restrictionMode === "CT" ? drawAlterRoutes() : ""
+                    restrictionMode === "CR" ? drawAlterRoutes() : ""
                 }
                 <Row gutter={24}>
                     <Col span={8}>
