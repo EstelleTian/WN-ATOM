@@ -1156,9 +1156,6 @@ const FlightCoordination = {
                 let value = is[1];
                 mpiO[key] = value;
             }
-            if(rarr.length < 11){
-                rarr.push(mpiO);
-            }
             
         }
         
