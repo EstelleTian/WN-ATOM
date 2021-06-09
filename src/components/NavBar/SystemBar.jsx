@@ -1,23 +1,22 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-06-08 18:58:59
+ * @LastEditTime: 2021-06-09 10:36:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
  */
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, Fragment } from "react";
 import { observer, inject } from "mobx-react";
-import { Radio, Tag } from "antd";
-import RefreshBtn from "components/SchemeList/RefreshBtn";
+import { DownOutlined, UserOutlined } from "@ant-design/icons";
+import { Radio, Tag, Dropdown, Button, Menu } from "antd";
 import { withRouter } from "react-router-dom";
 import { isValidVariable } from "utils/basic-verify";
 import { convertNameToTitle } from "utils/global";
 
-//顶部 左导航模块
-function LeftNav(props) {
-  const [dateRangeStr, setDateRangeStr] = useState("");
+//各个系统调整页面
+function SystemBar(props) {
   const { match, systemPage } = props;
   const params = match.params || {};
   const from = params.from || "";
@@ -28,7 +27,6 @@ function LeftNav(props) {
     if (fromArr.length >= 2) {
       fromKey1 = fromArr[0] || "";
       fromKey2 = fromArr[1] || "";
-      document.title = convertNameToTitle(fromKey2);
     }
   }
 
@@ -36,8 +34,17 @@ function LeftNav(props) {
     const concernTrafficId = item.concernTrafficId;
     const concernTrafficName = item.concernTrafficName; //如果是crs或者web点击跳转
     if (from === "" || from === "web") {
+      let system = "CRS";
+      if (concernTrafficName.indexOf("CDM") > -1) {
+        system = "CDM";
+      }
       window.open(
-        "./#/clearance/" + concernTrafficId + "_" + concernTrafficName
+        "./#/clearance/" +
+          system +
+          "/" +
+          concernTrafficId +
+          "_" +
+          concernTrafficName
       );
     } else {
       if (props.systemPage.leftNavSelectedName !== concernTrafficId) {
@@ -86,6 +93,24 @@ function LeftNav(props) {
     },
     [props.systemPage.user.id]
   );
+
+  const menu = function () {
+    return (
+      <Menu>
+        {userConcernTrafficList.map((item) => (
+          <Menu.Item
+            key={item.concernTrafficId || ""}
+            value={`${item.concernTrafficId}`}
+            onClick={(e) => {
+              groupNameChange(item);
+            }}
+          >
+            {item.concernTrafficName}
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+  };
   //系统名称赋值
   useEffect(() => {
     let name = "CRS";
@@ -102,60 +127,52 @@ function LeftNav(props) {
       name = "CRS-REGION"; //分局CRS
     }
     props.flightTableData.systemName = name;
+    props.flightTableData.trafficId = fromKey1;
+    props.flightTableData.systemCnName = fromKey2;
+    console.log(name, fromKey1, fromKey2);
   }, []);
+
   useEffect(() => {
     if (from !== "" && from !== "web") {
       props.systemPage.setLeftNavSelectedName(fromKey1);
       props.schemeListData.toggleSchemeActive(fromKey1);
     }
   }, []);
-  useEffect(() => {
-    const dateRangeData = systemPage.getDateRangeData();
-    setDateRangeStr(dateRangeData);
-  }, [systemPage.dateRangeData]);
 
   return (
-    <div className="layout-nav-left layout-row nav_bar">
-      {props.systemPage.userHasAuth(12510) && (
-        <Radio.Group
-          value={props.systemPage.leftNavSelectedName}
-          buttonStyle="solid"
-        >
-          {userConcernTrafficList.map((item) => (
-            <Radio.Button
-              key={item.concernTrafficId || ""}
-              value={`${item.concernTrafficId}`}
-              onClick={(e) => {
-                groupNameChange(item);
-              }}
-            >
-              {item.concernTrafficName}
-            </Radio.Button>
-          ))}
-        </Radio.Group>
+    <Fragment>
+      {props.systemPage.userHasAuth(12510) ? (
+        props.flightTableData.systemName === "CDM" ? (
+          <Radio.Group
+            value={props.systemPage.leftNavSelectedName}
+            buttonStyle="solid"
+          >
+            {userConcernTrafficList.map((item) => (
+              <Radio.Button
+                key={item.concernTrafficId || ""}
+                value={`${item.concernTrafficId}`}
+                onClick={(e) => {
+                  groupNameChange(item);
+                }}
+              >
+                {item.concernTrafficName}
+              </Radio.Button>
+            ))}
+          </Radio.Group>
+        ) : (
+          <Dropdown overlay={menu}>
+            <Button className="sys_dropdown">
+              CDM <DownOutlined />
+            </Button>
+          </Dropdown>
+        )
+      ) : (
+        ""
       )}
-      <Radio.Group buttonStyle="solid">
-        <Radio.Button
-          value="a"
-          onClick={(e) => {
-            props.systemPage.setDateRangeVisible(true);
-          }}
-        >
-          计划范围
-          {dateRangeStr !== "" && (
-            <Tag className="range_tag" color="#3d8424">
-              {dateRangeStr}
-            </Tag>
-          )}
-        </Radio.Button>
-      </Radio.Group>
-      <Radio.Group buttonStyle="solid">
-        <RefreshBtn />
-      </Radio.Group>
-    </div>
+    </Fragment>
   );
 }
 
 export default withRouter(
-  inject("flightTableData", "systemPage", "schemeListData")(observer(LeftNav))
+  inject("flightTableData", "systemPage", "schemeListData")(observer(SystemBar))
 );
