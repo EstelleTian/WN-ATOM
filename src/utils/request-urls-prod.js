@@ -59,6 +59,8 @@ const todoListIP= "http://192.168.210.120:81";
 const myApplicationListIP= "http://192.168.210.120:81";
 //计划时间范围获取-IP(薛满林)
 const rangeScopeIP= "http://192.168.210.120:81";
+// 开关配置IP
+const switchConfigIP= "http://192.168.194.22:28080";
 
 const ReqUrls = {
     //用户登录
@@ -169,7 +171,9 @@ const ReqUrls = {
     // 消息记录-历史
     getHistoryNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/history",
     //计划时间范围获取-(薛满林)
-    rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server/plan/time/scope"
+    rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server/plan/time/scope",
+    // 开关配置
+    switchConfigUrl: switchConfigIP +"/hydrogen-ntfm-info-receive-server/switchConfig"
 };
 
 //协调相关url

@@ -33,7 +33,10 @@ import { newsSubscribe } from "./newsSubscribeStore";
 import { collaboratePopoverData } from "./collaboratePopoverStore";
 import { formerFlightUpdateFormData } from "./formerFlightUpdateModalStores";
 import { flightExchangeSlotFormData } from "./flightExchangeSlotFormStores";
-
+// ATOM 引接应用配置
+import { ATOMConfigFormData } from "./ATOMConfigModalStores";
+// NTFM 引接应用配置
+import { NTFMConfigFormData } from "./NTFMConfigModalStores";
 
 export {
   schemeListData,
@@ -60,5 +63,7 @@ export {
   collaboratePopoverData,
   formerFlightUpdateFormData,
   flightExchangeSlotFormData,
-  schemeTemplateData
+  schemeTemplateData,
+  ATOMConfigFormData,
+  NTFMConfigFormData
 };

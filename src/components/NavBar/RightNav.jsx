@@ -10,6 +10,7 @@ import { isValidVariable } from "utils/basic-verify";
 import RefreshBtn from "components/SchemeList/RefreshBtn";
 import DateRange from "./DateRangeBar";
 import SystemBar from "./SystemBar";
+import ParameterConfiguration from "./ParameterConfiguration";
 import "./RightNav.scss";
 
 function RightNav(props) {
@@ -78,10 +79,9 @@ function RightNav(props) {
 
               <Radio.Button value="runway">跑道配置</Radio.Button>
             </Radio.Group>
-            {systemPage.userHasAuth(12508) && (
-              <Radio.Group buttonStyle="solid">
-                <Radio.Button value="system">参数设置</Radio.Button>
-              </Radio.Group>
+            {systemPage.userHasAuth(12506) && (
+              <ParameterConfiguration />
+              
             )}
 
             <Radio.Group
@@ -98,6 +98,7 @@ function RightNav(props) {
                 航班查询
               </Radio.Button>
             </Radio.Group>
+            
           </span>
         )}
       </div>
