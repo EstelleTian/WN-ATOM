@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-06-09 13:17:37
+ * @LastEditTime: 2021-06-09 13:28:48
  * @LastEditors: Please set LastEditors
  * @Description: 时间类协调窗口-
  * @FilePath: \WN-ATOM\src\components\FlightTable\TimeFormCont.jsx
@@ -126,49 +126,49 @@ const TimeFormCont = (props) => {
       if (name === "TOBT") {
         url = CollaborateUrl.baseUrl + "/applyTobt";
         params["changeVal"] = timeStr;
-        tipTitle = flightId + " TOBT申请变更提交";
+        tipTitle = flightId + " TOBT申请变更";
       } else if (name === "ASBT") {
         url = CollaborateUrl.baseUrl + "/updateFlightAsbt";
         params["timeVal"] = timeStr;
-        tipTitle = flightId + " 上客时间变更提交";
+        tipTitle = flightId + " 上客时间变更";
       } else if (name === "AOBT") {
         url = CollaborateUrl.baseUrl + "/updateFlightAobt";
         params["timeVal"] = timeStr;
-        tipTitle = flightId + " 推出时间变更提交";
+        tipTitle = flightId + " 推出时间变更";
       } else if (name === "AGCT") {
         url = CollaborateUrl.baseUrl + "/updateFlightAgct";
         params["timeVal"] = timeStr;
-        tipTitle = flightId + " 关门时间变更提交";
+        tipTitle = flightId + " 关门时间变更";
       } else if (name === "COBT") {
         url = CollaborateUrl.baseUrl + "/updateFlightCobt";
         params["timeVal"] = timeStr;
         let locked = values.locked ? "1" : "0";
         params["locked"] = locked;
-        tipTitle = flightId + " COBT时间变更提交";
+        tipTitle = flightId + " COBT时间变更";
       } else if (name === "CTOT") {
         url = CollaborateUrl.baseUrl + "/updateFlightCtd";
         params["timeVal"] = timeStr;
         let locked = values.locked ? "1" : "0";
         params["locked"] = locked;
-        tipTitle = flightId + " CTOT时间变更提交";
+        tipTitle = flightId + " CTOT时间变更";
       }
     } else if (type === "clear") {
       setRefuseBtnLoading(true);
       if (name === "ASBT") {
         url = CollaborateUrl.baseUrl + "/clearFlightAsbt";
-        tipTitle = flightId + " 上客时间撤销变更提交";
+        tipTitle = flightId + " 上客时间撤销变更";
       } else if (name === "AOBT") {
         url = CollaborateUrl.baseUrl + "/clearFlightAobt";
-        tipTitle = flightId + " 推出时间撤销变更提交";
+        tipTitle = flightId + " 推出时间撤销变更";
       } else if (name === "AGCT") {
         url = CollaborateUrl.baseUrl + "/clearFlightAgct";
-        tipTitle = flightId + " 关门时间撤销变更提交";
+        tipTitle = flightId + " 关门时间撤销变更";
       } else if (name === "COBT") {
         url = CollaborateUrl.baseUrl + "/clearFlightCobt";
-        tipTitle = flightId + " COBT时间撤销变更提交";
+        tipTitle = flightId + " COBT时间撤销变更";
       } else if (name === "CTOT") {
         url = CollaborateUrl.baseUrl + "/clearFlightCtd";
-        tipTitle = flightId + " CTOT时间撤销变更提交";
+        tipTitle = flightId + " CTOT时间撤销变更";
       }
     }
     return { url, params, tipTitle };
