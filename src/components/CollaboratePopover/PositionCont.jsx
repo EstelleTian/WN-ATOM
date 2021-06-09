@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-06-01 09:59:29
+ * @LastEditTime: 2021-06-09 13:16:51
  * @LastEditors: Please set LastEditors
  * @Description: 停机位修改
  * @FilePath:
@@ -87,7 +87,7 @@ const PositionCont = (props) => {
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         id: flight.id || "",
-        title: "停机位修改成功",
+        title: "停机位修改已提交申请",
       });
       //关闭popover
       clearCollaboratePopoverData();
@@ -97,7 +97,7 @@ const PositionCont = (props) => {
         ...collaboratePopoverData.selectedObj,
         id: flight.id || "",
         type: "warn",
-        title: errorInfo === "" ? "停机位修改失败" : errorInfo,
+        title: errorInfo === "" ? "停机位修改提交申请失败" : errorInfo,
       });
       //关闭popover
       clearCollaboratePopoverData();

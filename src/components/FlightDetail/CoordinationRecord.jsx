@@ -42,10 +42,11 @@ const convertValueFunc = (text, record, index) => {
   ) {
     if (isValidVariable(text)) {
       const tacticName = record.tacticName || "";
-      return <div title={`${tacticName} - ${text}`}>{tacticName}</div>;
-    } else {
-      return <div title={text}>{text}</div>;
+      if (isValidVariable(tacticName)) {
+        return <div title={`${tacticName} - ${text}`}>{tacticName}</div>;
+      }
     }
+    return <div title={text}>{text}</div>;
   } else if (type === "INPOOL" || type === "OUTPOOL") {
     return <div title={text}>{FlightCoordination.getPoolStatusZh(text)}</div>;
   } else if (

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-06-09 10:53:25
+ * @LastEditTime: 2021-06-09 13:15:22
  * @LastEditors: Please set LastEditors
  * @Description: 过点时间修改
  * @FilePath:
@@ -417,7 +417,7 @@ const FFixTCont = (props) => {
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         id: orgdata.id || "",
-        title: "过点时间修改成功",
+        title: "过点时间修改已提交申请",
       });
       //关闭popover
       clearCollaboratePopoverData();
@@ -427,7 +427,7 @@ const FFixTCont = (props) => {
         ...collaboratePopoverData.selectedObj,
         id: orgdata.id || "",
         type: "warn",
-        title: errorInfo === "" ? "过点时间修改失败" : errorInfo,
+        title: errorInfo === "" ? "过点时间修改提交申请失败" : errorInfo,
       });
       //关闭popover
       clearCollaboratePopoverData();

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-27 10:55:53
+ * @LastEditTime: 2021-06-09 13:17:37
  * @LastEditors: Please set LastEditors
  * @Description: 时间类协调窗口-
  * @FilePath: \WN-ATOM\src\components\FlightTable\TimeFormCont.jsx
@@ -205,7 +205,7 @@ const TimeFormCont = (props) => {
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         id: flight.id || "",
-        title: tipTitle + "成功",
+        title: tipTitle + "已提交申请",
       });
       //关闭popover
       clearCollaboratePopoverData();
@@ -216,7 +216,7 @@ const TimeFormCont = (props) => {
         ...collaboratePopoverData.selectedObj,
         id: flight.id || "",
         type: "warn",
-        title: errorInfo === "" ? tipTitle + "失败" : errorInfo,
+        title: errorInfo === "" ? tipTitle + "提交申请失败" : errorInfo,
       });
       //关闭popover
       clearCollaboratePopoverData();
