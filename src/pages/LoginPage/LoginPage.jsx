@@ -52,7 +52,7 @@ function LoginPage(props) {
           url: ReqUrls.loginUrl,
           params,
         });
-        const { status, user = {}, userConcernTrafficList = {} } = data;
+        const { status, user = {}, userConcernTrafficList = [] } = data;
         let obj = {};
         userConcernTrafficList.map((item) => {
           const name = item.concernTrafficName;
