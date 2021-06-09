@@ -28,13 +28,12 @@
   .net_btn{
     position: absolute;
     color: #ffffff;
-    bottom: 0px;
-    left: 15px;
-    // font-size: 16px;
+    top: 2em;
+    left: 2.4em;
     background: url("./images/check.png") no-repeat;
     background-size: cover;
-    width: 22px;
-    height: 22px;
+    width: 2.2em;
+    height: 2.2em;
     &:hover{
       cursor: pointer;
       color: #c3c3c3;
