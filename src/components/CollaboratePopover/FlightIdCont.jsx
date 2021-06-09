@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-06-04 16:30:51
+ * @LastEditTime: 2021-06-09 10:52:59
  * @LastEditors: Please set LastEditors
  * @Description: 航班号右键协调框
  * @FilePath:
@@ -279,14 +279,14 @@ const FlightIdCont = (props) => {
       >
         指定前序航班
       </button>
-      <button
+      {/* <button
         className="c-btn c-btn-green"
         onClick={() => {
           showFlightExchangeSlotModal(record);
         }}
       >
         时隙交换
-      </button>
+      </button> */}
       {priority === FlightCoordination.PRIORITY_NORMAL &&
         systemPage.userHasAuth(13401) && (
           <PopconfirmFlightIdBtn

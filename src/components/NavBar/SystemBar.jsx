@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-06-09 10:36:39
+ * @LastEditTime: 2021-06-09 10:50:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -20,6 +20,7 @@ function SystemBar(props) {
   const { match, systemPage } = props;
   const params = match.params || {};
   const from = params.from || "";
+  const system = params.system || "";
   let fromKey1 = "";
   let fromKey2 = "";
   if (from.indexOf("-") > -1) {

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-07 15:44:40
+ * @LastEditTime: 2021-06-09 10:49:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -36,6 +36,7 @@ function FangxingPage(props) {
   const [collapsed, setCollapsed] = useState(true);
   const [login, setLogin] = useState(false);
   const params = match.params || {};
+  const system = params.system || "";
   const from = params.from || "";
 
   const { carriers, airports } = useMemo(() => {
@@ -76,60 +77,10 @@ function FangxingPage(props) {
     <Layout className="">
       <Topic></Topic>
       <DateRange></DateRange>
-      {/* {from === "web" && (
-        <Sider
-          trigger={null}
-          collapsible
-          collapsed={collapsed}
-          className="sider_canvas"
-        >
-          <div className="logo" />
-          <Menu theme="dark" mode="inline" selectedKeys={["clearance"]}>
-            <Menu.Item
-              key="clearance"
-              icon={collapsed && <div className="sider_icon clearance" />}
-              onClick={(e) => {
-                window.open("./#/clearance/web", "_self");
-              }}
-            >
-              放行监控
-            </Menu.Item>
-            <Menu.Item
-              key="monitor"
-              icon={collapsed && <div className="sider_icon monitor" />}
-              onClick={(e) => {
-                const url =
-                  ReqUrls.mapWebUrl +
-                  "?fullscreen=true&airport=" +
-                  airports +
-                  "&airline=" +
-                  carriers;
-                window.open(url);
-              }}
-            >
-              态势监控
-            </Menu.Item>
-          </Menu>
-        </Sider>
-      )} */}
+
       <Layout className="">
         <Content className="site-layout">
           <div className="side_menu">
-            {/* {from === "web" && (
-              <div className="side_menu_icon">
-                {collapsed ? (
-                  <MenuUnfoldOutlined
-                    className="onCollapse_icon"
-                    onClick={onCollapseClick}
-                  />
-                ) : (
-                  <MenuFoldOutlined
-                    className="onCollapse_icon"
-                    onClick={onCollapseClick}
-                  />
-                )}
-              </div>
-            )} */}
             <NavBar
               className="nav_bar"
               title="空中交通运行放行监控系统"
@@ -139,11 +90,9 @@ function FangxingPage(props) {
 
           {login && (
             <div className="nav_body">
-              {/* <FlightSearch /> */}
               <div className="cont_left">
-                {/*<SchemeTitle />*/}
                 <div className="left_cont">
-                  {!isValidVariable(from) && leftActiveName !== "" && (
+                  {!isValidVariable(system) && leftActiveName !== "" && (
                     <div className="left_left">{<LeftMultiCanvas />}</div>
                   )}
                   <div className="left_right">
