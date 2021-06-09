@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useCallback } from 'react'
-import { Form, Radio, Row, Col, Button, Modal, } from 'antd'
+import { Form, Radio, Row, Col, Button, Modal, Space } from 'antd'
 import { inject, observer } from "mobx-react";
 import { request } from "utils/request";
 import { ReqUrls, } from "utils/request-urls";
@@ -169,7 +169,9 @@ function NTFMConfigForm(props) {
                             ]}
                         >
                             <Radio.Group value={configValue}>
-                                {options}
+                                <Space size={50}>
+                                    {options}
+                                </Space>
                             </Radio.Group>
                         </Form.Item>
                     </Col>
