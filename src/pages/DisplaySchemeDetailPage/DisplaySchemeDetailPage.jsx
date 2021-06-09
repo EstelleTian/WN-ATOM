@@ -6,25 +6,26 @@ import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import { inject, observer } from "mobx-react";
 import SchemeForm from 'components/RestrictionForm/SchemeForm'
-
+import { isValidObject, isValidVariable } from 'utils/basic-verify'
 import { customNotice } from 'utils/common-funcs'
 
-
+// 显示模拟状态的方案数据
 function DisplaySchemeDetailPage(props) {
-    //  方案数据
-    // let [flowData, setFlowData] = useState({});
+    
     //  方案表单禁用状态
     let [disabledForm, setDisabledForm] = useState(true);
 
+    const { systemPage } = props;
+    // 用户信息
+    const user = systemPage.user || {};
+    // 用户id
+    const userId = user.id || "";
     //更新方案数据
     const updateSchemeData = data => {
-        // let { status } = data;
-        // setFlowData(data);
         // 更新方案表单store数据
         let tacticProcessInfo = data.tacticProcessInfo || {};
         props.schemeFormData.updateSchemeData(tacticProcessInfo);
     };
-
     // 请求方案数据失败
     const requestErr = (err, content) => {
         let errMsg = ""
@@ -48,7 +49,7 @@ function DisplaySchemeDetailPage(props) {
         let schemeID = props.location.search.replace(/\?/g, "");
         // 请求参数
         const opt = {
-            url: ReqUrls.schemeDetailByIdUrl + schemeID,
+            url: ReqUrls.schemeDetailByIdUrl + userId + '/'+ schemeID,
             method: 'GET',
             params: {},
             resFunc: (data) => updateSchemeData(data),
@@ -58,10 +59,22 @@ function DisplaySchemeDetailPage(props) {
         request(opt);
     };
 
-    useEffect(() => {
-        // 请求方案数据
-        requestSchemeData();
+    // 初始化用户信息
+    useEffect(function () {
+        const user = localStorage.getItem("user");
+        if (isValidVariable(user)) {
+            props.systemPage.setUserData(JSON.parse(user));
+        }
     }, []);
+
+    useEffect(() => {
+        // 用户id有效则请求方案数据
+        if(isValidVariable(userId)){
+            // 请求方案数据
+            requestSchemeData();
+        }
+        
+    }, [userId]);
 
     return (
         <div className="modify-scheme-container">

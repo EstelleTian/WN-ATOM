@@ -50,9 +50,7 @@ window.addEventListener("storage", function (e) {
 const plainOptions = [
   { label: "正在执行", value: "RUNNING" },
   { label: "将要执行", value: "FUTURE" },
-  { label: "正常结束", value: "FINISHED" },
-  { label: "人工终止", value: "TERMINATED_MANUAL" },
-  { label: "自动终止", value: "TERMINATED_AUTO" },
+  { label: "已经终止", value: "TERMINATED" },
 ];
 
 //请求错误--处理
@@ -170,8 +168,15 @@ function useSchemeList(props) {
 
   useEffect(() => {
     if (isValidVariable(id)) {
+    // 复制一份
+    let newStatusValues = [...statusValues];
       //获取方案列表--开启下一轮更新
-      curStatusValues.current = statusValues;
+      let index = newStatusValues.indexOf("TERMINATED");
+      if(index > -1){
+        // 将"TERMINATED"替换为 "FINISHED","TERMINATED_MANUAL","TERMINATED_AUTO"
+        newStatusValues.splice(index, 1, "FINISHED","TERMINATED_MANUAL","TERMINATED_AUTO");
+      }
+      curStatusValues.current = newStatusValues;
       props.schemeListData.toggleLoad(true);
       getSchemeList(true);
     } else {

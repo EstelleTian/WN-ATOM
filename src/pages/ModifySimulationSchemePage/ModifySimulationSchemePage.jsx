@@ -68,7 +68,7 @@ function ModifySchemePage(props) {
                 
                 <SchemeForm
                     pageType="MODIFYSIM" // MODIFYSIM:修改模拟方案
-                    operationDescription="提交修改方案"
+                    operationDescription="修改方案"
                     primaryButtonName="提交修改"
                     disabledForm={disabledForm}
                     setDisabledForm={setDisabledForm}
