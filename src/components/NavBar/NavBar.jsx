@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-27 19:18:13
+ * @LastEditTime: 2021-06-08 19:04:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\NavBar\NavBar.jsx
@@ -11,7 +11,8 @@ import { withRouter } from "react-router-dom";
 import { Layout, Avatar, Radio, Tag, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import RightNav from "./RightNav";
-import LeftNav from "./LeftNav";
+// import LeftNav from "./LeftNav";
+import LeftTitleNav from "./LeftTitleNav";
 import User from "./User";
 import NavBellNews from "./NavBellNews";
 import "./NavBar.scss";
@@ -28,7 +29,8 @@ function NavBar(props) {
     if (pathname.indexOf("/clearance") > -1) {
       return (
         <div className="layout-row space-between multi_nav">
-          <LeftNav />
+          <LeftTitleNav />
+          {/* <LeftNav /> */}
           {/*<h4 style={{ color: 'red'}}>web自动更新 3/4/1430 </h4>*/}
           <RightNav />
         </div>

@@ -186,7 +186,7 @@ function LoginPage(props) {
             testInternet();
           }}
         >
-          网络连通检测
+          {/* 网络连通检测 */}
         </div>
       )}
       <div className="center">

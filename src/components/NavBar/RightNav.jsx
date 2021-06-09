@@ -6,8 +6,11 @@ import { withRouter } from "react-router-dom";
 import TodoNav from "./TodoNav";
 import SubTableNav from "./SubTableNav";
 import User from "./User";
+import { isValidVariable } from "utils/basic-verify";
+import RefreshBtn from "components/SchemeList/RefreshBtn";
+import DateRange from "./DateRangeBar";
+import SystemBar from "./SystemBar";
 import "./RightNav.scss";
-import { isValidVariable } from "../../utils/basic-verify";
 
 function RightNav(props) {
   const { match, systemPage } = props;
@@ -33,6 +36,11 @@ function RightNav(props) {
       <div className="nav_bar">
         {systemPage.user.id !== "" && (
           <span>
+            <DateRange />
+            <Radio.Group buttonStyle="solid">
+              <RefreshBtn />
+            </Radio.Group>
+            <SystemBar />
             {!isValidVariable(from) && (
               <Radio.Group
                 value={systemPage.leftActiveName}
@@ -74,7 +82,6 @@ function RightNav(props) {
                 <Radio.Button value="system">参数设置</Radio.Button>
               </Radio.Group>
             )}
-            {/* {systemPage.userHasAuth(12512) && ( */}
 
             <Radio.Group
               value={systemPage.activeFlightSearch ? "search" : ""}
@@ -90,7 +97,6 @@ function RightNav(props) {
                 航班查询
               </Radio.Button>
             </Radio.Group>
-            {/*  )} */}
           </span>
         )}
       </div>

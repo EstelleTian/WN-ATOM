@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-05-08 13:16:12
+ * @LastEditTime: 2021-06-09 08:47:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -28,7 +28,9 @@ const ModifySimulationSchemePage = lazy(() =>
 );
 // 依据已有模拟状态的方案创建方案
 const CreateSchemeBySimulationSchemePage = lazy(() =>
-  import("../pages/CreateSchemeBySimulationSchemePage/CreateSchemeBySimulationSchemePage")
+  import(
+    "../pages/CreateSchemeBySimulationSchemePage/CreateSchemeBySimulationSchemePage"
+  )
 );
 const DisplaySimulationSchemeDetailPage = lazy(() =>
   import(
@@ -92,7 +94,7 @@ export default [
     title: "消息订阅",
   },
   {
-    path: "/clearance/:from?",
+    path: "/clearance/:system?/:from?",
     component: withRouter(FangxingPage),
     exact: true,
     title: "放行监控",

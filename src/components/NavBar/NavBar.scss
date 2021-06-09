@@ -6,7 +6,7 @@
      flex: 1;
     .multi_nav{
         padding: 8px 0 !important;
-        margin: 9px 11px;
+        // margin: 9px 11px;
         .ant-btn{
             border-right: none;
         }
@@ -15,11 +15,13 @@
             height: inherit;
             padding: 0 20px;
             border-radius: 30px;
+            .sys_dropdown{
+                border: none;
+                border-left: 2px solid #3f3d3d;
+            }
             // 去掉边框
             .ant-radio-button-wrapper{
                 border: none!important;
-                
-                
             }
             .ant-radio-group:not(:first-child){
                 .ant-radio-button-wrapper:before{
@@ -113,6 +115,19 @@
     padding-left: 10px;
     padding-right: 10px;
     align-items: center;
+}
+.layout-nav-left{
+    .system_title{
+        padding-left: 1rem;
+        font-size: 1.6rem;
+    }
+    .system_icon{
+        background: url("../../images/title_icon.png") no-repeat;
+        width: 45px;
+        height: 45px;
+        background-size: cover;
+    }
+    
 }
 .nav_right{
     float: right;
