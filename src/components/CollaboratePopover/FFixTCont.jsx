@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-27 10:58:01
+ * @LastEditTime: 2021-06-09 10:53:25
  * @LastEditors: Please set LastEditors
  * @Description: 过点时间修改
  * @FilePath:
@@ -563,7 +563,7 @@ const FFixTCont = (props) => {
           </Descriptions>
         </Form>
       </div>
-      <div className="ffixt_middle_canvas">
+      {/* <div className="ffixt_middle_canvas">
         {rightContShow ? (
           <DoubleLeftOutlined
             onClick={(e) => {
@@ -585,7 +585,7 @@ const FFixTCont = (props) => {
           rightContShow={rightContShow}
           collaboratePopoverData={collaboratePopoverData}
         />
-      )}
+      )} */}
     </div>
   );
 };

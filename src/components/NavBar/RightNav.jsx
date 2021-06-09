@@ -16,6 +16,7 @@ function RightNav(props) {
   const { match, systemPage } = props;
   const params = match.params || {};
   const from = params.from || "";
+  const system = params.system || "";
   //执行KPI
   const groupRightChange = (e) => {
     const value = e.target.value;
@@ -41,7 +42,7 @@ function RightNav(props) {
               <RefreshBtn />
             </Radio.Group>
             <SystemBar />
-            {!isValidVariable(from) && (
+            {!isValidVariable(system) && (
               <Radio.Group
                 value={systemPage.leftActiveName}
                 buttonStyle="solid"
