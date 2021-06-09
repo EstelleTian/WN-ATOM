@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-14 16:08:02
- * @LastEditTime: 2021-06-07 14:54:33
+ * @LastEditTime: 2021-06-09 13:25:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\utils\common-funcs.js
@@ -16,7 +16,7 @@ const closeNoticeByType = (str, num=1)=>{
         noticeDom[0].remove()
     }
 }
-const customNotice = ({ type, message="", description = "", placement="topLeft", duration = 30, msgType="" }) =>{
+const customNotice = ({ type, message="", description = "", placement="topLeft", duration = 5, msgType="" }) =>{
     if( !isValidVariable(message) ){
         return;
     }
@@ -41,6 +41,7 @@ const customNotice = ({ type, message="", description = "", placement="topLeft",
     }else{
         className+=" custom_noti_"+type
     }
+    
     
 
     //type: success error info warning warn

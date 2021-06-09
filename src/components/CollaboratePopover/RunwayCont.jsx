@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-06-01 10:01:09
+ * @LastEditTime: 2021-06-09 13:17:14
  * @LastEditors: Please set LastEditors
  * @Description: 跑道修改
  * @FilePath:
@@ -90,7 +90,7 @@ const RunwayCont = (props) => {
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         id: flight.id || "",
-        title: "跑道修改成功",
+        title: "跑道修改已提交申请",
       });
       //关闭popover
       clearCollaboratePopoverData();
@@ -101,7 +101,7 @@ const RunwayCont = (props) => {
         ...collaboratePopoverData.selectedObj,
         id: flight.id || "",
         type: "warn",
-        title: errorInfo === "" ? "跑道修改失败" : errorInfo,
+        title: errorInfo === "" ? "跑道修改提交申请失败" : errorInfo,
       });
       //关闭popover
       clearCollaboratePopoverData();

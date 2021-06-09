@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-06-03 15:01:50
+ * @LastEditTime: 2021-06-09 13:37:17
  * @LastEditors: Please set LastEditors
  * @Description: 暴露给客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -21,13 +21,13 @@ window.NWGlobal = NWGlobal;
 const convertNameToTitle = (name)=>{
     let title = name;
     if(name.indexOf("西安CDM")> -1){
-        title = "西安咸阳机场CDM"
+        title = "西安咸阳机场协同放行"
     }else if(name.indexOf("兰州CDM")> -1){
-        title = "兰州中川机场CDM"
+        title = "兰州中川机场协同放行"
     }else if(name.indexOf("银川CDM")> -1){
-        title = "银川河东机场CDM"
+        title = "银川河东机场协同放行"
     }else if(name.indexOf("西宁CDM")> -1){
-        title = "西宁曹家堡机场CDM"
+        title = "西宁曹家堡机场协同放行"
     }
     
     return title;

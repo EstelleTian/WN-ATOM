@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-06-09 08:57:10
+ * @LastEditTime: 2021-06-09 13:37:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -16,12 +16,10 @@ import { convertNameToTitle } from "utils/global";
 function LeftTitleNav(props) {
   const [dateRangeStr, setDateRangeStr] = useState("");
   const { flightTableData } = props;
-  // const { systemName } = flightTableData;
   let { systemCnName = "" } = flightTableData;
+  let title = "";
   if (systemCnName.indexOf("CDM") > -1) {
-    systemCnName = systemCnName.replace("CDM", "机场");
-  } else if (systemCnName.indexOf("CRS") > -1) {
-    systemCnName = systemCnName.replace("CRS", "区域");
+    title = convertNameToTitle(systemCnName);
   }
   if (systemCnName === "") {
     //从用户的region中取
@@ -29,27 +27,27 @@ function LeftTitleNav(props) {
     const region = user.region || "";
     switch (region) {
       case "ZLXY":
-        systemCnName = "西安区域";
+        title = "西北地区协同放行(西安)";
         break;
       case "ZLLL":
-        systemCnName = "兰州区域";
+        title = "西北地区协同放行(兰州)";
         break;
       case "ZLIC":
-        systemCnName = "银川区域";
+        title = "西北地区协同放行(银川)";
         break;
       case "ZLXN":
-        systemCnName = "西宁区域";
+        title = "西北地区协同放行(西宁)";
         break;
     }
   }
   if (systemCnName !== "") {
-    document.title = systemCnName + "协同放行";
+    document.title = title;
   }
 
   return (
     <div className="layout-nav-left layout-row ">
       <div className="system_icon"></div>
-      <span className="system_title">{`${systemCnName}协同放行`}</span>
+      <span className="system_title">{title}</span>
     </div>
   );
 }
