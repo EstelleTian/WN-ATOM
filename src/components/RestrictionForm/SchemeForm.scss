@@ -146,10 +146,7 @@
   }
   // 快捷录入表单
   .shortcut-input-form {
-    .ant-checkbox-wrapper {
-      min-width: 90px;
-      margin: 0 15px 0;
-    }
+    
     .checkbox-complex {
       > .ant-form-item-control {
         > .ant-form-item-control-input {
@@ -171,6 +168,10 @@
 
   .shortcut-input-row {
     margin-bottom: 8px;
+  }
+  .ant-checkbox-wrapper {
+    min-width: 90px;
+    margin: 0 15px 0 0;
   }
 
 }
