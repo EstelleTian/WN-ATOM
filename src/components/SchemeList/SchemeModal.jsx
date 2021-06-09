@@ -96,7 +96,7 @@ const SchemeModal = (props) => {
                     
                     <SchemeForm
                         pageType="MODIFY"
-                        operationDescription="提交模拟方案调整"
+                        operationDescription="修改方案"
                         primaryButtonName="提交修改"
                         setModalVisible={setVisible}
                         bordered={false}

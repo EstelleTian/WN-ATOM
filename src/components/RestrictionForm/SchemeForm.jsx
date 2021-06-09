@@ -1214,9 +1214,9 @@ function SchemeForm(props) {
                 icon: <ExclamationCircleOutlined />,
                 centered: true,
                 closable: true,
-                content: <div><p>开始时间早于当前时间，建议修改后提交</p></div>,
+                content: <div><p>{`开始时间早于当前时间，建议修改`}</p></div>,
                 okText: '去修改',
-                cancelText: '直接提交',
+                cancelText: `直接${operationDescription}`,
                 onOk: () => {
                     handleOpenEdit()
                 },
@@ -1284,9 +1284,9 @@ function SchemeForm(props) {
                 icon: <ExclamationCircleOutlined />,
                 centered: true,
                 closable: true,
-                content: <div><p>限制条件与方案名称不相符，建议自动命名后提交</p></div>,
-                okText: '自动命名并提交',
-                cancelText: '直接提交',
+                content: <div><p>{`限制条件与方案名称不相符，建议自动命名`}</p></div>,
+                okText: `自动命名并${operationDescription}`,
+                cancelText: `直接${operationDescription}`,
                 onOk: () => { handleAutoFillTacticNameSubmitFormData(fieldData) },
                 onCancel: (close) => {
                     // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
