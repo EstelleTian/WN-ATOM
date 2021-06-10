@@ -173,7 +173,7 @@ const CapacityFlowMonitor = (props) => {
         if (isValidObject(weatherData) && isValidVariable(weatherData.result)) {
             props.capacityFlowMonitorWeatherData.updateCapacityFlowMonitorWeatherData(weatherData.result)
         } else {
-            props.capacityFlowMonitorWeatherData.updateCapacityFlowMonitorWeatherData({});
+            props.capacityFlowMonitorWeatherData.updateCapacityFlowMonitorWeatherData([]);
             customNotice({
                 type: 'error',
                 message: "获取的气象数据为空"
@@ -279,8 +279,9 @@ const CapacityFlowMonitor = (props) => {
                 props.capacityFlowMonitorData.toggleLoad(false)
             },
             errFunc: (err) => {
-                requestErr(err, '容流数据获取失败')
+                props.capacityFlowMonitorData.updateCapacityFlowMonitorData({});
                 props.capacityFlowMonitorData.toggleLoad(false)
+                requestErr(err, '容流数据获取失败')
             },
         };
         request(opt);
@@ -303,6 +304,7 @@ const CapacityFlowMonitor = (props) => {
                 updateCapacityFlowMonitorWeatherData(data);
             },
             errFunc: (err) => {
+                props.capacityFlowMonitorWeatherData.updateCapacityFlowMonitorWeatherData([]);
                 requestErr(err, '气象数据获取失败')
             },
         };
