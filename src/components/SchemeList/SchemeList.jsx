@@ -61,6 +61,25 @@ const requestErr = (err, content) => {
   });
 };
 
+// 清空各模块store数据
+function clearStoreData(props) {
+  const {
+    schemeListData,
+    executeKPIData,
+    performanceKPIData,
+    flightTableData,
+   } = props;
+
+   //清空方案列表 store 数据
+   schemeListData.updateList([], "");
+  // 清空KPI数据 
+   executeKPIData.updateExecuteKPIData({}, "");
+  // 清空KPI数据
+   performanceKPIData.updatePerformanceKPIData({});
+  //  清空航班表格数据
+   flightTableData.updateFlightsList([], "");
+}
+
 //方案请求 hook
 function useSchemeList(props) {
   const {
@@ -126,6 +145,8 @@ function useSchemeList(props) {
           },
           errFunc: (err) => {
             requestErr(err, "方案列表数据获取失败");
+            // 清空各模块store数据
+            clearStoreData(props);
             if (props.schemeListData.loading) {
               props.schemeListData.toggleLoad(false);
             }
@@ -234,22 +255,6 @@ function useFlightsList(props) {
   const params = match.params || {};
   const from = params.from || ""; //来源
 
-  // 获取选中方案计算状态值
-  const getCalculateSatus = (activeSchemeData, generateTime) => {
-    const tacticTimeInfo = activeSchemeData.tacticTimeInfo || {};
-    const { startCalculateTime = "" } = tacticTimeInfo;
-    let status = "calculating";
-    if (isValidVariable(generateTime) && isValidVariable(startCalculateTime)) {
-      // 1分钟
-      const diff = 1000 * 60;
-      // 差值大于1分钟则显示为已计算
-      if (calculateStringTimeDiff(generateTime, startCalculateTime) > diff) {
-        status = "calculated";
-      }
-    }
-    return status;
-  };
-
   //更新--航班列表 store数据
   const updateFlightTableData = useCallback(
     (flightData = {}) => {
@@ -268,7 +273,6 @@ function useFlightsList(props) {
             generateTime,
             props.schemeListData.activeSchemeId
           );
-          props.performanceKPIData.updatePerformanceKPIData(performKpiResult);
           sessionStorage.setItem(
             "flightTableGenerateTime",
             generateTime,
@@ -276,6 +280,13 @@ function useFlightsList(props) {
           );
         } else {
           flightTableData.updateFlightsList([], generateTime);
+        }
+        // 若KPI数据有效则更新KPI数据-特殊航班模块
+        if(isValidObject(performKpiResult)){
+          props.performanceKPIData.updatePerformanceKPIData(performKpiResult);
+        }else {
+          // 反之清除KPI数据
+          props.performanceKPIData.updatePerformanceKPIData({});
         }
         flightTableData.lastSchemeId = props.schemeListData.activeSchemeId;
       }
@@ -372,6 +383,10 @@ function useFlightsList(props) {
             resolve("success");
           },
           errFunc: (err) => {
+            // 清空航班表格数据
+            flightTableData.updateFlightsList([], "");
+            // 清除KPI数据
+            props.performanceKPIData.updatePerformanceKPIData({});
             requestErr(err, "航班列表数据获取失败");
             //开启定时
             timerFunc();
@@ -505,6 +520,8 @@ function useExecuteKPIData(props) {
         },
         errFunc: (err) => {
           requestErr(err, "KPI数据获取失败");
+          // 置空KPIstore数据
+          executeKPIData.updateExecuteKPIData({}, generateTime);
           if (executeKPIData.loading) {
             executeKPIData.toggleLoad(false);
           }
@@ -557,120 +574,6 @@ function useExecuteKPIData(props) {
     };
   }, []);
 }
-// KPI数据请求- 执行KPI模块下-特殊航班卡片
-function usePerformanceKPIData(props) {
-  const { schemeListData, performanceKPIData, systemPage } = props;
-  const { activeSchemeId } = schemeListData;
-  const { pageRefresh, user: { id = "" } = {} } = systemPage;
-  const PerformanceKPITimeoutId = useRef();
-
-  //更新--执行KPI store数据
-  const updateKPIData = useCallback((data) => {
-    if (isValidObject(data)) {
-      performanceKPIData.updatePerformanceKPIData(data);
-    } else {
-      performanceKPIData.updatePerformanceKPIData({});
-      customNotice({
-        type: "error",
-        content: "获取的KPI数据为空",
-      });
-    }
-  }, []);
-  //获取--执行KPI数据
-  const getKPIData = useCallback((nextRefresh) => {
-    const p = new Promise((resolve, reject) => {
-      let activeSchemeId = schemeListData.activeSchemeId;
-
-      const now = getFullTime(new Date());
-      const nowDate = now.substring(0, 8);
-      const start = nowDate + "0000";
-      const end = nowDate + "2359";
-      let trafficId = "";
-      if (activeSchemeId.indexOf("focus") > -1) {
-        trafficId = activeSchemeId.replace(/focus-/g, "");
-        activeSchemeId = "";
-      }
-
-      const opt = {
-        url: ReqUrls.performanceKPIDataUrl + id,
-        method: "GET",
-        params: {
-          // 开始时间
-          startTime: start,
-          // 结束时间
-          endTime: end,
-          // 方案id
-          id: activeSchemeId,
-          // 用户关注交通流id
-          trafficId: trafficId,
-        },
-        resFunc: (data) => {
-          updateKPIData(data);
-          performanceKPIData.toggleLoad(false);
-          //开启定时
-          if (nextRefresh) {
-            if (isValidVariable(PerformanceKPITimeoutId.current)) {
-              clearTimeout(PerformanceKPITimeoutId.current);
-              PerformanceKPITimeoutId.current = "";
-            }
-            PerformanceKPITimeoutId.current = setTimeout(() => {
-              getKPIData(true);
-            }, 60 * 1000);
-          }
-          // notification.destroy();
-          resolve("success");
-        },
-        errFunc: (err) => {
-          requestErr(err, "KPI数据获取失败");
-          if (performanceKPIData.loading) {
-            performanceKPIData.toggleLoad(false);
-          }
-          //开启定时
-          if (nextRefresh) {
-            if (isValidVariable(PerformanceKPITimeoutId.current)) {
-              clearTimeout(PerformanceKPITimeoutId.current);
-              PerformanceKPITimeoutId.current = "";
-            }
-            PerformanceKPITimeoutId.current = setTimeout(() => {
-              getKPIData(true);
-            }, 60 * 1000);
-          }
-          resolve("error");
-        },
-      };
-      requestGet(opt);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (isValidVariable(activeSchemeId)) {
-      performanceKPIData.toggleLoad(true);
-      getKPIData(true);
-    }
-  }, [activeSchemeId]);
-
-  //监听全局刷新
-  useEffect(
-    function () {
-      if (pageRefresh && isValidVariable(id)) {
-        performanceKPIData.toggleLoad(true);
-        getKPIData(false);
-      }
-    },
-    [pageRefresh, id]
-  );
-
-  useEffect(() => {
-    return () => {
-      if (isValidVariable(PerformanceKPITimeoutId.current)) {
-        clearTimeout(PerformanceKPITimeoutId.current);
-        PerformanceKPITimeoutId.current = "";
-      }
-      performanceKPIData.updatePerformanceKPIData({});
-    };
-  }, []);
-}
-
 const useSchemeModal = (props) => {
   const [visible, setVisible] = useState(false); //详情模态框显隐
   const [modalId, setModalId] = useState(""); //当前选中方案详情的id，不一定和激活方案id一样
@@ -729,7 +632,6 @@ function SList(props) {
   const getSchemeList = useSchemeList(props);
   useFlightsList(props);
   useExecuteKPIData(props);
-  //   usePerformanceKPIData(props);
   const {
     userId,
     visible,
