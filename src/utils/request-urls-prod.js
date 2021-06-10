@@ -24,6 +24,7 @@ const mdrsIP = "http://192.168.210.120:81";
 const userSubscribeIP = "http://192.168.210.120:81";
 const runwayIP = "http://192.168.210.120:81";
 const clearanceIP = "http://192.168.210.120:81";
+// 方案相关(刘殿臣)
 const schemeIP = "http://192.168.210.120:81";
 // 获取指定航路点对应的速度(路武臣)
 const speedIP = "http://192.168.210.120:81";
@@ -35,9 +36,9 @@ const CollaborateIP = "http://192.168.210.120:81";
 
 //容量管理IP(韩涛)
 const capacityIP = "http://192.168.210.120:81";
-//容流数据IP
+//容流数据IP(孔凡续)
 const capacityFlowIP= "http://192.168.210.120:81";
-//容流气象数据IP
+//容流气象数据IP(孔凡续)
 const capacityFlowWeatherIP= "http://192.168.210.120:81";
 //总体监控-协调KPI-航班协调-数据IP
 const totalCollaborateIP= "http://192.168.210.120:81";
@@ -47,7 +48,7 @@ const totalOperationIP= "http://192.168.210.120:81";
 const flightInfoIP= "http://192.168.210.120:81";
 //总体监控-执行KPI-IP(孔凡续)
 const executeKPIDataIP= "http://192.168.210.120:81";
-//航班执行数据-IP()
+//总体监控-航班执行数据-IP(路武臣)
 const performanceDataIP= "http://192.168.210.120:81";
 // 获取用户订阅的容流监控单元数据-IP()
 const userSubscribeCapacityFlowMonitorUnitDataIP= "http://192.168.210.120:81";
@@ -59,7 +60,7 @@ const todoListIP= "http://192.168.210.120:81";
 const myApplicationListIP= "http://192.168.210.120:81";
 //计划时间范围获取-IP(薛满林)
 const rangeScopeIP= "http://192.168.210.120:81";
-// 开关配置IP
+// 开关配置IP(张杰)
 const switchConfigIP= "http://192.168.194.22:28080";
 
 const ReqUrls = {
@@ -86,7 +87,7 @@ const ReqUrls = {
     executeKPIDataUrl: executeKPIDataIP+"/kpi/",
     //获取--执行KPI数据(薛满林)
     performanceKPIDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/performkpi/",
-    //获取航班执行数据
+    //获取总体监控-航班执行数据
     performanceDataUrl: performanceDataIP+"/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname",
     // 总体监控-获取限制数据
     restrictionDataUrl: schemeIP+"/scheme-flow-server/implementTactics/statistics",
