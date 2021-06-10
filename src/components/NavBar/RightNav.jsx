@@ -79,9 +79,8 @@ function RightNav(props) {
 
               <Radio.Button value="runway">跑道配置</Radio.Button>
             </Radio.Group>
-            {systemPage.userHasAuth(12506) && (
+            {systemPage.userHasAuth(12514) && (
               <ParameterConfiguration />
-              
             )}
 
             <Radio.Group

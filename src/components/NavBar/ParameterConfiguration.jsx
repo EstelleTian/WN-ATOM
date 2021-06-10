@@ -17,24 +17,29 @@ import NTFMConfigModal from "components/NTFMConfigModal/NTFMConfigModal";
 
 //参数配置页面
 function ParameterConfiguration(props) {
-  const { ATOMConfigFormData, NTFMConfigFormData } = props;
+  const { ATOMConfigFormData, NTFMConfigFormData, systemPage } = props;
   const menu = function () {
     return (
       <Menu>
-        <Menu.Item
+        {
+          systemPage.userHasAuth(12515) && <Menu.Item
           key="ATOMConfig"
           value="ATOMConfig"
           onClick={showATOMConfigurationModal}
         >
           ATOM引接应用配置
         </Menu.Item>
-        <Menu.Item
+        }
+        {
+          systemPage.userHasAuth(12516) && <Menu.Item
           key="NTFMConfig"
           value="NTFMConfig"
           onClick={showNTFMConfigurationModal}
         >
           NTFM引接应用配置
         </Menu.Item>
+        }
+        
       </Menu>
     );
   };
@@ -67,5 +72,5 @@ function ParameterConfiguration(props) {
 }
 
 export default withRouter(
-  inject("ATOMConfigFormData", "NTFMConfigFormData",)(observer(ParameterConfiguration))
+  inject("ATOMConfigFormData", "NTFMConfigFormData","systemPage")(observer(ParameterConfiguration))
 );
