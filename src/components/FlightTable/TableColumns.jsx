@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-08 14:32:26
+ * @LastEditTime: 2021-06-10 15:27:40
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -671,7 +671,7 @@ const getColumns = (
   let names = [];
   let sortKey = "";
   if (typeof systemName === "string") {
-    if (systemName === "CRS-WEB" || systemName === "CRS") {
+    if (systemName === "CRS") {
       names = CRSNames;
       sortKey = "FFIXT";
     } else if (systemName === "CRS-REGION") {

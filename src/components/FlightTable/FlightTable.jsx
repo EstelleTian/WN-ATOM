@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-07 17:50:48
+ * @LastEditTime: 2021-06-10 15:33:49
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -246,7 +246,7 @@ function FTable(props) {
     if (filterable) {
       setHeight(tableHeight - 45);
       return getColumns(
-        props.flightTableData.systemName,
+        props.systemPage.systemKind,
         props.collaboratePopoverData,
         true,
         onCellFilter
@@ -254,17 +254,17 @@ function FTable(props) {
     } else {
       setHeight(tableHeight + 45);
       return getColumns(
-        props.flightTableData.systemName,
+        props.systemPage.systemKind,
         props.collaboratePopoverData
       );
     }
-  }, [filterable, props.flightTableData.systemName]);
+  }, [filterable, props.systemPage.systemKind]);
   useEffect(() => {
     columns = getColumns(
-      props.flightTableData.systemName,
+      props.systemPage.systemKind,
       props.collaboratePopoverData
     );
-  }, [props.flightTableData.systemName]);
+  }, [props.systemPage.systemKind]);
   useEffect(() => {
     if (filterable) {
       setHeight(tableHeight - 45);

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-09 08:36:00
+ * @LastEditTime: 2021-06-10 15:35:21
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -126,7 +126,7 @@ class FlightTableData {
   constructor() {
     makeObservable(this);
   }
-  //系统名称 CRS CDM CRS-WEB(web) CRS-REGION(分局)
+  //系统名称 CRS CDM CRS-REGION(分局)
   @observable systemName = "";
   @observable trafficId = "";
   @observable systemCnName = "";

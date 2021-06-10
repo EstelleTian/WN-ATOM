@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-09 10:49:05
+ * @LastEditTime: 2021-06-10 14:29:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -116,66 +116,6 @@ function FangxingPage(props) {
         </Content>
       </Layout>
     </Layout>
-    // <div className="layout">
-    //   <Sider
-    //     trigger={null}
-    //     collapsible
-    //     collapsed={collapsed}
-    //     className="sider_canvas"
-    //   >
-    //     <div className="logo" />
-    //     <Menu theme="dark" mode="inline" defaultSelectedKeys={["clearance"]}>
-    //       {/* <Menu.Item key="clearance" className="sider_icon clearance"> */}
-    //       <Menu.Item key="clearance">放行监控</Menu.Item>
-    //       {/* <Menu.Item key="monitor" className="sider_icon monitor"> */}
-    //       <Menu.Item key="monitor">态势监控</Menu.Item>
-    //     </Menu>
-    //   </Sider>
-    //   <NavBar
-    //     className="nav_bar"
-    //     title="空中交通运行放行监控系统"
-    //     username=""
-    //   />
-    //   <Topic></Topic>
-    //   {login && (
-    //     <div className="nav_body">
-    //       <div className="cont_left">
-    //         {/*<SchemeTitle />*/}
-    //         <div className="left_cont">
-    //           {from !== "web" && leftActiveName !== "" && (
-    //             <div className="left_left">
-    //               <LeftMultiCanvas />
-    //               {/* <ModalBox
-    //                                         title="航班查询"
-    //                                         style={{
-    //                                             height: 330
-    //                                         }}
-    //                                         showDecorator={true}
-    //                                         className="flight_search"
-    //                                     >
-    //                                         <FlightSearch />
-    //                                     </ModalBox> */}
-    //             </div>
-    //           )}
-    //           <div className="left_right">
-    //             {/***/}
-    //             <Suspense
-    //               fallback={
-    //                 <div className="load_spin">
-    //                   <Spin tip="加载中..." />
-    //                 </div>
-    //               }
-    //             >
-    //               <FlightTableModal />
-    //             </Suspense>
-    //           </div>
-    //         </div>
-    //       </div>
-
-    //       <RightMultiCanvas />
-    //     </div>
-    //   )}
-    // </div>
   );
 }
 

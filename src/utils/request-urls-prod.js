@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-03 14:21:38
+ * @LastEditTime: 2021-06-10 15:03:44
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -61,11 +61,15 @@ const myApplicationListIP= "http://192.168.210.120:81";
 const rangeScopeIP= "http://192.168.210.120:81";
 // 开关配置IP
 const switchConfigIP= "http://192.168.194.22:28080";
+// 系统各个标题IP（薛满林）
+const systemListIP= "http://192.168.243.8:29879";
 
 const ReqUrls = {
     //用户登录
     loginUrl: loginIP+"/uuma-server/client/login",
     loginVerifyUrl: loginIP+"/uuma-server/user/verify-password",
+    //根据用户id获取可跳转系统
+    systemListUrl: systemListIP+"/hydrogen-flight-monitor-server-cache/user/system/",
    
     //缩略地图
     mapUrl: "http://192.168.194.40:8081/#/map",
@@ -173,7 +177,7 @@ const ReqUrls = {
     //计划时间范围获取-(薛满林)
     rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server/plan/time/scope",
     // 开关配置
-    switchConfigUrl: switchConfigIP +"/hydrogen-ntfm-info-receive-server/switchConfig"
+    switchConfigUrl: switchConfigIP +"/hydrogen-ntfm-info-receive-server/switchConfig",
 };
 
 //协调相关url

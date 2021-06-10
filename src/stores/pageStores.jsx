@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-06-02 14:48:41
+ * @LastEditTime: 2021-06-10 15:40:29
  * @LastEditors: Please set LastEditors
  * @Description: 页面相关store
  * @FilePath: \WN-CDM\src\stores\pageStores.jsx
@@ -50,6 +50,39 @@ class SystemPage {
   //计划时间范围内容
   @observable dateRangeData = [];
   @observable dateBarRangeData = [];
+  //系统列表
+  @observable systemList = [];
+  @observable activeSystem = {};
+  //当前系统名称--用于判断显示内容
+  // CRS              [显示KPI, CRS列配置]
+  // CDM              [不显示KPI, CDM列配置]
+  // CRS-REGION（分局）[显示KPI, 分局列配置]
+  // 3选一
+  @observable systemKind = "";
+  //系统列表-赋值
+  @action setSystemList(list, urlName = "") {
+    let flag = true;
+    list.map((item) => {
+      if (flag) {
+        if (urlName === "") {
+          //选默认的
+          if (item.logo === "DEFAULT") {
+            this.activeSystem = item;
+            flag = false;
+          }
+        } else if (item.systemType === urlName) {
+          this.activeSystem = item;
+          flag = false;
+        }
+      }
+    });
+    this.systemList = list;
+  }
+  //当前系统名称-赋值
+  @action setSystemKind(name) {
+    this.systemKind = name;
+  }
+
   //计划时间范围显隐
   @action setDateRangeVisible(flag) {
     this.dateRangeVisible = flag;
@@ -160,6 +193,19 @@ class SystemPage {
       }
     }
     return flag;
+  }
+
+  @action getSystemListByGroup() {
+    let cdmList = [];
+    let crsList = [];
+    this.systemList.map((item) => {
+      if (item.system === "CDM") {
+        cdmList.push(item);
+      } else if (item.system === "CRS") {
+        crsList.push(item);
+      }
+    });
+    return { cdmList, crsList };
   }
 }
 

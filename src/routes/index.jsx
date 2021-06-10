@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-06-09 08:47:40
+ * @LastEditTime: 2021-06-10 14:32:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -94,7 +94,13 @@ export default [
     title: "消息订阅",
   },
   {
-    path: "/clearance/:system?/:from?",
+    path: "/clearance/client/:systemType?",
+    component: withRouter(FangxingPage),
+    exact: true,
+    title: "放行监控",
+  },
+  {
+    path: "/clearance/web/:systemType?",
     component: withRouter(FangxingPage),
     exact: true,
     title: "放行监控",
