@@ -16,7 +16,7 @@ import Stomp from "stompjs";
 
 function Topic(props) {
   const { location } = props;
-
+  let timer = 0;
   const pathname = location.pathname || "";
   const user = localStorage.getItem("user");
   const stompClientFunc = (username = "") => {
@@ -126,7 +126,8 @@ function Topic(props) {
     let on_error = function (error) {
       console.log("放行监控 WebSocket连接失败:");
       console.log(error);
-      setTimeout(function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
         stompClientFunc(username);
       }, 5000);
     };
