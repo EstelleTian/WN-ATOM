@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-06-10 15:40:29
+ * @LastEditTime: 2021-06-10 19:36:33
  * @LastEditors: Please set LastEditors
  * @Description: 页面相关store
  * @FilePath: \WN-CDM\src\stores\pageStores.jsx
@@ -61,22 +61,19 @@ class SystemPage {
   @observable systemKind = "";
   //系统列表-赋值
   @action setSystemList(list, urlName = "") {
-    let flag = true;
-    list.map((item) => {
-      if (flag) {
-        if (urlName === "") {
-          //选默认的
-          if (item.logo === "DEFAULT") {
-            this.activeSystem = item;
-            flag = false;
-          }
-        } else if (item.systemType === urlName) {
+    let newList = list.filter((item) => {
+      if (urlName === "") {
+        //选默认的
+        if (item.logo === "DEFAULT") {
           this.activeSystem = item;
-          flag = false;
+          return false;
         }
+      } else if (item.systemType === urlName) {
+        this.activeSystem = item;
       }
+      return true;
     });
-    this.systemList = list;
+    this.systemList = newList;
   }
   //当前系统名称-赋值
   @action setSystemKind(name) {

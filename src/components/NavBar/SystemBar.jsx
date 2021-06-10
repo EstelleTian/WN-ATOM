@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-06-10 15:51:53
+ * @LastEditTime: 2021-06-10 20:30:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -26,36 +26,44 @@ import { customNotice } from "utils/common-funcs";
 
 //各个系统调整页面
 function SystemBar(props) {
-  const { match, systemPage, flightTableData } = props;
+  const { match, systemPage, flightTableData, schemeListData } = props;
   const systemKind = systemPage.systemKind || "";
   const params = match.params || {};
   const url = match.url || "";
   const systemType = params.systemType || "";
 
+  window.onunload = function () {
+    let openWind = localStorage.getItem("openWind");
+    let openWindArr = openWind.split(",");
+    let newArr = openWindArr.filter((wind) => wind !== systemType);
+    localStorage.setItem("openWind", newArr.join(","));
+  };
+
   const groupNameChange = (item) => {
-    const concernTrafficId = item.concernTrafficId;
-    const concernTrafficName = item.concernTrafficName; //如果是crs或者web点击跳转
-    if (from === "" || from === "web") {
-      let system = "CRS";
-      if (concernTrafficName.indexOf("CDM") > -1) {
-        system = "CDM";
-      }
-      window.open(
-        "./#/clearance/" +
-          system +
-          "/" +
-          concernTrafficId +
-          "_" +
-          concernTrafficName
-      );
+    let systemType = item.systemType;
+    let urlStr = url;
+    const len = urlStr.length;
+    if (urlStr.substring(len - 1, len) === "/") {
+      urlStr = urlStr.substring(0, len - 1);
+    }
+    let openWind = localStorage.getItem("openWind");
+    if (!isValidVariable(openWind)) {
+      openWind = "";
+    }
+    if (openWind.indexOf(systemType) > -1) {
+      return;
+    }
+    const winObj = window.open("./#" + urlStr + "/" + systemType);
+    localStorage.setItem("openWind", openWind + "," + systemType);
+  };
+  const groupNameChange2 = (item) => {
+    //如果激活方案是all，则标志请求全部航班，否则取方案第一个影响航班
+    if (systemPage.leftNavSelectedName !== "all") {
+      systemPage.setLeftNavSelectedName("all");
+      schemeListData.toggleSchemeActive("");
     } else {
-      if (props.systemPage.leftNavSelectedName !== concernTrafficId) {
-        props.systemPage.setLeftNavSelectedName(concernTrafficId);
-        props.schemeListData.toggleSchemeActive("");
-      } else {
-        props.systemPage.setLeftNavSelectedName("");
-        props.schemeListData.toggleSchemeActive("first");
-      }
+      systemPage.setLeftNavSelectedName("");
+      schemeListData.toggleSchemeActive("");
     }
   };
   const { cdmList = [], crsList = [] } = systemPage.getSystemListByGroup();
@@ -107,9 +115,10 @@ function SystemBar(props) {
       if (isValidVariable(systemType)) {
         if (systemType.indexOf("CDM") > -1) {
           name = "CDM";
+          systemPage.setLeftNavSelectedName("all");
         } else {
-          const user = systemPage.user || {};
-          const region = user.region || "";
+          const activeSystem = systemPage.activeSystem || {};
+          const region = activeSystem.region || "";
           if (region !== "ZLXY") {
             name = "CRS-REGION"; //分局CRS
           }
@@ -125,17 +134,19 @@ function SystemBar(props) {
       });
     }
   }, []);
-
+  console.log("systemPage.leftNavSelectedName", systemPage.leftNavSelectedName);
   const getContent = () => {
-    if (systemPage.systemKind === "CDM") {
+    if (systemPage.systemKind === "CRS-REGION") {
+      return "";
+    } else if (systemPage.systemKind === "CDM") {
       const item = systemPage.activeSystem || {};
       return (
-        <Radio.Group value={item.systemType} buttonStyle="solid">
+        <Radio.Group value={systemPage.leftNavSelectedName} buttonStyle="solid">
           <Radio.Button
             key={item.id || ""}
-            value={`${item.systemType}`}
+            value={"all"}
             onClick={(e) => {
-              groupNameChange(item);
+              groupNameChange2(item);
             }}
           >
             {item.systemName.replace("CDM", "离港")}

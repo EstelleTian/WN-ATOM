@@ -124,7 +124,7 @@ function SpecialFlightsTable(props) {
   //       scrollTopById(id, tableName + "_canvas");
   //     }
   //   }, [props.flightTableData.getSelectedFlight.id]);
-  console.log("tableName", tableName);
+  // console.log("tableName", tableName);
   return (
     <Suspense
       fallback={

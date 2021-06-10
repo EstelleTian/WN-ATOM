@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-10 14:29:50
+ * @LastEditTime: 2021-06-10 17:14:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -35,9 +35,13 @@ function FangxingPage(props) {
   const { leftActiveName, user = {} } = systemPage;
   const [collapsed, setCollapsed] = useState(true);
   const [login, setLogin] = useState(false);
+  const url = match.url || "";
   const params = match.params || {};
-  const system = params.system || "";
-  const from = params.from || "";
+  const systemType = params.systemType || "";
+  let from = "";
+  if (url.indexOf("web") > -1) {
+    from = "web";
+  }
 
   const { carriers, airports } = useMemo(() => {
     const userStr = localStorage.getItem("user") || "{}";
@@ -92,7 +96,7 @@ function FangxingPage(props) {
             <div className="nav_body">
               <div className="cont_left">
                 <div className="left_cont">
-                  {!isValidVariable(system) && leftActiveName !== "" && (
+                  {systemPage.systemKind === "CRS" && (
                     <div className="left_left">{<LeftMultiCanvas />}</div>
                   )}
                   <div className="left_right">

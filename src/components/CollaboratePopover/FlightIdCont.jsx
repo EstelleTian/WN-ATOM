@@ -62,7 +62,11 @@ const FlightIdCont = (props) => {
 
   // 显示航班详情
   const showFlightDetail = async () => {
+    //关闭协调窗口popover
+    clearCollaboratePopoverData();
     const flightId = flight.id || "";
+    // 先清空store数据
+    flightDetailData.updateFlightDetailData({});
     if (isValidVariable(flightId)) {
       flightDetailData.toggleModalVisible(true);
       try {
@@ -73,14 +77,17 @@ const FlightIdCont = (props) => {
         flightDetailData.toggleFlightId(flightId);
         flightDetailData.updateFlightDetailData(res);
       } catch (e) {
+        let message = `获取航班${flight.flightid}详情数据失败`;
+        if(isValidVariable(e)){
+          message = message + ":" + e;
+        }
         customNotice({
           type: "error",
-          message: e,
+          message: message,
         });
       }
     }
-    //关闭协调窗口popover
-    clearCollaboratePopoverData();
+    
   };
   // 显示指定前序航班模态框
   const showFormerFlightUpdateModal = useCallback(() => {

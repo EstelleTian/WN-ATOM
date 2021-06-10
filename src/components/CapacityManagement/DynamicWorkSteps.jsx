@@ -283,7 +283,7 @@ function DynamicWorkSteps(props) {
   }, []);
   //数据提交成功回调
   const requestSuccess = useCallback((data, content, key) => {
-    console.log("协调成功：", data);
+    // console.log("协调成功：", data);
     //重新请求数据
     requestDynamicWorkFlowData(false);
 

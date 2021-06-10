@@ -92,7 +92,7 @@ const PositionCont = (props) => {
       //关闭popover
       clearCollaboratePopoverData();
     } catch (errorInfo) {
-      console.log("Failed:", errorInfo);
+      // console.log("Failed:", errorInfo);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         id: flight.id || "",

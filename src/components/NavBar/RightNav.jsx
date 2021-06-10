@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Radio, Badge, Button, Avatar } from "antd";
 import { UserOutlined, SearchOutlined } from "@ant-design/icons";
 import { observer, inject } from "mobx-react";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 import TodoNav from "./TodoNav";
 import SubTableNav from "./SubTableNav";
 import User from "./User";
@@ -14,10 +14,7 @@ import ParameterConfiguration from "./ParameterConfiguration";
 import "./RightNav.scss";
 
 function RightNav(props) {
-  const { match, systemPage } = props;
-  const params = match.params || {};
-  const from = params.from || "";
-  const system = params.system || "";
+  const { systemPage } = props;
   //执行KPI
   const groupRightChange = (e) => {
     const value = e.target.value;
@@ -43,7 +40,7 @@ function RightNav(props) {
               <RefreshBtn />
             </Radio.Group>
             <SystemBar />
-            {!isValidVariable(system) && (
+            {systemPage.systemKind === "CRS" && (
               <Radio.Group
                 value={systemPage.leftActiveName}
                 buttonStyle="solid"
@@ -79,10 +76,7 @@ function RightNav(props) {
 
               <Radio.Button value="runway">跑道配置</Radio.Button>
             </Radio.Group>
-            {systemPage.userHasAuth(12506) && (
-              <ParameterConfiguration />
-              
-            )}
+            {systemPage.userHasAuth(12514) && <ParameterConfiguration />}
 
             <Radio.Group
               value={systemPage.activeFlightSearch ? "search" : ""}
@@ -98,7 +92,6 @@ function RightNav(props) {
                 航班查询
               </Radio.Button>
             </Radio.Group>
-            
           </span>
         )}
       </div>
@@ -110,4 +103,4 @@ function RightNav(props) {
   );
 }
 
-export default withRouter(inject("systemPage")(observer(RightNav)));
+export default inject("systemPage")(observer(RightNav));

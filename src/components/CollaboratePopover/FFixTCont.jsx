@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-06-09 13:15:22
+ * @LastEditTime: 2021-06-10 17:55:27
  * @LastEditors: Please set LastEditors
  * @Description: 过点时间修改
  * @FilePath:
@@ -402,7 +402,7 @@ const FFixTCont = (props) => {
         timeVal,
         fix: field.name || "",
       };
-      console.log("Success:", formValues, params);
+      // console.log("Success:", formValues, params);
       //提交参数拼装
       const res = await request2({
         url: url + urlKey,
@@ -422,7 +422,7 @@ const FFixTCont = (props) => {
       //关闭popover
       clearCollaboratePopoverData();
     } catch (errorInfo) {
-      console.log("Failed:", errorInfo);
+      // console.log("Failed:", errorInfo);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         id: orgdata.id || "",
@@ -436,7 +436,7 @@ const FFixTCont = (props) => {
 
   // 重置数据
   const resetForm = () => {
-    console.log("重置表单");
+    // console.log("重置表单");
     form.setFieldsValue({ ...initialValues });
     if (rightContShow) {
       const { list, initParams } = getRightFormInitValues(orgdata);
@@ -448,7 +448,7 @@ const FFixTCont = (props) => {
       isValidVariable(collaboratePopoverData.selectedObj) &&
       collaboratePopoverData.selectedObj.name === "FFIXT"
     ) {
-      console.log("FFixTCont挂载");
+      // console.log("FFixTCont挂载");
       // form.setFieldsValue({ runway: FFIXT });
       form.setFieldsValue({
         flightid: FLIGHTID || "",
@@ -463,7 +463,7 @@ const FFixTCont = (props) => {
 
     return () => {
       form.resetFields();
-      console.log("FFixTCont卸载");
+      // console.log("FFixTCont卸载");
     };
   }, [collaboratePopoverData.selectedObj]);
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-06-10 14:37:56
+ * @LastEditTime: 2021-06-10 17:05:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -16,7 +16,7 @@ import Stomp from "stompjs";
 
 function Topic(props) {
   const { location } = props;
-
+  let timer = 0;
   const pathname = location.pathname || "";
   const user = localStorage.getItem("user");
   const stompClientFunc = (username = "") => {
@@ -126,9 +126,10 @@ function Topic(props) {
     let on_error = function (error) {
       console.log("放行监控 WebSocket连接失败:");
       console.log(error);
-      // setTimeout(function () {
-      //   stompClientFunc(username);
-      // }, 5000);
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        stompClientFunc(username);
+      }, 5000);
     };
     // 连接消息服务器
     // stompClient.connect("guest", "guest", on_connect, on_error, "/");

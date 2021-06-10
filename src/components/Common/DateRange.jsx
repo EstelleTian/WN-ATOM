@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-06-02 14:55:29
+ * @LastEditTime: 2021-06-10 17:55:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\Common\DateRange.jsx
@@ -51,7 +51,7 @@ function DateRange(props) {
       const timeArr = timeStr.split(",");
       let startNum = calcNum(timeArr[0]);
       let endNum = calcNum(timeArr[1]);
-      console.log(startNum, endNum);
+      // console.log(startNum, endNum);
       systemPage.setDateRangeData([time1, time2]);
       systemPage.dateBarRangeData = [startNum, endNum];
     } catch (err) {

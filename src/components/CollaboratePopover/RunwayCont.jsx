@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-06-09 13:17:14
+ * @LastEditTime: 2021-06-10 17:55:38
  * @LastEditors: Please set LastEditors
  * @Description: 跑道修改
  * @FilePath:
@@ -94,9 +94,9 @@ const RunwayCont = (props) => {
       });
       //关闭popover
       clearCollaboratePopoverData();
-      console.log("Success:", res);
+      // console.log("Success:", res);
     } catch (errorInfo) {
-      console.log("Failed:", errorInfo);
+      // console.log("Failed:", errorInfo);
       collaboratePopoverData.setTipsObj({
         ...collaboratePopoverData.selectedObj,
         id: flight.id || "",

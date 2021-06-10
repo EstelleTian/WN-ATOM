@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-10 15:03:44
+ * @LastEditTime: 2021-06-10 17:58:59
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -10,8 +10,8 @@
 const TopicConstant={
     ip:"192.168.210.150",
     port: 15674,
-    username:"guest",
-    password:"guest",
+    username:"admin",
+    password:"1q2w3e$R%T^Y",
 }
 //登录IP(姜浩)
 const loginIP = "http://192.168.194.21:18380";
@@ -85,7 +85,8 @@ const ReqUrls = {
     //获取--航班列表数据
     flightsDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/tactic/",
     //获取--航班列表数据(id为空)
-    flightsDataNoIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/influence/flights/",
+    // flightsDataNoIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/influence/flights/",
+    flightsDataNoIdUrl: "http://192.168.243.8:29879/hydrogen-flight-monitor-server-cache/influence/flights/",
     //获取--执行KPI数据(孔凡续)
     executeKPIDataUrl: executeKPIDataIP+"/kpi/",
     //获取--执行KPI数据(薛满林)

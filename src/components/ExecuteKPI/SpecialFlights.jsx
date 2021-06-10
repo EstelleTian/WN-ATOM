@@ -27,18 +27,17 @@ function SpecialFlights(props) {
   const performanceData = performanceKPIData.performanceData || {};
 
   // 豁免航班
-  let exemptFlights = performanceData.exemptFlights || {};
+  let exemptFlights = performanceData.exemptFlights;
   // 半数间隔
-  let halfIntervalFlights = performanceData.halfIntervalFlights || {};
+  let halfIntervalFlights = performanceData.halfIntervalFlights;
   // 临界航班
-  let criticalFlights = performanceData.criticalFlights || {};
+  let criticalFlights = performanceData.criticalFlights;
   // 入池航班
-  let inPoolFlights = performanceData.inPoolFlights || {};
+  let inPoolFlights = performanceData.inPoolFlights;
   // 协调航班
-  let coordinationFlights = performanceData.coordinationFlights || {};
+  let coordinationFlights = performanceData.coordinationFlights;
   // 关舱门等待航班
-  let closeWaitFlights = performanceData.closeWaitFlights || {};
-
+  let closeWaitFlights = performanceData.closeWaitFlights;
   // 影响
   // const impact = Array.isArray(impactALL) ? impactALL.length : "N/A";
 
