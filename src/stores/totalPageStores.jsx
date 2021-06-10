@@ -8,6 +8,8 @@
  */
 
 import { makeObservable, observable, action, computed } from 'mobx'
+import { isValidObject } from 'utils/basic-verify'
+
 
 // 用户订阅监控单元数据
 class UserSubscribeData {
@@ -21,9 +23,15 @@ class UserSubscribeData {
 
     //更新航班数据
     @action updateUserSubscribeData( monitorData ){
-        let value = monitorData.value;
-        this.originalSubscribeData = monitorData;
-        this.subscribeData = JSON.parse(value);
+        if(isValidObject(monitorData)){
+            let value = monitorData.value;
+            this.originalSubscribeData = monitorData;
+            this.subscribeData = JSON.parse(value);
+        }else {
+            this.originalSubscribeData = {}
+            this.subscribeData = {}
+        }
+        
     }
 }
 let userSubscribeData = new UserSubscribeData();

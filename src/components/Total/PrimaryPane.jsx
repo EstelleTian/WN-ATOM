@@ -9,16 +9,16 @@
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
-import React, { Fragment, lazy, Suspense, useState, useEffect, useCallback } from 'react'
-import { Layout, Spin, Row, Col, Avatar, Radio, message,} from 'antd'
+import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react'
+import { Layout, Spin, Row, Col, Radio, message,} from 'antd'
 
-import { UserOutlined, FileTextOutlined } from '@ant-design/icons'
+import {  FileTextOutlined } from '@ant-design/icons'
 import { request } from 'utils/request'
 import { ReqUrls } from 'utils/request-urls'
 import { inject, observer } from "mobx-react";
 
 import ModalBox from 'components/ModalBox/ModalBox'
-import User from 'components/NavBar/User'
+import { customNotice } from 'utils/common-funcs'
 import LoadingIframe from 'components/LoadingIframe/LoadingIframe'
 import { openMapFrame, } from 'utils/client'
 
@@ -117,9 +117,9 @@ function PrimaryPane(props) {
             props.userSubscribeData.updateUserSubscribeData(subscribeData)
         } else {
             props.userSubscribeData.updateUserSubscribeData({});
-            message.error({
-                content: "获取的订阅容流监控单元数据为空",
-                duration: 8,
+            customNotice({
+                typey:"error",
+                message: "获取的订阅容流监控单元数据为空",
             });
         }
     });
@@ -132,17 +132,16 @@ function PrimaryPane(props) {
         } else if (isValidVariable(err)) {
             errMsg = err;
         }
-
-        message.error({
-            content: (
+        customNotice({
+            type: 'error',
+            message: (
                 <span>
                     <span>{content}</span>
                     <br />
                     <span>{errMsg}</span>
                 </span>
-            ),
-            duration: 8,
-        });
+            )
+        })
     });
 
     /**
@@ -161,6 +160,7 @@ function PrimaryPane(props) {
                     updateUserSubscribeData(data)
                 },
                 errFunc: (err) => {
+                    props.userSubscribeData.updateUserSubscribeData({});
                     requestErr(err, '获取用户订阅容流数据失败')
                 },
             };
