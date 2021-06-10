@@ -29,7 +29,7 @@ import OperationPane from 'components/Total/OperationPane'
 
 import './FlightPerformance.scss'
 
-//航班执行情况模块
+//总体监控-航班执行情况模块
 const FlightPerformance = (props) => {
   // 航班执行情况数据
   const flightPerformanceData = props.flightPerformanceData || {};
@@ -49,15 +49,15 @@ const FlightPerformance = (props) => {
   const tacticsDataLoading = implementTacticsData.loading;
 
   // 计划起降架次
-  const sDANum = flight.sDANum || 0;
+  const sDANum = flight.sDANum || "N/A";
   //计划起飞架次
-  const sDepNum = flight.sDepNum || 0;
+  const sDepNum = flight.sDepNum || "N/A";
   // 计划落地架次
-  const sArrNum = flight.sArrNum || 0;
+  const sArrNum = flight.sArrNum || "N/A";
   // 计划区域飞越架次(飞越本区)
-  const sAOvfNum = flight.sAOvfNum || 0;
+  const sAOvfNum = flight.sAOvfNum || "N/A";
   // 计划飞越架次(国际飞越)
-  const sOvfNum = flight.sOvfNum || 0;
+  const sOvfNum = flight.sOvfNum || "N/A";
   // 绩效情况
   const situation = flight.situation || "";
   // 起飞正常率绩效情况
@@ -65,17 +65,17 @@ const FlightPerformance = (props) => {
   // 离港流量绩效情况
   const depFlowSituation = flight.depFlowSituation || "";
   // 起飞正常率
-  const depRatio = flight.depRatio || 0;
+  const depRatio = flight.depRatio;
   // 地面延误航班架次
-  const groundDelay = flight.groundDelay || 0;
+  const groundDelay = flight.groundDelay || "N/A";
   // 返航备降航班
-  const cplNum = flight.cplNum || 0;
+  const cplNum = flight.cplNum || "N/A";
   // 复飞航班
-  const reflySorties = flight.reflySorties || 0;
+  const reflySorties = flight.reflySorties || "N/A";
   // 盘旋航班
-  const circlingSorties = flight.circlingSorties || 0;
+  const circlingSorties = flight.circlingSorties || "N/A";
   // 限制总数
-  const restrictTotal = statisticsMap["ALL"] || 0;
+  const restrictTotal = statisticsMap["ALL"] || "N/A";
   // 限制原因分类数据
   const restrictMap = statisticsMap;
 
@@ -97,7 +97,7 @@ const FlightPerformance = (props) => {
     : {};
 
   // 执行率
-  const executeRatio = flight.executeRatio || 0;
+  const executeRatio = flight.executeRatio;
   // 执行数据
   const executeData = {
     executeDAMap,
@@ -147,8 +147,8 @@ const FlightPerformance = (props) => {
       iconType: "normal-takeoff",
       // color:"#2fc25b",
       des: "起飞正常",
-      value: (depRatio * 100).toFixed(0),
-      unit: "%",
+      value: isValidVariable(depRatio) ? (depRatio * 100).toFixed(0) : "N/A",
+      unit: <span className="space">{`%`}</span>,
     },
     {
       id: "groundDelay",
@@ -315,6 +315,7 @@ const FlightPerformance = (props) => {
       },
       errFunc: (err) => {
         requestErr(err, "航班执行数据获取失败");
+        props.flightPerformanceData.updateFlightPerformanceData({});
         props.flightPerformanceData.toggleLoad(false);
       },
     };
@@ -352,6 +353,7 @@ const FlightPerformance = (props) => {
       },
       errFunc: (err) => {
         requestErr(err, "限制数据获取失败");
+        props.implementTacticsData.updateImplementTacticsData({});
         props.implementTacticsData.toggleLoad(false);
       },
     };
@@ -391,7 +393,7 @@ const FlightPerformance = (props) => {
                 <Tooltip>
                   <div className="text-wrapper">
                     <span className="value">
-                      {(executeRatio * 100).toFixed(0)}
+                      { isValidVariable(executeRatio) ? (executeRatio * 100).toFixed(0) :"N/A"}
                     </span>
                     <span className="unit">%</span>
                   </div>

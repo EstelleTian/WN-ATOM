@@ -47,14 +47,15 @@ const Operation = function (props) {
       // 区域
       let { focus = "", monitorUnit = {} } = subscribeData;
       let nameArr = [];
-      if (focus !== "") {
-        const focusObj = monitorUnit[focus] || {};
+      if (!isValidVariable(focus)) {
+        return;
+      }
+      const focusObj = monitorUnit[focus] || {};
         const { data = {} } = focusObj;
         for (let key in data) {
           const valArr = data[key] || "";
           nameArr = [...nameArr, ...valArr];
         }
-      }
       let name = nameArr.join(",");
       // console.log("name", name);
       //获取数据
@@ -73,6 +74,7 @@ const Operation = function (props) {
       setLoading(false);
       timerFunc();
     } catch (err) {
+      setFlightRecordTypeMap({});
       customNotice({
         type: "error",
         message: "获取运行配置数据失败",
@@ -88,11 +90,11 @@ const Operation = function (props) {
   // MDRS发布：MDRS
 
   let {
-    ACVC = 0,
-    SCVC = 0,
-    SECI = 0,
-    APWC = 0,
-    MDRS = 0,
+    ACVC = "N/A",
+    SCVC = "N/A",
+    SECI = "N/A",
+    APWC = "N/A",
+    MDRS = "N/A",
   } = flightRecordTypeMap;
 
   //componentDidMount
@@ -211,6 +213,7 @@ const Collaborate = function (props) {
       setLoading(false);
       timerFunc();
     } catch (err) {
+      setFlightRecordTypeMap({});
       customNotice({
         type: "error",
         message: "获取航班协调数据失败",
@@ -221,12 +224,12 @@ const Collaborate = function (props) {
   }, []);
 
   const {
-    INTERVAL = 0,
-    EXEMPT = 0,
-    SINGLEEXEMPT = 0,
-    INPOOL = 0,
-    CTD = 0,
-    TOBT = 0,
+    INTERVAL = "N/A",
+    EXEMPT = "N/A",
+    SINGLEEXEMPT = "N/A",
+    INPOOL = "N/A",
+    CTD = "N/A",
+    TOBT = "N/A",
   } = flightRecordTypeMap;
 
   //componentDidMount
