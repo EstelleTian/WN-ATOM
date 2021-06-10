@@ -1156,6 +1156,7 @@ const FlightCoordination = {
                 let value = is[1];
                 mpiO[key] = value;
             }
+            rarr.push(mpiO);
             
         }
         
