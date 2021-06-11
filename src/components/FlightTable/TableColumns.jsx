@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-11 10:51:01
+ * @LastEditTime: 2021-06-11 12:03:21
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -590,6 +590,10 @@ let render = (opt) => {
     }
     if (ftime.indexOf("A") > -1) {
       source = "DEP";
+    }
+    let effectStatus = text.effectStatus || "";
+    if (effectStatus * 1 === 200) {
+      source = "INVALID";
     }
     let sourceCN = FlightCoordination.getSourceZh(source);
     popover = (
