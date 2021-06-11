@@ -88,6 +88,7 @@ function SchemeItem(props) {
     directionList = [],
     schemeRelative = "",
     tacticMode = "",
+    tempSyncSign = "0"
   } = item;
   let isActive = activeSchemeId === id;
 
@@ -323,12 +324,19 @@ function SchemeItem(props) {
                 {isCalculated ? "已计算" : "计算中"}
               </span>
               {tacticMode === "200" ? (
-                <span className="calculate" title="二类">
+                <span className="" title="二类">
                   <Tag color="#f50">Ⅱ</Tag>
                 </span>
               ) : (
                 ""
               )}
+              {
+                tempSyncSign === "100" && (
+                  <span className="" title="同步">
+                  <Tag color="#26a69a">同</Tag>
+                </span>
+                )
+              }
             </div>
           </div>
         </div>
