@@ -2384,6 +2384,7 @@ function SchemeForm(props) {
                     width={800}
                     maskClosable={false}
                     visible={saveAsTemplateModalVisible}
+                    okText= '保存'
                     onOk={handleSaveAsTemplateModalOk}
                     onCancel={handleSaveAsTemplateModalClose}>
                     <Row gutter={12}>
