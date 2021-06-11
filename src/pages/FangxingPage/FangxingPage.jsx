@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-09 10:49:05
+ * @LastEditTime: 2021-06-10 17:14:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -35,9 +35,13 @@ function FangxingPage(props) {
   const { leftActiveName, user = {} } = systemPage;
   const [collapsed, setCollapsed] = useState(true);
   const [login, setLogin] = useState(false);
+  const url = match.url || "";
   const params = match.params || {};
-  const system = params.system || "";
-  const from = params.from || "";
+  const systemType = params.systemType || "";
+  let from = "";
+  if (url.indexOf("web") > -1) {
+    from = "web";
+  }
 
   const { carriers, airports } = useMemo(() => {
     const userStr = localStorage.getItem("user") || "{}";
@@ -92,7 +96,7 @@ function FangxingPage(props) {
             <div className="nav_body">
               <div className="cont_left">
                 <div className="left_cont">
-                  {!isValidVariable(system) && leftActiveName !== "" && (
+                  {systemPage.systemKind === "CRS" && (
                     <div className="left_left">{<LeftMultiCanvas />}</div>
                   )}
                   <div className="left_right">
@@ -116,66 +120,6 @@ function FangxingPage(props) {
         </Content>
       </Layout>
     </Layout>
-    // <div className="layout">
-    //   <Sider
-    //     trigger={null}
-    //     collapsible
-    //     collapsed={collapsed}
-    //     className="sider_canvas"
-    //   >
-    //     <div className="logo" />
-    //     <Menu theme="dark" mode="inline" defaultSelectedKeys={["clearance"]}>
-    //       {/* <Menu.Item key="clearance" className="sider_icon clearance"> */}
-    //       <Menu.Item key="clearance">放行监控</Menu.Item>
-    //       {/* <Menu.Item key="monitor" className="sider_icon monitor"> */}
-    //       <Menu.Item key="monitor">态势监控</Menu.Item>
-    //     </Menu>
-    //   </Sider>
-    //   <NavBar
-    //     className="nav_bar"
-    //     title="空中交通运行放行监控系统"
-    //     username=""
-    //   />
-    //   <Topic></Topic>
-    //   {login && (
-    //     <div className="nav_body">
-    //       <div className="cont_left">
-    //         {/*<SchemeTitle />*/}
-    //         <div className="left_cont">
-    //           {from !== "web" && leftActiveName !== "" && (
-    //             <div className="left_left">
-    //               <LeftMultiCanvas />
-    //               {/* <ModalBox
-    //                                         title="航班查询"
-    //                                         style={{
-    //                                             height: 330
-    //                                         }}
-    //                                         showDecorator={true}
-    //                                         className="flight_search"
-    //                                     >
-    //                                         <FlightSearch />
-    //                                     </ModalBox> */}
-    //             </div>
-    //           )}
-    //           <div className="left_right">
-    //             {/***/}
-    //             <Suspense
-    //               fallback={
-    //                 <div className="load_spin">
-    //                   <Spin tip="加载中..." />
-    //                 </div>
-    //               }
-    //             >
-    //               <FlightTableModal />
-    //             </Suspense>
-    //           </div>
-    //         </div>
-    //       </div>
-
-    //       <RightMultiCanvas />
-    //     </div>
-    //   )}
-    // </div>
   );
 }
 

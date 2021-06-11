@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-03 14:22:25
+ * @LastEditTime: 2021-06-10 15:03:34
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -58,11 +58,18 @@ const todoListIP= "http://10.25.1.10:80";
 const myApplicationListIP= "http://10.25.1.10:80";
 //计划时间范围获取-IP(薛满林)
 const rangeScopeIP= "http://10.25.1.10:80";
+// 开关配置IP
+const switchConfigIP= "http://10.25.1.10:80";
+// 系统各个标题IP（薛满林）
+const systemListIP= "http://10.25.1.10:80";
 
 const ReqUrls = {
     //用户登录
     loginUrl: loginIP+"/uuma-server/client/login",
     loginVerifyUrl: loginIP+"/uuma-server/user/verify-password",
+    //根据用户id获取可跳转系统
+    systemListUrl: systemListIP+"/hydrogen-flight-monitor-server-cache/user/system/",
+   
     //缩略地图
     mapUrl: "http://10.25.1.51:8081/#/map",
     mapWebUrl: "http://10.25.1.51:8082/#/map",
@@ -165,7 +172,9 @@ const ReqUrls = {
     // 消息记录-历史
     getHistoryNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/history",
     //计划时间范围获取-(薛满林)
-    rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server/plan/time/scope"
+    rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server/plan/time/scope",
+    // 开关配置
+    switchConfigUrl: switchConfigIP +"/hydrogen-ntfm-info-receive-server/switchConfig",
 };
 
 //协调相关url

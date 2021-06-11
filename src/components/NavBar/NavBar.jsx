@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-08 19:04:39
+ * @LastEditTime: 2021-06-10 14:37:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\NavBar\NavBar.jsx
@@ -11,7 +11,7 @@ import { withRouter } from "react-router-dom";
 import { Layout, Avatar, Radio, Tag, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import RightNav from "./RightNav";
-// import LeftNav from "./LeftNav";
+
 import LeftTitleNav from "./LeftTitleNav";
 import User from "./User";
 import NavBellNews from "./NavBellNews";
@@ -30,8 +30,6 @@ function NavBar(props) {
       return (
         <div className="layout-row space-between multi_nav">
           <LeftTitleNav />
-          {/* <LeftNav /> */}
-          {/*<h4 style={{ color: 'red'}}>web自动更新 3/4/1430 </h4>*/}
           <RightNav />
         </div>
       );

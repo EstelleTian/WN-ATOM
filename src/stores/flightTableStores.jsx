@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-09 08:36:00
+ * @LastEditTime: 2021-06-10 20:31:33
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -126,7 +126,7 @@ class FlightTableData {
   constructor() {
     makeObservable(this);
   }
-  //系统名称 CRS CDM CRS-WEB(web) CRS-REGION(分局)
+  //系统名称 CRS CDM CRS-REGION(分局)
   @observable systemName = "";
   @observable trafficId = "";
   @observable systemCnName = "";
@@ -138,6 +138,8 @@ class FlightTableData {
   @observable forceUpdate = false;
   //是否显示loading
   @observable loading = false;
+  //是否开启定时器
+  @observable startTimer = false;
   //数据获取状态
   @observable dataLoaded = false;
   //自动滚动状态
@@ -167,7 +169,7 @@ class FlightTableData {
   }
 
   //更新航班数据-全部更新
-  @action updateFlightsList(newList, generateTime, curSchemeId) {
+  @action updateFlightsList(newList = [], generateTime, curSchemeId) {
     // @action updateFlightsList(testnewList, generateTime, curSchemeId) {
     //   let newList = testnewList.filter((flight) => {
     //     let flightid = flight.flightid || "";

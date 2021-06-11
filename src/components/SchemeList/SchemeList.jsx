@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-07 14:55:54
+ * @LastEditTime: 2021-06-10 18:15:04
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -68,16 +68,16 @@ function clearStoreData(props) {
     executeKPIData,
     performanceKPIData,
     flightTableData,
-   } = props;
+  } = props;
 
-   //清空方案列表 store 数据
-   schemeListData.updateList([], "");
-  // 清空KPI数据 
-   executeKPIData.updateExecuteKPIData({}, "");
+  //清空方案列表 store 数据
+  schemeListData.updateList([], "");
   // 清空KPI数据
-   performanceKPIData.updatePerformanceKPIData({});
+  executeKPIData.updateExecuteKPIData({}, "");
+  // 清空KPI数据
+  performanceKPIData.updatePerformanceKPIData({});
   //  清空航班表格数据
-   flightTableData.updateFlightsList([], "");
+  flightTableData.updateFlightsList([], "");
 }
 
 //方案请求 hook
@@ -189,13 +189,19 @@ function useSchemeList(props) {
 
   useEffect(() => {
     if (isValidVariable(id)) {
-    // 复制一份
-    let newStatusValues = [...statusValues];
+      // 复制一份
+      let newStatusValues = [...statusValues];
       //获取方案列表--开启下一轮更新
       let index = newStatusValues.indexOf("TERMINATED");
-      if(index > -1){
+      if (index > -1) {
         // 将"TERMINATED"替换为 "FINISHED","TERMINATED_MANUAL","TERMINATED_AUTO"
-        newStatusValues.splice(index, 1, "FINISHED","TERMINATED_MANUAL","TERMINATED_AUTO");
+        newStatusValues.splice(
+          index,
+          1,
+          "FINISHED",
+          "TERMINATED_MANUAL",
+          "TERMINATED_AUTO"
+        );
       }
       curStatusValues.current = newStatusValues;
       props.schemeListData.toggleLoad(true);
@@ -253,7 +259,7 @@ function useFlightsList(props) {
     dateRangeData = [],
   } = systemPage;
   const params = match.params || {};
-  const from = params.from || ""; //来源
+  const systemType = params.systemType || ""; //来源
 
   //更新--航班列表 store数据
   const updateFlightTableData = useCallback(
@@ -262,34 +268,34 @@ function useFlightsList(props) {
         console.log("有协调窗口打开中，跳过此次航班更新");
         return;
       }
-      if (
-        (isValidVariable(from) && from !== "web") ||
-        isValidVariable(props.schemeListData.activeSchemeId)
-      ) {
-        let { flights, generateTime, performKpiResult } = flightData;
-        if (flights !== null) {
-          flightTableData.updateFlightsList(
-            flights,
-            generateTime,
-            props.schemeListData.activeSchemeId
-          );
-          sessionStorage.setItem(
-            "flightTableGenerateTime",
-            generateTime,
-            props.schemeListData.activeSchemeId
-          );
-        } else {
-          flightTableData.updateFlightsList([], generateTime);
-        }
-        // 若KPI数据有效则更新KPI数据-特殊航班模块
-        if(isValidObject(performKpiResult)){
-          props.performanceKPIData.updatePerformanceKPIData(performKpiResult);
-        }else {
-          // 反之清除KPI数据
-          props.performanceKPIData.updatePerformanceKPIData({});
-        }
-        flightTableData.lastSchemeId = props.schemeListData.activeSchemeId;
+      // if (
+      //   (isValidVariable(from) && from !== "web") ||
+      //   isValidVariable(props.schemeListData.activeSchemeId)
+      // ) {
+      // }
+      let { flights, generateTime, performKpiResult } = flightData;
+      if (flights !== null) {
+        flightTableData.updateFlightsList(
+          flights,
+          generateTime,
+          props.schemeListData.activeSchemeId
+        );
+        sessionStorage.setItem(
+          "flightTableGenerateTime",
+          generateTime,
+          props.schemeListData.activeSchemeId
+        );
+      } else {
+        flightTableData.updateFlightsList([], generateTime);
       }
+      // 若KPI数据有效则更新KPI数据-特殊航班模块
+      if (isValidObject(performKpiResult)) {
+        props.performanceKPIData.updatePerformanceKPIData(performKpiResult);
+      } else {
+        // 反之清除KPI数据
+        props.performanceKPIData.updatePerformanceKPIData({});
+      }
+      flightTableData.lastSchemeId = props.schemeListData.activeSchemeId;
     },
     [props.schemeListData.activeSchemeId]
   );
@@ -300,14 +306,13 @@ function useFlightsList(props) {
       const p = new Promise((resolve, reject) => {
         let url = "";
         let params = {};
-        let activeSchemeId = schemeListData.activeSchemeId;
-        if (
-          (!isValidVariable(from) || from === "web") &&
-          !isValidVariable(activeSchemeId)
-        ) {
-          flightTableData.updateFlightsList([], "", "");
-          return;
-        }
+        let activeSchemeId = schemeListData.activeSchemeId || "";
+        // if (
+        //   !isValidVariable(activeSchemeId)
+        // ) {
+        //   flightTableData.updateFlightsList([], "", "");
+        //   return;
+        // }
 
         // console.log("本次方案id:", activeSchemeId)
         url = ReqUrls.flightsDataNoIdUrl + systemPage.user.id;
@@ -327,14 +332,24 @@ function useFlightsList(props) {
           baseTime = year + "" + month + "" + day;
         }
         let reqId = "";
-        let trafficId = "";
-        if (activeSchemeId.indexOf("focus") > -1) {
-          trafficId = activeSchemeId.replace(/focus-/g, "");
-          activeSchemeId = "";
-          reqId = "";
+        let filterArrap = "";
+        let filterRegion = "";
+        let filterDepap = "";
+        let system = "";
+        const activeSystem = systemPage.activeSystem || {};
+        filterArrap = activeSystem.filterArrap || "";
+        filterRegion = activeSystem.filterRegion || "";
+        filterDepap = activeSystem.filterDepap || "";
+        system = activeSystem.system || "";
+        console.log(
+          "activeSchemeId",
+          activeSchemeId,
+          "leftNavSelectedName",
+          systemPage.leftNavSelectedName
+        );
+        if (activeSchemeId === "" && systemPage.leftNavSelectedName === "all") {
         } else {
           reqId = activeSchemeId;
-          trafficId = "";
         }
         params = {
           startTime:
@@ -342,7 +357,10 @@ function useFlightsList(props) {
           endTime:
             dateRangeData.length > 0 ? dateRangeData[1] : baseTime + "2359",
           id: reqId, //方案id
-          trafficId, //左上角选中的id
+          filterArrap,
+          filterRegion,
+          filterDepap,
+          system,
         };
         const timerFunc = function () {
           //开启定时
@@ -371,13 +389,13 @@ function useFlightsList(props) {
           resFunc: (data) => {
             updateFlightTableData(data);
             timerFunc();
-            if (props.flightTableData.loading) {
-              customNotice({
-                type: "success",
-                message: "航班列表数据获取成功",
-                duration: 5,
-              });
-            }
+            // if (props.flightTableData.loading) {
+            //   customNotice({
+            //     type: "success",
+            //     message: "航班列表数据获取成功",
+            //     duration: 5,
+            //   });
+            // }
             props.flightTableData.toggleLoad(false, false);
             props.performanceKPIData.toggleLoad(false, false);
             resolve("success");
@@ -407,25 +425,22 @@ function useFlightsList(props) {
   );
 
   useEffect(() => {
-    if (isValidVariable(from) && from !== "web") {
-      if (isValidVariable(activeSchemeId)) {
-        flightsTimeoutId.current.map((t) => {
-          clearTimeout(t);
-        });
-        flightsTimeoutId.current = [];
-        getFlightTableData(false, true);
-      } else {
-        flightsTimeoutId.current.map((t) => {
-          clearTimeout(t);
-        });
-        flightsTimeoutId.current = [];
-        getFlightTableData(true, true);
-      }
-    } else {
+    if (flightTableData.startTimer) {
+      console.log("获取航班-已经开启了定时，请求一次");
       flightsTimeoutId.current.map((t) => {
         clearTimeout(t);
       });
       flightsTimeoutId.current = [];
+      getFlightTableData(false, true);
+    } else {
+      console.log("获取航班-还没开启了定时，开启");
+      flightsTimeoutId.current.map((t) => {
+        clearTimeout(t);
+      });
+      flightsTimeoutId.current = [];
+      //标志已经开启了定时，再次请求不用开启了
+
+      flightTableData.startTimer = true;
       getFlightTableData(true, true);
     }
   }, [activeSchemeId]);
@@ -658,7 +673,7 @@ function SList(props) {
         // 若该方案已计算则切换为活动方案
         if (isCalculated) {
           handleActive(schemeId, title, "client");
-        } 
+        }
       } else {
         customNotice({
           type: "warning",
@@ -744,18 +759,15 @@ function SList(props) {
     ) {
       //默认选第一条 已计算
       let defaultId = "";
-      //如果没from或者来自web,选中第一条方案
-      if (!isValidVariable(from) || from === "web") {
-        sortedList.map((item) => {
-          if (item.isCalculated && defaultId === "") {
-            defaultId = item.id;
-          }
-        });
-      }
+      sortedList.map((item) => {
+        if (item.isCalculated && defaultId === "") {
+          defaultId = item.id;
+        }
+      });
 
       handleActive(defaultId, "", "init");
     }
-  }, [sortedList, activeSchemeId]);
+  }, [sortedList, activeSchemeId, props.systemPage.leftNavSelectedName]);
 
   // console.log("方案列表 render")
 

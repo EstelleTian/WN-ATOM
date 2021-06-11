@@ -54,7 +54,7 @@ const FilterList = (props) => {
                         key={item.key}
                         className="filter-list-item"
                         onClick={()=>{
-                            console.log(item);
+                            // console.log(item);
                             props.capacity.setPane(item.text, item.key, "airport")
                         }}
                     >

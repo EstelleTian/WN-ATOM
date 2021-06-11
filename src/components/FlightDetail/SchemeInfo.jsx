@@ -75,6 +75,7 @@ const SchemeInfo = (props) => {
               console.log(record);
               if (isValidVariable(tacticId)) {
                 props.schemeListData.toggleSchemeActive(tacticId);
+                props.systemPage.setLeftNavSelectedName("");
               }
             }}
           >
@@ -170,5 +171,6 @@ const SchemeInfo = (props) => {
 
 export default inject(
   "flightDetailData",
-  "schemeListData"
+  "schemeListData",
+  "systemPage"
 )(observer(SchemeInfo));

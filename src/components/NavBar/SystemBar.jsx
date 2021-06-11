@@ -1,176 +1,187 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-06-09 10:50:33
+ * @LastEditTime: 2021-06-10 20:30:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
  */
 
-import React, { useMemo, useState, useEffect, Fragment } from "react";
+import React, {
+  useMemo,
+  useState,
+  useEffect,
+  useCallback,
+  Fragment,
+} from "react";
 import { observer, inject } from "mobx-react";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
 import { Radio, Tag, Dropdown, Button, Menu } from "antd";
 import { withRouter } from "react-router-dom";
 import { isValidVariable } from "utils/basic-verify";
+import { requestGet2 } from "utils/request";
+import { ReqUrls } from "utils/request-urls";
 import { convertNameToTitle } from "utils/global";
+import { customNotice } from "utils/common-funcs";
 
 //各个系统调整页面
 function SystemBar(props) {
-  const { match, systemPage } = props;
+  const { match, systemPage, flightTableData, schemeListData } = props;
+  const systemKind = systemPage.systemKind || "";
   const params = match.params || {};
-  const from = params.from || "";
-  const system = params.system || "";
-  let fromKey1 = "";
-  let fromKey2 = "";
-  if (from.indexOf("-") > -1) {
-    const fromArr = from.split("_");
-    if (fromArr.length >= 2) {
-      fromKey1 = fromArr[0] || "";
-      fromKey2 = fromArr[1] || "";
-    }
-  }
+  const url = match.url || "";
+  const systemType = params.systemType || "";
 
-  const groupNameChange = (item) => {
-    const concernTrafficId = item.concernTrafficId;
-    const concernTrafficName = item.concernTrafficName; //如果是crs或者web点击跳转
-    if (from === "" || from === "web") {
-      let system = "CRS";
-      if (concernTrafficName.indexOf("CDM") > -1) {
-        system = "CDM";
-      }
-      window.open(
-        "./#/clearance/" +
-          system +
-          "/" +
-          concernTrafficId +
-          "_" +
-          concernTrafficName
-      );
-    } else {
-      if (props.systemPage.leftNavSelectedName !== concernTrafficId) {
-        props.systemPage.setLeftNavSelectedName(concernTrafficId);
-        props.schemeListData.toggleSchemeActive("");
-      } else {
-        props.systemPage.setLeftNavSelectedName("");
-        props.schemeListData.toggleSchemeActive("first");
-      }
-    }
+  window.onunload = function () {
+    let openWind = localStorage.getItem("openWind");
+    let openWindArr = openWind.split(",");
+    let newArr = openWindArr.filter((wind) => wind !== systemType);
+    localStorage.setItem("openWind", newArr.join(","));
   };
 
-  let userConcernTrafficListStr = localStorage.getItem(
-    "userConcernTrafficList"
-  );
-  let userConcernTrafficList = useMemo(
-    function () {
-      let showAll = true;
-      if (isValidVariable(from) && from !== "web") {
-        showAll = false;
-      }
-      let list = [];
-      if (props.systemPage.userHasAuth(12510)) {
-        const arr = JSON.parse(userConcernTrafficListStr) || [];
-        let idsList = [];
-
-        for (let i = 0; i < arr.length; i++) {
-          let item = arr[i] || {};
-          if (item.concernStatus) {
-            item.concernTrafficId = "focus-" + item.concernTrafficId || "";
-            let name = item.concernTrafficName;
-            idsList.push(item.concernTrafficId);
-            if (showAll) {
-              list.push(item);
-            } else if (from.indexOf(name) > -1) {
-              item.concernTrafficName = fromKey2.replace("CDM", "离港");
-              list.push(item);
-            }
-          }
-        }
-
-        props.systemPage.leftNavNameList = idsList;
-      }
-      console.log("list", list);
-      return list;
-    },
-    [props.systemPage.user.id]
-  );
-
-  const menu = function () {
+  const groupNameChange = (item) => {
+    let systemType = item.systemType;
+    let urlStr = url;
+    const len = urlStr.length;
+    if (urlStr.substring(len - 1, len) === "/") {
+      urlStr = urlStr.substring(0, len - 1);
+    }
+    let openWind = localStorage.getItem("openWind");
+    if (!isValidVariable(openWind)) {
+      openWind = "";
+    }
+    if (openWind.indexOf(systemType) > -1) {
+      return;
+    }
+    const winObj = window.open("./#" + urlStr + "/" + systemType);
+    localStorage.setItem("openWind", openWind + "," + systemType);
+  };
+  const groupNameChange2 = (item) => {
+    //如果激活方案是all，则标志请求全部航班，否则取方案第一个影响航班
+    if (systemPage.leftNavSelectedName !== "all") {
+      systemPage.setLeftNavSelectedName("all");
+      schemeListData.toggleSchemeActive("");
+    } else {
+      systemPage.setLeftNavSelectedName("");
+      schemeListData.toggleSchemeActive("");
+    }
+  };
+  const { cdmList = [], crsList = [] } = systemPage.getSystemListByGroup();
+  const cdmMenu = function () {
     return (
       <Menu>
-        {userConcernTrafficList.map((item) => (
+        {cdmList.map((item) => (
           <Menu.Item
-            key={item.concernTrafficId || ""}
-            value={`${item.concernTrafficId}`}
+            key={item.id || ""}
+            value={`${item.systemType}`}
             onClick={(e) => {
               groupNameChange(item);
             }}
           >
-            {item.concernTrafficName}
+            {item.systemName}
           </Menu.Item>
         ))}
       </Menu>
     );
   };
-  //系统名称赋值
-  useEffect(() => {
-    let name = "CRS";
-    if (isValidVariable(from)) {
-      if (from === "web") {
-        name = "CRS-WEB";
-      } else {
-        name = "CDM";
-      }
-    }
-    const user = systemPage.user || {};
-    const region = user.region || "";
-    if (region !== "ZLXY") {
-      name = "CRS-REGION"; //分局CRS
-    }
-    props.flightTableData.systemName = name;
-    props.flightTableData.trafficId = fromKey1;
-    props.flightTableData.systemCnName = fromKey2;
-    console.log(name, fromKey1, fromKey2);
-  }, []);
-
-  useEffect(() => {
-    if (from !== "" && from !== "web") {
-      props.systemPage.setLeftNavSelectedName(fromKey1);
-      props.schemeListData.toggleSchemeActive(fromKey1);
-    }
-  }, []);
-
-  return (
-    <Fragment>
-      {props.systemPage.userHasAuth(12510) ? (
-        props.flightTableData.systemName === "CDM" ? (
-          <Radio.Group
-            value={props.systemPage.leftNavSelectedName}
-            buttonStyle="solid"
+  const crsMenu = function () {
+    return (
+      <Menu>
+        {crsList.map((item) => (
+          <Menu.Item
+            key={item.id || ""}
+            value={`${item.systemType}`}
+            onClick={(e) => {
+              groupNameChange(item);
+            }}
           >
-            {userConcernTrafficList.map((item) => (
-              <Radio.Button
-                key={item.concernTrafficId || ""}
-                value={`${item.concernTrafficId}`}
-                onClick={(e) => {
-                  groupNameChange(item);
-                }}
-              >
-                {item.concernTrafficName}
-              </Radio.Button>
-            ))}
-          </Radio.Group>
-        ) : (
-          <Dropdown overlay={menu}>
+            {item.systemName}
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+  };
+
+  //根据用户id获取系统列表
+  const getSystemListById = useCallback(async (userId) => {
+    try {
+      const res = await requestGet2({
+        url: ReqUrls.systemListUrl + userId,
+      });
+      const uumaSystemList = res.uumaSystemList || [];
+      systemPage.setSystemList(uumaSystemList, systemType);
+
+      let name = "CRS";
+      if (isValidVariable(systemType)) {
+        if (systemType.indexOf("CDM") > -1) {
+          name = "CDM";
+          systemPage.setLeftNavSelectedName("all");
+        } else {
+          const activeSystem = systemPage.activeSystem || {};
+          const region = activeSystem.region || "";
+          if (region !== "ZLXY") {
+            name = "CRS-REGION"; //分局CRS
+          }
+        }
+      }
+      systemPage.setSystemKind(name);
+      //flight也存一份，为的航班自动滚动知道是按哪列定位
+      flightTableData.systemName = name;
+    } catch (e) {
+      customNotice({
+        type: "error",
+        content: "获取的用户可访问系统列表失败",
+      });
+    }
+  }, []);
+  console.log("systemPage.leftNavSelectedName", systemPage.leftNavSelectedName);
+  const getContent = () => {
+    if (systemPage.systemKind === "CRS-REGION") {
+      return "";
+    } else if (systemPage.systemKind === "CDM") {
+      const item = systemPage.activeSystem || {};
+      return (
+        <Radio.Group value={systemPage.leftNavSelectedName} buttonStyle="solid">
+          <Radio.Button
+            key={item.id || ""}
+            value={"all"}
+            onClick={(e) => {
+              groupNameChange2(item);
+            }}
+          >
+            {item.systemName.replace("CDM", "离港")}
+          </Radio.Button>
+        </Radio.Group>
+      );
+    } else {
+      return (
+        <Fragment>
+          <Dropdown overlay={cdmMenu}>
             <Button className="sys_dropdown">
               CDM <DownOutlined />
             </Button>
           </Dropdown>
-        )
-      ) : (
-        ""
-      )}
-    </Fragment>
+          <Dropdown overlay={crsMenu}>
+            <Button className="sys_dropdown">
+              CRS <DownOutlined />
+            </Button>
+          </Dropdown>
+        </Fragment>
+      );
+    }
+  };
+
+  //系统名称赋值
+  useEffect(() => {
+    const userId = systemPage.user.id || "";
+    if (isValidVariable(userId)) {
+      //根据id获取系统列表
+      getSystemListById(userId);
+    }
+  }, [systemPage.user.id]);
+
+  return (
+    <Fragment>{systemPage.userHasAuth(12510) ? getContent() : ""}</Fragment>
   );
 }
 

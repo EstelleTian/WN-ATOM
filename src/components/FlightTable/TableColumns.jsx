@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-08 14:32:26
+ * @LastEditTime: 2021-06-10 19:15:07
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -43,7 +43,7 @@ const scrollTopById = (id, classStr) => {
     const tableBody = boxContent[0].getElementsByClassName("ant-table-body");
     const tableTBody = boxContent[0].getElementsByClassName("ant-table-tbody");
     const tableTBodyH = tableTBody[0].clientHeight; //表格总高度
-    console.log("目标定位航班[contentH]是：");
+    // console.log("目标定位航班[contentH]是：");
     if (tableTBodyH * 1 > contentH * 1) {
       //计算定位航班
       const tr = boxContent[0].getElementsByClassName(id);
@@ -667,11 +667,14 @@ const getColumns = (
   sortable = false,
   onCellFilter = () => {}
 ) => {
-  console.log("systemName2", systemName);
+  if (systemName === undefined) {
+    return;
+  }
+  // console.log("systemName2", systemName);
   let names = [];
   let sortKey = "";
   if (typeof systemName === "string") {
-    if (systemName === "CRS-WEB" || systemName === "CRS") {
+    if (systemName === "CRS") {
       names = CRSNames;
       sortKey = "FFIXT";
     } else if (systemName === "CRS-REGION") {
@@ -681,7 +684,7 @@ const getColumns = (
       names = CDMNames;
       sortKey = "ATOT";
     }
-  } else {
+  } else if (typeof systemName === "object") {
     names = systemName;
     sortKey = "FLIGHTID";
   }
