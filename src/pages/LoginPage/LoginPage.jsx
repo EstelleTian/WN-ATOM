@@ -52,18 +52,18 @@ function LoginPage(props) {
           url: ReqUrls.loginUrl,
           params,
         });
-        const { status, user = {}, userConcernTrafficList = [] } = data;
-        let obj = {};
-        userConcernTrafficList.map((item) => {
-          const name = item.concernTrafficName;
-          obj[name] = item;
-        });
+        const { status, user = {}} = data;
+        // let obj = {};
+        // userConcernTrafficList.map((item) => {
+        //   const name = item.concernTrafficName;
+        //   obj[name] = item;
+        // });
 
         localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem(
-          "userConcernTrafficList",
-          JSON.stringify(Object.values(obj))
-        );
+        // localStorage.setItem(
+        //   "userConcernTrafficList",
+        //   JSON.stringify(Object.values(obj))
+        // );
         if (pageType === "client") {
           message.success({
             content: "登录成功",
@@ -186,7 +186,7 @@ function LoginPage(props) {
             testInternet();
           }}
         >
-          {/* 网络连通检测 */}
+          网络连通检测
         </div>
       )}
       <div className="center">

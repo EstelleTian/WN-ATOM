@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-05-26 09:36:17
+ * @LastEditTime: 2021-06-11 10:49:04
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -27,7 +27,12 @@ const RenderCell = (props) => {
   }
 
   let value = field.value || "";
-  let showVal = getDayTimeFromString(value) || "";
+  let showVal = "";
+  if (col === "CTOT" || col === "COBT" || col === "CTO") {
+    showVal = getTimeAndStatus(value) || "";
+  } else {
+    showVal = getDayTimeFromString(value) || "";
+  }
 
   let source = field.source || "";
   let effectStatus = field.effectStatus || "";

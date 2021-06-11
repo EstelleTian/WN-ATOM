@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-10 19:15:07
+ * @LastEditTime: 2021-06-11 10:51:01
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -587,9 +587,6 @@ let render = (opt) => {
     let ftime = "";
     if (isValidVariable(value) && value.length >= 12) {
       ftime = getTimeAndStatus(value);
-      if (source === "MANUAL") {
-        getTimeAndStatus(value);
-      }
     }
     if (ftime.indexOf("A") > -1) {
       source = "DEP";
@@ -775,6 +772,9 @@ const getColumns = (
     if (en === "FFIX") {
       tem["width"] = screenWidth > 1920 ? 95 : 80;
     }
+    if (en === "CTOT" || en === "CTO" || en === "COBT") {
+      tem["width"] = screenWidth > 1920 ? 95 : 80;
+    }
     if (en === "FFIXT") {
       tem["width"] = screenWidth > 1920 ? 95 : 80;
       if (sortKey === en) {
@@ -883,10 +883,10 @@ const getColumns = (
     }
 
     if (en === "STATUS") {
-      tem["width"] = screenWidth > 1920 ? 90 : 78;
+      tem["width"] = screenWidth > 1920 ? 90 : 80;
     }
     if (en === "NCOBT" || en === "NCTOT") {
-      tem["width"] = screenWidth > 1920 ? 90 : 78;
+      tem["width"] = screenWidth > 1920 ? 90 : 80;
     }
     if (en === "DEPAP" || en === "ARRAP") {
       tem["width"] = screenWidth > 1920 ? 95 : 82;

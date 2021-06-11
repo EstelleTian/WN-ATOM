@@ -77,21 +77,22 @@ function RightNav(props) {
               <Radio.Button value="runway">跑道配置</Radio.Button>
             </Radio.Group>
             {systemPage.userHasAuth(12514) && <ParameterConfiguration />}
-
-            <Radio.Group
-              value={systemPage.activeFlightSearch ? "search" : ""}
-              buttonStyle="solid"
-            >
-              <Radio.Button
-                value="search"
-                onClick={(e) => {
-                  const value = e.target.value;
-                  systemPage.toggleFlightSearch();
-                }}
+            {systemPage.userHasAuth(12512) && (
+              <Radio.Group
+                value={systemPage.activeFlightSearch ? "search" : ""}
+                buttonStyle="solid"
               >
-                航班查询
-              </Radio.Button>
-            </Radio.Group>
+                <Radio.Button
+                  value="search"
+                  onClick={(e) => {
+                    const value = e.target.value;
+                    systemPage.toggleFlightSearch();
+                  }}
+                >
+                  航班查询
+                </Radio.Button>
+              </Radio.Group>
+            )}
           </span>
         )}
       </div>
