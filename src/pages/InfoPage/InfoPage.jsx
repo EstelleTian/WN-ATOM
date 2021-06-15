@@ -28,6 +28,7 @@ function InfoPage(props) {
   const [autoOpen, setAutoOpen] = useState(true);
   const [audioPlay, setAudioPlay] = useState(true);
   const autoOpenRef = useRef(true);
+  let timer = 0;
   const stompClientFunc = (username = "") => {
     if (!isValidVariable(username)) {
       return;
@@ -70,7 +71,8 @@ function InfoPage(props) {
     let on_error = function (error) {
       console.log("WebSocket连接失败:");
       console.log(error);
-      setTimeout(function () {
+      clearTimeout(timer);
+      timer =setTimeout(function () {
         stompClientFunc(username);
       }, 5000);
     };
