@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2021-01-07 20:35:06
- * @LastEditTime: 2021-06-10 19:29:30
+ * @LastEditTime: 2021-06-15 10:29:46
  * @LastEditors: Please set LastEditors
  * @Description: 左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-ATOM\src\components\RightMultiCanvas\RightMultiCanvas.jsx
@@ -82,7 +82,7 @@ function RightMultiCanvas(props) {
           ""
         )}
       </div>
-      {systemPage.userHasAuth(12512) && activeFlightSearch && (
+      {systemPage.userHasAuth(12517) && activeFlightSearch && (
         <div className="fixed-container">
           <FlightSearch />
         </div>

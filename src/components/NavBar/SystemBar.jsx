@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-06-10 20:30:35
+ * @LastEditTime: 2021-06-15 10:17:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -111,18 +111,29 @@ function SystemBar(props) {
       const uumaSystemList = res.uumaSystemList || [];
       systemPage.setSystemList(uumaSystemList, systemType);
 
-      let name = "CRS";
-      if (isValidVariable(systemType)) {
-        if (systemType.indexOf("CDM") > -1) {
+      let name = "";
+      //url有标识，取url标识
+      if (systemType.indexOf("CDM") > -1) {
+        name = "CDM";
+        systemPage.setLeftNavSelectedName("all");
+      } else {
+        //url无标识，取默认激活的对象
+        const activeSystem = systemPage.activeSystem || {};
+        const system = activeSystem.system || "";
+        if (system.indexOf("CDM") > -1) {
           name = "CDM";
           systemPage.setLeftNavSelectedName("all");
-        } else {
-          const activeSystem = systemPage.activeSystem || {};
+        } else if (system.indexOf("CRS") > -1) {
           const region = activeSystem.region || "";
           if (region !== "ZLXY") {
             name = "CRS-REGION"; //分局CRS
+          } else {
+            name = "CRS"; //CRS
           }
         }
+      }
+      if (!isValidVariable(name)) {
+        name = "CRS";
       }
       systemPage.setSystemKind(name);
       //flight也存一份，为的航班自动滚动知道是按哪列定位

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-11 12:03:21
+ * @LastEditTime: 2021-06-15 10:23:10
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -582,14 +582,17 @@ let render = (opt) => {
   } else if (col === "ALARM") {
     popover = randerAlarmCellChildren(opt);
   } else if (col === "FFIXT") {
-    let { source = "", value = "", meetIntervalValue = "" } = text;
-
+    let {
+      source = "",
+      value = "",
+      type = "",
+      title = "",
+      sourceZH = "",
+      meetIntervalValue = "",
+    } = text;
     let ftime = "";
     if (isValidVariable(value) && value.length >= 12) {
-      ftime = getTimeAndStatus(value);
-    }
-    if (ftime.indexOf("A") > -1) {
-      source = "DEP";
+      ftime = getDayTimeFromString(value) + " " + type;
     }
     let effectStatus = text.effectStatus || "";
     if (effectStatus * 1 === 200) {
@@ -605,7 +608,7 @@ let render = (opt) => {
       >
         <div
           className={`interval ${ftime !== "" && source}`}
-          title={`${value}-${sourceCN}`}
+          title={`${title}`}
         >
           <span
             className={`${
