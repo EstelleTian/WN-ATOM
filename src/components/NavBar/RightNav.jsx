@@ -77,7 +77,7 @@ function RightNav(props) {
               <Radio.Button value="runway">跑道配置</Radio.Button>
             </Radio.Group>
             {systemPage.userHasAuth(12514) && <ParameterConfiguration />}
-            {systemPage.userHasAuth(12512) && (
+            {systemPage.userHasAuth(12517) && (
               <Radio.Group
                 value={systemPage.activeFlightSearch ? "search" : ""}
                 buttonStyle="solid"
