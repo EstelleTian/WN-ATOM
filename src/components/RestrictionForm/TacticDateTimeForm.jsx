@@ -44,7 +44,8 @@ function TacticDateTimeForm(props) {
     // 结束时间 HHmm
     const endTimeString = isValidVariable(endTime) ? endTime.substring(8, 12) : "";
     // 结束日期和结束时间是否必填标记:限制方式为改航(CR)时为必填
-    const endDateTimeRequired = restrictionMode === "CR";
+    // const endDateTimeRequired = restrictionMode === "CR";
+    const endDateTimeRequired = false;
 
     //方案名称发生变化触发更新
     useEffect(function () {
