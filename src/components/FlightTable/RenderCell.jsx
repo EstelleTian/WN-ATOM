@@ -1,13 +1,14 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-15 15:01:53
+ * @LastEditTime: 2021-06-16 14:55:38
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
  */
 
 import React from "react";
+import { Tooltip } from "antd";
 import {
   getDayTimeFromString,
   getTimeAndStatus,
@@ -17,6 +18,18 @@ import {
 import { FlightCoordination } from "utils/flightcoordination.js";
 import FmeToday from "utils/fmetoday";
 import "./RenderCell.scss";
+
+const getTitle = (title) => {
+  if (!isValidVariable(title)) return "";
+  const titleArr = title.split("#");
+  return (
+    <div>
+      {titleArr.map((value, index) => (
+        <div key={index}>{value}</div>
+      ))}
+    </div>
+  );
+};
 
 const RenderCell = (props) => {
   let { record, index, col } = props.opt;
@@ -42,18 +55,19 @@ const RenderCell = (props) => {
   }
 
   return (
-    <div
-      className={`full-cell ${col} ${
-        isValidVariable(value) ? source : ""
-      }  ${col}_${source}`}
-    >
+    <Tooltip placement="bottom" title={getTitle(title)}>
       <div
-        className={`${isValidVariable(value) ? "" : "empty_cell"}  ${source}`}
-        title={`${title}`}
+        className={`full-cell ${col} ${
+          isValidVariable(value) ? source : ""
+        }  ${col}_${source}`}
       >
-        <span className="">{showVal}</span>
+        <div
+          className={`${isValidVariable(value) ? "" : "empty_cell"}  ${source}`}
+        >
+          <span className="">{showVal}</span>
+        </div>
       </div>
-    </div>
+    </Tooltip>
   );
 };
 export default RenderCell;

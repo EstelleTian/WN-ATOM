@@ -24,6 +24,10 @@
 .empty_cell{
   height: 26px;
 }
+.ant-tooltip-inner{
+  border: 1px solid #7c7c7c;
+  background-color: #5f5f5f;
+}
 //表格
 .ant-table-body{
   //单元格内容左对齐
@@ -89,22 +93,29 @@
 
   //起飞  #CCCCCC
   .ATOM{
-    //background: #736432
+    background: #55AE74;
   }
   .NTFM{
-    //background: #726250;
+    background: #996666
   }
+  //人工
   .MANUAL{
-    background: #bb5535;
+    background: #FF9900;
   }
+  //预锁
+  .PRELOCK{
+    background: #D2C43E;
+  }
+  //锁定
   .LOCK{
-    background: #835082;
+    background: #824c82;
   }
+  //自动
   .AUTO{
-    background: #3D8424;
+    background: #347e4e;
   }
   .WAIT{
-    background: #a28238;
+    background: #FFBE00;
   }
   
   //失效
@@ -117,27 +128,42 @@
     
   }
   
-  .TOBT_EOBT{  //TOBT报文
-    background: #b10fb1;
+  .TOBT_FPL{  //TOBT报文
+    background: #1d5f35;
   }
-  .TOBT_SYSTEM{  //TOBT推算
-    background: #FFFF00;
+  .TOBT_PREDICT{  //快速过站推算
+    background: #D2C43E;
   }
-  .TOBT_MANUAL_APPLY{  //TOBT申请
-    background: #0377c5;
+  // 系统（时隙分配程序录入）
+  .RUNWAY_SLOT{
+    background: #999900;
   }
-
-  .TOBT_MANUAL_APPROVE{  //TOBT批复
-    background: #057705;
-  }
-
-  .TOBT_MANUAL_REFUSE{  //TOBT拒绝
-    background: #ad4141;
+  // 系统-推算   
+  .RUNWAY_SYSTEM{
+    background: #0CB0B0;
   }
 
-  .TOBT_IMPROVE{  //TOBT调整
-    background: #CC9900;
-  }
+  // .TOBT_EOBT{  //TOBT报文
+  //   background: #b10fb1;
+  // }
+  // .TOBT_SYSTEM{  //TOBT推算
+  //   background: #FFFF00;
+  // }
+  // .TOBT_MANUAL_APPLY{  //TOBT申请
+  //   background: #0377c5;
+  // }
+
+  // .TOBT_MANUAL_APPROVE{  //TOBT批复
+  //   background: #057705;
+  // }
+
+  // .TOBT_MANUAL_REFUSE{  //TOBT拒绝
+  //   background: #ad4141;
+  // }
+
+  // .TOBT_IMPROVE{  //TOBT调整
+  //   background: #CC9900;
+  // }
 }
 
 //时间类 --协调表单

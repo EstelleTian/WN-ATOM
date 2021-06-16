@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-15 15:01:40
+ * @LastEditTime: 2021-06-16 14:58:20
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -592,7 +592,7 @@ let render = (opt) => {
     } = text;
     let ftime = "";
     if (isValidVariable(value) && value.length >= 12) {
-      type = type===null? "": type;
+      type = type === null ? "" : type;
       ftime = getDayTimeFromString(value) + " " + type;
     }
     let effectStatus = text.effectStatus || "";
@@ -600,26 +600,39 @@ let render = (opt) => {
       source = "INVALID";
     }
     let sourceCN = FlightCoordination.getSourceZh(source);
-    popover = (
-      <div
-        // col-key={col}
-        className={`full-cell time_${ftime} ${
-          isValidVariable(value) && source
-        }`}
-      >
-        <div
-          className={`interval ${ftime !== "" && source}`}
-          title={`${title}`}
-        >
-          <span
-            className={`${
-              meetIntervalValue === "200" && ftime !== "" && "interval_red"
-            }`}
-          >
-            {ftime}
-          </span>
+    const getTitle = (title) => {
+      if (!isValidVariable(title)) return "";
+      const titleArr = title.split("#");
+      return (
+        <div>
+          {titleArr.map((value, index) => (
+            <div key={index}>{value}</div>
+          ))}
         </div>
-      </div>
+      );
+    };
+    popover = (
+      <Tooltip placement="bottom" title={getTitle(title)}>
+        <div
+          // col-key={col}
+          className={`full-cell time_${ftime} ${
+            isValidVariable(value) && source
+          }`}
+        >
+          <div
+            className={`interval ${ftime !== "" && source}`}
+            // title={getTitle(title)}
+          >
+            <span
+              className={`${
+                meetIntervalValue === "200" && ftime !== "" && "interval_red"
+              }`}
+            >
+              {ftime}
+            </span>
+          </div>
+        </div>
+      </Tooltip>
     );
   } else if (col === "RWY" || col === "POS") {
     const { source = "", value = "" } = text;
@@ -640,7 +653,7 @@ let render = (opt) => {
   } else if (col === "SLOT") {
     // 时隙分配状态
     // 行原始数据
-    let orgdata = JSON.parse(record.orgdata);
+    let orgdata = JSON.parse(record.orgdata || "{}");
     // 未分配时隙原因
     let unSlotStatusReason = orgdata.unSlotStatusReason || "";
     popover = (

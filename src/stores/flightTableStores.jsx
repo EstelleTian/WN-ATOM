@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-10 20:31:33
+ * @LastEditTime: 2021-06-16 14:54:00
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -289,7 +289,10 @@ class FlightTableData {
     //     return true;
     //   }
     // });
-
+    // let testList = [];
+    // if (this.list.length > 50) {
+    //   testList = [this.list[47], this.list[48], this.list[49]];
+    // }
     // let showList = testList.map((flight) => formatSingleFlight(flight));
 
     let showList = this.list.map((flight) => formatSingleFlight(flight));
