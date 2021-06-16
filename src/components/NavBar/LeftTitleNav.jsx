@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-06-10 15:55:17
+ * @LastEditTime: 2021-06-16 10:01:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -21,6 +21,8 @@ function LeftTitleNav(props) {
 
   if (systemFullName !== "") {
     document.title = systemFullName;
+  } else {
+    systemFullName = "";
   }
 
   return (
