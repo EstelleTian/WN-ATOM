@@ -6,7 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\Common\DateRange.jsx
  */
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { inject, observer } from "mobx-react";
 import { isValidVariable, isValidObject } from "utils/basic-verify.js";
 import { requestGet2 } from "utils/request.js";
@@ -28,17 +28,54 @@ const calcNum = (str) => {
 //计划时间范围获取数据
 function DateRange(props) {
   const { systemPage } = props;
+  // 定时器
+  let timer = 0;
+  
+  let generateTime = "";
+  // 常规定时间隔 5分钟
+  const normalInterval = 1000 * 60 * 5 ;
+  // 小间隔 30秒
+  const fastInterval = 1000 * 30;
+
+  // 检测generateTime是否在跨日时段
+  function isGenerateTimeInAcrossDatesScope(){
+    let scope1 = "2350";
+    let scope2 = "0010";
+    if (isValidVariable(generateTime)) {
+      let HHmm = generateTime.substring(8, 12);
+      if (HHmm * 1 < scope2 * 1 || HHmm * 1 > scope1 * 1) {
+        return true
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+  
+  // 定时请求
+  const requestTimer = () => {
+    // 清除定时器
+    clearTimeout(timer);
+    // 获取数据
+    requestData();
+    // generateTime 在跨日时段 
+    const generateTimeInAcrossDatesScope = isGenerateTimeInAcrossDatesScope()
+    // 定时间隔
+    let timerInterval = generateTimeInAcrossDatesScope ? fastInterval : normalInterval;
+    // 开启定时
+    timer = setTimeout(requestTimer, timerInterval)
+  }
 
   //获取数据
   const requestData = useCallback(async () => {
+    
     try {
       //获取数据
       const resData = await requestGet2({
         url: ReqUrls.rangeScopeUrl,
       });
-      // console.log("resData", resData);
       //数据赋值
-      const { dynamicTimeScope = [] } = resData;
+      const { dynamicTimeScope = [],  } = resData;
       let time1 = "";
       let time2 = "";
       if (dynamicTimeScope.length >= 2) {
@@ -51,9 +88,12 @@ function DateRange(props) {
       const timeArr = timeStr.split(",");
       let startNum = calcNum(timeArr[0]);
       let endNum = calcNum(timeArr[1]);
-      // console.log(startNum, endNum);
       systemPage.setDateRangeData([time1, time2]);
       systemPage.dateBarRangeData = [startNum, endNum];
+      // 更新generateTime
+      if (isValidVariable(resData.generateTime)) {
+        generateTime = resData.generateTime
+      }
     } catch (err) {
       customNotice({
         type: "error",
@@ -63,9 +103,8 @@ function DateRange(props) {
   }, []);
   //componentDidMount
   useEffect(function () {
-    requestData();
+    requestTimer();
   }, []);
-
   return "";
 }
 

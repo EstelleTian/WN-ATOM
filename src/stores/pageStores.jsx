@@ -109,9 +109,9 @@ class SystemPage {
     if (generateTime.length >= 8) {
       const base = generateTime.substring(0, 8);
       this.baseDate = base;
-      if (this.dateRangeData.length === 0) {
-        this.setDateRangeData([base + "0000", base + "2359"]);
-      }
+      // if (this.dateRangeData.length === 0) {
+      //   this.setDateRangeData([base + "0000", base + "2359"]);
+      // }
     }
   }
   //左上导航选中 模块名称
