@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-15 10:27:53
+ * @LastEditTime: 2021-06-15 15:01:53
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -33,6 +33,7 @@ const RenderCell = (props) => {
   } = field;
   let showVal = "";
   if (isValidVariable(value) && value.length >= 12) {
+    type = type === null ? "" : type;
     showVal = getDayTimeFromString(value) + " " + type;
   }
 
