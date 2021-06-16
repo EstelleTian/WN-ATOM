@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-15 13:36:50
+ * @LastEditTime: 2021-06-16 13:23:22
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -63,7 +63,7 @@ const rangeScopeIP= "http://192.168.210.120:81";
 // 开关配置IP(张杰)
 const switchConfigIP= "http://192.168.194.22:28080";
 // 系统各个标题IP（薛满林）
-const systemListIP= "http://192.168.243.8:29879";
+const systemListIP= "http://192.168.210.120:81";
 
 const ReqUrls = {
     //用户登录
@@ -87,7 +87,7 @@ const ReqUrls = {
     flightsDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/tactic/",
     //获取--航班列表数据(id为空)
     // flightsDataNoIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/influence/flights/",
-    flightsDataNoIdUrl: "http://192.168.243.8:29879/hydrogen-flight-monitor-server-cache/influence/flights/",
+    flightsDataNoIdUrl: clearanceIP+"/hydrogen-flight-monitor-server-cache/influence/flights/",
     //获取--执行KPI数据(孔凡续)
     executeKPIDataUrl: executeKPIDataIP+"/kpi/",
     //获取--执行KPI数据(薛满林)
