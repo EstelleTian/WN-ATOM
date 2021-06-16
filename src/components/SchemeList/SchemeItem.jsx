@@ -412,14 +412,14 @@ function SchemeItem(props) {
                 </div>
               )}
 
-            {props.systemPage.userHasAuth(11301) &&
+            {/* {props.systemPage.userHasAuth(11301) &&
               ["TERMINATED_MANUAL", "TERMINATED_AUTO", "FINISHED"].includes(
                 tacticStatus
               ) && (
                 <div className="opt" onClick={showRecreate}>
                   重新发布
                 </div>
-              )}
+              )} */}
             {props.systemPage.userHasAuth(11401) && (
               <div
                 className="opt"

@@ -772,7 +772,7 @@ function SList(props) {
   // console.log("方案列表 render")
 
   return (
-    <Spin spinning={loading}>
+    // <Spin spinning={loading}>
       <div className="list_container">
         {sortedList.length > 0 ? (
           sortedList.map((item, index) => (
@@ -804,7 +804,7 @@ function SList(props) {
           ""
         )}
       </div>
-    </Spin>
+    // </Spin>
   );
 }
 
@@ -819,12 +819,18 @@ const SchemeList = withRouter(
   )(observer(SList))
 );
 
-const SchemeListModal = () => {
+const SchemeListModal = (props) => {
+  const { schemeListData } = props;
+  const loading = schemeListData.loading;
   return (
     <div className="scheme_list_canvas">
-      <SchemeTitle />
-      <SchemeList />
+      <Spin spinning={loading}>
+        <SchemeTitle />
+        <SchemeList />
+      </Spin>
+      
     </div>
   );
 };
-export default SchemeListModal;
+// export default SchemeListModal;
+export default inject("schemeListData")(observer(SchemeListModal));

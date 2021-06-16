@@ -75,6 +75,10 @@ const ReqUrls = {
     //缩略地图
     mapUrl: "http://192.168.194.40:8081/#/map",
     mapWebUrl: "http://192.168.194.40:8082/#/map",
+    //根据方案id获取方案数据,用于正式发布的方案进行修改时使用
+    schemeDataByIdForUpdateUrl: schemeIP+"/scheme-flow-server/implementTactics/",
+    //根据modalId获取方案详情
+    schemeDetailByIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTacticDetails/",
     //根据modalId获取方案详情
     schemeDetailByIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTacticDetails/",
     //获取--方案列表

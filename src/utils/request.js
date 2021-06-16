@@ -86,7 +86,6 @@ const requestGet2 = async ( parameters  ) => {
         const response = await axios.get( url, {
             params
         })
-        console.log("response", response)
         const resStatus = response.status;
         if( resStatus === 200 ){
             const data = response.data;

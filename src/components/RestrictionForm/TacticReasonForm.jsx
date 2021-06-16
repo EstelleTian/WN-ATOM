@@ -33,7 +33,7 @@ function TacticReasonForm(props) {
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
-    }, [tacticName]);
+    }, [tacticName, flowControlReason]);
     // 表单初始化默认值
     let initialValues = {
         flowControlReason,
