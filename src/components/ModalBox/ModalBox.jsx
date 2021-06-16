@@ -39,13 +39,13 @@ const ModalBox = (props) => {
         showTooltip ? (
           <Tooltip title={title}>
             <div className="box_header">
-              <span className="title">{title}</span>
+              <div className="title">{title}</div>
               {showDecorator ? <Decorator /> : ""}
             </div>
           </Tooltip>
         ) : (
           <div className="box_header">
-            <span className="title">{title}</span>
+            <div className="title">{title}</div>
 
             {showDecorator ? <Decorator /> : ""}
           </div>
