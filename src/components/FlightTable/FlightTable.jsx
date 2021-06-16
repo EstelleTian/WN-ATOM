@@ -70,20 +70,20 @@ function TTitle(props) {
   }, [schemeListData.activeSchemeId]);
 
   return (
-    <span className="tactic_title_span">
-      <span>航班列表({formatTimeString(generateTime)})</span>
-      {tacticName !== "" && <span>—</span>}
+    <div className="tactic_title_span">
+      <div>航班列表({formatTimeString(generateTime)})</div>
+      {tacticName !== "" && <div>—</div>}
       {tacticName !== "" && (
-        <span
+        <div
           // style={{ color: "#36a5da" }}
           className="tactic_name "
           title={tacticName}
           // className="tactic_name ellipsis_name"
         >
           {tacticName}
-        </span>
+        </div>
       )}
-    </span>
+    </div>
   );
 }
 const TableTitle = inject(
