@@ -15,11 +15,7 @@
         font-size: 1rem;
         display: flex;
         min-height: 40px;
-        .title {
-            overflow: hidden;
-            display: flex;
-            flex: 1;
-        }
+        
     }
     .box_content{
         @include display_flex(column);
