@@ -1951,7 +1951,7 @@ function SchemeForm(props) {
     * @param data 提交请求响应回的方案数据
     * */
     const requestSuccess = (oldId, data) => {
-        // 正式方案修改操作仅修改了方案名称接口返回code标记
+        // 正式方案修改操作仅修改相应字段值，不进行模拟流程接口返回code标记
         const RESPONSECODE = "2002102000"
         const { tacticProcessInfo = {}, code = "" } = data;
         const { basicTacticInfo = {} } = tacticProcessInfo;
@@ -1960,7 +1960,6 @@ function SchemeForm(props) {
         // 方案simTacticId 
         const simTacticId = basicTacticInfo.simTacticId || "";
 
-        // 正式方案进行模拟修改操作且只修改了方案名称
         if (pageType === SchemeFormUtil.PAGETYPE_MODIFY && code === RESPONSECODE) {
             Modal.success({
                 title: '方案修改成功',
