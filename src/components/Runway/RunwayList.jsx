@@ -37,8 +37,12 @@ function List(props) {
     const { filterList, loading } = runwayListData;
     // 用户id
     const userId = systemPage.user.id || ""
-    // 用户所属机场
-    const airport = systemPage.user.region || "";
+    // 当前系统
+    const activeSystem = systemPage.activeSystem || {};
+    // 系统region
+    const region = activeSystem.region || "";
+    // 机场
+    const airport = region;
     const sortedList = filterList;
     const { counter } = runwayListData;
 
