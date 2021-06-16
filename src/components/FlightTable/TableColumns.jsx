@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-15 10:23:10
+ * @LastEditTime: 2021-06-15 15:01:40
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -592,6 +592,7 @@ let render = (opt) => {
     } = text;
     let ftime = "";
     if (isValidVariable(value) && value.length >= 12) {
+      type = type===null? "": type;
       ftime = getDayTimeFromString(value) + " " + type;
     }
     let effectStatus = text.effectStatus || "";

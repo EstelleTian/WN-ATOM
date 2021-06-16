@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-10 19:19:22
+ * @LastEditTime: 2021-06-16 09:45:51
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -107,7 +107,10 @@ function SubTable(props) {
   const modalActiveName = systemPage.modalActiveName || "";
 
   const { tableData, columns, totalWidth } = useMemo(() => {
-    if (!isValidVariable(modalActiveName)) {
+    if (
+      !isValidVariable(modalActiveName) ||
+      !Object.keys(SubNames).includes(modalActiveName)
+    ) {
       return { tableData: [], columns: [], totalWidth: 0 };
     }
     const namesObj = SubNames[modalActiveName];

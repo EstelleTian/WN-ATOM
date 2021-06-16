@@ -1,14 +1,14 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-10 17:58:59
+ * @LastEditTime: 2021-06-15 13:36:50
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
  */
 //消息监听地址
 const TopicConstant={
-    ip:"192.168.210.150",
+    ip:"192.168.210.145",
     port: 15674,
     username:"admin",
     password:"1q2w3e$R%T^Y",
