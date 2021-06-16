@@ -1,25 +1,23 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Modal, message, Button } from "antd";
-import { requestGet } from 'utils/request'
+import { requestGet, request } from 'utils/request'
 import { isValidObject } from 'utils/basic-verify'
 import { ReqUrls } from 'utils/request-urls'
 import SchemeDetail from 'components/SchemeList/SchemeDetail'
 import SchemeForm from 'components/RestrictionForm/SchemeForm'
 import { inject, observer } from "mobx-react";
+import { customNotice } from 'utils/common-funcs'
+
 
 
 const SchemeModal = (props) => {
     let [flowData, setFlowData] = useState({})
     const { visible, modalId, modalType, setVisible, userId } = props;
 
-    //更新方案列表数据
+    //获取方案详情数据成功回调方法
     const updateDetailData = useCallback(data => {
-        //TODO 更新表单数据
+        //更新flowData
         setFlowData(data);
-        // 更新方案表单store数据
-        let tacticProcessInfo = data.tacticProcessInfo || {};
-        props.schemeFormData.updateSchemeData(tacticProcessInfo);
-
     })
     //请求错误处理
     const requestErr = useCallback((err, content) => {
@@ -45,14 +43,55 @@ const SchemeModal = (props) => {
         };
         requestGet(opt);
     });
+
+    //获取方案数据成功回调方法
+    const updateSchemeData = useCallback(data => {
+        // 更新方案表单store数据
+        let tacticProcessInfo = data.tacticProcessInfo || {};
+        props.schemeFormData.updateSchemeData(tacticProcessInfo);
+    })
+    // 获取方案数据失败
+    const requestSchemeDataErr = useCallback((err, content) => {
+        let errMsg = ""
+        if (isValidObject(err) && isValidVariable(err.message)) {
+            errMsg = err.message;
+        } else if (isValidVariable(err)) {
+            errMsg = err;
+        }
+        customNotice({
+            type: 'error',
+            message: <div>
+                < p>{`${content}`}</p>
+                <p>{errMsg}</p>
+            </div>
+        })
+    })
+
+    // 方案修改-请求方案数据(与获取方案详情不是同一接口,专门用于方案修改的)
+    const requestSchemeData = (schemeID) => {
+        // 请求参数
+        const opt = {
+            url: ReqUrls.schemeDataByIdForUpdateUrl + schemeID,
+            method: 'GET',
+            params: {},
+            resFunc: (data) => updateSchemeData(data),
+            errFunc: (err) => requestSchemeDataErr(err, '方案数据获取失败'),
+        };
+        // 发送请求
+        request(opt);
+    };
+
     useEffect(function () {
         if (visible) {
-            //根据modalId获取方案详情
-            requestSchemeDetail(modalId);
+            if (modalType === "DETAIL") {
+                //根据modalId获取方案详情
+                requestSchemeDetail(modalId);
+            } else if (modalType === "MODIFY") {
+                //根据modalId获取方案数据,用于修改方案
+                requestSchemeData(modalId);
+            }
         }
-        // console.log("useEffect", modalId);
     }, [visible, modalId])
-
     const closeModal = useCallback(() => {
         setVisible(false)
     });
@@ -93,7 +132,7 @@ const SchemeModal = (props) => {
                     destroyOnClose={true}
                     footer={null}
                 >
-                    
+
                     <SchemeForm
                         pageType="MODIFY"
                         operationDescription="修改方案"
@@ -116,7 +155,7 @@ const SchemeModal = (props) => {
                     destroyOnClose={true}
                     footer={null}
                 >
-                    
+
                     <SchemeForm
                         pageType="RECREATE"
                         operationDescription="创建方案"
@@ -127,7 +166,6 @@ const SchemeModal = (props) => {
                 </Modal>
             )
         }
-
     });
 
 
