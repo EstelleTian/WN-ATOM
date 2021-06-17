@@ -52,7 +52,7 @@ function LoginPage(props) {
           url: ReqUrls.loginUrl,
           params,
         });
-        const { status, user = {}} = data;
+        const { status, user = {} } = data;
         // let obj = {};
         // userConcernTrafficList.map((item) => {
         //   const name = item.concernTrafficName;
@@ -60,6 +60,7 @@ function LoginPage(props) {
         // });
 
         localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("openWind", "");
         // localStorage.setItem(
         //   "userConcernTrafficList",
         //   JSON.stringify(Object.values(obj))
