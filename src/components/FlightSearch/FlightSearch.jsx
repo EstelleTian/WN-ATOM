@@ -81,6 +81,7 @@ const FlightSearch = (props) => {
    * 绘制航班列表中单个航班信息
    * */
   const drawFlightItem = function (item, index) {
+    
     let formerFlight = item.formerFlightObj || {};
     let FLIGHTID = item.flightId;
     let DEPAP = item.depAp || "N/A";
@@ -376,12 +377,12 @@ const FlightSearch = (props) => {
                 onSearch={searchFlightData}
                 onPressEnter={pressEnter}
                 onChange={handleInputValueChange}
-                style={{ marginRight: "2%", width: "30%" }}
+                style={{ marginRight: "2%", width: "135px" }}
               />
             </Tooltip>
             <Select
               size="small"
-              style={{ width: "15%" , marginRight: "2%" }}
+              style={{ width: "70px" , marginRight: "2%" }}
               defaultValue={defaultDate}
               onChange={handleChangeDate}
             >

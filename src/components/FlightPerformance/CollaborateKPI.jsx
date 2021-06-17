@@ -89,14 +89,12 @@ const Operation = function (props) {
   // 机场跑道：APWC
   // MDRS发布：MDRS
 
-  let {
-    ACVC = "N/A",
-    SCVC = "N/A",
-    SECI = "N/A",
-    APWC = "N/A",
-    MDRS = "N/A",
-  } = flightRecordTypeMap;
-
+  
+  let ACVC = isValidVariable(flightRecordTypeMap.ACVC) ? flightRecordTypeMap.ACVC : "N/A";
+  let SCVC = isValidVariable(flightRecordTypeMap.SCVC) ? flightRecordTypeMap.SCVC : "N/A";
+  let SECI = isValidVariable(flightRecordTypeMap.SECI) ? flightRecordTypeMap.SECI : "N/A";
+  let APWC = isValidVariable(flightRecordTypeMap.APWC) ? flightRecordTypeMap.APWC : "N/A";
+  
   //componentDidMount
   useEffect(function () {
     requestData(true, true);
@@ -223,14 +221,12 @@ const Collaborate = function (props) {
     }
   }, []);
 
-  const {
-    INTERVAL = "N/A",
-    EXEMPT = "N/A",
-    SINGLEEXEMPT = "N/A",
-    INPOOL = "N/A",
-    CTD = "N/A",
-    TOBT = "N/A",
-  } = flightRecordTypeMap;
+  let INTERVAL = isValidVariable(flightRecordTypeMap.INTERVAL) ? flightRecordTypeMap.INTERVAL : "N/A";
+  let EXEMPT = isValidVariable(flightRecordTypeMap.EXEMPT) ? flightRecordTypeMap.EXEMPT : "N/A";
+  let SINGLEEXEMPT = isValidVariable(flightRecordTypeMap.SINGLEEXEMPT) ? flightRecordTypeMap.SINGLEEXEMPT : "N/A";
+  let INPOOL = isValidVariable(flightRecordTypeMap.INPOOL) ? flightRecordTypeMap.INPOOL : "N/A";
+  let CTD = isValidVariable(flightRecordTypeMap.CTD) ? flightRecordTypeMap.CTD : "N/A";
+  let TOBT = isValidVariable(flightRecordTypeMap.TOBT) ? flightRecordTypeMap.TOBT : "N/A";
 
   //componentDidMount
   useEffect(function () {

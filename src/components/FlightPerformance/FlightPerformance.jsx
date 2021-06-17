@@ -49,33 +49,33 @@ const FlightPerformance = (props) => {
   const tacticsDataLoading = implementTacticsData.loading;
 
   // 计划起降架次
-  const sDANum = flight.sDANum || "N/A";
+  const sDANum = isValidVariable(flight.sDANum) ? flight.sDANum : "N/A";
   //计划起飞架次
-  const sDepNum = flight.sDepNum || "N/A";
+  const sDepNum = isValidVariable(flight.sDepNum) ? flight.sDepNum : "N/A";
   // 计划落地架次
-  const sArrNum = flight.sArrNum || "N/A";
+  const sArrNum = isValidVariable(flight.sArrNum) ? flight.sArrNum : "N/A";
   // 计划区域飞越架次(飞越本区)
-  const sAOvfNum = flight.sAOvfNum || "N/A";
+  const sAOvfNum = isValidVariable(flight.sAOvfNum) ? flight.sAOvfNum : "N/A";
   // 计划飞越架次(国际飞越)
-  const sOvfNum = flight.sOvfNum || "N/A";
+  const sOvfNum = isValidVariable(flight.sOvfNum ) ? flight.sOvfNum : "N/A";
   // 绩效情况
-  const situation = flight.situation || "";
+  const situation = isValidVariable(flight.situation ) ? flight.situation : "";
   // 起飞正常率绩效情况
-  const depRatioSituation = flight.depRatioSituation || "";
+  const depRatioSituation = isValidVariable(flight.depRatioSituation) ? flight.depRatioSituation : "";
   // 离港流量绩效情况
-  const depFlowSituation = flight.depFlowSituation || "";
+  const depFlowSituation = isValidVariable(flight.depFlowSituation ) ? flight.depFlowSituation : "";
   // 起飞正常率
   const depRatio = flight.depRatio;
   // 地面延误航班架次
-  const groundDelay = flight.groundDelay || "N/A";
+  const groundDelay = isValidVariable(flight.groundDelay) ? flight.groundDelay : "N/A";
   // 返航备降航班
-  const cplNum = flight.cplNum || "N/A";
+  const cplNum = isValidVariable(flight.cplNum) ? flight.cplNum : "N/A";
   // 复飞航班
-  const reflySorties = flight.reflySorties || "N/A";
+  const reflySorties = isValidVariable(flight.reflySorties ) ? flight.reflySorties : "N/A";
   // 盘旋航班
-  const circlingSorties = flight.circlingSorties || "N/A";
+  const circlingSorties = isValidVariable(flight.circlingSorties) ? flight.circlingSorties : "N/A";
   // 限制总数
-  const restrictTotal = statisticsMap["ALL"] || "N/A";
+  const restrictTotal = isValidVariable(statisticsMap["ALL"] ) ? statisticsMap["ALL"] : "N/A";
   // 限制原因分类数据
   const restrictMap = statisticsMap;
 
