@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-16 09:45:51
+ * @LastEditTime: 2021-06-16 19:37:44
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -114,7 +114,10 @@ function SubTable(props) {
       return { tableData: [], columns: [], totalWidth: 0 };
     }
     const namesObj = SubNames[modalActiveName];
-    const columns = getColumns(SubNames[modalActiveName]);
+    const columns = getColumns(
+      SubNames[modalActiveName],
+      props.collaboratePopoverData
+    );
     let subTableData = [];
     switch (modalActiveName) {
       case "exempt":
@@ -300,6 +303,7 @@ function SubTable(props) {
 }
 
 export default inject(
+  "collaboratePopoverData",
   "flightTableData",
   "schemeListData",
   "systemPage"

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-16 14:58:20
+ * @LastEditTime: 2021-06-16 20:34:41
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -595,11 +595,10 @@ let render = (opt) => {
       type = type === null ? "" : type;
       ftime = getDayTimeFromString(value) + " " + type;
     }
-    let effectStatus = text.effectStatus || "";
-    if (effectStatus * 1 === 200) {
-      source = "INVALID";
-    }
-    let sourceCN = FlightCoordination.getSourceZh(source);
+    // let effectStatus = text.effectStatus || "";
+    // if (effectStatus * 1 === 200) {
+    //   source = "INVALID";
+    // }
     const getTitle = (title) => {
       if (!isValidVariable(title)) return "";
       const titleArr = title.split("#");
@@ -635,20 +634,35 @@ let render = (opt) => {
       </Tooltip>
     );
   } else if (col === "RWY" || col === "POS") {
-    const { source = "", value = "" } = text;
-    let sourceCN = FlightCoordination.getSourceZh(source);
-    popover = (
-      <div
-        col-key={col}
-        className={`full-cell ${isValidVariable(value) && source} ${col}`}
-      >
-        <div
-          className={`${isValidVariable(value) ? "" : "empty_cell"}`}
-          title={`${isValidVariable(value) ? value : ""}-${sourceCN}`}
-        >
-          <span className="">{value}</span>
+    let {
+      source = "",
+      value = "",
+      type = "",
+      title = "",
+      sourceZH = "",
+    } = text;
+    const getTitle = (title) => {
+      if (!isValidVariable(title)) return "";
+      const titleArr = title.split("#");
+      return (
+        <div>
+          {titleArr.map((value, index) => (
+            <div key={index}>{value}</div>
+          ))}
         </div>
-      </div>
+      );
+    };
+    popover = (
+      <Tooltip placement="bottom" title={getTitle(title)}>
+        <div
+          col-key={col}
+          className={`full-cell ${isValidVariable(value) && source} ${col}`}
+        >
+          <div className={`${isValidVariable(value) ? "" : "empty_cell"}`}>
+            <span className="">{value}</span>
+          </div>
+        </div>
+      </Tooltip>
     );
   } else if (col === "SLOT") {
     // 时隙分配状态
@@ -701,6 +715,9 @@ const getColumns = (
     } else if (systemName === "CDM") {
       names = CDMNames;
       sortKey = "ATOT";
+    } else {
+      names = CRSNames;
+      sortKey = "FFIXT";
     }
   } else if (typeof systemName === "object") {
     names = systemName;
@@ -747,6 +764,7 @@ const getColumns = (
         return {
           onContextMenu: (event) => {
             handleRightClickCell(event, record, collaboratePopoverData);
+            event.preventDefault();
           },
         };
       },

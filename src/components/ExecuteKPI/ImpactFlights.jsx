@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-07 20:19:37
- * @LastEditTime: 2021-04-21 14:29:00
+ * @LastEditTime: 2021-06-16 19:17:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\ExecuteKPI\ImpactFlights.jsx
@@ -35,9 +35,9 @@ function ImpactFlights(props) {
     : "N/A";
   // 更新航班列表数据展示
   const updateFlightData = (category, title) => {
-    props.executeKPIData.toggleFlightListModalVisible(true);
-    props.executeKPIData.updateFlightListCategory(category);
-    props.executeKPIData.updateFlightListCategoryZh(title);
+    // props.executeKPIData.toggleFlightListModalVisible(true);
+    // props.executeKPIData.updateFlightListCategory(category);
+    // props.executeKPIData.updateFlightListCategoryZh(title);
   };
 
   return (

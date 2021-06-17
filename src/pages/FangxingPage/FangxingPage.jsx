@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-10 17:14:16
+ * @LastEditTime: 2021-06-16 19:21:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -96,7 +96,7 @@ function FangxingPage(props) {
             <div className="nav_body">
               <div className="cont_left">
                 <div className="left_cont">
-                  {systemPage.systemKind === "CRS" && (
+                  {systemPage.systemKind === "CRS" && leftActiveName !== "" && (
                     <div className="left_left">{<LeftMultiCanvas />}</div>
                   )}
                   <div className="left_right">

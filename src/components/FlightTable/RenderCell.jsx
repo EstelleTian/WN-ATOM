@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-16 14:55:38
+ * @LastEditTime: 2021-06-16 18:57:54
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -50,9 +50,9 @@ const RenderCell = (props) => {
     showVal = getDayTimeFromString(value) + " " + type;
   }
 
-  if (effectStatus * 1 === 200) {
-    source = "INVALID";
-  }
+  // if (effectStatus * 1 === 200) {
+  //   source = "INVALID";
+  // }
 
   return (
     <Tooltip placement="bottom" title={getTitle(title)}>
@@ -61,9 +61,7 @@ const RenderCell = (props) => {
           isValidVariable(value) ? source : ""
         }  ${col}_${source}`}
       >
-        <div
-          className={`${isValidVariable(value) ? "" : "empty_cell"}  ${source}`}
-        >
+        <div className={`${isValidVariable(value) ? "" : "empty_cell"}`}>
           <span className="">{showVal}</span>
         </div>
       </div>

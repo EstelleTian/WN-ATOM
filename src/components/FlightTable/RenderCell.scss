@@ -83,24 +83,21 @@
       background: #1e6083;
     }
 
-  .CTOT_DEP,.CTO_DEP,.COBT_DEP{
+  .CTOT.DEP,.CTO.DEP,.COBT.DEP{
     background: #595959!important;
     color: #999797;
-    .DEP{
-      background: none;
-    }
+
   }
 
-  //起飞  #CCCCCC
   .ATOM{
-    background: #55AE74;
+    background: #427470;
   }
   .NTFM{
-    background: #996666
+    background: #7c6142;
   }
   //人工
   .MANUAL{
-    background: #FF9900;
+    background: #B56334;
   }
   //预锁
   .PRELOCK{
@@ -115,7 +112,7 @@
     background: #347e4e;
   }
   .WAIT{
-    background: #FFBE00;
+    background: #8F8624
   }
   
   //失效
@@ -132,7 +129,7 @@
     background: #1d5f35;
   }
   .TOBT_PREDICT{  //快速过站推算
-    background: #D2C43E;
+    background: #828218;
   }
   // 系统（时隙分配程序录入）
   .RUNWAY_SLOT{
@@ -140,7 +137,7 @@
   }
   // 系统-推算   
   .RUNWAY_SYSTEM{
-    background: #0CB0B0;
+    background: #188484;
   }
 
   // .TOBT_EOBT{  //TOBT报文
