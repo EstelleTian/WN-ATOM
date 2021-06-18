@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-17 16:05:12
+ * @LastEditTime: 2021-06-18 14:17:58
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -10,6 +10,7 @@
 const TopicConstant={
     ip:"10.25.1.62",
     port: 5672,
+    url: "ws://10.25.1.62:5672/ws,ws://10.25.1.63:5672/ws,ws://10.25.1.64:5672/ws",
     username:"admin",
     password:"1q2w3e$R%T^Y",
 }
