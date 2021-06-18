@@ -25,6 +25,7 @@ const FlightInfo = (props) => {
   } else {
     flight = flightData.flight || {};
   }
+  let id = flight.id || "";
   return (
     <Fragment>
       <Row className="info-row">
@@ -40,7 +41,7 @@ const FlightInfo = (props) => {
                 <div className="ant-form-item-control-input-content">
                   {flight.flightId || ""}
                   {
-                    type === "former" ? `(ID:${flight.id})` : ``
+                    (type === "former" && isValidVariable(id)) ? `(ID:${id})` : ``
                   }
                 </div>
               </div>
