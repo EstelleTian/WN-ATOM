@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-17 22:24:27
+ * @LastEditTime: 2021-06-18 09:37:45
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -145,9 +145,9 @@ const CRSNames = {
     en: "TOBT",
     cn: "目标撤轮档时间",
   },
-  NCOBT: {
-    en: "NCOBT",
-    cn: "NTFM计算撤轮档",
+  RCTOT: {
+    en: "RCTOT",
+    cn: "各地CDM计算起飞时间",
   },
   NCTOT: {
     en: "NCTOT",
@@ -576,7 +576,11 @@ let render = (opt) => {
     col === "ASBT" ||
     col === "COBT" ||
     col === "CTOT" ||
-    col === "AGCT"
+    col === "AGCT" ||
+    col === "NCOBT" ||
+    col === "NCTOT" ||
+    col === "RCOBT" ||
+    col === "RCTOT"
   ) {
     popover = <RenderCell opt={opt} />;
   } else if (col === "ALARM") {
@@ -1054,6 +1058,10 @@ const formatSingleFlight = (flight) => {
   const tobtField = flight.tobtField || {};
   const cobtField = flight.cobtField || {};
   const ctotField = flight.ctotField || {};
+  const rctotField = flight.rctotField || {};
+  const nctotField = flight.nctotField || {};
+  const rcobtField = flight.rcobtField || {};
+  const ncobtField = flight.ncobtField || {};
   const fmeToday = flight.fmeToday || {};
   const ffixField = flight.ffixField || {};
   const ctoField = flight.ctoField || {};
@@ -1141,9 +1149,10 @@ const formatSingleFlight = (flight) => {
     EFPS_TAXI: "",
     EFPS_ASRT: "",
     EFPS_ASAT: "",
-    NCOBT: "",
-    NCTOT: "",
-
+    NCOBT: ncobtField,
+    NCTOT: nctotField,
+    RCOBT: rcobtField,
+    RCTOT: rctotField,
     orgdata: JSON.stringify(flight),
   };
 

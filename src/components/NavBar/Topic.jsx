@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-06-17 16:12:18
+ * @LastEditTime: 2021-06-18 09:21:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -63,8 +63,10 @@ function Topic(props) {
         props.schemeListData.setForceUpdate(true);
       });
       //收到限制消息-【交通流消息】
+      // const topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE =
+      //   "/exchange/EXCHANGE.EVENT_CENTER_TRAFFIC_FLOW_CHANGE";
       const topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE =
-        "/exchange/EXCHANGE.EVENT_CENTER_TRAFFIC_FLOW_CHANGE";
+        "/exchange/EXCHANGE.EVENT_CENTER_RELEASE_MONITORING_PARTIAL_CHANGE";
       stompClient.subscribe(
         topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE,
         function (d) {
