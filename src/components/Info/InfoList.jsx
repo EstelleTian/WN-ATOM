@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-05-12 17:14:59
+ * @LastEditTime: 2021-06-18 15:19:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -114,7 +114,7 @@ function InfoCardItem(props) {
               {/*{*/}
               {/*    dataType === "FCDM" ? <Button className="info_btn btn_blue" size="small" onClick={ function(e){ openTimeSlotFrame(message) } }>查看放行监控</Button> : ""*/}
               {/*}*/}
-              {dataType === "DCVM" ? (
+              {dataType === "DCVM" && props.systemPage.userHasAuth(11510) ? (
                 <Button
                   className="info_btn btn_blue"
                   size="small"
@@ -161,35 +161,38 @@ function InfoCardItem(props) {
                 // 航班异常告警信息
                 dataType === "FLAI" && (
                   <span>
-                    {dataCode !== "NAAA" && (
+                    {dataCode !== "NAAA" &&
+                      props.systemPage.userHasAuth(11511) && (
+                        <Button
+                          className="info_btn btn_blue"
+                          size="small"
+                          onClick={function (e) {
+                            openDetails(message);
+                            e.stopPropagation();
+                          }}
+                        >
+                          航班详情
+                        </Button>
+                      )}
+
+                    {props.systemPage.userHasAuth(11512) && (
                       <Button
                         className="info_btn btn_blue"
                         size="small"
                         onClick={function (e) {
-                          openDetails(message);
+                          openLocation(message, dataCode);
                           e.stopPropagation();
                         }}
                       >
-                        航班详情
+                        航班定位
                       </Button>
                     )}
-
-                    <Button
-                      className="info_btn btn_blue"
-                      size="small"
-                      onClick={function (e) {
-                        openLocation(message, dataCode);
-                        e.stopPropagation();
-                      }}
-                    >
-                      航班定位
-                    </Button>
                   </span>
                 )
               }
               {
                 // 大规模延误告警信息
-                dataType === "MDRS" && (
+                dataType === "MDRS" && props.systemPage.userHasAuth(11513) && (
                   <span>
                     <Button
                       className="info_btn btn_blue"
@@ -209,9 +212,10 @@ function InfoCardItem(props) {
                   </span>
                 )
               }
-              {dataType === "FTMI" && props.systemPage.userHasAuth(11503) ? (
+              {dataType === "FTMI" ? (
                 <span>
-                  {dataCode === "TFAO" ? (
+                  {dataCode === "TFAO" &&
+                  props.systemPage.userHasAuth(11504) ? (
                     <Button
                       className="info_btn btn_blue"
                       size="small"
@@ -223,30 +227,32 @@ function InfoCardItem(props) {
                       查看容流监控
                     </Button>
                   ) : (
-                    <Link to="/restriction" target="_blank">
-                      <Button
-                        className="info_btn btn_blue"
-                        size="small"
-                        onClick={(e) => {
-                          //将data转换为对象再生成字符串对象传递，否则接收后转换不成正确的json
-                          let { data } = message;
-                          data = JSON.parse(data);
-                          data = Object.assign({}, data);
-                          let newMsg = Object.assign({}, message);
-                          newMsg.data = data;
+                    props.systemPage.userHasAuth(11503) && (
+                      <Link to="/restriction" target="_blank">
+                        <Button
+                          className="info_btn btn_blue"
+                          size="small"
+                          onClick={(e) => {
+                            //将data转换为对象再生成字符串对象传递，否则接收后转换不成正确的json
+                            let { data } = message;
+                            data = JSON.parse(data);
+                            data = Object.assign({}, data);
+                            let newMsg = Object.assign({}, message);
+                            newMsg.data = data;
 
-                          // console.log( str )
-                          localStorage.setItem(
-                            "message",
-                            JSON.stringify(message)
-                          );
-                          // openControlDetail( newMsg )
-                          e.stopPropagation();
-                        }}
-                      >
-                        查看流控详情
-                      </Button>
-                    </Link>
+                            // console.log( str )
+                            localStorage.setItem(
+                              "message",
+                              JSON.stringify(message)
+                            );
+                            // openControlDetail( newMsg )
+                            e.stopPropagation();
+                          }}
+                        >
+                          查看流控详情
+                        </Button>
+                      </Link>
+                    )
                   )}
                 </span>
               ) : (
