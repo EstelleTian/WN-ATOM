@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-10 18:15:04
+ * @LastEditTime: 2021-06-18 09:28:58
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -341,12 +341,12 @@ function useFlightsList(props) {
         filterRegion = activeSystem.filterRegion || "";
         filterDepap = activeSystem.filterDepap || "";
         system = activeSystem.system || "";
-        console.log(
-          "activeSchemeId",
-          activeSchemeId,
-          "leftNavSelectedName",
-          systemPage.leftNavSelectedName
-        );
+        // console.log(
+        //   "activeSchemeId",
+        //   activeSchemeId,
+        //   "leftNavSelectedName",
+        //   systemPage.leftNavSelectedName
+        // );
         if (activeSchemeId === "" && systemPage.leftNavSelectedName === "all") {
         } else {
           reqId = activeSchemeId;
@@ -773,37 +773,37 @@ function SList(props) {
 
   return (
     // <Spin spinning={loading}>
-      <div className="list_container">
-        {sortedList.length > 0 ? (
-          sortedList.map((item, index) => (
-            <SchemeItem
-              activeSchemeId={activeSchemeId}
-              item={item}
-              handleActive={handleActive}
-              key={index}
-              toggleModalVisible={toggleModalVisible}
-              toggleModalType={toggleModalType}
-              generateTime={props.schemeListData.generateTime}
-            ></SchemeItem>
-          ))
-        ) : (
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            imageStyle={{ color: "#fff" }}
-          />
-        )}
-        {visible ? (
-          <SchemeModal
-            userId={userId}
-            visible={visible}
-            setVisible={setVisible}
-            modalType={modalType}
-            modalId={modalId}
-          />
-        ) : (
-          ""
-        )}
-      </div>
+    <div className="list_container">
+      {sortedList.length > 0 ? (
+        sortedList.map((item, index) => (
+          <SchemeItem
+            activeSchemeId={activeSchemeId}
+            item={item}
+            handleActive={handleActive}
+            key={index}
+            toggleModalVisible={toggleModalVisible}
+            toggleModalType={toggleModalType}
+            generateTime={props.schemeListData.generateTime}
+          ></SchemeItem>
+        ))
+      ) : (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          imageStyle={{ color: "#fff" }}
+        />
+      )}
+      {visible ? (
+        <SchemeModal
+          userId={userId}
+          visible={visible}
+          setVisible={setVisible}
+          modalType={modalType}
+          modalId={modalId}
+        />
+      ) : (
+        ""
+      )}
+    </div>
     // </Spin>
   );
 }
@@ -828,7 +828,6 @@ const SchemeListModal = (props) => {
         <SchemeTitle />
         <SchemeList />
       </Spin>
-      
     </div>
   );
 };
