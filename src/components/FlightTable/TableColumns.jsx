@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-18 09:37:45
+ * @LastEditTime: 2021-06-18 10:06:43
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -870,14 +870,14 @@ const getColumns = (
               }
             }
           }
-          console.log(
-            "data1",
-            data1,
-            "data2",
-            data2,
-            "res",
-            data1.localeCompare(data2)
-          );
+          // console.log(
+          //   "data1",
+          //   data1,
+          //   "data2",
+          //   data2,
+          //   "res",
+          //   data1.localeCompare(data2)
+          // );
           if (isValidVariable(data1) && isValidVariable(data2)) {
             let res = data1.localeCompare(data2);
             if (0 !== res) {

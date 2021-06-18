@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-18 09:28:58
+ * @LastEditTime: 2021-06-18 10:04:54
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -334,11 +334,13 @@ function useFlightsList(props) {
         let reqId = "";
         let filterArrap = "";
         let filterRegion = "";
+        let region = "";
         let filterDepap = "";
         let system = "";
         const activeSystem = systemPage.activeSystem || {};
         filterArrap = activeSystem.filterArrap || "";
         filterRegion = activeSystem.filterRegion || "";
+        region = activeSystem.region || "";
         filterDepap = activeSystem.filterDepap || "";
         system = activeSystem.system || "";
         // console.log(
@@ -361,6 +363,7 @@ function useFlightsList(props) {
           filterRegion,
           filterDepap,
           system,
+          region,
         };
         const timerFunc = function () {
           //开启定时

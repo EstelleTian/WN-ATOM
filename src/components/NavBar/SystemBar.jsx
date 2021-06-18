@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-06-15 10:17:00
+ * @LastEditTime: 2021-06-18 10:07:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -145,7 +145,7 @@ function SystemBar(props) {
       });
     }
   }, []);
-  console.log("systemPage.leftNavSelectedName", systemPage.leftNavSelectedName);
+  // console.log("systemPage.leftNavSelectedName", systemPage.leftNavSelectedName);
   const getContent = () => {
     if (systemPage.systemKind === "CRS-REGION") {
       return "";
