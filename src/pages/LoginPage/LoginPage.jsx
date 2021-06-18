@@ -4,7 +4,9 @@ import md5 from "js-md5";
 import { requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import { isValidVariable } from "utils/basic-verify";
-import { saveUserInfo, exitSystem, testInternet } from "utils/client";
+import { saveUserInfo, exitSystem, testInternet, getVersion } from "utils/client";
+import { NWGlobal } from "utils/global";
+
 
 const msgStyle = {
   top: "110px",
@@ -21,7 +23,13 @@ function LoginPage(props) {
   const usernameInput = useRef(null);
   const pwdInput = useRef(null);
   const pageType = props.pageType;
+  // 客户端版本号
+  const [version, setVersion] = useState("");
   // alert(navigator.userAgent);
+  // 更新客户端版本号信息方法
+  NWGlobal.updateVersion = (version) => {
+      setVersion(version)
+  };
 
   // 点击登录按钮登录
   const handleSubmit = useCallback(async () => {
@@ -147,6 +155,12 @@ function LoginPage(props) {
     }
     // },500)
   }, []);
+
+  useEffect(function () {
+    if(pageType === "client"){
+      getVersion()
+    }
+  }, []);
   return (
     <div className={`login_canvas bg`}>
       <div
@@ -261,6 +275,13 @@ function LoginPage(props) {
         </div>
         <div className="line_bar"></div>
       </div>
+      {pageType === "client" && (
+        <div
+          className="version"
+        >
+          当前版本:{version}
+        </div>
+      )}      
     </div>
   );
 }

@@ -290,10 +290,18 @@ const testInternet =() => {
         console.error(error);
     }
 }
+//客户端获取版本号
+const getVersion =() => {
+    try {
+        jsEntity.getVersion();
+    }catch(error){
+        console.error(error);
+    }
+}
 export {
     updateMessageNum, sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openDoneFrameById,openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
     openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem, openRunningControlFlow,openDetails,
-    openLocation,openTclientFrameForMDRS, handleCreateSchemeBySimulation,testInternet
+    openLocation,openTclientFrameForMDRS, handleCreateSchemeBySimulation,testInternet, getVersion
 }
