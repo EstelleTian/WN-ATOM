@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-05-27 10:46:41
+ * @LastEditTime: 2021-06-18 13:37:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -17,7 +17,8 @@ import {
   openMessageDlg,
   updateMessageNum,
 } from "utils/client";
-import Stomp from "stompjs";
+// import Stomp from "stompjs";
+import JmsWebsocket from "utils/jms-websocket";
 import InfoList from "components/Info/InfoList";
 import "./InfoPage.scss";
 
@@ -30,26 +31,18 @@ function InfoPage(props) {
   const autoOpenRef = useRef(true);
   let timer = 0;
   const stompClientFunc = (username = "") => {
-    if (!isValidVariable(username)) {
-      return;
-    }
-    // alert("建立连接:" + username);
-    // console.log("建立连接");
-    // 建立连接
-    let ws = new WebSocket(
-      "ws://" + TopicConstant.ip + ":" + TopicConstant.port + "/ws"
+    // 初始化JMS组件
+    let jms_websocket = new JmsWebsocket(
+      TopicConstant.url,
+      TopicConstant.username,
+      TopicConstant.password,
+      {}
     );
-    let stompClient = Stomp.over(ws);
-    stompClient.heartbeat.outgoing = 200;
-    stompClient.heartbeat.incoming = 0;
-    stompClient.debug = null;
-
-    let on_connect = function (x) {
-      console.log("WebSocket连接成功:");
-      console.log(x);
+    // 连接JMS消息服务器
+    jms_websocket.connect(function () {
       //收到限制消息
       const topic1 = "/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE_" + username;
-      stompClient.subscribe(topic1, function (d) {
+      jms_websocket.subscribe(topic1, function (d) {
         //收到消息
         console.log(topic1 + "  WebSocket收到消息:");
         // console.log(d.body);
@@ -66,25 +59,64 @@ function InfoPage(props) {
         // 检查消息
         checkNews(message);
       });
-    };
-
-    let on_error = function (error) {
-      console.log("WebSocket连接失败:");
-      console.log(error);
-      clearTimeout(timer);
-      timer =setTimeout(function () {
-        stompClientFunc(username);
-      }, 5000);
-    };
-    // 连接消息服务器
-    stompClient.connect(
-      TopicConstant.username,
-      TopicConstant.password,
-      on_connect,
-      on_error,
-      "/"
-    );
+    });
   };
+  // const stompClientFunc = (username = "") => {
+  //   if (!isValidVariable(username)) {
+  //     return;
+  //   }
+  //   // alert("建立连接:" + username);
+  //   // console.log("建立连接");
+  //   // 建立连接
+  //   let ws = new WebSocket(
+  //     "ws://" + TopicConstant.ip + ":" + TopicConstant.port + "/ws"
+  //   );
+  //   let stompClient = Stomp.over(ws);
+  //   stompClient.heartbeat.outgoing = 200;
+  //   stompClient.heartbeat.incoming = 0;
+  //   stompClient.debug = null;
+
+  //   let on_connect = function (x) {
+  //     console.log("WebSocket连接成功:");
+  //     console.log(x);
+  //     //收到限制消息
+  //     const topic1 = "/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE_" + username;
+  //     stompClient.subscribe(topic1, function (d) {
+  //       //收到消息
+  //       console.log(topic1 + "  WebSocket收到消息:");
+  //       // console.log(d.body);
+  //       const body = d.body;
+  //       const msgObj = JSON.parse(body);
+  //       const { message } = msgObj;
+  //       //工作流类别消息，不显示
+  //       let newMsg = message.filter((msg) => "WFPI" !== msg.dataType);
+  //       props.newsList.addNews(newMsg);
+  //       // console.log("autoOpen", autoOpenRef.current);
+  //       if (autoOpenRef.current) {
+  //         openMessageDlg(body);
+  //       }
+  //       // 检查消息
+  //       checkNews(message);
+  //     });
+  //   };
+
+  //   let on_error = function (error) {
+  //     console.log("WebSocket连接失败:");
+  //     console.log(error);
+  //     clearTimeout(timer);
+  //     timer = setTimeout(function () {
+  //       stompClientFunc(username);
+  //     }, 5000);
+  //   };
+  //   // 连接消息服务器
+  //   stompClient.connect(
+  //     TopicConstant.username,
+  //     TopicConstant.password,
+  //     on_connect,
+  //     on_error,
+  //     "/"
+  //   );
+  // };
 
   // 检查消息，用于弹框并阻止用户交互
   const checkNews = (message) => {

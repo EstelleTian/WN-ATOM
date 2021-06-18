@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-06-18 09:21:09
+ * @LastEditTime: 2021-06-18 13:50:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -12,43 +12,34 @@ import { withRouter } from "react-router-dom";
 import { isValidVariable, isValidObject } from "utils/basic-verify";
 import { customNotice } from "utils/common-funcs";
 import { TopicConstant } from "utils/request-urls";
-import Stomp from "stompjs";
+import JmsWebsocket from "utils/jms-websocket";
 
 function Topic(props) {
   const { location } = props;
   let timer = 0;
-  const pathname = location.pathname || "";
-  const user = localStorage.getItem("user");
-  const stompClientFunc = (username = "") => {
-    console.log("建立连接  ", username);
-    if (!isValidVariable(username)) {
-      return;
-    }
-    // alert("建立连接:" + username);
-    // console.log("建立连接");
-    // 建立连接
-    let ws = new WebSocket(
-      "ws://" + TopicConstant.ip + ":" + TopicConstant.port + "/ws"
-    );
-    let stompClient = Stomp.over(ws);
-    stompClient.heartbeat.outgoing = 200;
-    stompClient.heartbeat.incoming = 0;
-    stompClient.debug = null;
 
-    let on_connect = function (x) {
-      console.log("放行监控 WebSocket连接成功:");
-      // console.log(x);
+  const stompClientFunc = (username = "") => {
+    // 初始化JMS组件
+    let jms_websocket = new JmsWebsocket(
+      TopicConstant.url,
+      TopicConstant.username,
+      TopicConstant.password,
+      {}
+    );
+    // 连接JMS消息服务器
+    jms_websocket.connect(function () {
       //收到方案发布消息
       const topic_SCHEME_PUBLISH = "/exchange/TOPIC.SCHEME.PUBLISH.FLOW";
-      stompClient.subscribe(topic_SCHEME_PUBLISH, function (d) {
+      jms_websocket.subscribe(topic_SCHEME_PUBLISH, function (d) {
         //收到消息
         console.log("收到方案发布消息,更新方案列表.");
         // 重新获取方案列表数据以刷新方案列表
         props.schemeListData.setForceUpdate(true);
       });
+
       //收到方案终止消息
       const topic_SCHEME_TERMINATE = "/exchange/TOPIC.SCHEME.TERMINATE.FLOW";
-      stompClient.subscribe(topic_SCHEME_TERMINATE, function (d) {
+      jms_websocket.subscribe(topic_SCHEME_TERMINATE, function (d) {
         //收到消息
         console.log("收到方案终止消息,更新方案列表.");
         // 重新获取方案列表数据以刷新方案列表
@@ -56,18 +47,16 @@ function Topic(props) {
       });
       //收到方案变更消息
       const topic_SCHEME_SLOTUPDATE = "/exchange/TOPIC.SCHEME.SLOTUPDATE.FLOW";
-      stompClient.subscribe(topic_SCHEME_SLOTUPDATE, function (d) {
+      jms_websocket.subscribe(topic_SCHEME_SLOTUPDATE, function (d) {
         //收到消息
-        console.log("收到方案变更消息,更新方案列表." + d);
+        console.log("收到方案变更消息,更新方案列表.");
         // 重新获取方案列表数据以刷新方案列表
         props.schemeListData.setForceUpdate(true);
       });
       //收到限制消息-【交通流消息】
-      // const topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE =
-      //   "/exchange/EXCHANGE.EVENT_CENTER_TRAFFIC_FLOW_CHANGE";
       const topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE =
         "/exchange/EXCHANGE.EVENT_CENTER_RELEASE_MONITORING_PARTIAL_CHANGE";
-      stompClient.subscribe(
+      jms_websocket.subscribe(
         topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE,
         function (d) {
           //收到消息
@@ -81,7 +70,7 @@ function Topic(props) {
       //收消息中心-【只截取 航班协调类 消息 做处理】
       const topic_EVENT_CENTER =
         "/exchange/EXCHANGE.EVENT_CENTER_OUTEXCHANGE_" + username;
-      stompClient.subscribe(topic_EVENT_CENTER, function (d) {
+      jms_websocket.subscribe(topic_EVENT_CENTER, function (d) {
         //收到消息
         const body = d.body;
         const msgObj = JSON.parse(body);
@@ -99,10 +88,10 @@ function Topic(props) {
       //收到异步协调操作成功/失败消息-【更新航班数据】
       const topic_EVENT_CENTER_FC_CHANGE =
         "/exchange/EXCHANGE.EVENT_CENTER_FC_CHANGE";
-      stompClient.subscribe(topic_EVENT_CENTER_FC_CHANGE, function (d) {
+      jms_websocket.subscribe(topic_EVENT_CENTER_FC_CHANGE, function (d) {
         //收到消息
         console.log("收到异步协调消息,更新航班数据");
-        console.log(d);
+        // console.log(d);
         const body = d.body;
         const msgObj = JSON.parse(body);
         const msg = msgObj.message || {};
@@ -111,8 +100,8 @@ function Topic(props) {
           const error = msg.error || {};
           const message = error.message || "";
           customNotice({
-            type: "fail",
-            message: message,
+            type: "error",
+            message: "收到异步协调消息,更新航班数据" + message,
             msgType: "async",
             duration: 10,
           });
@@ -123,33 +112,19 @@ function Topic(props) {
           props.flightTableData.updateSingleFlight(flightCoordination);
         }
       });
-    };
-
-    let on_error = function (error) {
-      console.log("放行监控 WebSocket连接失败:");
-      console.log(error);
-      clearTimeout(timer);
-      timer = setTimeout(function () {
-        stompClientFunc(username);
-      }, 5000);
-    };
-    // 连接消息服务器
-    // stompClient.connect("guest", "guest", on_connect, on_error, "/");
-    stompClient.connect(
-      TopicConstant.username,
-      TopicConstant.password,
-      on_connect,
-      on_error,
-      "/"
-    );
+    });
   };
-  if (isValidVariable(user)) {
-    if (pathname.indexOf("/clearance") > -1) {
-      const userObj = JSON.parse(user);
-      stompClientFunc(userObj.username);
-    }
-  }
 
+  useEffect(() => {
+    const pathname = location.pathname || "";
+    const user = localStorage.getItem("user");
+    if (isValidVariable(user)) {
+      if (pathname.indexOf("/clearance") > -1) {
+        const userObj = JSON.parse(user);
+        stompClientFunc(userObj.username);
+      }
+    }
+  }, []);
   return "";
 }
 
