@@ -107,7 +107,7 @@ const SchemeModal = (props) => {
                 <DraggableModal
                     // 是否垂直居中展示
                     centered={true}
-                    title={`方案详情 - ${tacticName} (${id}) `}
+                    title={`方案详情 - ${tacticName}`}
                     // centered为true 则无需设置style
                     // style={{ top: "300px", left: "0px" }}
                     visible={visible}
