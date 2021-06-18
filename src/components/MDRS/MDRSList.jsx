@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-05-18 18:14:50
+ * @LastEditTime: 2021-06-18 08:44:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRS\MSRSForm.jsx
@@ -132,7 +132,7 @@ function mdrsItem(props) {
       className="mdrs_form_modal mdrs_detail_modal"
     >
       <div className="step_btn">
-        {effectiveStatus === "未生效" && (
+        {(effectiveStatus === "未生效" || effectiveStatus === "正在生效") && (
           <Popconfirm
             title={
               <div>

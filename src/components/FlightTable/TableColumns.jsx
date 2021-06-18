@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-16 20:34:41
+ * @LastEditTime: 2021-06-17 22:24:27
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -821,43 +821,76 @@ const getColumns = (
         tem["defaultSortOrder"] = "ascend";
         let sortNames = CRSSortNames;
         //field对象类型排序，用value再排
-        const sorFunc2 = (a, b, sortNames, ind) => {
+        const sorFunc2 = (a, b, dir, sortNames, ind) => {
           const sortName = sortNames[ind];
           let data1 = "";
           let data2 = "";
           if (typeof a[sortName] === "string") {
             data1 = a[sortName] || "";
             data2 = b[sortName] || "";
+            if (data1.length >= 12) {
+              data1 = data1.substring(0, 12);
+            }
+            if (data2.length >= 12) {
+              data2 = data2.substring(0, 12);
+            }
           } else if (typeof a[sortName] === "object") {
             const f1 = a[sortName] || {};
             const f2 = b[sortName] || {};
+            let aorgdataStr = a["orgdata"] || "{}";
+            let aorgdata = JSON.parse(aorgdataStr);
+            let borgdataStr = b["orgdata"] || "{}";
+            let borgdata = JSON.parse(borgdataStr);
             data1 = f1.value || "";
             data2 = f2.value || "";
+            if (isValidVariable(data1)) {
+              if (
+                aorgdata.areaStatus === "OUTER" &&
+                (f1.type === "N" || f1.type === "R")
+              ) {
+                // if (f1.type === "A") {
+                data1 = "B" + data1;
+              } else {
+                data1 = "A" + data1;
+              }
+            }
+            if (isValidVariable(data2)) {
+              if (
+                borgdata.areaStatus === "OUTER" &&
+                (f2.type === "N" || f2.type === "R")
+              ) {
+                // if (f2.type === "A") {
+                data2 = "B" + data2;
+              } else {
+                data2 = "A" + data2;
+              }
+            }
           }
-          if (data1.length >= 12) {
-            data1 = data1.substring(0, 12);
-          }
-          if (data2.length >= 12) {
-            data2 = data2.substring(0, 12);
-          }
+          console.log(
+            "data1",
+            data1,
+            "data2",
+            data2,
+            "res",
+            data1.localeCompare(data2)
+          );
           if (isValidVariable(data1) && isValidVariable(data2)) {
             let res = data1.localeCompare(data2);
             if (0 !== res) {
               return res;
             }
-            //  else {
-            //   return sorFunc2(a, b, sortNames, ++ind);
-            // }
           } else if (isValidVariable(data1)) {
             return -1;
           } else if (isValidVariable(data2)) {
             return 1;
           } else {
-            return sorFunc2(a, b, sortNames, ++ind);
+            return sorFunc2(a, b, dir, sortNames, ++ind);
           }
         };
-        tem["sorter"] = (a, b) => {
-          return sorFunc2(a, b, sortNames, 0);
+        tem["sorter"] = (a, b, dir) => {
+          // console.log("方向", dir);
+          // ascend 升序  descend 降序
+          return sorFunc2(a, b, dir, sortNames, 0);
         };
       }
     }
