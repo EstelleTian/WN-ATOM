@@ -7,6 +7,8 @@ import SchemeDetail from 'components/SchemeList/SchemeDetail'
 import SchemeForm from 'components/RestrictionForm/SchemeForm'
 import { inject, observer } from "mobx-react";
 import { customNotice } from 'utils/common-funcs'
+import DraggableModal from 'components/DraggableModal/DraggableModal'
+
 
 
 
@@ -46,6 +48,8 @@ const SchemeModal = (props) => {
 
     //获取方案数据成功回调方法
     const updateSchemeData = useCallback(data => {
+        //更新flowData
+        setFlowData(data);
         // 更新方案表单store数据
         let tacticProcessInfo = data.tacticProcessInfo || {};
         props.schemeFormData.updateSchemeData(tacticProcessInfo);
@@ -100,35 +104,45 @@ const SchemeModal = (props) => {
 
         if (modalType === "DETAIL") {
             return (
-                <Modal
+                <DraggableModal
+                    // 是否垂直居中展示
+                    centered={true}
                     title={`方案详情 - ${tacticName} (${id}) `}
-                    centered
+                    // centered为true 则无需设置style
+                    // style={{ top: "300px", left: "0px" }}
                     visible={visible}
-                    onOk={() => setVisible(false)}
-                    onCancel={() => setVisible(false)}
+                    handleOk={() => setVisible(false)}
+                    handleCancel={() => setVisible(false)}
                     width={1000}
-                    // maskClosable={false}
+                    maskClosable={false}
+                    mask={true}
+                    className="flight-table-config-modal"
+                    // destroyOnClose设置为true,每次打开模态框子组件挂载，关闭模态框子组件卸载
                     destroyOnClose={true}
-                    footer={
-                        <div>
-                            <Button type="primary" onClick={closeModal}>确认</Button>
-                            {/*<Button onClick={ ()=>{ alert("建设中,敬请期待!")} } style={{ float: 'left'}}>窗口模式</Button>*/}
-                        </div>
-                    }
+                    footer={<div>
+                        <Button type="primary" onClick={closeModal}>确认</Button>
+                    </div>}
                 >
+
                     <SchemeDetail flowData={flowData} />
-                </Modal>
+                </DraggableModal>
             )
         } else if (modalType === "MODIFY") {
             return (
-                <Modal
+                <DraggableModal
+                    // 是否垂直居中展示
+                    centered={true}
                     title={`模拟方案调整 - ${tacticName} `}
-                    centered
+                    // centered为true 则无需设置style
+                    // style={{ top: "300px", left: "0px" }}
                     visible={visible}
-                    onOk={() => setVisible(false)}
-                    onCancel={() => setVisible(false)}
+                    handleOk={() => setVisible(false)}
+                    handleCancel={() => setVisible(false)}
                     width={1200}
-                    // maskClosable={false}
+                    maskClosable={false}
+                    mask={true}
+                    className="flight-table-config-modal"
+                    // destroyOnClose设置为true,每次打开模态框子组件挂载，关闭模态框子组件卸载
                     destroyOnClose={true}
                     footer={null}
                 >
@@ -140,7 +154,7 @@ const SchemeModal = (props) => {
                         setModalVisible={setVisible}
                         bordered={false}
                     />
-                </Modal>
+                </DraggableModal>
             )
         } else if (modalType === "RECREATE") {
             return (
