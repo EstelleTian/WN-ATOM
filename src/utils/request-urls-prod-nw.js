@@ -78,11 +78,9 @@ const ReqUrls = {
     //根据方案id获取方案数据,用于正式发布的方案进行修改时使用
     schemeDataByIdForUpdateUrl: schemeIP+"/scheme-flow-server/implementTactics/",
     //根据modalId获取方案详情
-    schemeDetailByIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTacticDetails/",
-    //根据modalId获取方案详情
-    schemeDetailByIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTacticDetails/",
+    schemeDetailByIdUrl: clearanceIP+"/hydrogen-flight-monitor-server-cache/implementTacticDetails/",
     //获取--方案列表
-    schemeListUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTactics",
+    schemeListUrl: clearanceIP+"/hydrogen-flight-monitor-server-cache/implementTactics",
     //获取--模拟方案详情
     simulationSchemeDetailUrl:schemeIP+"/scheme-flow-server/simulationTactics/id/",
     // 获取方案模板数据
