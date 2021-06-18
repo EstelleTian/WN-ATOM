@@ -278,6 +278,7 @@ const FlightIdCont = (props) => {
         查看航班详情
       </button>
 
+    {systemPage.userHasAuth(13454) && (
       <button
         className="c-btn c-btn-blue"
         onClick={() => {
@@ -286,6 +287,8 @@ const FlightIdCont = (props) => {
       >
         指定前序航班
       </button>
+    )}
+      
       {/* <button
         className="c-btn c-btn-green"
         onClick={() => {
