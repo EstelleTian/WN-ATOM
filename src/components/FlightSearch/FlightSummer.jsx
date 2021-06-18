@@ -6,7 +6,7 @@
  * @Description: 航班查询
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 import { observer, inject } from "mobx-react";
 import { ReqUrls } from "utils/request-urls";
 import { requestGet2 } from "utils/request";
@@ -20,8 +20,6 @@ import { FlightCoordination, reasonType } from "utils/flightcoordination";
 
 import {
   List,
-  Divider,
-  Icon,
   Form,
   Drawer,
   Tooltip,
@@ -115,11 +113,11 @@ const FlightSummer = (props) => {
    *  绘制航班略情数据
    * */
   const drawFlightSummerData = useCallback(function () {
-    let formerFlight = flight.formerFlightObj || {};
+    // 本段航班起飞机场 
     let DEPAP = flight.depAp || "N/A";
+    // 本段航班降落机场 
     let ARRAP = flight.arrAp || "N/A";
-    const id = flight.id;
-    const FLIGHTID = flight.flightId || "N/A";
+    // 本段航班AGCT
     const AGCT = flight.agct || "";
     const AGCTHHmm = getDayTimeFromString(AGCT) || "N/A";
     const AOBT = flight.aobt || "";
@@ -141,11 +139,11 @@ const FlightSummer = (props) => {
     const ALDT = flight.ALDT || "N/A";
     const ACTYPE = flight.aCtype || "N/A";
     const STATUS = flight.status || "";
-    const STATUSZH = FlightCoordination.getStatusZh(STATUS);
+    const STATUSZH = FlightCoordination.getStatusZh(STATUS) || "N/A";
     const STATUSColor = "";
 
     let OBT = "N/A";
-    let OBTTitle = "";
+    let OBTTitle = "AOBT";
     if (isValidVariable(AOBT)) {
       OBTTitle = "AOBT";
       OBT = AOBT;
@@ -172,7 +170,7 @@ const FlightSummer = (props) => {
     let OBTHHmm = getDayTimeFromString(OBT) || "N/A";
 
     let TOT = "N/A";
-    let TOTTitle = "";
+    let TOTTitle = "ATOT";
     if (isValidVariable(ATD)) {
       TOTTitle = "ATOT";
       TOT = ATD;
@@ -189,11 +187,12 @@ const FlightSummer = (props) => {
     let TOTHHmm = getDayTimeFromString(TOT) || "N/A";
 
     let FORMER = formerFlight.flightId || "N/A";
+    // 前序航班起飞机场
     let FORMERDEPAP = formerFlight.depAp || "N/A";
+    // 前序航班降落机场
     let FORMERARRAP = formerFlight.arrAp || "N/A";
 
     const text = <span>{`查看航班详情`}</span>;
-
     const schemeListData = flight.flowcontrols || [];
 
     return (
@@ -309,7 +308,7 @@ const FlightSummer = (props) => {
                     <div className="ant-form-item-control-input ">
                       <div
                         className="ant-form-item-control-input-content"
-                        title={STATUS}
+                        title={STATUSZH}
                       >
                         <Tag className="flight-status-tag" color="#2db7f5">
                           {STATUSZH}
@@ -452,8 +451,6 @@ const FlightSummer = (props) => {
    *  获取航班略情抽屉标题
    * */
   const getDrawerTitle = useCallback(function () {
-    // const STATUS = flight.status;
-    // const STATUSZH = FlightCoordination.getStatusZh(STATUS);
     return (
       <div>
         <span
@@ -467,13 +464,10 @@ const FlightSummer = (props) => {
             showFlightDetail();
           }}
         >
-          {flight.flightId}
+          <Tooltip title="点击查看航班详情">
+            {flight.flightId}
+          </Tooltip>
         </span>
-        {/* <span>
-          <Tag className="flight-status-tag" color="#2db7f5">
-            {STATUSZH}
-          </Tag>
-        </span> */}
       </div>
     );
   });

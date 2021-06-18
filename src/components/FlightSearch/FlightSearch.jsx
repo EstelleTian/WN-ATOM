@@ -162,7 +162,8 @@ const FlightSearch = (props) => {
    * */
   const requestFlightData = useCallback((flightId) => {
     setSearchLoadingVisible(true);
-
+    // 去掉首尾空格
+    flightId = flightId.trim();
     const now = new Date();
     let targetData = "";
     if (searchDate === "yestoday") {
