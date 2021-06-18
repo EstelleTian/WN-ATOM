@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-16 14:54:00
+ * @LastEditTime: 2021-06-17 21:19:12
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -285,13 +285,19 @@ class FlightTableData {
     //测试数据，只显示一条
     // let testList = this.list.filter((flight) => {
     //   let flightid = flight.flightid || "";
-    //   if (flightid === "CES9031") {
+    //   if (
+    //     flightid === "CCA1994" ||
+    //     flightid === "CES2960" ||
+    //     flightid === "CES2880" ||
+    //     flightid === "CES5570" ||
+    //     flightid === "QDA6106"
+    //   ) {
     //     return true;
     //   }
     // });
     // let testList = [];
-    // if (this.list.length > 50) {
-    //   testList = [this.list[47], this.list[48], this.list[49]];
+    // if (this.list.length > 100) {
+    //   testList = this.list.slice(35, 60);
     // }
     // let showList = testList.map((flight) => formatSingleFlight(flight));
 

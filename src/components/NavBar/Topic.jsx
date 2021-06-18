@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-06-10 17:05:57
+ * @LastEditTime: 2021-06-17 16:12:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -105,7 +105,7 @@ function Topic(props) {
         const msgObj = JSON.parse(body);
         const msg = msgObj.message || {};
         //消息
-        if (status * 1 !== 200) {
+        if (msg.status * 1 !== 200) {
           const error = msg.error || {};
           const message = error.message || "";
           customNotice({

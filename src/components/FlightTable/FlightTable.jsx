@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-10 15:33:49
+ * @LastEditTime: 2021-06-17 22:24:46
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -169,14 +169,22 @@ function FTable(props) {
   //设置表格行的 class
   const setRowClassName = useCallback(
     (record, index) => {
+      let orgdataStr = record["orgdata"] || "{}";
+      let orgdata = JSON.parse(orgdataStr);
       let FFIXTField = record.FFIXT || {};
       let FFIXT = FFIXTField.value || "";
+      let type = FFIXTField.type || "";
       let id = record.id || "";
+      let isOutterFlight = false;
+      if (orgdata.areaStatus === "OUTER" && (type === "N" || type === "R")) {
+      // if (type === "N" || type === "R") {
+        isOutterFlight = true;
+      }
       if (
         systemName.indexOf("CRS") > -1 &&
         sortKey === "FFIXT" &&
         isValidVariable(props.schemeListData.activeSchemeId) &&
-        props.schemeListData.activeSchemeId.indexOf("focus") === -1
+        !isOutterFlight
       ) {
         if (isValidVariable(FFIXT) && FFIXT.length >= 12) {
           FFIXT = FFIXT.substring(0, 12);
@@ -198,6 +206,9 @@ function FTable(props) {
           }
         }
       }
+      // if (isOutterFlight) {
+      //   id += " groupb";
+      // }
       // if( id.indexOf("in_range") === -1){
       if (index % 2 === 0) {
         id += " even";

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-10 15:03:34
+ * @LastEditTime: 2021-06-17 16:05:12
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -11,9 +11,10 @@ const TopicConstant={
     ip:"10.25.1.62",
     port: 5672,
     username:"admin",
-    password:"admin",
+    password:"1q2w3e$R%T^Y",
 }
-
+//登录IP(姜浩)
+const loginIP = "http://10.25.1.57:18380";
 
 // 工作流ip
 const workflowIP = "http://10.25.1.10:80";
@@ -21,9 +22,9 @@ const workflowIP = "http://10.25.1.10:80";
 const mdrsIP = "http://10.25.1.10:80";
 //消息订阅(路武臣)
 const userSubscribeIP = "http://10.25.1.10:80";
-//
 const runwayIP = "http://10.25.1.10:80";
 const clearanceIP = "http://10.25.1.10:80";
+// 方案相关(刘殿臣)
 const schemeIP = "http://10.25.1.10:80";
 // 获取指定航路点对应的速度(路武臣)
 const speedIP = "http://10.25.1.10:80";
@@ -32,13 +33,12 @@ const validateRouteIP = "http://10.25.1.10:80";
 
 //协调ip
 const CollaborateIP = "http://10.25.1.10:80";
-//登录IP(姜浩)
-const loginIP = "http://10.25.1.57:18380";
+
 //容量管理IP(韩涛)
 const capacityIP = "http://10.25.1.10:80";
-//容流数据IP
+//容流数据IP(孔凡续)
 const capacityFlowIP= "http://10.25.1.10:80";
-//容流气象数据IP
+//容流气象数据IP(孔凡续)
 const capacityFlowWeatherIP= "http://10.25.1.10:80";
 //总体监控-协调KPI-航班协调-数据IP
 const totalCollaborateIP= "http://10.25.1.10:80";
@@ -48,17 +48,19 @@ const totalOperationIP= "http://10.25.1.10:80";
 const flightInfoIP= "http://10.25.1.10:80";
 //总体监控-执行KPI-IP(孔凡续)
 const executeKPIDataIP= "http://10.25.1.10:80";
-//航班执行数据-IP()
+//总体监控-航班执行数据-IP(路武臣)
 const performanceDataIP= "http://10.25.1.10:80";
 // 获取用户订阅的容流监控单元数据-IP()
 const userSubscribeCapacityFlowMonitorUnitDataIP= "http://10.25.1.10:80";
+// 获取方案模板数据-IP(韩涛)
+const schemeTemplateIP= "http://10.25.1.10:80";
 //待办航班列表-放行监控页面中的-IP(张杰)
 const todoListIP= "http://10.25.1.10:80";
 //我的申请列表-放行监控页面中的-IP(张杰)
 const myApplicationListIP= "http://10.25.1.10:80";
 //计划时间范围获取-IP(薛满林)
 const rangeScopeIP= "http://10.25.1.10:80";
-// 开关配置IP
+// 开关配置IP(张杰)
 const switchConfigIP= "http://10.25.1.10:80";
 // 系统各个标题IP（薛满林）
 const systemListIP= "http://10.25.1.10:80";
@@ -73,21 +75,28 @@ const ReqUrls = {
     //缩略地图
     mapUrl: "http://10.25.1.51:8081/#/map",
     mapWebUrl: "http://10.25.1.51:8082/#/map",
+    //根据方案id获取方案数据,用于正式发布的方案进行修改时使用
+    schemeDataByIdForUpdateUrl: schemeIP+"/scheme-flow-server/implementTactics/",
+    //根据modalId获取方案详情
+    schemeDetailByIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTacticDetails/",
     //根据modalId获取方案详情
     schemeDetailByIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTacticDetails/",
     //获取--方案列表
     schemeListUrl: clearanceIP+"/hydrogen-flight-monitor-server/implementTactics",
     //获取--模拟方案详情
     simulationSchemeDetailUrl:schemeIP+"/scheme-flow-server/simulationTactics/id/",
+    // 获取方案模板数据
+    schemeTemplateDataUrl: schemeTemplateIP+"/user-template-rest/template/user/",
     //获取--航班列表数据
     flightsDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/tactic/",
     //获取--航班列表数据(id为空)
-    flightsDataNoIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/influence/flights/",
-    //获取--执行KPI数据(孔凡续)
+    // flightsDataNoIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/influence/flights/",
+    flightsDataNoIdUrl: clearanceIP+"/hydrogen-flight-monitor-server-cache/influence/flights/",
+     //获取--执行KPI数据(孔凡续)
     executeKPIDataUrl: executeKPIDataIP+"/kpi/",
     //获取--执行KPI数据(薛满林)
     performanceKPIDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/performkpi/",
-    //获取航班执行数据
+    //获取总体监控-航班执行数据
     performanceDataUrl: performanceDataIP+"/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname",
     // 总体监控-获取限制数据
     restrictionDataUrl: schemeIP+"/scheme-flow-server/implementTactics/statistics",

@@ -90,6 +90,12 @@
         background: #313e4b;
     }
 }
+//航班范围内 奇数行 底色
+.groupb{
+    .ant-table-cell{
+        background: #6e464b;
+    }
+}
 //航班高亮配色
 .active_row>td{
     // background-color: #706247 !important;
