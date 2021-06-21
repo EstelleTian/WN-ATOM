@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-21 19:46:41
+ * @LastEditTime: 2021-06-21 20:17:57
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -234,9 +234,9 @@ function FTable(props) {
           }
         }
       }
-      if (isOutterFlight) {
-        id += " groupb";
-      }
+      // if (isOutterFlight) {
+      //   id += " groupb";
+      // }
       // if( id.indexOf("in_range") === -1){
       if (index % 2 === 0) {
         id += " even";

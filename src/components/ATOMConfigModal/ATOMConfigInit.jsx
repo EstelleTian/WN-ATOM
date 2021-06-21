@@ -37,7 +37,7 @@ function ATOMConfigInit({ ATOMConfigFormData, flightTableData }) {
       title: "获取失败",
       content: (
         <span>
-          <span>获取ATOM引接应用配置数据失败</span>
+          <span>获取各地CDM引接应用配置数据失败</span>
           <br />
           <span>{errMsg}</span>
         </span>
