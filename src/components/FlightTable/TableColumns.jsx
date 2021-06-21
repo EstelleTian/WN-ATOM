@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-18 10:06:43
+ * @LastEditTime: 2021-06-21 19:52:46
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -847,36 +847,53 @@ const getColumns = (
             let borgdata = JSON.parse(borgdataStr);
             data1 = f1.value || "";
             data2 = f2.value || "";
+
             if (isValidVariable(data1)) {
-              if (
-                aorgdata.areaStatus === "OUTER" &&
-                (f1.type === "N" || f1.type === "R")
-              ) {
-                // if (f1.type === "A") {
-                data1 = "B" + data1;
+              if (a.atomConfigValue * 1 === 300) {
+                if (aorgdata.areaStatus === "OUTER" && f1.type === "N") {
+                  data1 = "B" + data1;
+                } else {
+                  data1 = "A" + data1;
+                }
               } else {
-                data1 = "A" + data1;
+                if (
+                  aorgdata.areaStatus === "OUTER" &&
+                  (f1.type === "N" || f1.type === "R")
+                ) {
+                  data1 = "B" + data1;
+                } else {
+                  data1 = "A" + data1;
+                }
               }
             }
             if (isValidVariable(data2)) {
-              if (
-                borgdata.areaStatus === "OUTER" &&
-                (f2.type === "N" || f2.type === "R")
-              ) {
-                // if (f2.type === "A") {
-                data2 = "B" + data2;
+              if (b.atomConfigValue * 1 === 300) {
+                if (borgdata.areaStatus === "OUTER" && f2.type === "N") {
+                  data2 = "B" + data2;
+                } else {
+                  data2 = "A" + data2;
+                }
               } else {
-                data2 = "A" + data2;
+                if (
+                  borgdata.areaStatus === "OUTER" &&
+                  (f2.type === "N" || f2.type === "R")
+                ) {
+                  data2 = "B" + data2;
+                } else {
+                  data2 = "A" + data2;
+                }
               }
             }
           }
           // console.log(
+          //   "a.atomConfigValue",
+          //   a.atomConfigValue,
+          //   "b.atomConfigValue",
+          //   b.atomConfigValue,
           //   "data1",
           //   data1,
           //   "data2",
-          //   data2,
-          //   "res",
-          //   data1.localeCompare(data2)
+          //   data2
           // );
           if (isValidVariable(data1) && isValidVariable(data2)) {
             let res = data1.localeCompare(data2);
@@ -1050,7 +1067,7 @@ const formatAlarmValue = (values) => {
   return arr;
 };
 //数据转换，将航班转化为表格格式
-const formatSingleFlight = (flight) => {
+const formatSingleFlight = (flight, atomConfigValue) => {
   const alarmField = flight.alarmField || {};
   const taskField = flight.taskField || {};
   const eapField = flight.eapField || {};
@@ -1153,6 +1170,7 @@ const formatSingleFlight = (flight) => {
     NCTOT: nctotField,
     RCOBT: rcobtField,
     RCTOT: rctotField,
+    atomConfigValue: atomConfigValue,
     orgdata: JSON.stringify(flight),
   };
 

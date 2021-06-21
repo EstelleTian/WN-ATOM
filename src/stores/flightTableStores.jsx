@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-17 21:19:12
+ * @LastEditTime: 2021-06-21 19:52:53
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -160,6 +160,7 @@ class FlightTableData {
   @observable lastSchemeId = "";
   //四字码ICAO 三字码IATA 切换
   @observable codeType = "ICAO";
+  @observable atomConfigValue = "";
   //上一次请求的方案id
   @observable runwayPopoverRef = {};
   //更新表格loading显示
@@ -169,7 +170,7 @@ class FlightTableData {
   }
 
   //更新航班数据-全部更新
-  @action updateFlightsList(newList = [], generateTime, curSchemeId) {
+  @action updateFlightsList(newList = [], generateTime, curSchemeId = "") {
     // @action updateFlightsList(testnewList, generateTime, curSchemeId) {
     //   let newList = testnewList.filter((flight) => {
     //     let flightid = flight.flightid || "";
@@ -213,6 +214,7 @@ class FlightTableData {
 
     this.list = Object.values(mergeMap);
     this.generateTime = generateTime;
+    this.lastSchemeId = curSchemeId;
   }
   //单条--航班更新
   @action updateSingleFlight(newFC) {
@@ -352,7 +354,79 @@ class FlightTableData {
 
     return { showList, targetFlight };
   }
+  //获取真正展示的航班
+  @action getShowedFlights() {
+    //测试数据，只显示一条
+    // let testList = this.list.filter((flight) => {
+    //   let flightid = flight.flightid || "";
+    //   if (
+    //     flightid === "CSN6717" ||
+    //     flightid === "UEA2252" ||
+    //     flightid === "CHB6265"
+    //   ) {
+    //     return true;
+    //   }
+    // });
+    // let testList = [];
+    // if (this.list.length > 100) {
+    //   testList = this.list.slice(35, 60);
+    // }
+    // let showList = testList.map((flight) =>
+    //   formatSingleFlight(flight, this.atomConfigValue)
+    // );
+    let showList = this.list.map((flight) =>
+      formatSingleFlight(flight, this.atomConfigValue)
+    );
+    const searchVal = this.searchVal.toLowerCase();
+    if (isValidVariable(searchVal)) {
+      showList = showList.filter((flight) => {
+        let FLIGHTID = flight.FLIGHTID || "";
+        FLIGHTID = FLIGHTID.toLowerCase() || "";
+        let FFIX = flight.FFIX || "";
+        FFIX = FFIX.toLowerCase() || "";
+        if (
+          FLIGHTID.indexOf(searchVal) !== -1 ||
+          FFIX.indexOf(searchVal) !== -1
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
+    const filterValues = this.filterValues;
+    const fValues = Object.keys(filterValues);
+    if (fValues.length > 0) {
+      for (let en in filterValues) {
+        const fVal = filterValues[en] || "";
+        if (isValidVariable(fVal)) {
+          showList = showList.filter((flight) => {
+            let cellVal = flight[en] || "";
+            cellVal = cellVal.toLowerCase() || "";
+            if (cellVal.indexOf(fVal) > -1) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+        }
+      }
+    }
+    //四字码、三字码
+    if (this.codeType === "IATA") {
+      showList = showList.map((flight) => {
+        //切换四字码、三字码取值
+        flight.FLIGHTID = flight.FLIGHTIDIATA;
+        flight.DEPAP = flight.DEPAPIATA;
+        flight.ARRAP = flight.ARRAPIATA;
+        flight.FORMER = flight.FORMERIATA;
+        return flight;
+      });
+    }
+    const targetFlight = this.getTargetFlight(showList, this.systemName);
 
+    return { showList, targetFlight };
+  }
   //获取和generatetime时间比最近的航班对象，用以自动滚动
   getTargetFlight(newList, systemName) {
     // console.log("list长度:" + this.list.length);
