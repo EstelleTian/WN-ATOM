@@ -178,7 +178,8 @@ function NTFMConfigForm(props) {
                 </Row>
                 <Row gutter={24}>
                     <Col span={24} className="btn-box">
-                        <Button type="primary" onClick={handleSubmitFormData} >保存</Button>
+                    {systemPage.userHasAuth(12516) && (
+                        <Button type="primary" onClick={handleSubmitFormData} >保存</Button>)}
                     </Col>
                 </Row>
 

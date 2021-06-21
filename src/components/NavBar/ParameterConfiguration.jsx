@@ -22,16 +22,13 @@ function ParameterConfiguration(props) {
   const menu = function () {
     return (
       <Menu>
-        {systemPage.userHasAuth(12515) && (
-          <Menu.Item
+        <Menu.Item
             key="ATOMConfig"
             value="ATOMConfig"
             onClick={showATOMConfigurationModal}
           >
             各地CDM引接应用配置
           </Menu.Item>
-        )}
-        {systemPage.userHasAuth(12516) && (
           <Menu.Item
             key="NTFMConfig"
             value="NTFMConfig"
@@ -39,7 +36,6 @@ function ParameterConfiguration(props) {
           >
             NTFM引接应用配置
           </Menu.Item>
-        )}
       </Menu>
     );
   };
@@ -62,10 +58,7 @@ function ParameterConfiguration(props) {
             参数配置
             <DownOutlined />
           </Radio.Button>
-          <Radio.Button value="system">
-            参数配置
-            <DownOutlined />
-          </Radio.Button>
+
         </Radio.Group>
       </Dropdown>
       <ATOMConfigInit />
