@@ -181,7 +181,7 @@ const ReqUrls = {
     // 消息记录-历史
     getHistoryNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/history",
     //计划时间范围获取-(薛满林)
-    rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server/plan/time/scope",
+    rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server-cache/plan/time/scope",
     // 开关配置
     switchConfigUrl: switchConfigIP +"/hydrogen-ntfm-info-receive-server/switchConfig",
 };
