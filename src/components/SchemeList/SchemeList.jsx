@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-18 10:04:54
+ * @LastEditTime: 2021-06-21 16:56:24
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -291,7 +291,7 @@ function useFlightsList(props) {
         // 反之清除KPI数据
         props.performanceKPIData.updatePerformanceKPIData({});
       }
-      flightTableData.lastSchemeId = props.schemeListData.activeSchemeId;
+      // flightTableData.lastSchemeId = props.schemeListData.activeSchemeId;
     },
     [props.schemeListData.activeSchemeId]
   );
@@ -300,6 +300,7 @@ function useFlightsList(props) {
   const getFlightTableData = useCallback(
     (nextRefresh, showLoad = false) => {
       const p = new Promise((resolve, reject) => {
+        console.log("获取航班数据");
         let url = "";
         let params = {};
         let activeSchemeId = schemeListData.activeSchemeId || "";
@@ -381,6 +382,7 @@ function useFlightsList(props) {
           method: "GET",
           params,
           resFunc: (data) => {
+            console.time("tableTime");
             updateFlightTableData(data);
             timerFunc();
             // if (props.flightTableData.loading) {
@@ -392,6 +394,7 @@ function useFlightsList(props) {
             // }
             props.flightTableData.toggleLoad(false, false);
             props.performanceKPIData.toggleLoad(false, false);
+            console.timeEnd("tableTime");
             resolve("success");
           },
           errFunc: (err) => {
@@ -404,6 +407,7 @@ function useFlightsList(props) {
             timerFunc();
             props.flightTableData.toggleLoad(false, false);
             props.performanceKPIData.toggleLoad(false, false);
+
             resolve("error");
           },
         };

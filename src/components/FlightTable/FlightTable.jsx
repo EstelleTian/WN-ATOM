@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-17 22:24:46
+ * @LastEditTime: 2021-06-21 19:46:41
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -133,7 +133,6 @@ function FTable(props) {
     codeType,
     systemName,
   } = flightTableData;
-  let { showList, targetFlight } = props.flightTableData.getShowFlights;
 
   const handleRow = useCallback((event, record) => {
     // 点击行
@@ -144,16 +143,39 @@ function FTable(props) {
     highlightRowByDom(dom);
   }, []);
 
-  const { schemeStartTime, schemeEndTime } = useMemo(() => {
+  let { schemeStartTime, schemeEndTime } = useMemo(() => {
+    if (flightTableData.loading) {
+      return {
+        schemeStartTime: "",
+        schemeEndTime: "",
+      };
+    }
+    console.log("航班表格 useMemo 1", flightTableData.loading);
     const activeScheme =
       schemeListData.activeScheme(schemeListData.activeSchemeId) || {};
     const { tacticTimeInfo = {} } = activeScheme;
     const { startTime, endTime } = tacticTimeInfo;
+
     return {
       schemeStartTime: startTime,
       schemeEndTime: endTime,
     };
-  }, [schemeListData.activeSchemeId]);
+    // }, [schemeListData.activeSchemeId]);
+  }, [flightTableData.loading]);
+
+  let showList = [];
+  let targetFlight = {};
+  if (
+    flightTableData.loading &&
+    flightTableData.lastSchemeId !== schemeListData.activeSchemeId
+  ) {
+    showList = [];
+    targetFlight = {};
+  } else {
+    let obj = props.flightTableData.getShowedFlights();
+    showList = obj.showList;
+    targetFlight = obj.targetFlight;
+  }
 
   // useEffect(() => {
   //     const flightCanvas = document.getElementsByClassName("flight_canvas");
@@ -176,10 +198,16 @@ function FTable(props) {
       let type = FFIXTField.type || "";
       let id = record.id || "";
       let isOutterFlight = false;
-      if (orgdata.areaStatus === "OUTER" && (type === "N" || type === "R")) {
-      // if (type === "N" || type === "R") {
-        isOutterFlight = true;
+      if (props.ATOMConfigFormData.configValue * 1 === 300) {
+        if (orgdata.areaStatus === "OUTER" && type === "N") {
+          isOutterFlight = true;
+        }
+      } else {
+        if (orgdata.areaStatus === "OUTER" && (type === "N" || type === "R")) {
+          isOutterFlight = true;
+        }
       }
+
       if (
         systemName.indexOf("CRS") > -1 &&
         sortKey === "FFIXT" &&
@@ -206,9 +234,9 @@ function FTable(props) {
           }
         }
       }
-      // if (isOutterFlight) {
-      //   id += " groupb";
-      // }
+      if (isOutterFlight) {
+        id += " groupb";
+      }
       // if( id.indexOf("in_range") === -1){
       if (index % 2 === 0) {
         id += " even";
@@ -218,7 +246,12 @@ function FTable(props) {
       // }
       return id;
     },
-    [schemeStartTime, schemeEndTime, systemName]
+    [
+      schemeStartTime,
+      schemeEndTime,
+      systemName,
+      props.ATOMConfigFormData.configValue,
+    ]
   );
 
   const onChange = useCallback((pagination, filters, sorter, extra) => {
@@ -253,10 +286,17 @@ function FTable(props) {
     props.flightTableData.setFilterValues(name, value);
   }, []);
 
-  let columns = useMemo(() => {
+  let columns = getColumns(
+    props.systemPage.systemKind,
+    props.collaboratePopoverData,
+    false,
+    () => {}
+  );
+
+  useEffect(() => {
     if (filterable) {
       setHeight(tableHeight - 45);
-      return getColumns(
+      columns = getColumns(
         props.systemPage.systemKind,
         props.collaboratePopoverData,
         true,
@@ -264,25 +304,20 @@ function FTable(props) {
       );
     } else {
       setHeight(tableHeight + 45);
-      return getColumns(
-        props.systemPage.systemKind,
-        props.collaboratePopoverData
-      );
-    }
-  }, [filterable, props.systemPage.systemKind]);
-  useEffect(() => {
-    columns = getColumns(
-      props.systemPage.systemKind,
-      props.collaboratePopoverData
-    );
-  }, [props.systemPage.systemKind]);
-  useEffect(() => {
-    if (filterable) {
-      setHeight(tableHeight - 45);
-    } else {
-      setHeight(tableHeight + 45);
     }
   }, [filterable]);
+
+  if (flightTableData.lastSchemeId !== schemeListData.activeSchemeId) {
+    showList = [];
+  }
+  console.log(
+    "航班表格渲染 showList",
+    showList.length,
+    flightTableData.lastSchemeId,
+    schemeListData.activeSchemeId,
+    tableWidth,
+    tableHeight
+  );
   return (
     <Table
       columns={columns}
@@ -294,6 +329,7 @@ function FTable(props) {
         x: tableWidth,
         y: tableHeight,
       }}
+      loading={props.flightTableData.loading}
       onChange={onChange}
       rowClassName={setRowClassName}
       onRow={(record) => {
@@ -315,7 +351,8 @@ const FlightTable = inject(
   "flightTableData",
   "schemeListData",
   "collaboratePopoverData",
-  "systemPage"
+  "systemPage",
+  "ATOMConfigFormData"
 )(observer(FTable));
 /** end *****航班表格 纯表格************/
 
@@ -429,6 +466,7 @@ const TotalDom = inject("flightTableData")(
 
 /** start *****航班表格 列表框架************/
 function FlightTableModal(props) {
+  console.log("FlightTableModal 渲染");
   return (
     <Fragment>
       <ModalBox
@@ -443,7 +481,8 @@ function FlightTableModal(props) {
           <SearchInput />
           <TotalDom />
         </div>
-        <TSpin from={props.from} />
+        {/* <TSpin /> */}
+        <FlightTable />
         <Suspense fallback={<div></div>}>
           <FlightDetail />
           {/* 一个popover专注做一件事 */}
