@@ -92,7 +92,7 @@ function useSchemeList(props) {
   } = props;
 
   const curStatusValues = useRef();
-  const schemeTimeoutId = useRef("");
+  let [schemeTimeoutId, setSchemeTimeoutId] = useState(0)
 
   //获取--方案列表 @nextRefresh 是否开启下一轮定时
   const getSchemeList = useCallback(
@@ -130,15 +130,13 @@ function useSchemeList(props) {
             }
             //开启定时
             if (nextRefresh) {
-              if (isValidVariable(schemeTimeoutId.current)) {
-                clearTimeout(schemeTimeoutId.current);
-                schemeTimeoutId.current = "";
-                clearTimeout(schemeTimeoutId.current);
+              if (isValidVariable(schemeTimeoutId)) {
+                clearTimeout(schemeTimeoutId);
               }
-              schemeTimeoutId.current = setTimeout(() => {
-                // console.log("方案列表定时器-下一轮更新开始")
+              let timer = setTimeout(() => {
                 getSchemeList(true);
               }, 30 * 1000);
+              setSchemeTimeoutId(timer)
             }
             // notification.destroy();
             resolve("success");
@@ -152,14 +150,13 @@ function useSchemeList(props) {
             }
             //开启定时
             if (nextRefresh) {
-              if (isValidVariable(schemeTimeoutId.current)) {
-                clearTimeout(schemeTimeoutId.current);
-                schemeTimeoutId.current = "";
+              if (isValidVariable(schemeTimeoutId)) {
+                clearTimeout(schemeTimeoutId);
               }
-              schemeTimeoutId.current = setTimeout(() => {
-                // console.log("方案列表定时器-下一轮更新开始")
+              let timer = setTimeout(() => {
                 getSchemeList(true);
               }, 30 * 1000);
+              setSchemeTimeoutId(timer)
             }
             reject("error");
           },
@@ -219,7 +216,7 @@ function useSchemeList(props) {
   useEffect(
     function () {
       if (pageRefresh && isValidVariable(id)) {
-        console.log("方案刷新开启");
+        // console.log("方案刷新开启");
         props.schemeListData.toggleLoad(true);
         getSchemeList(false);
       }
@@ -229,7 +226,7 @@ function useSchemeList(props) {
 
   useEffect(() => {
     if (props.schemeListData.forceUpdate) {
-      console.log("方案列表强制更新");
+      // console.log("方案列表强制更新");
       getSchemeList(false);
       props.schemeListData.setForceUpdate(false);
     }
@@ -237,9 +234,8 @@ function useSchemeList(props) {
 
   useEffect(() => {
     return () => {
-      if (isValidVariable(schemeTimeoutId.current)) {
-        clearTimeout(schemeTimeoutId.current);
-        schemeTimeoutId.current = "";
+      if (isValidVariable(schemeTimeoutId)) {
+        clearTimeout(schemeTimeoutId);
       }
       props.schemeListData.updateList([], "");
       props.schemeListData.toggleSchemeActive("");
@@ -250,7 +246,7 @@ function useSchemeList(props) {
 }
 //航班请求 hook
 function useFlightsList(props) {
-  const flightsTimeoutId = useRef([]);
+  let [flightsTimeoutId, setFlightsTimeoutId] = useState(0)
   const { schemeListData, flightTableData, systemPage, match } = props;
   const { activeSchemeId, generateTime = "" } = schemeListData;
   const {
@@ -265,7 +261,7 @@ function useFlightsList(props) {
   const updateFlightTableData = useCallback(
     (flightData = {}) => {
       if (document.getElementsByClassName("collaborate_popover").length > 0) {
-        console.log("有协调窗口打开中，跳过此次航班更新");
+        // console.log("有协调窗口打开中，跳过此次航班更新");
         return;
       }
       // if (
@@ -369,20 +365,15 @@ function useFlightsList(props) {
         const timerFunc = function () {
           //开启定时
           if (nextRefresh) {
-            if (isValidVariable(flightsTimeoutId.current)) {
-              // console.log(" success 航班列表定时器-清理:"+flightsTimeoutId.current)
-              flightsTimeoutId.current.map((t) => {
-                clearTimeout(t);
-              });
-              flightsTimeoutId.current = [];
+            if (isValidVariable(flightsTimeoutId)) {
+              clearTimeout(flightsTimeoutId);
             }
-            const timer = setTimeout(() => {
+            let timer = setTimeout(() => {
               if (!props.flightTableData.dataLoaded) {
-                // console.log(" success 航班列表定时器-执行:"+flightsTimeoutId.current)
                 getFlightTableData(true);
               }
             }, 60 * 1000);
-            flightsTimeoutId.current.push(timer);
+            setFlightsTimeoutId(timer);
           }
         };
         //开始获取数据，修改状态
@@ -432,24 +423,9 @@ function useFlightsList(props) {
   );
 
   useEffect(() => {
-    if (flightTableData.startTimer) {
-      console.log("获取航班-已经开启了定时，请求一次");
-      flightsTimeoutId.current.map((t) => {
-        clearTimeout(t);
-      });
-      flightsTimeoutId.current = [];
-      getFlightTableData(false, true);
-    } else {
-      console.log("获取航班-还没开启了定时，开启");
-      flightsTimeoutId.current.map((t) => {
-        clearTimeout(t);
-      });
-      flightsTimeoutId.current = [];
-      //标志已经开启了定时，再次请求不用开启了
-
-      flightTableData.startTimer = true;
-      getFlightTableData(true, true);
-    }
+    clearTimeout(flightsTimeoutId);
+    getFlightTableData(true, true);
+    
   }, [activeSchemeId]);
 
   //监听全局刷新
@@ -467,7 +443,7 @@ function useFlightsList(props) {
 
   useEffect(() => {
     if (flightTableData.forceUpdate) {
-      console.log("航班数据强制更新");
+      // console.log("航班数据强制更新");
       getFlightTableData(false);
       flightTableData.setForceUpdate(false);
     }
@@ -490,7 +466,7 @@ function useExecuteKPIData(props) {
   const { schemeListData, executeKPIData, systemPage } = props;
   const { activeSchemeId, generateTime = "" } = schemeListData;
   const { pageRefresh, leftActiveName, user: { id = "" } = {} } = systemPage;
-  const ExecuteKPITimeoutId = useRef();
+  let [executeKPITimeoutId, setExecuteKPITimeoutId] = useState(0)
 
   //更新--执行KPI store数据
   const updateKPIData = useCallback((data) => {
@@ -528,16 +504,14 @@ function useExecuteKPIData(props) {
           executeKPIData.toggleLoad(false);
           //开启定时
           if (nextRefresh) {
-            if (isValidVariable(ExecuteKPITimeoutId.current)) {
-              clearTimeout(ExecuteKPITimeoutId.current);
-              ExecuteKPITimeoutId.current = "";
+            if (isValidVariable(executeKPITimeoutId)) {
+              clearTimeout(executeKPITimeoutId);
             }
-            ExecuteKPITimeoutId.current = setTimeout(() => {
-              // console.log("执行KPI数据 定时器-下一轮更新开始")
+            let timer  = setTimeout(() => {
               getKPIData(true);
             }, 60 * 1000);
+            setExecuteKPITimeoutId(timer);
           }
-          // notification.destroy();
           resolve("success");
         },
         errFunc: (err) => {
@@ -549,14 +523,13 @@ function useExecuteKPIData(props) {
           }
           //开启定时
           if (nextRefresh) {
-            if (isValidVariable(ExecuteKPITimeoutId.current)) {
-              clearTimeout(ExecuteKPITimeoutId.current);
-              ExecuteKPITimeoutId.current = "";
+            if (isValidVariable(executeKPITimeoutId)) {
+              clearTimeout(executeKPITimeoutId);
             }
-            ExecuteKPITimeoutId.current = setTimeout(() => {
-              // console.log("执行KPI数据 定时器-下一轮更新开始")
+            let timer  = setTimeout(() => {
               getKPIData(true);
             }, 60 * 1000);
+            setExecuteKPITimeoutId(timer);
           }
           resolve("error");
         },
@@ -568,6 +541,7 @@ function useExecuteKPIData(props) {
   }, []);
 
   useEffect(() => {
+    clearTimeout(executeKPITimeoutId);
     if (isValidVariable(activeSchemeId)) {
       executeKPIData.toggleLoad(true);
       getKPIData(true);
