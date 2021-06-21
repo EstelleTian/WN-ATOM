@@ -39,7 +39,7 @@ function ATOMConfigForm(props) {
                 // icon: <ExclamationCircleOutlined />,
                 centered: true,
                 closable: true,
-                content: <div><p>确定保存ATOM引接应用配置?</p></div>,
+                content: <div><p>确定保存各地CDM引接应用配置?</p></div>,
                 okText: '确定',
                 cancelText: '取消',
                 onOk: () => { submitData(value) },
@@ -90,7 +90,7 @@ function ATOMConfigForm(props) {
             title: '获取失败',
             content: (
                 <span>
-                    <span>获取ATOM引接应用配置数据失败</span>
+                    <span>获取各地CDM引接应用配置数据失败</span>
                     <br />
                     <span>{errMsg}</span>
                 </span>
@@ -113,7 +113,7 @@ function ATOMConfigForm(props) {
             title: '保存失败',
             content: (
                 <span>
-                    <span>ATOM引接应用配置保存失败</span>
+                    <span>各地CDM引接应用配置保存失败</span>
                     <br />
                     <span>{errMsg}</span>
                 </span>
@@ -129,7 +129,7 @@ function ATOMConfigForm(props) {
             title: '保存成功',
             content: (
                 <span>
-                    <span>ATOM引接应用配置保存成功</span>
+                    <span>各地CDM引接应用配置保存成功</span>
                 </span>
             ),
             centered: true,
@@ -160,7 +160,7 @@ function ATOMConfigForm(props) {
                     <Col span={24}>
                         <Form.Item
                             name="config"
-                            label="ATOM引接应用"
+                            label="各地CDM引接应用"
                             rules={[
                                 {
                                     required: true,

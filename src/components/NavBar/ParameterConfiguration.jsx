@@ -27,7 +27,7 @@ function ParameterConfiguration(props) {
           value="ATOMConfig"
           onClick={showATOMConfigurationModal}
         >
-          ATOM引接应用配置
+          各地CDM引接应用配置
         </Menu.Item>
         }
         {
