@@ -34,6 +34,9 @@ const SummaryCell = memo(
 
     const menu = (
       <Menu>
+        <Menu.Item key="1" title={publishTime}>
+          发布时间: {getDayTimeFromString(publishTime, "", 2)}
+        </Menu.Item>
         <Menu.Item key="2" title={createTime}>
           创建时间: {getDayTimeFromString(createTime, "", 2)}
         </Menu.Item>
