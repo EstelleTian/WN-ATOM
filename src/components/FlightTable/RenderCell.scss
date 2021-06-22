@@ -34,6 +34,11 @@
   .ant-table-cell.CTO, .ant-table-cell.CTOT,.ant-table-cell.EAP{
     text-align: left!important;
   }
+  .ant-table-cell{
+    &:hover{
+      cursor: pointer;
+    }
+  }
   //占满表格样式
   .full-cell{
     position: absolute;
