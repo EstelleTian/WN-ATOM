@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-22 09:17:26
+ * @LastEditTime: 2021-06-22 11:04:12
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -125,14 +125,6 @@ function FTable(props) {
   let [sortOrder, setSortOrder] = useState("ascend"); //表格排序 顺序  升序ascend/降序
 
   const { flightTableData = {}, schemeListData, systemPage } = props;
-  const {
-    autoScroll,
-    filterable,
-    focusFlightId,
-    dataLoaded,
-    codeType,
-    systemName,
-  } = flightTableData;
 
   // useEffect(() => {
   //     const flightCanvas = document.getElementsByClassName("flight_canvas");
@@ -167,7 +159,9 @@ function FTable(props) {
 
   //列配置
   let columns = useMemo(() => {
-    if (filterable) {
+    console.log("航班表格 filterable切换", flightTableData.filterable);
+    if (flightTableData.filterable) {
+      // setHeight(tableHeight - 45);
       return getColumns(
         props.systemPage.systemKind,
         props.collaboratePopoverData,
@@ -175,6 +169,7 @@ function FTable(props) {
         onCellFilter
       );
     } else {
+      // setHeight(tableHeight + 45);
       return getColumns(
         props.systemPage.systemKind,
         props.collaboratePopoverData,
@@ -182,21 +177,32 @@ function FTable(props) {
         () => {}
       );
     }
-  }, [filterable]);
+  }, [flightTableData.filterable]);
+  // }, []);
+
   //显示航班
-  let showList = [];
-  let targetFlight = {};
-  if (
-    flightTableData.loading ||
-    flightTableData.lastSchemeId !== schemeListData.activeSchemeId
-  ) {
-    showList = [];
-    targetFlight = {};
-  } else {
-    let obj = props.flightTableData.getShowFlights;
-    showList = obj.showList;
-    targetFlight = obj.targetFlight;
-  }
+  let { showList, targetFlight } = useMemo(() => {
+    let showList = [];
+    let targetFlight = {};
+    if (
+      flightTableData.loading ||
+      flightTableData.lastSchemeId !== schemeListData.activeSchemeId
+    ) {
+      showList = [];
+      targetFlight = {};
+    } else {
+      let obj = props.flightTableData.getShowedFlights();
+      showList = obj.showList;
+      targetFlight = obj.targetFlight;
+    }
+    return { showList, targetFlight };
+  }, [
+    flightTableData.loading,
+    flightTableData.lastSchemeId,
+    flightTableData.searchVal,
+    flightTableData.filterValues,
+    flightTableData.codeType,
+  ]);
 
   //方案起止时间
   let { schemeStartTime, schemeEndTime } = useMemo(() => {
@@ -218,7 +224,10 @@ function FTable(props) {
     };
   }, [flightTableData.loading]);
 
-  if (flightTableData.lastSchemeId !== schemeListData.activeSchemeId) {
+  if (
+    flightTableData.loading ||
+    flightTableData.lastSchemeId !== schemeListData.activeSchemeId
+  ) {
     showList = [];
     targetFlight = {};
   }
@@ -251,7 +260,7 @@ function FTable(props) {
       }
 
       if (
-        systemName.indexOf("CRS") > -1 &&
+        flightTableData.systemName.indexOf("CRS") > -1 &&
         sortKey === "FFIXT" &&
         isValidVariable(props.schemeListData.activeSchemeId) &&
         !isOutterFlight
@@ -291,38 +300,36 @@ function FTable(props) {
     [
       schemeStartTime,
       schemeEndTime,
-      systemName,
+      flightTableData.systemName,
       props.ATOMConfigFormData.configValue,
     ]
   );
   useEffect(() => {
-    if (autoScroll && isValidVariable(targetFlight.id)) {
+    if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
       scrollTopById(targetFlight.id, "flight_canvas");
     }
   }, [targetFlight.id]);
 
   useEffect(() => {
-    if (!dataLoaded && isValidVariable(focusFlightId)) {
+    if (
+      !flightTableData.dataLoaded &&
+      isValidVariable(flightTableData.focusFlightId)
+    ) {
       console.log("航班定位");
       //高亮航班
       const flightCanvas = document.getElementsByClassName("flight_canvas");
       const boxContent = flightCanvas[0].getElementsByClassName("box_content");
-      const tr = boxContent[0].getElementsByClassName(focusFlightId);
+      const tr = boxContent[0].getElementsByClassName(
+        flightTableData.focusFlightId
+      );
       if (tr.length > 0) {
         highlightRowByDom(tr[0]);
-        scrollTopById(focusFlightId, "flight_canvas");
-        props.flightTableData.focusFlightId = "";
+        scrollTopById(flightTableData.focusFlightId, "flight_canvas");
+        flightTableData.focusFlightId = "";
       }
     }
-  }, [focusFlightId, dataLoaded]);
+  }, [flightTableData.focusFlightId, flightTableData.dataLoaded]);
 
-  useEffect(() => {
-    if (filterable) {
-      setHeight(tableHeight - 45);
-    } else {
-      setHeight(tableHeight + 45);
-    }
-  }, [filterable]);
   return (
     <Table
       columns={columns}

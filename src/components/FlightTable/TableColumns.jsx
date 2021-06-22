@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-21 19:52:46
+ * @LastEditTime: 2021-06-22 10:27:05
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -500,9 +500,9 @@ let render = (opt) => {
   const { text = "", record, index, col, colCN } = opt;
   let color = "";
   let popover = (
-    <div className="text_cell_center" title={text}>
-      {text}
-    </div>
+    <Tooltip placement="bottom" title={text}>
+      <div className="text_cell_center">{text}</div>
+    </Tooltip>
   );
   if (col === "FLIGHTID") {
     let { orgdata } = record;
@@ -543,31 +543,43 @@ let render = (opt) => {
     if (isCoordinationResponseWaitingFlight) {
       colorClass += " WAIT";
     }
-    popover = (
-      <div className={` ${colorClass}`}>
-        <div
-          className={`text_cell_center ${
-            isValidVariable(text) ? "" : "empty_cell"
-          }`}
-          title={`${text}-${
-            PriorityList[priority] || ""
-          } ${areaStatusStr} ${flyStatusStr} ${
-            isCoordinationResponseWaitingFlight
-              ? `${getCoordinationResponseWaitingType(orgdata)}协调中`
-              : ""
-          }`}
-        >
-          <span className={`${areaStatus}`}>{text}</span>
-        </div>
 
-        <div
-          title={`${flyStatusStr}`}
-          className={`status_flag ${flyStatus}`}
-        ></div>
-      </div>
+    popover = (
+      <Tooltip
+        placement="bottom"
+        title={`${
+          PriorityList[priority] || ""
+        } ${areaStatusStr} ${flyStatusStr} ${
+          isCoordinationResponseWaitingFlight
+            ? `${getCoordinationResponseWaitingType(orgdata)}协调中`
+            : ""
+        }`}
+      >
+        <div className={` ${colorClass}`}>
+          <div
+            className={`text_cell_center ${
+              isValidVariable(text) ? "" : "empty_cell"
+            }`}
+          >
+            <span className={`${areaStatus}`}>{text}</span>
+          </div>
+
+          <div
+            title={`${flyStatusStr}`}
+            className={`status_flag ${flyStatus}`}
+          ></div>
+        </div>
+      </Tooltip>
+    );
+  } else if (col === "SOBT" || col === "EOBT" || col === "FEAL") {
+    popover = (
+      <Tooltip placement="bottom" title={getDayTimeFromString(text, "", 2)}>
+        <div className="text_cell_center">{getDayTimeFromString(text)}</div>
+      </Tooltip>
     );
   } else if (
     col === "CTO" ||
+    col === "ETO" ||
     col === "EAWT" ||
     col === "OAWT" ||
     col === "ATOT" ||
@@ -675,16 +687,18 @@ let render = (opt) => {
     // 未分配时隙原因
     let unSlotStatusReason = orgdata.unSlotStatusReason || "";
     popover = (
-      <div col-key={col} className={`full-cell ${col}`}>
-        <div
-          className={`${isValidVariable(text) ? "" : "empty_cell"}`}
-          title={`${
-            isValidVariable(unSlotStatusReason) ? unSlotStatusReason : ""
-          }`}
-        >
-          <span className="">{text}</span>
+      <Tooltip
+        placement="bottom"
+        title={`${
+          isValidVariable(unSlotStatusReason) ? unSlotStatusReason : ""
+        }`}
+      >
+        <div col-key={col} className={`full-cell ${col}`}>
+          <div className={`${isValidVariable(text) ? "" : "empty_cell"}`}>
+            <span className="">{text}</span>
+          </div>
         </div>
-      </div>
+      </Tooltip>
     );
   }
   let obj = {
@@ -1127,9 +1141,9 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     DEPAPIATA: flight.depapIATA,
     ARRAP: flight.arrap,
     ARRAPIATA: flight.arrapIATA,
-    SOBT: getDayTimeFromString(flight.sobt),
+    SOBT: flight.sobt,
     SLOT: flight.unSlotStatusReasonAbbr,
-    EOBT: getDayTimeFromString(flight.eobt),
+    EOBT: flight.eobt,
     TOBT: tobtField,
     COBT: cobtField,
     CTOT: ctotField,
@@ -1137,11 +1151,11 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     AGCT: agctField || {},
     ASBT: asbtField || {},
     ATOT: atotField,
-    FEAL: getDayTimeFromString(flight.formerArrtime),
+    FEAL: flight.formerArrtime,
     FFIX: ffixField.name,
     FFIXT: ffixField || {},
     CTO: ctoField,
-    ETO: getTimeAndStatus(etoField.value),
+    ETO: etoField,
     STATUS: flight.flightStatus,
     RWY: runwayField || {},
     POS: positionField || {},

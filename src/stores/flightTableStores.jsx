@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-21 19:52:53
+ * @LastEditTime: 2021-06-22 11:04:04
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -288,11 +288,9 @@ class FlightTableData {
     // let testList = this.list.filter((flight) => {
     //   let flightid = flight.flightid || "";
     //   if (
-    //     flightid === "CCA1994" ||
-    //     flightid === "CES2960" ||
-    //     flightid === "CES2880" ||
-    //     flightid === "CES5570" ||
-    //     flightid === "QDA6106"
+    //     flightid === "CSC8358" ||
+    //     flightid === "CCA1492" ||
+    //     flightid === "CES2430"
     //   ) {
     //     return true;
     //   }
@@ -301,9 +299,11 @@ class FlightTableData {
     // if (this.list.length > 100) {
     //   testList = this.list.slice(35, 60);
     // }
-    // let showList = testList.map((flight) => formatSingleFlight(flight));
+    // let showList = testList.map((flight) => formatSingleFlight(flight, this.atomConfigValue));
 
-    let showList = this.list.map((flight) => formatSingleFlight(flight));
+    let showList = this.list.map((flight) =>
+      formatSingleFlight(flight, this.atomConfigValue)
+    );
     const searchVal = this.searchVal.toLowerCase();
     if (isValidVariable(searchVal)) {
       showList = showList.filter((flight) => {
@@ -360,9 +360,9 @@ class FlightTableData {
     // let testList = this.list.filter((flight) => {
     //   let flightid = flight.flightid || "";
     //   if (
-    //     flightid === "CSN6717" ||
-    //     flightid === "UEA2252" ||
-    //     flightid === "CHB6265"
+    //     flightid === "CSC8358" ||
+    //     flightid === "CCA1492" ||
+    //     flightid === "CES2430"
     //   ) {
     //     return true;
     //   }
@@ -371,9 +371,8 @@ class FlightTableData {
     // if (this.list.length > 100) {
     //   testList = this.list.slice(35, 60);
     // }
-    // let showList = testList.map((flight) =>
-    //   formatSingleFlight(flight, this.atomConfigValue)
-    // );
+    // let showList = testList.map((flight) => formatSingleFlight(flight, this.atomConfigValue));
+
     let showList = this.list.map((flight) =>
       formatSingleFlight(flight, this.atomConfigValue)
     );

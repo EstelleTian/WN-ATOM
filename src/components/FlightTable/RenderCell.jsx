@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-16 18:57:54
+ * @LastEditTime: 2021-06-22 10:10:38
  * @LastEditors: Please set LastEditors
  * @Description:
  * @FilePath: CollaboratePopover.jsx
@@ -21,14 +21,18 @@ import "./RenderCell.scss";
 
 const getTitle = (title) => {
   if (!isValidVariable(title)) return "";
-  const titleArr = title.split("#");
-  return (
-    <div>
-      {titleArr.map((value, index) => (
-        <div key={index}>{value}</div>
-      ))}
-    </div>
-  );
+  if (title * 1 > 0 && title.length >= 12) {
+    return <div>{getDayTimeFromString(title, "", 2)}</div>;
+  } else {
+    const titleArr = title.split("#");
+    return (
+      <div>
+        {titleArr.map((value, index) => (
+          <div key={index}>{value}</div>
+        ))}
+      </div>
+    );
+  }
 };
 
 const RenderCell = (props) => {
@@ -48,6 +52,9 @@ const RenderCell = (props) => {
   if (isValidVariable(value) && value.length >= 12) {
     type = type === null ? "" : type;
     showVal = getDayTimeFromString(value) + " " + type;
+  }
+  if (!isValidVariable(title) && isValidVariable(value)) {
+    title = value;
   }
 
   // if (effectStatus * 1 === 200) {
