@@ -562,9 +562,8 @@ function useExecuteKPIData(props) {
 
   useEffect(() => {
     return () => {
-      if (isValidVariable(ExecuteKPITimeoutId.current)) {
-        clearTimeout(ExecuteKPITimeoutId.current);
-        ExecuteKPITimeoutId.current = "";
+      if (isValidVariable(executeKPITimeoutId)) {
+        clearTimeout(executeKPITimeoutId);
       }
       executeKPIData.updateExecuteKPIData({});
     };
