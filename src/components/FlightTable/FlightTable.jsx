@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-21 20:17:57
+ * @LastEditTime: 2021-06-22 09:17:26
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -134,6 +134,23 @@ function FTable(props) {
     systemName,
   } = flightTableData;
 
+  // useEffect(() => {
+  //     const flightCanvas = document.getElementsByClassName("flight_canvas");
+  //     const boxContent = flightCanvas[0].getElementsByClassName("box_content");
+  //     const tr = boxContent[0].getElementsByClassName( props.flightTableData.selectFlightId );
+  //     console.log("自动选回高亮dom",  props.flightTableData.selectFlightId)
+  //     if( tr.length > 0 ){
+  //         highlightRowByDom(tr);
+  //     }
+
+  // }, [schemeListData.activeSchemeId]);
+
+  const onChange = useCallback((pagination, filters, sorter, extra) => {
+    // console.log('params', pagination, filters, sorter, extra);
+    setSortOrder(sorter.order);
+    setSortKey(sorter.columnKey);
+  }, []);
+
   const handleRow = useCallback((event, record) => {
     // 点击行
     const dom = event.currentTarget;
@@ -143,6 +160,45 @@ function FTable(props) {
     highlightRowByDom(dom);
   }, []);
 
+  const onCellFilter = useCallback((name, value) => {
+    // console.log(name,value);
+    props.flightTableData.setFilterValues(name, value);
+  }, []);
+
+  //列配置
+  let columns = useMemo(() => {
+    if (filterable) {
+      return getColumns(
+        props.systemPage.systemKind,
+        props.collaboratePopoverData,
+        true,
+        onCellFilter
+      );
+    } else {
+      return getColumns(
+        props.systemPage.systemKind,
+        props.collaboratePopoverData,
+        false,
+        () => {}
+      );
+    }
+  }, [filterable]);
+  //显示航班
+  let showList = [];
+  let targetFlight = {};
+  if (
+    flightTableData.loading ||
+    flightTableData.lastSchemeId !== schemeListData.activeSchemeId
+  ) {
+    showList = [];
+    targetFlight = {};
+  } else {
+    let obj = props.flightTableData.getShowFlights;
+    showList = obj.showList;
+    targetFlight = obj.targetFlight;
+  }
+
+  //方案起止时间
   let { schemeStartTime, schemeEndTime } = useMemo(() => {
     if (flightTableData.loading) {
       return {
@@ -160,34 +216,20 @@ function FTable(props) {
       schemeStartTime: startTime,
       schemeEndTime: endTime,
     };
-    // }, [schemeListData.activeSchemeId]);
   }, [flightTableData.loading]);
 
-  let showList = [];
-  let targetFlight = {};
-  if (
-    flightTableData.loading &&
-    flightTableData.lastSchemeId !== schemeListData.activeSchemeId
-  ) {
+  if (flightTableData.lastSchemeId !== schemeListData.activeSchemeId) {
     showList = [];
     targetFlight = {};
-  } else {
-    let obj = props.flightTableData.getShowedFlights();
-    showList = obj.showList;
-    targetFlight = obj.targetFlight;
   }
-
-  // useEffect(() => {
-  //     const flightCanvas = document.getElementsByClassName("flight_canvas");
-  //     const boxContent = flightCanvas[0].getElementsByClassName("box_content");
-  //     const tr = boxContent[0].getElementsByClassName( props.flightTableData.selectFlightId );
-  //     console.log("自动选回高亮dom",  props.flightTableData.selectFlightId)
-  //     if( tr.length > 0 ){
-  //         highlightRowByDom(tr);
-  //     }
-
-  // }, [schemeListData.activeSchemeId]);
-
+  console.log(
+    "航班表格渲染 showList",
+    showList.length,
+    flightTableData.lastSchemeId,
+    schemeListData.activeSchemeId,
+    tableWidth,
+    tableHeight
+  );
   //设置表格行的 class
   const setRowClassName = useCallback(
     (record, index) => {
@@ -253,13 +295,6 @@ function FTable(props) {
       props.ATOMConfigFormData.configValue,
     ]
   );
-
-  const onChange = useCallback((pagination, filters, sorter, extra) => {
-    // console.log('params', pagination, filters, sorter, extra);
-    setSortOrder(sorter.order);
-    setSortKey(sorter.columnKey);
-  }, []);
-
   useEffect(() => {
     if (autoScroll && isValidVariable(targetFlight.id)) {
       scrollTopById(targetFlight.id, "flight_canvas");
@@ -281,43 +316,13 @@ function FTable(props) {
     }
   }, [focusFlightId, dataLoaded]);
 
-  const onCellFilter = useCallback((name, value) => {
-    // console.log(name,value);
-    props.flightTableData.setFilterValues(name, value);
-  }, []);
-
-  let columns = getColumns(
-    props.systemPage.systemKind,
-    props.collaboratePopoverData,
-    false,
-    () => {}
-  );
-
   useEffect(() => {
     if (filterable) {
       setHeight(tableHeight - 45);
-      columns = getColumns(
-        props.systemPage.systemKind,
-        props.collaboratePopoverData,
-        true,
-        onCellFilter
-      );
     } else {
       setHeight(tableHeight + 45);
     }
   }, [filterable]);
-
-  if (flightTableData.lastSchemeId !== schemeListData.activeSchemeId) {
-    showList = [];
-  }
-  console.log(
-    "航班表格渲染 showList",
-    showList.length,
-    flightTableData.lastSchemeId,
-    schemeListData.activeSchemeId,
-    tableWidth,
-    tableHeight
-  );
   return (
     <Table
       columns={columns}
