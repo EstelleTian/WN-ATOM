@@ -10,7 +10,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { observer, inject } from "mobx-react";
 import { Radio, Tag } from "antd";
-import RefreshBtn from "components/SchemeList/RefreshBtn";
 
 //计划时间范围
 function DateRange(props) {
