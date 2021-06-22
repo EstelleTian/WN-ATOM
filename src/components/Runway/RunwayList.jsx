@@ -33,6 +33,7 @@ const FilterBar = inject("runwayListData")(observer(Filter))
 
 //跑道列表
 function List(props) {
+    let timer = 0;
     const { runwayListData, systemPage, toggleModalVisible, toggleModalType } = props;
     const { filterList, loading } = runwayListData;
     // 用户id
@@ -79,6 +80,10 @@ function List(props) {
         };
         // 发送请求
         request(opt);
+        // 清除定时
+        clearTimeout(timer);
+        // 开启定时获取数据
+        timer = setTimeout(requestRunwayListData, 60*1000);
     };
 
     useEffect(function(){
@@ -86,21 +91,17 @@ function List(props) {
         props.runwayListData.toggleLoad(true);
         // 获取数据
         requestRunwayListData();
-        // 清除定时
-        clearInterval(props.runwayListData.timeoutId);
-        // 开启定时获取数据
-        props.runwayListData.timeoutId = setInterval(requestRunwayListData, 60*1000);
         return function(){
-            clearInterval(props.runwayListData.timeoutId);
-            props.runwayListData.timeoutId = "";
+            clearTimeout(timer);
         }
     },[props.systemPage.userId])
 
     useEffect(function(){
-        // 清除定时
-        clearInterval(props.runwayListData.timeoutId);
         // 获取数据
         requestRunwayListData();
+        return function(){
+            clearTimeout(timer);
+        }
     },[counter])
     return (
         <Spin spinning={loading} >
