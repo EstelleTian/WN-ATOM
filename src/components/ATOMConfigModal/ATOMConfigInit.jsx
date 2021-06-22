@@ -7,8 +7,12 @@ import { isValidObject, isValidVariable } from "utils/basic-verify";
 
 //ATOM引接应用配置表单
 function ATOMConfigInit({ ATOMConfigFormData, flightTableData }) {
+
+  let timer = 0;
+
   //获取配置数据
   const fetchConfigData = () => {
+    clearTimeout(timer);
     const opt = {
       url: ReqUrls.switchConfigUrl + "/switch/atomDataApplySwitch",
       method: "GET",
@@ -16,6 +20,7 @@ function ATOMConfigInit({ ATOMConfigFormData, flightTableData }) {
       errFunc: (err) => fetchErr(err),
     };
     request(opt);
+    timer = setTimeout(fetchConfigData, 1000*60*10);
   };
 
   //获取配置数据成功
@@ -24,7 +29,7 @@ function ATOMConfigInit({ ATOMConfigFormData, flightTableData }) {
     flightTableData.atomConfigValue = data.currentVal;
   });
 
-  //数据提交失败回调
+  //数据获取失败回调
   const fetchErr = useCallback((err) => {
     ATOMConfigFormData.updateConfigData({});
     let errMsg = "";
@@ -47,8 +52,10 @@ function ATOMConfigInit({ ATOMConfigFormData, flightTableData }) {
     });
   });
 
-  //获取配置数据
-  fetchConfigData();
+  useEffect(function () {
+    //获取配置数据
+    fetchConfigData();
+  }, []);
   return "";
 }
 export default inject(
