@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-23 14:59:21
+ * @LastEditTime: 2021-06-23 17:05:30
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -30,6 +30,7 @@ import SchemeModal from "./SchemeModal";
 import { ReqUrls } from "utils/request-urls";
 import { customNotice } from "utils/common-funcs";
 import SchemeItem from "./SchemeItem";
+import useSchemeList from "./useSchemeList";
 import useFlightsList from "./useFlightsList";
 import useExecuteKPIData from "./useExecuteKPIData";
 import "./SchemeList.scss";
@@ -74,195 +75,10 @@ function clearStoreData(props) {
   flightTableData.updateFlightsList([], "");
 }
 
-//方案请求 hook
-function useSchemeList(props) {
-  const {
-    schemeListData: { statusValues = [] } = {},
-    systemPage: {
-      pageRefresh,
-      user: { id = "" } = {},
-      dateRangeData = [],
-    } = {},
-  } = props;
-
-  const curStatusValues = useRef();
-  let [schemeTimeoutId, setSchemeTimeoutId] = useState(0);
-
-  //获取--方案列表 @nextRefresh 是否开启下一轮定时
-  const getSchemeList = useCallback(
-    (nextRefresh = false) => {
-      // console.log("获取--方案列表，statusValues是:"+curStatusValues.current);
-      const p = new Promise((resolve, reject) => {
-        let baseTime = "";
-        let dateRangeData = props.systemPage.dateRangeData || [];
-        if (dateRangeData.length === 0) {
-          const date = new Date();
-          let year = date.getFullYear();
-          let month = date.getMonth() + 1;
-          let day = date.getDate();
-          year = "" + year;
-          month = month < 10 ? "0" + month : "" + month;
-          day = day < 10 ? "0" + day : "" + day;
-          baseTime = year + "" + month + "" + day;
-        }
-        let filterArrap = "";
-        let filterRegion = "";
-        let region = "";
-        let filterDepap = "";
-        let system = "";
-        const activeSystem = props.systemPage.activeSystem || {};
-        filterArrap = activeSystem.filterArrap || "";
-        filterRegion = activeSystem.filterRegion || "";
-        region = activeSystem.region || "";
-        filterDepap = activeSystem.filterDepap || "";
-        system = activeSystem.system || "";
-        const opt = {
-          url: ReqUrls.schemeListUrl,
-          method: "GET",
-          params: {
-            status: curStatusValues.current.join(","),
-            startTime:
-              dateRangeData.length > 0 ? dateRangeData[0] : baseTime + "0000",
-            endTime:
-              dateRangeData.length > 0 ? dateRangeData[1] : baseTime + "2359",
-            userId: id,
-            filterArrap,
-            filterRegion,
-            filterDepap,
-            system,
-            region,
-          },
-          resFunc: (data) => {
-            //更新方案数据
-            updateSchemeListData(data);
-            if (props.schemeListData.loading) {
-              props.schemeListData.toggleLoad(false);
-            }
-            //开启定时
-            if (nextRefresh) {
-              if (isValidVariable(schemeTimeoutId)) {
-                clearTimeout(schemeTimeoutId);
-              }
-              let timer = setTimeout(() => {
-                getSchemeList(true);
-              }, 40 * 1000);
-              setSchemeTimeoutId(timer);
-            }
-            // notification.destroy();
-            resolve("success");
-          },
-          errFunc: (err) => {
-            customNotice({
-              type: "error",
-              content: "方案列表数据获取失败",
-            });
-            // 清空各模块store数据
-            clearStoreData(props);
-            if (props.schemeListData.loading) {
-              props.schemeListData.toggleLoad(false);
-            }
-            //开启定时
-            if (nextRefresh) {
-              if (isValidVariable(schemeTimeoutId)) {
-                clearTimeout(schemeTimeoutId);
-              }
-              let timer = setTimeout(() => {
-                getSchemeList(true);
-              }, 40 * 1000);
-              setSchemeTimeoutId(timer);
-            }
-            // reject("error");
-          },
-        };
-        requestGet(opt);
-      });
-
-      return p;
-    },
-    [id, dateRangeData]
-  );
-
-  //提交成功--处理 更新--方案列表 store数据
-  const updateSchemeListData = useCallback((data) => {
-    let { tacticProcessInfos, generateTime = "" } = data;
-    if (tacticProcessInfos === null) {
-      tacticProcessInfos = [];
-    }
-    const list = tacticProcessInfos.map((item) => {
-      const { basicTacticInfo } = item;
-      return basicTacticInfo;
-    });
-    //更新 方案列表 store
-    props.schemeListData.updateList(list, generateTime);
-    props.systemPage.setBaseDate(generateTime);
-  }, []);
-
-  useEffect(() => {
-    if (isValidVariable(id)) {
-      // 复制一份
-      let newStatusValues = [...statusValues];
-      //获取方案列表--开启下一轮更新
-      let index = newStatusValues.indexOf("TERMINATED");
-      if (index > -1) {
-        // 将"TERMINATED"替换为 "FINISHED","TERMINATED_MANUAL","TERMINATED_AUTO"
-        newStatusValues.splice(
-          index,
-          1,
-          "FINISHED",
-          "TERMINATED_MANUAL",
-          "TERMINATED_AUTO"
-        );
-      }
-      curStatusValues.current = newStatusValues;
-      props.schemeListData.toggleLoad(true);
-      getSchemeList(true);
-    } else {
-      //没有user id 清定时器
-      if (isValidVariable(schemeTimeoutId.current)) {
-        clearTimeout(schemeTimeoutId.current);
-        schemeTimeoutId.current = "";
-      }
-    }
-  }, [id, statusValues]);
-
-  //监听全局刷新
-  useEffect(
-    function () {
-      if (pageRefresh && isValidVariable(id)) {
-        // console.log("方案刷新开启");
-        props.schemeListData.toggleLoad(true);
-        getSchemeList(false);
-      }
-    },
-    [pageRefresh, id]
-  );
-
-  useEffect(() => {
-    if (props.schemeListData.forceUpdate) {
-      // console.log("方案列表强制更新");
-      getSchemeList(false);
-      props.schemeListData.setForceUpdate(false);
-    }
-  }, [props.schemeListData.forceUpdate]);
-
-  useEffect(() => {
-    return () => {
-      if (isValidVariable(schemeTimeoutId)) {
-        clearTimeout(schemeTimeoutId);
-      }
-      props.schemeListData.updateList([], "");
-      props.schemeListData.toggleSchemeActive("");
-    };
-  }, []);
-
-  return getSchemeList;
-}
-
-const useSchemeModal = (props) => {
+const useSchemeModal = ({ systemPage }) => {
   const [visible, setVisible] = useState(false); //详情模态框显隐
   const [modalId, setModalId] = useState(""); //当前选中方案详情的id，不一定和激活方案id一样
   const [modalType, setModalType] = useState(""); //当前选中方案详情的id，不一定和激活方案id一样
-  const { systemPage } = props;
 
   //方案模态框显隐
   const toggleModalVisible = useCallback((flag, id) => {
@@ -310,27 +126,27 @@ const SchemeTitle = inject("schemeListData")(observer(STitle));
 
 //方案列表
 function SList(props) {
-  const { match } = props;
+  const {
+    match,
+    schemeListData,
+    flightTableData,
+    executeKPIData,
+    performanceKPIData,
+    systemPage,
+    todoList,
+  } = props;
   const params = match.params || {};
   const from = params.from || ""; //来源
-  const getSchemeList = useSchemeList(props);
-  useFlightsList({
-    schemeListData: props.schemeListData,
-    performanceKPIData: props.performanceKPIData,
-    systemPage: props.systemPage,
-    flightTableData: props.flightTableData,
+  const getSchemeList = useSchemeList({
+    schemeListData,
+    systemPage,
   });
-  if (
-    props.systemPage.systemKind === "CRS" &&
-    props.systemPage.leftActiveName !== ""
-  ) {
-    useExecuteKPIData({
-      schemeListData: props.schemeListData,
-      executeKPIData: props.executeKPIData,
-      systemPage: props.systemPage,
-    });
-  }
-
+  useFlightsList({
+    schemeListData,
+    performanceKPIData,
+    systemPage,
+    flightTableData,
+  });
   const {
     userId,
     visible,
@@ -339,10 +155,14 @@ function SList(props) {
     setVisible,
     toggleModalVisible,
     toggleModalType,
-  } = useSchemeModal(props);
-
-  const { schemeListData } = props;
-  const { sortedList, activeSchemeId, loading } = schemeListData; //获取排序后的方案列表
+  } = useSchemeModal({ systemPage });
+  if (systemPage.systemKind === "CRS") {
+    useExecuteKPIData({
+      schemeListData,
+      executeKPIData,
+      systemPage,
+    });
+  }
 
   //接收客户端传来方案id，用以自动切换到选中方案
   NWGlobal.setSchemeId = useCallback((schemeId, title) => {
@@ -350,7 +170,7 @@ function SList(props) {
     //主动获取一次
     getSchemeList().then(function (data) {
       //验证有没有这个方案
-      const res = props.schemeListData.activeScheme(schemeId);
+      const res = schemeListData.activeScheme(schemeId);
       if (isValidObject(res)) {
         // 该方案是否已计算
         const isCalculated = res.isCalculated;
@@ -372,37 +192,37 @@ function SList(props) {
   NWGlobal.targetToFlight = (schemeId, flightId) => {
     // alert("schemeId:"+schemeId+" flightId:"+flightId);
     //验证有没有这个方案
-    const res = props.schemeListData.activeScheme(schemeId);
+    const res = schemeListData.activeScheme(schemeId);
     if (isValidObject(res)) {
       //当前选中的方案
-      const activeSchemeId = props.schemeListData.activeSchemeId;
+      const activeSchemeId = schemeListData.activeSchemeId;
       if (activeSchemeId !== schemeId) {
         //如果当前激活的id和传来的不一样，手动触发
         //选中方案
-        props.schemeListData.toggleSchemeActive(schemeId + "");
-        props.systemPage.setLeftNavSelectedName("");
+        schemeListData.toggleSchemeActive(schemeId + "");
+        systemPage.setLeftNavSelectedName("");
       }
     } else {
       //选默认交通流
-      if (props.systemPage.leftNavNameList.indexOf(schemeId) !== -1) {
+      if (systemPage.leftNavNameList.indexOf(schemeId) !== -1) {
         //选默认交通流
-        props.schemeListData.toggleSchemeActive(schemeId);
-        props.systemPage.setLeftNavSelectedName(schemeId);
+        schemeListData.toggleSchemeActive(schemeId);
+        systemPage.setLeftNavSelectedName(schemeId);
       }
     }
 
-    props.flightTableData.focusFlightId = flightId;
+    flightTableData.focusFlightId = flightId;
     //验证航班协调按钮是否激活 todo为已激活
-    if (props.systemPage.modalActiveName !== "todo") {
-      props.systemPage.setModalActiveName("todo");
+    if (systemPage.modalActiveName !== "todo") {
+      systemPage.setModalActiveName("todo");
     }
-    if (props.todoList.activeTab !== "1") {
-      props.todoList.activeTab = "1";
+    if (todoList.activeTab !== "1") {
+      todoList.activeTab = "1";
     }
-    let taskId = props.todoList.getIdByFlightId(flightId);
+    let taskId = todoList.getIdByFlightId(flightId);
     if (isValidVariable(taskId)) {
       //根据 taskId 高亮工作流
-      props.todoList.focusTaskId = taskId;
+      todoList.focusTaskId = taskId;
     }
   };
 
@@ -410,9 +230,9 @@ function SList(props) {
   const handleActive = useCallback(
     debounce((id, title, from) => {
       console.log("handleActive 方案:", id);
-      if (!props.flightTableData.dataLoaded || from === "init") {
+      if (!flightTableData.dataLoaded || from === "init") {
         const res = schemeListData.toggleSchemeActive(id + "");
-        props.systemPage.setLeftNavSelectedName("");
+        systemPage.setLeftNavSelectedName("");
         if (res) {
           //来自客户端定位，滚动到对应位置
           if (from === "client") {
@@ -437,13 +257,13 @@ function SList(props) {
 
   useEffect(() => {
     if (
-      activeSchemeId === "" &&
-      sortedList.length > 0 &&
-      props.systemPage.leftNavSelectedName === ""
+      schemeListData.activeSchemeId === "" &&
+      schemeListData.sortedList.length > 0 &&
+      systemPage.leftNavSelectedName === ""
     ) {
       //默认选第一条 已计算
       let defaultId = "";
-      sortedList.map((item) => {
+      schemeListData.sortedList.map((item) => {
         if (item.isCalculated && defaultId === "") {
           defaultId = item.id;
         }
@@ -451,23 +271,24 @@ function SList(props) {
 
       handleActive(defaultId, "", "init");
     }
-  }, [sortedList, activeSchemeId, props.systemPage.leftNavSelectedName]);
-
-  // console.log("方案列表 render")
+  }, [
+    schemeListData.sortedList,
+    schemeListData.activeSchemeId,
+    systemPage.leftNavSelectedName,
+  ]);
 
   return (
-    // <Spin spinning={loading}>
     <div className="list_container">
-      {sortedList.length > 0 ? (
-        sortedList.map((item, index) => (
+      {schemeListData.sortedList.length > 0 ? (
+        schemeListData.sortedList.map((item, index) => (
           <SchemeItem
-            activeSchemeId={activeSchemeId}
+            activeSchemeId={schemeListData.activeSchemeId}
             item={item}
             handleActive={handleActive}
             key={index}
             toggleModalVisible={toggleModalVisible}
             toggleModalType={toggleModalType}
-            generateTime={props.schemeListData.generateTime}
+            generateTime={schemeListData.generateTime}
           ></SchemeItem>
         ))
       ) : (
@@ -488,7 +309,6 @@ function SList(props) {
         ""
       )}
     </div>
-    // </Spin>
   );
 }
 
@@ -515,5 +335,4 @@ const SchemeListModal = (props) => {
     </div>
   );
 };
-// export default SchemeListModal;
 export default inject("schemeListData")(observer(SchemeListModal));

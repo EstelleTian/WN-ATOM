@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { requestGet } from "utils/request";
+import { requestGet2 } from "utils/request";
 import { isValidVariable, isValidObject } from "utils/basic-verify";
 import { ReqUrls } from "utils/request-urls";
 import { customNotice } from "utils/common-funcs";
@@ -33,57 +33,41 @@ function useExecuteKPIData({ schemeListData, executeKPIData, systemPage }) {
       });
     }
   }, []);
-  //获取--执行KPI数据
-  const getKPIData = useCallback((nextRefresh) => {
-    const p = new Promise((resolve, reject) => {
-      let activeSchemeId = schemeListData.activeSchemeId;
-      if (activeSchemeId.indexOf("focus") > -1) {
-        activeSchemeId = activeSchemeId.replace(/focus-/g, "");
+  const timerFunc = useCallback(function (nextRefresh) {
+    //开启定时
+    if (nextRefresh) {
+      if (isValidVariable(executeKPITimeoutId)) {
+        clearTimeout(executeKPITimeoutId);
       }
-      const opt = {
+      let timer = setTimeout(() => {
+        getKPIData(true);
+      }, 60 * 1000);
+      setExecuteKPITimeoutId(timer);
+    }
+  }, []);
+  //获取--执行KPI数据
+  const getKPIData = useCallback(async (nextRefresh) => {
+    try {
+      let activeSchemeId = schemeListData.activeSchemeId || "";
+      const data = await requestGet2({
         url: ReqUrls.executeKPIDataUrl + activeSchemeId,
-        method: "GET",
         params: {},
-        resFunc: (data) => {
-          updateKPIData(data);
-          executeKPIData.toggleLoad(false);
-          //开启定时
-          if (nextRefresh) {
-            if (isValidVariable(executeKPITimeoutId)) {
-              clearTimeout(executeKPITimeoutId);
-            }
-            let timer = setTimeout(() => {
-              getKPIData(true);
-            }, 60 * 1000);
-            setExecuteKPITimeoutId(timer);
-          }
-          resolve("success");
-        },
-        errFunc: (err) => {
-          customNotice({
-            type: "error",
-            content: "KPI数据获取失败",
-          });
-          // 置空KPIstore数据
-          executeKPIData.updateExecuteKPIData({}, "");
-          if (executeKPIData.loading) {
-            executeKPIData.toggleLoad(false);
-          }
-          //开启定时
-          if (nextRefresh) {
-            if (isValidVariable(executeKPITimeoutId)) {
-              clearTimeout(executeKPITimeoutId);
-            }
-            let timer = setTimeout(() => {
-              getKPIData(true);
-            }, 60 * 1000);
-            setExecuteKPITimeoutId(timer);
-          }
-          resolve("error");
-        },
-      };
-      requestGet(opt);
-    });
+      });
+      updateKPIData(data);
+      executeKPIData.toggleLoad(false);
+      timerFunc(nextRefresh);
+    } catch (e) {
+      customNotice({
+        type: "error",
+        content: "KPI数据获取失败",
+      });
+      // 置空KPIstore数据
+      executeKPIData.updateExecuteKPIData({}, "");
+      if (executeKPIData.loading) {
+        executeKPIData.toggleLoad(false);
+      }
+      timerFunc(nextRefresh);
+    }
   }, []);
 
   useEffect(() => {

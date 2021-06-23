@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-06-04 13:19:46
+ * @LastEditTime: 2021-06-23 16:03:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -142,6 +142,7 @@ function CapacityCont(props) {
         for (let key in capacityMap) {
           obj = capacityMap[key];
         }
+        // props.capacity.setDynamicData({});
         props.capacity.setDynamicData(obj);
         props.capacity.setOtherData(generateTime, authMap, elementNameFs);
 
