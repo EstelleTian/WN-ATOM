@@ -42,6 +42,11 @@ class ATOMConfigForm {
             this.configValue = "";
         }
     }
+    // 更新选中的配置值
+    @action updateConfigValue(value) {
+        // 更新选中的配置值
+        this.configValue = value;
+    }
 }
 
 let ATOMConfigFormData = new ATOMConfigForm();

@@ -112,6 +112,32 @@ function Topic(props) {
           props.flightTableData.updateSingleFlight(flightCoordination);
         }
       });
+      // 收到各地CDM&NTFM引接应用配置变更消息
+      const topic_PARAMETER_CONFIG_SWITCH_CONFIG_CHANGE = 
+      "/exchange/EXCHANGE.SWITCH_CONFIG_UPDATE_ENEXCHANGE";
+      jms_websocket.subscribe(topic_PARAMETER_CONFIG_SWITCH_CONFIG_CHANGE, function (d) {
+        //收到消息
+        const body = d.body;
+        const data = JSON.parse(body);
+        // 消息内容
+        const msg = data.message;
+        const {switchKey, switchVal} = msg;
+        // 各地CDM引接应用配置
+        if(switchKey === "atomDataApplySwitch" && isValidVariable(switchVal) && switchVal !== props.ATOMConfigFormData.configValue){
+          // 更新各地CDM引接应用页面 ATOMConfigFormData Store数据
+          props.ATOMConfigFormData.updateConfigValue(switchVal);
+          // 更新航班表格flightTableData store 数据
+          props.flightTableData.atomConfigValue = switchVal;
+          // 强制刷新航班表格
+          props.flightTableData.setForceUpdate(true);;
+        }
+        // NTFM引接应用配置
+        if(switchKey === "ntfmDataApplySwitch" && isValidVariable(switchVal) && switchVal !== props.NTFMConfigFormData.configValue){
+          // 更新NTFM引接应用页面 ATOMConfigFormData Store数据
+          props.NTFMConfigFormData.updateConfigValue(switchVal);
+        }
+      });
+
     });
   };
 
@@ -133,6 +159,8 @@ export default withRouter(
     "flightTableData",
     "todoList",
     "myApplicationList",
-    "schemeListData"
+    "schemeListData",
+    "ATOMConfigFormData",
+    "NTFMConfigFormData",
   )(observer(Topic))
 );
