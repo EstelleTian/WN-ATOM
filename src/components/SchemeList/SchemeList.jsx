@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-21 16:56:24
+ * @LastEditTime: 2021-06-23 11:46:35
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -92,7 +92,7 @@ function useSchemeList(props) {
   } = props;
 
   const curStatusValues = useRef();
-  let [schemeTimeoutId, setSchemeTimeoutId] = useState(0)
+  let [schemeTimeoutId, setSchemeTimeoutId] = useState(0);
 
   //获取--方案列表 @nextRefresh 是否开启下一轮定时
   const getSchemeList = useCallback(
@@ -151,8 +151,8 @@ function useSchemeList(props) {
               }
               let timer = setTimeout(() => {
                 getSchemeList(true);
-              }, 30 * 1000);
-              setSchemeTimeoutId(timer)
+              }, 40 * 1000);
+              setSchemeTimeoutId(timer);
             }
             // notification.destroy();
             resolve("success");
@@ -171,8 +171,8 @@ function useSchemeList(props) {
               }
               let timer = setTimeout(() => {
                 getSchemeList(true);
-              }, 30 * 1000);
-              setSchemeTimeoutId(timer)
+              }, 40 * 1000);
+              setSchemeTimeoutId(timer);
             }
             reject("error");
           },
@@ -262,7 +262,7 @@ function useSchemeList(props) {
 }
 //航班请求 hook
 function useFlightsList(props) {
-  let [flightsTimeoutId, setFlightsTimeoutId] = useState(0)
+  let [flightsTimeoutId, setFlightsTimeoutId] = useState(0);
   const { schemeListData, flightTableData, systemPage, match } = props;
   const { activeSchemeId, generateTime = "" } = schemeListData;
   const {
@@ -441,7 +441,6 @@ function useFlightsList(props) {
   useEffect(() => {
     clearTimeout(flightsTimeoutId);
     getFlightTableData(true, true);
-
   }, [activeSchemeId]);
 
   //监听全局刷新
@@ -482,7 +481,7 @@ function useExecuteKPIData(props) {
   const { schemeListData, executeKPIData, systemPage } = props;
   const { activeSchemeId, generateTime = "" } = schemeListData;
   const { pageRefresh, leftActiveName, user: { id = "" } = {} } = systemPage;
-  let [executeKPITimeoutId, setExecuteKPITimeoutId] = useState(0)
+  let [executeKPITimeoutId, setExecuteKPITimeoutId] = useState(0);
 
   //更新--执行KPI store数据
   const updateKPIData = useCallback((data) => {

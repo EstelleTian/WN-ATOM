@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-16 19:21:15
+ * @LastEditTime: 2021-06-23 13:04:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -24,7 +24,7 @@ import "./FangxingPage.scss";
 const { Sider, Content, Header } = Layout;
 
 const FlightTableModal = lazy(() =>
-  import("components/FlightTable/FlightTable")
+  import("components/FlightTable/FlightTableModal")
 );
 // const VirtualModal = lazy(() =>
 //   import("components/FlightVirtualTable/VirtualModal")
