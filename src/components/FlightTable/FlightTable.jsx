@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-23 13:29:45
+ * @LastEditTime: 2021-06-23 13:43:20
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -142,9 +142,9 @@ function FTable({
           }
         }
       }
-      if (isOutterFlight) {
-        id += " groupb";
-      }
+      // if (isOutterFlight) {
+      //   id += " groupb";
+      // }
 
       if (index % 2 === 0) {
         id += " even";
