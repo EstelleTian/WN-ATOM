@@ -10,8 +10,30 @@ import { isValidVariable, isValidObject } from "utils/basic-verify";
 import { ReqUrls } from "utils/request-urls";
 import { customNotice } from "utils/common-funcs";
 
+// 清空各模块store数据
+function clearStoreData({
+  schemeListData,
+  executeKPIData,
+  performanceKPIData,
+  flightTableData,
+}) {
+  //清空方案列表 store 数据
+  schemeListData.updateList([], "");
+  // 清空KPI数据
+  executeKPIData.updateExecuteKPIData({}, "");
+  // 清空KPI数据
+  performanceKPIData.updatePerformanceKPIData({});
+  //  清空航班表格数据
+  flightTableData.updateFlightsList([], "");
+}
 //方案请求 hook
-function useSchemeList({ systemPage, schemeListData }) {
+function useSchemeList({
+  systemPage,
+  schemeListData,
+  executeKPIData,
+  performanceKPIData,
+  flightTableData,
+}) {
   const curStatusValues = useRef();
   let [schemeTimeoutId, setSchemeTimeoutId] = useState(0);
 
@@ -72,7 +94,12 @@ function useSchemeList({ systemPage, schemeListData }) {
           content: "方案列表数据获取失败",
         });
         // 清空各模块store数据
-        clearStoreData(props);
+        clearStoreData({
+          schemeListData,
+          executeKPIData,
+          performanceKPIData,
+          flightTableData,
+        });
         if (schemeListData.loading) {
           schemeListData.toggleLoad(false);
         }

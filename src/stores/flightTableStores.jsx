@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-23 18:05:44
+ * @LastEditTime: 2021-06-23 21:06:23
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -302,24 +302,24 @@ class FlightTableData {
     console.log("更新航班数据-getShowFlights ");
     console.time("getShowFlightsTime");
     //测试数据，只显示一条
-    let testList = this.list.filter((flight) => {
-      let flightid = flight.flightid || "";
-      if (flightid === "CSH9268") {
-        console.log(flightid, flight.ctotField);
-        return true;
-      }
-    });
+    // let testList = this.list.filter((flight) => {
+    //   let flightid = flight.lightid || "";
+    //   if (flightid === "CES2960 ") {
+    //     console.log("输出", flightid, flight.ctotField, this.atomConfigValue);
+    //     return true;
+    //   }
+    // });
     // let testList = [];
     // if (this.list.length > 100) {
     //   testList = this.list.slice(35, 60);
     // }
-    let showList = testList.map((flight) =>
-      formatSingleFlight(flight, this.atomConfigValue)
-    );
-
-    // let showList = this.list.map((flight) =>
+    // let showList = testList.map((flight) =>
     //   formatSingleFlight(flight, this.atomConfigValue)
     // );
+
+    let showList = this.list.map((flight) =>
+      formatSingleFlight(flight, this.atomConfigValue)
+    );
     const searchVal = this.searchVal.toLowerCase();
     if (isValidVariable(searchVal)) {
       showList = showList.filter((flight) => {
@@ -341,7 +341,7 @@ class FlightTableData {
     const fValues = Object.keys(filterValues);
     if (fValues.length > 0) {
       for (let en in filterValues) {
-        const fVal = filterValues[en] || "";
+        const fVal = filterValues[en].toLowerCase() || "";
         if (isValidVariable(fVal)) {
           showList = showList.filter((flight) => {
             let cellVal = flight[en] || "";

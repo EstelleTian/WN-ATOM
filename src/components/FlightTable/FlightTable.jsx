@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-23 14:10:11
+ * @LastEditTime: 2021-06-23 21:01:29
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -208,7 +208,7 @@ function FTableContainer({
   ATOMConfigFormData,
 }) {
   const onCellFilter = useCallback((name, value) => {
-    // console.log(name,value);
+    console.log(name, value);
     flightTableData.setFilterValues(name, value);
   }, []);
   //列配置

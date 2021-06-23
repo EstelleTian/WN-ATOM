@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-23 18:25:27
+ * @LastEditTime: 2021-06-23 20:53:22
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -55,25 +55,6 @@ const plainOptions = [
   { label: "将要执行", value: "FUTURE" },
   { label: "已经终止", value: "TERMINATED" },
 ];
-
-// 清空各模块store数据
-function clearStoreData(props) {
-  const {
-    schemeListData,
-    executeKPIData,
-    performanceKPIData,
-    flightTableData,
-  } = props;
-
-  //清空方案列表 store 数据
-  schemeListData.updateList([], "");
-  // 清空KPI数据
-  executeKPIData.updateExecuteKPIData({}, "");
-  // 清空KPI数据
-  performanceKPIData.updatePerformanceKPIData({});
-  //  清空航班表格数据
-  flightTableData.updateFlightsList([], "");
-}
 
 const useSchemeModal = ({ systemPage }) => {
   const [visible, setVisible] = useState(false); //详情模态框显隐
@@ -138,8 +119,11 @@ function SList(props) {
   const params = match.params || {};
   const from = params.from || ""; //来源
   const getSchemeList = useSchemeList({
-    schemeListData,
     systemPage,
+    schemeListData,
+    executeKPIData,
+    performanceKPIData,
+    flightTableData,
   });
   useFlightsList({
     schemeListData,
