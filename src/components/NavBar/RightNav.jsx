@@ -30,6 +30,14 @@ function RightNav(props) {
     const value = e.target.value;
     systemPage.setModalActiveName(value);
   };
+
+  // 取默认激活的系统对象
+  const activeSystem = systemPage.activeSystem || {};
+  // 系统名称
+  const system = activeSystem.system || "";
+  // 是否为CDM
+  const isCDM = system.indexOf("CDM") > -1;
+
   return (
     <div className="layout-nav-right layout-row nav_right">
       <div className="nav_bar">
@@ -73,7 +81,7 @@ function RightNav(props) {
               {/* {systemPage.userHasAuth(12507) && (
                 <Radio.Button value="outer_scheme">外部流控</Radio.Button>
               )} */}
-              {systemPage.userHasAuth(12518) && (
+              {systemPage.userHasAuth(12518) && isCDM && (
                 <Radio.Button value="runway">跑道配置</Radio.Button>
               )}
             </Radio.Group>
@@ -105,4 +113,4 @@ function RightNav(props) {
   );
 }
 
-export default inject("systemPage")(observer(RightNav));
+export default inject("systemPage",)(observer(RightNav));
