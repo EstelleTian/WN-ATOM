@@ -139,13 +139,13 @@
   .TOBT_PREDICT{  //快速过站推算
     background: #828218;
   }
-  // 系统（时隙分配程序录入）
+  // 系统记录  
   .RUNWAY_SLOT{
-    background: #999900;
-  }
-  // 系统-推算   
-  .RUNWAY_SYSTEM{
     background: #188484;
+  }
+  // 系统推算   
+  .RUNWAY_SYSTEM{
+    background: #808005;
   }
 
   // .TOBT_EOBT{  //TOBT报文
