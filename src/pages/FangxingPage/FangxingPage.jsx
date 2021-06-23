@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-23 13:17:16
+ * @LastEditTime: 2021-06-23 14:21:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -30,9 +30,7 @@ const FlightTableModal = lazy(() =>
 //   import("components/FlightVirtualTable/VirtualModal")
 // );
 //放行监控布局模块
-function FangxingPage(props) {
-  const { systemPage, match } = props;
-  const { leftActiveName, user = {} } = systemPage;
+function FangxingPage({ systemPage, match }) {
   const [collapsed, setCollapsed] = useState(true);
   const [login, setLogin] = useState(false);
   const url = match.url || "";
@@ -52,26 +50,12 @@ function FangxingPage(props) {
 
   useEffect(
     function () {
-      const id = user.id;
+      const id = systemPage.user.id;
       if (isValidVariable(id)) {
-        // alert("登录成功:" + props.systemPage.user.id);
         setLogin(true);
-      } else {
-        //TODO 测试用，正式去掉该else
-        // setTimeout(function(){
-        //     if( !isValidVariable( props.systemPage.user.id ) ){
-        //         // alert("未登录成功:" + props.systemPage.user.id);
-        //         props.systemPage.setUserData({
-        //             id: 14,
-        //             descriptionCN: "--",
-        //             username: 'lanzhouflw'
-        //         });
-        //         setLogin(true);
-        //     }
-        // },1)
       }
     },
-    [user.id]
+    [systemPage.user]
   );
   const onCollapseClick = () => {
     setCollapsed(!collapsed);
@@ -96,9 +80,10 @@ function FangxingPage(props) {
             <div className="nav_body">
               <div className="cont_left">
                 <div className="left_cont">
-                  {systemPage.systemKind === "CRS" && leftActiveName !== "" && (
-                    <div className="left_left">{<LeftMultiCanvas />}</div>
-                  )}
+                  {systemPage.systemKind === "CRS" &&
+                    systemPage.leftActiveName !== "" && (
+                      <div className="left_left">{<LeftMultiCanvas />}</div>
+                    )}
                   <div className="left_right">
                     <Suspense
                       fallback={
