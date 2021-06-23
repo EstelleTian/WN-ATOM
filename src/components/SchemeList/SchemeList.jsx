@@ -321,8 +321,7 @@ function SList(props) {
     flightTableData: props.flightTableData,
   });
   if (
-    props.systemPage.systemKind === "CRS" &&
-    props.systemPage.leftActiveName !== ""
+    props.systemPage.systemKind === "CRS" 
   ) {
     useExecuteKPIData({
       schemeListData: props.schemeListData,
