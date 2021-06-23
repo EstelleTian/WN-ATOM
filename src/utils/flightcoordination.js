@@ -230,6 +230,7 @@ const FlightCoordination = {
         "AGCT":"录入关门时间",
         "EXCHANGE_SLOT":"时隙交换",
         "SLOT_CTOT_PUB":"发布CTOT",
+        "SLOT_HOBT_PUB":"发布HOBT",
     },
 
 
