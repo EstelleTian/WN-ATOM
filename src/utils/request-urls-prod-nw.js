@@ -86,15 +86,13 @@ const ReqUrls = {
     simulationSchemeDetailUrl:schemeIP+"/scheme-flow-server/simulationTactics/id/",
     // 获取方案模板数据
     schemeTemplateDataUrl: schemeTemplateIP+"/user-template-rest/template/user/",
-    //获取--航班列表数据
-    flightsDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/tactic/",
+    
     //获取--航班列表数据(id为空)
     // flightsDataNoIdUrl: clearanceIP+"/hydrogen-flight-monitor-server/influence/flights/",
     flightsDataNoIdUrl: clearanceIP+"/hydrogen-flight-monitor-server-cache/influence/flights/",
      //获取--执行KPI数据(孔凡续)
     executeKPIDataUrl: executeKPIDataIP+"/kpi/",
-    //获取--执行KPI数据(薛满林)
-    performanceKPIDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/performkpi/",
+    
     //获取总体监控-航班执行数据
     performanceDataUrl: performanceDataIP+"/hydrogen-traffic-flow-performance-retrieval-server/monitor/nw/v1/flight/areaname",
     // 总体监控-获取限制数据
@@ -124,7 +122,7 @@ const ReqUrls = {
     // 获取指定航路点对应的速度
     speedUrl: speedIP+"/flow-route-point-speed-calculate-server/speed-retrive/speed/",
     // 获取交通流快捷录入表单依赖数据
-    shortcutInputFormDataUrl: clearanceIP+"/hydrogen-flight-monitor-server/flowcontrol/fast/",
+    shortcutInputFormDataUrl: clearanceIP+"/hydrogen-flight-monitor-server-cache/flowcontrol/fast/",
     // 校验航路接口
     validateRouteUrl: validateRouteIP+"/hydrogen-reroute-check-server/reroute/rerouteCheckPost",
 
