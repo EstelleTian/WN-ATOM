@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-23 12:09:59
+ * @LastEditTime: 2021-06-23 13:29:45
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -156,7 +156,11 @@ function FTable({
     },
     []
   );
-
+  console.log("renderFlightsTime 开始计时");
+  console.time("renderFlightsTime");
+  useEffect(() => {
+    console.timeEnd("renderFlightsTime");
+  });
   return (
     <Table
       columns={columns}

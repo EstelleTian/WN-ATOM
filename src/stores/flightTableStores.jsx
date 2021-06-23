@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-23 10:47:33
+ * @LastEditTime: 2021-06-23 13:19:49
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -182,6 +182,8 @@ class FlightTableData {
     //       return true;
     //     }
     //   });
+    console.log("更新航班数据-全部更新 开始计算");
+    console.time("updateTime");
     let newMap = {};
     newList.map((nfc) => (newMap[nfc.id] = nfc));
     let mergeMap = {};
@@ -219,6 +221,7 @@ class FlightTableData {
     this.list = Object.values(mergeMap);
     this.generateTime = generateTime;
     this.lastSchemeId = curSchemeId;
+    console.timeEnd("updateTime");
   }
   //单条--航班更新
   @action updateSingleFlight(newFC) {
@@ -296,6 +299,8 @@ class FlightTableData {
 
   //获取真正展示的航班
   @computed get getShowFlights() {
+    console.log("更新航班数据-getShowFlights ");
+    console.time("getShowFlightsTime");
     //测试数据，只显示一条
     // let testList = this.list.filter((flight) => {
     //   let flightid = flight.flightid || "";
@@ -363,7 +368,7 @@ class FlightTableData {
       });
     }
     const targetFlight = this.getTargetFlight(showList, this.systemName);
-
+    console.timeEnd("getShowFlightsTime");
     return { showList, targetFlight };
   }
   //获取真正展示的航班

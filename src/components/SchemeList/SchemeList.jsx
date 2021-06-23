@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-23 11:46:35
+ * @LastEditTime: 2021-06-23 13:22:30
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -158,7 +158,7 @@ function useSchemeList(props) {
               }, 40 * 1000);
               setSchemeTimeoutId(timer);
             }
-            reject("error");
+            // reject("error");
           },
         };
         requestGet(opt);
