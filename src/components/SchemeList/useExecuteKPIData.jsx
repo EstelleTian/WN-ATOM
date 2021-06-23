@@ -60,7 +60,10 @@ function useExecuteKPIData({ schemeListData, executeKPIData, systemPage }) {
           resolve("success");
         },
         errFunc: (err) => {
-          requestErr(err, "KPI数据获取失败");
+          customNotice({
+            type: "error",
+            content: "KPI数据获取失败",
+          });
           // 置空KPIstore数据
           executeKPIData.updateExecuteKPIData({}, "");
           if (executeKPIData.loading) {

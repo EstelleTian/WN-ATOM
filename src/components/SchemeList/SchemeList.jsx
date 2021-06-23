@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-23 14:35:58
+ * @LastEditTime: 2021-06-23 14:59:21
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -54,14 +54,6 @@ const plainOptions = [
   { label: "将要执行", value: "FUTURE" },
   { label: "已经终止", value: "TERMINATED" },
 ];
-
-//请求错误--处理
-const requestErr = (err, content) => {
-  customNotice({
-    type: "error",
-    message: content,
-  });
-};
 
 // 清空各模块store数据
 function clearStoreData(props) {
@@ -160,7 +152,10 @@ function useSchemeList(props) {
             resolve("success");
           },
           errFunc: (err) => {
-            requestErr(err, "方案列表数据获取失败");
+            customNotice({
+              type: "error",
+              content: "方案列表数据获取失败",
+            });
             // 清空各模块store数据
             clearStoreData(props);
             if (props.schemeListData.loading) {

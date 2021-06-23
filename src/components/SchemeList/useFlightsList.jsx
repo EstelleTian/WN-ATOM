@@ -159,7 +159,10 @@ function useFlightsList({
             flightTableData.updateFlightsList([], "");
             // 清除KPI数据
             performanceKPIData.updatePerformanceKPIData({});
-            requestErr(err, "航班列表数据获取失败");
+            customNotice({
+                type: "error",
+                content: "航班列表数据获取失败",
+              });
             //开启定时
             timerFunc();
             flightTableData.toggleLoad(false, false);
