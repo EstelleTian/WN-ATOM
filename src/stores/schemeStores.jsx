@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-10 18:09:17
+ * @LastEditTime: 2021-06-23 10:36:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -170,6 +170,17 @@ class SchemeListData {
       active = activeList[0];
     }
     return active;
+  }
+  //获取方案起止时间
+  @computed get getTimeRange() {
+    const activeScheme = this.activeScheme(this.activeSchemeId) || {};
+    const { tacticTimeInfo = {} } = activeScheme;
+    const { startTime, endTime } = tacticTimeInfo;
+    return {
+      activeSchemeId: this.activeSchemeId,
+      schemeStartTime: startTime,
+      schemeEndTime: endTime,
+    };
   }
   //激活选中方案，重置其他方案
   @action toggleSchemeActive(id) {

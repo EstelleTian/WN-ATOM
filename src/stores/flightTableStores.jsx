@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-22 11:04:04
+ * @LastEditTime: 2021-06-23 10:47:33
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -150,6 +150,10 @@ class FlightTableData {
   @observable filterValues = {};
   //快速查询内容
   @observable searchVal = "";
+  //表格排序字段
+  @observable sortKey = "FFIXT";
+  //表格排序
+  @observable sortOrder = "ascend";
   //选中高亮的航班id
   @observable selectFlightId = "";
   //强制定位航班id
@@ -249,6 +253,14 @@ class FlightTableData {
   //修改--航班列表-强制更新
   @action setForceUpdate(flag) {
     this.forceUpdate = flag;
+  }
+  //航班列表-表格排序字段
+  @action setSortKey(val) {
+    this.sortKey = val;
+  }
+  //航班列表-表格排序 顺序  升序ascend/降序descend
+  @action setSortOrder(val) {
+    this.sortOrder = val;
   }
   //航班列表-快速过滤-开启
   @action setFilterable(flag) {
