@@ -162,3 +162,14 @@ html,body{
     margin-right: 8px;
   }
 }
+// 复选框动画去掉
+.ant-checkbox-checked::after {
+  animation:none !important;
+  display: none;
+}
+.ant-checkbox-checked .ant-checkbox-inner::after{
+  transition: none !important;
+}
+.ant-checkbox-inner::after {
+  transition: none !important;
+}

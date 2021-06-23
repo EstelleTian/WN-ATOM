@@ -499,6 +499,11 @@ function SchemeItem(props) {
           </div>
         </div>
       </div>
+      {
+        isNTFM && (
+          <div className="ntfm-flag" title="NTFM"></div>
+        )
+      }      
     </div>
   );
 }
