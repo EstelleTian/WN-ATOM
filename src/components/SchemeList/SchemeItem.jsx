@@ -91,9 +91,12 @@ function SchemeItem(props) {
     directionList = [],
     schemeRelative = "",
     tacticMode = "",
-    tempSyncSign = "0"
+    tempSyncSign = "0",
+    tacticSource = ""
   } = item;
   let isActive = activeSchemeId === id;
+  // NTFM流控
+  let isNTFM = tacticSource === "NTFM-ORIGINAL"
 
   basicTacticInfoRemark = basicTacticInfoRemark || "";
   if (basicFlowcontrol === null) {
@@ -299,11 +302,20 @@ function SchemeItem(props) {
     </Menu>
   );
 
+  const setClassName = ()=> {
+    let className = "item_container layout-column";
+    if(isActive) {
+      className +=" item_active";
+    }
+    if(isNTFM) {
+      className +=" NTFM-item";
+    }
+    return className;
+  }
+
   return (
     <div
-      className={`item_container layout-column ${
-        isActive ? "item_active" : ""
-      }`}
+      className={setClassName()}
       onClick={onChange}
     >
       <div className="layout-row">
@@ -408,7 +420,7 @@ function SchemeItem(props) {
               详情
             </div>
 
-            {props.systemPage.userHasAuth(11301) &&
+            {props.systemPage.userHasAuth(11301) && !isNTFM &&
               ["FUTURE", "RUNNING"].includes(tacticStatus) && (
                 <div className="opt" onClick={showModify}>
                   调整
@@ -423,7 +435,7 @@ function SchemeItem(props) {
                   重新发布
                 </div>
               )} */}
-            {props.systemPage.userHasAuth(11401) && (
+            {props.systemPage.userHasAuth(11401)  && !isNTFM && (
               <div
                 className="opt"
                 onClick={(e) => {
@@ -434,7 +446,7 @@ function SchemeItem(props) {
                 工作流
               </div>
             )}
-            {props.systemPage.userHasAuth(11502) && (
+            {props.systemPage.userHasAuth(11502) && !isNTFM && (
               <Dropdown overlay={baseSchemeFrameMenu}>
                 <div
                   className="opt"
@@ -449,7 +461,7 @@ function SchemeItem(props) {
               </Dropdown>
             )}
 
-            {props.systemPage.userHasAuth(11201) &&  
+            {props.systemPage.userHasAuth(11201) &&  !isNTFM &&
               ["FUTURE", "RUNNING"].includes(tacticStatus) && (
               <div
                 className="opt"
@@ -461,7 +473,7 @@ function SchemeItem(props) {
                 终止
               </div>
             )}
-            {props.systemPage.userHasAuth(11505) && (
+            {props.systemPage.userHasAuth(11505) && !isNTFM && (
               <div
                 className="opt"
                 onClick={(e) => {
