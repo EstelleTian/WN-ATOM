@@ -123,28 +123,27 @@
         .item_active{
             border: 2px solid #ff8c1f;
         }
-        // .NTFM-item{
-        //     position: relative;
-        // }
-        // .NTFM-item:after {
-        //     content: "N";
-        //     color: #f5f5f5;
-        //     position: absolute;
-        //     right: 4px;
-        //     top: -3px;
-        // }
-        // .NTFM-item:before {
-        //     content: "";
-        //     position: absolute;
-        //     right: 0px;
-        //     top: 0px;
-        //     border-top: 20px solid #a87e4f;
-        //     border-right: 20px solid #a87e4f;
-        //     border-left: 20px solid transparent;
-        //     border-bottom: 20px solid transparent;
-        // }
+        
         .NTFM-item {
-            background: #7c6142;
+            position: relative;
+            .ntfm-flag {
+                position: absolute;
+                right: 0;
+                top:  0;
+                border-top: 1.0rem solid #7c6142; 
+                border-left: 1.0rem solid transparent;
+                border-bottom: 1.0rem solid transparent;
+                border-right: 1.0rem solid #7c6142;
+                &::after{
+                    position: absolute;
+                    display: block;
+                    top: -1.2rem;
+                    right: -0.8rem;
+                    content: "N";
+                    color: #fff;
+                }
+            }
+            
         }
         //手动刷新按钮
         .manual_refresh{
