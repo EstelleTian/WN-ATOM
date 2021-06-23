@@ -111,6 +111,17 @@ function useSchemeList(props) {
           day = day < 10 ? "0" + day : "" + day;
           baseTime = year + "" + month + "" + day;
         }
+        let filterArrap = "";
+        let filterRegion = "";
+        let region = "";
+        let filterDepap = "";
+        let system = "";
+        const activeSystem = props.systemPage.activeSystem || {};
+        filterArrap = activeSystem.filterArrap || "";
+        filterRegion = activeSystem.filterRegion || "";
+        region = activeSystem.region || "";
+        filterDepap = activeSystem.filterDepap || "";
+        system = activeSystem.system || "";
         const opt = {
           url: ReqUrls.schemeListUrl,
           method: "GET",
@@ -121,6 +132,11 @@ function useSchemeList(props) {
             endTime:
               dateRangeData.length > 0 ? dateRangeData[1] : baseTime + "2359",
             userId: id,
+            filterArrap,
+            filterRegion,
+            filterDepap,
+            system,
+            region,
           },
           resFunc: (data) => {
             //更新方案数据
@@ -425,7 +441,7 @@ function useFlightsList(props) {
   useEffect(() => {
     clearTimeout(flightsTimeoutId);
     getFlightTableData(true, true);
-    
+
   }, [activeSchemeId]);
 
   //监听全局刷新
@@ -507,7 +523,7 @@ function useExecuteKPIData(props) {
             if (isValidVariable(executeKPITimeoutId)) {
               clearTimeout(executeKPITimeoutId);
             }
-            let timer  = setTimeout(() => {
+            let timer = setTimeout(() => {
               getKPIData(true);
             }, 60 * 1000);
             setExecuteKPITimeoutId(timer);
@@ -526,7 +542,7 @@ function useExecuteKPIData(props) {
             if (isValidVariable(executeKPITimeoutId)) {
               clearTimeout(executeKPITimeoutId);
             }
-            let timer  = setTimeout(() => {
+            let timer = setTimeout(() => {
               getKPIData(true);
             }, 60 * 1000);
             setExecuteKPITimeoutId(timer);
