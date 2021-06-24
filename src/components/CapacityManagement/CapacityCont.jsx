@@ -85,29 +85,34 @@ function CapacityCont(props) {
 
   //动态容量获取
   const requestDynamicData = useCallback((nextRefresh) => {
+    const timerFunc = function () {
+      if (nextRefresh) {
+        dynamicTimer.current = setTimeout(function () {
+          console.log("dynamicTimer")
+          requestDynamicData(nextRefresh);
+        }, 20 * 1000);
+      }
+    };
     if (
       !isValidVariable(elementName) ||
       !isValidVariable(elementType) ||
       capacity.editable
     ) {
+      timerFunc();
       return;
     }
     let selRoute = props.capacity.selRoute || "";
     if (elementType === "ROUTE" && selRoute === "") {
+      timerFunc();
       return;
     }
 
     let userObj = systemPage.user || "";
     if (!isValidVariable(userObj.username)) {
+      timerFunc();
       return;
     }
-    const timerFunc = function () {
-      if (nextRefresh) {
-        dynamicTimer.current = setTimeout(function () {
-          requestDynamicData(nextRefresh);
-        }, 20 * 1000);
-      }
-    };
+    
     let date = capacity.getDate();
     let params = {};
     if (elementType === "ROUTE") {
