@@ -88,7 +88,7 @@ function CapacityCont(props) {
     const timerFunc = function () {
       if (nextRefresh) {
         dynamicTimer.current = setTimeout(function () {
-          console.log("dynamicTimer")
+          
           requestDynamicData(nextRefresh);
         }, 20 * 1000);
       }
