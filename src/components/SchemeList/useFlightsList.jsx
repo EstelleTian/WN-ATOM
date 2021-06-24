@@ -143,7 +143,7 @@ function useFlightsList({
         timerFunc(nextRefresh);
       }
     },
-    [systemPage.user, systemPage.dateRangeData]
+    [systemPage.user.id, systemPage.dateRangeData]
   );
 
   useEffect(() => {
@@ -163,7 +163,7 @@ function useFlightsList({
         getFlightTableData(false);
       }
     },
-    [systemPage.pageRefresh, systemPage.user]
+    [systemPage.pageRefresh, systemPage.user.id]
   );
 
   useEffect(() => {

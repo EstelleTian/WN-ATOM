@@ -87,7 +87,7 @@ function useExecuteKPIData({ schemeListData, executeKPIData, systemPage }) {
         getKPIData(false);
       }
     },
-    [systemPage.pageRefresh, systemPage.user]
+    [systemPage.pageRefresh, systemPage.user.id]
   );
 
   useEffect(() => {

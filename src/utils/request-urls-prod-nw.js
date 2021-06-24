@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-23 11:30:30
+ * @LastEditTime: 2021-06-23 22:30:05
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -9,8 +9,8 @@
 //消息监听地址
 const TopicConstant={
     ip:"10.25.1.62",
-    port: 5672,
-    url: "ws://10.25.1.62:5672/ws,ws://10.25.1.63:5672/ws,ws://10.25.1.64:5672/ws",
+    port: 15674,
+    url: "ws://10.25.1.62:15674/ws,ws://10.25.1.63:15674/ws,ws://10.25.1.64:15674/ws",
     username:"admin",
     password:"AT0M_82325o5o",
 }

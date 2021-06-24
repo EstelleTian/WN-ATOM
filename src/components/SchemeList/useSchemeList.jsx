@@ -106,7 +106,7 @@ function useSchemeList({
         timerFunc(nextRefresh);
       }
     },
-    [systemPage.user, systemPage.dateRangeData]
+    [systemPage.user.id, systemPage.dateRangeData]
   );
 
   //提交成功--处理 更新--方案列表 store数据
@@ -150,7 +150,7 @@ function useSchemeList({
         schemeTimeoutId.current = "";
       }
     }
-  }, [systemPage.user, schemeListData.statusValues]);
+  }, [systemPage.user.id, schemeListData.statusValues]);
 
   //监听全局刷新
   useEffect(

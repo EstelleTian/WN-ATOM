@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-23 21:01:29
+ * @LastEditTime: 2021-06-24 16:06:00
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -262,7 +262,7 @@ function FTableContainer({
       console.log("航班表格渲染 滚动定位");
       scrollTopById(targetFlight.id, "flight_canvas");
     }
-  }, [targetFlight]);
+  }, [targetFlight.id]);
 
   console.log("航班表格container渲染 " + showList.length + "条");
   return (
