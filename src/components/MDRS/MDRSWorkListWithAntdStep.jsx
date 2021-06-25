@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-04-20 16:37:46
+ * @LastEditTime: 2021-06-25 09:12:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -212,23 +212,31 @@ function MDRSWorkList(props) {
 
   const requestDynamicWorkFlowData = useCallback(
     (nextRefresh) => {
-      const type = pane.type.toUpperCase();
-      if (!isValidVariable(systemPage.user.username)) {
-        return;
-      }
-      if (type === "ROUTE" && !isValidVariable(routeName)) {
-        return;
-      }
-
-      const airportName = pane.key;
-      const firId = pane.firId;
       const timerFunc = function () {
         if (nextRefresh) {
+          if (isValidVariable(timer.current)) {
+            clearTimeout(timer.current);
+          }
           timer.current = setTimeout(function () {
             requestDynamicWorkFlowData(nextRefresh);
           }, 30 * 1000);
         }
       };
+      const type = pane.type.toUpperCase();
+      if (!isValidVariable(systemPage.user.username)) {
+        //开启定时
+        timerFunc();
+        return;
+      }
+      if (type === "ROUTE" && !isValidVariable(routeName)) {
+        //开启定时
+        timerFunc();
+        return;
+      }
+
+      const airportName = pane.key;
+      const firId = pane.firId;
+
       let date = capacity.getDate();
       let params = {
         date,

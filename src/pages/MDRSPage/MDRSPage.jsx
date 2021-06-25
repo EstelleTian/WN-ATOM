@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-06-04 13:20:25
+ * @LastEditTime: 2021-06-25 09:16:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRSPage\MDRSPage.jsx
@@ -37,6 +37,9 @@ function MDRSPage(props) {
     }
     const timerFunc = function () {
       if (nextRefresh) {
+        if (isValidVariable(timer.current)) {
+          clearTimeout(timer.current);
+        }
         timer.current = setTimeout(function () {
           requestData(nextRefresh, false);
         }, 30 * 1000);
