@@ -53,18 +53,29 @@ function Topic(props) {
         // 重新获取方案列表数据以刷新方案列表
         props.schemeListData.setForceUpdate(true);
       });
-      //收到限制消息-【交通流消息】
+      /* *
+     * 收到方案消息用于【更新航班列表数据】
+     * 从消息中检索方案ID集合中是否包含当前活动方案id,
+     * 若存在则更新航班数据
+     */
       const topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE =
         "/exchange/EXCHANGE.EVENT_CENTER_RELEASE_MONITORING_PARTIAL_CHANGE";
       jms_websocket.subscribe(
         topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE,
         function (d) {
           //收到消息
-          console.log("输出 收到交通流消息,更新航班列表+待办/已办列表");
           // console.log(d);
-          props.flightTableData.setForceUpdate(true);
-          props.todoList.setForceUpdate(true);
-          props.myApplicationList.setForceUpdate(true);
+          const body = d.body;
+          const msgObj = JSON.parse(body);
+          const msg = msgObj.message || [];
+          // 当前活动方案id
+          let activeSchemeId = props.schemeListData.activeSchemeId || "";
+          // 消息中的方案ID集合中是否包含当前活动方案id
+          let isIncludesActiveSchemeId = msg.includes(activeSchemeId);
+          if (isIncludesActiveSchemeId) {
+            // 强制刷新航班表格
+            props.flightTableData.setForceUpdate(true);
+          }
         }
       );
       //收消息中心-【只截取 航班协调类 消息 做处理】
