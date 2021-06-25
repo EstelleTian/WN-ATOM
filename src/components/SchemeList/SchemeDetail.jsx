@@ -43,7 +43,7 @@ function SchemeDetail(props) {
     // 方案方向信息
     let directionList = isValidVariable(basicTacticInfo.directionList) ? basicTacticInfo.directionList : [];
 
-    const { tacticName, tacticPublishUnit, tacticPublishUser, tacticPublishUserCH, id, basicTacticInfoReason, relationAp, relationArea } = basicTacticInfo;
+    const { tacticName, tacticPublishUnit, tacticPublishUnitCH, tacticPublishUser, tacticPublishUserCH, id, basicTacticInfoReason, relationAp, relationArea } = basicTacticInfo;
     let flowcontrolList = [];
     if (isValidVariable(tacticProcessInfo.flowcontrolList)) {
         flowcontrolList = tacticProcessInfo.flowcontrolList
@@ -121,7 +121,7 @@ function SchemeDetail(props) {
                                         </div>
                                         <div className="ant-col ant-form-item-control">
                                             <div className="ant-form-item-control-input">
-                                                <div className="ant-form-item-control-input-content">{tacticPublishUnit}</div>
+                                                <div className="ant-form-item-control-input-content">{tacticPublishUnitCH}</div>
                                             </div>
                                         </div>
                                     </div>

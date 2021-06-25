@@ -78,6 +78,7 @@ function SchemeItem(props) {
     tacticName,
     tacticStatus,
     tacticPublishUnit,
+    tacticPublishUnitCH,
     basicTacticInfoReason,
     basicTacticInfoRemark,
     tacticTimeInfo: {
@@ -358,8 +359,8 @@ function SchemeItem(props) {
         <div className="right-column border-bottom layout-row">
           <div className="layout-column column-box">
             <div className="border-bottom">
-              <div className="cell" title={`发布单位: ${tacticPublishUnit}`}>
-                {tacticPublishUnit}
+              <div className="cell" title={`发布单位: ${tacticPublishUnitCH}`}>
+                {tacticPublishUnitCH}
               </div>
             </div>
 
