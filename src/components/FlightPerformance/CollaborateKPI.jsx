@@ -35,6 +35,9 @@ const Operation = function (props) {
     }
     const timerFunc = function () {
       if (nextRefresh) {
+        if (isValidVariable(timer.current)) {
+          clearTimeout(timer.current);
+        }
         timer.current = setTimeout(function () {
           requestData(nextRefresh, false);
         }, 60 * 1000);
@@ -48,14 +51,15 @@ const Operation = function (props) {
       let { focus = "", monitorUnit = {} } = subscribeData;
       let nameArr = [];
       if (!isValidVariable(focus)) {
+        timerFunc();
         return;
       }
       const focusObj = monitorUnit[focus] || {};
-        const { data = {} } = focusObj;
-        for (let key in data) {
-          const valArr = data[key] || "";
-          nameArr = [...nameArr, ...valArr];
-        }
+      const { data = {} } = focusObj;
+      for (let key in data) {
+        const valArr = data[key] || "";
+        nameArr = [...nameArr, ...valArr];
+      }
       let name = nameArr.join(",");
       // console.log("name", name);
       //获取数据
@@ -89,12 +93,19 @@ const Operation = function (props) {
   // 机场跑道：APWC
   // MDRS发布：MDRS
 
-  
-  let ACVC = isValidVariable(flightRecordTypeMap.ACVC) ? flightRecordTypeMap.ACVC : "N/A";
-  let SCVC = isValidVariable(flightRecordTypeMap.SCVC) ? flightRecordTypeMap.SCVC : "N/A";
-  let SECI = isValidVariable(flightRecordTypeMap.SECI) ? flightRecordTypeMap.SECI : "N/A";
-  let APWC = isValidVariable(flightRecordTypeMap.APWC) ? flightRecordTypeMap.APWC : "N/A";
-  
+  let ACVC = isValidVariable(flightRecordTypeMap.ACVC)
+    ? flightRecordTypeMap.ACVC
+    : "N/A";
+  let SCVC = isValidVariable(flightRecordTypeMap.SCVC)
+    ? flightRecordTypeMap.SCVC
+    : "N/A";
+  let SECI = isValidVariable(flightRecordTypeMap.SECI)
+    ? flightRecordTypeMap.SECI
+    : "N/A";
+  let APWC = isValidVariable(flightRecordTypeMap.APWC)
+    ? flightRecordTypeMap.APWC
+    : "N/A";
+
   //componentDidMount
   useEffect(function () {
     requestData(true, true);
@@ -178,6 +189,9 @@ const Collaborate = function (props) {
     }
     const timerFunc = function () {
       if (nextRefresh) {
+        if (isValidVariable(timer.current)) {
+          clearTimeout(timer.current);
+        }
         timer.current = setTimeout(function () {
           requestData(nextRefresh, false);
         }, 60 * 1000);
@@ -190,6 +204,7 @@ const Collaborate = function (props) {
       // 区域
       let { focus } = subscribeData;
       if (!isValidVariable(focus)) {
+        timerFunc();
         return;
       }
       //获取数据
@@ -221,12 +236,24 @@ const Collaborate = function (props) {
     }
   }, []);
 
-  let INTERVAL = isValidVariable(flightRecordTypeMap.INTERVAL) ? flightRecordTypeMap.INTERVAL : "N/A";
-  let EXEMPT = isValidVariable(flightRecordTypeMap.EXEMPT) ? flightRecordTypeMap.EXEMPT : "N/A";
-  let SINGLEEXEMPT = isValidVariable(flightRecordTypeMap.SINGLEEXEMPT) ? flightRecordTypeMap.SINGLEEXEMPT : "N/A";
-  let INPOOL = isValidVariable(flightRecordTypeMap.INPOOL) ? flightRecordTypeMap.INPOOL : "N/A";
-  let CTD = isValidVariable(flightRecordTypeMap.CTD) ? flightRecordTypeMap.CTD : "N/A";
-  let TOBT = isValidVariable(flightRecordTypeMap.TOBT) ? flightRecordTypeMap.TOBT : "N/A";
+  let INTERVAL = isValidVariable(flightRecordTypeMap.INTERVAL)
+    ? flightRecordTypeMap.INTERVAL
+    : "N/A";
+  let EXEMPT = isValidVariable(flightRecordTypeMap.EXEMPT)
+    ? flightRecordTypeMap.EXEMPT
+    : "N/A";
+  let SINGLEEXEMPT = isValidVariable(flightRecordTypeMap.SINGLEEXEMPT)
+    ? flightRecordTypeMap.SINGLEEXEMPT
+    : "N/A";
+  let INPOOL = isValidVariable(flightRecordTypeMap.INPOOL)
+    ? flightRecordTypeMap.INPOOL
+    : "N/A";
+  let CTD = isValidVariable(flightRecordTypeMap.CTD)
+    ? flightRecordTypeMap.CTD
+    : "N/A";
+  let TOBT = isValidVariable(flightRecordTypeMap.TOBT)
+    ? flightRecordTypeMap.TOBT
+    : "N/A";
 
   //componentDidMount
   useEffect(function () {

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 16:36:46
- * @LastEditTime: 2021-06-23 16:03:56
+ * @LastEditTime: 2021-06-25 09:16:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityCont.jsx
@@ -45,52 +45,55 @@ function CapacityCont(props) {
   let dynamicTimer = useRef();
   const generateTime = capacity.dynamicDataGenerateTime || "";
 
-  const requestStaticData = useCallback(() => {
-    if (!isValidVariable(elementName) || !isValidVariable(elementType)) {
-      return;
-    }
-    const timerFunc = function () {
-      if (nextRefresh) {
-        staticTimer.current = setTimeout(function () {
-          requestStaticData(nextRefresh);
-        }, 30 * 1000);
-      }
-    };
-    const opt = {
-      url: ReqUrls.capacityBaseUrl + "static/retrieveCapacityStatic",
-      method: "POST",
-      params: {
-        date: getFullTime(new Date(), 4),
-        elementName,
-        routeName: "",
-        firId: firId,
-        elementType,
-      },
-      resFunc: (data) => {
-        const { capacityMap, generateTime } = data;
-        props.capacity.setStaticData(capacityMap[elementName]);
-        timerFunc();
-      },
-      errFunc: (err) => {
-        customNotice({
-          type: "error",
-          message: "静态容量数据获取失败",
-        });
-        timerFunc();
-      },
-    };
+  // const requestStaticData = useCallback(() => {
+  //   const timerFunc = function () {
+  //     if (nextRefresh) {
+  //       staticTimer.current = setTimeout(function () {
+  //         requestStaticData(nextRefresh);
+  //       }, 30 * 1000);
+  //     }
+  //   };
+  //   if (!isValidVariable(elementName) || !isValidVariable(elementType)) {
+  //     return;
+  //   }
 
-    request(opt);
-  }, []);
+  //   const opt = {
+  //     url: ReqUrls.capacityBaseUrl + "static/retrieveCapacityStatic",
+  //     method: "POST",
+  //     params: {
+  //       date: getFullTime(new Date(), 4),
+  //       elementName,
+  //       routeName: "",
+  //       firId: firId,
+  //       elementType,
+  //     },
+  //     resFunc: (data) => {
+  //       const { capacityMap, generateTime } = data;
+  //       props.capacity.setStaticData(capacityMap[elementName]);
+  //       timerFunc();
+  //     },
+  //     errFunc: (err) => {
+  //       customNotice({
+  //         type: "error",
+  //         message: "静态容量数据获取失败",
+  //       });
+  //       timerFunc();
+  //     },
+  //   };
+
+  //   request(opt);
+  // }, []);
 
   //动态容量获取
   const requestDynamicData = useCallback((nextRefresh) => {
     const timerFunc = function () {
       if (nextRefresh) {
+        if (isValidVariable(dynamicTimer.current)) {
+          clearTimeout(dynamicTimer.current);
+        }
         dynamicTimer.current = setTimeout(function () {
-          
           requestDynamicData(nextRefresh);
-        }, 20 * 1000);
+        }, 30 * 1000);
       }
     };
     if (
@@ -112,7 +115,7 @@ function CapacityCont(props) {
       timerFunc();
       return;
     }
-    
+
     let date = capacity.getDate();
     let params = {};
     if (elementType === "ROUTE") {
