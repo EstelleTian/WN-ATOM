@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-06-18 15:19:38
+ * @LastEditTime: 2021-06-29 10:57:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -271,7 +271,11 @@ function InfoCardItem(props) {
               </div>
             </Tooltip>
           </div>
-          {dataType === "FCDM" && (
+
+          {(dataType === "FCDM" ||
+            dataType === "DCVM" ||
+            dataType === "DRAC" ||
+            dataType === "SECI") && (
             <div>
               <div className="text">
                 <span className="info_name">{name}</span>
@@ -280,15 +284,7 @@ function InfoCardItem(props) {
               <div className="text">{content}</div>
             </div>
           )}
-          {dataType === "DCVM" && (
-            <div>
-              <div className="text">
-                <span className="info_name">{name}</span>
-                <span className="publishUnit">发布用户：{publishUser}</span>
-              </div>
-              <div className="text">{content}</div>
-            </div>
-          )}
+
           {dataType === "FTMI" && (
             <div>
               <div className="text">
@@ -308,12 +304,16 @@ function InfoCardItem(props) {
               </div>
             </div>
           )}
-          {dataType !== "FCDM" && dataType !== "DCVM" && dataType !== "FTMI" && (
-            <div>
-              <div className="text">{name}</div>
-              <div className="text">{content}</div>
-            </div>
-          )}
+          {dataType !== "FCDM" &&
+            dataType !== "DCVM" &&
+            dataType !== "FTMI" &&
+            dataType !== "DRAC" &&
+            dataType !== "SECI" && (
+              <div>
+                <div className="text">{name}</div>
+                <div className="text">{content}</div>
+              </div>
+            )}
         </div>
 
         {audioPlay && <ReactAudioPlayer src={sounds} autoPlay={true} />}

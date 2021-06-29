@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-22 10:27:05
+ * @LastEditTime: 2021-06-29 10:52:29
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -505,11 +505,11 @@ let render = (opt) => {
     </Tooltip>
   );
   if (col === "FLIGHTID") {
-    let { orgdata } = record;
+    let { orgdata = "{}" } = record;
     if (isValidVariable(orgdata)) {
       orgdata = JSON.parse(orgdata);
     }
-    let { priority } = orgdata;
+    let { priority = "" } = orgdata;
     const fmeToday = orgdata.fmeToday || {};
     let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
     let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
@@ -841,6 +841,9 @@ const getColumns = (
         //field对象类型排序，用value再排
         const sorFunc2 = (a, b, dir, sortNames, ind) => {
           const sortName = sortNames[ind];
+          if (ind > sortNames.length - 1) {
+            return 0;
+          }
           let data1 = "";
           let data2 = "";
           if (typeof a[sortName] === "string") {

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-23 21:06:23
+ * @LastEditTime: 2021-06-29 14:09:06
  * @LastEditors: Please set LastEditors
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
@@ -366,6 +366,7 @@ class FlightTableData {
         return flight;
       });
     }
+
     const targetFlight = this.getTargetFlight(showList, this.systemName);
     console.timeEnd("getShowFlightsTime");
     return { showList, targetFlight };

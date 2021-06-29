@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-24 16:06:00
+ * @LastEditTime: 2021-06-29 14:29:00
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -39,6 +39,11 @@ function useAutoSize() {
     const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
     const tableHeader =
       flightCanvas.getElementsByClassName("ant-table-header")[0];
+    const tableBody = flightCanvas.getElementsByClassName("ant-table-body")[0];
+    const tableBodyStyle = tableBody.getAttribute("style");
+    tableBody.setAttribute("style", tableBodyStyle + "min-height: 0px;");
+    tableBody.style.minHeight = tableBody.style.maxHeight;
+    console.log("minHeight", tableBody.style.minHeight);
     let width = boxContent.offsetWidth;
     let height = boxContent.offsetHeight;
     // height -= 40;//标题高度“航班列表”
@@ -236,6 +241,7 @@ function FTableContainer({
 
   //显示航班
   let obj = flightTableData.getShowFlights;
+
   let showList = obj.showList || [];
   let targetFlight = obj.targetFlight || {};
 
