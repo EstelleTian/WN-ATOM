@@ -97,7 +97,7 @@ function SchemeItem(props) {
   } = item;
   let isActive = activeSchemeId === id;
   // NTFM流控
-  let isNTFM = tacticSource === "NTFM-ORIGINAL"
+  let isNTFM = tacticSource.includes("NTFM-ORIGINAL");
 
   basicTacticInfoRemark = basicTacticInfoRemark || "";
   if (basicFlowcontrol === null) {
