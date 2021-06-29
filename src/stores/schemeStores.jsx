@@ -67,6 +67,15 @@ class SchemeListData {
   @observable timeoutId = "";
   //方案状态
   @observable statusValues = ["FUTURE", "RUNNING"];
+
+  //NTFM 方案显示类型
+  @observable NTFMShowType = ["NTFM-ORIGINAL-100"];
+
+  //勾选筛选项个数
+  @observable filterCount = 3;
+  // 筛选关键字
+  @observable searchVal = "";
+
   //数据获取
   @observable loading = false;
   //方案详情-显隐状态和id
@@ -101,6 +110,16 @@ class SchemeListData {
   //更新表格loading状态
   @action setStatusValues(values) {
     this.statusValues = values;
+    this.setFilterCount();
+  }
+  // 更新NTFM类型方案显示
+  @action setNTFMShowType(values) {
+    this.NTFMShowType = values;
+    this.setFilterCount();
+  }
+  // 更新NTFM类型方案显示
+  @action setFilterCount() {
+    this.filterCount = this.statusValues.length + this.NTFMShowType.length;
   }
   // 增加方案-单条
   @action addScheme(opt) {
@@ -200,10 +219,33 @@ class SchemeListData {
     return tacticName;
   }
 
+  //快捷筛选关键字
+  @action setSearchVal(values) {
+    this.searchVal = values;
+  }
+
+  
+
   @computed get sortedList() {
-    let newList = [];
-    if (this.list.length > 0) {
-      newList = this.list.slice().sort((a, b) => {
+    let list = [...this.list];
+    const searchVal = this.searchVal.toLowerCase();
+    if (isValidVariable(searchVal) && isValidVariable(list)) {
+      list = list.filter((item) => {
+        let tacticName = isValidVariable(item.tacticName) ? item.tacticName.toLowerCase() : "";
+        let targetUnits = isValidVariable(item.targetUnits) ? item.targetUnits.toLowerCase() : "";
+        if (
+          tacticName.indexOf(searchVal) !== -1 ||
+          targetUnits.indexOf(searchVal) !== -1
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
+    
+    if (list > 0) {
+      list = list.slice().sort((a, b) => {
         const data1 = a.tacticTimeInfo.publishTime;
         const data2 = b.tacticTimeInfo.publishTime;
         if (isValidVariable(data1) && isValidVariable(data2)) {
@@ -218,11 +260,9 @@ class SchemeListData {
         }
         return 0;
       });
-    } else {
-      newList = this.list;
     }
 
-    return newList;
+    return list;
   }
 }
 

@@ -17,8 +17,11 @@ import React, {
 import debounce from "lodash/debounce";
 import { withRouter } from "react-router-dom";
 import { inject, observer } from "mobx-react";
-import { Checkbox, Empty, Spin, notification, Modal } from "antd";
+import { Checkbox, Empty, Spin, Row, Col, Modal, Input, Badge, Button, Dropdown, Menu } from "antd";
+import { FilterOutlined, SearchOutlined } from '@ant-design/icons'
+
 import { requestGet } from "utils/request";
+
 import {
   isValidVariable,
   isValidObject,
@@ -49,12 +52,18 @@ window.addEventListener("storage", function (e) {
   localStorage.removeItem("targetToFlight");
 });
 
-//方案多选按钮组
+//方案状态多选按钮组
 const plainOptions = [
   { label: "正在执行", value: "RUNNING" },
   { label: "将要执行", value: "FUTURE" },
   { label: "已经终止", value: "TERMINATED" },
+  
 ];
+// NTFM方案过滤多选按钮组
+const NTFMOptions = [
+  { label: "NTFM流控", value: "NTFM-ORIGINAL-100" },
+  { label: "NTFM消息", value: "NTFM-ORIGINAL-200"},
+]
 
 const useSchemeModal = ({ systemPage }) => {
   const [visible, setVisible] = useState(false); //详情模态框显隐
@@ -87,19 +96,72 @@ const useSchemeModal = ({ systemPage }) => {
 //方案头
 const STitle = (props) => {
   const { schemeListData } = props;
-  const { statusValues } = schemeListData; //获取排序后的方案列表
+  const { statusValues, NTFMShowType, filterCount } = schemeListData; //获取排序后的方案列表
+
   //状态-多选按钮组-切换事件
   const onChange = useCallback((checkedValues) => {
-    // console.log('checked = ', checkedValues);
     schemeListData.setStatusValues(checkedValues);
   }, []);
+  //  NTFM方案显示类型-多选按钮组-切换事件
+  const onNTFMShowTypeChange = useCallback((checkedValues) => {
+    schemeListData.setNTFMShowType(checkedValues);
+  }, []);
+
+  // 快捷筛选
+  const debounceUpdateSearchVal = useCallback(
+    debounce((value) => {
+      let val = value.trim().toUpperCase();
+      // 重置备选前序航班集合store
+      schemeListData.setSearchVal(val);
+    }, 200, {maxWait: 500}),
+    []
+  )
+  
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <Checkbox.Group
+            className="scheme-filter-checkbox"
+            options={plainOptions}
+            defaultValue={statusValues}
+            onChange={onChange}
+          />
+      </Menu.Item>
+      <Menu.Divider></Menu.Divider>
+      <Menu.Item>
+        <Checkbox.Group
+            className="scheme-filter-checkbox"
+            options={NTFMOptions}
+            defaultValue={NTFMShowType}
+            onChange={onNTFMShowTypeChange}
+          />
+      </Menu.Item>
+    </Menu>
+  )
+
   return (
     <div className="scheme-filter-items">
-      <Checkbox.Group
-        options={plainOptions}
-        defaultValue={statusValues}
-        onChange={onChange}
-      />
+      <div className="filter-input">
+        <Input
+          prefix={<SearchOutlined />}
+          className="text-uppercase"
+          size="small"
+          allowClear
+          placeholder="方案筛选"
+          // onPressEnter={(e)=>{debounceUpdateSearchVal(e)}}
+          onChange={(e) => debounceUpdateSearchVal(e.target.value)}
+        />
+      </div>
+      <div className="filter-options">
+        <Dropdown overlay={menu} trigger={['hover','click']}>
+          <span className="filter-wrapper">
+            {
+              filterCount > 0 ? (<Badge className="filter-badge" count={filterCount} style={{ background: '#08c9f7'}}></Badge>) : (<FilterOutlined></FilterOutlined>) 
+            }
+            <span>筛选</span>
+          </span>
+        </Dropdown>
+      </div>
     </div>
   );
 };
@@ -261,6 +323,11 @@ function SList(props) {
     systemPage.leftNavSelectedName,
   ]);
 
+  useEffect(() => {
+    console.log(schemeListData.searchVal)
+  }, [schemeListData.searchVal])
+
+  console.log(schemeListData.sortedList)
   return (
     <div className="list_container">
       {schemeListData.sortedList.length > 0 ? (

@@ -10,10 +10,48 @@
     .ant-spin-container {
         // padding-top: 10px;
     }
+    .scheme-filter-items {
+        padding-left: 5px;
+        padding-right: 5px;
+        display: flex;
+        align-items: center;
+        min-height: 32px;
+        margin-bottom: 5px;
+        .filter-input{
+            flex: 1;
+        }
+        .filter-options {
+            width: 5rem;
+            display: flex;
+            flex-direction: row-reverse;
+            .filter-wrapper {
+                color: #08c9f7;
+                background: rgba(122, 123, 124, 0.3);
+                border-radius: 4px;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding: 1px 10px;
+                cursor: pointer;
+                font-size: 0.85rem;
+            }
+            .filter-badge {
+                .ant-badge-count {
+                    top: -2px;
+                    line-height: 16px;
+                    height: 16px;
+                    min-width: 16px;
+                    padding: 0 4px;
+                    font-size: 12px;
+                }
+                
+            }
+        }
+    }
     .list_container{
         font-size: 1rem;
         overflow-y: auto;
         //height: calc( 100% - 32px );
+        
         //方案列表-单个方案模块
         .item_container{
             background-color: #343434;
@@ -154,7 +192,7 @@
     }
     //状态过滤按钮组
     .ant-checkbox-group{
-        margin: 0 .5rem .5rem .5rem;
+        // margin: 0 .5rem .5rem .5rem;
         .ant-checkbox-group-item{
             font-size: 0.75rem;
             margin-right: 0.35rem;
@@ -183,5 +221,10 @@
 .base-scheme-frame-menu{
     .ant-dropdown-menu-item {
         color: #36a5da;
+    }
+}
+.scheme-filter-checkbox {
+    .ant-checkbox-wrapper {
+        min-width: 6rem;
     }
 }
