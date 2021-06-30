@@ -17,16 +17,13 @@ import React, {
 import debounce from "lodash/debounce";
 import { withRouter } from "react-router-dom";
 import { inject, observer } from "mobx-react";
-import { Checkbox, Empty, Spin, Row, Col, Modal, Input, Badge, Button, Dropdown, Menu } from "antd";
+import { Checkbox, Empty, Spin, Input, Badge, Dropdown, Menu,  } from "antd";
 import { FilterOutlined, SearchOutlined } from '@ant-design/icons'
 
-import { requestGet } from "utils/request";
 
 import {
   isValidVariable,
   isValidObject,
-  getFullTime,
-  calculateStringTimeDiff,
 } from "utils/basic-verify";
 import { NWGlobal } from "utils/global";
 import SchemeModal from "./SchemeModal";
@@ -57,12 +54,12 @@ const plainOptions = [
   { label: "正在执行", value: "RUNNING" },
   { label: "将要执行", value: "FUTURE" },
   { label: "已经终止", value: "TERMINATED" },
-  
+
 ];
 // NTFM方案过滤多选按钮组
 const NTFMOptions = [
   { label: "NTFM流控", value: "NTFM-ORIGINAL-100" },
-  { label: "NTFM消息", value: "NTFM-ORIGINAL-200"},
+  { label: "NTFM消息", value: "NTFM-ORIGINAL-200" },
 ]
 
 const useSchemeModal = ({ systemPage }) => {
@@ -97,6 +94,7 @@ const useSchemeModal = ({ systemPage }) => {
 const STitle = (props) => {
   const { schemeListData } = props;
   const { statusValues, NTFMShowType, filterCount } = schemeListData; //获取排序后的方案列表
+  let [dropdownVisible, setDropdownVisible] = useState(false);
 
   //状态-多选按钮组-切换事件
   const onChange = useCallback((checkedValues) => {
@@ -113,30 +111,39 @@ const STitle = (props) => {
       let val = value.trim().toUpperCase();
       // 重置备选前序航班集合store
       schemeListData.setSearchVal(val);
-    }, 200, {maxWait: 500}),
+    }, 200, { maxWait: 500 }),
     []
   )
-  
+
+  const handleDropdownVisible = flage => {
+    setDropdownVisible(flage);
+  }
+
   const menu = (
-    <Menu>
-      <Menu.Item>
-        <Checkbox.Group
-            className="scheme-filter-checkbox"
-            options={plainOptions}
-            defaultValue={statusValues}
-            onChange={onChange}
-          />
-      </Menu.Item>
-      <Menu.Divider></Menu.Divider>
-      <Menu.Item>
-        <Checkbox.Group
-            className="scheme-filter-checkbox"
-            options={NTFMOptions}
-            defaultValue={NTFMShowType}
-            onChange={onNTFMShowTypeChange}
-          />
-      </Menu.Item>
-    </Menu>
+      <div className="spin-menu-wrapper">
+        <Spin spinning={schemeListData.loading} indicator={null}>
+          <Menu selectable={false}>
+          <Menu.Item key="STATU">
+            <Checkbox.Group
+              className="scheme-filter-checkbox"
+              options={plainOptions}
+              defaultValue={statusValues}
+              onChange={onChange}
+            />
+          </Menu.Item>
+          <Menu.Divider></Menu.Divider>
+          <Menu.Item key="NTFM">
+            <Checkbox.Group
+              className="scheme-filter-checkbox"
+              options={NTFMOptions}
+              defaultValue={NTFMShowType}
+              onChange={onNTFMShowTypeChange}
+            />
+          </Menu.Item>
+        </Menu>
+        </Spin>
+      </div>
+      
   )
 
   return (
@@ -153,12 +160,16 @@ const STitle = (props) => {
         />
       </div>
       <div className="filter-options">
-        <Dropdown overlay={menu} trigger={['hover','click']}>
+        <Dropdown
+          overlay={menu}
+          onVisibleChange={handleDropdownVisible}
+          visible={dropdownVisible}
+          trigger={[ 'hover']}>
           <span className="filter-wrapper">
             {
-              filterCount > 0 ? (<Badge className="filter-badge" count={filterCount} style={{ background: '#08c9f7'}}></Badge>) : (<FilterOutlined></FilterOutlined>) 
+              filterCount > 0 ? (<Badge className="filter-badge" count={filterCount} style={{ background: '#08c9f7' }}></Badge>) : (<FilterOutlined></FilterOutlined>)
             }
-            <span>筛选</span>
+            <span style={{marginLeft: '2px'}}>过滤选项</span>
           </span>
         </Dropdown>
       </div>

@@ -34,25 +34,26 @@ function useSchemeList({
   performanceKPIData,
   flightTableData,
 }) {
-  const curStatusValues = useRef();
-  let [schemeTimeoutId, setSchemeTimeoutId] = useState(0);
+  // 勾选中状态的选项值
+  const statusValuesString = schemeListData.statusValues.join(',');
+  // 勾选中的NTFM选项值
+  const NTFMShowTypeString = schemeListData.NTFMShowType.join(',');
 
-  const timerFunc = useCallback(function (nextRefresh) {
-    //开启定时
-    if (nextRefresh) {
-      if (isValidVariable(schemeTimeoutId)) {
-        clearTimeout(schemeTimeoutId);
-      }
-      let timer = setTimeout(() => {
-        getSchemeList(true);
-      }, 30 * 1000);
-      setSchemeTimeoutId(timer);
-    }
+  const curStatusValues = useRef();
+  // 定时器
+  let timer = 0;
+  // 开启下一次定时
+  const timerFunc = useCallback(function () {
+    timer = setTimeout(() => {
+      getSchemeList();
+    }, 30 * 1000);
   }, []);
 
-  //获取--方案列表 @nextRefresh 是否开启下一轮定时
+  //获取--方案列表
   const getSchemeList = useCallback(
-    async (nextRefresh = false) => {
+    async () => {
+      // 清除定时
+      clearTimeout(timer);
       try {
         let params = {
           status: curStatusValues.current.join(","),
@@ -64,7 +65,7 @@ function useSchemeList({
           filterDepap: "",
           system: "",
           region: "",
-          ntfmShowType:schemeListData.NTFMShowType.join(",")
+          ntfmShowType: schemeListData.NTFMShowType.join(",")
         };
         const activeSystem = systemPage.activeSystem || {};
         params["filterArrap"] = activeSystem.filterArrap || "";
@@ -88,7 +89,7 @@ function useSchemeList({
         if (schemeListData.loading) {
           schemeListData.toggleLoad(false);
         }
-        timerFunc(nextRefresh);
+        timerFunc();
       } catch (e) {
         customNotice({
           type: "error",
@@ -104,7 +105,7 @@ function useSchemeList({
         if (schemeListData.loading) {
           schemeListData.toggleLoad(false);
         }
-        timerFunc(nextRefresh);
+        timerFunc();
       }
     },
     [systemPage.user.id, systemPage.dateRangeData]
@@ -127,9 +128,8 @@ function useSchemeList({
 
   useEffect(() => {
     if (isValidVariable(systemPage.user.id)) {
-      // 复制一份
+      // 复制一份勾选的状态选项值
       let newStatusValues = [...schemeListData.statusValues];
-      //获取方案列表--开启下一轮更新
       let index = newStatusValues.indexOf("TERMINATED");
       if (index > -1) {
         // 将"TERMINATED"替换为 "FINISHED","TERMINATED_MANUAL","TERMINATED_AUTO"
@@ -143,41 +143,61 @@ function useSchemeList({
       }
       curStatusValues.current = newStatusValues;
       schemeListData.toggleLoad(true);
-      getSchemeList(true);
+      getSchemeList();
     } else {
-      //没有user id 清定时器
-      if (isValidVariable(schemeTimeoutId.current)) {
-        clearTimeout(schemeTimeoutId.current);
-        schemeTimeoutId.current = "";
-      }
+      clearTimeout(timer);
     }
-  }, [systemPage.user.id, schemeListData.statusValues, schemeListData.NTFMShowType]);
+  }, [systemPage.user.id, statusValuesString, NTFMShowTypeString]);
 
-  //监听全局刷新
+  // 监听全局刷新
   useEffect(
     function () {
       if (systemPage.pageRefresh && isValidVariable(systemPage.user.id)) {
-        // console.log("方案刷新开启");
+        // 复制一份勾选的状态选项值
+        let newStatusValues = [...schemeListData.statusValues];
+        let index = newStatusValues.indexOf("TERMINATED");
+        if (index > -1) {
+          // 将"TERMINATED"替换为 "FINISHED","TERMINATED_MANUAL","TERMINATED_AUTO"
+          newStatusValues.splice(
+            index,
+            1,
+            "FINISHED",
+            "TERMINATED_MANUAL",
+            "TERMINATED_AUTO"
+          );
+        }
+        curStatusValues.current = newStatusValues;
         schemeListData.toggleLoad(true);
-        getSchemeList(false);
+        getSchemeList();
       }
     },
-    [systemPage.pageRefresh, systemPage.user]
+    [systemPage.pageRefresh]
   );
 
   useEffect(() => {
     if (schemeListData.forceUpdate) {
-      // console.log("方案列表强制更新");
-      getSchemeList(false);
+      // 复制一份勾选的状态选项值
+      let newStatusValues = [...schemeListData.statusValues];
+      let index = newStatusValues.indexOf("TERMINATED");
+      if (index > -1) {
+        // 将"TERMINATED"替换为 "FINISHED","TERMINATED_MANUAL","TERMINATED_AUTO"
+        newStatusValues.splice(
+          index,
+          1,
+          "FINISHED",
+          "TERMINATED_MANUAL",
+          "TERMINATED_AUTO"
+        );
+      }
+      curStatusValues.current = newStatusValues;
+      getSchemeList();
       schemeListData.setForceUpdate(false);
     }
   }, [schemeListData.forceUpdate]);
 
   useEffect(() => {
     return () => {
-      if (isValidVariable(schemeTimeoutId)) {
-        clearTimeout(schemeTimeoutId);
-      }
+      clearTimeout(timer);
       schemeListData.updateList([], "");
       schemeListData.toggleSchemeActive("");
     };

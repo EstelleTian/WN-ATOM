@@ -21,7 +21,7 @@
             flex: 1;
         }
         .filter-options {
-            width: 5rem;
+            width: 7rem;
             display: flex;
             flex-direction: row-reverse;
             .filter-wrapper {
@@ -223,8 +223,16 @@
         color: #36a5da;
     }
 }
-.scheme-filter-checkbox {
-    .ant-checkbox-wrapper {
-        min-width: 6rem;
+
+.spin-menu-wrapper {
+    box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.48), 0 6px 16px 0 rgba(0, 0, 0, 0.32), 0 9px 28px 8px rgba(0, 0, 0, 0.2);
+
+    .ant-spin-blur {
+        opacity: 1;
+    }
+    .scheme-filter-checkbox {
+        .ant-checkbox-wrapper {
+            min-width: 6rem;
+        }
     }
 }
