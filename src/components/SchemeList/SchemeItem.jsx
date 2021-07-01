@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, memo } from "react";
+import React, { useState, useEffect, useCallback, useMemo, memo } from "react";
 import { inject, observer } from "mobx-react";
 import ReactDom from "react-dom";
 import {
@@ -71,7 +71,7 @@ function SchemeItem(props) {
   const [window, setWindow] = useState("");
   const [windowClass, setWindowClass] = useState("");
 
-  let { item, activeSchemeId, userHasAuth, generateTime } = props;
+  let { item, userHasAuth, generateTime, schemeListData } = props;
   let {
     id,
     isCalculated,
@@ -93,11 +93,27 @@ function SchemeItem(props) {
     schemeRelative = "",
     tacticMode = "",
     tempSyncSign = "0",
-    tacticSource = ""
+    tacticSource = "",
   } = item;
-  let isActive = activeSchemeId === id;
+
+  let isActive = useMemo(() => {
+    return schemeListData.activeSchemeId === item.id;
+  }, [schemeListData.activeSchemeId, item.id]);
+
   // NTFM流控
   let isNTFM = tacticSource.includes("NTFM-ORIGINAL");
+
+  const classNameStr = useMemo(() => {
+    let className = "item_container layout-column";
+
+    if (isActive) {
+      className += " item_active";
+    }
+    if (isNTFM) {
+      className += " NTFM-item";
+    }
+    return className;
+  }, [schemeListData.activeSchemeId]);
 
   basicTacticInfoRemark = basicTacticInfoRemark || "";
   if (basicFlowcontrol === null) {
@@ -303,22 +319,8 @@ function SchemeItem(props) {
     </Menu>
   );
 
-  const setClassName = ()=> {
-    let className = "item_container layout-column";
-    if(isActive) {
-      className +=" item_active";
-    }
-    if(isNTFM) {
-      className +=" NTFM-item";
-    }
-    return className;
-  }
-
   return (
-    <div
-      className={setClassName()}
-      onClick={onChange}
-    >
+    <div className={classNameStr} onClick={onChange}>
       <div className="layout-row">
         <div className="left-column border-bottom layout-column justify-content-center">
           <div className="name">
@@ -346,13 +348,11 @@ function SchemeItem(props) {
               ) : (
                 ""
               )}
-              {
-                tempSyncSign === "100" && (
-                  <span className="" title="同步">
+              {tempSyncSign === "100" && (
+                <span className="" title="同步">
                   <Tag color="#26a69a">同</Tag>
                 </span>
-                )
-              }
+              )}
             </div>
           </div>
         </div>
@@ -421,7 +421,8 @@ function SchemeItem(props) {
               详情
             </div>
 
-            {props.systemPage.userHasAuth(11301) && !isNTFM &&
+            {props.systemPage.userHasAuth(11301) &&
+              !isNTFM &&
               ["FUTURE", "RUNNING"].includes(tacticStatus) && (
                 <div className="opt" onClick={showModify}>
                   调整
@@ -436,7 +437,7 @@ function SchemeItem(props) {
                   重新发布
                 </div>
               )} */}
-            {props.systemPage.userHasAuth(11401)  && !isNTFM && (
+            {props.systemPage.userHasAuth(11401) && !isNTFM && (
               <div
                 className="opt"
                 onClick={(e) => {
@@ -462,18 +463,19 @@ function SchemeItem(props) {
               </Dropdown>
             )}
 
-            {props.systemPage.userHasAuth(11201) &&  !isNTFM &&
+            {props.systemPage.userHasAuth(11201) &&
+              !isNTFM &&
               ["FUTURE", "RUNNING"].includes(tacticStatus) && (
-              <div
-                className="opt"
-                onClick={(e) => {
-                  stopControl(id);
-                  e.stopPropagation();
-                }}
-              >
-                终止
-              </div>
-            )}
+                <div
+                  className="opt"
+                  onClick={(e) => {
+                    stopControl(id);
+                    e.stopPropagation();
+                  }}
+                >
+                  终止
+                </div>
+              )}
             {props.systemPage.userHasAuth(11505) && !isNTFM && (
               <div
                 className="opt"
@@ -500,11 +502,7 @@ function SchemeItem(props) {
           </div>
         </div>
       </div>
-      {
-        isNTFM && (
-          <div className="ntfm-flag" title="NTFM"></div>
-        )
-      }      
+      {isNTFM && <div className="ntfm-flag" title="NTFM"></div>}
     </div>
   );
 }

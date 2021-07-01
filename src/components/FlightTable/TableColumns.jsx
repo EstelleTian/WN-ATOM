@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-06-29 10:52:29
+ * @LastEditTime: 2021-07-01 15:34:21
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -21,7 +21,7 @@ import debounce from "lodash/debounce";
 /**
  * 告警列单元格渲染格式化
  * */
-const randerAlarmCellChildren = (opt) => {
+const renderAlarmCellChildren = (opt) => {
   const { text, record, index, col, colCN } = opt;
   // 置空title属性,解决title显示[object,object]问题
   return (
@@ -596,7 +596,7 @@ let render = (opt) => {
   ) {
     popover = <RenderCell opt={opt} />;
   } else if (col === "ALARM") {
-    popover = randerAlarmCellChildren(opt);
+    popover = renderAlarmCellChildren(opt);
   } else if (col === "FFIXT") {
     let {
       source = "",
@@ -1187,7 +1187,8 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     NCTOT: nctotField,
     RCOBT: rcobtField,
     RCTOT: rctotField,
-    atomConfigValue: atomConfigValue,
+    // atomConfigValue: atomConfigValue,
+    atomConfigValue: flight.source || "",
     orgdata: JSON.stringify(flight),
   };
 
