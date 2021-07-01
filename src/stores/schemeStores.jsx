@@ -256,7 +256,7 @@ class SchemeListData {
       });
     }
     
-    if (list > 0) {
+    if (list.length > 0) {
       list = list.slice().sort((a, b) => {
         const data1 = a.tacticTimeInfo.publishTime;
         const data2 = b.tacticTimeInfo.publishTime;
