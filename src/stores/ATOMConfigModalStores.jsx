@@ -17,35 +17,28 @@ class ATOMConfigForm {
     }
     //模态框是否显示
     @observable modalVisible = false;
-    // 配置选项数据
-    @observable configOptionData = {};
-    // 选中的配置值
-    @observable configValue = "";
+
+    //是否强制刷新
+    @observable forceUpdate = false;
+
+    // 配置数据
+    @observable configData = {};
 
     //更新表单模态框显示状态
     @action toggleModalVisible(visible) {
         this.modalVisible = visible;
     }
+    //强制更新
+    @action setForceUpdate(flag) {
+        this.forceUpdate = flag;
+    }
     // 更新配置选项数据
     @action updateConfigData(data) {
-        if (isValidObject) {
-            // 选中的配置值 
-            const val = data.currentVal || "";
-            // 更新配置选项数据
-            this.configOptionData = data.alternative || {}
-            // 更新选中的配置值
-            this.configValue = val;
+        if (isValidObject(data)) {
+            this.configData = data;
         }else {
-            // 更新配置选项数据
-            this.configOptionData = {}
-            // 更新选中的配置值
-            this.configValue = "";
+            this.configData = {};
         }
-    }
-    // 更新选中的配置值
-    @action updateConfigValue(value) {
-        // 更新选中的配置值
-        this.configValue = value;
     }
 }
 
