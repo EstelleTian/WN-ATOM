@@ -231,11 +231,23 @@ class SchemeListData {
     const searchVal = this.searchVal.toLowerCase();
     if (isValidVariable(searchVal) && isValidVariable(list)) {
       list = list.filter((item) => {
+        // 方案名称
         let tacticName = isValidVariable(item.tacticName) ? item.tacticName.toLowerCase() : "";
-        let targetUnits = isValidVariable(item.targetUnits) ? item.targetUnits.toLowerCase() : "";
+        let directionList = item.directionList || [];
+        let directionData = directionList[0] || {};
+        // 基准点
+        let targetUnit = directionData.targetUnit || "";
+        targetUnit = isValidVariable(targetUnit) ? targetUnit.toLowerCase() : "";
+
+        let basicFlowcontrol = item.basicFlowcontrol || {};
+        let flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
+        // 限制方式
+        let restrictionMode = flowControlMeasure.restrictionMode || "";
+        restrictionMode = isValidVariable(restrictionMode) ? restrictionMode.toLowerCase() : "";
         if (
           tacticName.indexOf(searchVal) !== -1 ||
-          targetUnits.indexOf(searchVal) !== -1
+          targetUnit.indexOf(searchVal) !== -1 || 
+          restrictionMode.indexOf(searchVal) !== -1
         ) {
           return true;
         } else {
@@ -244,7 +256,7 @@ class SchemeListData {
       });
     }
     
-    if (list > 0) {
+    if (list.length > 0) {
       list = list.slice().sort((a, b) => {
         const data1 = a.tacticTimeInfo.publishTime;
         const data2 = b.tacticTimeInfo.publishTime;

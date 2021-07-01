@@ -14,7 +14,7 @@ import ParameterConfiguration from "./ParameterConfiguration";
 import "./RightNav.scss";
 
 function RightNav(props) {
-  const { systemPage } = props;
+  const { systemPage, schemeListData } = props;
   //执行KPI
   const groupRightChange = (e) => {
     const value = e.target.value;
@@ -76,7 +76,14 @@ function RightNav(props) {
               onChange={groupRightChange2}
             >
               {systemPage.userHasAuth(12506) && (
-                <Radio.Button value="scheme">方案列表</Radio.Button>
+                <Radio.Button value="scheme">
+                  方案列表
+                  <Badge
+                    // className="site-badge-count-109"
+                    count={schemeListData.sortedList.length}
+                    style={{ backgroundColor: "rgb(61, 132, 36)" }}
+                  />
+                </Radio.Button>
               )}
               {/* {systemPage.userHasAuth(12507) && (
                 <Radio.Button value="outer_scheme">外部流控</Radio.Button>
@@ -113,4 +120,4 @@ function RightNav(props) {
   );
 }
 
-export default inject("systemPage",)(observer(RightNav));
+export default inject("systemPage", "schemeListData")(observer(RightNav));
