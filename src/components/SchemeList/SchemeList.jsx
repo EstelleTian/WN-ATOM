@@ -338,7 +338,6 @@ function SList(props) {
     console.log(schemeListData.searchVal)
   }, [schemeListData.searchVal])
 
-  console.log(schemeListData.sortedList)
   return (
     <div className="list_container">
       {schemeListData.sortedList.length > 0 ? (
