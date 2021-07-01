@@ -45,7 +45,7 @@ function useSchemeList({
       }
       let timer = setTimeout(() => {
         getSchemeList(true);
-      }, 30000 * 1000);
+      }, 30 * 1000);
       setSchemeTimeoutId(timer);
     }
   }, []);
