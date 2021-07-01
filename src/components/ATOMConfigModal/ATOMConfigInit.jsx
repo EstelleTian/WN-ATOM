@@ -14,7 +14,7 @@ function ATOMConfigInit({ ATOMConfigFormData, flightTableData }) {
   const fetchConfigData = () => {
     clearTimeout(timer);
     const opt = {
-      url: ReqUrls.switchConfigUrl + "/switch/atomDataApplySwitch",
+      url: ReqUrls.switchConfigUrl + "/switch/cdmDataApplySwitch",
       method: "GET",
       resFunc: (data) => fetchSuccess(data),
       errFunc: (err) => fetchErr(err),
@@ -25,8 +25,11 @@ function ATOMConfigInit({ ATOMConfigFormData, flightTableData }) {
 
   //获取配置数据成功
   const fetchSuccess = useCallback((data) => {
-    ATOMConfigFormData.updateConfigData(data);
-    flightTableData.atomConfigValue = data.currentVal;
+    let obj = {
+      alternative: data.alternative,
+      valueInfo: data.valueInfo,
+    }
+    ATOMConfigFormData.updateConfigData(obj);
   });
 
   //数据获取失败回调
