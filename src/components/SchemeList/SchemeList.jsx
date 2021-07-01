@@ -108,6 +108,7 @@ const useSchemeModal = ({ systemPage }) => {
 const STitle = (props) => {
   const { schemeListData } = props;
   const { statusValues, NTFMShowType, filterCount } = schemeListData; //获取排序后的方案列表
+  let [dropdownVisible, setDropdownVisible] = useState(false);
 
   //状态-多选按钮组-切换事件
   const onChange = useCallback((checkedValues) => {
@@ -132,26 +133,35 @@ const STitle = (props) => {
     []
   );
 
+  const handleDropdownVisible = flage => {
+    setDropdownVisible(flage);
+  }
+
+
   const menu = (
-    <Menu>
-      <Menu.Item>
-        <Checkbox.Group
-          className="scheme-filter-checkbox"
-          options={plainOptions}
-          defaultValue={statusValues}
-          onChange={onChange}
-        />
-      </Menu.Item>
-      <Menu.Divider></Menu.Divider>
-      <Menu.Item>
-        <Checkbox.Group
-          className="scheme-filter-checkbox"
-          options={NTFMOptions}
-          defaultValue={NTFMShowType}
-          onChange={onNTFMShowTypeChange}
-        />
-      </Menu.Item>
-    </Menu>
+    <div className="spin-menu-wrapper">
+      <Spin spinning={schemeListData.loading} indicator={null}>
+        <Menu selectable={false}>
+          <Menu.Item>
+            <Checkbox.Group
+              className="scheme-filter-checkbox"
+              options={plainOptions}
+              defaultValue={statusValues}
+              onChange={onChange}
+            />
+          </Menu.Item>
+          <Menu.Divider></Menu.Divider>
+          <Menu.Item>
+            <Checkbox.Group
+              className="scheme-filter-checkbox"
+              options={NTFMOptions}
+              defaultValue={NTFMShowType}
+              onChange={onNTFMShowTypeChange}
+            />
+          </Menu.Item>
+        </Menu>
+      </Spin>
+    </div>
   );
 
   return (
@@ -168,7 +178,11 @@ const STitle = (props) => {
         />
       </div>
       <div className="filter-options">
-        <Dropdown overlay={menu} trigger={["hover", "click"]}>
+        <Dropdown
+          overlay={menu}
+          onVisibleChange={handleDropdownVisible}
+          visible={dropdownVisible}
+          trigger={['click']}>
           <span className="filter-wrapper">
             {filterCount > 0 ? (
               <Badge
@@ -179,7 +193,7 @@ const STitle = (props) => {
             ) : (
               <FilterOutlined></FilterOutlined>
             )}
-            <span>筛选</span>
+            <span style={{marginLeft: '2px'}}>过滤选项</span>
           </span>
         </Dropdown>
       </div>
