@@ -134,6 +134,9 @@ function NTFMConfigForm(props) {
             ),
             centered: true,
             okText: '确定',
+            onOk: () => {
+                NTFMConfigFormData.toggleModalVisible(false);
+            },
         });
 
     });
