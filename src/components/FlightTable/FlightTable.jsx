@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-29 14:29:00
+ * @LastEditTime: 2021-07-01 10:52:23
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -245,8 +245,7 @@ function FTableContainer({
   let showList = obj.showList || [];
   let targetFlight = obj.targetFlight || {};
 
-  // let schemeListObj = schemeListData.getTimeRange;
-  useEffect(() => {
+  const focusFlight = useCallback(() => {
     if (isValidVariable(flightTableData.focusFlightId)) {
       console.log("航班定位");
       //高亮航班
@@ -258,10 +257,11 @@ function FTableContainer({
       if (tr.length > 0) {
         highlightRowByDom(tr[0]);
         scrollTopById(flightTableData.focusFlightId, "flight_canvas");
-        flightTableData.focusFlightId = "";
+        // flightTableData.focusFlightId = "";
       }
     }
   }, [flightTableData.focusFlightId]);
+
   useEffect(() => {
     console.log("航班表格渲染 targetFlight变了", targetFlight.FLIGHTID);
     if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
@@ -270,7 +270,10 @@ function FTableContainer({
     }
   }, [targetFlight.id]);
 
-  console.log("航班表格container渲染 " + showList.length + "条");
+  useEffect(() => {
+    focusFlight();
+  });
+  console.log("航班表格container渲染 " + flightTableData.focusFlightId);
   return (
     <FTable
       columns={columns}

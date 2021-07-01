@@ -45,7 +45,7 @@ function useSchemeList({
       }
       let timer = setTimeout(() => {
         getSchemeList(true);
-      }, 30 * 1000);
+      }, 30000 * 1000);
       setSchemeTimeoutId(timer);
     }
   }, []);
@@ -64,7 +64,7 @@ function useSchemeList({
           filterDepap: "",
           system: "",
           region: "",
-          ntfmShowType:schemeListData.NTFMShowType.join(",")
+          ntfmShowType: schemeListData.NTFMShowType.join(","),
         };
         const activeSystem = systemPage.activeSystem || {};
         params["filterArrap"] = activeSystem.filterArrap || "";
@@ -151,7 +151,11 @@ function useSchemeList({
         schemeTimeoutId.current = "";
       }
     }
-  }, [systemPage.user.id, schemeListData.statusValues, schemeListData.NTFMShowType]);
+  }, [
+    systemPage.user.id,
+    schemeListData.statusValues,
+    schemeListData.NTFMShowType,
+  ]);
 
   //监听全局刷新
   useEffect(
