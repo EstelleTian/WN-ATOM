@@ -182,7 +182,7 @@ const STitle = (props) => {
           overlay={menu}
           onVisibleChange={handleDropdownVisible}
           visible={dropdownVisible}
-          trigger={['click']}>
+          trigger={['hover']}>
           <span className="filter-wrapper">
             {filterCount > 0 ? (
               <Badge
