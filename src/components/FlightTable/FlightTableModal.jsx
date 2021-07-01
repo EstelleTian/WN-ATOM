@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-23 12:03:59
+ * @LastEditTime: 2021-07-01 14:58:21
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -30,8 +30,8 @@ import {
 // import CollaboratePopover from "components/CollaboratePopover/CollaboratePopover";
 import { isValidVariable, formatTimeString } from "utils/basic-verify";
 import debounce from "lodash/debounce";
-const FlightTable = React.lazy(() =>
-  import("components/FlightTable/FlightTable")
+const FlightTableContainer = React.lazy(() =>
+  import("components/FlightTable/FlightTableContainer")
 );
 
 const FlightDetail = React.lazy(() =>
@@ -104,7 +104,7 @@ const TSpin = inject("flightTableData")(
 
     return (
       <Spin spinning={loading}>
-        <FlightTable />
+        <FlightTableContainer />
       </Spin>
     );
   })
