@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-01 15:52:27
+ * @LastEditTime: 2021-07-01 16:31:18
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -9,14 +9,18 @@
 
 import React, { useEffect, useCallback, useMemo } from "react";
 import { inject, observer } from "mobx-react";
-import {
-  getColumns,
-  scrollTopById,
-  highlightRowByDom,
-} from "components/FlightTable/TableColumns";
 import { isValidVariable } from "utils/basic-verify";
+
+import { getColumns, scrollTopById, highlightRowByDom } from "./TableColumns";
 import FTable from "./FlightTable";
-import VirtualTable from "./VirtualTable";
+
+// import {
+//   getColumns,
+//   scrollTopById,
+//   highlightRowByDom,
+// } from "./VirtualTableColumns";
+// import VirtualTable from "./VirtualTable";
+
 import "./FlightTable.scss";
 
 function FContainer({

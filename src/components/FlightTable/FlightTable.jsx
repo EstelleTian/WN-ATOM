@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-01 15:02:22
+ * @LastEditTime: 2021-07-02 11:12:42
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -22,7 +22,7 @@ function FTable({
   flightTableData,
   schemeListData,
 }) {
-  const { tableWidth, tableHeight, setHeight } = useAutoSize();
+  const { tableWidth, tableHeight, setHeight } = useAutoSize(flightTableData);
 
   const onChange = useCallback((pagination, filters, sorter, extra) => {
     console.log("onChange");
@@ -111,7 +111,7 @@ function FTable({
     },
     []
   );
-  console.log("renderFlightsTime 开始计时");
+  console.log("renderFlightsTime 开始计时", tableHeight);
   console.time("renderFlightsTime");
   useEffect(() => {
     console.timeEnd("renderFlightsTime");

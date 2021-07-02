@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-06-30 15:47:37
+ * @LastEditTime: 2021-07-02 09:58:53
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -133,10 +133,9 @@ const STitle = (props) => {
     []
   );
 
-  const handleDropdownVisible = flage => {
+  const handleDropdownVisible = (flage) => {
     setDropdownVisible(flage);
-  }
-
+  };
 
   const menu = (
     <div className="spin-menu-wrapper">
@@ -182,7 +181,8 @@ const STitle = (props) => {
           overlay={menu}
           onVisibleChange={handleDropdownVisible}
           visible={dropdownVisible}
-          trigger={['hover']}>
+          trigger={["hover"]}
+        >
           <span className="filter-wrapper">
             {filterCount > 0 ? (
               <Badge
@@ -193,7 +193,7 @@ const STitle = (props) => {
             ) : (
               <FilterOutlined></FilterOutlined>
             )}
-            <span style={{marginLeft: '2px'}}>过滤选项</span>
+            <span style={{ marginLeft: "2px" }}>过滤选项</span>
           </span>
         </Dropdown>
       </div>
@@ -237,7 +237,7 @@ function SList(props) {
     toggleModalVisible,
     toggleModalType,
   } = useSchemeModal({ systemPage });
-  if (systemPage.systemKind === "CRS") {
+  if (systemPage.systemKind.indexOf("CRS") > -1) {
     useExecuteKPIData({
       schemeListData,
       executeKPIData,
