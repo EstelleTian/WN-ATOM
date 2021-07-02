@@ -113,7 +113,7 @@ function SchemeItem(props) {
       className += " NTFM-item";
     }
     return className;
-  }, [schemeListData.activeSchemeId]);
+  }, [isActive, isNTFM]);
 
   basicTacticInfoRemark = basicTacticInfoRemark || "";
   if (basicFlowcontrol === null) {

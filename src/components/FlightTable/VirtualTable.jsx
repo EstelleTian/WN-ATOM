@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-01 15:46:26
+ * @LastEditTime: 2021-07-01 16:12:29
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -11,7 +11,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Tag, Tooltip, Input } from "antd";
 import classNames from "classnames";
 import { Table, Column, HeaderCell, Cell } from "rsuite-table";
-import { highlightRowByDom } from "components/FlightTable/TableColumns";
+import { highlightRowByDom } from "./VirtualTableColumns";
 import {
   isValidVariable,
   getDayTimeFromString,
@@ -70,7 +70,14 @@ const CustomCell = ({ rowData, dataKey, columnName, ...props }) => {
   }
   let color = "";
   let popover = null;
-  if (columnName === "FLIGHTID") {
+  if (columnName === "rowNum") {
+    const index = props["aria-colindex"];
+    popover = (
+      <Cell {...props}>
+        <div className="text_cell_right row_cell_pos">{index}</div>
+      </Cell>
+    );
+  } else if (columnName === "FLIGHTID") {
     let { priority = "" } = orgData;
     const fmeToday = orgData.fmeToday || {};
     let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
@@ -409,6 +416,7 @@ function VirtualTable({
         if (column.fixed !== "") {
           return (
             <Column
+              className="aaaaa"
               width={column.width}
               key={column.key}
               sortable

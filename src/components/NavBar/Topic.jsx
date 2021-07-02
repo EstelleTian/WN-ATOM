@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-06-23 18:27:05
+ * @LastEditTime: 2021-07-01 16:32:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -142,7 +142,7 @@ function Topic(props) {
             switchVal !== props.ATOMConfigFormData.configValue
           ) {
             // 更新各地CDM引接应用页面 ATOMConfigFormData Store数据
-            props.ATOMConfigFormData.updateConfigValue(switchVal);
+            props.ATOMConfigFormData.updateConfigData(switchVal);
             // 更新航班表格flightTableData store 数据
             props.flightTableData.atomConfigValue = switchVal;
             // 强制刷新航班表格
