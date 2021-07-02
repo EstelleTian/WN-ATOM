@@ -42,7 +42,7 @@ function useFlightsList({
         flightTableData.updateFlightsList([], generateTime);
       }
       // 若KPI数据有效则更新KPI数据-特殊航班模块
-      if (systemPage.systemKind === "CRS") {
+      if (systemPage.systemKind.indexOf("CRS") > -1) {
         if (isValidObject(performKpiResult)) {
           performanceKPIData.updatePerformanceKPIData(performKpiResult);
         } else {
@@ -109,7 +109,7 @@ function useFlightsList({
           params["id"] = activeSchemeId;
         }
         flightTableData.toggleLoad(showLoad, true);
-        if (systemPage.systemKind === "CRS") {
+        if (systemPage.systemKind.indexOf("CRS") > -1) {
           performanceKPIData.toggleLoad(showLoad, true);
         }
         const data = await requestGet2({
@@ -119,7 +119,7 @@ function useFlightsList({
         console.time("tableTime");
         updateFlightTableData(data);
         flightTableData.toggleLoad(false, false);
-        if (systemPage.systemKind === "CRS") {
+        if (systemPage.systemKind.indexOf("CRS") > -1) {
           performanceKPIData.toggleLoad(false, false);
         }
         timerFunc(nextRefresh);
@@ -132,11 +132,11 @@ function useFlightsList({
         // 清空航班表格数据
         flightTableData.updateFlightsList([], "");
         // 清除KPI数据
-        if (systemPage.systemKind === "CRS") {
+        if (systemPage.systemKind.indexOf("CRS") > -1) {
           performanceKPIData.updatePerformanceKPIData({});
         }
         flightTableData.toggleLoad(false, false);
-        if (systemPage.systemKind === "CRS") {
+        if (systemPage.systemKind.indexOf("CRS") > -1) {
           performanceKPIData.toggleLoad(false, false);
         }
         //开启定时
@@ -157,7 +157,7 @@ function useFlightsList({
       if (systemPage.pageRefresh && isValidVariable(systemPage.user.id)) {
         // console.log("全局刷新开启")
         flightTableData.toggleLoad(true, true);
-        if (systemPage.systemKind === "CRS") {
+        if (systemPage.systemKind.indexOf("CRS") > -1) {
           performanceKPIData.toggleLoad(true, true);
         }
         getFlightTableData(false);

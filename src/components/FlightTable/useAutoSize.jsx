@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-01 15:00:12
+ * @LastEditTime: 2021-07-02 11:13:56
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -9,7 +9,7 @@
 
 import React, { useState, useEffect } from "react";
 
-function useAutoSize() {
+function useAutoSize(flightTableData) {
   let [tableWidth, setWidth] = useState(0);
   let [tableHeight, setHeight] = useState(0);
   useEffect(() => {
@@ -31,11 +31,11 @@ function useAutoSize() {
       setHeight(height);
     }
     setWidth(width);
-
+    console.log(111);
     flightCanvas.oncontextmenu = function () {
       return false;
     };
-  }, [tableWidth, tableHeight]);
+  }, [tableWidth, tableHeight, flightTableData.filterable]);
 
   return { tableWidth, tableHeight, setHeight };
 }

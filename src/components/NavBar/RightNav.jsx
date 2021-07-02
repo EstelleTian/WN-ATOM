@@ -48,7 +48,7 @@ function RightNav(props) {
               <RefreshBtn />
             </Radio.Group>
             <SystemBar />
-            {systemPage.systemKind === "CRS" && (
+            {systemPage.systemKind.indexOf("CRS") > -1 && (
               <Radio.Group
                 value={systemPage.leftActiveName}
                 buttonStyle="solid"
