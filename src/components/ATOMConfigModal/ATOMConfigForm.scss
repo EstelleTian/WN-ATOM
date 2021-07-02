@@ -1,9 +1,30 @@
 .config-form {
-    padding: 10px;
+    // padding: 10px;
+    // .ant-row:first-child{
+    //     .ant-form-item{
+    //         border-top: 1px solid #4a4a4a;
+    //     }
+    // }
+    .no-pointer-event{
+        > .ant-form-item-control{
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+    }
+    .ant-form-item{
+        border-bottom: 1px solid #4a4a4a;
+        margin: 0;
+        padding: 10px 0;
+        &:hover{
+            background: rgba(255, 255, 255, 0.08);
+        }
+    }
+    
     .ant-form-item-label {
         min-width: 100px;
     }
     .btn-box {
+        margin-top: 20px;
         display: flex;
         justify-content: flex-end;
         button + button {

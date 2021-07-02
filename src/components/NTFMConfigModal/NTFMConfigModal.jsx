@@ -31,7 +31,7 @@ function NTFMConfigModal(props) {
                 visible={modalVisible}
                 handleOk={() => { }}
                 handleCancel={hideModal}
-                width={800}
+                width={550}
                 maskClosable={false}
                 mask={true}
                 className="NTFM-config-modal"
