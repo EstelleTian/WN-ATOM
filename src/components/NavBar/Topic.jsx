@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-07-01 16:32:57
+ * @LastEditTime: 2021-07-02 14:57:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -54,17 +54,17 @@ function Topic(props) {
         props.schemeListData.setForceUpdate(true);
       });
       /* *
-     * 收到方案消息用于【更新航班列表数据】
-     * 从消息中检索方案ID集合中是否包含当前活动方案id,
-     * 若存在则更新航班数据
-     */
+       * 收到方案消息用于【更新航班列表数据】
+       * 从消息中检索方案ID集合中是否包含当前活动方案id,
+       * 若存在则更新航班数据
+       */
       const topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE =
         "/exchange/EXCHANGE.EVENT_CENTER_RELEASE_MONITORING_PARTIAL_CHANGE";
       jms_websocket.subscribe(
         topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE,
         function (d) {
           //收到消息
-          // console.log(d);
+          console.log("收到方案消息用于【更新航班列表数据】");
           const body = d.body;
           const msgObj = JSON.parse(body);
           const msg = msgObj.message || [];
@@ -135,9 +135,10 @@ function Topic(props) {
           // 消息内容
           const msg = data.message;
           const { switchKey, switchVal } = msg;
+          console.log("收到各地CDM&NTFM引接应用配置变更消息");
           // 各地CDM引接应用配置
           if (
-            switchKey === "atomDataApplySwitch" &&
+            switchKey === "cdmDataApplySwitch" &&
             isValidVariable(switchVal) &&
             switchVal !== props.ATOMConfigFormData.configValue
           ) {
