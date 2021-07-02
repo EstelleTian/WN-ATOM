@@ -12,6 +12,9 @@ function ATOMConfigForm(props) {
     const user = systemPage.user || {};
     // 用户名
     const userName = user.username || "";
+    // 是否有编辑权限
+    const hasAuth = systemPage.userHasAuth(12515);
+
     // 表单
     const [form] = Form.useForm();
     // 配置数据
@@ -54,13 +57,13 @@ function ATOMConfigForm(props) {
     }
     // 格式化处理各地区配置值
     const formatSubmitValueInfoData = (newValueData) => {
-        let result = {  };
+        let result = {};
         for (let i = 0; i < valueInfoArray.length; i++) {
             let area = valueInfoArray[i];
             let oldValueData = valueInfo[area];
             let newValue = newValueData[area];
             result[area] = {
-                ... oldValueData,
+                ...oldValueData,
                 val: newValue
             };
         }
@@ -199,6 +202,12 @@ function ATOMConfigForm(props) {
             },
         });
     };
+    // 取消按钮点击事件
+    const handleCancel=()=> {
+        // 关闭模态框
+        ATOMConfigFormData.toggleModalVisible(false);
+    }
+
     //方案名称发生变化触发更新
     useEffect(
         function () {
@@ -216,7 +225,7 @@ function ATOMConfigForm(props) {
 
     return (
         <Fragment>
-            <Form form={form} initialValues={initialValues} className="config-form">
+            <Form form={form} labelAlign="left" initialValues={initialValues} className="config-form">
                 {valueInfoArray.map((item) => {
                     let info = valueInfo[item];
                     let cn = info.cn;
@@ -224,6 +233,7 @@ function ATOMConfigForm(props) {
                         <Row gutter={24} key={item}>
                             <Col span={24}>
                                 <Form.Item
+                                    className={hasAuth? "" : "no-pointer-event"}
                                     name={item}
                                     label={cn}
                                     rules={[
@@ -233,8 +243,8 @@ function ATOMConfigForm(props) {
                                         },
                                     ]}
                                 >
-                                    <Radio.Group>
-                                        <Space size={100}>{options}</Space>
+                                    <Radio.Group >
+                                        <Space size={50}>{options}</Space>
                                     </Radio.Group>
                                 </Form.Item>
                             </Col>
@@ -244,10 +254,16 @@ function ATOMConfigForm(props) {
 
                 <Row gutter={24}>
                     <Col span={24} className="btn-box">
-                        {systemPage.userHasAuth(12515) && (<Button type="primary" onClick={handleSubmitFormData}>
-                            保存
-                        </Button>)}
-
+                        {
+                            hasAuth ? <div>
+                                <Button type="primary" onClick={handleSubmitFormData}>
+                                    保存
+                                </Button>
+                                <Button onClick={handleCancel}>
+                                    取消
+                                </Button>
+                            </div> : ""
+                        }
                     </Col>
                 </Row>
             </Form>

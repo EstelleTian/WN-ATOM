@@ -31,7 +31,7 @@ function ATOMConfigModal(props) {
                 visible={modalVisible}
                 handleOk={() => { }}
                 handleCancel={hideModal}
-                width={800}
+                width={500}
                 maskClosable={false}
                 mask={true}
                 className="ATOM-config-modal"

@@ -12,6 +12,8 @@ function NTFMConfigForm(props) {
     const user = systemPage.user || {};
     // 用户名
     const userName = user.username || ""
+    // 是否有编辑权限
+    const hasAuth = systemPage.userHasAuth(12516);
     // 表单
     const [form] = Form.useForm();
     // 配置选项数据
@@ -140,6 +142,12 @@ function NTFMConfigForm(props) {
         });
 
     });
+    // 取消按钮点击事件
+    const handleCancel=()=> {
+        // 关闭模态框
+        NTFMConfigFormData.toggleModalVisible(false);
+    }
+
     //方案名称发生变化触发更新
     useEffect(function () {
         //重置表单，用以表单初始值赋值
@@ -156,13 +164,15 @@ function NTFMConfigForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign="left"
                 initialValues={initialValues}
-                className="config-form"
+                className="ntfm-config-form"
             >
                 <Row gutter={24} >
                     <Col span={24}>
                         <Form.Item
                             name="config"
+                            className={hasAuth? "" : "no-pointer-event"}
                             label="NTFM引接应用"
                             rules={[
                                 {
@@ -181,8 +191,15 @@ function NTFMConfigForm(props) {
                 </Row>
                 <Row gutter={24}>
                     <Col span={24} className="btn-box">
-                    {systemPage.userHasAuth(12516) && (
-                        <Button type="primary" onClick={handleSubmitFormData} >保存</Button>)}
+                        {
+                            hasAuth ? <div>
+                                <Button type="primary" onClick={handleSubmitFormData} >保存</Button>
+                                <Button onClick={handleCancel}>
+                                    取消
+                                </Button>
+
+                            </div> : ""
+                        }
                     </Col>
                 </Row>
 
