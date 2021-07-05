@@ -28,6 +28,7 @@ function Topic(props) {
     );
     // 连接JMS消息服务器
     jms_websocket.connect(function () {
+      
       //收到方案发布消息
       const topic_SCHEME_PUBLISH = "/exchange/TOPIC.SCHEME.PUBLISH.FLOW";
       jms_websocket.subscribe(topic_SCHEME_PUBLISH, function (d) {
@@ -139,15 +140,13 @@ function Topic(props) {
           // 各地CDM引接应用配置
           if (
             switchKey === "cdmDataApplySwitch" &&
-            isValidVariable(switchVal) &&
-            switchVal !== props.ATOMConfigFormData.configValue
+            isValidVariable(switchVal)
           ) {
-            // 更新各地CDM引接应用页面 ATOMConfigFormData Store数据
-            props.ATOMConfigFormData.updateConfigData(switchVal);
-            // 更新航班表格flightTableData store 数据
-            props.flightTableData.atomConfigValue = switchVal;
-            // 强制刷新航班表格
-            props.flightTableData.setForceUpdate(true);
+            setTimeout(function(){
+              // 强制刷新航班表格
+              props.flightTableData.setForceUpdate(true);
+            },1000*3)
+            
           }
           // NTFM引接应用配置
           if (
@@ -157,6 +156,11 @@ function Topic(props) {
           ) {
             // 更新NTFM引接应用页面 ATOMConfigFormData Store数据
             props.NTFMConfigFormData.updateConfigValue(switchVal);
+            setTimeout(function(){
+              console.log("收到各地CDM&NTFM引接应用配置变更消息3秒后的回调")
+              // 强制刷新航班表格
+              props.flightTableData.setForceUpdate(true);
+            },1000*3)
           }
         }
       );
