@@ -1961,6 +1961,12 @@ function SchemeForm(props) {
         const simTacticId = basicTacticInfo.simTacticId || "";
 
         if (pageType === SchemeFormUtil.PAGETYPE_MODIFY && code === RESPONSECODE) {
+            // 当前活动方案id
+            let activeSchemeId = props.schemeListData.activeSchemeId || "";
+            if(id === activeSchemeId){
+                // 强制刷新航班表格
+                props.flightTableData.setForceUpdate(true);
+            }
             Modal.success({
                 title: '方案修改成功',
                 content: '方案修改成功',
@@ -2399,4 +2405,4 @@ function SchemeForm(props) {
     )
 }
 
-export default withRouter(inject("schemeFormData", "systemPage")(observer(SchemeForm)));
+export default withRouter(inject("schemeFormData", "systemPage","schemeListData", "flightTableData")(observer(SchemeForm)));
