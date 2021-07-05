@@ -4,9 +4,13 @@ import md5 from "js-md5";
 import { requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import { isValidVariable } from "utils/basic-verify";
-import { saveUserInfo, exitSystem, testInternet, getVersion } from "utils/client";
+import {
+  saveUserInfo,
+  exitSystem,
+  testInternet,
+  getVersion,
+} from "utils/client";
 import { NWGlobal } from "utils/global";
-
 
 const msgStyle = {
   top: "110px",
@@ -28,7 +32,7 @@ function LoginPage(props) {
   // alert(navigator.userAgent);
   // 更新客户端版本号信息方法
   NWGlobal.updateVersion = (version) => {
-      setVersion(version)
+    setVersion(version);
   };
 
   // 点击登录按钮登录
@@ -42,59 +46,60 @@ function LoginPage(props) {
       const cipher = md5(password);
 
       message.destroy();
-      try {
-        //校验用户名密码是否正确
-        let params = {
-          username: username,
-          cipher: cipher,
-        };
-        const verifyObj = await requestGet2({
-          url: ReqUrls.loginVerifyUrl,
-          params,
-        });
 
-        params["macaddress"] = "4C-CC-6A-C9-BA-15";
-        params["clientVersion"] = "9.9.9";
-        //登录请求
-        const data = await requestGet2({
-          url: ReqUrls.loginUrl,
-          params,
-        });
-        const { status, user = {} } = data;
-        // let obj = {};
-        // userConcernTrafficList.map((item) => {
-        //   const name = item.concernTrafficName;
-        //   obj[name] = item;
-        // });
+      //校验用户名密码是否正确
+      let params = {
+        username: username,
+        cipher: cipher,
+      };
+      const verifyObj = await requestGet2({
+        url: ReqUrls.loginVerifyUrl,
+        params,
+      });
+      alert("校验用户名密码是否正确");
+      params["macaddress"] = "4C-CC-6A-C9-BA-15";
+      params["clientVersion"] = "9.9.9";
+      //登录请求
+      const data = await requestGet2({
+        url: ReqUrls.loginUrl,
+        params,
+      });
+      const { status, user = {} } = data;
+      // let obj = {};
+      // userConcernTrafficList.map((item) => {
+      //   const name = item.concernTrafficName;
+      //   obj[name] = item;
+      // });
 
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("openWind", "");
-        // localStorage.setItem(
-        //   "userConcernTrafficList",
-        //   JSON.stringify(Object.values(obj))
-        // );
-        if (pageType === "client") {
-          message.success({
-            content: "登录成功",
-            duration: 5,
-            style: msgStyle,
-          });
-          saveUserInfo(username, password, value + "");
-        } else if (pageType === "web") {
-          window.open("./#/clearance/web", "_self");
-        }
-
-        setLoading(false);
-      } catch (err) {
-        let msg = err || "登录失败";
-        message.error({
-          content: msg,
-          duration: 10,
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("openWind", "");
+      // localStorage.setItem(
+      //   "userConcernTrafficList",
+      //   JSON.stringify(Object.values(obj))
+      // );
+      if (pageType === "client") {
+        message.success({
+          content: "登录成功",
+          duration: 5,
           style: msgStyle,
         });
-        setLoading(false);
+        alert("登录成功");
+        saveUserInfo(username, password, value + "");
+      } else if (pageType === "web") {
+        window.open("./#/clearance/web", "_self");
       }
-    } catch (e) {}
+
+      setLoading(false);
+    } catch (err) {
+      alert("登录失败:" + err);
+      let msg = err || "登录失败";
+      message.error({
+        content: msg,
+        duration: 10,
+        style: msgStyle,
+      });
+      setLoading(false);
+    }
   });
 
   // 更新用户信息
@@ -157,8 +162,8 @@ function LoginPage(props) {
   }, []);
 
   useEffect(function () {
-    if(pageType === "client"){
-      getVersion()
+    if (pageType === "client") {
+      getVersion();
     }
   }, []);
   return (
@@ -276,12 +281,8 @@ function LoginPage(props) {
         <div className="line_bar"></div>
       </div>
       {pageType === "client" && (
-        <div
-          className="version"
-        >
-          当前版本:{version}
-        </div>
-      )}      
+        <div className="version">当前版本:{version}</div>
+      )}
     </div>
   );
 }

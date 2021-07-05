@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-07-01 13:26:21
+ * @LastEditTime: 2021-07-05 13:43:37
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询-单个航班详情
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -47,12 +47,24 @@ const FlightSummer = (props) => {
     //航班高亮
     flightTableData.focusFlightId = flight.id;
     const flows = flight.flowcontrols || [];
-    if (flows.length === 1) {
-      const flowObj = flows[0] || {};
-      const tacticId = flowObj.tacticId || "";
+    if (flows.length > 0) {
       const schemeId = schemeListData.activeSchemeId || ""; //方案id
-      if (tacticId !== schemeId) {
-        schemeListData.toggleSchemeActive(tacticId);
+      //如果命中多个方案，有一个方案被选中了，不再选中
+      let hasTacticId = false;
+      for (let i in flows) {
+        const flowObj = flows[i] || {};
+        const tacticId = flowObj.tacticId || "";
+        if (tacticId === schemeId) {
+          hasTacticId = true;
+        }
+      }
+      if (!hasTacticId) {
+        const flowObj = flows[0] || {};
+        const tacticId = flowObj.tacticId || "";
+
+        if (tacticId !== schemeId) {
+          schemeListData.toggleSchemeActive(tacticId);
+        }
       }
     }
   }, []);
@@ -427,7 +439,7 @@ const FlightSummer = (props) => {
           </div>
           <div className="scheme-list-section">
             <Tabs type="card">
-              <TabPane tab="命中流控" key="1">
+              <TabPane tab="命中方案" key="1">
                 {schemeListData.length > 0 && (
                   <List
                     itemLayout="horizontal"
@@ -482,6 +494,7 @@ const FlightSummer = (props) => {
             }}
             onClick={(e) => {
               flightTableData.focusFlightId = flight.id;
+              targetToFlight(flight);
               // 显示航班详情
               showFlightDetail(flight.id);
             }}
