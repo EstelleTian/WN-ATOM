@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-07-02 17:04:40
+ * @LastEditTime: 2021-07-05 08:37:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -137,7 +137,7 @@ function Topic(props) {
           const { switchKey, switchVal } = msg;
           // 各地CDM引接应用配置
           if (
-            switchKey === "atomDataApplySwitch" &&
+            switchKey === "cdmDataApplySwitch" &&
             isValidVariable(switchVal) &&
             switchVal !== props.ATOMConfigFormData.configValue
           ) {
