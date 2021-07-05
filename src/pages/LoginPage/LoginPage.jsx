@@ -56,7 +56,7 @@ function LoginPage(props) {
         url: ReqUrls.loginVerifyUrl,
         params,
       });
-      alert("校验用户名密码是否正确");
+      // alert("校验用户名密码是否正确");
       params["macaddress"] = "4C-CC-6A-C9-BA-15";
       params["clientVersion"] = "9.9.9";
       //登录请求
@@ -83,7 +83,7 @@ function LoginPage(props) {
           duration: 5,
           style: msgStyle,
         });
-        alert("登录成功");
+        // alert("登录成功");
         saveUserInfo(username, password, value + "");
       } else if (pageType === "web") {
         window.open("./#/clearance/web", "_self");
@@ -91,7 +91,7 @@ function LoginPage(props) {
 
       setLoading(false);
     } catch (err) {
-      alert("登录失败:" + err);
+      // alert("登录失败:" + err);
       let msg = err || "登录失败";
       message.error({
         content: msg,
