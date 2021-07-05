@@ -156,7 +156,6 @@ function Topic(props) {
             // 更新NTFM引接应用页面 ATOMConfigFormData Store数据
             props.NTFMConfigFormData.updateConfigValue(switchVal);
             setTimeout(function(){
-              console.log("收到各地CDM&NTFM引接应用配置变更消息3秒后的回调")
               // 强制刷新航班表格
               props.flightTableData.setForceUpdate(true);
             },1000*3)
