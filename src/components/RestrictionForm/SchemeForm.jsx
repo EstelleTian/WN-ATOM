@@ -46,6 +46,12 @@ import { schemeTemplateData } from '../../stores/schemeTemplateStores'
 function SchemeForm(props) {
     // 可显示快捷录入表单的页面类型集合
     const isShowShortcutFormPageType = SchemeFormUtil.getIsShowShortcutFormPageType();
+    // 原航路表单字段配置
+    let [originRouteField, setOriginRouteField] = useState({
+        extra: "",
+        validateStatus: ""
+    })
+
     // 备选航路表单字段配置集合
     let [alterRoutesField, setAlterRoutesField] = useState(SchemeFormUtil.InitialAlterRoutesFieldData);
     // 主按钮是否禁用
@@ -772,9 +778,18 @@ function SchemeForm(props) {
                     resFunc: (data) => {
                         updateRouteData(data);
                         if (isValidObject(data) && isValidObject(data.originRoute)) {
+
                             if (data.originRoute.correct) {
+                                let distance = data.originRoute.distance;
+                                setOriginRouteField({
+                                    validateStatus:"success",
+                                    extra: `航路总长度${distance}千米`
+                                })
                                 resolve()
                             } else {
+                                setOriginRouteField({
+                                    validateStatus:"error",
+                                })
                                 reject(data.originRoute.errorReason || "")
                             }
                         } else {
@@ -894,11 +909,15 @@ function SchemeForm(props) {
         }
         // 更新原航路数据信息
         if (isValidObject(originRoute)) {
+
             schemeFormData.updateTacticOriginRouteData(originRoute)
         } else {
             schemeFormData.updateTacticOriginRouteData({})
         }
     }
+
+
+
     /*********************改航相关end**************************/
     // 交通卡片标题
     const getTitle = () => {
@@ -2288,6 +2307,7 @@ function SchemeForm(props) {
                     {
                         restrictionMode === "CR" ? <Col span={8}>
                             <TacticOriginRouteForm
+                                originRouteField = {originRouteField}
                                 disabledForm={props.disabledForm}
                                 form={tacticOriginRouteForm}
                                 validateOriginRouteFormat={validateOriginRouteFormat}

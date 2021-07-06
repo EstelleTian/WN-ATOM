@@ -14,7 +14,7 @@ function TacticMeasureForm(props) {
     const restrictionModeOptions = [
         // { "key": "AFP", "text": "AFP" },
         { "key": "MIT", "text": "MIT" },
-        // { "key": "CR", "text": "改航" },
+        { "key": "CR", "text": "改航" },
         { "key": "GS", "text": "GS" },
         // {"key":"GDP", "text": "GDP"},
         // {"key":"AS", "text": "指定时隙"},
