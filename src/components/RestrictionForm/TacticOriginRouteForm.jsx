@@ -13,6 +13,8 @@ function TacticOriginRouteForm(props) {
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
+    // 方案限制方式
+    const restrictionMode = schemeFormData.restrictionMode || "";
     const originRouteData = schemeFormData.originRouteData;
     const originRoute = originRouteData.routeStr || "";
 
@@ -25,7 +27,7 @@ function TacticOriginRouteForm(props) {
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
-    }, [tacticName, originRoute]);
+    }, [tacticName, originRoute, restrictionMode]);
 
     
     return (
@@ -37,11 +39,10 @@ function TacticOriginRouteForm(props) {
             >
                 <Form.Item
                     name="originRoute"
-                    extra={originRouteField.extra}
+                    help={originRouteField.help}
                     validateStatus={originRouteField.validateStatus}
                     label="原航路"
                     validateTrigger={['onBlur']}
-                    
                     rules={[
                         // { required: true },
                         ({ getFieldValue }) => validateOriginRouteFormat(getFieldValue),
