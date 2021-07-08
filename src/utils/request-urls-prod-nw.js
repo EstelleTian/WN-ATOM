@@ -174,9 +174,9 @@ const ReqUrls = {
     // 消息订阅-应用 存
     setUserSubscribeUrl: userSubscribeIP+"/cdm-nw-event-center-server/user-subscribe/user/subscribe",
     // 消息记录-当日
-    getTodayNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/lately",
+    getTodayNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/lately/user/id",
     // 消息记录-历史
-    getHistoryNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/history",
+    getHistoryNewsUrl: userSubscribeIP+"/cdm-nw-event-center-server/event/info/history/user/id",
     //计划时间范围获取-(薛满林)
     rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server-cache/plan/time/scope",
     // 开关配置
