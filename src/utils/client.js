@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-06-07 14:34:23
+ * @LastEditTime: 2021-07-08 09:43:03
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -34,10 +34,11 @@ const openTimeSlotFrame = (str) => {
     }
 }
 //消息模块-【查看容量管理】
-const openTclientFrameForMessage =( name = "") => {
+const openTclientFrameForMessage =( name = "", insDate="") => {
     try {
         //方案id
         // alert("跳转到容量管理=>name:" +name);
+        // jsEntity.openTclientFrameForMessage(name,insDate);
         jsEntity.openTclientFrameForMessage(name);
     }catch(error){
         console.error(error);
@@ -51,7 +52,7 @@ const openTclientFrameForMDRS =( name = "") => {
         jsEntity.openTclientFrameForMDRS(name);
     }catch(error){
         console.error(error);
-    }
+    }0
 };
 //点击关闭按钮
 const closeMessageDlg = (str) => {
@@ -175,7 +176,7 @@ const handleStopControl =(id) => {
 //发送用户名-密码-选中模块
 const saveUserInfo =(username, password, name) => {
     try {
-        // alert("用户名："+username+"  密码："+password+"  选中模块："+name)
+        alert("用户名："+username+"  密码："+password+"  选中模块："+name);
         //传递方案id
         // jsEntity.saveUserInfo(username, password, name);
         jsEntity.saveUserInfo(username, password, name);

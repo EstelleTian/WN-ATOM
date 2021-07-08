@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-06-25 09:17:04
+ * @LastEditTime: 2021-07-06 10:53:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -29,6 +29,7 @@ import ModalBox from "components/ModalBox/ModalBox";
 import { OptionBtn } from "components/Common/OptionBtn";
 import "./DynamicWorkSteps.scss";
 import { clearTimeout } from "highcharts";
+import { NWGlobal } from "utils/global";
 const { Step } = Steps;
 const { Panel } = Collapse;
 
@@ -149,7 +150,12 @@ function DynamicWorkSteps(props) {
   const username = user.username || "";
   const [loading, setLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [globalInsDate, setGlobalInsDate] = useState(false);
   const timer = useRef();
+  // 更新客户端版本号信息方法
+  NWGlobal.updateInsDate = (date) => {
+    setGlobalInsDate(date);
+  };
 
   const taskMap = props.capacity.dynamicWorkFlowData.taskMap || {};
   const generateTime = props.capacity.dynamicWorkFlowData.generateTime || {};
@@ -229,6 +235,12 @@ function DynamicWorkSteps(props) {
             let taskObj = taskMap[key] || {};
             let hisInstance = taskObj.hisInstance || {};
             let businessKey = hisInstance.businessKey || "";
+            if (businessKey === "") {
+              if (globalInsDate !== "") {
+                insDate = globalInsDate;
+              }
+            }
+
             let businessKeyArr = businessKey.split(",") || [];
             if (businessKeyArr.length > 0) {
               insDate = businessKeyArr[businessKeyArr.length - 1];
@@ -236,8 +248,12 @@ function DynamicWorkSteps(props) {
           }
           let targetDateRange = 0;
           if (insDate !== "") {
+            const generateTime =
+              props.capacity.dynamicWorkFlowData.generateTime || "";
             const curDate =
-              props.capacity.dynamicWorkFlowData.generateTime.substring(0, 8);
+              generateTime.length >= 8
+                ? generateTime.substring(0, 8)
+                : generateTime;
             console.log("insDate", insDate, "curDate", curDate);
             if (insDate.length > 8) {
               insDate = insDate.substring(0, 8);
@@ -377,6 +393,35 @@ function DynamicWorkSteps(props) {
       }
     },
     [props.capacity.forceUpdateDynamicWorkFlowData]
+  );
+  useEffect(
+    function () {
+      let targetDateRange = 0;
+      if (globalInsDate !== "") {
+        let insDate = globalInsDate;
+        const generateTime =
+          props.capacity.dynamicWorkFlowData.generateTime || "";
+        const curDate =
+          generateTime.length >= 8
+            ? generateTime.substring(0, 8)
+            : generateTime;
+        console.log("insDate", insDate, "curDate", curDate);
+        if (insDate.length > 8) {
+          insDate = insDate.substring(0, 8);
+        }
+        if (insDate * 1 > curDate * 1) {
+          targetDateRange = 1; //明天
+        } else if (insDate * 1 < curDate * 1) {
+          targetDateRange = -1; //昨天
+        } else if (insDate * 1 === curDate * 1) {
+          targetDateRange = 0; //今天
+        }
+        if (props.capacity.dateRange !== targetDateRange) {
+          props.capacity.dateRange = targetDateRange;
+        }
+      }
+    },
+    [globalInsDate]
   );
 
   // useEffect(
