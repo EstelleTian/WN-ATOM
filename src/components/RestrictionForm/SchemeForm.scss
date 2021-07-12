@@ -137,9 +137,9 @@
     }
   }
   // 备选航路表单
-  .alter-routes-form {
+  .alter-routes-form, .origin-routes-form {
     .ant-form-item-has-success{
-      .ant-form-item-extra {
+      .ant-form-item-explain-success {
         color: #4eaf1e;
       }
     }

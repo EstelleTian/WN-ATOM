@@ -46,6 +46,9 @@ import { schemeTemplateData } from '../../stores/schemeTemplateStores'
 function SchemeForm(props) {
     // 可显示快捷录入表单的页面类型集合
     const isShowShortcutFormPageType = SchemeFormUtil.getIsShowShortcutFormPageType();
+    // 原航路表单字段配置
+    let [originRouteField, setOriginRouteField] = useState(SchemeFormUtil.InitialOriginRouteFieldData)
+
     // 备选航路表单字段配置集合
     let [alterRoutesField, setAlterRoutesField] = useState(SchemeFormUtil.InitialAlterRoutesFieldData);
     // 主按钮是否禁用
@@ -730,16 +733,16 @@ function SchemeForm(props) {
         if (isValidObject(data)) {
             // 若correct值为true,则此表单为校验通过
             if (data.correct) {
-                obj.extra = `排名${data.routeRank}  航路总长度${data.distance}千米`;
+                obj.help = `排名${data.routeRank}  航路总长度${data.distance}千米`;
                 obj.validateStatus = "success";
             } else {
                 // 反之,此表单未校验通过
                 tacticAlterRouteForm.setFields([{ name: name, errors: [`${data.errorReason}`] }])
-                obj.extra = ``;
+                obj.help = `${data.errorReason}`;
                 obj.validateStatus = "error";
             }
         } else {
-            obj.extra = ``;
+            obj.help = ``;
             obj.validateStatus = '';
         }
         return obj;
@@ -772,6 +775,7 @@ function SchemeForm(props) {
                     resFunc: (data) => {
                         updateRouteData(data);
                         if (isValidObject(data) && isValidObject(data.originRoute)) {
+
                             if (data.originRoute.correct) {
                                 resolve()
                             } else {
@@ -848,29 +852,7 @@ function SchemeForm(props) {
         })
     };
 
-    /**
-     * 批量校验备选航路格式(暂未使用，预留方法)
-     * */
-    const validateMultiRouteFormat = () => {
-        // 请求参数
-        let routsParams = getRouteValueParams();
-        // 请求校验
-        const opt = {
-            url: ReqUrls.validateRouteUrl,
-            method: 'POST',
-            params: routsParams,
-            resFunc: (data) => {
-                // 更新备选航路表单数据
-                updateRouteData(data);
-            },
-            errFunc: (err) => {
-                // 更新备选航路表单数据
-                updateRouteData();
-            },
-        };
-        // 发送请求
-        request(opt);
-    };
+    
     // 更新航路数据
     const updateRouteData = (data) => {
         data = data || {}
@@ -894,11 +876,29 @@ function SchemeForm(props) {
         }
         // 更新原航路数据信息
         if (isValidObject(originRoute)) {
+            let distance = originRoute.distance;
+            let correct = originRoute.correct;
+            let errorReason = originRoute.errorReason;
+            if(correct){
+                setOriginRouteField({
+                    validateStatus:"success",
+                    help: `航路总长度${distance}千米`
+                })
+            }else {
+                setOriginRouteField({
+                    validateStatus:"error",
+                    help: `${errorReason}`
+                })
+            }
+            
             schemeFormData.updateTacticOriginRouteData(originRoute)
         } else {
             schemeFormData.updateTacticOriginRouteData({})
         }
     }
+
+
+
     /*********************改航相关end**************************/
     // 交通卡片标题
     const getTitle = () => {
@@ -2162,6 +2162,7 @@ function SchemeForm(props) {
     useEffect(function () {
         // 重置备选航路表单配置数据
         setAlterRoutesField(SchemeFormUtil.InitialAlterRoutesFieldData)
+        setOriginRouteField(SchemeFormUtil.InitialOriginRouteFieldData)
     }, [restrictionMode]);
     // 手动创建方案默认选中快捷录入方式
     useEffect(function () {
@@ -2288,6 +2289,7 @@ function SchemeForm(props) {
                     {
                         restrictionMode === "CR" ? <Col span={8}>
                             <TacticOriginRouteForm
+                                originRouteField = {originRouteField}
                                 disabledForm={props.disabledForm}
                                 form={tacticOriginRouteForm}
                                 validateOriginRouteFormat={validateOriginRouteFormat}

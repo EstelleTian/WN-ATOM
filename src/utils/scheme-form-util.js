@@ -42,28 +42,36 @@ const SchemeFormUtil = {
     /**
      * 备选航路表单字段集合
      */
-    InitialAlterRoutesFieldData : [
+     InitialAlterRoutesFieldData : [
         {
             name: 'alterRoute1',
-            extra: ""
+            help: ""
         },
         {
             name: 'alterRoute2',
-            extra: "",
+            help: "",
         },
         {
             name: 'alterRoute3',
-            extra: "",
+            help: "",
         },
         {
             name: 'alterRoute4',
-            extra: "",
+            help: "",
         },
         {
             name: 'alterRoute5',
-            extra: "",
+            help: "",
         },
     ],
+    /**
+     * 原航路表单字段集合
+     */
+    InitialOriginRouteFieldData : {
+        name: 'originRoute',
+        help: "",
+        validateStatus: ""
+    },
 
 
     /**

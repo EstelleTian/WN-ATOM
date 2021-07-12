@@ -8,11 +8,13 @@ import { isValidObject } from 'utils/basic-verify'
 
 //方案基准单元表单
 function TacticOriginRouteForm(props) {
-    const { schemeFormData, form, validateOriginRouteFormat } = props;
+    const { schemeFormData, form, validateOriginRouteFormat, originRouteField } = props;
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
+    // 方案限制方式
+    const restrictionMode = schemeFormData.restrictionMode || "";
     const originRouteData = schemeFormData.originRouteData;
     const originRoute = originRouteData.routeStr || "";
 
@@ -25,7 +27,7 @@ function TacticOriginRouteForm(props) {
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();
-    }, [tacticName, originRoute]);
+    }, [tacticName, originRoute, restrictionMode]);
 
     
     return (
@@ -33,12 +35,14 @@ function TacticOriginRouteForm(props) {
             <Form
                 form={form}
                 initialValues={initialValues}
+                className="origin-routes-form"
             >
                 <Form.Item
                     name="originRoute"
+                    help={originRouteField.help}
+                    validateStatus={originRouteField.validateStatus}
                     label="原航路"
                     validateTrigger={['onBlur']}
-                    // className="disabled-border-form-item"
                     rules={[
                         // { required: true },
                         ({ getFieldValue }) => validateOriginRouteFormat(getFieldValue),

@@ -116,7 +116,7 @@ function InfoHistoryList(props) {
     let url = "";
     let params = {};
 
-    url = ReqUrls.getHistoryNewsUrl;
+    url = ReqUrls.getHistoryNewsUrl+"?userId="+user.id;
     params = {};
     const opt = {
       url,

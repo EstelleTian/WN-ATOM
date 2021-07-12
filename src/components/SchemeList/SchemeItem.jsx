@@ -33,7 +33,7 @@ const SummaryCell = memo(
     };
 
     const menu = (
-      <Menu>
+      <Menu selectable={false}>
         <Menu.Item key="1" title={publishTime}>
           发布时间: {getDayTimeFromString(publishTime, "", 2)}
         </Menu.Item>
@@ -95,6 +95,30 @@ function SchemeItem(props) {
     tempSyncSign = "0",
     tacticSource = "",
   } = item;
+
+  // 是否为数据生成日期内的数据
+  let isSameDay = useMemo(()=>{
+    let same = true;
+    // 数据生成日期
+    let generateDate = "";
+    if(isValidVariable(generateTime) && generateTime.length == 12 || generateTime.length > 12){
+      generateDate = generateTime.substring(0,8);
+    }
+
+    if(isValidVariable(generateDate)){
+      if(isValidVariable(startTime) && isValidVariable(endTime)){
+          let startDate = startTime.substring(0,8);
+          let endDate = endTime.substring(0,8);
+          same = (startDate === generateDate && endDate === generateDate);
+      }else if(isValidVariable(startTime)){
+          let startDate = startTime.substring(0,8);
+          same = startDate === generateDate;
+      }
+    }
+    return same;
+  })
+  
+  
 
   let isActive = useMemo(() => {
     return schemeListData.activeSchemeId === item.id;
@@ -163,17 +187,12 @@ function SchemeItem(props) {
   });
   targetUnits = targetUnits.join(";");
   behindUnits = behindUnits.join(";");
-  // if (targetUnits !== "") {
-  //   targetUnits = targetUnits.substring(0, targetUnits.length - 1);
-  // }
-  // if (behindUnits !== "") {
-  //   behindUnits = behindUnits.substring(0, targetUnits.length - 1);
-  // }
+  
 
   // 开始时间格式化
-  let startTimeFormat = getDayTimeFromString(startTime);
+  let startTimeFormat = getDayTimeFromString(startTime, "", 2);
   // 结束时间格式化
-  let endTimeFormat = getDayTimeFromString(endTime);
+  let endTimeFormat = getDayTimeFromString(endTime,"", 2 );
   // 若schemeRelative值为"100",则为相对时间
   if (schemeRelative === "100") {
     startTimeFormat = startTimeFormat ? `(${startTimeFormat})` : "";
@@ -376,7 +395,10 @@ function SchemeItem(props) {
                 className="cell time_range"
                 title={startTime + "-" + endTime}
               >
-                {startTimeFormat} - {endTimeFormat}
+                {
+                  isSameDay ? `${startTimeFormat} - ${endTimeFormat}` :
+                  <Tag className="time-range-tag" color="#FA8C15">{startTimeFormat} - {endTimeFormat}</Tag>
+                }
               </div>
             </div>
             <div className="layout-row">

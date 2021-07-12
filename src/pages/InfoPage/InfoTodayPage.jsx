@@ -58,7 +58,7 @@ function InfoTodayPage(props) {
       return;
     }
     setLoading(true);
-    let url = ReqUrls.getTodayNewsUrl;
+    let url = ReqUrls.getTodayNewsUrl+"?userId="+user.id;
     let params = {};
     const opt = {
       url,
