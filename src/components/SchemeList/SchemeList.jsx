@@ -184,6 +184,8 @@ const STitle = (props) => {
           trigger={["hover"]}
         >
           <span className="filter-wrapper">
+            
+            <span style={{ marginRight: "2px" }}>筛选条件</span>
             {filterCount > 0 ? (
               <Badge
                 className="filter-badge"
@@ -193,7 +195,6 @@ const STitle = (props) => {
             ) : (
               <FilterOutlined></FilterOutlined>
             )}
-            <span style={{ marginLeft: "2px" }}>过滤选项</span>
           </span>
         </Dropdown>
       </div>
