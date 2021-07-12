@@ -193,11 +193,15 @@ function SchemeItem(props) {
   let startTimeFormat = getDayTimeFromString(startTime, "", 2);
   // 结束时间格式化
   let endTimeFormat = getDayTimeFromString(endTime,"", 2 );
-  // 若schemeRelative值为"100",则为相对时间
+  // 若schemeRelative值为"100",相对时间和基准点加括号显示
   if (schemeRelative === "100") {
     startTimeFormat = startTimeFormat ? `(${startTimeFormat})` : "";
     endTimeFormat = endTimeFormat ? `(${endTimeFormat})` : "";
     targetUnits = targetUnits ? `(${targetUnits})` : "";
+  }else if(schemeRelative === "200"){
+    // 若schemeRelative值为"200",相对时间加括号显示
+    startTimeFormat = startTimeFormat ? `(${startTimeFormat})` : "";
+    endTimeFormat = endTimeFormat ? `(${endTimeFormat})` : "";
   }
 
   const showDetail = useCallback(
