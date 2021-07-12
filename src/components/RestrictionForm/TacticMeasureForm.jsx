@@ -12,7 +12,7 @@ const { Option } = Select;
 function TacticMeasureForm(props) {
 
     const restrictionModeOptions = [
-        // { "key": "AFP", "text": "AFP" },
+        { "key": "AFP", "text": "AFP" },
         { "key": "MIT", "text": "MIT" },
         { "key": "CR", "text": "改航" },
         { "key": "GS", "text": "GS" },
