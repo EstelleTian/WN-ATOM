@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-06-10 19:36:33
+ * @LastEditTime: 2021-07-12 13:40:06
  * @LastEditors: Please set LastEditors
  * @Description: 页面相关store
  * @FilePath: \WN-CDM\src\stores\pageStores.jsx
@@ -70,6 +70,7 @@ class SystemPage {
         }
       } else if (item.systemType === urlName) {
         this.activeSystem = item;
+        return false;
       }
       return true;
     });
