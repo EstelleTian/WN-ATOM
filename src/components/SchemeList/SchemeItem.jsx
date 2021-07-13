@@ -25,23 +25,36 @@ const SummaryCell = memo(
     createTime,
     basicTacticInfoReasonZh,
     basicTacticInfoRemark,
+    updateTime,
+    tacticStatus,
   }) => {
     const [visible, setVisible] = useState(false);
 
     const handleVisibleChange = (flag) => {
       setVisible(flag);
     };
+    // 是否为终止状态(人工终止或系统终止或正常结束)
+    let isTerminated = tacticStatus === "TERMINATED_MANUAL" ||
+      tacticStatus === "TERMINATED_AUTO" ||
+      tacticStatus === "FINISHED";
 
     const menu = (
       <Menu selectable={false}>
-        <Menu.Item key="1" title={publishTime}>
+        <Menu.Item key="publishTime" title={publishTime}>
           发布时间: {getDayTimeFromString(publishTime, "", 2)}
         </Menu.Item>
-        <Menu.Item key="2" title={createTime}>
+        <Menu.Item key="createTime" title={createTime}>
           创建时间: {getDayTimeFromString(createTime, "", 2)}
         </Menu.Item>
-        <Menu.Item key="3">原因: {basicTacticInfoReasonZh}</Menu.Item>
-        <Menu.Item key="4">备注: {basicTacticInfoRemark}</Menu.Item>
+        {
+          (isTerminated) ?
+            (<Menu.Item key="updateTime" title={updateTime}>
+              终止时间: {getDayTimeFromString(updateTime, "", 2)}
+            </Menu.Item>) :
+            ""
+        }
+        <Menu.Item key="reason">原因: {basicTacticInfoReasonZh}</Menu.Item>
+        <Menu.Item key="remark">备注: {basicTacticInfoRemark}</Menu.Item>
       </Menu>
     );
     return (
@@ -57,9 +70,23 @@ const SummaryCell = memo(
               fontSize: "0.8rem",
             }}
           >
-            发布时间:
+            {
+              (isTerminated) ? "终止时间:" : "发布时间:"
+            }
+
           </span>
-          {getTimeFromString(publishTime)} <DownOutlined />
+          <span
+            style={{
+              padding: "0 10px",
+              fontSize: "0.8rem",
+            }}
+          >
+            {
+              (isTerminated) ? getTimeFromString(updateTime) : getTimeFromString(publishTime)
+            }
+          </span>
+
+          <DownOutlined />
         </span>
       </Dropdown>
     );
@@ -87,6 +114,7 @@ function SchemeItem(props) {
       publishTime,
       createTime,
       startCalculateTime = "",
+      updateTime = "",
     },
     basicFlowcontrol = {},
     directionList = [],
@@ -97,28 +125,28 @@ function SchemeItem(props) {
   } = item;
 
   // 是否为数据生成日期内的数据
-  let isSameDay = useMemo(()=>{
+  let isSameDay = useMemo(() => {
     let same = true;
     // 数据生成日期
     let generateDate = "";
-    if(isValidVariable(generateTime) && generateTime.length == 12 || generateTime.length > 12){
-      generateDate = generateTime.substring(0,8);
+    if (isValidVariable(generateTime) && generateTime.length == 12 || generateTime.length > 12) {
+      generateDate = generateTime.substring(0, 8);
     }
 
-    if(isValidVariable(generateDate)){
-      if(isValidVariable(startTime) && isValidVariable(endTime)){
-          let startDate = startTime.substring(0,8);
-          let endDate = endTime.substring(0,8);
-          same = (startDate === generateDate && endDate === generateDate);
-      }else if(isValidVariable(startTime)){
-          let startDate = startTime.substring(0,8);
-          same = startDate === generateDate;
+    if (isValidVariable(generateDate)) {
+      if (isValidVariable(startTime) && isValidVariable(endTime)) {
+        let startDate = startTime.substring(0, 8);
+        let endDate = endTime.substring(0, 8);
+        same = (startDate === generateDate && endDate === generateDate);
+      } else if (isValidVariable(startTime)) {
+        let startDate = startTime.substring(0, 8);
+        same = startDate === generateDate;
       }
     }
     return same;
   })
-  
-  
+
+
 
   let isActive = useMemo(() => {
     return schemeListData.activeSchemeId === item.id;
@@ -187,18 +215,18 @@ function SchemeItem(props) {
   });
   targetUnits = targetUnits.join(";");
   behindUnits = behindUnits.join(";");
-  
+
 
   // 开始时间格式化
   let startTimeFormat = getDayTimeFromString(startTime, "", 2);
   // 结束时间格式化
-  let endTimeFormat = getDayTimeFromString(endTime,"", 2 );
+  let endTimeFormat = getDayTimeFromString(endTime, "", 2);
   // 若schemeRelative值为"100",相对时间和基准点加括号显示
   if (schemeRelative === "100") {
     startTimeFormat = startTimeFormat ? `(${startTimeFormat})` : "";
     endTimeFormat = endTimeFormat ? `(${endTimeFormat})` : "";
     targetUnits = targetUnits ? `(${targetUnits})` : "";
-  }else if(schemeRelative === "200"){
+  } else if (schemeRelative === "200") {
     // 若schemeRelative值为"200",相对时间加括号显示
     startTimeFormat = startTimeFormat ? `(${startTimeFormat})` : "";
     endTimeFormat = endTimeFormat ? `(${endTimeFormat})` : "";
@@ -401,7 +429,7 @@ function SchemeItem(props) {
               >
                 {
                   isSameDay ? `${startTimeFormat} - ${endTimeFormat}` :
-                  <Tag className="time-range-tag" color="#FA8C15">{startTimeFormat} - {endTimeFormat}</Tag>
+                    <Tag className="time-range-tag" color="#FA8C15">{startTimeFormat} - {endTimeFormat}</Tag>
                 }
               </div>
             </div>
@@ -431,6 +459,8 @@ function SchemeItem(props) {
           <SummaryCell
             publishTime={publishTime}
             createTime={createTime}
+            updateTime={updateTime}
+            tacticStatus={tacticStatus}
             basicTacticInfoReasonZh={basicTacticInfoReasonZh}
             basicTacticInfoRemark={basicTacticInfoRemark}
           />
