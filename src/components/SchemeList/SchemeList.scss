@@ -32,17 +32,17 @@
                 padding-right: 10px;
                 padding: 1px 10px;
                 cursor: pointer;
-                font-size: 0.85rem;
+                font-size: 1rem;
             }
             .filter-badge {
-                .ant-badge-count {
-                    top: -2px;
-                    line-height: 16px;
-                    height: 16px;
-                    min-width: 16px;
-                    padding: 0 4px;
-                    font-size: 12px;
-                }
+                // .ant-badge-count {
+                //     top: -2px;
+                //     line-height: 16px;
+                //     height: 16px;
+                //     min-width: 16px;
+                //     padding: 0 4px;
+                //     font-size: 12px;
+                // }
                 
             }
         }
@@ -230,6 +230,19 @@
     }
 }
 .spin-menu-wrapper {
+    .spin-menu {
+        .ant-menu-item{
+            &:hover{
+                color: inherit;
+            }
+        }
+        .menu-item-label {
+            // font-weight: 700;
+            display: inline-block;
+            font-size: 0.85rem;
+            min-width: 3rem;
+        }
+    }
     box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.48), 0 6px 16px 0 rgba(0, 0, 0, 0.32), 0 9px 28px 8px rgba(0, 0, 0, 0.4);
     .ant-spin-blur {
         opacity: 1;

@@ -21,9 +21,6 @@ import {
   Checkbox,
   Empty,
   Spin,
-  Row,
-  Col,
-  Modal,
   Input,
   Badge,
   Button,
@@ -32,13 +29,10 @@ import {
 } from "antd";
 import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 
-import { requestGet } from "utils/request";
 
 import {
   isValidVariable,
   isValidObject,
-  getFullTime,
-  calculateStringTimeDiff,
 } from "utils/basic-verify";
 import { NWGlobal } from "utils/global";
 import SchemeModal from "./SchemeModal";
@@ -140,8 +134,11 @@ const STitle = (props) => {
   const menu = (
     <div className="spin-menu-wrapper">
       <Spin spinning={schemeListData.loading} indicator={null}>
-        <Menu selectable={false}>
+        <Menu className="spin-menu" selectable={false}>
           <Menu.Item>
+            <span className="menu-item-label">
+              状态:
+            </span>
             <Checkbox.Group
               className="scheme-filter-checkbox"
               options={plainOptions}
@@ -151,6 +148,9 @@ const STitle = (props) => {
           </Menu.Item>
           <Menu.Divider></Menu.Divider>
           <Menu.Item>
+            <span className="menu-item-label">
+              NTFM:
+            </span>
             <Checkbox.Group
               className="scheme-filter-checkbox"
               options={NTFMOptions}
@@ -181,11 +181,10 @@ const STitle = (props) => {
           overlay={menu}
           onVisibleChange={handleDropdownVisible}
           visible={dropdownVisible}
-          trigger={["hover"]}
+          trigger={["click"]}
         >
           <span className="filter-wrapper">
-            
-            <span style={{ marginRight: "2px" }}>筛选条件</span>
+            <span style={{ marginRight: "2px" }}>显示条件</span>
             {filterCount > 0 ? (
               <Badge
                 className="filter-badge"
