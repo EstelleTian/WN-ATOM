@@ -1,22 +1,27 @@
 import React, { Fragment, useEffect } from 'react'
-import { Form, Select, Tooltip, Tag, Space, Button } from 'antd'
+import { Form, Select, Tooltip, Tag, Space, Button, Popover } from 'antd'
 import { inject, observer } from "mobx-react";
+import TacticAreaProvinceAirportList from 'components/RestrictionForm/TacticAreaProvinceAirportList'
 import { isValidVariable } from 'utils/basic-verify';
 import { SchemeFormUtil } from 'utils/scheme-form-util'
 
 
 //方案豁免起飞机场表单
 function TacticExemptDepApForm(props) {
-    
+
 
     const { schemeFormData, form, pageType } = props;
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
+    // 所有区域标签机场数据
+    const areaAirportListData = schemeFormData.areaAirportListData;
+    // 特殊区域机场列表
+    const specialAreaAirportListData = schemeFormData.specialAreaAirportListData;
     let exemptDepAp = isValidVariable(schemeFormData.exemptDepAp) ? schemeFormData.exemptDepAp.split(';') : [];
     // 格式化后的豁免起飞机场数值
-    let formatExemptDepAp = SchemeFormUtil.formatAreaLabel(exemptDepAp);
+    let formatExemptDepAp = SchemeFormUtil.formatAreaLabel(exemptDepAp, areaAirportListData);
     // 是否为禁用页面类型
     const isDisabledPageType = SchemeFormUtil.getIsDisabledPageType().includes(pageType)
     // 是否禁用
@@ -37,7 +42,7 @@ function TacticExemptDepApForm(props) {
     // 自定义 tag 内容 render
     const tagRender = ({ label, closable, onClose, value }) => {
         // 过滤出当前录入的标签下的机场集合
-        let airport = SchemeFormUtil.filterAreadLabelAirport(value);
+        let airport = SchemeFormUtil.filterAreadLabelAirport(value, areaAirportListData);
         return (
             <Tooltip title={airport}>
                 <Tag
@@ -61,16 +66,29 @@ function TacticExemptDepApForm(props) {
         // 反之将当前label追加到当前字段值中去
         let valueArr = [...fieldValue, label];
         // 处理机场数值
-        valueArr = SchemeFormUtil.handleAirportSelectInputValue(valueArr);
+        valueArr = SchemeFormUtil.handleAirportSelectInputValue(valueArr, areaAirportListData);
         // 更新表单数值
         form.setFieldsValue({ 'exemptDepAp': valueArr });
     }
     // 处理起飞机场数值
-    const handleValue = (val)=> {
+    const handleValue = (val) => {
         // 处理机场数值
-        let newValue = SchemeFormUtil.handleAirportSelectInputValue(val);
+        let newValue = SchemeFormUtil.handleAirportSelectInputValue(val, areaAirportListData);
         // 更新表单数值
         form.setFieldsValue({ 'exemptDepAp': newValue });
+    }
+    // 绘制单个区域按钮
+    const drawSingleSpecialAreaAirport = (area) => {
+        const {
+            provinceName,
+            provinceNameZH,
+            value,
+        } = area;
+        return (
+            <Tooltip placement="bottom" title={value} key={provinceName}>
+                <Button size="small" onClick={() => { shortcutInputValue(provinceNameZH) }}>{provinceNameZH}</Button>
+            </Tooltip>
+        )
     }
     return (
         <Fragment>
@@ -98,28 +116,35 @@ function TacticExemptDepApForm(props) {
                 </Form.Item>
             </Form>
             {
-                disabled ? "" : 
-                <div className="ant-row shortcut-input-row">
-                    <div className="ant-col ant-form-item-label"></div>
-                    <div className="ant-col ant-form-item-control">
-                        <div className="ant-form-item-control-input">
-                            <div className="ant-form-item-control-input-content">
-                                <Space>
-                                    <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("兰州")}>
-                                        <Button size="small" onClick={() => { shortcutInputValue('兰州') }}>兰州</Button>
-                                    </Tooltip>
-                                    <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("西安")}>
-                                        <Button size="small" onClick={() => { shortcutInputValue('西安') }}>西安</Button>
-                                    </Tooltip>
-                                    <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("山东")}>
-                                        <Button size="small" onClick={() => { shortcutInputValue('山东') }}>山东</Button>
-                                    </Tooltip>
-                                    <Button size="small" onClick={() => { }}>更多</Button>
-                                </Space>
+                disabled ? "" :
+                    <div className="ant-row shortcut-input-row">
+                        <div className="ant-col ant-form-item-label"></div>
+                        <div className="ant-col ant-form-item-control">
+                            <div className="ant-form-item-control-input">
+                                <div className="ant-form-item-control-input-content">
+                                    <Space>
+                                        {
+                                            specialAreaAirportListData.map((item) => {
+                                                return drawSingleSpecialAreaAirport(item)
+                                            })
+                                        }
+
+                                        <Popover
+                                            trigger="click"
+                                            placement="rightTop"
+                                            content={
+                                                <TacticAreaProvinceAirportList
+                                                    shortcutInputValue={shortcutInputValue}
+                                                    targetForm={form}
+                                                />
+                                            } >
+                                            <Button size="small">省份</Button>
+                                        </Popover>
+                                    </Space>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             }
         </Fragment>
     )

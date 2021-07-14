@@ -18,26 +18,6 @@ const SchemeFormUtil = {
     INPUTMETHOD_SHORTCUT : 'SHORTCUT', // 快捷录入
     INPUTMETHOD_CUSTOM : 'CUSTOM', // 自定义录入
 
-    /**
-     * 区域标签机场集合
-     */
-    AreaLabelAirport : [
-        {
-            label: '兰州',
-            airport: 'ZBAL;ZBAR;ZBEN;ZBUH;ZLDH;ZLDL;ZLGL;ZLGM;ZLGY;ZLHB;ZLHX;ZLIC;ZLJC;ZLJQ;ZLLL;ZLLN;ZLTS;ZLXH;ZLXN;ZLYS;ZLZW;ZLZY',
-            code: 'ZLLL'
-        },
-        {
-            label: '西安',
-            airport: 'ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL',
-            code: 'ZLXY'
-        },
-        {
-            label: '山东',
-            airport: 'ZSHZ;ZSJG;ZSJN;ZSDY;ZSWF;ZSRZ;ZSLY;ZSYT;ZSWH;ZSQD',
-            code: 'ZSQD'
-        },
-    ],
 
     /**
      * 备选航路表单字段集合
@@ -117,9 +97,10 @@ const SchemeFormUtil = {
      * 解析指定数值中的区域标签，转换为对应的机场
      *
      * @param arr 数组
+     * @param areaAirportListData 所有区域标签机场数据 数组
      * @returns 机场数组
      */
-    parseAreaLabelAirport : function (arr) {
+    parseAreaLabelAirport : function (arr, areaAirportListData) {
         let result = [];
         if (Array.isArray(arr)) {
             if (arr.length == 0) {
@@ -127,7 +108,7 @@ const SchemeFormUtil = {
             }
             for (let i = 0; i < arr.length; i++) {
                 let label = arr[i];
-                let airports = this.filterAreadLabelAirport(label);
+                let airports = this.filterAreadLabelAirport(label, areaAirportListData);
                 if (isValidVariable(airports)) {
                     let airportArr = airports.split(';')
                     result = result.concat(airportArr);
@@ -143,11 +124,12 @@ const SchemeFormUtil = {
      * 查找指定区域标签对应的机场集合
      *
      * @param label 标签
+     * @param areaAirportListData 所有区域标签机场数据 数组
      * @returns 机场数组
      */
-     filterAreadLabelAirport : function (label) {
-        for (let i = 0; i < this.AreaLabelAirport.length; i++) {
-            let data = this.AreaLabelAirport[i];
+     filterAreadLabelAirport : function (label, areaAirportListData) {
+        for (let i = 0; i < areaAirportListData.length; i++) {
+            let data = areaAirportListData[i];
             let dataLabel = data.label.trim();
             if (label.trim() === dataLabel) {
                 let airports = data.airport;
@@ -161,11 +143,12 @@ const SchemeFormUtil = {
      * 在指定机场集合中查找能够匹配成区域标签的机场，将其替换为区域标签,
      * 并返回区域标签和未匹配成的剩余机场集合
      * @param airport 机场数组
+     * @param areaAirportListData 所有区域标签机场数据 数组
      * @returns 机场数组
      */
-     formatAreaLabel : function (airport) {
-        let array = this.AreaLabelAirport.reduce(this.reducer, airport);
-        let sortedArray = [...new Set(array)].sort((a, b) => a.localeCompare(b));
+     formatAreaLabel : function (airport, areaAirportListData) {
+        let array = areaAirportListData.reduce(this.reducer, airport);
+        let sortedArray = [...new Set(array)].sort((a, b) => a.localeCompare(b,'zh'));
         return sortedArray;
     },
 
@@ -225,13 +208,14 @@ const SchemeFormUtil = {
      * 4.去重
      * 5.将可匹配成区域标签的机场格式化为区域标签
      * @param array 选择输入框的数值
+     * @param areaAirportListData 所有区域标签机场数据 数组
      * @returns 数组
      */
-     handleAirportSelectInputValue : function (array) {
+     handleAirportSelectInputValue : function (array, areaAirportListData) {
         let result = [];
         let value = [];
         // 先将数值中的区域标签转换为对应的机场
-        let airportArr = this.parseAreaLabelAirport(array)
+        let airportArr = this.parseAreaLabelAirport(array, areaAirportListData)
         // 转换字符串并转换为大写
         let airportString = airportArr.join(";").toUpperCase();
         // 转回数组
@@ -249,7 +233,7 @@ const SchemeFormUtil = {
         // 去重
         let uniqueValue = value.reduce((prev,cur) => prev.includes(cur) ? prev : [...prev,cur],[]);
         // 将可匹配成区域标签的机场格式化为区域标签
-        result = this.formatAreaLabel(uniqueValue);
+        result = this.formatAreaLabel(uniqueValue, areaAirportListData);
         return result;
     },
 
