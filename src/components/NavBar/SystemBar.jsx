@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-06-18 10:07:13
+ * @LastEditTime: 2021-07-12 16:09:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -23,6 +23,7 @@ import { requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import { convertNameToTitle } from "utils/global";
 import { customNotice } from "utils/common-funcs";
+import { openCDMorCRSFrame } from "utils/client";
 
 //各个系统调整页面
 function SystemBar(props) {
@@ -32,29 +33,14 @@ function SystemBar(props) {
   const url = match.url || "";
   const systemType = params.systemType || "";
 
-  window.onunload = function () {
-    let openWind = localStorage.getItem("openWind");
-    let openWindArr = openWind.split(",");
-    let newArr = openWindArr.filter((wind) => wind !== systemType);
-    localStorage.setItem("openWind", newArr.join(","));
-  };
-
   const groupNameChange = (item) => {
     let systemType = item.systemType;
-    let urlStr = url;
-    const len = urlStr.length;
-    if (urlStr.substring(len - 1, len) === "/") {
-      urlStr = urlStr.substring(0, len - 1);
-    }
-    let openWind = localStorage.getItem("openWind");
-    if (!isValidVariable(openWind)) {
-      openWind = "";
-    }
-    if (openWind.indexOf(systemType) > -1) {
-      return;
-    }
-    const winObj = window.open("./#" + urlStr + "/" + systemType);
-    localStorage.setItem("openWind", openWind + "," + systemType);
+    let systemFullName = item.systemFullName;
+
+    openCDMorCRSFrame(systemType, systemFullName);
+    // const urlArr = url.split("/");
+    // let urlStr = urlArr[1] + "/" + urlArr[2];
+    // const winObj = window.open("./#/" + urlStr + "/" + systemType);
   };
   const groupNameChange2 = (item) => {
     //如果激活方案是all，则标志请求全部航班，否则取方案第一个影响航班

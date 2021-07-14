@@ -38,6 +38,7 @@ function LoginPage(props) {
   // 点击登录按钮登录
   const handleSubmit = useCallback(async () => {
     setLoading(true);
+    // alert("点击了登录按钮");
     try {
       const values = await form.validateFields();
       const username = values.username.trim();
@@ -56,7 +57,7 @@ function LoginPage(props) {
         url: ReqUrls.loginVerifyUrl,
         params,
       });
-      // alert("校验用户名密码是否正确");
+      // alert("校验用户名密码接口请求结束");
       params["macaddress"] = "4C-CC-6A-C9-BA-15";
       params["clientVersion"] = "9.9.9";
       //登录请求
@@ -64,6 +65,7 @@ function LoginPage(props) {
         url: ReqUrls.loginUrl,
         params,
       });
+      // alert("登录接口请求结束");
       const { status, user = {} } = data;
       // let obj = {};
       // userConcernTrafficList.map((item) => {

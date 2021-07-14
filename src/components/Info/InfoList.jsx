@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-06-29 10:57:41
+ * @LastEditTime: 2021-07-12 14:12:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -130,8 +130,14 @@ function InfoCardItem(props) {
                       const routeName = processVariables.routeName || "";
                       elementName = routeName;
                     }
+                    let insDate = "";
+                    const businessKey = instance.businessKey || ""; //方案id
+                    let businessKeyArr = businessKey.split(",") || [];
+                    if (businessKeyArr.length > 0) {
+                      insDate = businessKeyArr[businessKeyArr.length - 1];
+                    }
                     console.log(elementName);
-                    openTclientFrameForMessage(elementName);
+                    openTclientFrameForMessage(elementName, insDate);
                     e.stopPropagation();
                   }}
                 >

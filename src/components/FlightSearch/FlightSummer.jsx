@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-07-05 13:43:37
+ * @LastEditTime: 2021-07-06 09:42:28
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询-单个航班详情
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -153,9 +153,9 @@ const FlightSummer = (props) => {
       const SOBT = flight.sobt || "";
       const SOBTHHmm = getDayTimeFromString(SOBT) || "N/A";
       const RWY = flight.runWay || "N/A";
-      const SID = flight.SID || "N/A";
+      const SID = flight.sid || "N/A";
       const REG = flight.registeNum || "N/A";
-      const ALDT = flight.ALDT || "N/A";
+
       const ACTYPE = flight.aCtype || "N/A";
       const STATUS = flight.status || "";
       const STATUSZH = FlightCoordination.getStatusZh(STATUS) || "N/A";
@@ -205,13 +205,15 @@ const FlightSummer = (props) => {
       }
       let TOTHHmm = getDayTimeFromString(TOT) || "N/A";
 
-      const formerFlight = flight.formerFlight || {};
+      const formerFlight = flight.formerFlightObj || {};
       let FORMER = formerFlight.flightId || "N/A";
       // 前序航班起飞机场
       let FORMERDEPAP = formerFlight.depAp || "N/A";
       // 前序航班降落机场
       let FORMERARRAP = formerFlight.arrAp || "N/A";
 
+      const ALDT = formerFlight.aldt || "N/A"; //前段降落时间
+      const ALDTHHmm = getDayTimeFromString(ALDT) || "N/A";
       const text = <span>{`查看航班详情`}</span>;
       const schemeListData = flight.flowcontrols || [];
 
@@ -428,7 +430,7 @@ const FlightSummer = (props) => {
                     <div className="ant-col ant-form-item-control">
                       <div className="ant-form-item-control-input ">
                         <div className="ant-form-item-control-input-content">
-                          {ALDT}
+                          {ALDTHHmm}
                         </div>
                       </div>
                     </div>
