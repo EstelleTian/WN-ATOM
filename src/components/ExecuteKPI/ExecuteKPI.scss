@@ -48,13 +48,23 @@
     .flex {
         @include flex()
     }
+    
 
     .impact-level {
         .level_icon{
             font-size: 1.625rem;
         }
-        .text-center{
+        .text-label{
             font-size: 3rem;
+        }
+        .text-label-icon{
+            position: relative;
+            top: 8px;
+            left: 10px;
+        }
+        .text-degree-count{
+            font-size: 24px;
+            padding-left: 4px;
         }
 
     }

@@ -22,11 +22,6 @@ module.exports = {
     },
     module: {
         rules: [
-            { 
-                test: /\.tsx?$/,
-                loader: 'ts-loader',
-                exclude: /node_modules/,
-            },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,// 排除不处理的目录
@@ -99,7 +94,7 @@ module.exports = {
         ]
     },
     resolve : {
-        extensions: [".ts", ".tsx",".js", ".jsx", ".less", ".css", ".json"],
+        extensions: [".js", ".jsx", ".less", ".css", ".json"],
         alias:{
             utils: path.resolve(__dirname, 'src/utils'),
             components: path.resolve(__dirname, 'src/components'),

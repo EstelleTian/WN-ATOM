@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-06-25 09:16:56
+ * @LastEditTime: 2021-07-14 13:02:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRSPage\MDRSPage.jsx
@@ -62,11 +62,11 @@ function MDRSPage(props) {
         publishResult = [],
       } = resData;
       if (backlogResult.length == 0) {
-        customNotice({
-          type: "warning",
-          message: "暂无数据",
-          duration: 8,
-        });
+        // customNotice({
+        //   type: "warning",
+        //   message: "暂无数据",
+        //   duration: 8,
+        // });
         MDRSData.setMDRSData({}, generateTime);
       } else {
         //TODO 回头这个result改成对象

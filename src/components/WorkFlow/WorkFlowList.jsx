@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-07-06 10:03:46
+ * @LastEditTime: 2021-07-14 13:22:46
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -266,7 +266,7 @@ function WorkFlowList(props) {
       },
     },
     {
-      title: "流程类型",
+      title: "工作类型",
       dataIndex: "type",
       align: "left",
       key: "type",
@@ -304,14 +304,14 @@ function WorkFlowList(props) {
     optColumn,
     ...commonColumns,
     {
-      title: "我已办结",
+      title: "我已办结步骤",
       dataIndex: "finishedName",
       align: "left",
       key: "finishedName",
       width: 70,
     },
     {
-      title: "办结时间",
+      title: "步骤办结时间",
       dataIndex: "createTime",
       align: "center",
       key: "createTime",
@@ -330,7 +330,7 @@ function WorkFlowList(props) {
       },
     },
     {
-      title: "提交人",
+      title: "工作发起人",
       dataIndex: "userNameCn",
       align: "left",
       key: "userNameCn",
@@ -353,7 +353,7 @@ function WorkFlowList(props) {
       },
     },
     {
-      title: "工作所处环节",
+      title: "工作当前所处步骤",
       dataIndex: "taskStatusName",
       align: "center",
       key: "taskStatusName",
@@ -368,14 +368,14 @@ function WorkFlowList(props) {
     optColumn,
     ...commonColumns,
     {
-      title: "待办环节",
+      title: "待办步骤",
       dataIndex: "steps",
       align: "left",
       key: "steps",
       width: 80,
     },
     {
-      title: "提交人",
+      title: "工作发起人",
       dataIndex: "userNameCn",
       align: "left",
       key: "userNameCn",
@@ -383,7 +383,7 @@ function WorkFlowList(props) {
     },
 
     {
-      title: "任务到达时间",
+      title: "待办步骤到达时间",
       dataIndex: "createTime",
       align: "center",
       key: "createTime",
@@ -415,8 +415,8 @@ function WorkFlowList(props) {
 
       const processDefinitionName = hisInstance.processDefinitionName || "";
 
-      const userNameCn = hisInstance.startUserName || ""; //提交人
-      // const userNameCn = processVariables.userNameCn || ""; //提交人
+      const userNameCn = hisInstance.startUserName || ""; //工作发起人
+      // const userNameCn = processVariables.userNameCn || ""; //工作发起人
       const taskStatusName = hisInstance.activityName || ""; //工作所处环节
       const workStatus = hisInstance.workStatus * 1; //工作所处环节
       let taskStatus = ""; //流程状态
