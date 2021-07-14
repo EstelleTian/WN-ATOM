@@ -95,6 +95,11 @@ class SchemeForm {
     // 快捷录入表单数据所有航路点格式化后的数据
     @observable shortcutFormPointData = {};
 
+    // 区域省份机场基础数据
+    @observable areaProvinceAirportData = {};
+    // 特殊区域机场数据(兰州、西安)
+    @observable specialAreaAirportData = {};
+
     // 快捷录入表单选中的复选框
     @observable shortcutFormSelecedData = [];
     // 包含-航班号
@@ -134,9 +139,6 @@ class SchemeForm {
     @observable exemptionAbility = "";
     // 不包含-受控机型
     @observable exemptionAircraftType = "";
-
-
-
 
     //更新计数器
     @action triggerCounterChange() {
@@ -392,7 +394,7 @@ class SchemeForm {
     // 依据模板数据更新原始方案数据
     @action updateSchemeDataByTemplateData(templateData) {
 
-        
+
         // 方案基础信息
         const basicTacticInfo = templateData.basicTacticInfo || {};
         // 方案录入方式
@@ -760,9 +762,9 @@ class SchemeForm {
     }
     // 数据回显示时使用方案单方向信息数据更新方案交通流快捷录入表单中选中的数据
     @action updateShortcutFormSelecedDataBySingleDirectionListData() {
-        
+
         // 基准单元
-        const targetUnit = this.targetUnit || "" 
+        const targetUnit = this.targetUnit || ""
         let selecedData = [];
 
         if (isValidVariable(targetUnit)) {
@@ -781,7 +783,121 @@ class SchemeForm {
             this.shortcutFormSelecedData = selecedData;
         }
     }
+    // 更新区域省份机场数据
+    @action updateAreaProvinceAirportData(data) {
+        this.areaProvinceAirportData = data;
+    }
+    // 更特殊区域机场数据
+    @action updateSpecialAreaAirportData(data) {
+        this.specialAreaAirportData = data;
+    }
+    // 获取特殊区域机场列表
+    @computed get specialAreaAirportListData() {
+        let specialAreaAirportData = this.specialAreaAirportData;
+        // 区域
+        let areaList = [];
+        for (let i in specialAreaAirportData) {
+            let areaData = specialAreaAirportData[i];
+            let result = areaData.result;
+            for( let j in result){
+                areaList.push(result[j]);
+            }
+        }
+        return areaList;
+    }
 
+    @computed get sortAreaProvinceAirportListData() {
+        let areaProvinceAirportData = this.areaProvinceAirportData;
+        // 区域
+        let areaList = [];
+        for (let i in areaProvinceAirportData) {
+            areaList.push(areaProvinceAirportData[i]);
+        }
+        // 区域排序
+        let sortAreaList = areaList.sort((a1, a2) => {
+            let sn1 = a1.sn;
+            let sn2 = a2.sn;
+            if (sn1 > sn2) {
+                return 1;
+            } else if (sn1 < sn2) {
+                return -1;
+            } else {
+                return 0
+            }
+        })
+
+        sortAreaList.map((item) => {
+            let result = item.result;
+            let provinceList = [];
+            for (let i in result) {
+                provinceList.push(result[i]);
+            }
+            let sortProvinceList = provinceList.sort((a1, a2) => {
+                let sn1 = a1.sn;
+                let sn2 = a2.sn;
+                if (sn1 > sn2) {
+                    return 1;
+                } else if (sn1 < sn2) {
+                    return -1;
+                } else {
+                    return 0
+                }
+            })
+            item.provinceList = [...sortProvinceList];
+        })
+        return sortAreaList;
+    }
+
+    // 获取所有区域机场数据并格式化(用于区域中文与对应机场匹配和解析使用)
+    @computed get areaAirportListData() {
+        // 省份机场数据
+        let areaProvinceAirportData = this.areaProvinceAirportData;
+        // 特殊区域机场数据
+        let specialAreaAirportData = this.specialAreaAirportData;
+        // 区域
+        let airportList = [];
+        let provinceAirpor = [];
+        let specialAreaAirport = [];
+        for (let i in areaProvinceAirportData) {
+            let areaData = areaProvinceAirportData[i];
+            const { result } = areaData;
+            for(let r in result){
+                let province = result[r];
+                const {
+                    provinceName,
+                    provinceNameZH,
+                    value,
+                } = province;
+                let data = {
+                    label: provinceNameZH,
+                    airport: value,
+                    code: provinceName
+                }
+                provinceAirpor.push(data);
+            }
+        }
+        for (let s in specialAreaAirportData) {
+            let areaData = specialAreaAirportData[s];
+            const { result } = areaData;
+            for(let r in result){
+                let province = result[r];
+                const {
+                    provinceName,
+                    provinceNameZH,
+                    value,
+                } = province;
+                let data = {
+                    label: provinceNameZH,
+                    airport: value,
+                    code: provinceName
+                }
+                specialAreaAirport.push(data);
+            }
+        }
+        // 合并特殊区域机场数据和省份机场数据
+        airportList = specialAreaAirport.concat(provinceAirpor)
+        return airportList;
+    }
 }
 
 let schemeFormData = new SchemeForm();

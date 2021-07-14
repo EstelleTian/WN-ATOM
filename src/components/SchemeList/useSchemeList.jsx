@@ -35,24 +35,23 @@ function useSchemeList({
   flightTableData,
 }) {
   const curStatusValues = useRef();
+  // 定时器
+  let timer= 0;
   let [schemeTimeoutId, setSchemeTimeoutId] = useState(0);
-
-  const timerFunc = useCallback(function (nextRefresh) {
-    //开启定时
-    if (nextRefresh) {
-      if (isValidVariable(schemeTimeoutId)) {
-        clearTimeout(schemeTimeoutId);
-      }
-      let timer = setTimeout(() => {
-        getSchemeList(true);
-      }, 30 * 1000);
-      setSchemeTimeoutId(timer);
-    }
-  }, []);
+  // 开启定时
+  const timerFunc =  (nextRefresh)=> {
+    // 清除定时器
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      getSchemeList();
+    }, 30 * 1000);
+  };
 
   //获取--方案列表 @nextRefresh 是否开启下一轮定时
   const getSchemeList = useCallback(
     async (nextRefresh = false) => {
+      // 清除定时器
+      clearTimeout(timer);
       try {
         let params = {
           status: curStatusValues.current.join(","),
@@ -143,7 +142,7 @@ function useSchemeList({
       }
       curStatusValues.current = newStatusValues;
       schemeListData.toggleLoad(true);
-      getSchemeList(true);
+      getSchemeList();
     } else {
       //没有user id 清定时器
       if (isValidVariable(schemeTimeoutId.current)) {
@@ -163,7 +162,7 @@ function useSchemeList({
       if (systemPage.pageRefresh && isValidVariable(systemPage.user.id)) {
         // console.log("方案刷新开启");
         schemeListData.toggleLoad(true);
-        getSchemeList(false);
+        getSchemeList();
       }
     },
     [systemPage.pageRefresh, systemPage.user]
@@ -172,7 +171,7 @@ function useSchemeList({
   useEffect(() => {
     if (schemeListData.forceUpdate) {
       // console.log("方案列表强制更新");
-      getSchemeList(false);
+      getSchemeList();
       schemeListData.setForceUpdate(false);
     }
   }, [schemeListData.forceUpdate]);

@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect } from 'react'
-import { Form, Select, Tooltip, Tag, Space, Button } from 'antd'
+import { Form, Select, Tooltip, Tag, Space, Button, Popover } from 'antd'
 import { inject, observer } from "mobx-react";
+import TacticAreaProvinceAirportList from 'components/RestrictionForm/TacticAreaProvinceAirportList'
+
 import { isValidVariable } from 'utils/basic-verify';
 import { SchemeFormUtil } from 'utils/scheme-form-util'
 
@@ -13,10 +15,14 @@ function TacticArrApForm(props) {
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
+    // 所有区域标签机场数据
+    const areaAirportListData = schemeFormData.areaAirportListData;
+    // 特殊区域机场列表
+    const specialAreaAirportListData = schemeFormData.specialAreaAirportListData;
     // 方案降落机场
     let arrAp = isValidVariable(schemeFormData.arrAp) ? schemeFormData.arrAp.split(';') : [];
     // 格式化后的降落机场数值
-    let formatArrAp = SchemeFormUtil.formatAreaLabel(arrAp);
+    let formatArrAp = SchemeFormUtil.formatAreaLabel(arrAp, areaAirportListData);
     // 是否为禁用页面类型
     const isDisabledPageType = SchemeFormUtil.getIsDisabledPageType().includes(pageType)
     // 是否禁用
@@ -38,7 +44,7 @@ function TacticArrApForm(props) {
     // 自定义 tag 内容 render
     const tagRender = ({ label, closable, onClose, value }) => {
         // 过滤出当前录入的标签下的机场集合
-        let airport = SchemeFormUtil.filterAreadLabelAirport(value);
+        let airport = SchemeFormUtil.filterAreadLabelAirport(value, areaAirportListData);
         return (
             <Tooltip title={airport}>
                 <Tag
@@ -62,16 +68,30 @@ function TacticArrApForm(props) {
         // 反之将当前label追加到当前字段值中去
         let valueArr = [...fieldValue, label];
         // 处理机场数值
-        valueArr = SchemeFormUtil.handleAirportSelectInputValue(valueArr);
+        valueArr = SchemeFormUtil.handleAirportSelectInputValue(valueArr, areaAirportListData);
         // 更新表单数值
         form.setFieldsValue({ 'arrAp': valueArr });
     }
     // 处理降落机场数值
     const handleValue = (val) => {
         // 处理机场数值
-        let newValue = SchemeFormUtil.handleAirportSelectInputValue(val);
+        let newValue = SchemeFormUtil.handleAirportSelectInputValue(val, areaAirportListData);
         // 更新表单数值
         form.setFieldsValue({ 'arrAp': newValue });
+    }
+
+    // 绘制单个区域按钮
+    const drawSingleSpecialAreaAirport = (area) => {
+        const {
+            provinceName,
+            provinceNameZH,
+            value,
+        } = area;
+        return (
+            <Tooltip placement="bottom" title={value} key={provinceName}>
+                <Button size="small" onClick={() => { shortcutInputValue(provinceNameZH) }}>{provinceNameZH}</Button>
+            </Tooltip>
+        )
     }
 
     return (
@@ -107,16 +127,24 @@ function TacticArrApForm(props) {
                             <div className="ant-form-item-control-input">
                                 <div className="ant-form-item-control-input-content">
                                     <Space>
-                                        <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("兰州")}>
-                                            <Button size="small" onClick={() => { shortcutInputValue('兰州') }}>兰州</Button>
-                                        </Tooltip>
-                                        <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("西安")}>
-                                            <Button size="small" onClick={() => { shortcutInputValue('西安') }}>西安</Button>
-                                        </Tooltip>
-                                        <Tooltip placement="bottom" title={SchemeFormUtil.filterAreadLabelAirport("山东")}>
-                                            <Button size="small" onClick={() => { shortcutInputValue('山东') }}>山东</Button>
-                                        </Tooltip>
-                                        <Button size="small" onClick={() => { }}>更多</Button>
+                                        {
+                                            specialAreaAirportListData.map((item) => {
+                                                return drawSingleSpecialAreaAirport(item)
+                                            })
+                                        }
+                                        
+                                        <Popover
+                                            trigger="click"
+                                            placement="rightTop"
+                                            content={
+                                                <TacticAreaProvinceAirportList
+                                                    shortcutInputValue={shortcutInputValue}
+                                                    targetForm={form}
+                                                />
+                                            } >
+                                            <Button size="small">省份</Button>
+                                        </Popover>
+
                                     </Space>
                                 </div>
                             </div>

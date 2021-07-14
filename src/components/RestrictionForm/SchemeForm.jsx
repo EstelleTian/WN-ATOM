@@ -20,6 +20,8 @@ import TacticTargetUnitForm from './TacticTargetUnitForm'
 import TacticBehindUnitForm from './TacticBehindUnitForm'
 import TacticExemptFormerUnitForm from './TacticExemptFormerUnitForm'
 import TacticExemptBehindUnitForm from './TacticExemptBehindUnitForm'
+import TacticAreaProvinceAirportInit from './TacticAreaProvinceAirportInit'
+import TacticSpecialAreaAirportInit from './TacticSpecialAreaAirportInit'
 import TacticDepApForm from './TacticDepApForm'
 import TacticArrApForm from './TacticArrApForm'
 import TacticExemptDepApForm from './TacticExemptDepApForm'
@@ -73,6 +75,8 @@ function SchemeForm(props) {
     const user = systemPage.user || {};
     // 用户名
     const userName = user.username || ""
+    // 所有区域标签机场数据
+    const areaAirportListData = schemeFormData.areaAirportListData;
     // 限制方式
     const restrictionMode = schemeFormData.restrictionMode;
     // MIT限制方式下的限制类型
@@ -134,6 +138,9 @@ function SchemeForm(props) {
     const [tacticExemptFlightForm] = Form.useForm();
     // 方案模板名称表单
     const [tacticTemplateNameForm] = Form.useForm();
+
+    // 方案区域机场表单
+    const [tacticAreaAirportForm] = Form.useForm();
 
     // 自动命名按钮点击事件
     const autofillTacticName = async () => {
@@ -852,7 +859,7 @@ function SchemeForm(props) {
         })
     };
 
-    
+
     // 更新航路数据
     const updateRouteData = (data) => {
         data = data || {}
@@ -879,18 +886,18 @@ function SchemeForm(props) {
             let distance = originRoute.distance;
             let correct = originRoute.correct;
             let errorReason = originRoute.errorReason;
-            if(correct){
+            if (correct) {
                 setOriginRouteField({
-                    validateStatus:"success",
+                    validateStatus: "success",
                     help: `航路总长度${distance}千米`
                 })
-            }else {
+            } else {
                 setOriginRouteField({
-                    validateStatus:"error",
+                    validateStatus: "error",
                     help: `${errorReason}`
                 })
             }
-            
+
             schemeFormData.updateTacticOriginRouteData(originRoute)
         } else {
             schemeFormData.updateTacticOriginRouteData({})
@@ -1884,13 +1891,13 @@ function SchemeForm(props) {
             exemptBehindUnit,
             reserveSlot: isValidVariable(reserveSlot) ? reserveSlot.join(',') : "",
             // 起飞机场
-            depAp: SchemeFormUtil.parseAreaLabelAirport(depAp).join(';'),
+            depAp: SchemeFormUtil.parseAreaLabelAirport(depAp, areaAirportListData).join(';'),
             // 降落机场
-            arrAp: SchemeFormUtil.parseAreaLabelAirport(arrAp).join(';'),
+            arrAp: SchemeFormUtil.parseAreaLabelAirport(arrAp, areaAirportListData).join(';'),
             // 豁免起飞机场
-            exemptDepAp: SchemeFormUtil.parseAreaLabelAirport(exemptDepAp).join(';'),
+            exemptDepAp: SchemeFormUtil.parseAreaLabelAirport(exemptDepAp, areaAirportListData).join(';'),
             // 豁免降落机场
-            exemptArrAp: SchemeFormUtil.parseAreaLabelAirport(exemptArrAp).join(';'),
+            exemptArrAp: SchemeFormUtil.parseAreaLabelAirport(exemptArrAp, areaAirportListData).join(';'),
 
             flightId: flightId.join(';'),
             wakeFlowLevel: wakeFlowLevel.join(';'),
@@ -1963,7 +1970,7 @@ function SchemeForm(props) {
         if (pageType === SchemeFormUtil.PAGETYPE_MODIFY && code === RESPONSECODE) {
             // 当前活动方案id
             let activeSchemeId = props.schemeListData.activeSchemeId || "";
-            if(id === activeSchemeId){
+            if (id === activeSchemeId) {
                 // 强制刷新航班表格
                 props.flightTableData.setForceUpdate(true);
             }
@@ -2138,6 +2145,8 @@ function SchemeForm(props) {
         }
     };
 
+    
+
     // 初始化用户信息
     useEffect(function () {
         const user = localStorage.getItem("user");
@@ -2289,7 +2298,7 @@ function SchemeForm(props) {
                     {
                         restrictionMode === "CR" ? <Col span={8}>
                             <TacticOriginRouteForm
-                                originRouteField = {originRouteField}
+                                originRouteField={originRouteField}
                                 disabledForm={props.disabledForm}
                                 form={tacticOriginRouteForm}
                                 validateOriginRouteFormat={validateOriginRouteFormat}
@@ -2335,6 +2344,8 @@ function SchemeForm(props) {
                     </Col>
                 </Row>
                 <Row gutter={24}>
+                    <TacticAreaProvinceAirportInit />
+                    <TacticSpecialAreaAirportInit />
                     <Col span={8}>
                         <TacticDepApForm
                             pageType={pageType}
@@ -2391,7 +2402,7 @@ function SchemeForm(props) {
                     width={800}
                     maskClosable={false}
                     visible={saveAsTemplateModalVisible}
-                    okText= '保存'
+                    okText='保存'
                     onOk={handleSaveAsTemplateModalOk}
                     onCancel={handleSaveAsTemplateModalClose}>
                     <Row gutter={12}>
@@ -2407,4 +2418,4 @@ function SchemeForm(props) {
     )
 }
 
-export default withRouter(inject("schemeFormData", "systemPage","schemeListData", "flightTableData")(observer(SchemeForm)));
+export default withRouter(inject("schemeFormData", "systemPage", "schemeListData", "flightTableData")(observer(SchemeForm)));
