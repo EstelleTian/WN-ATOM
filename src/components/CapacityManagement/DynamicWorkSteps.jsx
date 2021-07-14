@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-26 14:17:55
- * @LastEditTime: 2021-07-06 10:53:06
+ * @LastEditTime: 2021-07-13 16:08:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\CapacityManagement\CapacityTabs.jsx
@@ -154,6 +154,7 @@ function DynamicWorkSteps(props) {
   const timer = useRef();
   // 更新客户端版本号信息方法
   NWGlobal.updateInsDate = (date) => {
+    alert(date);
     setGlobalInsDate(date);
   };
 
