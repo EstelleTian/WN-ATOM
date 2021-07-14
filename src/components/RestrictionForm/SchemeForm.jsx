@@ -79,7 +79,7 @@ function SchemeForm(props) {
     const areaAirportListData = schemeFormData.areaAirportListData;
     // 限制方式
     const restrictionMode = schemeFormData.restrictionMode;
-    // MIT限制方式下的限制类型
+    // MIT限制类型单位(T:时间 D:距离)
     const restrictionMITValueUnit = schemeFormData.restrictionMITValueUnit;
     // 速度值
     const distanceToTime = schemeFormData.distanceToTime;
@@ -289,8 +289,9 @@ function SchemeForm(props) {
         // 限制数值单位
         let unit = "";
         let { targetUnit = "", behindUnit = "",
-            exemptBehindUnit = "", restrictionModeValue = "",
-            arrAp = [], exemptArrAp = [], restrictionMITValueUnit = [], originRoute = "",
+            exemptBehindUnit = "", 
+            arrAp = [], exemptArrAp = [], 
+            restrictionAFPValueSequence ="", restrictionMITValue="", restrictionMITValueUnit = [], originRoute = "",
             shortcutInputCheckboxSet = [],
 
         } = fieldData;
@@ -331,19 +332,48 @@ function SchemeForm(props) {
         let descriptions = `${exemptArrApLabel}${behindUnitLabel}${exemptBehindUnitLabel}${arrApLabel}`
         //  快捷录入
         if (inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
-            // MIT或AFP限制类型
-            if (restrictionMode === "MIT" || restrictionMode === "AFP") {
+            // AFP限制类型
+            if (restrictionMode === "AFP") {
+                 // 拼接名称
+                 autoName = `${shortcutInputCheckboxSet} ${descriptions}${restrictionAFPValueSequence}${unit}`;
+                //  若restrictionMITValue有值则追加最小间隔显示
+                if(isValidVariable(restrictionMITValue)){
+                    let subunit = "";
+                    if (restrictionMITValueUnit === 'T') {
+                        subunit = '分钟'
+                    } else if (restrictionMITValueUnit === 'D') {
+                        subunit = '公里'
+                    }
+                    // 拼接名称
+                    autoName = `${shortcutInputCheckboxSet} ${descriptions}${restrictionAFPValueSequence}${unit} 最小间隔${restrictionMITValue}${subunit}`;
+                }
+
+            } else if (restrictionMode === "MIT") {
                 // 拼接名称
-                autoName = `${shortcutInputCheckboxSet} ${descriptions}${restrictionModeValue}${unit}`;
+                autoName = `${shortcutInputCheckboxSet} ${descriptions}${restrictionMITValue}${unit}`;
             } else if (restrictionMode == "GS") { // GS限制类型
                 // 拼接名称
                 autoName = `${shortcutInputCheckboxSet} ${descriptions}停放`;
             }
         } else if (inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) { // 自定义录入
             // MIT或AFP限制类型
-            if (restrictionMode === "MIT" || restrictionMode === "AFP") {
+            if ( restrictionMode === "AFP") {
                 // 拼接名称
-                autoName = `${targetUnit} ${descriptions}${restrictionModeValue}${unit}`;
+                autoName = `${targetUnit} ${descriptions}${restrictionAFPValueSequence}${unit}`;
+                //  若restrictionMITValue有值则追加最小间隔显示
+                if(isValidVariable(restrictionMITValue)){
+                    let subunit = "";
+                    if (restrictionMITValueUnit === 'T') {
+                        subunit = '分钟'
+                    } else if (restrictionMITValueUnit === 'D') {
+                        subunit = '公里'
+                    }
+                    // 拼接名称
+                    autoName = `${targetUnit} ${descriptions}${restrictionAFPValueSequence}${unit} 最小间隔${restrictionMITValue}${subunit}`;
+                }
+            }else if (restrictionMode === "MIT" ) {
+                // 拼接名称
+                autoName = `${targetUnit} ${descriptions}${restrictionMITValue}${unit}`;
             } else if (restrictionMode == "GS") { // GS限制类型
                 // 拼接名称
                 autoName = `${targetUnit} ${descriptions}停放`;
@@ -574,7 +604,8 @@ function SchemeForm(props) {
             // 必要校验字段
             const fields = [
                 'restrictionMode',
-                'restrictionModeValue',
+                'restrictionAFPValueSequence',
+                'restrictionMITValue',
                 'restrictionMITValueUnit',
             ];
             // 触发表单验证取表单数据
@@ -1222,8 +1253,8 @@ function SchemeForm(props) {
                 centered: true,
                 closable: true,
                 content: <div><p>{`开始时间早于当前时间，建议修改`}</p></div>,
-                okText: '去修改',
-                cancelText: `直接${operationDescription}`,
+                okText: '手动修改',
+                cancelText: `提交`,
                 onOk: () => {
                     handleOpenEdit()
                 },
@@ -1292,8 +1323,8 @@ function SchemeForm(props) {
                 centered: true,
                 closable: true,
                 content: <div><p>{`限制条件与方案名称不相符，建议自动命名`}</p></div>,
-                okText: `自动命名并${operationDescription}`,
-                cancelText: `直接${operationDescription}`,
+                okText: `自动命名并提交`,
+                cancelText: `提交`,
                 onOk: () => { handleAutoFillTacticNameSubmitFormData(fieldData) },
                 onCancel: (close) => {
                     // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
@@ -1363,28 +1394,6 @@ function SchemeForm(props) {
 
     // 处理表单数据
     const handleFormData = () => {
-        // 依据流控限制方式取流控限制数值方法
-        const restrictionModeData = {
-            "MIT": "restrictionMITValue",
-            "AFP": "restrictionAFPValueSequence",
-        };
-        // 需要将数值转换为大写的字段
-        const upperFields = [
-            "targetUnit",
-            "formerUnit",
-            "behindUnit",
-            "exemptFormerUnit",
-            "exemptBehindUnit",
-            "flightId",
-            "exemptionFlightId",
-            "aircraftType",
-            "exemptionAircraftType",
-            "depAp",
-            "arrAp",
-            "exemptDepAp",
-            "exemptArrAp",
-        ];
-
         // 复制方案原始数据对象
         let schemeData = JSON.parse(JSON.stringify(schemeFormData.schemeData));
         // 方案基本信息数据对象
@@ -1447,19 +1456,10 @@ function SchemeForm(props) {
             flowControlReason,
             startTime,
             endTime,
-            restrictionModeValue,
+            restrictionAFPValueSequence,
+            restrictionMITValue,
+            restrictionMITTimeValue,
             reserveSlot,
-            useHeight,
-            exemptHeight,
-            targetUnit,
-            formerUnit,
-            behindUnit,
-            exemptFormerUnit,
-            exemptBehindUnit,
-            depAp,
-            arrAp,
-            exemptDepAp,
-            exemptArrAp,
             flightId,
             wakeFlowLevel,
             auType,
@@ -1469,8 +1469,6 @@ function SchemeForm(props) {
             organization,
             ability,
             aircraftType,
-            restrictionMITTimeValue,
-
             exemptionFlightId,
             exemptionWakeFlowLevel,
             exemptionAirlineType,
@@ -1511,13 +1509,9 @@ function SchemeForm(props) {
 
         // 更新流控限制方式
         flowControlMeasure.restrictionMode = restrictionMode;
-        // 更新流控限制方式相应的字段数值
-        let modeKey = restrictionModeData[restrictionMode];
-        flowControlMeasure[modeKey] = restrictionModeValue;
         // 获取表单中方案方向信息数据
         let formDirectionData = getDirectionListData(formDataValue);
         // 方案方向信息集合中第一条数据
-
         let directionData = directionList[0] || {};
         // 将表单中方案方向数据字段值替换原方案方向数据字段值
         directionData = {
@@ -1564,7 +1558,17 @@ function SchemeForm(props) {
         flightPropertyDomain.exemptionAbility = exemptionAbility;
         // 更新流控交通流-不包含-受控机型
         flightPropertyDomain.exemptionAircraftType = exemptionAircraftType;
-
+        // 更新AFP限制值
+        flowControlMeasure.restrictionAFPValueSequence = restrictionAFPValueSequence;
+        // 更新MIT限制值
+        flowControlMeasure.restrictionMITValue = restrictionMITValue;
+        // 更新MIT限制单位
+        flowControlMeasure.restrictionMITValueUnit = restrictionMITValueUnit;
+        // 更新MIT流控时间间隔字段数值
+        flowControlMeasure.restrictionMITTimeValue = restrictionMITTimeValue;
+        // 更新速度字段数值(从store中取)
+        flowControlMeasure.distanceToTime = schemeFormData.distanceToTime;
+        // 改航限制相关数值更新
         if (restrictionMode === "CR") {
             // 更新原航路数据信息
             flowControlMeasure.originRouteData = schemeFormData.originRouteData;
@@ -1588,19 +1592,7 @@ function SchemeForm(props) {
             flowControlMeasure.alterRouteData3 = sortedAlterRouteData[2]
             flowControlMeasure.alterRouteData4 = sortedAlterRouteData[3]
             flowControlMeasure.alterRouteData5 = sortedAlterRouteData[4]
-        } else {
-            // 更新速度字段数值
-            flowControlMeasure.distanceToTime = schemeFormData.distanceToTime;
-        }
-
-        // 若限制类型为MIT
-        if (restrictionMode === "MIT") {
-            // 更新MIT限制单位
-            flowControlMeasure.restrictionMITValueUnit = restrictionMITValueUnit;
-            // 更新MIT流控时间间隔字段数值
-            flowControlMeasure.restrictionMITTimeValue = restrictionMITTimeValue;
-
-        }
+        } 
 
         return schemeData;
     }
@@ -1758,7 +1750,6 @@ function SchemeForm(props) {
 
     // 获取所有表单数据
     const getAllFormValue = () => {
-
         // 方案模式
         const tacticMode = tacticModeForm.getFieldValue('tacticMode');
         // 方案名称
@@ -1785,12 +1776,12 @@ function SchemeForm(props) {
         const endTime = tacticDateTimeForm.getFieldValue('endTime');
         // 预留时隙
         const reserveSlot = tacticReserveSlotForm.getFieldValue('reserveSlot');
-
-        // 限制数值
-        const restrictionModeValue = tacticMeasureForm.getFieldValue('restrictionModeValue');
-        // MIT限制类型下时间间隔字段数值
+        // AFP限制数值
+        const restrictionAFPValueSequence = tacticMeasureForm.getFieldValue('restrictionAFPValueSequence');
+        // MIT限制数值
+        const restrictionMITValue = tacticMeasureForm.getFieldValue('restrictionMITValue');
+        // MIT时间间隔字段数值
         const restrictionMITTimeValue = tacticMeasureForm.getFieldValue('restrictionMITTimeValue');
-
         // 基准单元
         let targetUnit = "";
         // 前序单元
@@ -1883,13 +1874,15 @@ function SchemeForm(props) {
             endTime: endDateTime,
             useHeight,
             exemptHeight,
-            restrictionModeValue,
             targetUnit,
             formerUnit,
             behindUnit,
             exemptFormerUnit,
             exemptBehindUnit,
             reserveSlot: isValidVariable(reserveSlot) ? reserveSlot.join(',') : "",
+            restrictionAFPValueSequence,
+            restrictionMITValue,
+            restrictionMITTimeValue,
             // 起飞机场
             depAp: SchemeFormUtil.parseAreaLabelAirport(depAp, areaAirportListData).join(';'),
             // 降落机场
@@ -1918,8 +1911,6 @@ function SchemeForm(props) {
             exemptionOrganization: exemptionOrganization.join(';'),
             exemptionAbility: exemptionAbility.join(';'),
             exemptionAircraftType: exemptionAircraftType.join(';'),
-            restrictionMITTimeValue,
-
         }
         return result
     }
@@ -2115,30 +2106,29 @@ function SchemeForm(props) {
         });
     };
 
-    // 更新时间类型的限制值
+    // 更新MIT时间间隔字段数值
     const updateMITTimeValueChange = async () => {
         try {
             // 必要校验字段
             const fields = [
-                'restrictionModeValue',
+                'restrictionMITValue',
             ];
             // 触发表单验证取表单数据
             const fieldData = await tacticMeasureForm.validateFields(fields);
-            const restrictionModeValue = tacticMeasureForm.getFieldValue('restrictionModeValue')
+            const restrictionMITValue = tacticMeasureForm.getFieldValue('restrictionMITValue')
             const distanceToTime = tacticMeasureForm.getFieldValue('distanceToTime')
             // 若限制类型为MIT
-            if (restrictionMode === 'MIT') {
+            if (restrictionMode === 'MIT' || restrictionMode === 'AFP') {
                 if (restrictionMITValueUnit === 'T') {
-                    tacticMeasureForm.setFieldsValue({ 'restrictionMITTimeValue': restrictionModeValue })
+                    tacticMeasureForm.setFieldsValue({ 'restrictionMITTimeValue': restrictionMITValue })
                 } else if (restrictionMITValueUnit === 'D') {
                     let newValue = "";
-                    if (isValidVariable(restrictionModeValue) && isValidVariable(distanceToTime)) {
-                        newValue = Math.ceil((parseInt(restrictionModeValue, 10)) / (parseInt(distanceToTime, 10)))
+                    if (isValidVariable(restrictionMITValue) && isValidVariable(distanceToTime)) {
+                        newValue = Math.ceil((parseInt(restrictionMITValue, 10)) / (parseInt(distanceToTime, 10)))
                     }
                     tacticMeasureForm.setFieldsValue({ 'restrictionMITTimeValue': newValue })
                 }
             }
-
         } catch (errorInfo) {
             console.log('Failed:', errorInfo);
             tacticMeasureForm.setFieldsValue({ 'restrictionMITTimeValue': '' })
@@ -2181,16 +2171,17 @@ function SchemeForm(props) {
             schemeFormData.updateInputMethod(SchemeFormUtil.INPUTMETHOD_SHORTCUT);
         }
     }, [pageType]);
-    // MIT限制方式下的限制单位、快捷录入勾选变更后更新MIT流控时间间隔字段数值
+    // 速度值、快捷录入勾选变更后更新MIT流控时间间隔字段数值
     useEffect(function () {
         if (isValidVariable(distanceToTime) || shortcutFormSelecedData.length > 0) {
             updateMITTimeValueChange();
         }
     }, [distanceToTime, shortcutFormSelecedData]);
-
-    // 速度值变更后更新MIT流控时间间隔字段数值
+    // MIT限制方式下的限制单位变更后更新MIT时间间隔字段数值
     useEffect(function () {
+        // 若MIT限制类型单位为距离
         if (isValidVariable(restrictionMITValueUnit) && restrictionMITValueUnit === "D") {
+            // 更新MIT时间间隔字段数值
             updateMITTimeValueChange();
         }
     }, [restrictionMITValueUnit]);

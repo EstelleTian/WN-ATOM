@@ -144,6 +144,13 @@
       }
     }
   }
+  .AFP-mode-value-container {
+    display: flex;
+    flex-direction: row;
+    .value-item {
+      flex: 0 0 auto;
+    }
+  }
   // 快捷录入表单
   .shortcut-input-form {
     
