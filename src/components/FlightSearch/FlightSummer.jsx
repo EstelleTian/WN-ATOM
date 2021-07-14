@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-07-06 09:42:28
+ * @LastEditTime: 2021-07-14 15:22:20
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询-单个航班详情
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -215,7 +215,14 @@ const FlightSummer = (props) => {
       const ALDT = formerFlight.aldt || "N/A"; //前段降落时间
       const ALDTHHmm = getDayTimeFromString(ALDT) || "N/A";
       const text = <span>{`查看航班详情`}</span>;
-      const schemeListData = flight.flowcontrols || [];
+      let schemeListData = flight.flowcontrols || [];
+      //只保留 将要执行 正在执行
+      schemeListData = schemeListData.filter((data) => {
+        return (
+          data.flowControlStatus === "FUTURE" ||
+          data.flowControlStatus === "RUNNING"
+        );
+      });
 
       return (
         <div className="summary-container">
@@ -515,7 +522,7 @@ const FlightSummer = (props) => {
     }
   }, [fightSearch.drawerVisible]);
 
-  console.log("Drawer重绘");
+  // console.log("Drawer重绘");
   return (
     <Drawer
       destroyOnClose={true}

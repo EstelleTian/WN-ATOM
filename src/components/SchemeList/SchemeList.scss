@@ -117,7 +117,7 @@
                 border-left: 1px solid #5d5d5d;
                 padding: 0 10px;
                 @include flex();
-                @include display_flex();
+                @include display_flex(row-reverse);
             }
             .opt{
                 font-size: 0.85rem;
@@ -134,6 +134,34 @@
                 &:hover{
                     cursor: pointer;
                 }
+                
+            }
+            // 方案图标
+            .item-icon{
+                width: 40px;
+                height: 40px;
+                background-size: cover;
+            } 
+            .detail-icon{
+                background: url("./images/detail.png") no-repeat;
+            }
+            .edit-icon{
+                background: url("./images/edit.png") no-repeat;
+            }
+            .work-icon{
+                background: url("./images/work.png") no-repeat;
+            }
+            .base-icon{
+                background: url("./images/base.png") no-repeat;
+            }
+            .terminate-icon{
+                background: url("./images/terminate.png") no-repeat;
+            }
+            .relation-icon{
+                background: url("./images/relation.png") no-repeat;
+            }
+            .execute-icon{
+                background: url("./images/execute.png") no-repeat;
             }
             .tactic-name, .status {
                 color: #36a5da;

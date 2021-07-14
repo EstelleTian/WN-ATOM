@@ -309,7 +309,16 @@ const WorkFlowContent = (props) => {
       case "FlightApprovalProcess": //航班审批流程
         const tacticId = processVariables.tacticId || ""; //航班对应方案id
         const fmeId = processVariables.fmeId || ""; //航班id
-        openTimeSlotFrameWithFlightId(tacticId, fmeId);
+        // alert("2  " + props.activeTab);
+        localStorage.setItem(
+          "targetToFlight",
+          JSON.stringify({
+            tacticId: tacticId,
+            flightId: fmeId,
+            fromType: props.activeTab,
+          })
+        );
+        openTimeSlotFrameWithFlightId(tacticId, fmeId, props.activeTab);
         break;
       case "SchemeApprovalProcess": //方案审批流程
         console.log("方案审批流程", businessKey);

@@ -171,7 +171,7 @@ function DCBLineChart(props) {
     }
     const option = {
       backgroundColor: "#00000000",
-      color: ["#8867d2", "#39a30e", "#ff8a0c", "#8867d2"],
+      color: ["#8867d2", "#39a30e", "#dadada"],
       tooltip: {
         trigger: "axis",
         axisPointer: {
@@ -193,7 +193,7 @@ function DCBLineChart(props) {
       grid: {
         top: "30px",
         left: "1%",
-        right: "2%",
+        right: "10%",
         bottom: "1%",
         containLabel: true,
       },
@@ -234,20 +234,59 @@ function DCBLineChart(props) {
         {
           name: "全区DCB",
           type: "line",
-          showSymbol: false,
+          showSymbol: "circle",
+          smooth: true,
           data: regionDCBValArr,
+          label: {
+            show: true,
+            position: "right",
+            color: "#fff",
+            formatter: (params) => {
+              if (regionDCBValArr.length - 1 == params.dataIndex) {
+                return params.value;
+              } else {
+                return "";
+              }
+            },
+          },
         },
         {
           name: "区内DCB",
           type: "line",
-          showSymbol: false,
+          showSymbol: "circle",
+          smooth: true,
           data: insideDCBValArr,
+          label: {
+            show: true,
+            position: "right",
+            color: "#fff",
+            formatter: (params) => {
+              if (insideDCBValArr.length - 1 == params.dataIndex) {
+                return params.value;
+              } else {
+                return "";
+              }
+            },
+          },
         },
         {
           name: "区外DCB",
           type: "line",
-          showSymbol: false,
+          showSymbol: "circle",
+          smooth: true,
           data: outsideDCBValArr,
+          label: {
+            show: true,
+            position: "right",
+            color: "#fff",
+            formatter: (params) => {
+              if (outsideDCBValArr.length - 1 == params.dataIndex) {
+                return params.value;
+              } else {
+                return "";
+              }
+            },
+          },
         },
       ],
     };

@@ -34,7 +34,8 @@ const SummaryCell = memo(
       setVisible(flag);
     };
     // 是否为终止状态(人工终止或系统终止或正常结束)
-    let isTerminated = tacticStatus === "TERMINATED_MANUAL" ||
+    let isTerminated =
+      tacticStatus === "TERMINATED_MANUAL" ||
       tacticStatus === "TERMINATED_AUTO" ||
       tacticStatus === "FINISHED";
 
@@ -46,13 +47,13 @@ const SummaryCell = memo(
         <Menu.Item key="createTime" title={createTime}>
           创建时间: {getDayTimeFromString(createTime, "", 2)}
         </Menu.Item>
-        {
-          (isTerminated) ?
-            (<Menu.Item key="updateTime" title={updateTime}>
-              终止时间: {getDayTimeFromString(updateTime, "", 2)}
-            </Menu.Item>) :
-            ""
-        }
+        {isTerminated ? (
+          <Menu.Item key="updateTime" title={updateTime}>
+            终止时间: {getDayTimeFromString(updateTime, "", 2)}
+          </Menu.Item>
+        ) : (
+          ""
+        )}
         <Menu.Item key="reason">原因: {basicTacticInfoReasonZh}</Menu.Item>
         <Menu.Item key="remark">备注: {basicTacticInfoRemark}</Menu.Item>
       </Menu>
@@ -70,10 +71,7 @@ const SummaryCell = memo(
               fontSize: "0.8rem",
             }}
           >
-            {
-              (isTerminated) ? "终止时间:" : "发布时间:"
-            }
-
+            {isTerminated ? "终止时间:" : "发布时间:"}
           </span>
           <span
             style={{
@@ -81,9 +79,9 @@ const SummaryCell = memo(
               fontSize: "0.8rem",
             }}
           >
-            {
-              (isTerminated) ? getTimeFromString(updateTime) : getTimeFromString(publishTime)
-            }
+            {isTerminated
+              ? getTimeFromString(updateTime)
+              : getTimeFromString(publishTime)}
           </span>
 
           <DownOutlined />
@@ -129,7 +127,10 @@ function SchemeItem(props) {
     let same = true;
     // 数据生成日期
     let generateDate = "";
-    if (isValidVariable(generateTime) && generateTime.length == 12 || generateTime.length > 12) {
+    if (
+      (isValidVariable(generateTime) && generateTime.length == 12) ||
+      generateTime.length > 12
+    ) {
       generateDate = generateTime.substring(0, 8);
     }
 
@@ -137,16 +138,14 @@ function SchemeItem(props) {
       if (isValidVariable(startTime) && isValidVariable(endTime)) {
         let startDate = startTime.substring(0, 8);
         let endDate = endTime.substring(0, 8);
-        same = (startDate === generateDate && endDate === generateDate);
+        same = startDate === generateDate && endDate === generateDate;
       } else if (isValidVariable(startTime)) {
         let startDate = startTime.substring(0, 8);
         same = startDate === generateDate;
       }
     }
     return same;
-  })
-
-
+  });
 
   let isActive = useMemo(() => {
     return schemeListData.activeSchemeId === item.id;
@@ -215,7 +214,6 @@ function SchemeItem(props) {
   });
   targetUnits = targetUnits.join(";");
   behindUnits = behindUnits.join(";");
-
 
   // 开始时间格式化
   let startTimeFormat = getDayTimeFromString(startTime, "", 2);
@@ -427,10 +425,13 @@ function SchemeItem(props) {
                 className="cell time_range"
                 title={startTime + "-" + endTime}
               >
-                {
-                  isSameDay ? `${startTimeFormat} - ${endTimeFormat}` :
-                    <Tag className="time-range-tag" color="#FA8C15">{startTimeFormat} - {endTimeFormat}</Tag>
-                }
+                {isSameDay ? (
+                  `${startTimeFormat} - ${endTimeFormat}`
+                ) : (
+                  <Tag className="time-range-tag" color="#FA8C15">
+                    {startTimeFormat} - {endTimeFormat}
+                  </Tag>
+                )}
               </div>
             </div>
             <div className="layout-row">
@@ -468,20 +469,24 @@ function SchemeItem(props) {
         <div className="right-column2">
           <div className="options-box layout-row">
             <div
-              className="opt"
+              className="opt item-icon detail-icon"
               onClick={(e) => {
                 showDetail(e);
                 e.stopPropagation();
               }}
+              title="方案详情"
             >
-              详情
+              {/* 详情 */}
             </div>
-
             {props.systemPage.userHasAuth(11301) &&
               !isNTFM &&
               ["FUTURE", "RUNNING"].includes(tacticStatus) && (
-                <div className="opt" onClick={showModify}>
-                  调整
+                <div
+                  className="opt item-icon edit-icon"
+                  onClick={showModify}
+                  title="方案调整"
+                >
+                  {/* 调整 */}
                 </div>
               )}
 
@@ -495,52 +500,71 @@ function SchemeItem(props) {
               )} */}
             {props.systemPage.userHasAuth(11401) && !isNTFM && (
               <div
-                className="opt"
+                className="opt item-icon work-icon"
                 onClick={(e) => {
                   showWorkFlowDetail(id);
                   e.stopPropagation();
                 }}
+                title="工作流"
               >
-                工作流
+                {/* 工作流 */}
               </div>
             )}
             {props.systemPage.userHasAuth(11502) && !isNTFM && (
-              <Dropdown overlay={baseSchemeFrameMenu}>
-                <div
-                  className="opt"
-                  onClick={(e) => {
-                    openBaseSchemeFrame(id);
-                    e.stopPropagation();
-                  }}
-                >
-                  决策依据
-                  <DownOutlined />
-                </div>
-              </Dropdown>
+              <div
+                className="opt item-icon base-icon"
+                onClick={(e) => {
+                  openBaseSchemeFrame(id);
+                  e.stopPropagation();
+                }}
+                title="决策依据"
+              >
+                {/* 决策依据 */}
+                {/* <DownOutlined /> */}
+              </div>
+            )}
+            {props.systemPage.userHasAuth(11502) && !isNTFM && (
+              <div
+                className="opt item-icon execute-icon"
+                onClick={(e) => {
+                  // 执行情况菜单按钮点击事件
+                  if (key === "Implementation") {
+                    // 调用客户端方法,参数为当前方案id
+                    openRunningControlFlow(id);
+                  }
+                  e.stopPropagation();
+                }}
+                title="执行情况"
+              >
+                {/* 执行情况 */}
+                {/* <DownOutlined /> */}
+              </div>
             )}
 
             {props.systemPage.userHasAuth(11201) &&
               !isNTFM &&
               ["FUTURE", "RUNNING"].includes(tacticStatus) && (
                 <div
-                  className="opt"
+                  className="opt item-icon terminate-icon"
                   onClick={(e) => {
                     stopControl(id);
                     e.stopPropagation();
                   }}
+                  title="终止"
                 >
-                  终止
+                  {/* 终止 */}
                 </div>
               )}
             {props.systemPage.userHasAuth(11505) && !isNTFM && (
               <div
-                className="opt"
+                className="opt item-icon relation-icon"
                 onClick={(e) => {
                   openFilterFrame(id, tacticName, targetUnits, interVal);
                   e.stopPropagation();
                 }}
+                title="航图关联"
               >
-                航图关联
+                {/* 航图关联 */}
               </div>
             )}
 
