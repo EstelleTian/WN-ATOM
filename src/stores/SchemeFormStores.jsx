@@ -47,8 +47,7 @@ class SchemeForm {
     // MIT限制方式下限制类型 T:时间 D:距离
     @observable restrictionMITValueUnit = "T";
 
-    // 表单限制数值
-    @observable restrictionModeValue = "";
+    
 
     // MIT限制方式下限制数值
     @observable restrictionMITValue = "";
@@ -645,10 +644,7 @@ class SchemeForm {
     @action updateTacticRestrictionMITValueUnit(MITValueUnit) {
         this.restrictionMITValueUnit = MITValueUnit;
     }
-    // 更新表单限制数值
-    @action updateTacticRestrictionModeValue(restrictionModeValue) {
-        this.restrictionModeValue = restrictionModeValue;
-    }
+    
 
     // 更新原航路数据集合
     @action updateTacticOriginRouteData(originRouteData) {
