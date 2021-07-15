@@ -9,7 +9,7 @@ import SchemeForm from 'components/RestrictionForm/SchemeForm'
 import { isValidObject, isValidVariable } from 'utils/basic-verify'
 import { customNotice } from 'utils/common-funcs'
 
-// 显示模拟状态的方案数据
+// 显示正式发布的方案数据
 function DisplaySchemeDetailPage(props) {
     
     //  方案表单禁用状态
@@ -49,7 +49,7 @@ function DisplaySchemeDetailPage(props) {
         let schemeID = props.location.search.replace(/\?/g, "");
         // 请求参数
         const opt = {
-            url: ReqUrls.schemeDetailByIdUrl + userId + '/'+ schemeID,
+            url: ReqUrls.schemeDataByIdForUpdateUrl + schemeID,
             method: 'GET',
             params: {},
             resFunc: (data) => updateSchemeData(data),
