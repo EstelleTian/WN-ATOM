@@ -2061,7 +2061,10 @@ function SchemeForm(props) {
         } else {
             targetUnit = tacticTargetUnitForm.getFieldValue('targetUnit');
         }
-        targetUnit = targetUnit.split(';').join(',')
+        // 分号转逗号
+        targetUnit = targetUnit.split(';').join(',');
+        // 加号转逗号
+        targetUnit = targetUnit.split('+').join(',');
         return targetUnit.toUpperCase();
     }
 
