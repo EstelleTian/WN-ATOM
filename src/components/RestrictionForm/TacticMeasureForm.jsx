@@ -117,11 +117,11 @@ function TacticMeasureForm(props) {
             <Form.Item
                 label="限制值"
                 required={true}
-                className="MIT-mode-value-unit-form-compact"
+                className="MIT-mode-value-unit-form-compact advanced-item"
             >
                 <Form.Item
                     name="restrictionMITValueUnit"
-                    className="MIT-value-unit advanced-item"
+                    className="MIT-value-unit"
                 >
                     <Select onChange={handleRestrictionMITValueUnitChange} disabled={props.disabledForm} >
                         <Option key="T">分钟/架</Option>
@@ -132,7 +132,7 @@ function TacticMeasureForm(props) {
                     label=""
                     required={true}
                     name="restrictionMITValue"
-                    className="value-item advanced-item"
+                    className="value-item"
                     rules={[
                         {
                             required: true,
