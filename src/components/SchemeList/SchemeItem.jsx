@@ -528,11 +528,8 @@ function SchemeItem(props) {
                 className="opt item-icon execute-icon"
                 onClick={(e) => {
                   // 执行情况菜单按钮点击事件
-                  const key = e.key;
-                  if (key === "Implementation") {
-                    // 调用客户端方法,参数为当前方案id
-                    openRunningControlFlow(id);
-                  }
+                  // 调用客户端方法,参数为当前方案id
+                  openRunningControlFlow(id);
                   e.stopPropagation();
                 }}
                 title="执行情况"
