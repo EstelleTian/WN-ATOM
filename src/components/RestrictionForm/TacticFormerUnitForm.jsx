@@ -60,7 +60,7 @@ function TacticExemptFormerUnitForm(props) {
                         },
                     ]}
                 >
-                    <Input placeholder="选填项，只可录入英文半角字母、数字、问号、分号、逗号、中划线、空格" allowClear={true} className="text-uppercase" disabled={disabled} />
+                    <Input placeholder="选填项，只可录入英文半角字母、数字、问号、分号、逗号、加号、中划线、空格" allowClear={true} className="text-uppercase" disabled={disabled} />
                 </Form.Item>
             </Form>
         </Fragment>
