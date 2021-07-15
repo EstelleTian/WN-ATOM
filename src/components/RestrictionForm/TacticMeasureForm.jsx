@@ -121,7 +121,7 @@ function TacticMeasureForm(props) {
             >
                 <Form.Item
                     name="restrictionMITValueUnit"
-                    className="MIT-value-unit"
+                    className="MIT-value-unit advanced-item"
                 >
                     <Select onChange={handleRestrictionMITValueUnitChange} disabled={props.disabledForm} >
                         <Option key="T">分钟/架</Option>
@@ -132,7 +132,7 @@ function TacticMeasureForm(props) {
                     label=""
                     required={true}
                     name="restrictionMITValue"
-                    className="value-item"
+                    className="value-item advanced-item"
                     rules={[
                         {
                             required: true,
@@ -216,7 +216,7 @@ function TacticMeasureForm(props) {
                     label="限制值"
                     required={true}
                     name="restrictionAFPValueSequence"
-                    className="value-item"
+                    className="value-item advanced-item"
                     rules={[
                         {
                             required: true,
@@ -239,7 +239,8 @@ function TacticMeasureForm(props) {
 
                 <Form.Item
                     label="最小间隔"
-                    className="MIT-mode-value-unit-form-compact"
+
+                    className="MIT-mode-value-unit-form-compact advanced-item"
                 >
                     <Form.Item
                         name="restrictionMITValueUnit"
@@ -333,16 +334,21 @@ function TacticMeasureForm(props) {
 
     return (
         <Fragment>
-            <Form
+            <Row className="info-row" >
+                <Col span={24}>
+                <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
             >
-                <Row gutter={24} >
+                <Row>
                     <Col span={8}>
                         <Form.Item
                             name="restrictionMode"
                             label="限制方式"
+                            colon={false}
                             required={true}
+                            className="advanced-item"
                             rules={[{ required: true, message: '请选择限制方式' }]}
                         >
                             <Select style={{ width: 120 }} onChange={handleRestrictionModeChange} disabled={disabled} >
@@ -362,6 +368,9 @@ function TacticMeasureForm(props) {
                     </Col>
                 </Row>
             </Form>
+                </Col>
+            </Row>
+            
         </Fragment>
     )
 }

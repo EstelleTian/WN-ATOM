@@ -108,9 +108,12 @@ function TacticTemplateForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
             >
                 <Form.Item
                     label="模板"
+                    colon={false}
+                    className="advanced-item"
                 >
                     <Select
                         placeholder="选择模板"

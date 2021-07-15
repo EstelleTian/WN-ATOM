@@ -40,12 +40,15 @@ function TacticExemptFormerUnitForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
+                className="multi-col-row-form"
             >
                 <Form.Item
                     name="formerUnit"
+                    colon={false}
                     label="前序单元"
-                    className={isHide ? "hidden-form-item" : ""}
+                    className={isHide ? "hidden-form-item advanced-item" : "advanced-item"}
                     rules={[
                         {
                             whitespace: true,

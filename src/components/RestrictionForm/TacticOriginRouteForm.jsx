@@ -34,15 +34,18 @@ function TacticOriginRouteForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
-                className="origin-routes-form"
+                className="origin-routes-form multi-col-row-form"
             >
                 <Form.Item
                     name="originRoute"
                     help={originRouteField.help}
                     validateStatus={originRouteField.validateStatus}
+                    colon={false}
                     label="原航路"
                     validateTrigger={['onBlur']}
+                    className="advanced-item"
                     rules={[
                         // { required: true },
                         ({ getFieldValue }) => validateOriginRouteFormat(getFieldValue),

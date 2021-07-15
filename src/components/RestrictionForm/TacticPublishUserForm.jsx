@@ -46,6 +46,7 @@ function TacticPublishUserForm(props) {
         <Fragment>
             
             <Form
+                labelAlign='left'
                 form={form}
                 initialValues={initialValues}
             >
@@ -57,6 +58,8 @@ function TacticPublishUserForm(props) {
                     <Input disabled={true} />
                 </Form.Item>
                 <Form.Item
+                    colon={false}
+                    className="advanced-item"
                     name="tacticPublishUserCH"
                     label="发布用户"
                 >

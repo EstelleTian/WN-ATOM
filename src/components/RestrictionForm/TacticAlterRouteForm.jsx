@@ -7,7 +7,7 @@ function TacticAlterRouteForm(props) {
 
 
     const { schemeFormData, form, alterRoutesFieldData, validateSingleRouteFormat } = props;
-    
+
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
@@ -19,7 +19,7 @@ function TacticAlterRouteForm(props) {
 
     function getInitialFieldValue() {
         let obj = {};
-        for(let i=0; i< alterRoutesFieldData.length; i++){
+        for (let i = 0; i < alterRoutesFieldData.length; i++) {
             let field = alterRoutesFieldData[i];
             let name = field.name;
             // 从校验结果集合中查找与此表单匹配的项:遍历校验结果每项的paramIndex值(传递参数时的数字), 当alterRoute+paramIndex 与当前表单name相同则匹配
@@ -39,37 +39,45 @@ function TacticAlterRouteForm(props) {
 
     return (
         <Fragment>
-            <Form
-                form={form}
-                initialValues={initialValues}
-                className="alter-routes-form"
-            >
-                {alterRoutesFieldData.map((item, index) => {
-                    return (
-                        <Row gutter={24} key={item.name}>
-                            <Col span={8} className="">
-                            </Col>
-                            <Col span={8}>
-                                <Form.Item
-                                    {
-                                    ...item
-                                    }
-                                    label={`备选航路${index + 1}`}
-                                    validateTrigger={['onBlur']}
-                                    // hasFeedback
-                                    rules={[
-                                        ({ getFieldValue }) => validateSingleRouteFormat(getFieldValue),
-                                    ]}
-                                >
-                                    <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
-                                </Form.Item>
-                            </Col>
-                            <Col span={8} className="">
-                            </Col>
-                        </Row>
-                    )
-                })}
-            </Form>
+            <Row className="info-row">
+                <Col span={24}>
+                    <Form
+                        form={form}
+                        initialValues={initialValues}
+                        labelAlign='left'
+                        className="alter-routes-form"
+                    >
+                        {alterRoutesFieldData.map((item, index) => {
+                            return (
+                                <Row key={item.name}>
+                                    <Col span={8} className="">
+                                    </Col>
+                                    <Col span={8}>
+                                        <Form.Item
+                                            {
+                                            ...item
+                                            }
+                                            label={`备选航路${index + 1}`}
+                                            validateTrigger={['onBlur']}
+                                            colon={false}
+                                            className="advanced-item"
+                                            // hasFeedback
+                                            rules={[
+                                                ({ getFieldValue }) => validateSingleRouteFormat(getFieldValue),
+                                            ]}
+                                        >
+                                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col span={8} className="">
+                                    </Col>
+                                </Row>
+                            )
+                        })}
+                    </Form>
+
+                </Col>
+            </Row>
         </Fragment>
     )
 }

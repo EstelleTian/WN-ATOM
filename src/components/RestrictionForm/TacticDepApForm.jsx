@@ -93,10 +93,13 @@ function TacticDepApForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
             >
                 <Form.Item
                     name="depAp"
+                    className="advanced-item"
+                    colon={false}
                     label="起飞机场"
                 >
                     <Select
@@ -116,9 +119,9 @@ function TacticDepApForm(props) {
             </Form>
             {
                 disabled ? "" :
-                    <div className="ant-row shortcut-input-row">
+                    <div className="ant-row">
                         <div className="ant-col ant-form-item-label"></div>
-                        <div className="ant-col ant-form-item-control">
+                        <div className="ant-col ant-form-item-control advanced-item-control">
                             <div className="ant-form-item-control-input">
                                 <div className="ant-form-item-control-input-content">
                                     <Space>

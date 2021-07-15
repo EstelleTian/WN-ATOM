@@ -14,6 +14,7 @@ function TacticTemplateNameForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
             >
                 <Form.Item

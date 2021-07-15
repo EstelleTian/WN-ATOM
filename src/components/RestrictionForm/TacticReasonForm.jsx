@@ -42,10 +42,13 @@ function TacticReasonForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
             >
                 <Form.Item
                     name="flowControlReason"
+                    className="advanced-item"
+                    colon={false}
                     label="原因"
                 >
                     <Select style={{ width: 120 }} disabled={props.disabledForm} >

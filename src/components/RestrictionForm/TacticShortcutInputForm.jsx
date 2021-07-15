@@ -116,11 +116,11 @@ function TacticShortcutInputForm(props) {
         //     </Row>
         // )
         return (
-            <div className="ant-row" key={directionData.description} >
-                <div className="ant-col ant-form-item-label">
-                    <label htmlFor={directionData.description} className="" title={directionData.descriptionZh}>{directionData.descriptionZh}</label>
+            <div className="ant-row info-row" key={directionData.description} >
+                <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                    <label htmlFor={directionData.description} className="ant-form-item-no-colon" title={directionData.descriptionZh}>{directionData.descriptionZh}</label>
                 </div>
-                <div className="ant-col ant-form-item-control">
+                <div className="ant-col ant-form-item-control" style={{padding:"2px 8px"  }}>
                     <div className="ant-form-item-control-input">
                         <div className="ant-form-item-control-input-content">
                             <div className="ant-checkbox-group" >
@@ -160,14 +160,16 @@ function TacticShortcutInputForm(props) {
             <Form
                 form={form}
                 initialValues={initialValues}
+                labelAlign='left'
                 className="shortcut-input-form"
             >
                 <Form.Item
                     name="shortcutInputCheckboxSet"
+                    colon={false}
                     className="checkbox-complex"
                     rules={[{ required: true, message: '至少勾选一项基准点' }]}
                 >
-                    <Checkbox.Group value={checkedList}  onChange={(list) => onChange(list)} >
+                    <Checkbox.Group value={checkedList}  onChange={(list) => onChange(list)}  style={{width: "100%"}}>
                         {
                             shortcutFormData.length > 0 ? shortcutFormData.map(item => {
                                 return drawSingleDirectionFields(item)

@@ -12,9 +12,9 @@
       color: inherit;
     }
   }
-  
   .ant-form-item{
-    margin-bottom: 8px;
+    
+    margin: 0;
   }
   .ant-card {
     background: #363636;
@@ -39,16 +39,53 @@
     padding-top: 5px;
   }
   .inner-card {
-    .ant-card-head, .ant-card-body{
+    border: none;
+    .ant-card-head{
       padding-left: 5px;
       padding-right: 5px;
     }
-    .ant-form-item{
-      margin-bottom: 8px;
+    .ant-card-body{
+      padding: 0;
     }
   }
-  .ant-col.ant-form-item-label{
-     min-width: 100px;
+  .exempt-flight-card {
+    .ant-card-head {
+      border-left: 1px solid #424242;
+    }
+  }
+  .info-row {
+    border: 1px solid #4a4a4a;
+    border-bottom: none;
+    .advanced-item {
+      min-height: 100%;
+      > .ant-form-item-control {
+        padding: 2px 8px;
+        justify-content: center;
+      }
+    }
+  }
+  .ant-form-item-control.advanced-item-control {
+    padding: 2px 8px;
+    justify-content: center;
+  }
+  .skeleton-item-control {
+    min-height: 36px;
+  }
+  .info-row:last-child{
+    border-bottom: 1px solid #4a4a4a;
+  }
+  .ant-form-item-label {
+    width: 130px;
+    word-break: break-all;
+    padding: 4px 8px;
+    border-right: 1px solid #4a4a4a;
+    background-color: rgba(255, 255, 255, 0.04);
+    > label {
+      height: 100%;
+      &:not(.ant-form-item-required){
+        margin-left: 11px;
+      }
+    }
   }
   .ant-input-group-addon {
     border: none;
@@ -187,60 +224,13 @@
       text-align: center;
     }
   }
+  .multi-col-row-form {
+    min-height: 100%;
+    height: 100%;
+  }
+  .ant-form-item-explain, .ant-form-item-extra{
+    min-height: auto;
+  }
 
 }
 
-
-
-// .route-menu {
-//   $minWidth : 100px;
-//   .ant-col.ant-form-item-label{
-//     min-width: 100px;
-//  }
-//  .close-bar {
-//   display: flex;
-//   justify-content: flex-end;
-//   .ant-btn {
-//     font-size: 18px;
-//     line-height: 18px;
-//     border:none;
-//     &:hover, &:active, &:focus{
-//       border: none
-//     }
-//   }
-//  }
-//  .ant-dropdown-menu-item{
-//    padding-right: 4px;
-//    cursor: auto;
-//    &:hover {
-//     background-color: inherit;
-//    }
-//  }
- 
-//  .add-route-box {
-//    width: calc(100% - #{$minWidth});
-//    margin-left: $minWidth;
-//    .add-route-button {
-//      width: 100%;
-//    }
-//  }
-//  .delete-button-box {
-//    font-size: 18px;
-//    margin-left: 20px;
-//    color: #204f65;
-//    &:hover {
-//     color: #266E90;
-//     text-decoration: none;
-//    }
-//  }
-//  .save-box {
-//    .ant-form-item-control-input-content{
-//     display: flex;
-//     justify-content: flex-end;
-//     button + button {
-//       margin-left: 8px;
-//     }
-//    }
-   
-//  }
-// }

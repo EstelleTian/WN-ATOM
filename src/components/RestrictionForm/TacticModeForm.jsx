@@ -25,14 +25,16 @@ function TacticModeForm(props) {
     return (
         <Fragment>
             <Form
+                labelAlign='left'
                 form={form}
                 initialValues={initialValues}
             >
                 <Form.Item
                     name="tacticMode"
+                    className="advanced-item"
+                    colon={false}
                     label="方案模式"
                     rules={[{ required: true, message: '请选择方式模式' }]}
-
                 >
                     <Radio.Group disabled={props.disabledForm} >
                         <Radio  value="100">普通模式</Radio>

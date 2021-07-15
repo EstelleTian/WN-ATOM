@@ -102,6 +102,7 @@ function TacticLimitedFlightForm(props) {
     return (
         <Form
             form={form}
+            labelAlign='left'
             initialValues={initialValues}
         >
             <Card className="inner-card" title={props.title} size="">
@@ -110,6 +111,8 @@ function TacticLimitedFlightForm(props) {
                         <Form.Item
                             name="flightId"
                             label="航班号"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Select
                                 disabled={disabled}
@@ -128,6 +131,8 @@ function TacticLimitedFlightForm(props) {
                         <Form.Item
                             name="wakeFlowLevel"
                             label="尾流类型"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={wakeFlowLevelOptions} disabled={disabled} />
                         </Form.Item>
@@ -136,6 +141,8 @@ function TacticLimitedFlightForm(props) {
                         <Form.Item
                             name="auType"
                             label="运营人"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={auTypeOptions} disabled={disabled} />
                         </Form.Item>
@@ -144,6 +151,8 @@ function TacticLimitedFlightForm(props) {
                         <Form.Item
                             name="airlineType"
                             label="航班类型"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={airlineTypeOptions} disabled={disabled} />
                         </Form.Item>
@@ -152,6 +161,8 @@ function TacticLimitedFlightForm(props) {
                         <Form.Item
                             name="missionType"
                             label="客货类型"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={missionTypeOptions} disabled={disabled} />
                         </Form.Item>
@@ -160,6 +171,8 @@ function TacticLimitedFlightForm(props) {
                         <Form.Item
                             name="task"
                             label="任务类型"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={taskOptions} disabled={disabled} />
                         </Form.Item>
@@ -168,6 +181,8 @@ function TacticLimitedFlightForm(props) {
                         <Form.Item
                             name="organization"
                             label="军民航"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={organizationOptions} disabled={disabled} />
                         </Form.Item>
@@ -176,6 +191,8 @@ function TacticLimitedFlightForm(props) {
                         <Form.Item
                             name="ability"
                             label="限制资质"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={abilityOptions} disabled={disabled} />
                         </Form.Item>
@@ -184,6 +201,8 @@ function TacticLimitedFlightForm(props) {
                         <Form.Item
                             name="aircraftType"
                             label="受控机型"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Select
                                 disabled={disabled}

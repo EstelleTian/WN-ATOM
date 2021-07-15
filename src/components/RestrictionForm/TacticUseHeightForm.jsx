@@ -29,15 +29,26 @@ function TacticUseHeightForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
             >
                 <Form.Item
                     name="useHeight"
+                    colon={false}
                     label="高度"
+                    className="advanced-item"
                 >
                     <Input allowClear={true} className="text-uppercase" disabled={disabled} />
                 </Form.Item>
             </Form>
+            {
+                disabled ? "" :
+                    <div className="ant-row">
+                        <div className="ant-col ant-form-item-label"></div>
+                        <div className="ant-col ant-form-item-control skeleton-item-control">
+                        </div>
+                    </div>
+            }
         </Fragment>
     )
 }

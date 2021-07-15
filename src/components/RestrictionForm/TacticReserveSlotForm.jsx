@@ -231,12 +231,14 @@ function TacticReserveSlotForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
             >
                 <Form.Item
                     name="reserveSlot"
                     label="预留时隙"
-                    className={isHide ? "hidden-form-item" : ""}
+                    colon={false}
+                    className="advanced-item"
                     rules={[
                         ({ getFieldValue }) => validateReserveSlotFormat(getFieldValue),
                     ]}

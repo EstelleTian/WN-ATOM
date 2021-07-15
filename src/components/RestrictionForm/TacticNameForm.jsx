@@ -25,9 +25,12 @@ function TacticNameForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
             >
                 <Form.Item
+                    colon={false}
+                    className="advanced-item"
                     name="tacticName"
                     label="方案名称"
                     required={true}

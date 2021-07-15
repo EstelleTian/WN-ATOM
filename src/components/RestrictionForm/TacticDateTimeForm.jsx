@@ -254,14 +254,17 @@ function TacticDateTimeForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
             >
-                <Row gutter={24} >
+                <Row className="info-row">
                     <Col span={8}>
                         {
                             props.disabledForm ? (
                                 <Form.Item
                                     label="开始时间"
+                                    className="advanced-item"
+                                    colon={false}
                                     required={true}
                                     // className="date-time-form-compact"
                                     name="startDateTimeString"
@@ -272,8 +275,9 @@ function TacticDateTimeForm(props) {
                             ) : (
                                 <Form.Item
                                     label="开始时间"
+                                    colon={false}
                                     required={true}
-                                    className="date-time-form-compact"
+                                    className="date-time-form-compact advanced-item"
                                 >
                                     <Form.Item
                                         name="startDate"
@@ -326,6 +330,8 @@ function TacticDateTimeForm(props) {
                             props.disabledForm ? (
                                 <Form.Item
                                     label="结束时间"
+                                    className="advanced-item"
+                                    colon={false}
                                     name="endDateTimeString"
                                 >
                                     <Input disabled={props.disabledForm} />
@@ -333,7 +339,8 @@ function TacticDateTimeForm(props) {
                             ) : (
                                 <Form.Item
                                     label="结束时间"
-                                    className="date-time-form-compact"
+                                    colon={false}
+                                    className="date-time-form-compact advanced-item"
                                     required={endDateTimeRequired}
                                 >
                                     <Form.Item

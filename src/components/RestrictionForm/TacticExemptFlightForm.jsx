@@ -102,13 +102,16 @@ function TacticExemptFlightForm(props) {
     return (
         <Form
             form={form}
+            labelAlign='left'
             initialValues={initialValues}
         >
-            <Card className="inner-card" title={props.title} size="">
+            <Card className="inner-card exempt-flight-card" title={props.title} size="">
                 <Row gutter={24}>
                     <Col span={24}>
                         <Form.Item
                             name="exemptionFlightId"
+                            colon={false}
+                            className="advanced-item"
                             label="航班号"
                         >
                             <Select
@@ -128,6 +131,8 @@ function TacticExemptFlightForm(props) {
                         <Form.Item
                             name="exemptionWakeFlowLevel"
                             label="尾流类型"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={exemptionWakeFlowLevelOptions} disabled={disabled} />
                         </Form.Item>
@@ -136,6 +141,8 @@ function TacticExemptFlightForm(props) {
                         <Form.Item
                             name="exemptionAuType"
                             label="运营人"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={exemptionAuTypeOptions} disabled={disabled} />
                         </Form.Item>
@@ -144,6 +151,8 @@ function TacticExemptFlightForm(props) {
                         <Form.Item
                             name="exemptionAirlineType"
                             label="航班类型"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={exemptionAirlineTypeOptions} disabled={disabled} />
                         </Form.Item>
@@ -152,6 +161,8 @@ function TacticExemptFlightForm(props) {
                         <Form.Item
                             name="exemptionMissionType"
                             label="客货类型"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={exemptionMissionTypeOptions} disabled={disabled} />
                         </Form.Item>
@@ -160,6 +171,8 @@ function TacticExemptFlightForm(props) {
                         <Form.Item
                             name="exemptionTask"
                             label="任务类型"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={exemptionTaskOptions} disabled={disabled} />
                         </Form.Item>
@@ -168,6 +181,8 @@ function TacticExemptFlightForm(props) {
                         <Form.Item
                             name="exemptionOrganization"
                             label="军民航"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={exemptionOrganizationOptions} disabled={disabled} />
                         </Form.Item>
@@ -176,6 +191,8 @@ function TacticExemptFlightForm(props) {
                         <Form.Item
                             name="exemptionAbility"
                             label="限制资质"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Checkbox.Group options={exemptionAbilityOptions} disabled={disabled} />
                         </Form.Item>
@@ -184,6 +201,8 @@ function TacticExemptFlightForm(props) {
                         <Form.Item
                             name="exemptionAircraftType"
                             label="受控机型"
+                            colon={false}
+                            className="advanced-item"
                         >
                             <Select
                                 disabled={disabled}

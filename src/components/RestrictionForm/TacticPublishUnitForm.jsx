@@ -45,6 +45,7 @@ function TacticPublishUnitForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
             >
                 <Form.Item
@@ -55,6 +56,8 @@ function TacticPublishUnitForm(props) {
                     <Input disabled={true} />
                 </Form.Item>
                 <Form.Item
+                    colon={false}
+                    className="advanced-item"
                     name="tacticPublishUnitCH"
                     label="发布单位"
                 >

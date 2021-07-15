@@ -41,12 +41,15 @@ function TacticBehindUnitForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
+                className="multi-col-row-form"
             >
                 <Form.Item
                     name="behindUnit"
+                    colon={false}
                     label="后序单元"
-                    className={isHide ? "hidden-form-item" : ""}
+                    className={isHide ? "hidden-form-item advanced-item" : "advanced-item"}
                     rules={[
                         {
                             whitespace: true,

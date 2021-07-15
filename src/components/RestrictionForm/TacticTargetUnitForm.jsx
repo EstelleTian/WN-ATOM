@@ -42,11 +42,14 @@ function TacticTargetUnitForm(props) {
         <Fragment>
             <Form
                 form={form}
+                labelAlign='left'
                 initialValues={initialValues}
+                className="multi-col-row-form"
             >
                 <Form.Item
-                    className={isHide ? "hidden-form-item" : ""}
+                    className={isHide ? "hidden-form-item advanced-item" : "advanced-item"}
                     name="targetUnit"
+                    colon={false}
                     label="基准单元"
                     required={true}
                     rules={[
