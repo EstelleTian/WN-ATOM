@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-07-02 09:58:53
+ * @LastEditTime: 2021-07-14 17:28:17
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -29,11 +29,7 @@ import {
 } from "antd";
 import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 
-
-import {
-  isValidVariable,
-  isValidObject,
-} from "utils/basic-verify";
+import { isValidVariable, isValidObject } from "utils/basic-verify";
 import { NWGlobal } from "utils/global";
 import SchemeModal from "./SchemeModal";
 import { ReqUrls } from "utils/request-urls";
@@ -47,12 +43,12 @@ import "./SchemeList.scss";
 // 接收storage同源消息
 window.addEventListener("storage", function (e) {
   if (e.key === "targetToFlight") {
-    // console.log("storage", e);
+    alert("3  " + e.newValue);
     const newValue = e.newValue || "{}";
     let values = JSON.parse(newValue);
-    const { tacticId = "", flightId = "" } = values;
+    const { tacticId = "", flightId = "", fromType = "" } = values;
     if (isValidVariable(tacticId) && isValidVariable(flightId)) {
-      NWGlobal.targetToFlight(tacticId, flightId);
+      NWGlobal.targetToFlight(tacticId, flightId, fromType);
     }
   }
   localStorage.removeItem("targetToFlight");
@@ -136,9 +132,7 @@ const STitle = (props) => {
       <Spin spinning={schemeListData.loading} indicator={null}>
         <Menu className="spin-menu" selectable={false}>
           <Menu.Item>
-            <span className="menu-item-label">
-              状态:
-            </span>
+            <span className="menu-item-label">状态:</span>
             <Checkbox.Group
               className="scheme-filter-checkbox"
               options={plainOptions}
@@ -148,9 +142,7 @@ const STitle = (props) => {
           </Menu.Item>
           <Menu.Divider></Menu.Divider>
           <Menu.Item>
-            <span className="menu-item-label">
-              NTFM:
-            </span>
+            <span className="menu-item-label">NTFM:</span>
             <Checkbox.Group
               className="scheme-filter-checkbox"
               options={NTFMOptions}
@@ -270,7 +262,7 @@ function SList(props) {
   }, []);
 
   //根据工作待办-协调类-【主办】跳转到放行监控，并高亮待办航班
-  NWGlobal.targetToFlight = (schemeId, flightId) => {
+  NWGlobal.targetToFlight = (schemeId, flightId, fromType) => {
     // alert("schemeId:"+schemeId+" flightId:"+flightId);
     //验证有没有这个方案
     const res = schemeListData.activeScheme(schemeId);
@@ -298,7 +290,12 @@ function SList(props) {
       systemPage.setModalActiveName("todo");
     }
     if (todoList.activeTab !== "1") {
-      todoList.activeTab = "1";
+      alert(fromType);
+      if (fromType === "finished") {
+        todoList.activeTab = "2";
+      } else {
+        todoList.activeTab = "1";
+      }
     }
     let taskId = todoList.getIdByFlightId(flightId);
     if (isValidVariable(taskId)) {

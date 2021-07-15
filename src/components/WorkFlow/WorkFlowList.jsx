@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-07-14 13:22:46
+ * @LastEditTime: 2021-07-14 17:30:49
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -118,14 +118,16 @@ const HandleBtn = function (props) {
       case "FlightApprovalProcess": //航班审批流程
         const tacticId = processVariables.tacticId || ""; //航班对应方案id
         const fmeId = processVariables.fmeId || ""; //航班id
+        // alert("1  " + props.activeTab);
         localStorage.setItem(
           "targetToFlight",
           JSON.stringify({
             tacticId: tacticId,
             flightId: fmeId,
+            fromType: props.activeTab,
           })
         );
-        openTimeSlotFrameWithFlightId(tacticId, fmeId);
+        openTimeSlotFrameWithFlightId(tacticId, fmeId, props.activeTab);
         break;
       case "SchemeApprovalProcess": //方案审批流程
         // console.log("方案审批流程",businessKey);

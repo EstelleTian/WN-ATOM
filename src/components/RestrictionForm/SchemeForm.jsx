@@ -289,9 +289,9 @@ function SchemeForm(props) {
         // 限制数值单位
         let unit = "";
         let { targetUnit = "", behindUnit = "",
-            exemptBehindUnit = "",
-            arrAp = [], exemptArrAp = [],
-            restrictionAFPValueSequence = "", restrictionMITValue = "", restrictionMITValueUnit = [], originRoute = "",
+            exemptBehindUnit = "", 
+            arrAp = [], exemptArrAp = [], 
+            restrictionAFPValueSequence ="", restrictionMITValue="", restrictionMITValueUnit = [], originRoute = "",
             shortcutInputCheckboxSet = [],
 
         } = fieldData;
@@ -334,10 +334,10 @@ function SchemeForm(props) {
         if (inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) {
             // AFP限制类型
             if (restrictionMode === "AFP") {
-                // 拼接名称
-                autoName = `${shortcutInputCheckboxSet} ${descriptions}${restrictionAFPValueSequence}${unit}`;
+                 // 拼接名称
+                 autoName = `${shortcutInputCheckboxSet} ${descriptions}${restrictionAFPValueSequence}${unit}`;
                 //  若restrictionMITValue有值则追加最小间隔显示
-                if (isValidVariable(restrictionMITValue)) {
+                if(isValidVariable(restrictionMITValue)){
                     let subunit = "";
                     if (restrictionMITValueUnit === 'T') {
                         subunit = '分钟'
@@ -357,11 +357,11 @@ function SchemeForm(props) {
             }
         } else if (inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) { // 自定义录入
             // MIT或AFP限制类型
-            if (restrictionMode === "AFP") {
+            if ( restrictionMode === "AFP") {
                 // 拼接名称
                 autoName = `${targetUnit} ${descriptions}${restrictionAFPValueSequence}${unit}`;
                 //  若restrictionMITValue有值则追加最小间隔显示
-                if (isValidVariable(restrictionMITValue)) {
+                if(isValidVariable(restrictionMITValue)){
                     let subunit = "";
                     if (restrictionMITValueUnit === 'T') {
                         subunit = '分钟'
@@ -371,7 +371,7 @@ function SchemeForm(props) {
                     // 拼接名称
                     autoName = `${targetUnit} ${descriptions}${restrictionAFPValueSequence}${unit} 最小间隔${restrictionMITValue}${subunit}`;
                 }
-            } else if (restrictionMode === "MIT") {
+            }else if (restrictionMode === "MIT" ) {
                 // 拼接名称
                 autoName = `${targetUnit} ${descriptions}${restrictionMITValue}${unit}`;
             } else if (restrictionMode == "GS") { // GS限制类型
@@ -1574,7 +1574,6 @@ function SchemeForm(props) {
             flowControlMeasure.originRouteData = schemeFormData.originRouteData;
             // 备选航路数据信息
             let alterRoutesData = schemeFormData.alterRoutesData;
-            // 一定要按每个备选航班的routeRank排序
             let sortedAlterRouteData = alterRoutesData.sort((item1, item2) => {
                 let nameA = item1.routeRank; // ignore upper and lowercase
                 let nameB = item2.routeRank; // ignore upper and lowercase
@@ -1593,7 +1592,7 @@ function SchemeForm(props) {
             flowControlMeasure.alterRouteData3 = sortedAlterRouteData[2]
             flowControlMeasure.alterRouteData4 = sortedAlterRouteData[3]
             flowControlMeasure.alterRouteData5 = sortedAlterRouteData[4]
-        }
+        } 
 
         return schemeData;
     }
@@ -2136,7 +2135,7 @@ function SchemeForm(props) {
         }
     };
 
-
+    
 
     // 初始化用户信息
     useEffect(function () {
@@ -2285,7 +2284,7 @@ function SchemeForm(props) {
                             form={tacticShortcutInputForm} /> : ""
                 }
 
-                <Row className={(restrictionMode !== "CR" && inputMethod ===SchemeFormUtil.INPUTMETHOD_SHORTCUT) ? "" : "info-row"} >
+                <Row className={(restrictionMode !== "CR" && inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) ? "" : "info-row"} >
                     <Col span={8}>
                         <TacticFormerUnitForm
                             pageType={pageType}
@@ -2323,7 +2322,7 @@ function SchemeForm(props) {
                 {
                     restrictionMode === "CR" ? drawAlterRoutes() : ""
                 }
-                <Row className={(restrictionMode !== "CR" && inputMethod ===SchemeFormUtil.INPUTMETHOD_SHORTCUT) ?"":"info-row"}  >
+                <Row className={(restrictionMode !== "CR" && inputMethod === SchemeFormUtil.INPUTMETHOD_SHORTCUT) ? "" : "info-row"}  >
                     <Col span={8}>
                         <TacticExemptFormerUnitForm
                             pageType={pageType}
