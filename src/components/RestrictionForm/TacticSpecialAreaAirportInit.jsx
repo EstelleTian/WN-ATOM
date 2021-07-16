@@ -2,6 +2,8 @@ import React, { Fragment, useEffect } from 'react'
 import { inject, observer } from "mobx-react";
 import { isValidVariable, isValidObject } from 'utils/basic-verify';
 import { request } from 'utils/request'
+import { ReqUrls } from "utils/request-urls";
+
 
 //方案特殊区域机场数据(兰州、西安)初始化组件
 function TacticSpecialAreaAirportInit(props) {
@@ -47,7 +49,7 @@ function TacticSpecialAreaAirportInit(props) {
     const requeSpecialAreaAirportData = () => {
         // 请求参数
         const opt = {
-            url: "http://192.168.194.20:28485/template/user/retrieveAirportTemplate/all?type=TemplateZLAirport",
+            url: ReqUrls.schemeTemplateDataUrl+"retrieveAirportTemplate/all?type=TemplateZLAirport",
             method: 'GET',
             params: {},
             resFunc: (data) => updateSpecialAreaAirportData(data),
