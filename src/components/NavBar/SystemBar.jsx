@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-07-12 16:09:04
+ * @LastEditTime: 2021-07-15 15:45:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
@@ -127,7 +127,7 @@ function SystemBar(props) {
     } catch (e) {
       customNotice({
         type: "error",
-        content: "获取的用户可访问系统列表失败",
+        content: "获取用户可访问系统列表失败",
       });
     }
   }, []);

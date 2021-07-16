@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-23 22:30:05
+ * @LastEditTime: 2021-07-15 15:48:57
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -72,7 +72,8 @@ const ReqUrls = {
     loginVerifyUrl: loginIP+"/uuma-server/user/verify-password",
     //根据用户id获取可跳转系统
     systemListUrl: systemListIP+"/hydrogen-flight-monitor-server-cache/user/system/",
-   
+   //方向列表
+   directionListUrl: systemListIP+"/hydrogen-flight-monitor-server-cache/crs/direction",
     //缩略地图
     mapUrl: "http://10.25.1.51:8081/#/map",
     mapWebUrl: "http://10.25.1.51:8082/#/map",

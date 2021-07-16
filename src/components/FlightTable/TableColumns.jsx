@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-07-01 15:34:21
+ * @LastEditTime: 2021-07-16 09:03:47
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -332,6 +332,7 @@ const CDMNames = {
   FLIGHTID: {
     en: "FLIGHTID",
     cn: "航班号",
+    display: 1,
   },
   ALARM: {
     en: "ALARM",

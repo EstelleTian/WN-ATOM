@@ -55,6 +55,9 @@
             }
         }
     }
+    .title_nav{
+        padding-top: 8px;
+    }
     >span{
         // font-size: 1.57rem;
         position: relative;
@@ -83,6 +86,9 @@
         border-top: 1px solid #13729F;
         border-bottom: 1px solid #13729F;
         border-right: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+        background-color: rgba(255, 255, 255, 0.3)!important;
     }
     //调整按钮组高度
     // .ant-radio-group-large .ant-radio-button-wrapper{
@@ -143,6 +149,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-right: 10px;
     .user_icon{
         margin: 0 10px;
         background: url("../../images/userIcon.png") no-repeat;

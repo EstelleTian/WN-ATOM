@@ -156,9 +156,18 @@ function DCBLineChart(props) {
 
     for (let i = 0; i < dcbkeys.length; i++) {
       const key = dcbkeys[i] || "";
-      const regionDCBVal = regionDCB[key] || null;
-      const insideDCBVal = insideDCB[key] || null;
-      const outsideDCBVal = outsideDCB[key] || null;
+      let regionDCBVal = regionDCB[key];
+      if (regionDCBVal === undefined) {
+        regionDCBVal = null;
+      }
+      let insideDCBVal = insideDCB[key];
+      if (insideDCBVal === undefined) {
+        insideDCBVal = null;
+      }
+      let outsideDCBVal = outsideDCB[key];
+      if (outsideDCBVal === undefined) {
+        outsideDCBVal = null;
+      }
       let xKey = key;
       if (key.length >= 12) {
         xKey = key.substring(0, 12);
@@ -200,6 +209,7 @@ function DCBLineChart(props) {
       xAxis: [
         {
           type: "category",
+          boundaryGap: false,
           data: dcbKeyArr,
           axisLine: {
             lineStyle: {

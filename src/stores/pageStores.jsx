@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-07-12 13:40:06
+ * @LastEditTime: 2021-07-15 16:24:37
  * @LastEditors: Please set LastEditors
  * @Description: 页面相关store
  * @FilePath: \WN-CDM\src\stores\pageStores.jsx
@@ -35,9 +35,16 @@ class SystemPage {
   @observable modalActiveName = "";
   //航班查询
   @observable activeFlightSearch = true;
-  //左侧导航席位
+  //右侧导航席位
   @observable xiwei = "";
-  //左侧导航-时间范围
+  //右侧导航-方向集合
+  @observable dirList = [];
+  //右侧导航-选中方向
+  @observable activeDir = {
+    name: "ALL",
+    nameCN: "全部",
+  };
+  //右侧导航-时间范围
   @observable dateRange = "";
   //用户对象信息
   @observable user = {};
@@ -145,13 +152,13 @@ class SystemPage {
       this.activeFlightSearch = flag;
     }
   }
-  //左侧导航席位
+  //右侧导航席位
   @action setXiwei(name) {
     if (isValidVariable(name)) {
       this.xiwei = name;
     }
   }
-  //左侧导航-时间范围
+  //右侧导航-时间范围
   @action setDateRange(name) {
     if (isValidVariable(name)) {
       this.dateRange = name;
@@ -204,6 +211,15 @@ class SystemPage {
       }
     });
     return { cdmList, crsList };
+  }
+
+  //右侧导航-方向集合
+  @action setDirList(list) {
+    this.dirList = list;
+  }
+  //右侧导航-选中方向
+  @action setActiveDir(dir) {
+    this.activeDir = dir;
   }
 }
 

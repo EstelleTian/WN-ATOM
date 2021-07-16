@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-06-23 21:42:13
+ * @LastEditTime: 2021-07-16 15:31:57
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -63,7 +63,7 @@ const myApplicationListIP= "http://192.168.210.120:81";
 const rangeScopeIP= "http://192.168.210.120:81";
 // 开关配置IP(张杰)
 const switchConfigIP= "http://192.168.194.22:28080";
-// 系统各个标题IP（薛满林）
+// 系统各个标题 / 方向列表 IP（薛满林）
 const systemListIP= "http://192.168.210.120:81";
 
 const ReqUrls = {
@@ -72,7 +72,8 @@ const ReqUrls = {
     loginVerifyUrl: loginIP+"/uuma-server/user/verify-password",
     //根据用户id获取可跳转系统
     systemListUrl: systemListIP+"/hydrogen-flight-monitor-server-cache/user/system/",
-   
+    //方向列表
+    directionListUrl: systemListIP+"/hydrogen-flight-monitor-server-cache/crs/direction",
     //缩略地图
     mapUrl: "http://192.168.194.40:8081/#/map",
     mapWebUrl: "http://192.168.194.40:8082/#/map",

@@ -31,7 +31,7 @@ function useAutoSize(flightTableData) {
       setHeight(height);
     }
     setWidth(width);
-    console.log(111);
+    // console.log(111);
     flightCanvas.oncontextmenu = function () {
       return false;
     };

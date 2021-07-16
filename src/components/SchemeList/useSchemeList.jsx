@@ -36,10 +36,10 @@ function useSchemeList({
 }) {
   const curStatusValues = useRef();
   // 定时器
-  let timer= 0;
+  let timer = 0;
   let [schemeTimeoutId, setSchemeTimeoutId] = useState(0);
   // 开启定时
-  const timerFunc =  (nextRefresh)=> {
+  const timerFunc = (nextRefresh) => {
     // 清除定时器
     clearTimeout(timer);
     timer = setTimeout(() => {
@@ -64,6 +64,7 @@ function useSchemeList({
           system: "",
           region: "",
           ntfmShowType: schemeListData.NTFMShowType.join(","),
+          direction: systemPage.activeDir.name || "",
         };
         const activeSystem = systemPage.activeSystem || {};
         params["filterArrap"] = activeSystem.filterArrap || "";

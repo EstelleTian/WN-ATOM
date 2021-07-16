@@ -9,6 +9,7 @@ import User from "./User";
 import { isValidVariable } from "utils/basic-verify";
 import RefreshBtn from "components/SchemeList/RefreshBtn";
 import DateRange from "./DateRangeBar";
+// import DirectionBar from "./DirectionBar";
 import SystemBar from "./SystemBar";
 import ParameterConfiguration from "./ParameterConfiguration";
 import "./RightNav.scss";
@@ -44,6 +45,7 @@ function RightNav(props) {
         {systemPage.user.id !== "" && (
           <span>
             <DateRange />
+            {/* <DirectionBar /> */}
             <Radio.Group buttonStyle="solid">
               <RefreshBtn />
             </Radio.Group>
@@ -112,10 +114,10 @@ function RightNav(props) {
           </span>
         )}
       </div>
-      <div className="single_user">
+      {/* <div className="single_user">
         <div className="user_icon" />
         <User />
-      </div>
+      </div> */}
     </div>
   );
 }

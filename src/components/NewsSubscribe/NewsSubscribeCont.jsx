@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-05-12 13:13:04
+ * @LastEditTime: 2021-07-16 13:32:14
  * @LastEditors: Please set LastEditors
  * @Description: 消息订阅
  * @FilePath: \WN-CDM\src\pages\NewsSubscribePage\NewsSubscribePage.jsx
@@ -53,7 +53,7 @@ function tabCont(props) {
     }
   }
 
-  console.log(111);
+  // console.log(111);
   return (
     <div className="subscribe_tabs_cont">
       <div className="check_all">

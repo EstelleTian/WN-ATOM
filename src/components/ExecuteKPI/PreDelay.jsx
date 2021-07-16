@@ -124,7 +124,7 @@ function PreDelay(props) {
                                         gapDegree={1}
                                         trailColor="#65737a"
                                     />
-                                    <div className="text-center point">预计起飞正常率</div>
+                                    <div className="text-center point"><span className="prev">预计</span>起飞正常率</div>
                                 </div>
                             </Col>
                             <Col span={12} className="block">
@@ -139,7 +139,7 @@ function PreDelay(props) {
                                         gapDegree={1}
                                         trailColor="#65737a"
                                     />
-                                    <div className="text-center point">实际起飞正常率</div>
+                                    <div className="text-center point"><span className="act">实际</span>起飞正常率</div>
                                 </div>
                             </Col>
                         </Row>
@@ -167,7 +167,7 @@ function PreDelay(props) {
                                 )
                             }
                             <Col span={24} className="block row_model flex">
-                                <div className="text-center point">机场预计起飞正常率</div>
+                                <div className="text-center point">机场<span className="prev">预计</span>起飞正常率</div>
                             </Col>
                         </Row>
                         <Row className="part">
@@ -194,7 +194,7 @@ function PreDelay(props) {
                                 )
                             }
                             <Col span={24} className="block row_model flex">
-                                <div className="text-center point">机场实际起飞正常率</div>
+                                <div className="text-center point">机场<span className="act">实际</span>起飞正常率</div>
                             </Col>
                         </Row>
 

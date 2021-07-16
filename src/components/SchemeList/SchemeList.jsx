@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-07-14 17:28:17
+ * @LastEditTime: 2021-07-16 15:25:45
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -43,7 +43,6 @@ import "./SchemeList.scss";
 // 接收storage同源消息
 window.addEventListener("storage", function (e) {
   if (e.key === "targetToFlight") {
-    alert("3  " + e.newValue);
     const newValue = e.newValue || "{}";
     let values = JSON.parse(newValue);
     const { tacticId = "", flightId = "", fromType = "" } = values;
@@ -204,6 +203,7 @@ function SList(props) {
     performanceKPIData,
     systemPage,
     todoList,
+    myApplicationList,
   } = props;
   const params = match.params || {};
   const from = params.from || ""; //来源
@@ -239,7 +239,6 @@ function SList(props) {
 
   //接收客户端传来方案id，用以自动切换到选中方案
   NWGlobal.setSchemeId = useCallback((schemeId, title) => {
-    // alert("收到id:" + schemeId + "  title:" + title);
     //主动获取一次
     getSchemeList().then(function (data) {
       //验证有没有这个方案
@@ -263,7 +262,6 @@ function SList(props) {
 
   //根据工作待办-协调类-【主办】跳转到放行监控，并高亮待办航班
   NWGlobal.targetToFlight = (schemeId, flightId, fromType) => {
-    // alert("schemeId:"+schemeId+" flightId:"+flightId);
     //验证有没有这个方案
     const res = schemeListData.activeScheme(schemeId);
     if (isValidObject(res)) {
@@ -289,18 +287,13 @@ function SList(props) {
     if (systemPage.modalActiveName !== "todo") {
       systemPage.setModalActiveName("todo");
     }
-    if (todoList.activeTab !== "1") {
-      alert(fromType);
-      if (fromType === "finished") {
-        todoList.activeTab = "2";
-      } else {
-        todoList.activeTab = "1";
-      }
-    }
-    let taskId = todoList.getIdByFlightId(flightId);
-    if (isValidVariable(taskId)) {
-      //根据 taskId 高亮工作流
-      todoList.focusTaskId = taskId;
+
+    if (fromType === "finished") {
+      todoList.activeTab = "2";
+      myApplicationList.focusFlightId = flightId;
+    } else {
+      todoList.activeTab = "1";
+      todoList.focusFlightId = flightId;
     }
   };
 
@@ -401,7 +394,8 @@ const SchemeList = withRouter(
     "executeKPIData",
     "performanceKPIData",
     "systemPage",
-    "todoList"
+    "todoList",
+    "myApplicationList"
   )(observer(SList))
 );
 
