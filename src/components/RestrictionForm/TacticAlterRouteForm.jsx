@@ -12,6 +12,10 @@ function TacticAlterRouteForm(props) {
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
+    // 是否为禁用页面类型
+    const isDisabledPageType = SchemeFormUtil.getIsDisabledPageType().includes(pageType)
+    // 是否禁用
+    const disabled = props.disabledForm || isDisabledPageType;
     // 备选航路数据
     const alterRoutesData = schemeFormData.alterRoutesData;
     // 表单初始化默认值
@@ -66,7 +70,7 @@ function TacticAlterRouteForm(props) {
                                                 ({ getFieldValue }) => validateSingleRouteFormat(getFieldValue),
                                             ]}
                                         >
-                                            <Input allowClear={true} className="text-uppercase" disabled={props.disabledForm} />
+                                            <Input allowClear={true} className="text-uppercase" disabled={disabled} />
                                         </Form.Item>
                                     </Col>
                                     <Col span={8} className="">
