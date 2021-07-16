@@ -3,6 +3,7 @@ import { inject, observer } from "mobx-react";
 import { isValidVariable, isValidObject } from 'utils/basic-verify';
 import { request } from 'utils/request'
 import { customNotice } from 'utils/common-funcs'
+import { ReqUrls } from "utils/request-urls";
 
 //方案区域省份机场数据初始化组件
 function TacticAreaProvinceAirportInit(props) {
@@ -54,7 +55,7 @@ function TacticAreaProvinceAirportInit(props) {
     const requeAreaProvinceAirportData = () => {
         // 请求参数
         const opt = {
-            url: "http://192.168.194.20:28485/template/user/retrieveAirportTemplate/all",
+            url: ReqUrls.schemeTemplateDataUrl+'retrieveAirportTemplate/all',
             method: 'GET',
             params: {},
             resFunc: (data) => updateAreaAirportData(data),
