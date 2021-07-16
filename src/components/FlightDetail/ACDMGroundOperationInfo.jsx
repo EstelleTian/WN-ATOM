@@ -5,7 +5,8 @@ import { inject, observer } from "mobx-react";
 //A-CDM地面运行保障信息
 const ACDMGroundOperationInfo = (props) => {
   const { flightDetailData } = props;
-  const { flight } = flightDetailData;
+  const { flightData = {} } = flightDetailData;
+  const { groundFlight = {} } = flightData;
   return (
     <Fragment>
       <Row className="info-row">
@@ -96,7 +97,9 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content"></div>
+                <div className="ant-form-item-control-input-content">
+                  {groundFlight.abipAcdm || ""}
+                </div>
               </div>
             </div>
           </div>
@@ -105,7 +108,9 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content"></div>
+                <div className="ant-form-item-control-input-content">
+                  {groundFlight.aibtAcdm || ""}
+                </div>
               </div>
             </div>
           </div>
@@ -114,7 +119,9 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content"></div>
+                <div className="ant-form-item-control-input-content">
+                  {groundFlight.atdcAcdm || ""}
+                </div>
               </div>
             </div>
           </div>
@@ -123,7 +130,9 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content"></div>
+                <div className="ant-form-item-control-input-content">
+                  {groundFlight.startFuelTimeAcdm || ""}
+                </div>
               </div>
             </div>
           </div>
@@ -132,7 +141,9 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content"></div>
+                <div className="ant-form-item-control-input-content">
+                  {groundFlight.startCleanTimeAcdm || ""}
+                </div>
               </div>
             </div>
           </div>
@@ -141,7 +152,9 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content"></div>
+                <div className="ant-form-item-control-input-content">
+                  {groundFlight.startFoodTimeAcdm || ""}
+                </div>
               </div>
             </div>
           </div>
@@ -150,7 +163,9 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content"></div>
+                <div className="ant-form-item-control-input-content">
+                  {groundFlight.atfoAcdm || ""}
+                </div>
               </div>
             </div>
           </div>
@@ -235,7 +250,9 @@ const ACDMGroundOperationInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content"></div>
+                <div className="ant-form-item-control-input-content">
+                  {groundFlight.endFoodTimeAcdm || ""}
+                </div>
               </div>
             </div>
           </div>

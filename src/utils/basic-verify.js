@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-15 15:12:48
- * @LastEditTime: 2021-04-02 12:44:03
+ * @LastEditTime: 2021-07-16 16:09:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\utils\basic-verify.js
@@ -176,6 +176,8 @@ const formatTimeString = ( str, type ) => {
         const seconds = str.substring(12, 14);
         if( type === 2){
             return day + '/' + hour  + ':' + mins;
+        }else if( type === 3){
+            return day + '/' + hour  + mins;
         }else if(type === 1 && ( str.length === 14 || str.length === 16 )){
             return year + '-' + month + '-' + day + ' ' + hour  + ':' + mins + ':' + seconds;
         }

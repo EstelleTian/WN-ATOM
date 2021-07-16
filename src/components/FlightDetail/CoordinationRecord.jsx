@@ -166,7 +166,7 @@ const columns = [
         text = text.substring(0, 14);
       }
       const timeTitle = formatTimeString(text);
-      const time = formatTimeString(text, 2);
+      const time = formatTimeString(text, 3);
       return <div title={timeTitle}>{time}</div>;
     },
   },

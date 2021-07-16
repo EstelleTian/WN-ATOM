@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-07-14 15:22:20
+ * @LastEditTime: 2021-07-16 16:06:04
  * @LastEditors: Please set LastEditors
  * @Description: 航班查询-单个航班详情
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
@@ -17,7 +17,7 @@ import {
   isValidVariable,
 } from "utils/basic-verify";
 import { FlightCoordination, reasonType } from "utils/flightcoordination";
-
+import { customNotice } from "utils/common-funcs";
 import { List, Form, Drawer, Tooltip, Tag, Row, Col, Tabs } from "antd";
 
 const { TabPane } = Tabs;

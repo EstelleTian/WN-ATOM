@@ -2,6 +2,12 @@ import React, { Fragment } from "react";
 import { Row, Col } from "antd";
 import { Table, Spin, Modal } from "antd";
 import { inject, observer } from "mobx-react";
+import {
+  isValidVariable,
+  isValidObject,
+  formatTimeString,
+  getDayTimeFromString
+} from "utils/basic-verify";
 const columns = [
   {
     title: "离场程序",
@@ -22,6 +28,14 @@ const columns = [
     ellipsis: true,
     className: "efps_reqTime",
     showSorterTooltip: false,
+    render: (text, record, index) => {
+      if (text.length > 14) {
+        text = text.substring(0, 14);
+      }
+      const timeTitle = formatTimeString(text);
+      const time = formatTimeString(text, 3);
+      return <div title={timeTitle}>{time}</div>;
+    },
   },
   {
     title: "推出时间",
@@ -32,6 +46,14 @@ const columns = [
     ellipsis: true,
     className: "efps_pusTime",
     showSorterTooltip: false,
+    render: (text, record, index) => {
+      if (text.length > 14) {
+        text = text.substring(0, 14);
+      }
+      const timeTitle = formatTimeString(text);
+      const time = formatTimeString(text, 3);
+      return <div title={timeTitle}>{time}</div>;
+    },
   },
   {
     title: "除冰坪",
@@ -94,24 +116,36 @@ const columns = [
     showSorterTooltip: false,
   },
 ];
+//转化为规定格式
+const convertToTableData = (efpsFlight = {}) => {
+  let res = [];
+  let obj = {
+    key: "100",
+    efps_sid: efpsFlight.id || "",
+    efps_reqTime: efpsFlight.reqTime || "",
+    efps_pusTime: efpsFlight.pusTime || "",
+    efps_iceId: efpsFlight.iceId || "",
+    efps_inIceTime: efpsFlight.inIceTime || "",
+    efps_inDhlTime: efpsFlight.inDhlTime || "",
+    efps_outDhlTime: efpsFlight.outDhlTime || "",
+    efps_outIcTime: efpsFlight.outIcTime || "",
+    efps_linTime: efpsFlight.linTime || "",
+  };
+
+  res.push(obj);
+  console.log(res);
+  return res;
+};
 //电子进程单
 const CoordinationRecord = (props) => {
   const { flightDetailData } = props;
-  const { flight } = flightDetailData;
-  let data = [
-    {
-      key: "100",
-      efps_sid: "",
-      efps_reqTime: "",
-      efps_pusTime: "",
-      efps_iceId: "",
-      efps_inIceTime: "",
-      efps_inDhlTime: "",
-      efps_outDhlTime: "",
-      efps_outIcTime: "",
-      efps_linTime: "",
-    },
-  ];
+  const { flightData = {} } = flightDetailData;
+  const { efpsFlight = {} } = flightData;
+  let data = [];
+  if (isValidObject(efpsFlight)) {
+    data = convertToTableData(efpsFlight);
+  }
+
   return (
     <Fragment>
       <Table

@@ -5,7 +5,8 @@ import { inject, observer } from "mobx-react";
 //A-CDM其他信息
 const ACDMOtherInfo = (props) => {
   const { flightDetailData } = props;
-  const { flight } = flightDetailData;
+  const { flightData = {} } = flightDetailData;
+  const { groundFlight = {} } = flightData;
   return (
     <Fragment>
       <Row className="info-row">
