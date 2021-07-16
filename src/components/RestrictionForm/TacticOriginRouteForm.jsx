@@ -3,12 +3,14 @@ import { Form, Input } from 'antd'
 import { inject, observer } from "mobx-react";
 import { request } from 'utils/request'
 import { isValidObject } from 'utils/basic-verify'
+import { SchemeFormUtil } from 'utils/scheme-form-util'
+
 
 
 
 //方案基准单元表单
 function TacticOriginRouteForm(props) {
-    const { schemeFormData, form, validateOriginRouteFormat, originRouteField } = props;
+    const { schemeFormData, form, validateOriginRouteFormat, originRouteField , pageType } = props;
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称

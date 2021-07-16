@@ -743,6 +743,7 @@ function SchemeForm(props) {
     const drawAlterRoutes = () => {
         return (
             <TacticAlterRouteForm
+                pageType={pageType}
                 form={tacticAlterRouteForm}
                 disabledForm={props.disabledForm}
                 alterRoutesFieldData={alterRoutesField}
@@ -2301,6 +2302,7 @@ function SchemeForm(props) {
                     {
                         restrictionMode === "CR" ? <Col span={8}>
                             <TacticOriginRouteForm
+                                pageType={pageType}
                                 originRouteField={originRouteField}
                                 disabledForm={props.disabledForm}
                                 form={tacticOriginRouteForm}

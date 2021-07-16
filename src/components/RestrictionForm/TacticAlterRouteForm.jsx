@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect } from 'react'
 import { Form, Row, Col, Input } from 'antd'
 import { inject, observer } from "mobx-react";
+import { SchemeFormUtil } from 'utils/scheme-form-util'
 
 //方案基准单元表单
 function TacticAlterRouteForm(props) {
 
 
-    const { schemeFormData, form, alterRoutesFieldData, validateSingleRouteFormat } = props;
+    const { schemeFormData, form, alterRoutesFieldData, validateSingleRouteFormat, pageType  } = props;
 
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
