@@ -12,10 +12,11 @@ const { Option } = Select;
 function TacticMeasureForm(props) {
 
     const restrictionModeOptions = [
-        { "key": "AFP", "text": "AFP" },
-        { "key": "MIT", "text": "MIT" },
-        { "key": "CR", "text": "改航" },
-        { "key": "GS", "text": "GS" },
+        { "key": "AFP", "text": "AFP", "title": "AFP" },
+        { "key": "MIT", "text": "MIT", "title": "MIT"  },
+        { "key": "CR", "text": "CR", "title": "改航"  },
+        { "key": "GS", "text": "GS", "title": "GS"  },
+        { "key": "TC", "text": "TC", "title": "总量控制"  },
         // {"key":"GDP", "text": "GDP"},
         // {"key":"AS", "text": "指定时隙"},
         // {"key":"BREQ", "text": "上客申请"},
@@ -30,6 +31,10 @@ function TacticMeasureForm(props) {
     const restrictionMode = schemeFormData.restrictionMode || "";
     // AFP限制方式下限制数值
     const restrictionAFPValueSequence = schemeFormData.restrictionAFPValueSequence || ""
+    // TC限制方式下限制分钟
+    const restrictionTCPeriodDuration = schemeFormData.restrictionTCPeriodDuration || ""
+    // TC限制方式下限制架次
+    const restrictionTCPeriodValue = schemeFormData.restrictionTCPeriodValue || ""
     // MIT限制方式下的限制数值
     const restrictionMITValue = schemeFormData.restrictionMITValue || "";
     // MIT限制方式下限制类型 T:时间 D:距离
@@ -59,7 +64,7 @@ function TacticMeasureForm(props) {
     }, [restrictionMode, restrictionAFPValueSequence, restrictionMITValue]);
 
     useEffect(function () {
-        if(restrictionMode === "MIT") {
+        if (restrictionMode === "MIT") {
             //重置表单，用以表单初始值赋值
             form.resetFields();
         }
@@ -79,6 +84,8 @@ function TacticMeasureForm(props) {
     let initialValues = {
         restrictionMode,
         restrictionAFPValueSequence,
+        restrictionTCPeriodDuration,
+        restrictionTCPeriodValue,
         restrictionMITValue,
         restrictionMITValueUnit,
         restrictionMITTimeValue,
@@ -90,7 +97,7 @@ function TacticMeasureForm(props) {
     *
     */
     const handleRestrictionMITValueUnitChange = (modeType) => {
-         if(restrictionMode === "AFP"){
+        if (restrictionMode === "AFP") {
             // 重置MIT限制数值
             form.setFieldsValue({ 'restrictionMITValue': '' });
         }
@@ -332,45 +339,201 @@ function TacticMeasureForm(props) {
         )
     }
 
+    // 绘制TC限制类型下限制数值表单
+    const drawTCModeValue = () => {
+        return (
+            <div className="AFP-mode-value-container">
+                <Form.Item
+                    label="限制值"
+                    required={true}
+                    className="value-item TC-mode advanced-item"
+                >
+                    <Form.Item
+                        required={true}
+                        name="restrictionTCPeriodDuration"
+                        className="value-item TC-period-duration"
+                        rules={[
+                            {
+                                required: true,
+                                message: '请输入限制值分钟数值'
+                            },
+                            {
+                                type: 'string',
+                                pattern: REGEXP.INTEGER0_999,
+                                message: '请输入0~999范围内的整数',
+                            },
+                        ]}
+                    >
+                        <Input
+                            style={{ width: 150 }}
+                            disabled={props.disabledForm}
+                            // onChange={handleRestrictionModeValueChange}
+                            addonAfter="分钟"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                         
+                        required={true}
+                        name="restrictionTCPeriodValue"
+                        className="value-item TC-period-value"
+                        rules={[
+                            {
+                                required: true,
+                                message: '请输入限制值架次'
+                            },
+                            {
+                                type: 'string',
+                                pattern: REGEXP.INTEGER0_999,
+                                message: '请输入0~999范围内的整数',
+                            },
+                        ]}
+                    >
+                        <Input
+                            style={{ width: 150 }}
+                            disabled={props.disabledForm}
+                            // onChange={handleRestrictionModeValueChange}
+                            addonAfter="架"
+                        />
+                    </Form.Item>
+                </Form.Item>
+
+                <Form.Item
+                    label="最小间隔"
+
+                    className="MIT-mode-value-unit-form-compact advanced-item"
+                >
+                    <Form.Item
+                        name="restrictionMITValueUnit"
+                        className="MIT-value-unit"
+                    >
+                        <Select onChange={handleRestrictionMITValueUnitChange} disabled={props.disabledForm} >
+                            <Option key="T">分钟/架</Option>
+                            <Option key="D">公里/架</Option>
+                        </Select>
+                    </Form.Item>
+                    <Form.Item
+                        label=""
+                        required={true}
+                        name="restrictionMITValue"
+                        className="value-item"
+                        rules={[
+                            // {
+                            //     required: true,
+                            //     message: '请输入限制值'
+                            // },
+                            {
+                                type: 'string',
+                                pattern: REGEXP.INTEGER0_999,
+                                message: '请输入0~999范围内的整数',
+                            },
+                        ]}
+                    >
+                        <Input
+                            style={{ width: 70, marginLeft: 5 }}
+                            onChange={props.updateMITTimeValueChange}
+                            // onBlur={updateMITTimeValueChange}
+                            disabled={props.disabledForm}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        label=""
+                        className={restrictionMITValueUnit === "D" ? "" : "hidden"}
+                    >
+                        <div className="symbol">/</div>
+                    </Form.Item>
+                    <Form.Item
+                        label=""
+                        required={true}
+                        name="distanceToTime"
+                        className={restrictionMITValueUnit === "D" ? "" : "hidden"}
+                        rules={[
+                            {
+                                required: true,
+                                message: '请输入速度值'
+                            },
+                            {
+                                type: 'string',
+                                pattern: REGEXP.INTEGER0_999,
+                                message: '请输入0~999范围内的整数',
+                            },
+                        ]}
+                    >
+                        <Input
+                            style={{ width: 50 }}
+                            disabled={true}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        label=""
+                        className={restrictionMITValueUnit === "D" ? "" : "hidden"}
+                    >
+                        <div className="symbol">≈</div>
+                    </Form.Item>
+                    <Form.Item
+                        label=""
+                        className={restrictionMITValueUnit === "D" ? "" : "hidden"}
+                        name="restrictionMITTimeValue"
+                    >
+                        <Input
+                            style={{ width: 50 }}
+                            disabled={true}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        label=""
+                        className={restrictionMITValueUnit === "D" ? "" : "hidden"}
+                    >
+                        <div className="">分钟/架</div>
+                    </Form.Item>
+
+                </Form.Item>
+
+            </div>
+        )
+    }
+
     return (
         <Fragment>
             <Row className="info-row" >
                 <Col span={24}>
-                <Form
-                form={form}
-                labelAlign='left'
-                initialValues={initialValues}
-            >
-                <Row>
-                    <Col span={8}>
-                        <Form.Item
-                            name="restrictionMode"
-                            label="限制方式"
-                            colon={false}
-                            required={true}
-                            className="advanced-item"
-                            rules={[{ required: true, message: '请选择限制方式' }]}
-                        >
-                            <Select style={{ width: 120 }} onChange={handleRestrictionModeChange} disabled={disabled} >
-                                {restrictionModeOptions.map(mode => (
-                                    <Option key={mode.key}>{mode.text}</Option>
-                                ))}
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={16}>
-                        {
-                            restrictionMode === "MIT" ? drawMITModeValue() : ""
-                        }
-                        {
-                            restrictionMode === "AFP" ? drawAFPModeValue() : ""
-                        }
-                    </Col>
-                </Row>
-            </Form>
+                    <Form
+                        form={form}
+                        labelAlign='left'
+                        initialValues={initialValues}
+                    >
+                        <Row>
+                            <Col span={8}>
+                                <Form.Item
+                                    name="restrictionMode"
+                                    label="限制方式"
+                                    colon={false}
+                                    required={true}
+                                    className="advanced-item"
+                                    rules={[{ required: true, message: '请选择限制方式' }]}
+                                >
+                                    <Select style={{ width: 120 }} onChange={handleRestrictionModeChange} disabled={disabled} >
+                                        {restrictionModeOptions.map(mode => (
+                                            <Option title={mode.title} key={mode.key}>{mode.text}</Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            <Col span={16}>
+                                {
+                                    restrictionMode === "MIT" ? drawMITModeValue() : ""
+                                }
+                                {
+                                    restrictionMode === "AFP" ? drawAFPModeValue() : ""
+                                }
+                                {
+                                    restrictionMode === "TC" ? drawTCModeValue() : ""
+                                }
+                            </Col>
+                        </Row>
+                    </Form>
                 </Col>
             </Row>
-            
+
         </Fragment>
     )
 }

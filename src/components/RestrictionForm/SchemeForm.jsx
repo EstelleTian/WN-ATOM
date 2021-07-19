@@ -291,7 +291,10 @@ function SchemeForm(props) {
         let { targetUnit = "", behindUnit = "",
             exemptBehindUnit = "",
             arrAp = [], exemptArrAp = [],
-            restrictionAFPValueSequence = "", restrictionMITValue = "", restrictionMITValueUnit = [], originRoute = "",
+            restrictionAFPValueSequence = "", 
+            restrictionTCPeriodDuration="",
+            restrictionTCPeriodValue="",
+            restrictionMITValue = "", restrictionMITValueUnit = [], originRoute = "",
             shortcutInputCheckboxSet = [],
 
         } = fieldData;
@@ -354,6 +357,20 @@ function SchemeForm(props) {
             } else if (restrictionMode == "GS") { // GS限制类型
                 // 拼接名称
                 autoName = `${shortcutInputCheckboxSet} ${descriptions}停放`;
+            } else if(restrictionMode === "TC"){
+                // 拼接名称
+                autoName = `${shortcutInputCheckboxSet} ${descriptions}${restrictionTCPeriodDuration}分钟${restrictionTCPeriodValue}架次`;
+                //  若restrictionMITValue有值则追加最小间隔显示
+                if (isValidVariable(restrictionMITValue)) {
+                    let subunit = "";
+                    if (restrictionMITValueUnit === 'T') {
+                        subunit = '分钟'
+                    } else if (restrictionMITValueUnit === 'D') {
+                        subunit = '公里'
+                    }
+                    // 拼接名称
+                    autoName = `${shortcutInputCheckboxSet} ${descriptions}${restrictionTCPeriodDuration}分钟${restrictionTCPeriodValue}架次 最小间隔${restrictionMITValue}${subunit}`;
+                }
             }
         } else if (inputMethod === SchemeFormUtil.INPUTMETHOD_CUSTOM) { // 自定义录入
             // MIT或AFP限制类型
@@ -377,6 +394,20 @@ function SchemeForm(props) {
             } else if (restrictionMode == "GS") { // GS限制类型
                 // 拼接名称
                 autoName = `${targetUnit} ${descriptions}停放`;
+            }else if(restrictionMode === "TC"){
+                // 拼接名称
+                autoName = `${targetUnit} ${descriptions}${restrictionTCPeriodDuration}分钟${restrictionTCPeriodValue}架次`;
+                //  若restrictionMITValue有值则追加最小间隔显示
+                if (isValidVariable(restrictionMITValue)) {
+                    let subunit = "";
+                    if (restrictionMITValueUnit === 'T') {
+                        subunit = '分钟'
+                    } else if (restrictionMITValueUnit === 'D') {
+                        subunit = '公里'
+                    }
+                    // 拼接名称
+                    autoName = `${targetUnit} ${descriptions}${restrictionTCPeriodDuration}分钟${restrictionTCPeriodValue}架次 最小间隔${restrictionMITValue}${subunit}`;
+                }
             }
         }
         return autoName;
@@ -605,6 +636,8 @@ function SchemeForm(props) {
             const fields = [
                 'restrictionMode',
                 'restrictionAFPValueSequence',
+                'restrictionTCPeriodDuration',
+                'restrictionTCPeriodValue',
                 'restrictionMITValue',
                 'restrictionMITValueUnit',
             ];
@@ -1458,6 +1491,8 @@ function SchemeForm(props) {
             startTime,
             endTime,
             restrictionAFPValueSequence,
+            restrictionTCPeriodDuration,
+            restrictionTCPeriodValue,
             restrictionMITValue,
             restrictionMITTimeValue,
             reserveSlot,
@@ -1561,6 +1596,10 @@ function SchemeForm(props) {
         flightPropertyDomain.exemptionAircraftType = exemptionAircraftType;
         // 更新AFP限制值
         flowControlMeasure.restrictionAFPValueSequence = restrictionAFPValueSequence;
+        // 更新TC限制分钟值
+        flowControlMeasure.restrictionTCPeriodDuration = restrictionTCPeriodDuration;
+        // 更新TC限制架次值
+        flowControlMeasure.restrictionTCPeriodValue = restrictionTCPeriodValue;
         // 更新MIT限制值
         flowControlMeasure.restrictionMITValue = restrictionMITValue;
         // 更新MIT限制单位
@@ -1779,6 +1818,10 @@ function SchemeForm(props) {
         const reserveSlot = tacticReserveSlotForm.getFieldValue('reserveSlot');
         // AFP限制数值
         const restrictionAFPValueSequence = tacticMeasureForm.getFieldValue('restrictionAFPValueSequence');
+        // TC限制分钟数值
+        const restrictionTCPeriodDuration = tacticMeasureForm.getFieldValue('restrictionTCPeriodDuration');
+        // TC限制架次数值
+        const restrictionTCPeriodValue = tacticMeasureForm.getFieldValue('restrictionTCPeriodValue');
         // MIT限制数值
         const restrictionMITValue = tacticMeasureForm.getFieldValue('restrictionMITValue');
         // MIT时间间隔字段数值
@@ -1882,6 +1925,8 @@ function SchemeForm(props) {
             exemptBehindUnit,
             reserveSlot: isValidVariable(reserveSlot) ? reserveSlot.join(',') : "",
             restrictionAFPValueSequence,
+            restrictionTCPeriodDuration,
+            restrictionTCPeriodValue,
             restrictionMITValue,
             restrictionMITTimeValue,
             // 起飞机场
@@ -2126,7 +2171,7 @@ function SchemeForm(props) {
             const restrictionMITValue = tacticMeasureForm.getFieldValue('restrictionMITValue')
             const distanceToTime = tacticMeasureForm.getFieldValue('distanceToTime')
             // 若限制类型为MIT
-            if (restrictionMode === 'MIT' || restrictionMode === 'AFP') {
+            if (restrictionMode === 'MIT' || restrictionMode === 'AFP' || restrictionMode === 'TC') {
                 if (restrictionMITValueUnit === 'T') {
                     tacticMeasureForm.setFieldsValue({ 'restrictionMITTimeValue': restrictionMITValue })
                 } else if (restrictionMITValueUnit === 'D') {

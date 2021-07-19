@@ -58,6 +58,10 @@ class SchemeForm {
 
     // AFP限制方式下限制数值
     @observable restrictionAFPValueSequence = "";
+    // TC限制方式下限制分钟
+    @observable restrictionTCPeriodDuration = "";
+    // TC限制方式下限制架次
+    @observable restrictionTCPeriodValue = "";
 
     // 基准单元
     @observable targetUnit = "";
@@ -197,6 +201,10 @@ class SchemeForm {
 
         // AFP限制方式下限制数值
         const restrictionAFPValueSequence = flowControlMeasure.restrictionAFPValueSequence || "";
+        // TC限制方式下限制分钟
+        const restrictionTCPeriodDuration = flowControlMeasure.restrictionTCPeriodDuration || "";
+        // TC限制方式下限制架次
+        const restrictionTCPeriodValue = flowControlMeasure.restrictionTCPeriodValue || "";
         // 原航路信息数据集合
         const originRouteData = flowControlMeasure.originRouteData || {};
         // 原航路值
@@ -317,6 +325,10 @@ class SchemeForm {
         this.distanceToTime = distanceToTime;
         // 更新AFP限制方式下限制数值
         this.restrictionAFPValueSequence = restrictionAFPValueSequence;
+        // 更新限制方式下限制分钟
+        this.restrictionTCPeriodDuration = restrictionTCPeriodDuration;
+        // 更新限制方式下限制架次
+        this.restrictionTCPeriodValue = restrictionTCPeriodValue;
         // 更新基准单元
         this.targetUnit = targetUnit;
         // 更新前序单元
@@ -416,6 +428,10 @@ class SchemeForm {
 
         // AFP限制方式下限制数值
         const restrictionAFPValueSequence = flowControlMeasure.restrictionAFPValueSequence || "";
+        // TC限制方式下限制分钟
+        const restrictionTCPeriodDuration = flowControlMeasure.restrictionTCPeriodDuration || "";
+        // TC限制方式下限制架次
+        const restrictionTCPeriodValue = flowControlMeasure.restrictionTCPeriodValue || "";
         // 原航路信息数据集合
         const originRouteData = flowControlMeasure.originRouteData || {};
         // 原航路值
@@ -518,6 +534,10 @@ class SchemeForm {
         this.distanceToTime = distanceToTime;
         // 更新AFP限制方式下限制数值
         this.restrictionAFPValueSequence = restrictionAFPValueSequence;
+        // 更新限制方式下限制分钟
+        this.restrictionTCPeriodDuration = restrictionTCPeriodDuration;
+        // 更新限制方式下限制架次
+        this.restrictionTCPeriodValue = restrictionTCPeriodValue;
         // 更新基准单元
         this.targetUnit = targetUnit;
         // 更新前序单元

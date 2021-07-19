@@ -63,6 +63,17 @@
         justify-content: center;
       }
     }
+    .TC-mode {
+      > .ant-form-item-control {
+        > .ant-form-item-control-input{
+          > .ant-form-item-control-input-content {
+            display: flex;
+            flex-direction: row;
+          }
+        }
+      }
+    }
+    
   }
   .ant-form-item-control.advanced-item-control {
     padding: 2px 8px;
