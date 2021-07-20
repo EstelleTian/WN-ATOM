@@ -54,7 +54,7 @@ function useSchemeList({
       clearTimeout(timer);
       try {
         let params = {
-          status: curStatusValues.current.join(","),
+          status: "",
           startTime: "",
           endTime: "",
           userId: systemPage.user.id || "",
@@ -63,8 +63,8 @@ function useSchemeList({
           filterDepap: "",
           system: "",
           region: "",
-          ntfmShowType: schemeListData.NTFMShowType.join(","),
-          direction: systemPage.activeDir.name || "",
+          ntfmShowType: "",
+          direction: "ALL",
         };
         const activeSystem = systemPage.activeSystem || {};
         params["filterArrap"] = activeSystem.filterArrap || "";
@@ -120,6 +120,7 @@ function useSchemeList({
       const { basicTacticInfo } = item;
       return basicTacticInfo;
     });
+    // const list = [tacticProcessInfos[0].basicTacticInfo];
     //更新 方案列表 store
     schemeListData.updateList(list, generateTime);
     systemPage.setBaseDate(generateTime);
@@ -153,8 +154,8 @@ function useSchemeList({
     }
   }, [
     systemPage.user.id,
-    schemeListData.statusValues,
-    schemeListData.NTFMShowType,
+    // schemeListData.statusValues,
+    // schemeListData.NTFMShowType,
   ]);
 
   //监听全局刷新

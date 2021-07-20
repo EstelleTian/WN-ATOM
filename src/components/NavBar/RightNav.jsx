@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useMemo } from "react";
 import { Radio, Badge, Button, Avatar } from "antd";
 import { UserOutlined, SearchOutlined } from "@ant-design/icons";
 import { observer, inject } from "mobx-react";
@@ -14,8 +14,7 @@ import SystemBar from "./SystemBar";
 import ParameterConfiguration from "./ParameterConfiguration";
 import "./RightNav.scss";
 
-function RightNav(props) {
-  const { systemPage, schemeListData } = props;
+function RightNav({ systemPage, schemeListData }) {
   //执行KPI
   const groupRightChange = (e) => {
     const value = e.target.value;
@@ -38,6 +37,25 @@ function RightNav(props) {
   const system = activeSystem.system || "";
   // 是否为CDM
   const isCDM = system.indexOf("CDM") > -1;
+
+  //根据方向过滤方案
+  const schemeList = useMemo(() => {
+    let list = schemeListData.sortedList || [];
+    const activeDir = systemPage.activeDir || {};
+    let name = activeDir.name || "";
+    if (name !== "ALL") {
+      list = list.filter((item) => {
+        const tacticDirection = item.tacticDirection || "";
+        if (tacticDirection.indexOf(name) > -1) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
+
+    return list;
+  }, [schemeListData.sortedList, systemPage.activeDir]);
 
   return (
     <div className="layout-nav-right layout-row nav_right">
@@ -82,7 +100,7 @@ function RightNav(props) {
                   方案列表
                   <Badge
                     // className="site-badge-count-109"
-                    count={schemeListData.sortedList.length}
+                    count={schemeList.length}
                     style={{ backgroundColor: "rgb(61, 132, 36)" }}
                   />
                 </Radio.Button>

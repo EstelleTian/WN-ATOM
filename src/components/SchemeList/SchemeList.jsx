@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-07-16 15:25:45
+ * @LastEditTime: 2021-07-20 15:01:41
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -325,16 +325,34 @@ function SList(props) {
     }, 500),
     []
   );
+  //根据方向过滤方案
+  const schemeList = useMemo(() => {
+    let list = schemeListData.sortedList || [];
+    const activeDir = systemPage.activeDir || {};
+    let name = activeDir.name || "";
+    if (name !== "ALL") {
+      list = list.filter((item) => {
+        const tacticDirection = item.tacticDirection || "";
+        // console.log("tacticDirection", tacticDirection);
+        if (tacticDirection.indexOf(name) > -1) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
 
+    return list;
+  }, [schemeListData.sortedList, systemPage.activeDir]);
   useEffect(() => {
     if (
       schemeListData.activeSchemeId === "" &&
-      schemeListData.sortedList.length > 0 &&
+      schemeList.length > 0 &&
       systemPage.leftNavSelectedName === ""
     ) {
       //默认选第一条 已计算
       let defaultId = "";
-      schemeListData.sortedList.map((item) => {
+      schemeList.map((item) => {
         if (item.isCalculated && defaultId === "") {
           defaultId = item.id;
         }
@@ -343,7 +361,7 @@ function SList(props) {
       handleActive(defaultId, "", "init");
     }
   }, [
-    schemeListData.sortedList,
+    schemeList,
     schemeListData.activeSchemeId,
     systemPage.leftNavSelectedName,
   ]);
@@ -354,8 +372,8 @@ function SList(props) {
 
   return (
     <div className="list_container">
-      {schemeListData.sortedList.length > 0 ? (
-        schemeListData.sortedList.map((item, index) => (
+      {schemeList.length > 0 ? (
+        schemeList.map((item, index) => (
           <SchemeItem
             activeSchemeId={schemeListData.activeSchemeId}
             item={item}
