@@ -74,6 +74,14 @@ const columns = [
     ellipsis: true,
     className: "efps_inIceTime",
     showSorterTooltip: false,
+    render: (text, record, index) => {
+      if (text.length > 14) {
+        text = text.substring(0, 14);
+      }
+      const timeTitle = formatTimeString(text);
+      const time = formatTimeString(text, 3);
+      return <div title={timeTitle}>{time}</div>;
+    },
   },
   {
     title: "进除冰等待区时间",
@@ -84,6 +92,14 @@ const columns = [
     ellipsis: true,
     className: "efps_inDhlTime",
     showSorterTooltip: false,
+    render: (text, record, index) => {
+      if (text.length > 14) {
+        text = text.substring(0, 14);
+      }
+      const timeTitle = formatTimeString(text);
+      const time = formatTimeString(text, 3);
+      return <div title={timeTitle}>{time}</div>;
+    },
   },
   {
     title: "出除冰等待区时间",
@@ -94,6 +110,14 @@ const columns = [
     ellipsis: true,
     className: "efps_outDhlTime",
     showSorterTooltip: false,
+    render: (text, record, index) => {
+      if (text.length > 14) {
+        text = text.substring(0, 14);
+      }
+      const timeTitle = formatTimeString(text);
+      const time = formatTimeString(text, 3);
+      return <div title={timeTitle}>{time}</div>;
+    },
   },
   {
     title: "出除冰区时间",
@@ -104,6 +128,14 @@ const columns = [
     ellipsis: true,
     className: "efps_outIcTime",
     showSorterTooltip: false,
+    render: (text, record, index) => {
+      if (text.length > 14) {
+        text = text.substring(0, 14);
+      }
+      const timeTitle = formatTimeString(text);
+      const time = formatTimeString(text, 3);
+      return <div title={timeTitle}>{time}</div>;
+    },
   },
   {
     title: "上跑道时间",
@@ -114,6 +146,14 @@ const columns = [
     ellipsis: true,
     className: "efps_linTime",
     showSorterTooltip: false,
+    render: (text, record, index) => {
+      if (text.length > 14) {
+        text = text.substring(0, 14);
+      }
+      const timeTitle = formatTimeString(text);
+      const time = formatTimeString(text, 3);
+      return <div title={timeTitle}>{time}</div>;
+    },
   },
 ];
 //转化为规定格式

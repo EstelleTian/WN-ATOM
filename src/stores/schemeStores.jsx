@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-23 10:36:49
+ * @LastEditTime: 2021-07-20 13:40:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
@@ -224,29 +224,75 @@ class SchemeListData {
     this.searchVal = values;
   }
 
-  
-
   @computed get sortedList() {
     let list = [...this.list];
     const searchVal = this.searchVal.toLowerCase();
+
+    let statusValues = this.statusValues;
+    //获取方案列表--开启下一轮更新
+    let index = statusValues.indexOf("TERMINATED");
+    if (index > -1) {
+      // 将"TERMINATED"替换为 "FINISHED","TERMINATED_MANUAL","TERMINATED_AUTO"
+      statusValues.splice(
+        index,
+        1,
+        "FINISHED",
+        "TERMINATED_MANUAL",
+        "TERMINATED_AUTO"
+      );
+    }
+
+    // 参数过滤
+    list = list.filter((item) => {
+      const tacticStatus = item.tacticStatus || "";
+      if (statusValues.indexOf(tacticStatus) > -1) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    // NTFMShowType;
+    list = list.filter((item) => {
+      const tacticSource = item.tacticSource || "";
+      if (
+        tacticSource === "NTFM-ORIGINAL-100" ||
+        tacticSource === "NTFM-ORIGINAL-200"
+      ) {
+        if (this.NTFMShowType.indexOf(tacticSource) > -1) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
+    });
+
+    //快速过滤
     if (isValidVariable(searchVal) && isValidVariable(list)) {
       list = list.filter((item) => {
         // 方案名称
-        let tacticName = isValidVariable(item.tacticName) ? item.tacticName.toLowerCase() : "";
+        let tacticName = isValidVariable(item.tacticName)
+          ? item.tacticName.toLowerCase()
+          : "";
         let directionList = item.directionList || [];
         let directionData = directionList[0] || {};
         // 基准点
         let targetUnit = directionData.targetUnit || "";
-        targetUnit = isValidVariable(targetUnit) ? targetUnit.toLowerCase() : "";
+        targetUnit = isValidVariable(targetUnit)
+          ? targetUnit.toLowerCase()
+          : "";
 
         let basicFlowcontrol = item.basicFlowcontrol || {};
         let flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
         // 限制方式
         let restrictionMode = flowControlMeasure.restrictionMode || "";
-        restrictionMode = isValidVariable(restrictionMode) ? restrictionMode.toLowerCase() : "";
+        restrictionMode = isValidVariable(restrictionMode)
+          ? restrictionMode.toLowerCase()
+          : "";
         if (
           tacticName.indexOf(searchVal) !== -1 ||
-          targetUnit.indexOf(searchVal) !== -1 || 
+          targetUnit.indexOf(searchVal) !== -1 ||
           restrictionMode.indexOf(searchVal) !== -1
         ) {
           return true;
@@ -255,7 +301,7 @@ class SchemeListData {
         }
       });
     }
-    
+
     if (list.length > 0) {
       list = list.slice().sort((a, b) => {
         const data1 = a.tacticTimeInfo.publishTime;
@@ -274,6 +320,7 @@ class SchemeListData {
       });
     }
 
+    // console.log("方案list", list);
     return list;
   }
 }

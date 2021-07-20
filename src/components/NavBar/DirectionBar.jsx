@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-07-16 13:31:55
+ * @LastEditTime: 2021-07-20 13:28:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\DirectionBar.jsx
@@ -28,7 +28,7 @@ function DirectionBar({ systemPage, schemeListData }) {
   const groupNameChange = (item) => {
     // console.log(item);
     systemPage.setActiveDir(item);
-    schemeListData.setForceUpdate(true);
+    // schemeListData.setForceUpdate(true);
   };
 
   const { dirList = [] } = systemPage;
