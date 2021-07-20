@@ -15,6 +15,7 @@ function ColumnDataInit({ columnConfig, systemPage }) {
     const opt = {
       url:
         ReqUrls.flightTableColumnConfigUrl +
+        "/retrieveUserPropertyGridTable" +
         "?userId=" +
         userId +
         "&keys=" +

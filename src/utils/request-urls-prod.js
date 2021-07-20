@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-07-20 17:52:46
+ * @LastEditTime: 2021-07-20 20:11:13
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -187,7 +187,7 @@ const ReqUrls = {
     // 开关配置
     switchConfigUrl: switchConfigIP +"/hydrogen-ntfm-info-receive-server/switchConfig",
     // 表格列配置
-    flightTableColumnConfigUrl: flightTableColumnConfigIP +"/hydrogen-param-config-server/retrieveUserPropertyGridTable",
+    flightTableColumnConfigUrl: flightTableColumnConfigIP +"/hydrogen-param-config-server",
 };
 
 //协调相关url

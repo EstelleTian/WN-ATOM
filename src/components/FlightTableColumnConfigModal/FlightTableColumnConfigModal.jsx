@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-07-20 17:49:36
+ * @LastEditTime: 2021-07-20 20:19:49
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -16,17 +16,39 @@ import React, {
 import { Tabs, Radio, Badge, Menu, Button } from "antd";
 import { observer, inject } from "mobx-react";
 import { isValidVariable } from "utils/basic-verify";
-import { requestGet } from "utils/request";
+import { request2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import DraggableModal from "components/DraggableModal/DraggableModal";
 import FlightTableColumnConfigTable from "components/FlightTableColumnConfigModal/FlightTableColumnConfigTable";
 
 import "./FlightTableColumnConfigModal.scss";
 
-function FlightTableColumnConfigModal(props) {
+function FlightTableColumnConfigModal({ systemPage = {}, columnConfig }) {
   const timerId = useRef();
-  const { systemPage = {} } = props;
   const user = systemPage.user || {};
+  const userId = user.id || "";
+  const save = async () => {
+    const requestData = columnConfig.requestData || {};
+    const columnData = columnConfig.columnData || {};
+    const columnDataStr = JSON.stringify(columnData);
+    let operation = { ...requestData, value: columnDataStr };
+    console.log(operation);
+    const url =
+      ReqUrls.flightTableColumnConfigUrl +
+      "/updateUserPropertyConfig?userId=" +
+      userId;
+    const data = await request2({
+      url,
+      method: "POST",
+      params: {
+        ...operation,
+      },
+    });
+    console.log(data);
+    const { userPropertys = [] } = data;
+    let propertys = userPropertys[0] || {};
+    columnConfig.setRequestData(propertys);
+  };
 
   return (
     <Fragment>
@@ -47,8 +69,16 @@ function FlightTableColumnConfigModal(props) {
         destroyOnClose={true}
         footer={
           <div>
-            <Button>重置</Button>
-            <Button type="primary">保存</Button>
+            <Button
+              onClick={(e) => {
+                columnConfig.resetColumnData();
+              }}
+            >
+              重置
+            </Button>
+            <Button type="primary" onClick={save}>
+              保存
+            </Button>
           </div>
         }
       >
@@ -58,4 +88,7 @@ function FlightTableColumnConfigModal(props) {
   );
 }
 
-export default inject("systemPage")(observer(FlightTableColumnConfigModal));
+export default inject(
+  "systemPage",
+  "columnConfig"
+)(observer(FlightTableColumnConfigModal));

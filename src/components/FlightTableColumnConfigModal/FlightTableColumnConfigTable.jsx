@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-07-20 19:40:28
+ * @LastEditTime: 2021-07-20 20:01:36
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -133,10 +133,12 @@ const FlightTableColumnConfigTable = ({ systemPage, columnConfig }) => {
   function onChange(e, text, record, index) {
     let checked = e.target.checked;
     let display = checked ? 1 : 0;
-    let copyData = columnConfig.columnData;
-    copyData[index].display = display;
+    // let copyData = columnConfig.columnData;
+    // copyData[index].display = display;
     console.log(record);
-    columnConfig.setColumnData(copyData);
+    let obj = { ...record, display };
+    let en = obj.en || "";
+    columnConfig.updateColumnData({ [en]: obj });
   }
 
   const columns = [
@@ -164,7 +166,7 @@ const FlightTableColumnConfigTable = ({ systemPage, columnConfig }) => {
       //   onChange,
       // }),
       render: (text, record, index) => {
-        console.log(record);
+        // console.log(record);
         return (
           <div className="cell_center">
             <Checkbox
@@ -188,15 +190,22 @@ const FlightTableColumnConfigTable = ({ systemPage, columnConfig }) => {
 
   const moveRow = useCallback(
     (dragIndex, hoverIndex) => {
-      const dragRow = columnConfig.columnData[dragIndex];
-      const newData = update(data, {
+      const dataArr = Object.values(columnConfig.columnData) || [];
+      const dragRow = dataArr[dragIndex];
+      const newData = update(dataArr, {
         $splice: [
           [dragIndex, 1],
           [hoverIndex, 0, dragRow],
         ],
       });
-      console.log(newData);
-      columnConfig.setColumnData(newData);
+      // console.log(newData);
+      const newObj = {};
+      for (let i in newData) {
+        const item = newData[i] || {};
+        const en = item.en || "";
+        newObj[en] = item;
+      }
+      columnConfig.setColumnData(newObj);
     },
     [columnConfig.columnData]
   );
@@ -218,14 +227,14 @@ const FlightTableColumnConfigTable = ({ systemPage, columnConfig }) => {
   //   // });
   //   return columnConfig.columnData;
   // }, [columnConfig.columnData]);
-  console.log("表格列配置数据：", { ...columnConfig.columnData });
+  // console.log("表格列配置数据：", { ...columnConfig.columnData });
   return (
     <Fragment>
       <DndProvider backend={HTML5Backend}>
         <Table
           className="col-config-table"
           columns={columns}
-          dataSource={columnConfig.columnData}
+          dataSource={Object.values(columnConfig.columnData)}
           components={{
             body: {
               row: DragableBodyRow,

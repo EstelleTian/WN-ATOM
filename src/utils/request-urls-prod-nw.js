@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-07-15 15:48:57
+ * @LastEditTime: 2021-07-20 20:16:19
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -51,6 +51,8 @@ const flightInfoIP= "http://10.25.1.10:80";
 const executeKPIDataIP= "http://10.25.1.10:80";
 //总体监控-航班执行数据-IP(路武臣)
 const performanceDataIP= "http://10.25.1.10:80";
+// 航班表格列配置-IP(韩涛)
+const flightTableColumnConfigIP= "http://192.168.210.120:81";
 // 获取用户订阅的容流监控单元数据-IP()
 const userSubscribeCapacityFlowMonitorUnitDataIP= "http://10.25.1.10:80";
 // 获取方案模板数据-IP(韩涛)
@@ -182,6 +184,8 @@ const ReqUrls = {
     rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server-cache/plan/time/scope",
     // 开关配置
     switchConfigUrl: switchConfigIP +"/hydrogen-ntfm-info-receive-server/switchConfig",
+    // 表格列配置
+    flightTableColumnConfigUrl: flightTableColumnConfigIP +"/hydrogen-param-config-server",
 };
 
 //协调相关url
