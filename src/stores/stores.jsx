@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-30 15:34:48
+ * @LastEditTime: 2021-07-20 17:08:13
  * @LastEditors: Please set LastEditors
  * @Description: store集合
  * @FilePath: \WN-CDM\src\stores\stores.jsx
@@ -39,6 +39,8 @@ import { ATOMConfigFormData } from "./ATOMConfigModalStores";
 import { NTFMConfigFormData } from "./NTFMConfigModalStores";
 // 航班略情
 import { fightSearch } from "./fightSearchStores";
+// 列配置
+import { columnConfig } from "./columnConfigStores";
 
 export {
   schemeListData,
@@ -69,4 +71,5 @@ export {
   ATOMConfigFormData,
   NTFMConfigFormData,
   fightSearch,
+  columnConfig
 };

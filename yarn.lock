@@ -11481,7 +11481,7 @@ react-dnd-html5-backend@^14.0.0:
 
 react-dnd@^14.0.2:
   version "14.0.2"
-  resolved "https://registry.npm.taobao.org/react-dnd/download/react-dnd-14.0.2.tgz#57266baec92b887301f81fa3b77f87168d159733"
+  resolved "https://registry.nlark.com/react-dnd/download/react-dnd-14.0.2.tgz#57266baec92b887301f81fa3b77f87168d159733"
   integrity sha1-VyZrrskriHMB+B+jt3+HFo0VlzM=
   dependencies:
     "@react-dnd/invariant" "^2.0.0"
