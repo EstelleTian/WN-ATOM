@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-07-20 20:19:49
+ * @LastEditTime: 2021-07-20 20:28:36
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -60,7 +60,9 @@ function FlightTableColumnConfigModal({ systemPage = {}, columnConfig }) {
         // style={{ top: "300px", left: "0px" }}
         visible={true}
         handleOk={() => {}}
-        // handleCancel={hideModal}
+        handleCancel={() => {
+          columnConfig.toggleModalVisible(false);
+        }}
         width={800}
         maskClosable={false}
         mask={true}

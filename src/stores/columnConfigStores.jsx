@@ -8,7 +8,7 @@ class ColumnConfig {
   //请求格式
   @observable columnData = {};
   // @observable modalVisible = false;
-  @observable modalVisible = true;
+  @observable modalVisible = false;
 
   @action toggleModalVisible(flag) {
     this.modalVisible = flag;
@@ -17,20 +17,15 @@ class ColumnConfig {
     this.requestData = obj;
     const valueStr = obj.value || "{}";
     const valueObj = JSON.parse(valueStr);
-    // let dataArr = [];
-    // let data = {};
-    // let index = 0;
-    // for (let key in valueObj) {
-    //   let item = valueObj[key];
-    //   item["key"] = index;
-    //   // if (index < 1) {
-    //   //   dataArr.push(item);
-    //   // }
-    //   // dataArr.push(item);
-    //   data[key] = item;
-    //   index++;
-    // }
-    this.columnData = valueObj;
+    let data = {};
+    let index = 0;
+    for (let key in valueObj) {
+      let item = valueObj[key];
+      item["key"] = index;
+      data[key] = item;
+      index++;
+    }
+    this.columnData = data;
   }
   @action updateColumnData(obj) {
     this.columnData = { ...this.columnData, ...obj };
@@ -38,7 +33,7 @@ class ColumnConfig {
   @action setColumnData(data) {
     this.columnData = data;
   }
-  @action resetColumnData(){
+  @action resetColumnData() {
     const valueStr = this.requestData.value || "{}";
     const valueObj = JSON.parse(valueStr);
     this.columnData = valueObj;
