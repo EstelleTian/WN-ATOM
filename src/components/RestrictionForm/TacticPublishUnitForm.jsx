@@ -11,8 +11,8 @@ function TacticPublishUnitForm(props) {
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
-    const tacticPublishUnit = schemeFormData.tacticPublishUnit;
-    const tacticPublishUnitCH = schemeFormData.tacticPublishUnitCH;
+    let tacticPublishUnit = schemeFormData.tacticPublishUnit;
+    let tacticPublishUnitCH = schemeFormData.tacticPublishUnitCH;
     // 用户信息
     const user = systemPage.user || {};
     // 用户所属单位
@@ -20,10 +20,12 @@ function TacticPublishUnitForm(props) {
     // 用户所属单位
     let userUnitCn = user.unitCn || "";
     if(isValidVariable(userUnit) && !isValidVariable(tacticPublishUnit)){
-        schemeFormData.updateTacticPublishUnit(userUnit)
+        // schemeFormData.updateTacticPublishUnit(userUnit)
+        tacticPublishUnit = userUnit;
     }
     if(isValidVariable(userUnitCn) && !isValidVariable(tacticPublishUnitCH)){
-        schemeFormData.updateTacticPublishUnitCH(userUnitCn)
+        // schemeFormData.updateTacticPublishUnitCH(userUnitCn)
+        tacticPublishUnitCH = userUnitCn;
     }
     //用户id发生变化触发更新
     useEffect(function () {
