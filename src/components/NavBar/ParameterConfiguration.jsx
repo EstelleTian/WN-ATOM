@@ -12,6 +12,7 @@ import React, { useEffect, Fragment } from "react";
 import { observer, inject } from "mobx-react";
 import { DownOutlined } from "@ant-design/icons";
 import { Radio, Dropdown, Menu } from "antd";
+import FlightTableColumnConfigModal from "components/FlightTableColumnConfigModal/FlightTableColumnConfigModal";
 import ATOMConfigModal from "components/ATOMConfigModal/ATOMConfigModal";
 import NTFMConfigModal from "components/NTFMConfigModal/NTFMConfigModal";
 import ATOMConfigInit from "components/ATOMConfigModal/ATOMConfigInit";
@@ -22,6 +23,13 @@ function ParameterConfiguration(props) {
   const menu = function () {
     return (
       <Menu>
+        <Menu.Item
+            key="FlightTableColumnConfig"
+            value="FlightTableColumnConfig"
+            onClick={showFlightTableColumnConfigModal}
+          >
+            表格列序配置
+          </Menu.Item>
         <Menu.Item
             key="ATOMConfig"
             value="ATOMConfig"
@@ -40,6 +48,11 @@ function ParameterConfiguration(props) {
     );
   };
 
+   // 显示表格列序配置模态框
+   const showFlightTableColumnConfigModal = () => {
+
+    // ATOMConfigFormData.toggleModalVisible(true);
+  };
   // 显示ATOM引接应用配置模态框
   const showATOMConfigurationModal = () => {
     ATOMConfigFormData.toggleModalVisible(true);
@@ -61,6 +74,7 @@ function ParameterConfiguration(props) {
 
         </Radio.Group>
       </Dropdown>
+      <FlightTableColumnConfigModal />
       <ATOMConfigInit />
       <ATOMConfigModal />
       <NTFMConfigModal />

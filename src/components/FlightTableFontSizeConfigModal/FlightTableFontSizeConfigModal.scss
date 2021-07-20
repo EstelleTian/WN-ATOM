@@ -1,0 +1,20 @@
+.flight-table-config-modal {
+    .ant-modal-body{
+        min-height: 80vh;
+    }
+    .font-size-table {
+        .col-name-cell {
+            padding-left: 10px;
+        }
+        .cell_left {
+            text-align: left;
+        }
+        .cell_center {
+            text-align: center;
+            .ant-select {
+                text-align: left;
+            }
+        }
+        
+    }  
+}

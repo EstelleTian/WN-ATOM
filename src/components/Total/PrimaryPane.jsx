@@ -37,7 +37,7 @@ function PrimaryPane(props) {
             data: {
                 AIRPORT: ["ZLXY", "ZLLL", "ZLXN", "ZLIC"],
                 SECTOR: ["ZLXYAR01", "ZLXYAR02", "ZLXYAR03", "ZLXYAR04", "ZLXYAR05", "ZLXYAR06", "ZLXYAR07", "ZLXYAR08", "ZLXYAR09", "ZLXYAR10", "ZLXYAR11", "ZLXYAR12", "ZLXYAR13", "ZLLLAR01", "ZLLLAR02", "ZLLLAR03", "ZLLLAR04", "ZLLLAR05", "ZLLLAR06", "ZLLLAR07", "ZLLLAR08", "ZLLLAR09", "ZLLLAR11", "ZLLLAR12",],
-                APP: [],
+                APP: ["ZLXYAP","ZLLLAP","ZLXNAP","ZLICAP"],
             }
         },
         "ZLXYACC": {

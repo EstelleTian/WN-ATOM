@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-07-16 15:31:57
+ * @LastEditTime: 2021-06-23 21:42:13
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -51,6 +51,8 @@ const flightInfoIP= "http://192.168.210.120:81";
 const executeKPIDataIP= "http://192.168.210.120:81";
 //总体监控-航班执行数据-IP(路武臣)
 const performanceDataIP= "http://192.168.210.120:81";
+// 航班表格列配置-IP(韩涛)
+const flightTableColumnConfigIP= "http://192.168.210.120:81";
 // 获取用户订阅的容流监控单元数据-IP()
 const userSubscribeCapacityFlowMonitorUnitDataIP= "http://192.168.210.120:81";
 // 获取方案模板数据-IP(韩涛)
@@ -63,7 +65,7 @@ const myApplicationListIP= "http://192.168.210.120:81";
 const rangeScopeIP= "http://192.168.210.120:81";
 // 开关配置IP(张杰)
 const switchConfigIP= "http://192.168.194.22:28080";
-// 系统各个标题 / 方向列表 IP（薛满林）
+// 系统各个标题IP（薛满林）
 const systemListIP= "http://192.168.210.120:81";
 
 const ReqUrls = {
@@ -72,12 +74,11 @@ const ReqUrls = {
     loginVerifyUrl: loginIP+"/uuma-server/user/verify-password",
     //根据用户id获取可跳转系统
     systemListUrl: systemListIP+"/hydrogen-flight-monitor-server-cache/user/system/",
-    //方向列表
-    directionListUrl: systemListIP+"/hydrogen-flight-monitor-server-cache/crs/direction",
+   
     //缩略地图
     mapUrl: "http://192.168.194.40:8081/#/map",
     mapWebUrl: "http://192.168.194.40:8082/#/map",
-    //根据方案id获取方案数据,用于正式发布的方案进行修改时使用
+    //根据方案id获取正式发布方案数据,用于正式发布的方案调整页面初始化回显示和客户端回显
     schemeDataByIdForUpdateUrl: schemeIP+"/scheme-flow-server/implementTactics/",
     
     //根据modalId获取方案详情
@@ -183,6 +184,8 @@ const ReqUrls = {
     rangeScopeUrl: rangeScopeIP+"/hydrogen-flight-monitor-server-cache/plan/time/scope",
     // 开关配置
     switchConfigUrl: switchConfigIP +"/hydrogen-ntfm-info-receive-server/switchConfig",
+    // 表格列配置
+    flightTableColumnConfigUrl: flightTableColumnConfigIP +"/hydrogen-param-config-server/retrieveUserPropertyGridTable",
 };
 
 //协调相关url

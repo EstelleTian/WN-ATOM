@@ -6,6 +6,9 @@ import { Button, Modal, Form, Space, Card, Row, Col, Input, Select, Tooltip, Tag
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import ExemptCard from 'components/RestrictionForm/ExemptCard'
 import LimitedCard from 'components/RestrictionForm/LimitedCard'
+import TacticAreaProvinceAirportList from 'components/RestrictionForm/TacticAreaProvinceAirportList'
+import TacticAreaProvinceAirportInit from 'components/RestrictionForm/TacticAreaProvinceAirportInit'
+import TacticSpecialAreaAirportInit from 'components/RestrictionForm/TacticSpecialAreaAirportInit'
 import { handleUpdateDirectionData } from 'utils/client'
 import { isValidObject, isValidVariable } from '../../utils/basic-verify'
 const { Option } = Select;
@@ -26,28 +29,28 @@ function DirectionDataForm(props) {
 
     NWGlobal.setEditDirectionData = function (str) {
 
-        const data = JSON.parse(str);
+        // const data = JSON.parse(str);
 
-        // const data = {
-        //     directionKey: "区内-IGADA",
-        //     directionName: "区内-IGADA",
-        //     direction: {
-        //         targetUnit: "IGADA",
-        //         formerUnit: "QIAN",
-        //         behindUnit: "HOU",
-        //         exemptFormerUnit: "HUOQIAN",
-        //         exemptBehindUnit: "HUOHOU",
-        //         depAp: "ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL;ZBAA",
-        //         arrAp: "ZLXY;ZLIC",
-        //         exemptDepAp: "HUOQI",
-        //         exemptArrAp: "HUOJIANG",
-        //     },
-        //     flowControlFlight: {
-        //         flightId: "CCA123;CCA456",
-        //         aircraftType: "B747",
-        //     },
+        const data = {
+            directionKey: "区内-IGADA",
+            directionName: "区内-IGADA",
+            direction: {
+                targetUnit: "IGADA",
+                formerUnit: "QIAN",
+                behindUnit: "HOU",
+                exemptFormerUnit: "HUOQIAN",
+                exemptBehindUnit: "HUOHOU",
+                depAp: "ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL;ZBAA",
+                arrAp: "ZLXY;ZLIC",
+                exemptDepAp: "HUOQI",
+                exemptArrAp: "HUOJIANG",
+            },
+            flowControlFlight: {
+                flightId: "CCA123;CCA456",
+                aircraftType: "B747",
+            },
 
-        // }
+        }
         setDirectionData(data);
     }
     // 区域标签机场集合
@@ -783,6 +786,8 @@ function DirectionDataForm(props) {
                             </Col>
                         </Row>
                         <Row gutter={24}>
+                            <TacticAreaProvinceAirportInit />
+                            <TacticSpecialAreaAirportInit />
                             <Col span={8}>
 
                                 <Form.Item
@@ -953,4 +958,4 @@ function DirectionDataForm(props) {
     )
 }
 
-export default withRouter(inject("systemPage")(observer(DirectionDataForm)));
+export default withRouter(inject("systemPage", "schemeFormData")(observer(DirectionDataForm)));
