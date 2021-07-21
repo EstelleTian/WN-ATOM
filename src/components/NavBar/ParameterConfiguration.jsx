@@ -78,6 +78,7 @@ function ParameterConfiguration({
         </Radio.Group>
       </Dropdown>
       {columnConfig.modalVisible && <FlightTableColumnConfigModal />}
+      {/* 表格列配置数据初始化组件 */}
       <ColumnDataInit />
       <ATOMConfigInit />
       <ATOMConfigModal />

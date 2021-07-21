@@ -1,4 +1,4 @@
-import { observable, action, makeObservable } from "mobx";
+import { observable, action, computed, makeObservable } from "mobx";
 class ColumnConfig {
   constructor() {
     makeObservable(this);
@@ -37,6 +37,28 @@ class ColumnConfig {
     const valueStr = this.requestData.value || "{}";
     const valueObj = JSON.parse(valueStr);
     this.columnData = valueObj;
+  }
+  // // 获取显示列
+  // @computed get displayColumnData() {
+  //   let displayList = [];
+  //   let columnList = Object.values(this.columnData);
+  //   displayList = columnList.filter((item) => item.display === 1);
+  //   return displayList;
+  // }
+  
+  // 获取显示列
+  @computed get displayColumnData() {
+    let displayColumnData = {};
+    let requestData = this.requestData;
+    const valueStr = requestData.value || "{}";
+    const valueObj = JSON.parse(valueStr);
+    for (let key in valueObj) {
+      let item = valueObj[key];
+      if(item.display === 1){
+        displayColumnData[key] = item;
+      }
+    }
+    return displayColumnData;
   }
 }
 const columnConfig = new ColumnConfig();

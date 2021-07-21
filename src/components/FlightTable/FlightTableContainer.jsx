@@ -29,6 +29,7 @@ function FContainer({
   collaboratePopoverData,
   systemPage,
   ATOMConfigFormData,
+  columnConfig
 }) {
   const onCellFilter = useCallback((name, value) => {
     console.log(name, value);
@@ -37,9 +38,12 @@ function FContainer({
   //列配置
   let columns = useMemo(() => {
     console.log("航班表格 filterable切换", flightTableData.filterable);
+    // 从columnConfig store 中获取display为1的列数据
+    let displayColumnList = columnConfig.displayColumnData;
     if (flightTableData.filterable) {
       // setHeight(tableHeight - 45);
       return getColumns(
+        displayColumnList,
         systemPage.systemKind,
         collaboratePopoverData,
         true,
@@ -48,13 +52,14 @@ function FContainer({
     } else {
       // setHeight(tableHeight + 45);
       return getColumns(
+        displayColumnList,
         systemPage.systemKind,
         collaboratePopoverData,
         false,
         () => {}
       );
     }
-  }, [flightTableData.filterable]);
+  }, [flightTableData.filterable, columnConfig.displayColumnData]);
   // }, []);
 
   //显示航班
@@ -115,6 +120,7 @@ const FTableContainer = inject(
   "schemeListData",
   "collaboratePopoverData",
   "systemPage",
-  "ATOMConfigFormData"
+  "ATOMConfigFormData",
+  "columnConfig"
 )(observer(FContainer));
 export default FTableContainer;

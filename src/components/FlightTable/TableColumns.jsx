@@ -713,6 +713,7 @@ let render = (opt) => {
 
 //生成表配置
 const getColumns = (
+  displayColumnList,
   systemName,
   collaboratePopoverData,
   sortable = false,
@@ -722,24 +723,25 @@ const getColumns = (
     return;
   }
   // console.log("systemName2", systemName);
-  let names = [];
+  // displayColumnList 列配置数据中设置为显示的列
+  let names = displayColumnList;
   let sortKey = "";
   if (typeof systemName === "string") {
     if (systemName === "CRS") {
-      names = CRSNames;
+      // names = CRSNames;
       sortKey = "FFIXT";
     } else if (systemName === "CRS-REGION") {
-      names = FENJUCRSNames;
+      // names = FENJUCRSNames;
       sortKey = "FFIXT";
     } else if (systemName === "CDM") {
-      names = CDMNames;
+      // names = CDMNames;
       sortKey = "ATOT";
     } else {
-      names = CRSNames;
+      // names = CRSNames;
       sortKey = "FFIXT";
     }
   } else if (typeof systemName === "object") {
-    names = systemName;
+    // names = systemName;
     sortKey = "FLIGHTID";
   }
 
