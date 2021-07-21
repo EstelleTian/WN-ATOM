@@ -8,14 +8,11 @@
  */
 import React, {
   Fragment,
-  useEffect,
-  useCallback,
   useRef,
-  useState,
 } from "react";
-import { Tabs, Radio, Badge, Menu, Button } from "antd";
+import { Modal, Button } from "antd";
 import { observer, inject } from "mobx-react";
-import { isValidVariable } from "utils/basic-verify";
+import { isValidVariable, isValidObject } from "utils/basic-verify";
 import { request2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import DraggableModal from "components/DraggableModal/DraggableModal";
@@ -27,27 +24,83 @@ function FlightTableColumnConfigModal({ systemPage = {}, columnConfig }) {
   const timerId = useRef();
   const user = systemPage.user || {};
   const userId = user.id || "";
-  const save = async () => {
-    const requestData = columnConfig.requestData || {};
-    const columnData = columnConfig.columnData || {};
-    const columnDataStr = JSON.stringify(columnData);
-    let operation = { ...requestData, value: columnDataStr };
-    console.log(operation);
-    const url =
-      ReqUrls.flightTableColumnConfigUrl +
-      "/updateUserPropertyConfig?userId=" +
-      userId;
-    const data = await request2({
-      url,
-      method: "POST",
-      params: {
-        ...operation,
+  // 保存按钮点击事件
+  const handleSave = () => {
+    Modal.info({
+      title: "保存",
+      // icon: <ExclamationCircleOutlined />,
+      centered: true,
+      closable: true,
+      content: (
+        <div>
+          <p>确定保存表格列序配置?</p>
+        </div>
+      ),
+      okText: "确定",
+      cancelText: "取消",
+      onOk: () => {
+        save();
       },
     });
-    console.log(data);
-    const { userPropertys = [] } = data;
-    let propertys = userPropertys[0] || {};
-    columnConfig.setRequestData(propertys);
+  }
+
+  // 保存列序配置数据
+  const save = async () => {
+    try {
+      const requestData = columnConfig.requestData || {};
+      const columnData = columnConfig.columnData || {};
+      const columnDataStr = JSON.stringify(columnData);
+      let operation = { ...requestData, value: columnDataStr };
+      console.log(operation);
+      const url =
+        ReqUrls.flightTableColumnConfigUrl +
+        "/updateUserPropertyConfig?userId=" +
+        userId;
+      const data = await request2({
+        url,
+        method: "POST",
+        params: {
+          ...operation,
+        },
+      });
+      console.log(data);
+      const { userPropertys = [] } = data;
+      let propertys = userPropertys[0] || {};
+      columnConfig.setRequestData(propertys);
+      Modal.success({
+        title: "保存成功",
+        content: (
+            <span>
+                <span>表格列序配置保存成功</span>
+            </span>
+        ),
+        centered: true,
+        okText: "确定",
+        onOk: () => {
+            // 关闭列序配置模态框
+            columnConfig.toggleModalVisible(false);
+        },
+    });
+    } catch (errorInfo) {
+      let errMsg = "";
+        if (isValidObject(errorInfo) && isValidVariable(err.message)) {
+            errMsg = errorInfo.message;
+        } else if (isValidVariable(errorInfo)) {
+            errMsg = errorInfo;
+        }
+        Modal.error({
+            title: "保存失败",
+            content: (
+                <span>
+                    <span>表格列序配置保存失败</span>
+                    <br />
+                    <span>{errMsg}</span>
+                </span>
+            ),
+            centered: true,
+            okText: "确定",
+        });
+    }
   };
 
   return (
@@ -59,7 +112,7 @@ function FlightTableColumnConfigModal({ systemPage = {}, columnConfig }) {
         // centered为true 则无需设置style
         // style={{ top: "300px", left: "0px" }}
         visible={true}
-        handleOk={() => {}}
+        handleOk={() => { }}
         handleCancel={() => {
           columnConfig.toggleModalVisible(false);
         }}
@@ -71,15 +124,16 @@ function FlightTableColumnConfigModal({ systemPage = {}, columnConfig }) {
         destroyOnClose={true}
         footer={
           <div>
+
+            <Button type="primary" onClick={handleSave}>
+              保存
+            </Button>
             <Button
               onClick={(e) => {
                 columnConfig.resetColumnData();
               }}
             >
               重置
-            </Button>
-            <Button type="primary" onClick={save}>
-              保存
             </Button>
           </div>
         }
