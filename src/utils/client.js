@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-07-14 17:31:26
+ * @LastEditTime: 2021-07-21 14:45:58
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -11,6 +11,15 @@ const updateMessageNum = (num) => {
     try{
         // 计数
         jsEntity.updateMessageNum(num+"");
+    }catch (e){
+        console.error(e);
+    }
+}
+//消息模块-【更多】
+const openMessageRecordFrame = () => {
+    try{
+        // 内容监控按钮点击发送
+        jsEntity.openMessageRecordFrame();
     }catch (e){
         console.error(e);
     }
@@ -308,7 +317,7 @@ const openCDMorCRSFrame =(system, title) => {
     }
 }
 export {
-    updateMessageNum, sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
+    updateMessageNum,openMessageRecordFrame, sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openDoneFrameById,openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
     openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem, openRunningControlFlow,openDetails,

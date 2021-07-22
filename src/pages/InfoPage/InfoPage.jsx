@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-06-18 13:37:42
+ * @LastEditTime: 2021-07-21 14:46:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -16,6 +16,7 @@ import {
   closeMessageDlg,
   openMessageDlg,
   updateMessageNum,
+  openMessageRecordFrame,
 } from "utils/client";
 // import Stomp from "stompjs";
 import JmsWebsocket from "utils/jms-websocket";
@@ -281,13 +282,14 @@ function InfoPage(props) {
               size="small"
               className="more"
               onClick={(e) => {
-                window.open("./#/today_news");
+                openMessageRecordFrame();
+                // window.open("./#/today_news");
               }}
             >
               更多
             </Button>
             {/** <div className="to_top"><Checkbox checked>告警置顶</Checkbox></div>*/}
-            <Tooltip title="关闭">
+            {/* <Tooltip title="关闭">
               <div
                 className="close"
                 onClick={() => {
@@ -296,7 +298,7 @@ function InfoPage(props) {
               >
                 <CloseOutlined />{" "}
               </div>
-            </Tooltip>
+            </Tooltip> */}
           </div>
           <InfoList newsList={newsList} audioPlay={audioPlay} />
         </div>
