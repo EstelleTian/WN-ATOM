@@ -9,10 +9,12 @@ import User from "./User";
 import { isValidVariable } from "utils/basic-verify";
 import RefreshBtn from "components/SchemeList/RefreshBtn";
 import DateRange from "./DateRangeBar";
+import MapBar from "./MapBar";
 // import DirectionBar from "./DirectionBar";
 import SystemBar from "./SystemBar";
 import ParameterConfiguration from "./ParameterConfiguration";
 import "./RightNav.scss";
+import { openMapFrame } from "../../utils/client";
 
 function RightNav({ systemPage, schemeListData }) {
   //执行KPI
@@ -112,6 +114,7 @@ function RightNav({ systemPage, schemeListData }) {
                 <Radio.Button value="runway">跑道配置</Radio.Button>
               )}
             </Radio.Group>
+            {systemPage.userHasAuth(12519) && <MapBar />}
             {systemPage.userHasAuth(12514) && <ParameterConfiguration />}
             {systemPage.userHasAuth(12517) && (
               <Radio.Group
