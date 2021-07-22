@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-07-21 14:46:15
+ * @LastEditTime: 2021-07-22 10:37:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -289,7 +289,7 @@ function InfoPage(props) {
               更多
             </Button>
             {/** <div className="to_top"><Checkbox checked>告警置顶</Checkbox></div>*/}
-            {/* <Tooltip title="关闭">
+            <Tooltip title="关闭">
               <div
                 className="close"
                 onClick={() => {
@@ -298,7 +298,7 @@ function InfoPage(props) {
               >
                 <CloseOutlined />{" "}
               </div>
-            </Tooltip> */}
+            </Tooltip>
           </div>
           <InfoList newsList={newsList} audioPlay={audioPlay} />
         </div>

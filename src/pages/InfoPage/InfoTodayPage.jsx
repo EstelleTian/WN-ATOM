@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-22 16:09:16
- * @LastEditTime: 2021-05-26 11:03:17
+ * @LastEditTime: 2021-07-22 10:37:42
  * @LastEditors: Please set LastEditors
  * @Description: 消息当日全部数据
  * @FilePath: \WN-ATOM\src\pages\InfoPage\InfoListPage.jsx
@@ -58,7 +58,7 @@ function InfoTodayPage(props) {
       return;
     }
     setLoading(true);
-    let url = ReqUrls.getTodayNewsUrl+"?userId="+user.id;
+    let url = ReqUrls.getTodayNewsUrl + "?userId=" + user.id;
     let params = {};
     const opt = {
       url,
@@ -165,7 +165,7 @@ function InfoTodayPage(props) {
               刷新
             </Button>
 
-            <Tooltip title="关闭">
+            {/* <Tooltip title="关闭">
               <div
                 className="close"
                 onClick={() => {
@@ -174,7 +174,7 @@ function InfoTodayPage(props) {
               >
                 <CloseOutlined />{" "}
               </div>
-            </Tooltip>
+            </Tooltip> */}
           </div>
           <Spin spinning={loading}>
             {resList.list.length > 0 && <InfoList newsList={resList} />}
