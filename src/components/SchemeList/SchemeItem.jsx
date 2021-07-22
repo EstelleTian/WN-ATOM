@@ -52,8 +52,8 @@ const SummaryCell = memo(
             终止时间: {getDayTimeFromString(updateTime, "", 2)}
           </Menu.Item>
         ) : (
-          ""
-        )}
+            ""
+          )}
         <Menu.Item key="reason">原因: {basicTacticInfoReasonZh}</Menu.Item>
         <Menu.Item key="remark">备注: {basicTacticInfoRemark}</Menu.Item>
       </Menu>
@@ -230,6 +230,34 @@ function SchemeItem(props) {
     endTimeFormat = endTimeFormat ? `(${endTimeFormat})` : "";
   }
 
+  const restrictionModeOptions = [
+    { "key": "AFP", "text": "AFP", "title": "AFP" },
+    { "key": "MIT", "text": "MIT", "title": "MIT" },
+    { "key": "CR", "text": "CR", "title": "改航" },
+    { "key": "GS", "text": "GS", "title": "GS" },
+    { "key": "TC", "text": "TC", "title": "总量控制" },
+    // {"key":"GDP", "text": "GDP"},
+    // {"key":"AS", "text": "指定时隙"},
+    // {"key":"BREQ", "text": "上客申请"},
+    // {"key":"REQ", "text": "开车申请"},
+    // {"key":"TC", "text": "总量控制"},
+    // {"key":"AH", "text": "空中等待"},
+    // {"key":"AA", "text": "空域开闭限制"},
+  ]
+
+  const restrictionModeZh = (mode) => {
+    
+    let modeData = restrictionModeOptions.filter((item) => item.key === mode);
+    let modeZh="";
+    if(modeData.length > 0){
+      modeZh = modeData[0].title;
+    }
+    if(!isValidVariable(modeZh)){
+      modeZh = mode;
+    }
+    return modeZh
+  }
+
   const showDetail = useCallback(
     (e) => {
       props.toggleModalVisible(true, id);
@@ -395,8 +423,8 @@ function SchemeItem(props) {
                   <Tag color="#f50">Ⅱ</Tag>
                 </span>
               ) : (
-                ""
-              )}
+                  ""
+                )}
               {tempSyncSign === "100" && (
                 <span className="" title="同步">
                   <Tag color="#26a69a">同</Tag>
@@ -414,7 +442,7 @@ function SchemeItem(props) {
             </div>
 
             <div className="">
-              <div className="cell" title={`限制方式: ${restrictionMode}`}>
+              <div className="cell" title={`限制方式: ${restrictionModeZh(restrictionMode)}`}>
                 {restrictionMode}
               </div>
             </div>
@@ -428,10 +456,10 @@ function SchemeItem(props) {
                 {isSameDay ? (
                   `${startTimeFormat} - ${endTimeFormat}`
                 ) : (
-                  <Tag className="time-range-tag" color="#FA8C15">
-                    {startTimeFormat} - {endTimeFormat}
-                  </Tag>
-                )}
+                    <Tag className="time-range-tag" color="#FA8C15">
+                      {startTimeFormat} - {endTimeFormat}
+                    </Tag>
+                  )}
               </div>
             </div>
             <div className="layout-row">

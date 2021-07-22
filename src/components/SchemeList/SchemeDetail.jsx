@@ -43,13 +43,13 @@ function SchemeDetail(props) {
     // 方案方向信息
     let directionList = isValidVariable(basicTacticInfo.directionList) ? basicTacticInfo.directionList : [];
 
-    const { tacticName, tacticPublishUnit, tacticPublishUnitCH, tacticPublishUser, tacticPublishUserCH, id, basicTacticInfoReason, relationAp, relationArea } = basicTacticInfo;
+    const { tacticName, tacticPublishUnit, tacticPublishUnitCH, tacticPublishUser, tacticPublishUserCH, id, basicTacticInfoReason, relationAp, relationArea, tacticStatus } = basicTacticInfo;
     let flowcontrolList = [];
     if (isValidVariable(tacticProcessInfo.flowcontrolList)) {
         flowcontrolList = tacticProcessInfo.flowcontrolList
     }
 
-    const { startTime = "", endTime = "", startCalculateTime = "", endCalculateTime = "" } = tacticTimeInfo;
+    const { startTime = "", endTime = "", updateTime="", startCalculateTime = "", endCalculateTime = "" } = tacticTimeInfo;
 
     // 流控方向领域对象
     const directionListData = directionList[0] || {};
@@ -61,6 +61,13 @@ function SchemeDetail(props) {
     let basicFlowcontrolList = [];
     basicFlowcontrolList.push(basicFlowcontrol)
 
+    // 是否为终止状态(人工终止或系统终止或正常结束)
+    let isTerminated =
+      tacticStatus === "TERMINATED_MANUAL" ||
+      tacticStatus === "TERMINATED_AUTO" ||
+      tacticStatus === "FINISHED";
+
+      console.log(isTerminated)
 
     return (
         <Row className="scheme-detail">
@@ -139,6 +146,23 @@ function SchemeDetail(props) {
                                     </div>
                                 </Col>
                                 <Col span={8}>
+
+                                    <div className="ant-row ant-form-item">
+                                        <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                            <label className="ant-form-item-no-colon" title="原因">原因</label>
+                                        </div>
+                                        <div className="ant-col ant-form-item-control">
+                                            <div className="ant-form-item-control-input">
+                                                <div className="ant-form-item-control-input-content">{basicTacticInfoReasonZh}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Col>
+
+                            </Row>
+
+                            <Row className="info-row">
+                                <Col span={8}>
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                             <label className="ant-form-item-no-colon" title="开始时间">开始时间</label>
@@ -150,8 +174,6 @@ function SchemeDetail(props) {
                                         </div>
                                     </div>
                                 </Col>
-                            </Row>
-                            <Row className="info-row">
                                 <Col span={8}>
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
@@ -168,6 +190,22 @@ function SchemeDetail(props) {
                                 <Col span={8}>
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                            <label className="ant-form-item-no-colon" title="终止时间">终止时间</label>
+                                        </div>
+                                        <div className="ant-col ant-form-item-control">
+                                            <div className="ant-form-item-control-input">
+                                                <div className="ant-form-item-control-input-content">{isTerminated ? formatTimeString(updateTime) :""}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </Col>
+
+                            </Row>
+                            <Row className="info-row">
+                                <Col span={8}>
+                                    <div className="ant-row ant-form-item">
+                                        <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                             <label className="ant-form-item-no-colon" title="开始计算时间">开始计算时间</label>
                                         </div>
                                         <div className="ant-col ant-form-item-control">
@@ -178,7 +216,6 @@ function SchemeDetail(props) {
                                     </div>
                                 </Col>
                                 <Col span={8}>
-
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                             <label className="ant-form-item-no-colon" title="结束计算时间">结束计算时间</label>
@@ -189,12 +226,23 @@ function SchemeDetail(props) {
                                             </div>
                                         </div>
                                     </div>
+                                </Col>
+                                <Col span={8}>
+                                    <div className="ant-row ant-form-item">
+                                        <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                            <label className="ant-form-item-no-colon" title=""></label>
+                                        </div>
+                                        <div className="ant-col ant-form-item-control">
+                                            <div className="ant-form-item-control-input">
+                                                <div className="ant-form-item-control-input-content">{""}</div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </Col>
                             </Row>
                             <Row className="info-row">
                                 <Col span={8}>
-
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                             <label className="ant-form-item-no-colon" title="前序单元">前序单元</label>
@@ -250,6 +298,18 @@ function SchemeDetail(props) {
                                 <Col span={8}>
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                                            <label className="ant-form-item-no-colon" title=""></label>
+                                        </div>
+                                        <div className="ant-col ant-form-item-control">
+                                            <div className="ant-form-item-control-input">
+                                                <div className="ant-form-item-control-input-content">{""}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col span={8}>
+                                    <div className="ant-row ant-form-item">
+                                        <div className="ant-col ant-form-item-label ant-form-item-label-left">
                                             <label className="ant-form-item-no-colon" title="豁免后序">豁免后序</label>
                                         </div>
                                         <div className="ant-col ant-form-item-control">
@@ -259,19 +319,7 @@ function SchemeDetail(props) {
                                         </div>
                                     </div>
                                 </Col>
-                                <Col span={8}>
 
-                                    <div className="ant-row ant-form-item">
-                                        <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                            <label className="ant-form-item-no-colon" title="原因">原因</label>
-                                        </div>
-                                        <div className="ant-col ant-form-item-control">
-                                            <div className="ant-form-item-control-input">
-                                                <div className="ant-form-item-control-input-content">{basicTacticInfoReasonZh}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Col>
 
                             </Row>
                         </div>

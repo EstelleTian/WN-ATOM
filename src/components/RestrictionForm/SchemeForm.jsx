@@ -2131,6 +2131,8 @@ function SchemeForm(props) {
         schemeFormData.updateTacticMITDistanceToTime(value);
         // 更新速度字段值
         tacticMeasureForm.setFieldsValue({ 'distanceToTime': value })
+        // 更新MIT时间间隔字段数值
+        updateMITTimeValueChange();
     }
 
     /**
@@ -2158,6 +2160,8 @@ function SchemeForm(props) {
                 </span>
             ),
         });
+        // 更新MIT时间间隔字段数值
+        updateMITTimeValueChange();
     };
 
     // 更新MIT时间间隔字段数值
