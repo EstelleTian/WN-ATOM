@@ -1245,9 +1245,10 @@ function SchemeForm(props) {
             errMsg = err;
         }
         Modal.error({
+            title: '保存失败',
             content: (
                 <span>
-                    <span>另存为模板失败</span>
+                    <span>模板保存失败</span>
                     <br />
                     <span>{errMsg}</span>
                 </span>
@@ -1264,8 +1265,8 @@ function SchemeForm(props) {
             schemeTemplateData.triggerCounterChange();
             // 提示
             Modal.success({
-                title: '另存为模板成功',
-                content: '另存为模板成功',
+                title: '保存成功',
+                content: '模板保存成功',
                 okText: "确认",
                 onOk: () => { setSaveAsTemplateModalVisible(false) }
             });
