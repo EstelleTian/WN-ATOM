@@ -102,6 +102,10 @@ function TacticShortcutInputForm(props) {
     // 绘制单条方向表单项
     const drawSingleDirectionFields = (directionData) => {
         const options = directionData.options;
+        // 过滤掉OTHER
+        if(directionData.description === "OTHER"){
+            return;
+        }
         // return (
         //     <Row gutter={24} key={directionData.description} >
         //         <Col span={24} className="checkbox-items-col" >
