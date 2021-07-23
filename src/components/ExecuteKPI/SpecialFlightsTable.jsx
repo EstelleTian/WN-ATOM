@@ -40,11 +40,14 @@ function SpecialFlightsTable(props) {
   let [sortKey, setSortKey] = useState("FFIXT"); //表格排序字段
   //   const [modalVisible, setModalVisible] = useState(true);
 
-  const { systemPage, flightTableData, tableName, collaboratePopoverData } =
+  const { systemPage, flightTableData, tableName, collaboratePopoverData, columnConfig } =
     props;
 
   const { tableData, columns, totalWidth } = useMemo(() => {
+     // 从columnConfig store 中获取display为1的列数据
+     let displayColumnList = columnConfig.displayColumnData;
     const columns = getColumns(
+      displayColumnList,
       props.systemPage.systemKind,
       props.collaboratePopoverData
     );
@@ -84,6 +87,7 @@ function SpecialFlightsTable(props) {
     props.performanceKPIData.performanceData,
     props.performanceKPIData.showTableName,
     props.systemPage.systemKind,
+    columnConfig.displayColumnData
   ]);
 
   const hideModal = () => {
@@ -178,5 +182,6 @@ export default inject(
   "systemPage",
   "performanceKPIData",
   "flightTableData",
-  "collaboratePopoverData"
+  "collaboratePopoverData",
+  "columnConfig",
 )(observer(SpecialFlightsTable));
