@@ -27,7 +27,7 @@ const ExecuteKPI = (props) => {
   return (
     // <Spin spinning={loading} >
     <div className="kpi_canvas">
-      {/* <ImpactFlights /> */}
+      <ImpactFlights />
       <SpecialFlights />
       <ImpactLevel />
       <PreDelay />
