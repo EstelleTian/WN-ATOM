@@ -52,7 +52,7 @@ const executeKPIDataIP= "http://10.25.1.10:80";
 //总体监控-航班执行数据-IP(路武臣)
 const performanceDataIP= "http://10.25.1.10:80";
 // 航班表格列配置-IP(韩涛)
-const flightTableColumnConfigIP= "http://192.168.210.120:81";
+const flightTableColumnConfigIP= "http://10.25.1.10:80";
 // 获取用户订阅的容流监控单元数据-IP()
 const userSubscribeCapacityFlowMonitorUnitDataIP= "http://10.25.1.10:80";
 // 获取方案模板数据-IP(韩涛)
