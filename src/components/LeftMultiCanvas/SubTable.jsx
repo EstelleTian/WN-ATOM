@@ -26,6 +26,7 @@ import {
 } from "components/FlightTable/TableColumns";
 import "./LeftMultiCanvas.scss";
 import { isValidVariable } from "utils/basic-verify";
+import { isValidObject } from "../../utils/basic-verify";
 //根据key识别列表名称
 const subKeys = {
   exempt: "豁免航班列表",
@@ -103,7 +104,7 @@ function SubTable(props) {
   let [sortKey, setSortKey] = useState("FFIXT"); //表格排序字段
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { flightTableData, systemPage } = props;
+  const { flightTableData, systemPage, columnConfig } = props;
   const modalActiveName = systemPage.modalActiveName || "";
 
   const { tableData, columns, totalWidth } = useMemo(() => {
@@ -113,9 +114,16 @@ function SubTable(props) {
     ) {
       return { tableData: [], columns: [], totalWidth: 0 };
     }
-    const namesObj = SubNames[modalActiveName];
+    
+    let namesObj = SubNames[modalActiveName];
+    // 若列不是有效的对象则使用 columnConfig store中数据
+    if(!isValidObject(namesObj)){
+    // 从columnConfig store 中获取display为1的列数据
+      namesObj = columnConfig.displayColumnData
+    }
+    
     const columns = getColumns(
-      SubNames[modalActiveName],
+      namesObj,
       props.collaboratePopoverData
     );
     let subTableData = [];
@@ -141,7 +149,7 @@ function SubTable(props) {
       totalWidth += col.width * 1;
     });
     return { tableData, columns, totalWidth };
-  }, [props.flightTableData.list, modalActiveName]);
+  }, [props.flightTableData.list, modalActiveName, columnConfig.displayColumnData]);
 
   // console.log(modalActiveName, tableData.length)
 
@@ -306,5 +314,6 @@ export default inject(
   "collaboratePopoverData",
   "flightTableData",
   "schemeListData",
-  "systemPage"
+  "systemPage",
+  "columnConfig",
 )(observer(SubTable));
