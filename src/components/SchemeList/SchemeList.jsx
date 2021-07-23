@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-07-23 10:15:16
+ * @LastEditTime: 2021-07-23 13:08:04
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -344,12 +344,10 @@ function SList(props) {
 
     return list;
   }, [schemeListData.sortedList, systemPage.activeDir]);
+
   useEffect(() => {
     if (schemeList.length > 0) {
-      if (
-        schemeListData.activeSchemeId === "" &&
-        systemPage.leftNavSelectedName === ""
-      ) {
+      const selectOne = () => {
         //默认选第一条 已计算
         let defaultId = "";
         schemeList.map((item) => {
@@ -359,6 +357,21 @@ function SList(props) {
         });
 
         handleActive(defaultId, "", "init");
+      };
+      if (
+        schemeListData.activeSchemeId === "" &&
+        systemPage.leftNavSelectedName === ""
+      ) {
+        //默认选第一条 已计算
+        selectOne();
+      } else {
+        let activeList = schemeList.filter(
+          (item) => item.id === schemeListData.activeSchemeId
+        );
+        if (activeList.length === 0) {
+          //默认选第一条 已计算
+          selectOne();
+        }
       }
     } else {
       schemeListData.toggleSchemeActive("");
