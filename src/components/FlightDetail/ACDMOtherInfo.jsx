@@ -96,8 +96,11 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">
-                  {groundFlight.deiceStandAcdm || ""}
+                <div
+                  className="ant-form-item-control-input-content"
+                  title={formatTimeString(groundFlight.deiceStandAcdm || "")}
+                >
+                  {formatTimeString(groundFlight.deiceStandAcdm || "", 3)}
                 </div>
               </div>
             </div>
@@ -107,8 +110,11 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">
-                  {groundFlight.deiceTypeAcdm || ""}
+                <div
+                  className="ant-form-item-control-input-content"
+                  title={formatTimeString(groundFlight.deiceTypeAcdm || "")}
+                >
+                  {formatTimeString(groundFlight.deiceTypeAcdm || "", 3)}
                 </div>
               </div>
             </div>
@@ -118,8 +124,11 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">
-                  {groundFlight.ecztAcdm || ""}
+                <div
+                  className="ant-form-item-control-input-content"
+                  title={formatTimeString(groundFlight.ecztAcdm || "")}
+                >
+                  {formatTimeString(groundFlight.ecztAcdm || "", 3)}
                 </div>
               </div>
             </div>
@@ -129,8 +138,11 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">
-                  {groundFlight.acztAcdm || ""}
+                <div
+                  className="ant-form-item-control-input-content"
+                  title={formatTimeString(groundFlight.acztAcdm || "")}
+                >
+                  {formatTimeString(groundFlight.acztAcdm || "", 3)}
                 </div>
               </div>
             </div>
@@ -140,8 +152,11 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">
-                  {groundFlight.eeztAcdm || ""}
+                <div
+                  className="ant-form-item-control-input-content"
+                  title={formatTimeString(groundFlight.eeztAcdm || "")}
+                >
+                  {formatTimeString(groundFlight.eeztAcdm || "", 3)}
                 </div>
               </div>
             </div>
@@ -151,8 +166,11 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">
-                  {groundFlight.aeztAcdm || ""}
+                <div
+                  className="ant-form-item-control-input-content"
+                  title={formatTimeString(groundFlight.aeztAcdm || "")}
+                >
+                  {formatTimeString(groundFlight.aeztAcdm || "", 3)}
                 </div>
               </div>
             </div>
@@ -271,8 +289,11 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">
-                  {groundFlight.ropenTimeAcdm || ""}
+                <div
+                  className="ant-form-item-control-input-content"
+                  title={formatTimeString(groundFlight.ropenTimeAcdm || "")}
+                >
+                  {formatTimeString(groundFlight.ropenTimeAcdm || "", 3)}
                 </div>
               </div>
             </div>
@@ -282,8 +303,11 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">
-                  {groundFlight.rcldtimeAcdm || ""}
+                <div
+                  className="ant-form-item-control-input-content"
+                  title={formatTimeString(groundFlight.rcldtimeAcdm || "")}
+                >
+                  {formatTimeString(groundFlight.rcldtimeAcdm || "", 3)}
                 </div>
               </div>
             </div>
@@ -293,8 +317,11 @@ const ACDMOtherInfo = (props) => {
           <div className="ant-row ant-form-item">
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">
-                  {groundFlight.tobtFusionAcdm || ""}
+                <div
+                  className="ant-form-item-control-input-content"
+                  title={formatTimeString(groundFlight.tobtFusionAcdm || "")}
+                >
+                  {formatTimeString(groundFlight.tobtFusionAcdm || "", 3)}
                 </div>
               </div>
             </div>

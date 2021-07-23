@@ -5,7 +5,9 @@ import { inject, observer } from "mobx-react";
 //机位&跑道&除冰信息
 const PositionRunwayDeiceInfo = (props) => {
   const { flightDetailData = {} } = props;
-  const { flight = {} } = flightDetailData;
+  const { flightData = {} } = flightDetailData;
+  const { flight = {} } = flightData;
+  const taxi = flight.taxi || "";
   return (
     <Fragment>
       <Row className="info-row">
@@ -50,7 +52,9 @@ const PositionRunwayDeiceInfo = (props) => {
             </div>
             <div className="ant-col ant-form-item-control">
               <div className="ant-form-item-control-input">
-                <div className="ant-form-item-control-input-content">{}</div>
+                <div className="ant-form-item-control-input-content">
+                  {taxi !== "" && taxi + "分钟"}
+                </div>
               </div>
             </div>
           </div>

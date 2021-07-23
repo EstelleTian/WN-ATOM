@@ -6,7 +6,7 @@ import {
   isValidVariable,
   isValidObject,
   formatTimeString,
-  getDayTimeFromString
+  getDayTimeFromString,
 } from "utils/basic-verify";
 const columns = [
   {

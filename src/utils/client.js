@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-07-21 14:45:58
+ * @LastEditTime: 2021-07-23 15:55:50
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -119,7 +119,7 @@ const openMessageDlg = (message) => {
 //流控详情--点击--导入和手动创建(发布流控)
 const handleImportControl =(str, massageId) => {
     try {
-        // alert("传入的id是："+massageId);
+        // alert("调用handleImportControl："+str);
         //传递方案id和消息id
         jsEntity.importControl(str, massageId);
     }catch(error){
