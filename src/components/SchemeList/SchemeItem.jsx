@@ -214,6 +214,8 @@ function SchemeItem(props) {
   });
   targetUnits = targetUnits.join(";");
   behindUnits = behindUnits.join(";");
+  // 基准点字符串
+  let targetUnitsString = targetUnits;
 
   // 开始时间格式化
   let startTimeFormat = getDayTimeFromString(startTime, "", 2);
@@ -223,7 +225,8 @@ function SchemeItem(props) {
   if (schemeRelative === "100") {
     startTimeFormat = startTimeFormat ? `(${startTimeFormat})` : "";
     endTimeFormat = endTimeFormat ? `(${endTimeFormat})` : "";
-    targetUnits = targetUnits ? `(${targetUnits})` : "";
+    // 增加相对标记
+    targetUnitsString = targetUnits ? `(${targetUnits})` : "";
   } else if (schemeRelative === "200") {
     // 若schemeRelative值为"200",相对时间加括号显示
     startTimeFormat = startTimeFormat ? `(${startTimeFormat})` : "";
@@ -474,9 +477,9 @@ function SchemeItem(props) {
                 <div
                   className="cell"
                   style={{ color: "#f5f5f5" }}
-                  title={`基准单元: ${targetUnits}`}
+                  title={`基准单元: ${targetUnitsString}`}
                 >
-                  {targetUnits}
+                  {targetUnitsString}
                 </div>
               </div>
             </div>
