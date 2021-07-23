@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-01 16:31:18
+ * @LastEditTime: 2021-07-23 10:01:14
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -29,7 +29,7 @@ function FContainer({
   collaboratePopoverData,
   systemPage,
   ATOMConfigFormData,
-  columnConfig
+  columnConfig,
 }) {
   const onCellFilter = useCallback((name, value) => {
     console.log(name, value);
@@ -66,6 +66,11 @@ function FContainer({
   let obj = flightTableData.getShowFlights;
 
   let showList = obj.showList || [];
+  // let showList = useMemo(() => {
+  //   console.log(schemeListData.activeSchemeId);
+  //   let list = obj.showList || [];
+  //   return list;
+  // }, [obj, schemeListData.activeSchemeId]);
   let targetFlight = obj.targetFlight || {};
 
   const focusFlight = useCallback(() => {

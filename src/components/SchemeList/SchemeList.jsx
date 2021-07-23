@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-07-20 15:01:41
+ * @LastEditTime: 2021-07-23 10:15:16
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -345,20 +345,29 @@ function SList(props) {
     return list;
   }, [schemeListData.sortedList, systemPage.activeDir]);
   useEffect(() => {
-    if (
-      schemeListData.activeSchemeId === "" &&
-      schemeList.length > 0 &&
-      systemPage.leftNavSelectedName === ""
-    ) {
-      //默认选第一条 已计算
-      let defaultId = "";
-      schemeList.map((item) => {
-        if (item.isCalculated && defaultId === "") {
-          defaultId = item.id;
-        }
-      });
+    if (schemeList.length > 0) {
+      if (
+        schemeListData.activeSchemeId === "" &&
+        systemPage.leftNavSelectedName === ""
+      ) {
+        //默认选第一条 已计算
+        let defaultId = "";
+        schemeList.map((item) => {
+          if (item.isCalculated && defaultId === "") {
+            defaultId = item.id;
+          }
+        });
 
-      handleActive(defaultId, "", "init");
+        handleActive(defaultId, "", "init");
+      }
+    } else {
+      schemeListData.toggleSchemeActive("");
+      if (systemPage.systemKind === "CDM") {
+        systemPage.setLeftNavSelectedName("all");
+      } else {
+        flightTableData.updateFlightsList([], "", "");
+      }
+      executeKPIData.updateExecuteKPIData({}, "");
     }
   }, [
     schemeList,

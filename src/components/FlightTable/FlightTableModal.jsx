@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-01 14:58:21
+ * @LastEditTime: 2021-07-23 10:06:29
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -79,9 +79,9 @@ function TTitle(props) {
       {tacticName !== "" && (
         <div
           // style={{ color: "#36a5da" }}
-          className="tactic_name "
+          // className="tactic_name "
           title={tacticName}
-          // className="tactic_name ellipsis_name"
+          className="tactic_name ellipsis_name"
         >
           {tacticName}
         </div>
