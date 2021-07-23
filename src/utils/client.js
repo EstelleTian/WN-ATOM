@@ -101,6 +101,7 @@ const openLocation = (str, dataCode) => {
 const openRunningControlFlow = (id) => {
     try{
         // 调用客户端方法，传入方案id
+        alert("调用客户端 openRunningControlFlow 方法,参数为:"+ id)
         jsEntity.openRunningControlFlow(id)
     }catch (e){
         console.error(e);
