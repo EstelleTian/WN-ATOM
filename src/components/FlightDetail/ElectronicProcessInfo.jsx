@@ -161,7 +161,7 @@ const convertToTableData = (efpsFlight = {}) => {
   let res = [];
   let obj = {
     key: "100",
-    efps_sid: efpsFlight.id || "",
+    efps_sid: efpsFlight.sid || "",
     efps_reqTime: efpsFlight.reqTime || "",
     efps_pusTime: efpsFlight.pusTime || "",
     efps_iceId: efpsFlight.iceId || "",

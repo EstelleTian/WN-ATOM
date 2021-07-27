@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-07-25 05:53:36
+ * @LastEditTime: 2021-07-27 15:11:55
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -43,11 +43,13 @@ import "./SchemeList.scss";
 // 接收storage同源消息
 window.addEventListener("storage", function (e) {
   if (e.key === "targetToFlight") {
+    // alert(111);
     const newValue = e.newValue || "{}";
     let values = JSON.parse(newValue);
-    const { tacticId = "", flightId = "", fromType = "" } = values;
-    if (isValidVariable(tacticId) && isValidVariable(flightId)) {
-      NWGlobal.targetToFlight(tacticId, flightId, fromType);
+    const { tacticId = "", flightStr = "{}", fromType = "" } = values;
+    const flightObj = JSON.parse(flightStr) || {};
+    if (isValidVariable(tacticId) && isValidObject(flightObj)) {
+      NWGlobal.targetToFlight(tacticId, flightObj, fromType);
     }
   }
   localStorage.removeItem("targetToFlight");
@@ -261,7 +263,7 @@ function SList(props) {
   }, []);
 
   //根据工作待办-协调类-【主办】跳转到放行监控，并高亮待办航班
-  NWGlobal.targetToFlight = (schemeId, flightId, fromType) => {
+  NWGlobal.targetToFlight = (schemeId, flightObj, fromType) => {
     //验证有没有这个方案
     const res = schemeListData.activeScheme(schemeId);
     if (isValidObject(res)) {
@@ -281,7 +283,8 @@ function SList(props) {
         systemPage.setLeftNavSelectedName(schemeId);
       }
     }
-
+    const flightId = flightObj.flightId || ""; //航班id
+    const sid = flightObj.sid || ""; //流水号
     flightTableData.focusFlightId = flightId;
     //验证航班协调按钮是否激活 todo为已激活
     if (systemPage.modalActiveName !== "todo") {
@@ -290,10 +293,10 @@ function SList(props) {
 
     if (fromType === "finished") {
       todoList.activeTab = "2";
-      myApplicationList.focusFlightId = flightId;
+      myApplicationList.focusSid = sid;
     } else {
       todoList.activeTab = "1";
-      todoList.focusFlightId = flightId;
+      todoList.focusSid = sid;
     }
   };
 

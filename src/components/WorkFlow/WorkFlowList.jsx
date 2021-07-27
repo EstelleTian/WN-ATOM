@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-07-14 17:30:49
+ * @LastEditTime: 2021-07-27 14:49:54
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -123,11 +123,23 @@ const HandleBtn = function (props) {
           "targetToFlight",
           JSON.stringify({
             tacticId: tacticId,
-            flightId: fmeId,
+            flightStr: JSON.stringify({
+              flightId: fmeId,
+              sid: record.sid,
+            }),
             fromType: props.activeTab,
           })
         );
-        openTimeSlotFrameWithFlightId(tacticId, fmeId, props.activeTab);
+        // openTimeSlotFrameWithFlightId(tacticId, fmeId, props.activeTab);
+
+        openTimeSlotFrameWithFlightId(
+          tacticId,
+          JSON.stringify({
+            flightId: fmeId,
+            sid: record.sid,
+          }),
+          props.activeTab
+        );
         break;
       case "SchemeApprovalProcess": //方案审批流程
         // console.log("方案审批流程",businessKey);
