@@ -71,12 +71,14 @@ function useExecuteKPIData({ schemeListData, executeKPIData, systemPage }) {
   }, []);
 
   useEffect(() => {
-    clearTimeout(executeKPITimeoutId);
-    if (isValidVariable(schemeListData.activeSchemeId)) {
-      executeKPIData.toggleLoad(true);
-      getKPIData(true);
+    if (systemPage.systemKind.indexOf("CRS") > -1) {
+      clearTimeout(executeKPITimeoutId);
+      if (isValidVariable(schemeListData.activeSchemeId)) {
+        executeKPIData.toggleLoad(true);
+        getKPIData(true);
+      }
     }
-  }, [schemeListData.activeSchemeId]);
+  }, [schemeListData.activeSchemeId, systemPage.systemKind]);
 
   //监听全局刷新
   useEffect(

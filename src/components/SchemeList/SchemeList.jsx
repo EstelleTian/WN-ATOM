@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-07-27 15:11:55
+ * @LastEditTime: 2021-07-28 14:06:34
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -48,9 +48,7 @@ window.addEventListener("storage", function (e) {
     let values = JSON.parse(newValue);
     const { tacticId = "", flightStr = "{}", fromType = "" } = values;
     const flightObj = JSON.parse(flightStr) || {};
-    if (isValidVariable(tacticId) && isValidObject(flightObj)) {
-      NWGlobal.targetToFlight(tacticId, flightObj, fromType);
-    }
+    NWGlobal.targetToFlight(tacticId, flightObj, fromType);
   }
   localStorage.removeItem("targetToFlight");
 });
@@ -231,13 +229,13 @@ function SList(props) {
     toggleModalVisible,
     toggleModalType,
   } = useSchemeModal({ systemPage });
-  if (systemPage.systemKind.indexOf("CRS") > -1) {
+
     useExecuteKPIData({
       schemeListData,
       executeKPIData,
       systemPage,
     });
-  }
+  
 
   //接收客户端传来方案id，用以自动切换到选中方案
   NWGlobal.setSchemeId = useCallback((schemeId, title) => {
@@ -265,24 +263,27 @@ function SList(props) {
   //根据工作待办-协调类-【主办】跳转到放行监控，并高亮待办航班
   NWGlobal.targetToFlight = (schemeId, flightObj, fromType) => {
     //验证有没有这个方案
-    const res = schemeListData.activeScheme(schemeId);
-    if (isValidObject(res)) {
-      //当前选中的方案
-      const activeSchemeId = schemeListData.activeSchemeId;
-      if (activeSchemeId !== schemeId) {
-        //如果当前激活的id和传来的不一样，手动触发
-        //选中方案
-        schemeListData.toggleSchemeActive(schemeId + "");
-        systemPage.setLeftNavSelectedName("");
-      }
-    } else {
-      //选默认交通流
-      if (systemPage.leftNavNameList.indexOf(schemeId) !== -1) {
+    if (isValidVariable(schemeId)) {
+      const res = schemeListData.activeScheme(schemeId);
+      if (isValidObject(res)) {
+        //当前选中的方案
+        const activeSchemeId = schemeListData.activeSchemeId;
+        if (activeSchemeId !== schemeId) {
+          //如果当前激活的id和传来的不一样，手动触发
+          //选中方案
+          schemeListData.toggleSchemeActive(schemeId + "");
+          systemPage.setLeftNavSelectedName("");
+        }
+      } else {
         //选默认交通流
-        schemeListData.toggleSchemeActive(schemeId);
-        systemPage.setLeftNavSelectedName(schemeId);
+        if (systemPage.leftNavNameList.indexOf(schemeId) !== -1) {
+          //选默认交通流
+          schemeListData.toggleSchemeActive(schemeId);
+          systemPage.setLeftNavSelectedName(schemeId);
+        }
       }
     }
+
     const flightId = flightObj.flightId || ""; //航班id
     const sid = flightObj.sid || ""; //流水号
     flightTableData.focusFlightId = flightId;
