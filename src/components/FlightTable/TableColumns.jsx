@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-07-16 09:03:47
+ * @LastEditTime: 2021-07-29 16:46:36
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -17,6 +17,7 @@ import { FlightCoordination, PriorityList } from "utils/flightcoordination.js";
 import RenderCell from "./RenderCell";
 import FmeToday from "utils/fmetoday";
 import debounce from "lodash/debounce";
+import { isValidObject } from "../../utils/basic-verify";
 
 /**
  * 告警列单元格渲染格式化
@@ -719,31 +720,39 @@ const getColumns = (
   sortable = false,
   onCellFilter = () => {}
 ) => {
-  if (systemName === undefined) {
+  if (!isValidVariable(systemName)) {
+    console.log("sort systemName", systemName);
     return;
   }
   // console.log("systemName2", systemName);
   // displayColumnList 列配置数据中设置为显示的列
   let names = displayColumnList;
-  let sortKey = "";
-  if (typeof systemName === "string") {
-    if (systemName === "CRS") {
-      // names = CRSNames;
-      sortKey = "FFIXT";
-    } else if (systemName === "CRS-REGION") {
-      // names = FENJUCRSNames;
-      sortKey = "FFIXT";
-    } else if (systemName === "CDM") {
-      // names = CDMNames;
-      sortKey = "ATOT";
-    } else {
-      // names = CRSNames;
-      sortKey = "FFIXT";
+  let sortKey = "FLIGHTID";
+  if (systemName === "CRS") {
+    if (!isValidObject(names)) {
+      names = CRSNames;
     }
-  } else if (typeof systemName === "object") {
-    // names = systemName;
-    sortKey = "FLIGHTID";
+    sortKey = "FFIXT";
+  } else if (systemName === "CRS-REGION") {
+    if (!isValidObject(names)) {
+      names = FENJUCRSNames;
+    }
+    sortKey = "FFIXT";
+  } else if (systemName === "CDM") {
+    if (!isValidObject(names)) {
+      names = CDMNames;
+    }
+    sortKey = "ATOT";
+  } else {
+    if (!isValidObject(names)) {
+      names = CRSNames;
+    }
+    sortKey = "FFIXT";
   }
+  if (names[sortKey] === undefined) {
+    sortKey = Object.keys(names)[0] || "FLIGHTID";
+  }
+  console.log("sort ", sortKey, names);
 
   //获取屏幕宽度，适配 2k
   let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
@@ -791,6 +800,7 @@ const getColumns = (
       },
     };
 
+    //普通排序
     const sortFunc = (a, b) => {
       let data1 = "";
       let data2 = "";
@@ -837,162 +847,169 @@ const getColumns = (
     }
     if (en === "FFIXT") {
       tem["width"] = screenWidth > 1920 ? 95 : 80;
-      if (sortKey === en) {
-        //CRS按过点时间基准开始排序
-        tem["defaultSortOrder"] = "ascend";
-        let sortNames = CRSSortNames;
-        //field对象类型排序，用value再排
-        const sorFunc2 = (a, b, dir, sortNames, ind) => {
-          const sortName = sortNames[ind];
-          if (ind > sortNames.length - 1) {
-            return 0;
-          }
-          let data1 = "";
-          let data2 = "";
-          if (typeof a[sortName] === "string") {
-            data1 = a[sortName] || "";
-            data2 = b[sortName] || "";
-            if (data1.length >= 12) {
-              data1 = data1.substring(0, 12);
-            }
-            if (data2.length >= 12) {
-              data2 = data2.substring(0, 12);
-            }
-          } else if (typeof a[sortName] === "object") {
-            const f1 = a[sortName] || {};
-            const f2 = b[sortName] || {};
-            let aorgdataStr = a["orgdata"] || "{}";
-            let aorgdata = JSON.parse(aorgdataStr);
-            let borgdataStr = b["orgdata"] || "{}";
-            let borgdata = JSON.parse(borgdataStr);
-            data1 = f1.value || "";
-            data2 = f2.value || "";
+      //CRS按过点时间基准开始排序
+      // console.log("FFIXT 11");
 
-            if (isValidVariable(data1)) {
-              if (a.atomConfigValue * 1 === 300) {
-                if (aorgdata.areaStatus === "OUTER" && f1.type === "N") {
-                  data1 = "B" + data1;
-                } else {
-                  data1 = "A" + data1;
-                }
-              } else {
-                if (
-                  aorgdata.areaStatus === "OUTER" &&
-                  (f1.type === "N" || f1.type === "R")
-                ) {
-                  data1 = "B" + data1;
-                } else {
-                  data1 = "A" + data1;
-                }
-              }
-            }
-            if (isValidVariable(data2)) {
-              if (b.atomConfigValue * 1 === 300) {
-                if (borgdata.areaStatus === "OUTER" && f2.type === "N") {
-                  data2 = "B" + data2;
-                } else {
-                  data2 = "A" + data2;
-                }
-              } else {
-                if (
-                  borgdata.areaStatus === "OUTER" &&
-                  (f2.type === "N" || f2.type === "R")
-                ) {
-                  data2 = "B" + data2;
-                } else {
-                  data2 = "A" + data2;
-                }
-              }
-            }
-          }
-          // console.log(
-          //   "a.atomConfigValue",
-          //   a.atomConfigValue,
-          //   "b.atomConfigValue",
-          //   b.atomConfigValue,
-          //   "data1",
-          //   data1,
-          //   "data2",
-          //   data2
-          // );
-          if (isValidVariable(data1) && isValidVariable(data2)) {
-            let res = data1.localeCompare(data2);
-            if (0 !== res) {
-              return res;
-            }
-          } else if (isValidVariable(data1)) {
-            return -1;
-          } else if (isValidVariable(data2)) {
-            return 1;
-          } else {
-            return sorFunc2(a, b, dir, sortNames, ++ind);
-          }
-        };
-        tem["sorter"] = (a, b, dir) => {
-          // console.log("方向", dir);
-          // ascend 升序  descend 降序
-          return sorFunc2(a, b, dir, sortNames, 0);
-        };
-      }
-    }
-    if (en === "ATOT") {
+      // console.log("FFIXT 22");
       if (sortKey === en) {
-        //CDM按起飞时间基准开始排序
+        console.log("sort FFIXT", sortKey);
         tem["defaultSortOrder"] = "ascend";
-        let sortNames = CDMSortNames;
-        //field对象类型排序，用value再排
-        const sorFunc2 = (a, b, sortNames, ind) => {
-          const sortName = sortNames[ind];
-          let data1 = "";
-          let data2 = "";
-          if (typeof a[sortName] === "string") {
-            data1 = a[sortName];
-            data2 = b[sortName];
-          } else if (typeof a[sortName] === "object") {
-            const f1 = a[sortName] || {};
-            const f2 = b[sortName] || {};
-            data1 = f1.value || "";
-            data2 = f2.value || "";
-          }
+      }
+      let sortNames = CRSSortNames;
+      //field对象类型排序，用value再排
+      const sorFunc2 = (a, b, dir, sortNames, ind) => {
+        const sortName = sortNames[ind];
+        if (ind > sortNames.length - 1) {
+          return 0;
+        }
+        let data1 = "";
+        let data2 = "";
+        if (typeof a[sortName] === "string") {
+          data1 = a[sortName] || "";
+          data2 = b[sortName] || "";
           if (data1.length >= 12) {
             data1 = data1.substring(0, 12);
           }
           if (data2.length >= 12) {
             data2 = data2.substring(0, 12);
           }
-          if (isValidVariable(data1) && isValidVariable(data2)) {
-            let res = data1.localeCompare(data2);
-            if (0 !== res) {
-              return res;
-            }
-            //  else {
-            //   return sorFunc2(a, b, sortNames, ++ind);
-            // }
-          } else if (isValidVariable(data1)) {
-            return -1;
-          } else if (isValidVariable(data2)) {
-            return 1;
-          } else {
-            if (sortNames.length >= ind + 1) {
-              return sorFunc2(a, b, sortNames, ++ind);
+        } else if (typeof a[sortName] === "object") {
+          const f1 = a[sortName] || {};
+          const f2 = b[sortName] || {};
+          let aorgdataStr = a["orgdata"] || "{}";
+          let aorgdata = JSON.parse(aorgdataStr);
+          let borgdataStr = b["orgdata"] || "{}";
+          let borgdata = JSON.parse(borgdataStr);
+          data1 = f1.value || "";
+          data2 = f2.value || "";
+
+          if (isValidVariable(data1)) {
+            if (a.atomConfigValue * 1 === 300) {
+              if (aorgdata.areaStatus === "OUTER" && f1.type === "N") {
+                data1 = "B" + data1;
+              } else {
+                data1 = "A" + data1;
+              }
+            } else {
+              if (
+                aorgdata.areaStatus === "OUTER" &&
+                (f1.type === "N" || f1.type === "R")
+              ) {
+                data1 = "B" + data1;
+              } else {
+                data1 = "A" + data1;
+              }
             }
           }
-        };
-        tem["sorter"] = (a, b) => {
-          return sorFunc2(a, b, sortNames, 0);
-        };
+          if (isValidVariable(data2)) {
+            if (b.atomConfigValue * 1 === 300) {
+              if (borgdata.areaStatus === "OUTER" && f2.type === "N") {
+                data2 = "B" + data2;
+              } else {
+                data2 = "A" + data2;
+              }
+            } else {
+              if (
+                borgdata.areaStatus === "OUTER" &&
+                (f2.type === "N" || f2.type === "R")
+              ) {
+                data2 = "B" + data2;
+              } else {
+                data2 = "A" + data2;
+              }
+            }
+          }
+        }
+        // console.log(
+        //   "a.atomConfigValue",
+        //   a.atomConfigValue,
+        //   "b.atomConfigValue",
+        //   b.atomConfigValue,
+        //   "data1",
+        //   data1,
+        //   "data2",
+        //   data2
+        // );
+        if (isValidVariable(data1) && isValidVariable(data2)) {
+          let res = data1.localeCompare(data2);
+          if (0 !== res) {
+            return res;
+          }
+        } else if (isValidVariable(data1)) {
+          return -1;
+        } else if (isValidVariable(data2)) {
+          return 1;
+        } else {
+          return sorFunc2(a, b, dir, sortNames, ++ind);
+        }
+      };
+      tem["sorter"] = (a, b, dir) => {
+        // console.log("方向", dir);
+        // ascend 升序  descend 降序
+        return sorFunc2(a, b, dir, sortNames, 0);
+      };
+    }
+    if (en === "ATOT") {
+      if (sortKey === en) {
+        console.log("sort ATOT", sortKey);
+        //CDM按起飞时间基准开始排序
+        tem["defaultSortOrder"] = "ascend";
       }
+
+      let sortNames = CDMSortNames;
+      //field对象类型排序，用value再排
+      const sorFunc2 = (a, b, sortNames, ind) => {
+        const sortName = sortNames[ind];
+        let data1 = "";
+        let data2 = "";
+        if (typeof a[sortName] === "string") {
+          data1 = a[sortName];
+          data2 = b[sortName];
+        } else if (typeof a[sortName] === "object") {
+          const f1 = a[sortName] || {};
+          const f2 = b[sortName] || {};
+          data1 = f1.value || "";
+          data2 = f2.value || "";
+        }
+        if (data1.length >= 12) {
+          data1 = data1.substring(0, 12);
+        }
+        if (data2.length >= 12) {
+          data2 = data2.substring(0, 12);
+        }
+        if (isValidVariable(data1) && isValidVariable(data2)) {
+          let res = data1.localeCompare(data2);
+          if (0 !== res) {
+            return res;
+          }
+          //  else {
+          //   return sorFunc2(a, b, sortNames, ++ind);
+          // }
+        } else if (isValidVariable(data1)) {
+          return -1;
+        } else if (isValidVariable(data2)) {
+          return 1;
+        } else {
+          if (sortNames.length >= ind + 1) {
+            return sorFunc2(a, b, sortNames, ++ind);
+          }
+        }
+      };
+      tem["sorter"] = (a, b) => {
+        return sorFunc2(a, b, sortNames, 0);
+      };
     }
     if (en === "ALARM") {
       tem["width"] = screenWidth > 1920 ? 140 : 120;
     }
 
     if (en === "FLIGHTID") {
-      tem["width"] = screenWidth > 1920 ? 120 : 100;
-      tem["fixed"] = "left";
       if (sortKey === en) {
+        console.log("sort FLIGHTID", sortKey);
         tem["defaultSortOrder"] = "ascend";
       }
+      tem["width"] = screenWidth > 1920 ? 120 : 100;
+      tem["fixed"] = "left";
     }
 
     if (en === "STATUS") {

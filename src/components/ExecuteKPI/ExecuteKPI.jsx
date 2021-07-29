@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 13:47:11
- * @LastEditTime: 2021-07-16 13:21:05
+ * @LastEditTime: 2021-07-29 16:14:48
  * @LastEditors: Please set LastEditors
  * @Description: 执行KPI
  * @FilePath: \WN-CDM\src\components\ExecuteKPI\ExecuteKPI.jsx
@@ -32,7 +32,7 @@ const ExecuteKPI = (props) => {
       <ImpactLevel />
       <PreDelay />
       {/* <CTOTRate  /> */}
-      <FlightListModal />
+      {/* <FlightListModal /> */}
     </div>
     // </Spin>
   );
