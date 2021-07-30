@@ -25,7 +25,6 @@ function useFlightsList({
         // console.log("有协调窗口打开中，跳过此次航班更新");
         return;
       }
-
       let { flights, generateTime, performKpiResult = {} } = flightData;
       if (flights !== null) {
         flightTableData.updateFlightsList(

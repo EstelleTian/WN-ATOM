@@ -314,11 +314,22 @@ const WorkFlowContent = (props) => {
           "targetToFlight",
           JSON.stringify({
             tacticId: tacticId,
-            flightId: fmeId,
+            flightStr: JSON.stringify({
+              flightId: fmeId,
+              sid: record.sid,
+            }),
             fromType: props.activeTab,
           })
         );
-        openTimeSlotFrameWithFlightId(tacticId, fmeId, props.activeTab);
+        // openTimeSlotFrameWithFlightId(tacticId, fmeId, props.activeTab);
+        openTimeSlotFrameWithFlightId(
+          tacticId,
+          JSON.stringify({
+            flightId: fmeId,
+            sid: modalId,
+          }),
+          props.activeTab
+        );
         break;
       case "SchemeApprovalProcess": //方案审批流程
         console.log("方案审批流程", businessKey);

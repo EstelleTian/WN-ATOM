@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 12:59:35
- * @LastEditTime: 2021-07-16 15:08:56
+ * @LastEditTime: 2021-07-27 14:33:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\stores\todoListStores.jsx
@@ -24,6 +24,8 @@ class MyApplicationList {
   @observable forceUpdate = false;
   //高亮工作流id
   @observable focusFlightId = "";
+  //高亮工作流id
+  @observable focusSid = "";
 
   //更新已办列表数据
   @action updateMyApplicationsData(myApplications, generateTime) {

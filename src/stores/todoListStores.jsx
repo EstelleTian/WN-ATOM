@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 12:59:35
- * @LastEditTime: 2021-07-16 15:22:49
+ * @LastEditTime: 2021-07-27 14:33:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\stores\todoListStores.jsx
@@ -27,6 +27,8 @@ class TODOList {
   @observable activeTab = "1";
   //高亮工作流id
   @observable focusFlightId = "";
+  //高亮工作流id
+  @observable focusSid = "";
 
   //更新待办列表数据
   @action updateTodosData(todos, generateTime) {

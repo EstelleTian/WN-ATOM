@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-07-06 10:15:00
+ * @LastEditTime: 2021-07-27 09:46:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -59,6 +59,7 @@ const MonitorWebPage = lazy(() =>
 const NewsSubscribePage = lazy(() =>
   import("../pages/NewsSubscribePage/NewsSubscribePage")
 );
+const GraphPage = lazy(() => import("../pages/GraphPage/GraphPage"));
 
 export default [
   // 客户端登录页面
@@ -198,5 +199,12 @@ export default [
     component: withRouter(MonitorWebPage),
     exact: true,
     title: "运行态势页面",
+  },
+  // 流程图
+  {
+    path: "/graph",
+    component: withRouter(GraphPage),
+    exact: true,
+    title: "方案流程",
   },
 ];

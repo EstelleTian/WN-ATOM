@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-16 15:25:06
+ * @LastEditTime: 2021-07-27 15:00:36
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -538,10 +538,14 @@ const HistaskTable = (props) => {
   }, [user.id]);
   useEffect(() => {
     if (
-      isValidVariable(props.myApplicationList.focusFlightId) &&
+      (isValidVariable(props.myApplicationList.focusFlightId) ||
+        isValidVariable(props.myApplicationList.focusSid)) &&
       props.myApplicationList.myApplications.length > 0
     ) {
-      const taskId = props.myApplicationList.getIdByFlightId();
+      let taskId = props.myApplicationList.focusSid || "";
+      if (taskId === "") {
+        taskId = props.myApplicationList.getIdByFlightId();
+      }
 
       //高亮航班
       const canvas = document.getElementsByClassName(
@@ -550,11 +554,13 @@ const HistaskTable = (props) => {
       const tr = canvas[0].getElementsByClassName(taskId);
       if (tr.length > 0) {
         highlightRowByDom(tr[0]);
+        props.myApplicationList.focusSid = "";
         props.myApplicationList.focusFlightId = "";
       }
     }
   }, [
     props.myApplicationList.focusFlightId,
+    props.myApplicationList.focusSid,
     props.myApplicationList.myApplications,
   ]);
   return (

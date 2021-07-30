@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-16 15:24:55
+ * @LastEditTime: 2021-07-27 15:01:00
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -490,19 +490,28 @@ const TodoTable = (props) => {
 
   useEffect(() => {
     if (
-      isValidVariable(props.todoList.focusFlightId) &&
-      props.todoList.todos.length > 0
+      (isValidVariable(props.todoList.focusFlightId) ||
+        isValidVariable(props.todoList.focusSid)) &&
+      props.myApplicationList.todos.length > 0
     ) {
-      const taskId = props.todoList.getIdByFlightId();
+      let taskId = props.todoList.focusSid || "";
+      if (taskId === "") {
+        taskId = props.todoList.getIdByFlightId();
+      }
       //高亮航班
       const canvas = document.getElementsByClassName("flight_cord_todo_canvas");
       const tr = canvas[0].getElementsByClassName(taskId);
       if (tr.length > 0) {
         highlightRowByDom(tr[0]);
         props.todoList.focusFlightId = "";
+        props.todoList.focusSid = "";
       }
     }
-  }, [props.todoList.focusFlightId, props.todoList.todos]);
+  }, [
+    props.todoList.focusFlightId,
+    props.todoList.focusSid,
+    props.todoList.todos,
+  ]);
 
   return (
     <Suspense

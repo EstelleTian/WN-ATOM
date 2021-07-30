@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-06-16 19:37:44
+ * @LastEditTime: 2021-07-28 13:58:54
  * @LastEditors: Please set LastEditors
  * @Description:左上切换模块 执行kpi 豁免航班 等待池 特殊航班 失效航班 待办事项
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -114,16 +114,17 @@ function SubTable(props) {
     ) {
       return { tableData: [], columns: [], totalWidth: 0 };
     }
-    
+
     let namesObj = SubNames[modalActiveName];
     // 若列不是有效的对象则使用 columnConfig store中数据
-    if(!isValidObject(namesObj)){
-    // 从columnConfig store 中获取display为1的列数据
-      namesObj = columnConfig.displayColumnData
+    if (!isValidObject(namesObj)) {
+      // 从columnConfig store 中获取display为1的列数据
+      namesObj = columnConfig.displayColumnData;
     }
-    
+
     const columns = getColumns(
       namesObj,
+      props.systemPage.systemKind,
       props.collaboratePopoverData
     );
     let subTableData = [];
@@ -149,7 +150,11 @@ function SubTable(props) {
       totalWidth += col.width * 1;
     });
     return { tableData, columns, totalWidth };
-  }, [props.flightTableData.list, modalActiveName, columnConfig.displayColumnData]);
+  }, [
+    props.flightTableData.list,
+    modalActiveName,
+    columnConfig.displayColumnData,
+  ]);
 
   // console.log(modalActiveName, tableData.length)
 
@@ -315,5 +320,5 @@ export default inject(
   "flightTableData",
   "schemeListData",
   "systemPage",
-  "columnConfig",
+  "columnConfig"
 )(observer(SubTable));

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-23 10:01:14
+ * @LastEditTime: 2021-07-29 16:36:16
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -22,6 +22,7 @@ import FTable from "./FlightTable";
 // import VirtualTable from "./VirtualTable";
 
 import "./FlightTable.scss";
+import { isValidObject } from "../../utils/basic-verify";
 
 function FContainer({
   flightTableData,
@@ -40,6 +41,9 @@ function FContainer({
     console.log("航班表格 filterable切换", flightTableData.filterable);
     // 从columnConfig store 中获取display为1的列数据
     let displayColumnList = columnConfig.displayColumnData;
+    // if (!isValidObject(displayColumnList)) {
+    //   return [];
+    // }
     if (flightTableData.filterable) {
       // setHeight(tableHeight - 45);
       return getColumns(

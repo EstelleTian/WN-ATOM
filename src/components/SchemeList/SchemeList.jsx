@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-07-23 13:08:04
+ * @LastEditTime: 2021-07-28 14:06:34
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -43,12 +43,12 @@ import "./SchemeList.scss";
 // 接收storage同源消息
 window.addEventListener("storage", function (e) {
   if (e.key === "targetToFlight") {
+    // alert(111);
     const newValue = e.newValue || "{}";
     let values = JSON.parse(newValue);
-    const { tacticId = "", flightId = "", fromType = "" } = values;
-    if (isValidVariable(tacticId) && isValidVariable(flightId)) {
-      NWGlobal.targetToFlight(tacticId, flightId, fromType);
-    }
+    const { tacticId = "", flightStr = "{}", fromType = "" } = values;
+    const flightObj = JSON.parse(flightStr) || {};
+    NWGlobal.targetToFlight(tacticId, flightObj, fromType);
   }
   localStorage.removeItem("targetToFlight");
 });
@@ -229,13 +229,13 @@ function SList(props) {
     toggleModalVisible,
     toggleModalType,
   } = useSchemeModal({ systemPage });
-  if (systemPage.systemKind.indexOf("CRS") > -1) {
+
     useExecuteKPIData({
       schemeListData,
       executeKPIData,
       systemPage,
     });
-  }
+  
 
   //接收客户端传来方案id，用以自动切换到选中方案
   NWGlobal.setSchemeId = useCallback((schemeId, title) => {
@@ -261,27 +261,31 @@ function SList(props) {
   }, []);
 
   //根据工作待办-协调类-【主办】跳转到放行监控，并高亮待办航班
-  NWGlobal.targetToFlight = (schemeId, flightId, fromType) => {
+  NWGlobal.targetToFlight = (schemeId, flightObj, fromType) => {
     //验证有没有这个方案
-    const res = schemeListData.activeScheme(schemeId);
-    if (isValidObject(res)) {
-      //当前选中的方案
-      const activeSchemeId = schemeListData.activeSchemeId;
-      if (activeSchemeId !== schemeId) {
-        //如果当前激活的id和传来的不一样，手动触发
-        //选中方案
-        schemeListData.toggleSchemeActive(schemeId + "");
-        systemPage.setLeftNavSelectedName("");
-      }
-    } else {
-      //选默认交通流
-      if (systemPage.leftNavNameList.indexOf(schemeId) !== -1) {
+    if (isValidVariable(schemeId)) {
+      const res = schemeListData.activeScheme(schemeId);
+      if (isValidObject(res)) {
+        //当前选中的方案
+        const activeSchemeId = schemeListData.activeSchemeId;
+        if (activeSchemeId !== schemeId) {
+          //如果当前激活的id和传来的不一样，手动触发
+          //选中方案
+          schemeListData.toggleSchemeActive(schemeId + "");
+          systemPage.setLeftNavSelectedName("");
+        }
+      } else {
         //选默认交通流
-        schemeListData.toggleSchemeActive(schemeId);
-        systemPage.setLeftNavSelectedName(schemeId);
+        if (systemPage.leftNavNameList.indexOf(schemeId) !== -1) {
+          //选默认交通流
+          schemeListData.toggleSchemeActive(schemeId);
+          systemPage.setLeftNavSelectedName(schemeId);
+        }
       }
     }
 
+    const flightId = flightObj.flightId || ""; //航班id
+    const sid = flightObj.sid || ""; //流水号
     flightTableData.focusFlightId = flightId;
     //验证航班协调按钮是否激活 todo为已激活
     if (systemPage.modalActiveName !== "todo") {
@@ -290,10 +294,10 @@ function SList(props) {
 
     if (fromType === "finished") {
       todoList.activeTab = "2";
-      myApplicationList.focusFlightId = flightId;
+      myApplicationList.focusSid = sid;
     } else {
       todoList.activeTab = "1";
-      todoList.focusFlightId = flightId;
+      todoList.focusSid = sid;
     }
   };
 
@@ -368,7 +372,7 @@ function SList(props) {
         let activeList = schemeList.filter(
           (item) => item.id === schemeListData.activeSchemeId
         );
-        if (activeList.length === 0) {
+        if (activeList.length === 0 && systemPage.leftNavSelectedName === "") {
           //默认选第一条 已计算
           selectOne();
         }
