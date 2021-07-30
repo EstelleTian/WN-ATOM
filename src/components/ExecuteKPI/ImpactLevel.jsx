@@ -245,6 +245,7 @@ function DCBLineChart(props) {
           name: "全区DCB",
           type: "line",
           showSymbol: "circle",
+          symbolSize: 2.5,
           smooth: true,
           data: regionDCBValArr,
           label: {
@@ -264,6 +265,7 @@ function DCBLineChart(props) {
           name: "区内DCB",
           type: "line",
           showSymbol: "circle",
+          symbolSize: 2.5,
           smooth: true,
           data: insideDCBValArr,
           label: {
@@ -283,6 +285,7 @@ function DCBLineChart(props) {
           name: "区外DCB",
           type: "line",
           showSymbol: "circle",
+          symbolSize: 2.5,
           smooth: true,
           data: outsideDCBValArr,
           label: {
