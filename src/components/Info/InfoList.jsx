@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-07-12 14:12:01
+ * @LastEditTime: 2021-08-02 15:35:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
@@ -281,6 +281,7 @@ function InfoCardItem(props) {
           {(dataType === "FCDM" ||
             dataType === "DCVM" ||
             dataType === "DRAC" ||
+            dataType === "MDRS" ||
             dataType === "SECI") && (
             <div>
               <div className="text">
