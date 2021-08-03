@@ -7,6 +7,8 @@
  */
 import React, {useMemo} from 'react'
 import {Card, Row, Col} from 'antd'
+import { RunwayConfigUtil } from "utils/runway-config-util";
+
 import './RunwayDetail.scss'
 
 //用途
@@ -57,13 +59,13 @@ const formatTime = ( timeStr, type ) => {
     }
     return str
 }
-//方案详情模块
+//跑道详情模块
 function RunwayDetail(props) {
     
-    const { airportName, data = "" } = props;
+    const { airportName, data = "", type } = props;
 
     const {
-        listRWGapInfoDefault,
+        listRWGapInfo,
         sign0,
         startTime,
         endTime,
@@ -76,12 +78,19 @@ function RunwayDetail(props) {
         const sign0 = runwayConEditBean.sign0 || ""; //配置状态
 
         const listRWGapInfoDefault = data.listRWGapInfoDefault || [];
+        const listRWGapInfoDynamic = data.listRWGapInfoDynamic || [];
         let startTime = "";
         let endTime = "";
         let generateTime = "";
         let updateTime = "";
         let operationModeStr = "";//运行模式
-        listRWGapInfoDefault.map( item => {
+        let listRWGapInfo = [];
+        if(type === RunwayConfigUtil.TYPE_DEFAULT ){
+            listRWGapInfo = listRWGapInfoDefault;
+        }else if(type === RunwayConfigUtil.TYPE_DYNAMIC ){
+            listRWGapInfo = listRWGapInfoDynamic;
+        }
+        listRWGapInfo.map( item => {
              startTime = item.startTime || ""; //起始时间
              endTime = item.endTime || ""; //结束时间
              generateTime = item.generateTime || ""; //创建时间
@@ -99,7 +108,7 @@ function RunwayDetail(props) {
         })
 
         return {
-            listRWGapInfoDefault,
+            listRWGapInfo,
             sign0,
             startTime,
             endTime,
@@ -256,7 +265,7 @@ function RunwayDetail(props) {
                             </Col>
                         </Row>
                         {
-                            listRWGapInfoDefault.map( item => {
+                            listRWGapInfo.map( item => {
                                 return <Row className="info-row" key={item.id}>
                                 <Col span={3}>
                                     <div className="ant-row ant-form-item">
