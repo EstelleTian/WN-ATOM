@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-08-03 09:07:30
+ * @LastEditTime: 2021-08-03 10:43:40
  * @LastEditors: Please set LastEditors
  * @Description: 暴露给客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -13,6 +13,7 @@ let NWGlobal = {
     targetToFlight: function(){}, //放行监控  用于定位到航班  方案idsetSchemeId(方案id), flightId(航班id),
     setCapacityPane: function(){},
     setEditDirectionData: function(){}, // 回传方向数据
+    setGraphSchemeId: function(){}, //流控血缘关系图-方案id
 }
 window.NWGlobal = NWGlobal;
 

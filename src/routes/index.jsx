@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-08-03 09:08:17
+ * @LastEditTime: 2021-08-03 10:50:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -202,7 +202,7 @@ export default [
   },
   // 流程图
   {
-    path: "/graph/:tacticId",
+    path: "/graph",
     component: withRouter(GraphPage),
     exact: true,
     title: "方案流程",

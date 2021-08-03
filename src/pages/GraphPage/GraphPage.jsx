@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Graph, Shape, Node, Point } from "@antv/x6";
-import { withRouter } from "react-router-dom";
 import { isValidVariable } from "utils/basic-verify";
 import { requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import { customNotice } from "utils/common-funcs";
+import { NWGlobal } from "utils/global";
 import "./GraphPage.scss";
 // import './imgs/aaa'
 // import isData from './indexs';
 
 const GraphPage = (props) => {
+  const [tacticId, setTacticId] = useState("");
   const [tacticInfos, setTacticInfos] = useState([]);
-  const { match } = props;
-  const params = match.params || {};
-  const tacticId = params.tacticId || "";
+  NWGlobal.setGraphSchemeId = (id) => {
+    setTacticId(id);
+  };
 
   //获取方案血缘关系链数据
   const requestSchemeInfos = async () => {
@@ -489,4 +490,4 @@ const GraphPage = (props) => {
     </>
   );
 };
-export default withRouter(GraphPage);
+export default GraphPage;
