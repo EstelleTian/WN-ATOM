@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-07-20 20:16:19
+ * @LastEditTime: 2021-08-03 09:05:39
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -41,6 +41,9 @@ const capacityIP = "http://10.25.1.10:80";
 const capacityFlowIP= "http://10.25.1.10:80";
 //容流气象数据IP(孔凡续)
 const capacityFlowWeatherIP= "http://10.25.1.10:80";
+
+//方案中心-流控血缘关系IP(孔凡续)
+const schemeByIdIP= "http://10.25.1.10:80";
 //总体监控-协调KPI-航班协调-数据IP
 const totalCollaborateIP= "http://10.25.1.10:80";
 //总体监控-协调KPI-运行配置-数据IP
@@ -186,6 +189,9 @@ const ReqUrls = {
     switchConfigUrl: switchConfigIP +"/hydrogen-ntfm-info-receive-server/switchConfig",
     // 表格列配置
     flightTableColumnConfigUrl: flightTableColumnConfigIP +"/hydrogen-param-config-server",
+    
+    // 方案中心-流控血缘关系
+    schemeByIdIP: schemeByIdIP +"/scheme-flight-calculation-server/evaluation/schemeById",
 };
 
 //协调相关url

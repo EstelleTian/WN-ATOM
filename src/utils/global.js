@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-06-09 13:37:17
+ * @LastEditTime: 2021-08-03 09:07:30
  * @LastEditors: Please set LastEditors
  * @Description: 暴露给客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js

@@ -12,9 +12,9 @@ function TacticMeasureForm(props) {
   const restrictionModeOptions = [
     { key: "AFP", text: "AFP", title: "AFP" },
     { key: "MIT", text: "MIT", title: "MIT" },
-    // { "key": "CR", "text": "CR", "title": "改航"  },
+    { "key": "CR", "text": "CR", "title": "改航"  },
     { key: "GS", text: "GS", title: "GS" },
-    // { "key": "TC", "text": "TC", "title": "总量控制"  },
+    { "key": "TC", "text": "TC", "title": "总量控制"  },
     // {"key":"GDP", "text": "GDP"},
     // {"key":"AS", "text": "指定时隙"},
     // {"key":"BREQ", "text": "上客申请"},

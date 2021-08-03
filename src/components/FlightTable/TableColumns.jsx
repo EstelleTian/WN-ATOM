@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-07-29 16:46:36
+ * @LastEditTime: 2021-08-02 16:34:45
  * @LastEditors: Please set LastEditors
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
@@ -573,7 +573,15 @@ let render = (opt) => {
         </div>
       </Tooltip>
     );
-  } else if (col === "SOBT" || col === "EOBT" || col === "FEAL") {
+  } else if (
+    col === "SOBT" ||
+    col === "EOBT" ||
+    col === "FEAL" ||
+    col === "EFPS_RWY" ||
+    col === "EFPS_TAXI" ||
+    col === "EFPS_ASRT" ||
+    col === "EFPS_ASAT"
+  ) {
     popover = (
       <Tooltip placement="bottom" title={getDayTimeFromString(text, "", 2)}>
         <div className="text_cell_center">{getDayTimeFromString(text)}</div>
@@ -1125,6 +1133,7 @@ const formatSingleFlight = (flight, atomConfigValue) => {
   const agctField = flight.agctField || {};
   const aobtField = flight.aobtField || {};
   const asbtField = flight.asbtField || {};
+  const efpsFlight = flight.efpsFlight || {};
   let atd = flight.atd || "";
   atd = atd === null ? "" : atd;
   const atotField = {
@@ -1155,18 +1164,18 @@ const formatSingleFlight = (flight, atomConfigValue) => {
       </Tooltip>
     )),
     TASK: taskVal,
-    EAW: eapField.name,
+    EAW: eapField.name || "",
     EAWT: eapField,
-    OAW: oapField.name,
+    OAW: oapField.name || "",
     OAWT: oapField,
-    TYPE: flight.aircrafttype,
-    DEPAP: flight.depap,
-    DEPAPIATA: flight.depapIATA,
-    ARRAP: flight.arrap,
-    ARRAPIATA: flight.arrapIATA,
-    SOBT: flight.sobt,
-    SLOT: flight.unSlotStatusReasonAbbr,
-    EOBT: flight.eobt,
+    TYPE: flight.aircrafttype || "",
+    DEPAP: flight.depap || "",
+    DEPAPIATA: flight.depapIATA || "",
+    ARRAP: flight.arrap || "",
+    ARRAPIATA: flight.arrapIATA || "",
+    SOBT: flight.sobt || "",
+    SLOT: flight.unSlotStatusReasonAbbr || "",
+    EOBT: flight.eobt || "",
     TOBT: tobtField,
     COBT: cobtField,
     CTOT: ctotField,
@@ -1174,12 +1183,12 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     AGCT: agctField || {},
     ASBT: asbtField || {},
     ATOT: atotField,
-    FEAL: flight.formerArrtime,
-    FFIX: ffixField.name,
+    FEAL: flight.formerArrtime || "",
+    FFIX: ffixField.name || "",
     FFIXT: ffixField || {},
     CTO: ctoField,
     ETO: etoField,
-    STATUS: flight.flightStatus,
+    STATUS: flight.flightStatus || "",
     RWY: runwayField || {},
     POS: positionField || {},
     REGN: "",
@@ -1189,20 +1198,20 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     HOBT: "",
     ALDT: "",
     EXOT: "",
-    FORMERIATA: flight.formerFlightidIATA,
-    FORMER: flight.formerFlightid,
+    FORMERIATA: flight.formerFlightidIATA || "",
+    FORMER: flight.formerFlightid || "",
     FEAT: "",
     FLIGT_STATUS: "",
     CLOSE_WAIT: "",
     TAXI_WAIT: "",
     DELAY: "",
     CONTROL: "",
-    EFPS_SID: "",
-    EFPS_STATUS: "",
-    EFPS_RWY: "",
-    EFPS_TAXI: "",
-    EFPS_ASRT: "",
-    EFPS_ASAT: "",
+    EFPS_SID: efpsFlight.sid || "",
+    EFPS_STATUS: efpsFlight.status || "",
+    EFPS_RWY: efpsFlight.linTime || "",
+    EFPS_TAXI: efpsFlight.taxTime || "",
+    EFPS_ASRT: efpsFlight.reqTime || "",
+    EFPS_ASAT: efpsFlight.pusTime || "",
     NCOBT: ncobtField,
     NCTOT: nctotField,
     RCOBT: rcobtField,
