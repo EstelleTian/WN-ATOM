@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Graph, Shape, Node, Point } from "@antv/x6";
-import { isValidVariable } from "utils/basic-verify";
+import { isValidVariable, getDayTimeFromString } from "utils/basic-verify";
 import { requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import { customNotice } from "utils/common-funcs";
 import { NWGlobal } from "utils/global";
+import {FlightCoordination} from '../../utils/flightcoordination';
 import "./GraphPage.scss";
+import { index } from "@antv/x6/lib/util/dom/elem";
 // import './imgs/aaa'
 // import isData from './indexs';
 
@@ -39,191 +41,132 @@ const GraphPage = (props) => {
   }, [tacticId]);
 
   useEffect(() => {
-    console.log(tacticInfos);
-    if (tacticInfos.length > 0) {
-      //TODO 处理数据
-    }
     const graph = new Graph({
       container: document.getElementById("container"),
-      width: 1400,
-      height: 750,
       interacting: false,
 
       scroller: true,
     });
-    function member(x, y, id, items) {
+    function member (x, y, id, items) {
       return graph.addNode({
-        shape: "html",
-        id,
-        x,
-        y,
-        width: 200,
-        height: 100,
-        html: () => {
-          const wrap = document.createElement("div");
-          let titleS = items.title.replace(/ /g, "&#32;");
-          let color = "";
-          if (items.titleDcb === "高") {
-            color = "#e03838";
-          } else if (titleDcb === "中") {
-            color = "#03f43f";
-          } else {
-            color = "#f9dd25";
+          shape: 'html',
+          id,
+          x,
+          y,
+          width: 200,
+          height: 100,
+          html: () => {
+              const wrap = document.createElement('div')
+              let titleS = items.title.replace(/ /g, '&#32;')
+              let color = ''
+              if (items.titleDcb === '高') {
+                  color = '#e03838'
+              } else if (items.titleDcb === '中') {
+                  color = '#03f43f'
+              } else {
+                  color = '#f9dd25'
+              }
+              wrap.className = 'wrapBox'
+              wrap.style.width = '100%'
+              wrap.style.height = '100%'
+              wrap.style.borderRadius = '5px'
+              wrap.style.padding = '0.5rem 0.5rem'
+              wrap.style.color = '#fff'
+              wrap.innerHTML = `
+              <font class='font' title=` + titleS + `><div class='title'>` + titleS + `</div></font> <div class='isTim'>  <span class='titleNam'>` + items.titleNam + `</span><span>` + items.isTim + `</span> <span class='igada'>` + items.igada + `</span> <span class='titDcb' style='color:` + color + `'>` + items.titleDcb + `</span> </div> <div class='titleName'><span  class='titState'>` + items.perform + `</span><span>` + items.titleTim + `</span></div>`
+              return wrap
           }
-          wrap.className = "wrapBox";
-          wrap.style.width = "100%";
-          wrap.style.height = "100%";
-          wrap.style.borderRadius = "5px";
-          wrap.style.padding = "0.5rem 0.5rem";
-          wrap.style.color = "#fff";
-          wrap.innerHTML =
-            `
-                    <font class='font' title=` +
-            titleS +
-            `><div class='title'>` +
-            titleS +
-            `</div></font> <div class='isTim'>  <span class='titleNam'>` +
-            items.titleNam +
-            `</span><span>` +
-            items.isTim +
-            `</span> <span class='igada'>` +
-            items.igada +
-            `</span> <span class='titDcb' style='color:` +
-            color +
-            `'>` +
-            items.titleDcb +
-            `</span> </div> <div class='titleName'><span  class='titState'>` +
-            items.state +
-            `</span><span>` +
-            items.titleTim +
-            `</span></div>`;
-          return wrap;
-        },
-      });
+      })
+  }
+  function memberS (x, y, id, items) {
+    if (items.dles) {
+        return graph.addNode({
+            shape: 'html',
+            id,
+            x,
+            y,
+            width: 150,
+            height: 90,
+            html: () => {
+                const wrap = document.createElement('div')
+
+                wrap.className = 'wrapDle'
+                wrap.style.width = '100%'
+                wrap.style.height = '100%'
+                wrap.style.color = '#7d7b7b'
+                wrap.innerHTML = `
+            <div class='warpTop'>
+            <div class='sonText'>` + items.text + `</div>
+            </div>
+            <div class='warpBottom'>
+            <div class='isTim'><span class='titleNam'>` + items.titleNam + `</span><span>` + items.isTim + `</span><span class='igada'>` + items.igada + `</span></div>
+            <div class='titleName'>` + items.titleTim + `</div>
+            </div>
+            </div>
+        `
+                return wrap
+            }
+        })
     }
-    function memberS(x, y, id, items) {
-      return graph.addNode({
-        shape: "html",
+    if (items.news) {
+        return graph.addNode({
+            shape: 'html',
+            id,
+            x,
+            y,
+            width: 150,
+            height: 90,
+            html: () => {
+                const wrap = document.createElement('div')
+                wrap.className = 'neWrap'
+
+                wrap.style.width = '100%'
+                wrap.style.height = '100%'
+                wrap.innerHTML = ` 
+            <div class='warpTop'>
+            <div class='wrapImg'></div>
+            <div class='sonText'>` + items.text + `</div>
+            <span class='new' ></span>
+            </div>
+            <div class='warpBottom'>
+            <div class='isTim'><span class='titleNam'>` + items.titleNam + `</span><span>` + items.isTim + `</span><span class='igada'>` + items.igada + `</span></div>
+            <div class='titleName'>` + items.titleTim + `</div>
+            </div>
+            </div>
+            `
+                return wrap
+            }
+        })
+    }
+    return graph.addNode({
+        shape: 'html',
         id,
         x,
         y,
         width: 150,
         height: 90,
         html: () => {
-          const wrap = document.createElement("div");
+            const wrap = document.createElement('div')
 
-          wrap.className = "wrap";
-          wrap.style.width = "100%";
-          wrap.style.height = "100%";
-          wrap.innerHTML =
-            `
-                    <div class='warpTop'>
-                    <div class='wrapImg'></div>
-                    <div class='sonText'>` +
-            items.text +
-            `</div>
-                    </div>
-                    <div class='warpBottom'>
-                    <div class='isTim'><span class='titleNam'>` +
-            items.titleNam +
-            `</span><span>` +
-            items.isTim +
-            `</span><span class='igada'>` +
-            items.igada +
-            `</span></div>
-                    <div class='titleName'>` +
-            items.titleTim +
-            `</div>
-                    </div>
-                    </div>                
-                `;
-          return wrap;
-        },
-      });
-    }
+            wrap.className = 'wrap'
+            wrap.style.width = '100%'
+            wrap.style.height = '100%'
+            wrap.innerHTML = `
+            <div class='warpTop'>
+            <div class='wrapImg'></div>
+            <div class='sonText'>` + items.text + `</div>
+            </div>
+            <div class='warpBottom'>
+            <div class='isTim'><span class='titleNam'>` + items.titleNam + `</span><span>` + items.isTim + `</span><span class='igada'>` + items.igada + `</span></div>
+            <div class='titleName'>` + items.titleTim + `</div>
+            </div>
+            </div>                
+        `
+            return wrap
+        }
+    })
+}
 
-    function memberD(x, y, id, items) {
-      return graph.addNode({
-        shape: "html",
-        id,
-        x,
-        y,
-        width: 150,
-        height: 90,
-        html: () => {
-          const wrap = document.createElement("div");
-
-          wrap.className = "wrapDle";
-          wrap.style.width = "100%";
-          wrap.style.height = "100%";
-          wrap.style.color = "#7d7b7b";
-          wrap.innerHTML =
-            `
-                    <div class='warpTop'>
-                    <div class='sonText'>` +
-            items.text +
-            `</div>
-                    </div>
-                    <div class='warpBottom'>
-                    <div class='isTim'><span class='titleNam'>` +
-            items.titleNam +
-            `</span><span>` +
-            items.isTim +
-            `</span><span class='igada'>` +
-            items.igada +
-            `</span></div>
-                    <div class='titleName'>` +
-            items.titleTim +
-            `</div>
-                    </div>
-                    </div>
-                `;
-          return wrap;
-        },
-      });
-    }
-
-    function memberN(x, y, id, items) {
-      return graph.addNode({
-        shape: "html",
-        id,
-        x,
-        y,
-        width: 150,
-        height: 90,
-        html: () => {
-          const wrap = document.createElement("div");
-          wrap.className = "neWrap";
-
-          wrap.style.width = "100%";
-          wrap.style.height = "100%";
-          wrap.innerHTML =
-            ` 
-                    <div class='warpTop'>
-                    <div class='wrapImg'></div>
-                    <div class='sonText'>` +
-            items.text +
-            `</div>
-                    <span class='new' ></span>
-                    </div>
-                    <div class='warpBottom'>
-                    <div class='isTim'><span class='titleNam'>` +
-            items.titleNam +
-            `</span><span>` +
-            items.isTim +
-            `</span><span class='igada'>` +
-            items.igada +
-            `</span></div>
-                    <div class='titleName'>` +
-            items.titleTim +
-            `</div>
-                    </div>
-                    </div>
-                    `;
-          return wrap;
-        },
-      });
-    }
     function link(source, target, vertices, is) {
       if (is) {
         return graph.addEdge({
@@ -258,7 +201,7 @@ const GraphPage = (props) => {
               strokeLinejoin: "round",
               strokeWidth: "2",
               sourceMarker: null,
-              targetMarker: null,
+              targetMarker: null,     
               strokeDasharray: 5,
               stroke: "#ebecee",
               style: {
@@ -269,7 +212,7 @@ const GraphPage = (props) => {
         });
       }
     }
-    function linkBox(source, target) {
+    function linkBox(source, target,item) {
       return graph.addEdge({
         source,
         target,
@@ -289,7 +232,7 @@ const GraphPage = (props) => {
             textVerticalAnchor: "middle",
             textPath: { selector: "line", startOffset: "50%" },
             textAnchor: "middle",
-            text: "2021/07/07 05:30",
+            text: item,
             fill: "#fff",
           },
         },
@@ -310,178 +253,112 @@ const GraphPage = (props) => {
       });
     }
 
-    const aaa = {
-      title:
-        "过JIG,MOPMA,P421点 去安徽、湖北(除ZHSY、ZHXF)、江苏、ZSCN落地 17分钟一架",
-      igada: "IGADA",
-      state: "正在执行",
-      titleNam: "MIT",
-      titleTim: "07/0600 — 07/1800",
-      titleDcb: "高",
-      isTim: "10分钟",
-    };
-    const aaas = {
-      titleNam: "MIT",
-      titleTim: "07/0600 — 07/1800",
-      isTim: "10分钟",
-      text: "区域空中",
-      igada: "IGADA",
-    };
+    if (tacticInfos.length > 0) {
+      
+      let num = 0
+      let xian1 = 0
+      tacticInfos.map((item,index)=>{
+        let a = {
+          title:"",
+          igada: "",
+          perform: "",
+          titleNam: "",
+          titleTim: "",
+          titleDcb: "",
+          isTim: "",
+          }
+        let nodeBox = item.basicTacticInfo
+        let nodeSon = item.flowcontrolList
+        a.title = nodeBox.tacticName
+        a.perform = FlightCoordination.getSchemeStatusZh(nodeBox.tacticStatus)
+        a.titleTim = getDayTimeFromString(nodeBox.tacticTimeInfo.startTime, "", 2) + " — "+getDayTimeFromString(nodeBox.tacticTimeInfo.endTime, "", 2)
+        a.titleNam = nodeBox.basicFlowcontrol.flowControlMeasure.restrictionMode
+        let arrIgada = []
+          nodeBox.directionList.map((item,index)=>{
+            arrIgada.push(item.targetUnit)
+          })
+        a.igada = arrIgada.join(';')
+        if(nodeBox.basicFlowcontrol.flowControlMeasure.restrictionMITValue === null){
+          aaas.isTim = ''
+        }else{
+          if (nodeBox.basicFlowcontrol.flowControlMeasure.restrictionMITValue <= '60') {
+            a.isTim = nodeBox.basicFlowcontrol.flowControlMeasure.restrictionMITValue+'分钟'
+          }else{
+            function isNodeTime(str) {
+              return ((Math.floor(str / 60)).toString().length < 2 ? "0" + (Math.floor(str / 60)).toString() :
+                  (Math.floor(str / 60)).toString()) + '小时' + ((str % 60).toString().length < 2 ? "0" + (str % 60).toString() : (str % 60).toString()) + "分钟";
+              }
+              a.isTim = isNodeTime(nodeBox.basicFlowcontrol.flowControlMeasure.restrictionMITValue)
+          }
+        }
+        a.titleDcb = '中'
+        const node01 =  member(50 + num, 100, a.title, a)
+        num = num + 450
+        let num2 = 250
+        let xian2 = 180
+        let xianBlo = true
+        console.log(nodeSon);
+        nodeSon.map((item,index)=>{
+          let aaas = {
+            titleNam: "",
+            titleTim: "",
+            isTim: "",
+            text: "",
+            igada: "",
+            dles:false,
+            news:false
+          };
+          aaas.text = item.flowControlName
+          aaas.titleTim = getDayTimeFromString(item.flowControlTimeInfo.startTime, "", 2) + " — "+getDayTimeFromString(item.flowControlTimeInfo.endTime, "", 2)
+          if(item.flowControlMeasure.restrictionMITValue === null){
+            aaas.isTim = ''
+          }else{
+            if (item.flowControlMeasure.restrictionMITValue <= '60') {
+              aaas.isTim = item.flowControlMeasure.restrictionMITValue+'分钟'
+            }else{
+              function isNodeTime(str) {
+                return ((Math.floor(str / 60)).toString().length < 2 ? "0" + (Math.floor(str / 60)).toString() :
+                    (Math.floor(str / 60)).toString()) + '小时' + ((str % 60).toString().length < 2 ? "0" + (str % 60).toString() : (str % 60).toString()) + "分钟";
+                }
+                aaas.isTim = isNodeTime(item.flowControlMeasure.restrictionMITValue)
+            }
+          }
+          aaas.titleNam = item.flowControlMeasure.restrictionMode
+          if (item.flowControlTargetUnit === null) {
+            aaas.igada = ''
+          }else{
+            aaas.igada = item.flowControlTargetUnit
+          }
+          const node02 = memberS(120+xian1, num2,aaas.title , aaas);
+          num2 = num2 + 110
+          xian2 = xian2 + 110
+          link(
+            node01,
+            node02,
+            [
+              { x: 80+xian1, y: 200 },
+              { x: 80+xian1, y: 460 },
+              { x: 100+xian1, y: 460 },
+              { x: 100+xian1, y: xian2 },
+            ],
+            xianBlo
+          );
+        })
+        xian1 = xian1 +450
+      })
 
-    const aaad = {
-      titleNam: "MIT",
-      titleTim: "07/0600 — 07/1800",
-      isTim: "10分钟",
-      igada: "IGADA",
-      text: "AGVLV-IGADA",
-    };
-
-    const aaan = {
-      titleNam: "MIT",
-      titleTim: "07/0600 — 07/1800",
-      isTim: "10分钟",
-      igada: "IGADA",
-      text: "EVYIL-IEADA",
-    };
-    const maggie0 = member(50, 100, "node0", aaa);
-    const maggie0_1 = memberS(120, 250, "node0-1", aaas);
-    const maggie0_2 = memberS(120, 360, "node0-2", aaas);
-    const maggie0_3 = memberS(120, 470, "node0-3", aaad);
-    const maggie0_4 = memberS(120, 580, "node0-4", aaan);
-    link(
-      maggie0,
-      maggie0_1,
-      [
-        { x: 80, y: 200 },
-        { x: 80, y: 460 },
-        { x: 100, y: 460 },
-        { x: 100, y: 290 },
-      ],
-      true
-    );
-    link(
-      maggie0,
-      maggie0_2,
-      [
-        { x: 80, y: 200 },
-        { x: 80, y: 460 },
-        { x: 100, y: 460 },
-        { x: 100, y: 400 },
-      ],
-      true
-    );
-    link(
-      maggie0,
-      maggie0_3,
-      [
-        { x: 80, y: 200 },
-        { x: 80, y: 460 },
-        { x: 100, y: 460 },
-        { x: 100, y: 510 },
-      ],
-      true
-    );
-    link(
-      maggie0,
-      maggie0_4,
-      [
-        { x: 80, y: 200 },
-        { x: 80, y: 460 },
-        { x: 100, y: 460 },
-        { x: 100, y: 620 },
-      ],
-      true
-    );
-
-    const maggie1 = member(500, 100, "node1", aaa);
-    const maggie1_1 = memberS(570, 250, "node1-1", aaas);
-    const maggie1_2 = memberS(570, 360, "node1-2", aaas);
-    const maggie1_3 = memberD(570, 470, "node1-3", aaad);
-    const maggie1_4 = memberD(570, 580, "node1-4", aaan);
-    link(
-      maggie1,
-      maggie1_1,
-      [
-        { x: 530, y: 200 },
-        { x: 530, y: 460 },
-        { x: 550, y: 460 },
-        { x: 550, y: 290 },
-      ],
-      true
-    );
-    link(
-      maggie1,
-      maggie1_2,
-      [
-        { x: 530, y: 200 },
-        { x: 530, y: 460 },
-        { x: 550, y: 460 },
-        { x: 550, y: 400 },
-      ],
-      true
-    );
-    link(
-      maggie1,
-      maggie1_3,
-      [
-        { x: 530, y: 200 },
-        { x: 530, y: 460 },
-        { x: 550, y: 460 },
-        { x: 550, y: 510 },
-      ],
-      false
-    );
-    link(
-      maggie1,
-      maggie1_4,
-      [
-        { x: 530, y: 200 },
-        { x: 530, y: 460 },
-        { x: 550, y: 460 },
-        { x: 550, y: 620 },
-      ],
-      false
-    );
-
-    const maggie2 = member(950, 100, "node2", aaa);
-    const maggie2_1 = memberS(1020, 250, "node2-1", aaas);
-    const maggie2_2 = memberS(1020, 360, "node2-2", aaas);
-    const maggie2_3 = memberN(1020, 470, "node2-3", aaad);
-    link(
-      maggie2,
-      maggie2_1,
-      [
-        { x: 980, y: 200 },
-        { x: 980, y: 460 },
-        { x: 1000, y: 460 },
-        { x: 1000, y: 290 },
-      ],
-      true
-    );
-    link(
-      maggie2,
-      maggie2_2,
-      [
-        { x: 980, y: 200 },
-        { x: 980, y: 460 },
-        { x: 1000, y: 460 },
-        { x: 1000, y: 400 },
-      ],
-      true
-    );
-    link(
-      maggie2,
-      maggie2_3,
-      [
-        { x: 980, y: 200 },
-        { x: 980, y: 460 },
-        { x: 1000, y: 460 },
-        { x: 1000, y: 510 },
-      ],
-      true
-    );
-    linkBox({ x: 270, y: 150 }, { x: 460, y: 150 });
-    linkBox({ x: 720, y: 150 }, { x: 910, y: 150 });
+      if(tacticInfos.length > 1){
+        let xx = 0
+        for (let i = 0; i < tacticInfos.length; i++) {
+          if (tacticInfos[i+1]) {
+            let updateTime =tacticInfos[i+1].basicTacticInfo.tacticTimeInfo.updateTime
+            updateTime = updateTime.slice(0,4)+"/"+updateTime.slice(4,6)+"/"+updateTime.slice(6,8)+" "+updateTime.slice(8,10)+":"+updateTime.slice(10,12)
+            linkBox({ x: 270+xx, y: 150 }, { x: 460+xx, y: 150 },updateTime)
+            xx = xx +450
+          }
+        }
+      }
+    }
   }, [tacticInfos]);
 
   return (
