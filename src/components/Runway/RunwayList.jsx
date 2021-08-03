@@ -10,7 +10,11 @@ import { customNotice } from 'utils/common-funcs'
 import  RunwayItem  from "./RunwayItem";
 import  RunwayListHeader  from "./RunwayListHeader";
 import  RunwayModal  from "./RunwayModal";
+import RunwayDynamicEditModal from "components/RunwayDynamicEditModal/RunwayDynamicEditModal";
+import RunwayDefaultEditModal from "components/RunwayDefaultEditModal/RunwayDefaultEditModal";
 import './RunwayList.scss'
+import './RunwayModal.scss'
+
 
 const Filter = (props) => {
     const { runwayListData = {} } = props;
@@ -179,6 +183,10 @@ const RunwayList = () => {
                     modalObj={modalObj} />
                         
             }
+            {/* 动态跑道修改模态框 */}
+            <RunwayDynamicEditModal />
+            {/* 默认跑道修改模态框 */}
+            <RunwayDefaultEditModal />
         </div>
     )
 }

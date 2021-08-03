@@ -4,7 +4,7 @@ import { requestGet } from 'utils/request'
 import { isValidObject, isValidVariable } from 'utils/basic-verify'
 import { ReqUrls } from 'utils/request-urls'
 import RunwayDetail  from './RunwayDetail'
-import RunwayDefaultEdit from 'components/Runway/RunwayDefaultEdit'
+import { RunwayConfigUtil } from "utils/runway-config-util";
 
 
 const RunwayModal = (props) => {
@@ -29,9 +29,14 @@ const RunwayModal = (props) => {
     const requestData = useCallback(( userId ) => {
         setLoading(true);
         let params = modalObj;
-        
+        let url;
+        if(params.type === RunwayConfigUtil.TYPE_DEFAULT){
+            url = ReqUrls.runwayDefaultDetailUrl;
+        }else if(params.type === RunwayConfigUtil.TYPE_DYNAMIC){
+            url = ReqUrls.runwayDynamicDetailUrl;
+        }
         const opt = {
-            url: ReqUrls.runwayDefaultDetailUrl + userId,
+            url: url + userId,
             method: 'GET',
             params,
             resFunc: (data)=> {
@@ -39,7 +44,7 @@ const RunwayModal = (props) => {
                 setLoading(false);
             },
             errFunc: (err)=> {
-                requestErr(err, '默认跑道详情数据获取失败' );
+                requestErr(err, `(${modalObj.airportStr})${modalObj.typeZH}跑道详情数据获取失败` );
                 setLoading(false);
             }
         };
@@ -52,15 +57,14 @@ const RunwayModal = (props) => {
         const userInfo = localStorage.getItem("user");
         if( isValidVariable(userInfo) ){
             const user = JSON.parse(userInfo) ;
-            if( isValidVariable(user.id) ){
+            if( isValidVariable(user.id) && isValidVariable(modalObj.type)){
                 //获取数据
                 requestData(user.id);
             }
         }else{
             alert("请先登录");
         }
-        
-    }, []);
+    }, [modalObj.type]);
 
 
     const closeModal = useCallback(()=>{
@@ -88,34 +92,11 @@ const RunwayModal = (props) => {
                     }
                 >
                     <Spin spinning={loading} >
-                        <RunwayDetail data={ data } airportName= {modalObj.airportStr}  />
-                    </Spin>
-                </Modal>
-            )
-        }else if(modalType === "MODIFY") {
-            return(
-                <Modal
-                    title={`默认跑道调整`}
-                    centered
-                    visible={ visible }
-                    onOk={() => setVisible(false)}
-                    onCancel={() => setVisible(false)}
-                    width={1200}
-                    // maskClosable={false}
-                    destroyOnClose = { true }
-                    footer={null}
-                >
-                    <Spin spinning={loading} >
-                        <RunwayDefaultEdit 
-                        data={ data } 
-                        airportName= {modalObj.airportStr}
-                        setModalVisible={ setVisible }
-                         />
+                        <RunwayDetail data={ data } type={modalObj.type} airportName= {modalObj.airportStr}  />
                     </Spin>
                 </Modal>
             )
         }
-
     });
 
     return (

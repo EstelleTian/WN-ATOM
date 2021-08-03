@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect, useCallback, memo } from 'react'
-import { observer } from 'mobx-react'
-import ReactDom from "react-dom";
-import { getTimeFromString, getDayTimeFromString, isValidVariable } from 'utils/basic-verify'
-import { Tag, Menu, Dropdown } from 'antd'
+import { inject, observer } from 'mobx-react'
+import { getTimeFromString, getDayTimeFromString, isValidVariable, isValidObject } from 'utils/basic-verify'
+import { Modal, Menu, Dropdown } from 'antd'
 import { DownOutlined } from '@ant-design/icons';
 import { RunwayConfigUtil } from "utils/runway-config-util";
+import { request2 } from "utils/request";
+import { ReqUrls } from 'utils/request-urls'
 
 
 
@@ -64,7 +65,8 @@ const SummaryCell = memo(({
 
 //单条方案
 function RunwayItem(props) {
-    
+    const {systemPage, runwayListData, RunwayDynamicEditFormData, RunwayDefaultEditFormData } = props;
+
     // 转换跑道使用情况
     const covertRunwayUseStatus = (isDepRWs) => {
         var isUse = "";
@@ -89,7 +91,7 @@ function RunwayItem(props) {
         var logicRWNameB = data.logicRWNameB;
         if (logicRWDef === logicRWNameA) {
             val = data.logicRWValueA;
-        }else if (logicRWDef === logicRWNameB) {
+        } else if (logicRWDef === logicRWNameB) {
             val = data.logicRWValueB;
         }
         return val;
@@ -103,7 +105,7 @@ function RunwayItem(props) {
         var logicRWNameB = data.logicRWNameB;
         if (logicRWDef === logicRWNameA) {
             val = data.logicRWTaxitimeA;
-        }else if (logicRWDef === logicRWNameB) {
+        } else if (logicRWDef === logicRWNameB) {
             val = data.logicRWTaxitimeB;
         }
         return val;
@@ -147,21 +149,21 @@ function RunwayItem(props) {
 
     let updateTime = "";
     // 执行情况
-    let isExecuting =  "";
+    let isExecuting = "";
     let runwayType = "";
     let ids = [];
-    runway.map( item => {
-         updateTime = item.updateTime || "";//终止时间
+    runway.map(item => {
+        updateTime = item.updateTime || "";//终止时间
         isExecuting = item.isExecuting || "";
 
         runwayType = item.type || "";
 
-        const operationMode = item.operationmode; 
+        const operationMode = item.operationmode;
         let operationModeStr = "";//运行模式
-        if( operationMode != "" ){
-            if( operationMode*1 == 100){
+        if (operationMode != "") {
+            if (operationMode * 1 == 100) {
                 operationModeStr = "就近模式";
-            }else if( operationMode*1 == 200){
+            } else if (operationMode * 1 == 200) {
                 operationModeStr = "走廊口模式";
             }
         }
@@ -172,37 +174,155 @@ function RunwayItem(props) {
     // 跑道集合长度
     let len = runway.length;
     // 跑道集合最大索引值
-    let maxIndex = len-1;
-
-    const showDetail = useCallback((e) => {
+    let maxIndex = len - 1;
+    // 显示详情模态框
+    const showDetail = useCallback((e, type) => {
         let params = {
+            type,
             airportStr: airportName,
             ids: ids.join(","),
-            validTime0: "有效时间:"+ startTime.substring(6,8) + startTime.substring(8) + '-' + endTime.substring(6,8) + endTime.substring(8),
+            validTime0: "有效时间:" + startTime.substring(6, 8) + startTime.substring(8) + '-' + endTime.substring(6, 8) + endTime.substring(8),
             sign0: "",
             typeZH
         }
-        console.log(params)
-
         props.toggleModalVisible(true, params);
         props.toggleModalType('DETAIL');
         e.preventDefault();
         e.stopPropagation();
     }, [id]);
-
-    const showModify = useCallback((e) => {
+    // 显示修改模态框
+    const showModify = useCallback((e, type) => {
         let params = {
             airportStr: airportName,
             ids: ids.join(","),
-            validTime0: "有效时间:"+ startTime.substring(6,8) + startTime.substring(8) + '-' + endTime.substring(6,8) + endTime.substring(8),
-            sign0: ""
+            validTime0: "有效时间:" + startTime.substring(6, 8) + startTime.substring(8) + '-' + endTime.substring(6, 8) + endTime.substring(8),
+            sign0: "",
         }
-        props.toggleModalVisible(true, params);
-        props.toggleModalType('MODIFY');
+
+        if (type === RunwayConfigUtil.TYPE_DYNAMIC) {
+            RunwayDynamicEditFormData.updateRequestParams(params);
+            RunwayDynamicEditFormData.toggleModalVisible(true);
+
+        } else if (type === RunwayConfigUtil.TYPE_DEFAULT) {
+            RunwayDefaultEditFormData.updateRequestParams(params);
+            RunwayDefaultEditFormData.toggleModalVisible(true);
+        }
         e.preventDefault();
         e.stopPropagation();
     }, [id]);
+    // 跑道终止按钮点击
+    const terminate = useCallback((e, type) => {
+        Modal.confirm({
+            title: '提示',
+            centered: true,
+            closable: true,
+            content: <div><p> 确认终止{runwayName} ?</p></div>,
+            okText: '确认',
+            cancelText: `取消`,
+            onOk: () => {
+                console.log("dddd")
+                return new Promise((resolve, reject) => {
+                    terminateRunway(resolve, reject,)
+                }).catch(() => console.log('Oops errors!'));
+            },
+        });
+    }, [id]);
 
+    // 终止跑道
+    const terminateRunway = async (resolve, reject) => {
+        try {
+            let url = ReqUrls.runwayDynamicTerminateUrl + "?ids=" + ids;
+            // 发送终止请求
+            const data = await request2({
+                url,
+                method: "GET",
+                params: {},
+            });
+            resolve(data);
+            // 触发获取跑道列表数据
+            runwayListData.triggerRequest();
+            Modal.success({
+                title: "终止成功",
+                content: (
+                    <span>
+                        <span>{runwayName}终止成功</span>
+                    </span>
+                ),
+                centered: true,
+                okText: "确定",
+            })
+        } catch (errorInfo) {
+            console.log('Failed:', errorInfo);
+            let errMsg = "";
+            if (isValidObject(errorInfo) && isValidVariable(err.message)) {
+                errMsg = errorInfo.message;
+            } else if (isValidVariable(errorInfo)) {
+                errMsg = errorInfo;
+            }
+            reject("")
+            Modal.error({
+                title: "终止失败",
+                content: (
+                    <span>
+                        <span>{runwayName}终止失败</span>
+                        <br />
+                        <span>{errMsg}</span>
+                    </span>
+                ),
+                centered: true,
+                okText: "确定",
+            });
+        }
+    };
+
+    // 绘制详情按钮
+    const drawDetailOpt = () => {
+        if (type == RunwayConfigUtil.TYPE_DEFAULT && systemPage.userHasAuth(16111) ||
+            type == RunwayConfigUtil.TYPE_DYNAMIC && systemPage.userHasAuth(16122)) {
+            return <div className="opt" onClick={e => {
+                showDetail(e, type)
+                e.stopPropagation();
+            }}>详情</div>
+        } else {
+            return ""
+        }
+    }
+    // 绘制修改按钮
+    const drawModifyOpt = () => {
+        // 状态是否符合
+        let statusQualified = [RunwayConfigUtil.EXECUTION_STATUS_EXECUTING,
+        RunwayConfigUtil.EXECUTION_STATUS_FUTURE,
+        RunwayConfigUtil.EXECUTION_STATUS_OUT_OF_DYNAMIC_RANGE_EXECUTING,
+        ].includes(status);
+        // 默认跑道修改权限
+        let defaultTypeAuth = (type == RunwayConfigUtil.TYPE_DEFAULT && systemPage.userHasAuth(16110));
+        // 动态跑道修改权限
+        let dynamicTypeAuth = (type == RunwayConfigUtil.TYPE_DYNAMIC && systemPage.userHasAuth(16120));
+        if (statusQualified && (defaultTypeAuth || dynamicTypeAuth)) {
+            return <div className="opt" onClick={(e) => { showModify(e, type) }}>修改</div>
+        } else {
+            return ""
+        }
+    }
+    // 绘制终止按钮
+    const drawTerminateOpt = () => {
+        // 状态是否符合
+        let statusQualified = [RunwayConfigUtil.EXECUTION_STATUS_EXECUTING,
+        RunwayConfigUtil.EXECUTION_STATUS_FUTURE,
+        RunwayConfigUtil.EXECUTION_STATUS_OUT_OF_DYNAMIC_RANGE_EXECUTING,
+        ].includes(status);
+        // 动态跑道终止权限
+        let dynamicTypeAuth = (type == RunwayConfigUtil.TYPE_DYNAMIC && systemPage.userHasAuth(16121));
+        if (statusQualified && dynamicTypeAuth) {
+            return <div className="opt" onClick={e => {
+                terminate(e, type);
+                e.stopPropagation();
+            }
+            }>终止</div>
+        } else {
+            return ""
+        }
+    }
 
 
     return (
@@ -250,7 +370,7 @@ function RunwayItem(props) {
                         {
                             runway.map((item, index) => {
                                 return (
-                                    <div key={`space-${item.id}`} className={(index != maxIndex && len > 1 )  ? `column-box border-bottom` : `column-box`}>
+                                    <div key={`space-${item.id}`} className={(index != maxIndex && len > 1) ? `column-box border-bottom` : `column-box`}>
                                         <div className="cell" >{covertTakeoffSpace(item)}</div>
                                     </div>
                                 )
@@ -262,7 +382,7 @@ function RunwayItem(props) {
                         {
                             runway.map((item, index) => {
                                 return (
-                                    <div key={`taxi-${item.id}`} className={(index != maxIndex && len > 1)  ? `column-box border-bottom` : `column-box`}>
+                                    <div key={`taxi-${item.id}`} className={(index != maxIndex && len > 1) ? `column-box border-bottom` : `column-box`}>
                                         <div className="cell" >{covertTaxi(item)}</div>
                                     </div>
                                 )
@@ -281,22 +401,44 @@ function RunwayItem(props) {
                 </div>
                 <div className="right-column2">
                     <div className="options-box layout-row">
-                        <div className="opt" onClick={e => {
-                            showDetail(e)
-                            e.stopPropagation();
-                        }}>详情</div>
                         {
-                           [RunwayConfigUtil.EXECUTION_STATUS_EXECUTING, 
+                            drawDetailOpt()
+                        }
+                        {
+                            drawModifyOpt()
+                        }
+                        {
+                            drawTerminateOpt()
+                        }
+                        {/* {
+
+                            systemPage.userHasAuth(12518) && <div className="opt" onClick={e => {
+                                showDetail(e, type)
+                                e.stopPropagation();
+                            }}>详情</div>
+                        }
+                        {
+
+                        }
+
+                        {
+                            [RunwayConfigUtil.EXECUTION_STATUS_EXECUTING,
                             RunwayConfigUtil.EXECUTION_STATUS_FUTURE,
                             RunwayConfigUtil.EXECUTION_STATUS_OUT_OF_DYNAMIC_RANGE_EXECUTING,
-                        ].includes(status) &&  <div className="opt" onClick={showModify}>修改</div>
+                            ].includes(status) && <div className="opt" onClick={(e) => { showModify(e, type) }}>修改</div>
                         }
-                        
-                        {/* <div className="opt" onClick={e => {
-                            
-                            e.stopPropagation();
-                        }
-                        }>终止</div> */}
+
+                        {
+                            type === RunwayConfigUtil.TYPE_DYNAMIC && [RunwayConfigUtil.EXECUTION_STATUS_EXECUTING,
+                            RunwayConfigUtil.EXECUTION_STATUS_FUTURE,
+                            RunwayConfigUtil.EXECUTION_STATUS_OUT_OF_DYNAMIC_RANGE_EXECUTING,
+                            ].includes(status) && <div className="opt" onClick={e => {
+                                terminate(e, type);
+                                e.stopPropagation();
+                            }
+                            }>终止</div>
+                        } */}
+
                     </div>
                 </div>
             </div>
@@ -304,4 +446,4 @@ function RunwayItem(props) {
     )
 }
 
-export default (observer(RunwayItem))
+export default inject("systemPage", "runwayListData", "RunwayDynamicEditFormData", "RunwayDefaultEditFormData")(observer(RunwayItem))

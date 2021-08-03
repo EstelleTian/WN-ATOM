@@ -13,6 +13,7 @@ import MapBar from "./MapBar";
 // import DirectionBar from "./DirectionBar";
 import SystemBar from "./SystemBar";
 import ParameterConfiguration from "./ParameterConfiguration";
+import RunwayConfiguration from "./RunwayConfiguration";
 import "./RightNav.scss";
 import { openMapFrame } from "../../utils/client";
 
@@ -111,7 +112,7 @@ function RightNav({ systemPage, schemeListData }) {
                 <Radio.Button value="outer_scheme">外部流控</Radio.Button>
               )} */}
               {systemPage.userHasAuth(12518) && isCDM && (
-                <Radio.Button value="runway">跑道配置</Radio.Button>
+                <RunwayConfiguration />
               )}
             </Radio.Group>
             {systemPage.userHasAuth(12519) && <MapBar />}

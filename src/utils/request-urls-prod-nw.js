@@ -165,6 +165,17 @@ const ReqUrls = {
     runwayDefaultDetailUrl: runwayIP+"/hydrogen-cdm-runway-server/open/runway/default/detail/dialog/",
     // 默认跑道配置修改提交
     runwayDefaultUpdatelUrl: runwayIP+"/hydrogen-cdm-runway-server/rwgap/default/update/new/",
+    // 动态跑道配置详情
+    runwayDynamicDetailUrl: runwayIP+"/hydrogen-cdm-runway-server/open/runway/dynamic/detail/dialog/",
+    
+    // 跑道模板创建获取跑道数据
+    runwayTemplateCreateRunwayDataUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/create/show/",
+    // 动态跑道发布提交
+    runwayDynamicPublishUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/dynamic/create/new/",
+    // 动态跑道配置修改提交
+    runwayDynamicUpdatelUrl: runwayIP+"/hydrogen-cdm-runway-server/open/runway/dynamic/edit/dialog/update/",
+    // 动态跑道配置终止
+    runwayDynamicTerminateUrl: runwayIP+"/hydrogen-cdm-runway-server/open/runway/dynamic/edit/dialog/terminate",
     // MDRS+工作流数据获取
     mdrsRetrieveDataUrl: mdrsIP+"/traffic-flow-overall-monitor-mdrs-server/capacity-alert/data/retrieval/handle",
     // MDRS数据-审批-同意、拒绝、撤回
