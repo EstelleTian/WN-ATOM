@@ -51,7 +51,7 @@ const mergeNodeSon = (newNodeSon, oldNodeSon) => {
     }
   });
 
-  console.log("mergeSon", mergeSon);
+  // console.log("mergeSon", mergeSon);
   return mergeSon;
 };
 
@@ -77,7 +77,7 @@ const GraphPage = (props) => {
         const item = tacticInfos[i - 1];
         arr.push(item);
       }
-      console.log("arr", arr);
+      // console.log("arr", arr);
       setTacticInfos(arr);
     } catch (e) {
       customNotice({
@@ -363,6 +363,7 @@ const GraphPage = (props) => {
       let xian1 = 0;
       tacticInfos.map((item, index) => {
         let a = {
+          id:"",
           title: "",
           igada: "",
           perform: "",
@@ -426,13 +427,14 @@ const GraphPage = (props) => {
             );
           }
         }
+        a.id = nodeBox.basicFlowcontrol.id+index
         a.titleDcb = "中";
-        const node01 = member(50 + num, 100, a.title, a);
+        const node01 = member(50 + num, 100, a.id, a);
         num = num + 450;
         let num2 = 250;
         let xian2 = 180;
         let xianBlo = true;
-        console.log(nodeSon);
+        // console.log(nodeSon);
         if (index > 0) {
           let prevNodeSon = tacticInfos[index - 1].flowcontrolList;
           nodeSon = mergeNodeSon(nodeSon, prevNodeSon);
@@ -475,6 +477,11 @@ const GraphPage = (props) => {
                 item.flowControlMeasure.restrictionMITValue
               );
             }
+          }
+          if (item.from === 'new') {
+            aaas.news = true
+          } else if (item.from === 'delete') {
+            aaas.dles = true
           }
           aaas.titleNam = item.flowControlMeasure.restrictionMode;
           if (item.flowControlTargetUnit === null) {
