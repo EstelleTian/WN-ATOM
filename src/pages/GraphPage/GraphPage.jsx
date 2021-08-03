@@ -71,14 +71,14 @@ const GraphPage = (props) => {
         url: ReqUrls.schemeByIdIP + "/" + tacticId,
       });
       const { tacticInfos = [] } = res;
-      //   let arr = [];
-      //   let len = tacticInfos.length;
-      //   for (let i = len; i > 0; i--) {
-      //     arr.push(tacticInfos[len - 1]);
-      //   }
-      //   console.log("arr", arr);
-      //   setTacticInfos(arr);
-      setTacticInfos(tacticInfos);
+      let arr = [];
+      let len = tacticInfos.length;
+      for (let i = len; i > 0; i--) {
+        const item = tacticInfos[i - 1];
+        arr.push(item);
+      }
+      console.log("arr", arr);
+      setTacticInfos(arr);
     } catch (e) {
       customNotice({
         type: "error",
