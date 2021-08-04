@@ -57,7 +57,10 @@ const mergeNodeSon = (newNodeSon, oldNodeSon) => {
 //获取宽度
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 const GraphPage = (props) => {
-  const [tacticId, setTacticId] = useState("");
+  const [tacticId, setTacticId] = useState(
+    "2fae74a8-308d-4be4-b899-e9044463114d"
+  );
+  // const [tacticId, setTacticId] = useState("");
   const [tacticInfos, setTacticInfos] = useState([]);
   NWGlobal.setGraphSchemeId = (id) => {
     setTacticId(id);
@@ -111,7 +114,6 @@ const GraphPage = (props) => {
         },
       });
       function member(x, y, id, items) {
-        // console.log(x, y);
         return graph.addNode({
           shape: "html",
           id,
@@ -138,7 +140,7 @@ const GraphPage = (props) => {
             wrap.style.color = "#fff";
             wrap.innerHTML =
               `
-                    <font class='font' title=` +
+              <font class='font' title=` +
               titleS +
               `><div class='title'>` +
               titleS +
@@ -179,25 +181,25 @@ const GraphPage = (props) => {
               wrap.style.color = "#7d7b7b";
               wrap.innerHTML =
                 `
-                  <div class='warpTop'>
-                  <div class='sonText'>` +
+            <div class='warpTop'>
+            <div class='sonText'>` +
                 items.text +
                 `</div>
-                  </div>
-                  <div class='warpBottom'>
-                  <div class='isTim'><span class='titleNam'>` +
+            </div>
+            <div class='warpBottom'>
+            <div class='isTim'><span class='titleNam'>` +
                 items.titleNam +
                 `</span><span>` +
                 items.isTim +
                 `</span><span class='igada'>` +
                 items.igada +
                 `</span></div>
-                  <div class='titleName'>` +
+            <div class='titleName'>` +
                 items.titleTim +
                 `</div>
-                  </div>
-                  </div>
-              `;
+            </div>
+            </div>
+        `;
               return wrap;
             },
           });
@@ -218,27 +220,27 @@ const GraphPage = (props) => {
               wrap.style.height = "100%";
               wrap.innerHTML =
                 ` 
-                  <div class='warpTop'>
-                  <div class='wrapImg'></div>
-                  <div class='sonText'>` +
+            <div class='warpTop'>
+            <div class='wrapImg'></div>
+            <div class='sonText'>` +
                 items.text +
                 `</div>
-                  <span class='new' ></span>
-                  </div>
-                  <div class='warpBottom'>
-                  <div class='isTim'><span class='titleNam'>` +
+            <span class='new' ></span>
+            </div>
+            <div class='warpBottom'>
+            <div class='isTim'><span class='titleNam'>` +
                 items.titleNam +
                 `</span><span>` +
                 items.isTim +
                 `</span><span class='igada'>` +
                 items.igada +
                 `</span></div>
-                  <div class='titleName'>` +
+            <div class='titleName'>` +
                 items.titleTim +
                 `</div>
-                  </div>
-                  </div>
-                  `;
+            </div>
+            </div>
+            `;
               return wrap;
             },
           });
@@ -258,26 +260,26 @@ const GraphPage = (props) => {
             wrap.style.height = "100%";
             wrap.innerHTML =
               `
-                  <div class='warpTop'>
-                  <div class='wrapImg'></div>
-                  <div class='sonText'>` +
+            <div class='warpTop'>
+            <div class='wrapImg'></div>
+            <div class='sonText'>` +
               items.text +
               `</div>
-                  </div>
-                  <div class='warpBottom'>
-                  <div class='isTim'><span class='titleNam'>` +
+            </div>
+            <div class='warpBottom'>
+            <div class='isTim'><span class='titleNam'>` +
               items.titleNam +
               `</span><span>` +
               items.isTim +
               `</span><span class='igada'>` +
               items.igada +
               `</span></div>
-                  <div class='titleName'>` +
+            <div class='titleName'>` +
               items.titleTim +
               `</div>
-                  </div>
-                  </div>                
-              `;
+            </div>
+            </div>                
+        `;
             return wrap;
           },
         });
@@ -447,14 +449,12 @@ const GraphPage = (props) => {
           let num2 = 160;
           let xian2 = 180;
           let xianBlo = true;
-
+          // console.log(nodeSon);
           if (index > 0) {
-            //数据合并，对比出新增、删除节点
             let prevNodeSon = tacticInfos[index - 1].flowcontrolList;
             nodeSon = mergeNodeSon(nodeSon, prevNodeSon);
           }
 
-          //子流控绘制
           nodeSon.map((item, index) => {
             let aaas = {
               titleNam: "",
@@ -505,7 +505,6 @@ const GraphPage = (props) => {
             } else {
               aaas.igada = item.flowControlTargetUnit;
             }
-            //子流控节点模块
             const node02 = memberS(80 + xian1, num2, aaas.title, aaas);
             num2 = num2 + 110;
             xian2 = xian2 + 110;
@@ -540,7 +539,6 @@ const GraphPage = (props) => {
                 updateTime.slice(8, 10) +
                 ":" +
                 updateTime.slice(10, 12);
-              //箭头线
               linkBox(
                 { x: 270 + xx, y: 70 },
                 { x: 460 + xx, y: 70 },
