@@ -8,9 +8,17 @@
      color: rgb(54, 164, 218);
 
 }
+
 #container{
-    width: 2200px;
-    height:  477px;
+    // width: 2200px!important;
+    // height:  477px!important;
+    // height:  100%!important;
+    // width:  100%!important;
+    // overflow: hidden;
+    top: 0!important;
+}
+.scheme-scroll-bar{
+    overflow: auto;
 }
 .wrapBox{
     background: rgba(0, 0, 0, 0.384);
