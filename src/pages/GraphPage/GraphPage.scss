@@ -1,81 +1,88 @@
-.title {
-    font-size: 16px;
-    font-weight: bold;
-    white-space: pre-wrap;
-     overflow: hidden;
-     text-overflow: ellipsis;
-     white-space: nowrap;
-     color: rgb(54, 164, 218);
-
-}
 
 #container{
-    // width: 2200px!important;
-    // height:  477px!important;
-    // height:  100%!important;
-    // width:  100%!important;
-    // overflow: hidden;
+    // width: 2200px;
+    // height: 477px;
     top: 0!important;
 }
+
 .scheme-scroll-bar{
     overflow: auto;
 }
 .wrapBox{
-    background: rgba(0, 0, 0, 0.384);
-    border: 3px solid #000;
-}
- .title:hover {
-    //  background: #03e9f4;
-     color: #fff;
-    //  border-radius: 5px;
-     text-shadow: 0 0 0.5rem #03e9f4;
- }
-.font{
-    white-space: pre-wrap;
-    display: block;
-    width: 100%;
-}
-.isTim{
-    border-top: 0.1rem solid rgb(88, 88, 88);
-    border-bottom:0.1rem solid rgb(88, 88, 88);
-    text-align: center;
-    // padding: 0px 1rem;
-    display: flex;
-    height: 30px;
-    justify-content: space-between;
-    font-size: 16px;
-       .titleNam {
-           font-family: "Times New Roman",
-               Times,
-               serif;
-           letter-spacing: 0.1rem;
-       }
-       .titDcb{
-           font-weight: 500;
-        //    color: rgb(224, 56, 56);
-       }
-       .igada {
-           font-family: "Times New Roman",
-               Times,
-               serif;
-           letter-spacing: 0.01rem;
-        font-size: 14px;
-        line-height: 30px;
-       }
-}
-.titleName {
-    font-size: 12px;
-    line-height: 35px;
-    text-align: center;
-    .titState{
-        color:#03f43f;
-        
+    background-color: #35333370;
+    border: 3px solid #03e9f4;
+    text-shadow: 0 0 10px #03e9f4;
+    box-shadow: 0 0 8px #03e9f4 inset;
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        white-space: pre-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #46bff7;
+    
     }
+    
+    .title:hover {
+        color: #fff;
+        text-shadow: 0 0 0.5rem #03e9f4;
+    }
+    .font{
+        white-space: pre-wrap;
+        display: block;
+        width: 100%;
+    }
+    
+    .isTim{
+        border-top: 0.1rem solid #7c7c7c;
+        border-bottom:0.1rem solid #7c7c7c;
+        text-align: center;
+        display: flex;
+        height: 30px;
+        justify-content: space-between;
+        font-size: 16px;
+        .titleNam {
+            font-family: "Times New Roman",
+                Times,
+                serif;
+            letter-spacing: 0.1rem;
+        }
+        .titDcb{
+            font-weight: 500;
+        }
+        .igada {
+            font-family: "Times New Roman",
+                Times,
+                serif;
+            letter-spacing: 0.01rem;
+            font-size: 14px;
+            line-height: 30px;
+        }
+    }
+    
+    .titleName {
+        font-size: 12px;
+        line-height: 35px;
+        display: flex;
+        text-align: center;
+        .titState{
+            display: flex;
+            justify-self: flex-end;
+            text-shadow: 0 0 8px #03f43f;
+            padding: 0px 2px;
+            margin-right: 13px;
+            color:#03f43f;
+        }
+}
 }
 @keyframes ant-line {
     to {
         stroke-dashoffset: -1000
     }
+}
+.titDcb {
+    font-weight: 500;
 }
 .wrapDle{
     text-align: center;
@@ -87,8 +94,8 @@
     .sonText{
         text-decoration: line-through;
     }
+    
     .isTim{
-         //  text-align: center;
          border-top: 0.1rem solid rgb(88, 88, 88);
          border-bottom:0.1rem solid rgb(88, 88, 88);
          text-align: center;
@@ -107,10 +114,6 @@
              letter-spacing: 0.1rem;
          }
 
-         .titDcb {
-             font-weight: 500;
-             //    color: rgb(224, 56, 56);
-         }
 
          .igada {
              font-family: "Times New Roman",
@@ -163,7 +166,6 @@
         box-shadow: 0 0 10px #03e9f4 inset;
         border-radius: 0 0 10px 10px;
         .isTim{
-            //  text-align: center;
             border-top: 0.1rem solid rgb(88, 88, 88);
             border-bottom:0.1rem solid rgb(88, 88, 88);
             text-align: center;
@@ -184,7 +186,6 @@
 
             .titDcb {
                 font-weight: 500;
-                //    color: rgb(224, 56, 56);
             }
 
             .igada {
@@ -211,27 +212,27 @@
             width: 100%;
             height: 30%;
             font-size: 15px;
-            border: 2px solid #03e9f4;
-            text-shadow: 0 0 10px #03e9f4;
-            box-shadow: 0 0 10px #03e9f4 inset;
+            border: 2px solid #77ff00;
+            text-shadow: 0 0 10px #77ff00;
+            box-shadow: 0 0 10px #77ff00 inset;
             color: #fff;
             display: flex;
             // overflow: hidden;
-.new {
-    display: block;
-    width: 1.2rem;
-    height: 0.9rem;
-    border-radius: 50%;
-    background: chartreuse;
-    position: relative;
-    left: 0.5rem;
-    bottom: 0.5rem;
-}
+            .new {
+                display: block;
+                width: 1.2rem;
+                height: 0.9rem;
+                border-radius: 50%;
+                background: #77ff00;
+                position: relative;
+                left: 0.5rem;
+                bottom: 0.5rem;
+            }
             .wrapImg {
                 background-position: 0.1rem;
                 width: 20%;
                 height: 100%;
-                box-shadow: 0 0 5px #03e9f4;
+                box-shadow: 0 0 5px #77ff00;
                 background-image: url(./box.png);
                 background-size: 100%;
             }
@@ -249,10 +250,10 @@
         .warpBottom {
             height: 100%;
             height: 70%;
-            border: 2px solid #03e9f4;
+            border: 2px solid #77ff00;
             border-top: none;
-            text-shadow: 0 0 10px #03e9f4;
-            box-shadow: 0 0 10px #03e9f4 inset;
+            text-shadow: 0 0 10px #77ff00;
+            box-shadow: 0 0 10px #77ff00 inset;
 
             .isTim {
                 //  text-align: center;

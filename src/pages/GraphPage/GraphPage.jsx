@@ -113,56 +113,60 @@ const GraphPage = (props) => {
           minVisibleHeight: 477,
         },
       });
-      function member(x, y, id, items) {
-        return graph.addNode({
-          shape: "html",
-          id,
-          x,
-          y,
-          width: 200,
-          height: 100,
-          html: () => {
-            const wrap = document.createElement("div");
-            let titleS = items.title.replace(/ /g, "&#32;");
-            let color = "";
-            if (items.titleDcb === "高") {
-              color = "#e03838";
-            } else if (items.titleDcb === "中") {
-              color = "#03f43f";
-            } else {
-              color = "#f9dd25";
-            }
-            wrap.className = "wrapBox";
-            wrap.style.width = "100%";
-            wrap.style.height = "100%";
-            wrap.style.borderRadius = "5px";
-            wrap.style.padding = "0.5rem 0.5rem";
-            wrap.style.color = "#fff";
-            wrap.innerHTML =
-              `
-              <font class='font' title=` +
-              titleS +
-              `><div class='title'>` +
-              titleS +
-              `</div></font> <div class='isTim'>  <span class='titleNam'>` +
-              items.titleNam +
-              `</span><span>` +
-              items.isTim +
-              `</span> <span class='igada'>` +
-              items.igada +
-              `</span> <span class='titDcb' style='color:` +
-              color +
-              `'>` +
-              items.titleDcb +
-              `</span> </div> <div class='titleName'><span  class='titState'>` +
-              items.perform +
-              `</span><span>` +
-              items.titleTim +
-              `</span></div>`;
-            return wrap;
-          },
-        });
-      }
+      function member(x, y, id, items,index) {
+            return graph.addNode({
+              shape: "html",
+              id: id+index,
+              x,
+              y,
+              width: 200,
+              height: 100,
+              html: () => {
+                const wrap = document.createElement("div");
+                let titleS = items.title.replace(/ /g, "&#32;");
+                let color = "";
+                if (items.titleDcb === "高") {
+                  color = "#e03838";
+                } else if (items.titleDcb === "中") {
+                  color = "#03f43f";
+                } else {
+                  color = "#f9dd25";
+                }
+                if (id === tacticId) {
+                  wrap.style.border = "3px solid #00ffc8";
+                  wrap.style.textShadow = "0 0 10px #00ffc8";
+                  wrap.style.boxShadow = "0 0 8px #00ffc8 inset";
+                }
+                wrap.className = "wrapBox";
+                wrap.style.width = "100%";
+                wrap.style.height = "100%";
+                wrap.style.padding = "0.5rem 0.5rem";
+                wrap.style.color = "#fff";
+                wrap.innerHTML =
+                  `
+                  <font class='font' title=` +
+                  titleS +
+                  `><div class='title'>` +
+                  titleS +
+                  `</div></font> <div class='isTim'>  <span class='titleNam'>` +
+                  items.titleNam +
+                  `</span><span>` +
+                  items.isTim +
+                  `</span> <span class='igada'>` +
+                  items.igada +
+                  `</span> <span class='titDcb' style='color:` +
+                  color +
+                  `'>` +
+                  items.titleDcb +
+                  `</span> </div> <div class='titleName'><span  class='titState'>` +
+                  items.perform +
+                  `</span><span>` +
+                  items.titleTim +
+                  `</span></div>`;
+                return wrap;
+              },
+            });
+          }
       function memberS(x, y, id, items) {
         if (items.dles) {
           return graph.addNode({
@@ -286,7 +290,49 @@ const GraphPage = (props) => {
       }
 
       function link(source, target, vertices, is) {
-        if (is) {
+        if (is.dle) {
+          return graph.addEdge({
+          vertices,
+          source: { cell: source },
+          target: { cell: target },
+          connector: {
+            name: "rounded",
+          },
+          attrs: {
+            line: {
+              fill: "none",
+              strokeLinejoin: "round",
+              strokeWidth: "2",
+              sourceMarker: null,
+              targetMarker: null,
+              strokeDasharray: 5,
+              stroke: "#ebecee",
+              style: {
+                animation: "ant-line 30s infinite linear",
+              },
+            },
+          },
+        });
+        } else if(is.new) {
+          return graph.addEdge({
+          vertices,
+          source: { cell: source },
+          target: { cell: target },
+          connector: {
+            name: "rounded",
+          },
+          attrs: {
+            line: {
+              fill: "none",
+              strokeLinejoin: "round",
+              strokeWidth: "2",
+              stroke: "#77ff00",
+              sourceMarker: null,
+              targetMarker: null,
+            },
+          },
+        });
+        }else{
           return graph.addEdge({
             vertices,
             source: { cell: source },
@@ -305,29 +351,6 @@ const GraphPage = (props) => {
               },
             },
           });
-        } else {
-          return graph.addEdge({
-            vertices,
-            source: { cell: source },
-            target: { cell: target },
-            connector: {
-              name: "rounded",
-            },
-            attrs: {
-              line: {
-                fill: "none",
-                strokeLinejoin: "round",
-                strokeWidth: "2",
-                sourceMarker: null,
-                targetMarker: null,
-                strokeDasharray: 5,
-                stroke: "#ebecee",
-                style: {
-                  animation: "ant-line 30s infinite linear",
-                },
-              },
-            },
-          });
         }
       }
       function linkBox(source, target, item) {
@@ -338,9 +361,9 @@ const GraphPage = (props) => {
             line: {
               connection: true,
 
-              strokeWidth: 15,
+              strokeWidth: 19,
               targetMarker: {
-                size: 35,
+                size: 38,
                 offset: 5,
                 name: "block",
               },
@@ -351,6 +374,7 @@ const GraphPage = (props) => {
               textPath: { selector: "line", startOffset: "50%" },
               textAnchor: "middle",
               text: item,
+              fontSize:13,
               fill: "#fff",
             },
           },
@@ -442,13 +466,16 @@ const GraphPage = (props) => {
               );
             }
           }
-          a.id = nodeBox.basicFlowcontrol.id + index;
+          a.id = nodeBox.id
           a.titleDcb = "中";
-          const node01 = member(30 + num, 20, a.id, a);
+          const node01 = member(30 + num, 20, a.id, a,index);
           num = num + 450;
           let num2 = 160;
           let xian2 = 180;
-          let xianBlo = true;
+          let xianBlo = {
+            dle:false,
+            new:false
+          };
           // console.log(nodeSon);
           if (index > 0) {
             let prevNodeSon = tacticInfos[index - 1].flowcontrolList;
@@ -494,10 +521,10 @@ const GraphPage = (props) => {
                 );
               }
             }
-            if (item.from === "new") {
-              aaas.news = true;
-            } else if (item.from === "delete") {
-              aaas.dles = true;
+            if (item.from === 'new') {
+              aaas.news = true
+            } else if (item.from === 'delete') {
+              aaas.dles = true
             }
             aaas.titleNam = item.flowControlMeasure.restrictionMode;
             if (item.flowControlTargetUnit === null) {
@@ -508,6 +535,11 @@ const GraphPage = (props) => {
             const node02 = memberS(80 + xian1, num2, aaas.title, aaas);
             num2 = num2 + 110;
             xian2 = xian2 + 110;
+            if (item.from === 'delete') {
+              xianBlo.dle = true
+            }else if (item.from === 'new') {
+              xianBlo.new = true
+            }
             link(
               node01,
               node02,
@@ -540,8 +572,8 @@ const GraphPage = (props) => {
                 ":" +
                 updateTime.slice(10, 12);
               linkBox(
-                { x: 270 + xx, y: 70 },
-                { x: 460 + xx, y: 70 },
+                { x: 255 + xx, y: 55 },
+                { x: 445 + xx, y: 55 },
                 updateTime
               );
               xx = xx + 450;
