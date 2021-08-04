@@ -1,18 +1,10 @@
 
-/*
- * @Author: your name
- * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-04-09 15:49:43
- * @LastEditors: Please set LastEditors
- * @Description: 航班协调-按钮+模态框
- * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
- */
 import React, { Fragment, } from "react";
 import { observer, inject } from "mobx-react";
 import DraggableModal from 'components/DraggableModal/DraggableModal'
 import RunwayDynamicPublishForm from 'components/RunwayDynamicPublishModal/RunwayDynamicPublishForm'
 
-
+// 动态跑道发布模态框
 function RunwayDynamicPublishModal(props) {
     const { RunwayDynamicPublishFormData={} } = props;
     // 机场名称
@@ -22,6 +14,8 @@ function RunwayDynamicPublishModal(props) {
     // 关闭模态框
     const hideModal = () => {
         RunwayDynamicPublishFormData.toggleModalVisible(false)
+        // 清空store数据
+        RunwayDynamicPublishFormData.updateConfigData({})
     }
     return (
         <Fragment>

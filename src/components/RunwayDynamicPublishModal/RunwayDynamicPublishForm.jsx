@@ -531,9 +531,11 @@ function RunwayDynamicPublishForm(props) {
     const closeModal = () => {
         // 关闭模态框
         RunwayDynamicPublishFormData.toggleModalVisible(false);
+        // 清空store数据
+        RunwayDynamicPublishFormData.updateConfigData({})
     }
 
-    //方案名称发生变化触发更新
+    //configData发生变化触发更新
     useEffect(
         function () {
             //重置表单，用以表单初始值赋值
@@ -541,7 +543,7 @@ function RunwayDynamicPublishForm(props) {
         },
         [JSON.stringify(configData)]
     );
-    //方案名称发生变化触发更新
+    //跑道状态勾选数值变更计数器发生变化触发更新
     useEffect(
         function () {
             let field = {};
@@ -557,7 +559,7 @@ function RunwayDynamicPublishForm(props) {
                 field = { ...field, ...obj }
             }
             if (isValidObject(field)) {
-                //重置表单，用以表单初始值赋值
+                //改变指定字段表单值
                 form.setFieldsValue(field);
                 //重新校验
                 form.validateFields(Object.keys(field));
@@ -565,7 +567,7 @@ function RunwayDynamicPublishForm(props) {
         },
         [ruwayStatusSelectedDataChangeCounter]
     );
-
+   //跑道航路点勾选数值变更计数器发生变化触发更新      
     useEffect(
         function () {
             let field = {};
@@ -581,7 +583,7 @@ function RunwayDynamicPublishForm(props) {
                 field = { ...field, ...obj }
             }
             if (isValidObject(field)) {
-                //重置表单，用以表单初始值赋值
+                //改变指定字段表单值
                 form.setFieldsValue(field);
                 //重新校验
                 form.validateFields(Object.keys(field));

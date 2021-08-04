@@ -1,17 +1,9 @@
 
-/*
- * @Author: your name
- * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-04-09 15:49:43
- * @LastEditors: Please set LastEditors
- * @Description: 航班协调-按钮+模态框
- * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
- */
 import React, { Fragment, } from "react";
 import { observer, inject } from "mobx-react";
 import DraggableModal from 'components/DraggableModal/DraggableModal'
 import RunwayDefaultEditForm from 'components/RunwayDefaultEditModal/RunwayDefaultEditForm'
-
+// 默认跑道修改模态框
 function RunwayDefaultEditModal(props) {
     const { RunwayDefaultEditFormData={} } = props;
     // 模态框显隐
@@ -21,6 +13,8 @@ function RunwayDefaultEditModal(props) {
     // 关闭模态框
     const hideModal = () => {
         RunwayDefaultEditFormData.toggleModalVisible(false)
+        // 清空store数据
+        RunwayDefaultEditFormData.updateConfigData({})
     }
     return (
         <Fragment>
