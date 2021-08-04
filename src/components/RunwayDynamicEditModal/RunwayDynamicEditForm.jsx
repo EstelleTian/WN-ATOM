@@ -118,7 +118,7 @@ function RunwayDynamicEditForm(props) {
             // 逻辑跑道B起飞间隔
             const logicRWValueB = isValidVariable(singleRunway.logicRWValueB) ? singleRunway.logicRWValueB : "";
             // 跑道状态 0:关闭  1:起飞  2:起降 -1:降落
-            let isDepRW = isValidVariable(ruwayStatusSelectedData[id] ) ? ruwayStatusSelectedData[id]  : "";
+            let isDepRW = isValidVariable(ruwayStatusSelectedData[id]) ? ruwayStatusSelectedData[id] : "";
 
             // 转换跑道状态值
             // isDepRW = convertRunwayStauts(isDepRW)
@@ -540,8 +540,6 @@ function RunwayDynamicEditForm(props) {
     const closeModal = () => {
         // 关闭模态框
         RunwayDynamicEditFormData.toggleModalVisible(false);
-        // 清空store数据
-        RunwayDynamicEditFormData.updateConfigData({})
     }
 
     //groupId发生变化触发更新
@@ -563,7 +561,7 @@ function RunwayDynamicEditForm(props) {
                 // 跑道id
                 const id = singleRunway.id || "";
                 // 跑道状态 0:关闭  1:起飞  2:起降 -1:降落
-                let isDepRW = isValidVariable(ruwayStatusSelectedData[id] ) ? ruwayStatusSelectedData[id]  : "";
+                let isDepRW = isValidVariable(ruwayStatusSelectedData[id]) ? ruwayStatusSelectedData[id] : "";
                 let obj = {
                     [`isDepRW_${id}`]: isDepRW,
                 }
@@ -609,7 +607,16 @@ function RunwayDynamicEditForm(props) {
             //获取动态跑道配置数据
             fetchConfigData();
         }, [JSON.stringify(requestParams)]);
-
+    //卸载时清空store数据
+    useEffect(
+        function () {
+            return () => {
+                // 清空store数据
+                RunwayDynamicEditFormData.updateConfigData({})
+            };
+        },
+        []
+    );
     return (
         <Spin spinning={loading} >
             <div className="runway-edit-wrapper">

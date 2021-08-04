@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { Form, Radio, Row, Col, Button, Input, Modal, Space, Spin, Card, Select, DatePicker } from "antd";
-import {  ExclamationCircleOutlined } from '@ant-design/icons'
+import { ExclamationCircleOutlined } from '@ant-design/icons'
 
 import { inject, observer } from "mobx-react";
 import { request } from "utils/request";
@@ -29,7 +29,7 @@ function RunwayDynamicPublishForm(props) {
         { label: '关闭', value: '0' },
     ]
 
-    const { systemPage, RunwayDynamicPublishFormData, runwayListData} = props;
+    const { systemPage, RunwayDynamicPublishFormData, runwayListData } = props;
     // 用户id
     const userId = systemPage.user.id || ""
     // 当前系统
@@ -111,7 +111,7 @@ function RunwayDynamicPublishForm(props) {
             // 逻辑跑道B起飞间隔
             const logicRWValueB = isValidVariable(singleRunway.logicRWValueB) ? singleRunway.logicRWValueB : "";
             // 跑道状态 0:关闭  1:起飞  2:起降 -1:降落
-            let isDepRW = isValidVariable(ruwayStatusSelectedData[id] ) ? ruwayStatusSelectedData[id]  : "";
+            let isDepRW = isValidVariable(ruwayStatusSelectedData[id]) ? ruwayStatusSelectedData[id] : "";
 
             // 转换跑道状态值
             // isDepRW = convertRunwayStauts(isDepRW)
@@ -284,7 +284,7 @@ function RunwayDynamicPublishForm(props) {
             let unSelectedPoint = getUnSelectedPoint();
             let len = unSelectedPoint.length;
             // 已勾选全部航路点
-            if(len == 0){
+            if (len == 0) {
                 Modal.info({
                     title: "确定发布",
                     // icon: <ExclamationCircleOutlined />,
@@ -301,7 +301,7 @@ function RunwayDynamicPublishForm(props) {
                         submitData(value);
                     },
                 });
-            }else {
+            } else {
                 // 有未勾选的航路点，进行提示
                 let contentText = `${unSelectedPoint.join(',')} 走廊口尚未分配跑道，建议手动添加`;
                 Modal.confirm({
@@ -309,7 +309,7 @@ function RunwayDynamicPublishForm(props) {
                     icon: <ExclamationCircleOutlined />,
                     centered: true,
                     closable: true,
-                    content: <div><p>{ contentText }</p></div>,
+                    content: <div><p>{contentText}</p></div>,
                     okText: '手动添加',
                     cancelText: `提交`,
                     onCancel: (close) => {
@@ -322,20 +322,20 @@ function RunwayDynamicPublishForm(props) {
                     },
                 });
             }
-            
+
         } catch (errorInfo) {
             console.log("Failed:", errorInfo);
         }
     };
     // 获取所有航路点数据中在表单未勾选的数据项
-    const getUnSelectedPoint = ()=> {
+    const getUnSelectedPoint = () => {
         // 所有航路点数据
-        let allPoint = [... RunwayDynamicPublishFormData.allPoint];
+        let allPoint = [...RunwayDynamicPublishFormData.allPoint];
         // 所有跑道勾选的航路点数据
         let selectedPoint = [];
-        for(let i in runwayPointSelectedData){
+        for (let i in runwayPointSelectedData) {
             let singleRunwayPointSelectedData = runwayPointSelectedData[i];
-            selectedPoint = [...selectedPoint, ...singleRunwayPointSelectedData ]
+            selectedPoint = [...selectedPoint, ...singleRunwayPointSelectedData]
         }
         let arr = difference(allPoint, selectedPoint);
         return arr;
@@ -346,7 +346,7 @@ function RunwayDynamicPublishForm(props) {
      * @param values 表单数据对象
      * 
      * */
-     const handleSubmitData = (values) => {
+    const handleSubmitData = (values) => {
         let opt = {};
         // 运行模式
         const operationmode = values.operationmode || "";
@@ -363,11 +363,11 @@ function RunwayDynamicPublishForm(props) {
         // 结束时间
         const endTime = values['endTime'];
 
-        opt.startYY= moment(startDate).format("YYYYMMDDHHmm").substring(0, 8),
-        opt.startHour=  startTime,
-        opt.endYY= moment(endDate).format("YYYYMMDDHHmm").substring(0, 8) ,
-        opt.endHour = endTime ,
-        opt.airportStr = apName;
+        opt.startYY = moment(startDate).format("YYYYMMDDHHmm").substring(0, 8),
+            opt.startHour = startTime,
+            opt.endYY = moment(endDate).format("YYYYMMDDHHmm").substring(0, 8),
+            opt.endHour = endTime,
+            opt.airportStr = apName;
         opt.operationMode = operationmode;
         // opt.groupId = groupId;
         opt.showOperationNear = showOperationNear;
@@ -531,8 +531,6 @@ function RunwayDynamicPublishForm(props) {
     const closeModal = () => {
         // 关闭模态框
         RunwayDynamicPublishFormData.toggleModalVisible(false);
-        // 清空store数据
-        RunwayDynamicPublishFormData.updateConfigData({})
     }
 
     //configData发生变化触发更新
@@ -552,7 +550,7 @@ function RunwayDynamicPublishForm(props) {
                 // 跑道id
                 const id = singleRunway.id || "";
                 // 跑道状态 0:关闭  1:起飞  2:起降 -1:降落
-                let isDepRW = isValidVariable(ruwayStatusSelectedData[id] ) ? ruwayStatusSelectedData[id]  : "";
+                let isDepRW = isValidVariable(ruwayStatusSelectedData[id]) ? ruwayStatusSelectedData[id] : "";
                 let obj = {
                     [`isDepRW_${id}`]: isDepRW,
                 }
@@ -567,7 +565,7 @@ function RunwayDynamicPublishForm(props) {
         },
         [ruwayStatusSelectedDataChangeCounter]
     );
-   //跑道航路点勾选数值变更计数器发生变化触发更新      
+    //跑道航路点勾选数值变更计数器发生变化触发更新      
     useEffect(
         function () {
             let field = {};
@@ -595,9 +593,19 @@ function RunwayDynamicPublishForm(props) {
     // 初始化获取配置数据
     useEffect(
         function () {
-        //获取配置数据
-        fetchConfigData();
-    }, [airport]);
+            //获取配置数据
+            fetchConfigData();
+        }, [airport]);
+    //卸载时清空store数据
+    useEffect(
+        function () {
+            return () => {
+                // 清空store数据
+                RunwayDynamicPublishFormData.updateConfigData({})
+            };
+        },
+        []
+    );
 
     return (
         <Spin spinning={loading} >
@@ -800,8 +808,8 @@ function RunwayDynamicPublishForm(props) {
 
                     <footer className="footer-bar">
                         <Space size="middle">
-                            <Button type="primary"  onClick={handleSaveButtonClick}>发布</Button>
-                            <Button onClick={ closeModal }>关闭</Button>
+                            <Button type="primary" onClick={handleSaveButtonClick}>发布</Button>
+                            <Button onClick={closeModal}>关闭</Button>
                         </Space>
                     </footer>
                 </Form>

@@ -13,8 +13,6 @@ function RunwayDefaultEditModal(props) {
     // 关闭模态框
     const hideModal = () => {
         RunwayDefaultEditFormData.toggleModalVisible(false)
-        // 清空store数据
-        RunwayDefaultEditFormData.updateConfigData({})
     }
     return (
         <Fragment>

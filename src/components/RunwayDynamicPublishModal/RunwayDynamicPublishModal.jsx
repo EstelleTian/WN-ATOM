@@ -14,8 +14,6 @@ function RunwayDynamicPublishModal(props) {
     // 关闭模态框
     const hideModal = () => {
         RunwayDynamicPublishFormData.toggleModalVisible(false)
-        // 清空store数据
-        RunwayDynamicPublishFormData.updateConfigData({})
     }
     return (
         <Fragment>

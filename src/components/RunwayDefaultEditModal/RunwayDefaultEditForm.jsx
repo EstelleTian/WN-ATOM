@@ -118,7 +118,7 @@ function RunwayDefaultEditForm(props) {
             // 逻辑跑道B起飞间隔
             const logicRWValueB = isValidVariable(singleRunway.logicRWValueB) ? singleRunway.logicRWValueB : "";
             // 跑道状态 0:关闭  1:起飞  2:起降 -1:降落
-            let isDepRW = isValidVariable(ruwayStatusSelectedData[id] ) ? ruwayStatusSelectedData[id]  : "";
+            let isDepRW = isValidVariable(ruwayStatusSelectedData[id]) ? ruwayStatusSelectedData[id] : "";
 
             // 转换跑道状态值
             // isDepRW = convertRunwayStauts(isDepRW)
@@ -418,20 +418,21 @@ function RunwayDefaultEditForm(props) {
     const closeModal = () => {
         // 关闭模态框
         RunwayDefaultEditFormData.toggleModalVisible(false);
-        // 清空store数据
-        RunwayDefaultEditFormData.updateConfigData({})
     }
 
     //groupId发生变化触发更新
     useEffect(
         function () {
-            //重置表单，用以表单初始值赋值
-            form.resetFields();
-            //重新校验
-            form.validateFields();
+            if (isValidVariable(groupId)) {
+                //重置表单，用以表单初始值赋值
+                form.resetFields();
+                //重新校验
+                form.validateFields();
+            }
         },
         [groupId]
     );
+
     //跑道状态勾选数值变更计数器发生变化触发更新
     useEffect(
         function () {
@@ -441,7 +442,7 @@ function RunwayDefaultEditForm(props) {
                 // 跑道id
                 const id = singleRunway.id || "";
                 // 跑道状态 0:关闭  1:起飞  2:起降 -1:降落
-                let isDepRW = isValidVariable(ruwayStatusSelectedData[id] ) ? ruwayStatusSelectedData[id]  : "";
+                let isDepRW = isValidVariable(ruwayStatusSelectedData[id]) ? ruwayStatusSelectedData[id] : "";
                 let obj = {
                     [`isDepRW_${id}`]: isDepRW,
                 }
@@ -486,7 +487,20 @@ function RunwayDefaultEditForm(props) {
         function () {
             //获取默认跑道配置数据
             fetchConfigData();
-        }, [JSON.stringify(requestParams)]);
+        },
+        [JSON.stringify(requestParams)]
+    );
+
+    //卸载时清空store数据
+    useEffect(
+        function () {
+            return () => {
+                // 清空store数据
+                RunwayDefaultEditFormData.updateConfigData({})
+            };
+        },
+        []
+    );
 
     return (
         <Spin spinning={loading} >
