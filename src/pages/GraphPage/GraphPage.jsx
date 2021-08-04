@@ -491,7 +491,10 @@ const GraphPage = (props) => {
           }
           const node02 = memberS(120 + xian1, num2, aaas.title, aaas);
           num2 = num2 + 110;
-          xian2 = xian2 + 110;
+          xian2 = xian2 + 110; 
+          if (item.from === 'delete') {
+            xianBlo = false
+          }
           link(
             node01,
             node02,
