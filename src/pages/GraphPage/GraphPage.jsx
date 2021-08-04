@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Graph, Shape, Node, Point } from "@antv/x6";
 import { isValidVariable, getDayTimeFromString } from "utils/basic-verify";
 import { requestGet2 } from "utils/request";
@@ -57,11 +57,13 @@ const mergeNodeSon = (newNodeSon, oldNodeSon) => {
 //获取宽度
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 const GraphPage = (props) => {
-  const [tacticId, setTacticId] = useState(
-    "2fae74a8-308d-4be4-b899-e9044463114d"
-  );
-  // const [tacticId, setTacticId] = useState("");
+  // const [tacticId, setTacticId] = useState(
+  //   "2fae74a8-308d-4be4-b899-e9044463114d"
+  // );
+  const [tacticId, setTacticId] = useState("");
   const [tacticInfos, setTacticInfos] = useState([]);
+
+  const graphRef = useRef("");
   NWGlobal.setGraphSchemeId = (id) => {
     setTacticId(id);
   };
@@ -80,6 +82,7 @@ const GraphPage = (props) => {
         arr.push(item);
       }
       // console.log("arr", arr);
+      // alert(arr.length);
       setTacticInfos(arr);
     } catch (e) {
       customNotice({
@@ -96,8 +99,13 @@ const GraphPage = (props) => {
   }, [tacticId]);
 
   useEffect(() => {
+    // alert("useEffect " + tacticInfos.length);
     if (tacticInfos.length > 0) {
-      const graph = new Graph({
+      if (graphRef.current !== "") {
+        graphRef.current.dispose();
+      }
+
+      const option = {
         container: document.getElementById("container"),
         interacting: false,
         mousewheel: {
@@ -112,61 +120,63 @@ const GraphPage = (props) => {
           minVisibleWidth: screenWidth,
           minVisibleHeight: 477,
         },
-      });
-      function member(x, y, id, items,index) {
-            return graph.addNode({
-              shape: "html",
-              id: id+index,
-              x,
-              y,
-              width: 200,
-              height: 100,
-              html: () => {
-                const wrap = document.createElement("div");
-                let titleS = items.title.replace(/ /g, "&#32;");
-                let color = "";
-                if (items.titleDcb === "高") {
-                  color = "#e03838";
-                } else if (items.titleDcb === "中") {
-                  color = "#03f43f";
-                } else {
-                  color = "#f9dd25";
-                }
-                if (id === tacticId) {
-                  wrap.style.border = "3px solid #00ffc8";
-                  wrap.style.textShadow = "0 0 10px #00ffc8";
-                  wrap.style.boxShadow = "0 0 8px #00ffc8 inset";
-                }
-                wrap.className = "wrapBox";
-                wrap.style.width = "100%";
-                wrap.style.height = "100%";
-                wrap.style.padding = "0.5rem 0.5rem";
-                wrap.style.color = "#fff";
-                wrap.innerHTML =
-                  `
+      };
+      let graph = new Graph(option);
+      graphRef.current = graph;
+      function member(x, y, id, items, index) {
+        return graph.addNode({
+          shape: "html",
+          id: id + index,
+          x,
+          y,
+          width: 200,
+          height: 100,
+          html: () => {
+            const wrap = document.createElement("div");
+            let titleS = items.title.replace(/ /g, "&#32;");
+            let color = "";
+            if (items.titleDcb === "高") {
+              color = "#e03838";
+            } else if (items.titleDcb === "中") {
+              color = "#03f43f";
+            } else {
+              color = "#f9dd25";
+            }
+            if (id === tacticId) {
+              wrap.style.border = "3px solid #00ffc8";
+              wrap.style.textShadow = "0 0 10px #00ffc8";
+              wrap.style.boxShadow = "0 0 8px #00ffc8 inset";
+            }
+            wrap.className = "wrapBox";
+            wrap.style.width = "100%";
+            wrap.style.height = "100%";
+            wrap.style.padding = "0.5rem 0.5rem";
+            wrap.style.color = "#fff";
+            wrap.innerHTML =
+              `
                   <font class='font' title=` +
-                  titleS +
-                  `><div class='title'>` +
-                  titleS +
-                  `</div></font> <div class='isTim'>  <span class='titleNam'>` +
-                  items.titleNam +
-                  `</span><span>` +
-                  items.isTim +
-                  `</span> <span class='igada'>` +
-                  items.igada +
-                  `</span> <span class='titDcb' style='color:` +
-                  color +
-                  `'>` +
-                  items.titleDcb +
-                  `</span> </div> <div class='titleName'><span  class='titState'>` +
-                  items.perform +
-                  `</span><span>` +
-                  items.titleTim +
-                  `</span></div>`;
-                return wrap;
-              },
-            });
-          }
+              titleS +
+              `><div class='title'>` +
+              titleS +
+              `</div></font> <div class='isTim'>  <span class='titleNam'>` +
+              items.titleNam +
+              `</span><span>` +
+              items.isTim +
+              `</span> <span class='igada'>` +
+              items.igada +
+              `</span> <span class='titDcb' style='color:` +
+              color +
+              `'>` +
+              items.titleDcb +
+              `</span> </div> <div class='titleName'><span  class='titState'>` +
+              items.perform +
+              `</span><span>` +
+              items.titleTim +
+              `</span></div>`;
+            return wrap;
+          },
+        });
+      }
       function memberS(x, y, id, items) {
         if (items.dles) {
           return graph.addNode({
@@ -292,47 +302,47 @@ const GraphPage = (props) => {
       function link(source, target, vertices, is) {
         if (is.dle) {
           return graph.addEdge({
-          vertices,
-          source: { cell: source },
-          target: { cell: target },
-          connector: {
-            name: "rounded",
-          },
-          attrs: {
-            line: {
-              fill: "none",
-              strokeLinejoin: "round",
-              strokeWidth: "2",
-              sourceMarker: null,
-              targetMarker: null,
-              strokeDasharray: 5,
-              stroke: "#ebecee",
-              style: {
-                animation: "ant-line 30s infinite linear",
+            vertices,
+            source: { cell: source },
+            target: { cell: target },
+            connector: {
+              name: "rounded",
+            },
+            attrs: {
+              line: {
+                fill: "none",
+                strokeLinejoin: "round",
+                strokeWidth: "2",
+                sourceMarker: null,
+                targetMarker: null,
+                strokeDasharray: 5,
+                stroke: "#ebecee",
+                style: {
+                  animation: "ant-line 30s infinite linear",
+                },
               },
             },
-          },
-        });
-        } else if(is.new) {
+          });
+        } else if (is.new) {
           return graph.addEdge({
-          vertices,
-          source: { cell: source },
-          target: { cell: target },
-          connector: {
-            name: "rounded",
-          },
-          attrs: {
-            line: {
-              fill: "none",
-              strokeLinejoin: "round",
-              strokeWidth: "2",
-              stroke: "#77ff00",
-              sourceMarker: null,
-              targetMarker: null,
+            vertices,
+            source: { cell: source },
+            target: { cell: target },
+            connector: {
+              name: "rounded",
             },
-          },
-        });
-        }else{
+            attrs: {
+              line: {
+                fill: "none",
+                strokeLinejoin: "round",
+                strokeWidth: "2",
+                stroke: "#77ff00",
+                sourceMarker: null,
+                targetMarker: null,
+              },
+            },
+          });
+        } else {
           return graph.addEdge({
             vertices,
             source: { cell: source },
@@ -374,7 +384,7 @@ const GraphPage = (props) => {
               textPath: { selector: "line", startOffset: "50%" },
               textAnchor: "middle",
               text: item,
-              fontSize:13,
+              fontSize: 13,
               fill: "#fff",
             },
           },
@@ -418,9 +428,9 @@ const GraphPage = (props) => {
             dles: false,
             news: false,
           };
-          let nodeBox = item.basicTacticInfo;
-          let nodeSon = item.flowcontrolList;
-          a.title = nodeBox.tacticName;
+          let nodeBox = item.basicTacticInfo || {};
+          let nodeSon = item.flowcontrolList || [];
+          a.title = nodeBox.tacticName || "";
           a.perform = FlightCoordination.getSchemeStatusZh(
             nodeBox.tacticStatus
           );
@@ -428,26 +438,21 @@ const GraphPage = (props) => {
             getDayTimeFromString(nodeBox.tacticTimeInfo.startTime, "", 2) +
             " — " +
             getDayTimeFromString(nodeBox.tacticTimeInfo.endTime, "", 2);
-          a.titleNam =
-            nodeBox.basicFlowcontrol.flowControlMeasure.restrictionMode;
+          const basicFlowcontrol = nodeBox.basicFlowcontrol || {};
+          const flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
+          a.titleNam = flowControlMeasure.restrictionMode || "";
           let arrIgada = [];
           nodeBox.directionList.map((item, index) => {
             arrIgada.push(item.targetUnit);
           });
           a.igada = arrIgada.join(";");
-          if (
-            nodeBox.basicFlowcontrol.flowControlMeasure.restrictionMITValue ===
-            null
-          ) {
+          let restrictionMITValue =
+            flowControlMeasure.restrictionMITValue || "";
+          if (restrictionMITValue === "") {
             aaas.isTim = "";
           } else {
-            if (
-              nodeBox.basicFlowcontrol.flowControlMeasure.restrictionMITValue <=
-              "60"
-            ) {
-              a.isTim =
-                nodeBox.basicFlowcontrol.flowControlMeasure
-                  .restrictionMITValue + "分钟";
+            if (restrictionMITValue <= "60") {
+              a.isTim = restrictionMITValue + "分钟";
             } else {
               function isNodeTime(str) {
                 return (
@@ -461,20 +466,18 @@ const GraphPage = (props) => {
                   "分钟"
                 );
               }
-              a.isTim = isNodeTime(
-                nodeBox.basicFlowcontrol.flowControlMeasure.restrictionMITValue
-              );
+              a.isTim = isNodeTime(restrictionMITValue);
             }
           }
-          a.id = nodeBox.id
+          a.id = nodeBox.id;
           a.titleDcb = "中";
-          const node01 = member(30 + num, 20, a.id, a,index);
+          const node01 = member(30 + num, 20, a.id, a, index);
           num = num + 450;
           let num2 = 160;
           let xian2 = 180;
           let xianBlo = {
-            dle:false,
-            new:false
+            dle: false,
+            new: false,
           };
           // console.log(nodeSon);
           if (index > 0) {
@@ -497,12 +500,13 @@ const GraphPage = (props) => {
               getDayTimeFromString(item.flowControlTimeInfo.startTime, "", 2) +
               " — " +
               getDayTimeFromString(item.flowControlTimeInfo.endTime, "", 2);
-            if (item.flowControlMeasure.restrictionMITValue === null) {
+            const restrictionMITValue =
+              item.flowControlMeasure.restrictionMITValue || "";
+            if (restrictionMITValue === "") {
               aaas.isTim = "";
             } else {
-              if (item.flowControlMeasure.restrictionMITValue <= "60") {
-                aaas.isTim =
-                  item.flowControlMeasure.restrictionMITValue + "分钟";
+              if (restrictionMITValue <= "60") {
+                aaas.isTim = restrictionMITValue + "分钟";
               } else {
                 function isNodeTime(str) {
                   return (
@@ -516,15 +520,13 @@ const GraphPage = (props) => {
                     "分钟"
                   );
                 }
-                aaas.isTim = isNodeTime(
-                  item.flowControlMeasure.restrictionMITValue
-                );
+                aaas.isTim = isNodeTime(restrictionMITValue);
               }
             }
-            if (item.from === 'new') {
-              aaas.news = true
-            } else if (item.from === 'delete') {
-              aaas.dles = true
+            if (item.from === "new") {
+              aaas.news = true;
+            } else if (item.from === "delete") {
+              aaas.dles = true;
             }
             aaas.titleNam = item.flowControlMeasure.restrictionMode;
             if (item.flowControlTargetUnit === null) {
@@ -535,10 +537,10 @@ const GraphPage = (props) => {
             const node02 = memberS(80 + xian1, num2, aaas.title, aaas);
             num2 = num2 + 110;
             xian2 = xian2 + 110;
-            if (item.from === 'delete') {
-              xianBlo.dle = true
-            }else if (item.from === 'new') {
-              xianBlo.new = true
+            if (item.from === "delete") {
+              xianBlo.dle = true;
+            } else if (item.from === "new") {
+              xianBlo.new = true;
             }
             link(
               node01,
