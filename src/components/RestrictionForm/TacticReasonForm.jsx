@@ -28,6 +28,7 @@ function TacticReasonForm(props) {
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
+    // 更改WEATHER来更换默认原因
     let flowControlReason = schemeFormData.flowControlReason || "WEATHER";
     //方案名称发生变化触发更新
     useEffect(function () {

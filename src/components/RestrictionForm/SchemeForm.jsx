@@ -160,9 +160,8 @@ function SchemeForm(props) {
 
     // 自动命名获取必要校验表单项字段值
     const getNecessaryFieldsValue = () => {
-        let promiseArray = [
-
-        ];
+        // console.log(restrictionMode); // restrictionMode 是String形式的限制方式
+        let promiseArray = [];
         if (restrictionMode === "CR") {
             promiseArray = [
                 tacticOriginRouteFormValidatePromise(),
@@ -296,7 +295,6 @@ function SchemeForm(props) {
             restrictionTCPeriodValue="",
             restrictionMITValue = "", restrictionMITValueUnit = [], originRoute = "",
             shortcutInputCheckboxSet = [],
-
         } = fieldData;
 
         let autoName = "";
