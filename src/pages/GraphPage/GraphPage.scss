@@ -11,7 +11,6 @@
 .wrapBox{
     background-color: #35333370;
     border: 3px solid #03e9f4;
-    text-shadow: 0 0 10px #03e9f4;
     box-shadow: 0 0 8px #03e9f4 inset;
     .title {
         font-size: 16px;
@@ -26,11 +25,11 @@
     
     .title:hover {
         color: #fff;
-        text-shadow: 0 0 0.5rem #03e9f4;
     }
     .font{
         white-space: pre-wrap;
         display: block;
+        text-shadow: none;
         width: 100%;
     }
     
@@ -69,7 +68,7 @@
         .titState{
             display: flex;
             justify-self: flex-end;
-            text-shadow: 0 0 8px #03f43f;
+            // text-shadow: 0 0 8px #03f43f;
             padding: 0px 2px;
             margin-right: 13px;
             color:#03f43f;
@@ -85,6 +84,7 @@
     font-weight: 500;
 }
 .wrapDle{
+    
     text-align: center;
     border: 2px dashed #7d7b7b;
     background: #ebecee;
@@ -103,8 +103,8 @@
          display: flex;
          height: 30px;
          justify-content: space-between;
-         font-size: 12px;
-         line-height: 27px;
+         font-size: 13px;
+         line-height: 28px;
          color: #7d7b7b;
 
          .titleNam {
@@ -120,8 +120,8 @@
                  Times,
                  serif;
              letter-spacing: 0.01rem;
-             font-size: 12px;
-             line-height: 28px;
+             font-size: 13px;
+             line-height: 29px;
          }
 
     }
@@ -132,7 +132,7 @@
         height: 30%;
         font-size: 15px;
         border: 2px solid #03e9f4;
-        text-shadow: 0 0 10px #03e9f4;
+        // text-shadow: 0 0 10px #03e9f4;
         box-shadow: 0 0 10px #03e9f4 inset;
         color: #fff;
         border-radius: 10px 10px 0 0;
@@ -162,7 +162,7 @@
         height: 70%;
         border: 2px solid #03e9f4;
         border-top: none;
-        text-shadow: 0 0 10px #03e9f4;
+        // text-shadow: 0 0 10px #03e9f4;
         box-shadow: 0 0 10px #03e9f4 inset;
         border-radius: 0 0 10px 10px;
         .isTim{
@@ -173,8 +173,8 @@
             display: flex;
             height: 30px;
             justify-content: space-between;
-            font-size: 12px;
-            line-height: 27px;
+            font-size: 13px;
+            line-height: 28px;
             color: #fff;
 
             .titleNam {
@@ -193,8 +193,8 @@
                     Times,
                     serif;
                 letter-spacing: 0.01rem;
-                font-size: 12px;
-                line-height: 28px;
+                font-size: 13px;
+                line-height: 29px;
             }
         }
         .titleName{
@@ -264,8 +264,8 @@
                 display: flex;
                 height: 30px;
                 justify-content: space-between;
-                font-size: 12px;
-                line-height: 27px;
+                font-size: 13px;
+                line-height: 28px;
                 color: #fff;
 
                 .titleNam {
@@ -285,8 +285,8 @@
                         Times,
                         serif;
                     letter-spacing: 0.01rem;
-                    font-size: 12px;
-                    line-height: 28px;
+                    font-size: 13px;
+                    line-height: 29px;
                 }
             }
 

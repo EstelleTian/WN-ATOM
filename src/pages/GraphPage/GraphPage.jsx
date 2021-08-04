@@ -143,9 +143,8 @@ const GraphPage = (props) => {
               color = "#f9dd25";
             }
             if (id === tacticId) {
-              wrap.style.border = "3px solid #00ffc8";
-              wrap.style.textShadow = "0 0 10px #00ffc8";
-              wrap.style.boxShadow = "0 0 8px #00ffc8 inset";
+              wrap.style.border = "3px solid #fff";
+              wrap.style.boxShadow = "0 0 8px #fff inset";
             }
             wrap.className = "wrapBox";
             wrap.style.width = "100%";

@@ -27,7 +27,7 @@ function TacticTemplateNameForm(props) {
                             whitespace: true,
                         }]}
                 >
-                    <Input onBlur={(e) => { }} allowClear={true} />
+                    <Input onBlur={(e) => { console.log(1); }} allowClear={true} />
                 </Form.Item>
             </Form>
         </Fragment>
