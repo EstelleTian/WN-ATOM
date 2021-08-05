@@ -55,17 +55,26 @@ const mergeNodeSon = (newNodeSon, oldNodeSon) => {
   return mergeSon;
 };
 //获取宽度
-let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 const GraphPage = (props) => {
-  // const [tacticId, setTacticId] = useState(
-  //   "2fae74a8-308d-4be4-b899-e9044463114d"
-  // );
-  const [tacticId, setTacticId] = useState("");
+  const [tacticId, setTacticId] = useState(
+    "44c7e44b-b8a0-4e29-b65d-5c4b9e03d6a0"
+  );
+  // const [tacticId, setTacticId] = useState("");
   const [tacticInfos, setTacticInfos] = useState([]);
+  const [screenWidth, setScreenWidth] = useState(
+    document.getElementsByTagName("body")[0].offsetWidth
+  );
+  const [screenHeight, setScreenHeight] = useState(
+    document.getElementsByTagName("body")[0].offsetHeight
+  );
 
   const graphRef = useRef("");
   NWGlobal.setGraphSchemeId = (id) => {
     setTacticId(id);
+  };
+  NWGlobal.setGraphSize = (width, height) => {
+    setScreenWidth(width * 1);
+    setScreenHeight(height * 1);
   };
 
   //获取方案血缘关系链数据
@@ -81,7 +90,7 @@ const GraphPage = (props) => {
         const item = tacticInfos[i - 1];
         arr.push(item);
       }
-      // console.log("arr", arr);
+      // console.log("arr", arr);656
       // alert(arr.length);
       setTacticInfos(arr);
     } catch (e) {
@@ -116,9 +125,9 @@ const GraphPage = (props) => {
           enabled: true,
           className: "scheme-scroll-bar",
           width: screenWidth,
-          height: 477,
+          height: screenHeight,
           minVisibleWidth: screenWidth,
-          minVisibleHeight: 477,
+          minVisibleHeight: screenHeight,
         },
       };
       let graph = new Graph(option);
@@ -582,8 +591,10 @@ const GraphPage = (props) => {
           }
         }
       }
+
+      graph.scrollToPoint(0, 0);
     }
-  }, [tacticInfos]);
+  }, [tacticInfos, screenWidth, screenHeight]);
 
   return (
     <>
