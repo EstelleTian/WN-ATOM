@@ -55,10 +55,10 @@ const mergeNodeSon = (newNodeSon, oldNodeSon) => {
 };
 //获取宽度
 const GraphPage = (props) => {
-  const [tacticId, setTacticId] = useState(
-    "44c7e44b-b8a0-4e29-b65d-5c4b9e03d6a0"
-  );
-  // const [tacticId, setTacticId] = useState("");
+  // const [tacticId, setTacticId] = useState(
+  //   "44c7e44b-b8a0-4e29-b65d-5c4b9e03d6a0"
+  // );
+  const [tacticId, setTacticId] = useState("");
   const [tacticInfos, setTacticInfos] = useState([]);
   const [screenWidth, setScreenWidth] = useState(
     document.getElementsByTagName("body")[0].offsetWidth
@@ -106,128 +106,127 @@ const GraphPage = (props) => {
     }
   }, [tacticId]);
 
-
- // 创建主节点
- const member = (x, y, id, items, index,graph) => {
-  return graph.addNode({
-    shape: "html",
-    id: id + index,
-    x,
-    y,
-    width: 200,
-    height: 100,
-    html: () => {
-      const wrap = document.createElement("div");
-      let titleS = items.title.replace(/ /g, "&#32;");
-      let color = "";
-      if (items.titleDcb === "高") {
-        color = "#e03838";
-      } else if (items.titleDcb === "中") {
-        color = "#03f43f";
-      } else {
-        color = "#f9dd25";
-      }
-      if (id === tacticId) {
-        wrap.style.border = "3px solid #fff";
-        wrap.style.boxShadow = "0 0 8px #fff inset";
-      }
-      wrap.className = "wrapBox";
-      wrap.style.width = "100%";
-      wrap.style.height = "100%";
-      wrap.style.padding = "0.5rem 0.5rem";
-      wrap.style.color = "#fff";
-      wrap.innerHTML =
-        `
-            <font class='font' title=` +
-        titleS +
-        `><div class='title'>` +
-        titleS +
-        `</div></font> <div class='isTim'>  <span class='titleNam'>` +
-        items.titleNam +
-        `</span><span>` +
-        items.isTim +
-        `</span> <span class='igada'>` +
-        items.igada +
-        `</span> <span class='titDcb' style='color:` +
-        color +
-        `'>` +
-        items.titleDcb +
-        `</span> </div> <div class='titleName'><span  class='titState'>` +
-        items.perform +
-        `</span><span>` +
-        items.titleTim +
-        `</span></div>`;
-      return wrap;
-    },
-  });
-}
-
-// 创建子节点
-const memberS = (x, y, id, items,graph) => {
-  return graph.addNode({
-    shape: "html",
-    id,
-    x,
-    y,
-    width: 150,
-    height: 90,
-    html: () => {
-      const wrap = document.createElement("div");
-      if (items.dles) {
-        wrap.className = "wrapDle";
+  // 创建主节点
+  const member = (x, y, id, items, index, graph) => {
+    return graph.addNode({
+      shape: "html",
+      id: id + index,
+      x,
+      y,
+      width: 200,
+      height: 100,
+      html: () => {
+        const wrap = document.createElement("div");
+        let titleS = items.title.replace(/ /g, "&#32;");
+        let color = "";
+        if (items.titleDcb === "高") {
+          color = "#e03838";
+        } else if (items.titleDcb === "中") {
+          color = "#03f43f";
+        } else {
+          color = "#f9dd25";
+        }
+        if (id === tacticId) {
+          wrap.style.border = "3px solid #fff";
+          wrap.style.boxShadow = "0 0 8px #fff inset";
+        }
+        wrap.className = "wrapBox";
         wrap.style.width = "100%";
         wrap.style.height = "100%";
-        wrap.style.color = "#7d7b7b";
+        wrap.style.padding = "0.5rem 0.5rem";
+        wrap.style.color = "#fff";
         wrap.innerHTML =
           `
-      <div class='warpTop'>
-      <div class='sonText'>` +
-          items.text +
-          `</div>
-      </div>
-      <div class='warpBottom'>
-      <div class='isTim'><span class='titleNam'>` +
+            <font class='font' title=` +
+          titleS +
+          `><div class='title'>` +
+          titleS +
+          `</div></font> <div class='isTim'>  <span class='titleNam'>` +
           items.titleNam +
           `</span><span>` +
           items.isTim +
-          `</span><span class='igada'>` +
+          `</span> <span class='igada'>` +
           items.igada +
-          `</span></div>
-      <div class='titleName'>` +
+          `</span> <span class='titDcb' style='color:` +
+          color +
+          `'>` +
+          items.titleDcb +
+          `</span> </div> <div class='titleName'><span  class='titState'>` +
+          items.perform +
+          `</span><span>` +
           items.titleTim +
-          `</div>
-      </div>
-      </div>
-      `
-      }else if (items.news){
-        wrap.className = "neWrap";
+          `</span></div>`;
+        return wrap;
+      },
+    });
+  };
 
-        wrap.style.width = "100%";
-        wrap.style.height = "100%";
-        wrap.innerHTML =
-          ` 
+  // 创建子节点
+  const memberS = (x, y, id, items, graph) => {
+    return graph.addNode({
+      shape: "html",
+      id,
+      x,
+      y,
+      width: 150,
+      height: 90,
+      html: () => {
+        const wrap = document.createElement("div");
+        if (items.dles) {
+          wrap.className = "wrapDle";
+          wrap.style.width = "100%";
+          wrap.style.height = "100%";
+          wrap.style.color = "#7d7b7b";
+          wrap.innerHTML =
+            `
+      <div class='warpTop'>
+      <div class='sonText'>` +
+            items.text +
+            `</div>
+      </div>
+      <div class='warpBottom'>
+      <div class='isTim'><span class='titleNam'>` +
+            items.titleNam +
+            `</span><span>` +
+            items.isTim +
+            `</span><span class='igada'>` +
+            items.igada +
+            `</span></div>
+      <div class='titleName'>` +
+            items.titleTim +
+            `</div>
+      </div>
+      </div>
+      `;
+        } else if (items.news) {
+          wrap.className = "neWrap";
+
+          wrap.style.width = "100%";
+          wrap.style.height = "100%";
+          wrap.innerHTML =
+            ` 
       <div class='warpTop'>
       <div class='wrapImg'></div>
       <div class='sonText'>` +
-          items.text +
-          `</div>
+            items.text +
+            `</div>
       <span class='new' ></span>
       </div>
       <div class='warpBottom'>
       <div class='isTim'><span class='titleNam'>` +
-          items.titleNam +
-          `</span><span>` +
-          items.isTim +
-          `</span><span class='igada'>` +
-          items.igada +
-          `</span></div>
+            items.titleNam +
+            `</span><span>` +
+            items.isTim +
+            `</span><span class='igada'>` +
+            items.igada +
+            `</span></div>
       <div class='titleName'>` +
-          items.titleTim +
-          `</div>
+            items.titleTim +
+            `</div>
       </div>
       </div>
-      `
-      }else{
+      `;
+        } else {
           wrap.className = "wrap";
           wrap.style.width = "100%";
           wrap.style.height = "100%";
@@ -251,120 +250,120 @@ const memberS = (x, y, id, items,graph) => {
             items.titleTim +
             `</div>
           </div>
-          </div>`
-      };
-      return wrap;
-    },
-  });
-}
-
- // 创建edge边
- const link = (source, target, vertices, is,graph) => {
-  if (is.dle) {
-    return graph.addEdge({
-      vertices,
-      source: { cell: source },
-      target: { cell: target },
-      connector: {
-        name: "rounded",
+          </div>`;
+        }
+        return wrap;
       },
-      attrs: {
-        line: {
-          fill: "none",
-          strokeLinejoin: "round",
-          strokeWidth: "2",
-          sourceMarker: null,
-          targetMarker: null,
-          strokeDasharray: 5,
-          stroke: "#ebecee",
-          style: {
-            animation: "ant-line 30s infinite linear",
+    });
+  };
+
+  // 创建edge边
+  const link = (source, target, vertices, is, graph) => {
+    if (is.dle) {
+      return graph.addEdge({
+        vertices,
+        source: { cell: source },
+        target: { cell: target },
+        connector: {
+          name: "rounded",
+        },
+        attrs: {
+          line: {
+            fill: "none",
+            strokeLinejoin: "round",
+            strokeWidth: "2",
+            sourceMarker: null,
+            targetMarker: null,
+            strokeDasharray: 5,
+            stroke: "#ebecee",
+            style: {
+              animation: "ant-line 30s infinite linear",
+            },
           },
         },
-      },
-    });
-  } else if (is.new) {
+      });
+    } else if (is.new) {
+      return graph.addEdge({
+        vertices,
+        source: { cell: source },
+        target: { cell: target },
+        connector: {
+          name: "rounded",
+        },
+        attrs: {
+          line: {
+            fill: "none",
+            strokeLinejoin: "round",
+            strokeWidth: "2",
+            stroke: "#77ff00",
+            sourceMarker: null,
+            targetMarker: null,
+          },
+        },
+      });
+    } else {
+      return graph.addEdge({
+        vertices,
+        source: { cell: source },
+        target: { cell: target },
+        connector: {
+          name: "rounded",
+        },
+        attrs: {
+          line: {
+            fill: "none",
+            strokeLinejoin: "round",
+            strokeWidth: "2",
+            stroke: "#03e9f4",
+            sourceMarker: null,
+            targetMarker: null,
+          },
+        },
+      });
+    }
+  };
+  // 创建edge箭头
+  function linkBox(source, target, item, graph) {
     return graph.addEdge({
-      vertices,
-      source: { cell: source },
-      target: { cell: target },
-      connector: {
-        name: "rounded",
-      },
+      source,
+      target,
       attrs: {
         line: {
-          fill: "none",
-          strokeLinejoin: "round",
-          strokeWidth: "2",
-          stroke: "#77ff00",
-          sourceMarker: null,
-          targetMarker: null,
+          connection: true,
+
+          strokeWidth: 19,
+          targetMarker: {
+            size: 38,
+            offset: 5,
+            name: "block",
+          },
+          stroke: "#36a4da",
+        },
+        label: {
+          textVerticalAnchor: "middle",
+          textPath: { selector: "line", startOffset: "50%" },
+          textAnchor: "middle",
+          text: item,
+          fontSize: 13,
+          fill: "#fff",
         },
       },
-    });
-  } else {
-    return graph.addEdge({
-      vertices,
-      source: { cell: source },
-      target: { cell: target },
-      connector: {
-        name: "rounded",
-      },
-      attrs: {
-        line: {
-          fill: "none",
-          strokeLinejoin: "round",
-          strokeWidth: "2",
-          stroke: "#03e9f4",
-          sourceMarker: null,
-          targetMarker: null,
+      markup: [
+        {
+          tagName: "path",
+          selector: "line",
+          attrs: {
+            fill: "none",
+            pointerEvents: "none",
+          },
         },
-      },
+        {
+          tagName: "text",
+          selector: "label",
+        },
+      ],
     });
   }
-}
-// 创建edge箭头
-function linkBox(source, target, item,graph) {
-  return graph.addEdge({
-    source,
-    target,
-    attrs: {
-      line: {
-        connection: true,
-
-        strokeWidth: 19,
-        targetMarker: {
-          size: 38,
-          offset: 5,
-          name: "block",
-        },
-        stroke: "#36a4da",
-      },
-      label: {
-        textVerticalAnchor: "middle",
-        textPath: { selector: "line", startOffset: "50%" },
-        textAnchor: "middle",
-        text: item,
-        fontSize: 13,
-        fill: "#fff",
-      },
-    },
-    markup: [
-      {
-        tagName: "path",
-        selector: "line",
-        attrs: {
-          fill: "none",
-          pointerEvents: "none",
-        },
-      },
-      {
-        tagName: "text",
-        selector: "label",
-      },
-    ],
-  });
-}
 
   useEffect(() => {
     // alert("useEffect " + tacticInfos.length);
@@ -426,7 +425,7 @@ function linkBox(source, target, item,graph) {
             nodeBox.tacticStatus
           );
           nodeA.titleTim =
-          // 调用格式化时间方法 进行拼接
+            // 调用格式化时间方法 进行拼接
             getDayTimeFromString(nodeBox.tacticTimeInfo.startTime, "", 2) +
             " — " +
             getDayTimeFromString(nodeBox.tacticTimeInfo.endTime, "", 2);
@@ -445,8 +444,8 @@ function linkBox(source, target, item,graph) {
           // DCB
           nodeA.titleDcb = "中";
           // 添加主节点
-          const node01 = member(30 + num, 20, nodeA.id, nodeA, index,graph);
-          
+          const node01 = member(30 + num, 20, nodeA.id, nodeA, index, graph);
+
           num = num + 450;
           let num2 = 160;
           let xian2 = 180;
@@ -510,7 +509,7 @@ function linkBox(source, target, item,graph) {
           });
           xian1 = xian1 + 450;
         });
-        // 判断数据是否为两条以上 
+        // 判断数据是否为两条以上
         if (tacticInfos.length > 1) {
           let xx = 0;
           for (let i = 0; i < tacticInfos.length; i++) {
@@ -527,7 +526,7 @@ function linkBox(source, target, item,graph) {
                 updateTime.slice(8, 10) +
                 ":" +
                 updateTime.slice(10, 12);
-            
+
               linkBox(
                 { x: 255 + xx, y: 55 },
                 { x: 445 + xx, y: 55 },
