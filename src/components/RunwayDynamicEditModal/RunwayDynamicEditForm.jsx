@@ -57,6 +57,8 @@ function RunwayDynamicEditForm(props) {
     const ruwayStatusSelectedData = RunwayDynamicEditFormData.ruwayStatusSelectedData || {};
     // 各跑道航路点勾选数值
     const runwayPointSelectedData = RunwayDynamicEditFormData.runwayPointSelectedData || {};
+    // 跑道数量
+    const runwayNumber = RunwayDynamicEditFormData.runwayNumber || 0;
 
     // 终端当前时间
     let now = moment();
@@ -281,6 +283,19 @@ function RunwayDynamicEditForm(props) {
                 </RunwaySingleConfigDataForm>
             </Fragment>)
     }
+    // 获取选中的状态中包含起飞状态的数量
+    const getSelecedDepNumber = ()=> {
+        let statusSelectedData = { ...ruwayStatusSelectedData };
+        let number = 0;
+        for (let i in statusSelectedData) {
+            
+            let singleRunwayStatusSelectedData = [...statusSelectedData[i]];
+            if (singleRunwayStatusSelectedData.includes("1")) {
+                number = number+1;
+            }
+        }
+        return number
+    }
     // 表单提交按钮点击
     const handleSaveButtonClick = async () => {
         try {
@@ -311,24 +326,39 @@ function RunwayDynamicEditForm(props) {
                 });
             } else {
                 // 有未勾选的航路点，进行提示
-                let contentText = `${unSelectedPoint.join(',')} 走廊口尚未分配跑道，建议手动添加`;
-                Modal.confirm({
-                    title: '提示',
-                    icon: <ExclamationCircleOutlined />,
-                    centered: true,
-                    closable: true,
-                    content: <div><p>{contentText}</p></div>,
-                    okText: '手动添加',
-                    cancelText: `提交`,
-                    onCancel: (close) => {
-                        // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
-                        if (typeof close === 'function') {
-                            // 关闭模态框
-                            close();
-                            submitData(value);
-                        }
-                    },
-                });
+                // 单条跑道或只有1条跑道选中了起飞状态则需要全部勾选走廊口后方可提交
+                let selectedDepNumber = getSelecedDepNumber();
+                if (runwayNumber == 1 || selectedDepNumber == 1) {
+                    // 有未勾选的航路点，进行提示
+                    let contentText = `${unSelectedPoint.join(',')} 走廊口尚未分配跑道，请手动添加`;
+                    Modal.warning({
+                        title: '提示',
+                        icon: <ExclamationCircleOutlined />,
+                        centered: true,
+                        closable: true,
+                        content: <div><p>{contentText}</p></div>,
+                        okText: '手动添加',
+                    });
+                } else {
+                    let contentText = `${unSelectedPoint.join(',')} 走廊口尚未分配跑道，建议手动添加`;
+                    Modal.confirm({
+                        title: '提示',
+                        icon: <ExclamationCircleOutlined />,
+                        centered: true,
+                        closable: true,
+                        content: <div><p>{contentText}</p></div>,
+                        okText: '手动添加',
+                        cancelText: `提交`,
+                        onCancel: (close) => {
+                            // 若close为函数则为取消按钮点击触发，反之为关闭按钮触发
+                            if (typeof close === 'function') {
+                                // 关闭模态框
+                                close();
+                                submitData(value);
+                            }
+                        },
+                    });
+                }
             }
 
         } catch (errorInfo) {
