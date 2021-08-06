@@ -6,7 +6,7 @@ import { SchemeFormUtil } from 'utils/scheme-form-util'
 
 
 //方案前序表单
-function TacticExemptFormerUnitForm(props) {
+function TacticFormerUnitForm(props) {
 
     const { schemeFormData, form, pageType } = props;
     // 方案基础信息
@@ -67,4 +67,4 @@ function TacticExemptFormerUnitForm(props) {
     )
 }
 
-export default inject("schemeFormData",)(observer(TacticExemptFormerUnitForm));
+export default inject("schemeFormData",)(observer(TacticFormerUnitForm));

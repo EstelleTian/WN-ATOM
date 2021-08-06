@@ -27,7 +27,7 @@ function TacticSpecialAreaAirportInit(props) {
             schemeFormData.updateSpecialAreaAirportData({})
         }
     };
-    // 请求交通流快捷录入表单依赖数据失败
+    // 请求数据失败
     const requestErr = (err, content) => {
         // let errMsg = ""
         // if (isValidObject(err) && isValidVariable(err.message)) {

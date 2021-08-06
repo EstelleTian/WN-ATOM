@@ -48,7 +48,7 @@ function TacticShortcutInputForm(props) {
         form.resetFields();
     }, [tacticName]);
 
-    //方案名称发生变化触发更新
+    //勾选中的复选框发生变化触发更新
     useEffect(function () {
         //重置表单，用以表单初始值赋值
         form.resetFields();

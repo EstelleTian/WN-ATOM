@@ -71,9 +71,8 @@ function TacticTemplateForm(props) {
         })
     };
 
-    // 
+    // 模板变更选中项
     const handleSelectedTemplateChange = (templateId) => {
-        // schemeTemplateData.updateSelectedTemplateId(templateId);
         // 选中的模板数据
         const selectedTemplateData = getSelectedTemplateData(templateId);
         // 依据该模板数据更新方案表单数据

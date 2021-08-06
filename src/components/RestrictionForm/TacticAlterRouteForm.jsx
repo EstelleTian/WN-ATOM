@@ -3,7 +3,7 @@ import { Form, Row, Col, Input } from 'antd'
 import { inject, observer } from "mobx-react";
 import { SchemeFormUtil } from 'utils/scheme-form-util'
 
-//方案基准单元表单
+//方案备选航路表单
 function TacticAlterRouteForm(props) {
 
 

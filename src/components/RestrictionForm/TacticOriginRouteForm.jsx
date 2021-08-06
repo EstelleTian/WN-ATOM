@@ -8,7 +8,7 @@ import { SchemeFormUtil } from 'utils/scheme-form-util'
 
 
 
-//方案基准单元表单
+//方案原航路表单
 function TacticOriginRouteForm(props) {
     const { schemeFormData, form, validateOriginRouteFormat, originRouteField , pageType } = props;
     // 方案基础信息

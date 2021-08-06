@@ -1613,6 +1613,7 @@ function SchemeForm(props) {
             flowControlMeasure.originRouteData = schemeFormData.originRouteData;
             // 备选航路数据信息
             let alterRoutesData = schemeFormData.alterRoutesData;
+            // 表单提交要按routeRank字段排序
             let sortedAlterRouteData = alterRoutesData.sort((item1, item2) => {
                 let nameA = item1.routeRank; // ignore upper and lowercase
                 let nameB = item2.routeRank; // ignore upper and lowercase

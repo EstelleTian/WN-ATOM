@@ -11,7 +11,9 @@ function TacticPublishUserForm(props) {
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
+    // 方案发布用户
     let tacticPublishUser = schemeFormData.tacticPublishUser;
+    // 方案发布用户中文
     let tacticPublishUserCH = schemeFormData.tacticPublishUserCH;
     // 用户信息
     const user = systemPage.user || {};
