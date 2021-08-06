@@ -472,17 +472,15 @@ function DirectionDataForm(props) {
     }
 
     /**
-     * handleSubmitData() 返回接口原数据与表单数据融合后的数据对象
-     * @param {Object} 表单数据对象
-     * @return {Object}  融合后的数据对象
+     * 处理表单数据
+     * 
      * */
     const handleSubmitData = (values) => {
-
+        // 转为大写
         values = toUpperCaseValues(values);
 
         // 复制方向数据对象
         let opt = JSON.parse(JSON.stringify(directionData));
-
 
         // 方向基本信息数据对象
         let direction = opt.direction;
@@ -490,14 +488,12 @@ function DirectionDataForm(props) {
             opt.direction = {};
             direction = opt.direction;
         }
-
         // 方向流控航班类型条件数据对象
         let flightProperty = opt.flightProperty;
         if (!isValidObject(flightProperty)) {
             opt.flightProperty = {};
             flightProperty = opt.flightProperty;
         }
-
 
         // 表单字段数据
         const { directionName, targetUnit, formerUnit, behindUnit, exemptFormerUnit, exemptBehindUnit, useHeight, exemptHeight,
@@ -674,7 +670,7 @@ function DirectionDataForm(props) {
         // 更新当前字段值
         updateFormAirportFieldValue(field, valueArr);
     }
-
+    // 区域标签绘制
     function areaBlock(field) {
         return (
             <Space>
