@@ -43,6 +43,7 @@ const SummaryCell = memo(({
 
     const menu = (
         <Menu>
+            <Menu.Item key="2">有效时间: {`${getDayTimeFromString(startTime, false, 2)}-${getDayTimeFromString(endTime, false, 2)}`}</Menu.Item>
             <Menu.Item key="2">创建时间: {getDayTimeFromString(generateTime, false, 2)}</Menu.Item>
         </Menu>
     );
