@@ -18,30 +18,37 @@ function RunwayConfiguration({
   RunwayDynamicPublishFormData,
   systemPage,
 }) {
+  let hasAuth = systemPage.userHasAuth(125201);
   const menu = function () {
-    return (
-      <Menu>
-        {
-          systemPage.userHasAuth(12520) && <Menu.Item
-          key="RunwayDynamicPublish"
-          value="RunwayDynamicPublish"
-          onClick={showRunwayDynamicPublishModal}
-        >
-          动态跑道发布
-        </Menu.Item>
-        }
-        
-        {/* {
-          systemPage.userHasAuth(12520) && <Menu.Item
-          key="RunwayTemplate"
-          value="RunwayTemplate"
-          onClick={}
-        >
-          跑道模板管理
-        </Menu.Item>
-        } */}
-      </Menu>
-    );
+    
+    if(hasAuth){
+      return (
+        <Menu>
+          {
+            systemPage.userHasAuth(12520) && <Menu.Item
+            key="RunwayDynamicPublish"
+            value="RunwayDynamicPublish"
+            onClick={showRunwayDynamicPublishModal}
+          >
+            动态跑道发布
+          </Menu.Item>
+          }
+          
+          {/* {
+            systemPage.userHasAuth(12520) && <Menu.Item
+            key="RunwayTemplate"
+            value="RunwayTemplate"
+            onClick={}
+          >
+            跑道模板管理
+          </Menu.Item>
+          } */}
+        </Menu>
+      );
+    }else {
+      return ""
+    }
+    
   };
 
 
@@ -52,14 +59,18 @@ function RunwayConfiguration({
   
   return (
     <Fragment>
-      <RunwayDynamicPublishModal />
-      <Dropdown overlay={menu}>
+      
+      {
+        hasAuth ? <Dropdown overlay={menu}>
         <Radio.Button value="runway">
           跑道配置
           <DownOutlined />
         </Radio.Button>
-      </Dropdown>
-      
+      </Dropdown> : <Radio.Button value="runway">
+          跑道配置
+        </Radio.Button>
+      }
+      <RunwayDynamicPublishModal />
     </Fragment>
   );
 }
