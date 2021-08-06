@@ -137,25 +137,23 @@ const GraphPage = (props) => {
         wrap.style.color = "#fff";
         wrap.innerHTML =
           `
-            <font class='font' title=` +
+            <font class='font' title='方案名称：` +
           titleS +
-          `><div class='title'>` +
+          `'><div class='title'>` +
           titleS +
-          `</div></font> <div class='isTim'>  <span class='titleNam'>` +
+          `</div></font> <div class='isTim'>  <span class='titleNam' title='限制类型'>` +
           items.titleNam +
-          `</span><span>` +
+          `</span><span title='限制值'>` +
           items.isTim +
-          `</span> <span class='igada' title=` +
+          `</span> <span class='igada' title='基准单元：`+items.igada+`' >` +
           items.igada +
-          `>` +
-          items.igada +
-          `</span> <span class='titDcb' style='color:` +
+          `</span> <span class='titDcb' title='DCB' style='color:` +
           color +
           `'>` +
           items.titleDcb +
-          `</span> </div> <div class='titleName'><span  class='titState'>` +
+          `</span> </div> <div class='titleName'><span title='方案状态'  class='titState'>` +
           items.perform +
-          `</span><span>` +
+          `</span><span title='起止时间'>` +
           items.titleTim +
           `</span></div>`;
         return wrap;
@@ -182,21 +180,21 @@ const GraphPage = (props) => {
           wrap.innerHTML =
             `
       <div class='warpTop'>
-      <div class='sonText'>` +
+      <div class='sonText' title='子流程名称'>` +
             items.text +
             `</div>
       </div>
       <div class='warpBottom'>
-      <div class='isTim'><span class='titleNam'>` +
+      <div class='isTim'><span class='titleNam'  title='限制类型'>` +
             items.titleNam +
-            `</span><span>` +
+            `</span><span title='限制值'>` +
             items.isTim +
-            `</span><span class='igada' title=` +
+            `</span><span class='igada' title='受控点：` +
             items.igada +
-            `>` +
+            `'>` +
             items.igada +
             `</span></div>
-      <div class='titleName'>` +
+      <div class='titleName'  title='起止时间'>` +
             items.titleTim +
             `</div>
       </div>
@@ -211,22 +209,22 @@ const GraphPage = (props) => {
             ` 
       <div class='warpTop'>
       <div class='wrapImg'></div>
-      <div class='sonText'>` +
+      <div class='sonText'title='子流程名称'>` +
             items.text +
             `</div>
       <span class='new' ></span>
       </div>
       <div class='warpBottom'>
-      <div class='isTim'><span class='titleNam'>` +
+      <div class='isTim'><span class='titleNam' title='限制类型'>` +
             items.titleNam +
-            `</span><span>` +
+            `</span><span title='限制值'>` +
             items.isTim +
-            `</span><span class='igada' title=` +
+            `</span><span class='igada' title='受控点：` +
             items.igada +
-            `>` +
+            `'>` +
             items.igada +
             `</span></div>
-      <div class='titleName'>` +
+      <div class='titleName' title='起止时间'>` +
             items.titleTim +
             `</div>
       </div>
@@ -240,21 +238,21 @@ const GraphPage = (props) => {
             `
           <div class='warpTop'>
           <div class='wrapImg'></div>
-          <div class='sonText'>` +
+          <div class='sonText'title='子流程名称'>` +
             items.text +
             `</div>
           </div>
           <div class='warpBottom'>
-          <div class='isTim'><span class='titleNam'>` +
+          <div class='isTim'><span class='titleNam'  title='限制类型'>` +
             items.titleNam +
-            `</span><span>` +
+            `</span><span title='限制值'>` +
             items.isTim +
-            `</span><span class='igada' title=` +
+            `</span><span class='igada' title='受控点：` +
             items.igada +
-            `>` +
+            `'>` +
             items.igada +
             `</span></div>
-          <div class='titleName'>` +
+          <div class='titleName' title='起止时间'>` +
             items.titleTim +
             `</div>
           </div>
