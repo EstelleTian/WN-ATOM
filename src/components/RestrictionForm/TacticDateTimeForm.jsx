@@ -78,7 +78,7 @@ function TacticDateTimeForm(props) {
     const autoFillInEndDate = (value) => {
         const startTime = form.getFieldValue('startTime');
         const startDate = form.getFieldValue('startDate');
-        const endTime = form.getFieldValue('endTime');
+        // const endTime = form.getFieldValue('endTime');
         const endDate = form.getFieldValue('endDate');
         const startDateString = moment(startDate).format(dateTimeFormat).substring(0, 8);
         const startDateFormatValid = REGEXP.DATE8.test(startDateString);

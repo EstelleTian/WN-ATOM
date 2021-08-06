@@ -1,12 +1,11 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-04-21 16:37:01
+ * @LastEditTime: 2021-08-05 13:46:37
  * @LastEditors: Please set LastEditors
  * @Description: In U.3ser Settings Edit
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
-
 
 import React, { useEffect, useCallback, useState } from "react";
 import { inject, observer } from "mobx-react";
@@ -25,9 +24,9 @@ import PieChart from "./PieChart";
 import LineChart from "./LineChart";
 import "./FlightPerformance.scss";
 import CollaborateKPI from "./CollaborateKPI";
-import OperationPane from 'components/Total/OperationPane'
-
-import './FlightPerformance.scss'
+import OperationPane from "components/Total/OperationPane";
+import { openTclientFrame } from "utils/client";
+import "./FlightPerformance.scss";
 
 //总体监控-航班执行情况模块
 const FlightPerformance = (props) => {
@@ -57,25 +56,37 @@ const FlightPerformance = (props) => {
   // 计划区域飞越架次(飞越本区)
   const sAOvfNum = isValidVariable(flight.sAOvfNum) ? flight.sAOvfNum : "N/A";
   // 计划飞越架次(国际飞越)
-  const sOvfNum = isValidVariable(flight.sOvfNum ) ? flight.sOvfNum : "N/A";
+  const sOvfNum = isValidVariable(flight.sOvfNum) ? flight.sOvfNum : "N/A";
   // 绩效情况
-  const situation = isValidVariable(flight.situation ) ? flight.situation : "";
+  const situation = isValidVariable(flight.situation) ? flight.situation : "";
   // 起飞正常率绩效情况
-  const depRatioSituation = isValidVariable(flight.depRatioSituation) ? flight.depRatioSituation : "";
+  const depRatioSituation = isValidVariable(flight.depRatioSituation)
+    ? flight.depRatioSituation
+    : "";
   // 离港流量绩效情况
-  const depFlowSituation = isValidVariable(flight.depFlowSituation ) ? flight.depFlowSituation : "";
+  const depFlowSituation = isValidVariable(flight.depFlowSituation)
+    ? flight.depFlowSituation
+    : "";
   // 起飞正常率
   const depRatio = flight.depRatio;
   // 地面延误航班架次
-  const groundDelay = isValidVariable(flight.groundDelay) ? flight.groundDelay : "N/A";
+  const groundDelay = isValidVariable(flight.groundDelay)
+    ? flight.groundDelay
+    : "N/A";
   // 返航备降航班
   const cplNum = isValidVariable(flight.cplNum) ? flight.cplNum : "N/A";
   // 复飞航班
-  const reflySorties = isValidVariable(flight.reflySorties ) ? flight.reflySorties : "N/A";
+  const reflySorties = isValidVariable(flight.reflySorties)
+    ? flight.reflySorties
+    : "N/A";
   // 盘旋航班
-  const circlingSorties = isValidVariable(flight.circlingSorties) ? flight.circlingSorties : "N/A";
+  const circlingSorties = isValidVariable(flight.circlingSorties)
+    ? flight.circlingSorties
+    : "N/A";
   // 限制总数
-  const restrictTotal = isValidVariable(statisticsMap["ALL"] ) ? statisticsMap["ALL"] : "N/A";
+  const restrictTotal = isValidVariable(statisticsMap["ALL"])
+    ? statisticsMap["ALL"]
+    : "N/A";
   // 限制原因分类数据
   const restrictMap = statisticsMap;
 
@@ -393,7 +404,9 @@ const FlightPerformance = (props) => {
                 <Tooltip>
                   <div className="text-wrapper">
                     <span className="value">
-                      { isValidVariable(executeRatio) ? (executeRatio * 100).toFixed(0) :"N/A"}
+                      {isValidVariable(executeRatio)
+                        ? (executeRatio * 100).toFixed(0)
+                        : "N/A"}
                     </span>
                     <span className="unit">%</span>
                   </div>
@@ -405,7 +418,12 @@ const FlightPerformance = (props) => {
             </Spin>
           </div>
 
-          <div className="performance_item module">
+          <div
+            className="performance_item module"
+            onClick={() => {
+              openTclientFrame();
+            }}
+          >
             <PerformanceItemHeader
               style={{ background: "#168f9d", color: "#d4d4d4" }}
               title="限制"
@@ -432,7 +450,7 @@ const FlightPerformance = (props) => {
               TabPaneConfig={{
                 key: "operation",
                 title: "运行监控",
-                content:<OperationPane></OperationPane>,
+                content: <OperationPane></OperationPane>,
               }}
               setActiveTabPane={props.setActiveTabPane}
             />

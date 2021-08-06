@@ -37,6 +37,18 @@ function FlowcontrolDetailCard(props) {
             label: "GS",
             key: "",
             unit: "",
+        },
+        "CR": {
+            label: "CR",
+            key: "",
+            unit: "",
+        },
+        "TC": {
+            label: "TC",
+            key: "restrictionTCPeriodDuration",
+            flights:"restrictionTCPeriodValue",
+            interval:"restrictionMITTimeValue",
+            unit: "",
         }
     };
 
@@ -63,22 +75,39 @@ function FlowcontrolDetailCard(props) {
         
         // 流控限制方式
         let restrictionModeLable = modeData.label || "";
-
         // 流控限制数值
         let restrictionModeKey = modeData.key || "";
+        let restrictionModeFlights = modeData.flights || "";
+        let restrictionModeInterval = modeData.interval || "";
         let restrictionModeValue = flowControlMeasure[restrictionModeKey] || "";
+        let flights = flowControlMeasure[restrictionModeFlights] || "";
+        let interval = flowControlMeasure[restrictionModeInterval] || "";
         // 流控限制数值单位
         let restrictionModeUnit = modeData.unit || "";
         // MIT和AH限制类型的限制单位取值
-        if(restrictionMode ==="MIT" || restrictionMode ==="AH" ){
+        if(restrictionMode ==="MIT" || restrictionMode ==="AH" || restrictionMode ==="TC" ){
             if(restrictionMITValueUnit ==="T"){
                 restrictionModeUnit= "分钟"
             }else if(restrictionMITValueUnit ==="D"){
                 restrictionModeUnit= "公里"
             }
         }
-        
-
+        const minimumInterval = ()=>{
+            return (
+                <div className="ant-row ant-form-item">
+                    <div className="ant-col ant-form-item-label ant-form-item-label-left">
+                        <label className="ant-form-item-no-colon" title="最小间隔">最小间隔</label>
+                    </div>
+                    <div className="ant-col ant-form-item-control">
+                        <div className="ant-form-item-control-input">
+                            <div className="ant-form-item-control-input-content">
+                                { isValidVariable(interval) ? `${interval} ${restrictionModeUnit}` : '' }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
         return(
             <div className="info-content flowcontrol-list" data-id={id} key={index}>
                 <Row className="info-row">
@@ -144,11 +173,15 @@ function FlowcontrolDetailCard(props) {
                                 <div className="ant-form-item-control-input">
                                     <div className="ant-form-item-control-input-content">
                                         { isValidVariable(restrictionModeValue) ? `${restrictionModeValue} ${restrictionModeUnit}` : '' }
+                                        { isValidVariable(flights) ? `${flights} 架次` : '' }
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                    </Col>
+                    <Col span={8}>
+                        {restrictionMode==='TC' ? minimumInterval() : ""}
                     </Col>
                 </Row>
             </div>

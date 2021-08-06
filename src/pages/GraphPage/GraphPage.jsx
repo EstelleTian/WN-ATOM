@@ -5,6 +5,7 @@ import { requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import { customNotice } from "utils/common-funcs";
 import { NWGlobal } from "utils/global";
+import _ from "lodash";
 import { FlightCoordination } from "../../utils/flightcoordination";
 import "./GraphPage.scss";
 import { index } from "@antv/x6/lib/util/dom/elem";
@@ -19,38 +20,24 @@ const mergeNodeSon = (newNodeSon, oldNodeSon) => {
 
   newNodeSon.map((newItem, index) => {
     const newName = newItem.flowControlName || "";
-    let flag = false;
-    oldNodeSon.map((oldItem, index) => {
-      // if(flag) break;
-      const oldName = oldItem.flowControlName || "";
-      if (newName === oldName) {
-        newItem["from"] = "update";
-        mergeSon.push(newItem);
-        flag = true;
-      }
-    });
-    if (!flag) {
+    const res = _.findIndex(oldNodeSon, { flowControlName: newName });
+    if (res !== -1) {
+      newItem["from"] = "update";
+    } else {
       newItem["from"] = "new";
-      mergeSon.push(newItem);
     }
+    mergeSon.push(newItem);
   });
   oldNodeSon.map((oldItem, index) => {
     let flag = false;
     const oldName = oldItem.flowControlName || "";
-    newNodeSon.map((newItem, index) => {
-      // if(flag) break;
-      const newName = newItem.flowControlName || "";
-      if (newName === oldName) {
-        flag = true;
-      }
-    });
-    if (!flag) {
+    const res = _.findIndex(newNodeSon, { flowControlName: oldName });
+    if (res === -1) {
       oldItem["from"] = "delete";
       mergeSon.push(oldItem);
     }
-  });
 
-  // console.log("mergeSon", mergeSon);
+  });
   return mergeSon;
 };
 //获取宽度
@@ -145,7 +132,9 @@ const GraphPage = (props) => {
           items.titleNam +
           `</span><span title='限制值'>` +
           items.isTim +
-          `</span> <span class='igada' title='基准单元：`+items.igada+`' >` +
+          `</span> <span class='igada' title='基准单元：` +
+          items.igada +
+          `' >` +
           items.igada +
           `</span> <span class='titDcb' title='DCB' style='color:` +
           color +
@@ -180,7 +169,7 @@ const GraphPage = (props) => {
           wrap.innerHTML =
             `
       <div class='warpTop'>
-      <div class='sonText' title='子流程名称'>` +
+      <div class='sonText' title='子流程名称：`+items.text+`'>` +
             items.text +
             `</div>
       </div>
@@ -209,7 +198,7 @@ const GraphPage = (props) => {
             ` 
       <div class='warpTop'>
       <div class='wrapImg'></div>
-      <div class='sonText'title='子流程名称'>` +
+      <div class='sonText'title='子流程名称：`+items.text+`'>` +
             items.text +
             `</div>
       <span class='new' ></span>
@@ -238,7 +227,7 @@ const GraphPage = (props) => {
             `
           <div class='warpTop'>
           <div class='wrapImg'></div>
-          <div class='sonText'title='子流程名称'>` +
+          <div class='sonText'title='子流程名称：`+items.text+`'>` +
             items.text +
             `</div>
           </div>
@@ -488,7 +477,7 @@ const GraphPage = (props) => {
             if (item.directionDoMain.targetUnit === null) {
               nodeS.igada = "";
             } else {
-              nodeS.igada = item.directionDoMain.targetUnit
+              nodeS.igada = item.directionDoMain.targetUnit;
             }
             const node02 = memberS(80 + xian1, num2, nodeS.title, nodeS, graph);
 
