@@ -15,7 +15,7 @@ function TacticMeasureForm(props) {
     { "key": "CR", "text": "CR", "title": "改航"  },
     { key: "GS", text: "GS", title: "GS" },
     { "key": "TC", "text": "TC", "title": "总量控制"  },
-    // {"key":"GDP", "text": "GDP"},
+    {"key":"GDP", "text": "GDP"},
     // {"key":"AS", "text": "指定时隙"},
     // {"key":"BREQ", "text": "上客申请"},
     // {"key":"REQ", "text": "开车申请"},
@@ -101,7 +101,7 @@ function TacticMeasureForm(props) {
     restrictionMITTimeValue,
     distanceToTime,
   };
-
+    console.log('initialValues------',initialValues);
   /*
    * MIT限制类型下切换限制模式变更
    *

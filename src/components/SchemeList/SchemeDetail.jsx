@@ -68,6 +68,7 @@ function SchemeDetail(props) {
       tacticStatus === "FINISHED";
 
       console.log(isTerminated)
+      console.log('basicFlowcontrolList',basicFlowcontrolList)
 
     return (
         <Row className="scheme-detail">

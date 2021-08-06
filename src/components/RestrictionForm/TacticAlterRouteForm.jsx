@@ -8,7 +8,7 @@ function TacticAlterRouteForm(props) {
 
 
     const { schemeFormData, form, alterRoutesFieldData, validateSingleRouteFormat, pageType  } = props;
-
+    console.log(props);
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
