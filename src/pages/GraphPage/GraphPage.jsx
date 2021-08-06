@@ -145,7 +145,9 @@ const GraphPage = (props) => {
           items.titleNam +
           `</span><span>` +
           items.isTim +
-          `</span> <span class='igada'>` +
+          `</span> <span class='igada' title=` +
+          items.igada +
+          `>` +
           items.igada +
           `</span> <span class='titDcb' style='color:` +
           color +
@@ -189,7 +191,9 @@ const GraphPage = (props) => {
             items.titleNam +
             `</span><span>` +
             items.isTim +
-            `</span><span class='igada'>` +
+            `</span><span class='igada' title=` +
+            items.igada +
+            `>` +
             items.igada +
             `</span></div>
       <div class='titleName'>` +
@@ -217,7 +221,9 @@ const GraphPage = (props) => {
             items.titleNam +
             `</span><span>` +
             items.isTim +
-            `</span><span class='igada'>` +
+            `</span><span class='igada' title=` +
+            items.igada +
+            `>` +
             items.igada +
             `</span></div>
       <div class='titleName'>` +
@@ -243,7 +249,9 @@ const GraphPage = (props) => {
             items.titleNam +
             `</span><span>` +
             items.isTim +
-            `</span><span class='igada'>` +
+            `</span><span class='igada' title=` +
+            items.igada +
+            `>` +
             items.igada +
             `</span></div>
           <div class='titleName'>` +
@@ -479,10 +487,10 @@ const GraphPage = (props) => {
               nodeS.dles = true;
             }
             nodeS.titleNam = item.flowControlMeasure.restrictionMode;
-            if (item.flowControlTargetUnit === null) {
+            if (item.directionDoMain.targetUnit === null) {
               nodeS.igada = "";
             } else {
-              nodeS.igada = item.flowControlTargetUnit;
+              nodeS.igada = item.directionDoMain.targetUnit
             }
             const node02 = memberS(80 + xian1, num2, nodeS.title, nodeS, graph);
 
