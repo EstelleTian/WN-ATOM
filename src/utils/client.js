@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-07-23 15:55:50
+ * @LastEditTime: 2021-08-05 13:17:39
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -317,10 +317,18 @@ const openCDMorCRSFrame =(system, title) => {
         console.error(error);
     }
 }
+//跳转到方案中心
+const openTclientFrame =() => {
+    try {
+        jsEntity.openTclientFrame("SchemeCenter")
+    }catch(error){
+        console.error(error);
+    }
+}
 export {
     updateMessageNum,openMessageRecordFrame, sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
     openConfirmFrame, openDoneFrameById,openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
     openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem, openRunningControlFlow,openDetails,
-    openLocation,openTclientFrameForMDRS, handleCreateSchemeBySimulation,testInternet, getVersion,openCDMorCRSFrame
+    openLocation,openTclientFrameForMDRS, handleCreateSchemeBySimulation,testInternet, getVersion,openCDMorCRSFrame, openTclientFrame
 }

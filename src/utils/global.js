@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-08-03 10:43:40
+ * @LastEditTime: 2021-08-05 13:10:26
  * @LastEditors: Please set LastEditors
  * @Description: 暴露给客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -14,6 +14,7 @@ let NWGlobal = {
     setCapacityPane: function(){},
     setEditDirectionData: function(){}, // 回传方向数据
     setGraphSchemeId: function(){}, //流控血缘关系图-方案id
+    setGraphSize: function(){}, //流控血缘关系图-尺寸
 }
 window.NWGlobal = NWGlobal;
 

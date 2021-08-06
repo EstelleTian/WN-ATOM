@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-04-25 16:38:31
+ * @LastEditTime: 2021-08-05 13:19:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -51,12 +51,12 @@ import "components/NavBar/NavBar.scss";
 
 import "./TotalPage.scss";
 
-const FlightPerformance = lazy(() =>
-  import("components/FlightPerformance/FlightPerformance")
-);
-const CapacityFlowMonitor = lazy(() =>
-  import("components/CapacityFlowMonitor/CapacityFlowMonitor")
-);
+// const FlightPerformance = lazy(() =>
+//   import("components/FlightPerformance/FlightPerformance")
+// );
+// const CapacityFlowMonitor = lazy(() =>
+//   import("components/CapacityFlowMonitor/CapacityFlowMonitor")
+// );
 
 const { Header, Footer, Sider, Content } = Layout;
 
