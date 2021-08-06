@@ -55,10 +55,10 @@ const mergeNodeSon = (newNodeSon, oldNodeSon) => {
 };
 //获取宽度
 const GraphPage = (props) => {
-  // const [tacticId, setTacticId] = useState(
-  //   "44c7e44b-b8a0-4e29-b65d-5c4b9e03d6a0"
-  // );
-  const [tacticId, setTacticId] = useState("");
+  const [tacticId, setTacticId] = useState(
+    "44c7e44b-b8a0-4e29-b65d-5c4b9e03d6a0"
+  );
+  // const [tacticId, setTacticId] = useState("");
   const [tacticInfos, setTacticInfos] = useState([]);
   const [screenWidth, setScreenWidth] = useState(
     document.getElementsByTagName("body")[0].offsetWidth

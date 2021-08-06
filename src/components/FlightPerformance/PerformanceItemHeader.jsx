@@ -1,14 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-08-05 13:29:44
+ * @LastEditTime: 2021-08-05 13:46:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
  */
 import React from "react";
 import { message, Col, Row, Spin, Tooltip } from "antd";
-import { openTclientFrame } from "utils/client";
 
 import "./PerformanceItemHeader.scss";
 const PerformanceItemHeader = (props) => {
@@ -26,9 +25,9 @@ const PerformanceItemHeader = (props) => {
     if (setActiveTabPane) {
       setActiveTabPane(TabPaneConfig);
     }
-    if (title === "限制") {
-      openTclientFrame();
-    }
+    // if (title === "限制") {
+    //   openTclientFrame();
+    // }
   };
   return (
     <div className="header" onClick={showTabPane}>
