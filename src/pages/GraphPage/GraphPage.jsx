@@ -169,7 +169,7 @@ const GraphPage = (props) => {
           wrap.innerHTML =
             `
       <div class='warpTop'>
-      <div class='sonText' title='子流程名称'>` +
+      <div class='sonText' title='子流程名称：`+items.text+`'>` +
             items.text +
             `</div>
       </div>
@@ -198,7 +198,7 @@ const GraphPage = (props) => {
             ` 
       <div class='warpTop'>
       <div class='wrapImg'></div>
-      <div class='sonText'title='子流程名称'>` +
+      <div class='sonText'title='子流程名称：`+items.text+`'>` +
             items.text +
             `</div>
       <span class='new' ></span>
@@ -227,7 +227,7 @@ const GraphPage = (props) => {
             `
           <div class='warpTop'>
           <div class='wrapImg'></div>
-          <div class='sonText'title='子流程名称'>` +
+          <div class='sonText'title='子流程名称：`+items.text+`'>` +
             items.text +
             `</div>
           </div>
