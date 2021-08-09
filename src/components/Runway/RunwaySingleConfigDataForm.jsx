@@ -14,7 +14,7 @@ function RunwaySingleConfigDataForm(props) {
     const runwayPointOptions = props.runwayPointOptions || [];
 
     const form = props.form || {};
-
+    // stores 数据
     const storesData = props.storesData;
     // 所有跑道的状态勾选数据
     const ruwayStatusSelectedData = storesData.ruwayStatusSelectedData || {};
@@ -40,6 +40,7 @@ function RunwaySingleConfigDataForm(props) {
     if (isValidObject(form)) {
         // selectedLogicRWName = form.getFieldValue(`selectedLogic_${id}`)
     }
+    // 选中的逻辑跑道名
     let [selectedLogic, setSelectedLogic] = useState(selectedLogicRWName);
 
 
@@ -49,21 +50,18 @@ function RunwaySingleConfigDataForm(props) {
     const handleSingleRunwayLogicValChange = (e, runwayId) => {
         // 获取表单中该字段数值
         let selectedLogicRWName = form.getFieldValue(`selectedLogic_${runwayId}`);
-        // const val = e.target.value;
-        // let field = `selectedLogic_${runwayId}`
-        // data[field] = val;
-        // 更新表单中指定跑道的选中的逻辑跑道名称
-        // form.setFieldsValue(data);
         // 更新selectedLogic
         setSelectedLogic(selectedLogicRWName);
     }
 
     // 状态复选框勾选状态变更
     function onStatusCheckboxChange(checkedValues, runwayId) {
+        // 调用stores数据更新方法
         storesData.updateSingleRunwayStatusChange(checkedValues, runwayId);
     }
     // 走廊口复选框勾选状态变更
     function onRunwayPointCheckboxChange(checkedValues, runwayId) {
+        // 调用stores数据更新方法
         storesData.updateSingleRunwayPointChange(checkedValues, runwayId)
     }
 
