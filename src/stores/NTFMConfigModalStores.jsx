@@ -28,7 +28,7 @@ class NTFMConfigForm {
     }
     // 更新配置选项数据
     @action updateConfigData(data) {
-        if (isValidObject) {
+        if (isValidObject(data)) {
             // 选中的配置值 
             const val = data.currentVal || "";
             // 更新配置选项数据
