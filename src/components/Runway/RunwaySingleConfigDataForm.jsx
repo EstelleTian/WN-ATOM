@@ -12,7 +12,7 @@ function RunwaySingleConfigDataForm(props) {
     const runwayData = props.runwayData || {};
     const statusOptions = props.statusOptions || [];
     const runwayPointOptions = props.runwayPointOptions || [];
-
+    // form表单
     const form = props.form || {};
     // stores 数据
     const storesData = props.storesData;
