@@ -22,7 +22,6 @@ function NTFMConfigForm(props) {
     const optionData = Object.keys(configOptionData);
     // 当前系统选中的配置值
     const configValue = NTFMConfigFormData.configValue || "";
-    console.log(configValue)
     // 配置下拉选项
     const options = optionData.map((item) => <Radio key={item} value={item}>{configOptionData[item].cn}</Radio>)
     // 表单初始化默认值
