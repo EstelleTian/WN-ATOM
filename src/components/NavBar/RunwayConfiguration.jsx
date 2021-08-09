@@ -18,7 +18,7 @@ function RunwayConfiguration({
   RunwayDynamicPublishFormData,
   systemPage,
 }) {
-  let hasAuth = systemPage.userHasAuth(125201);
+  let hasAuth = systemPage.userHasAuth(12520);
   const menu = function () {
     
     if(hasAuth){
