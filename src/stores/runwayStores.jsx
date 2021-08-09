@@ -169,7 +169,9 @@ class RunwayListData{
         
         let defaultMap = getDefaultRunwayMap(map);
         let dynamicMap = getDdynamicRunwayMap(map);
+        // 默认跑道集合
         let defaultList = getGroupRunwayList(defaultMap,RunwayConfigUtil.TYPE_DEFAULT);
+        // 动态跑道集合
         let dynamicList = getGroupRunwayList(dynamicMap,RunwayConfigUtil.TYPE_DYNAMIC);
         groupRunwayList = [...defaultList, ...dynamicList];
         return groupRunwayList;

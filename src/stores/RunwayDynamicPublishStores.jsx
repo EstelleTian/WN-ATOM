@@ -158,7 +158,7 @@ class RunwayDynamicPublishForm {
 
     }
 
-    // 更新单条跑道状态复选框勾选数值
+    // 更新单条跑道走廊口复选框勾选数值
     @action updateSingleRunwayPointChange(value, id) {
         
         
@@ -247,6 +247,7 @@ class RunwayDynamicPublishForm {
         this.updateRuwayPointSelectedDataChangeCounter();
     }
 
+    // 依据状态变化更新航路点勾选中值
     @action updateAllRunwayPointChangeByStatusChange(oldValue, id){
         // 跑道配置状态复选框被勾选数值
         let ruwayStatusSelectedData = { ... this.ruwayStatusSelectedData }
@@ -343,7 +344,7 @@ class RunwayDynamicPublishForm {
         }
         return false
     }
-
+    // 将指定某条跑道下所有航路点勾选并将其他跑道的航路点清空勾选
     @action setSingleRunwayALLPointSelected  ( id){
 
         let pointSelectedData = { ...this.runwayPointSelectedData };
@@ -358,7 +359,7 @@ class RunwayDynamicPublishForm {
         return pointSelectedData;
 
     }
-
+    // 清空指定某条跑道下航点勾选状态
     @action clearSingleRunwayPointSelected  (id){
         let pointSelectedData = { ...this.runwayPointSelectedData };
         for (let i in pointSelectedData) {
@@ -368,7 +369,7 @@ class RunwayDynamicPublishForm {
         }
         return pointSelectedData;
     }
-
+    // 更新除指定跑道外的跑道走廊口勾选状态
     @action updateOtherRunwayPointSelected  (id){
         let pointSelectedData = { ...this.runwayPointSelectedData };
         let allPoint = this.allPoint;

@@ -68,7 +68,7 @@ function List(props) {
         })
     };
 
-    // 请求方案数据
+    // 请求跑道列表数据
     const requestRunwayListData = () => {
         const now = getFullTime(new Date());
         const nowDate = now.substring(0,8);

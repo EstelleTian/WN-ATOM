@@ -166,9 +166,9 @@ class RunwayDefaultEditForm {
                 this.ruwayStatusSelectedData[id] = value;
             }
         }
+        // 更新状态计数器
         this.updateRuwayStatusSelectedDataChangeCounter();
         // 依据状态变化更新航路点勾选中值
-
         this.updateAllRunwayPointChangeByStatusChange(oldValue, id)
 
     }
@@ -259,9 +259,10 @@ class RunwayDefaultEditForm {
                 this.runwayPointSelectedData = runwayPointSelectedData;
             }
         }
+        // 更新走廊口变更计数器
         this.updateRuwayPointSelectedDataChangeCounter();
     }
-
+    // 依据状态变化更新航路点勾选中值
     @action updateAllRunwayPointChangeByStatusChange(oldValue, id){
         // 跑道配置状态复选框被勾选数值
         let ruwayStatusSelectedData = { ... this.ruwayStatusSelectedData }
@@ -281,20 +282,20 @@ class RunwayDefaultEditForm {
             this.runwayPointSelectedData = newPointSelectedData;
             // 其他跑道有选中起飞状态
             if(otherRunwayIsIncludesDep){
-                
                 let newPointSelectedData = this.updateOtherRunwayPointSelected(id);
                 this.runwayPointSelectedData = newPointSelectedData;
             }
 
         }
+        // 更新走廊口变更计数器
         this.updateRuwayPointSelectedDataChangeCounter();
     }
-
+     // 更新状态变更计数器
     @action updateRuwayStatusSelectedDataChangeCounter() {
         let t = this.ruwayStatusSelectedDataChangeCounter + 1;
         this.ruwayStatusSelectedDataChangeCounter = t;
     }
-
+    // 更新走廊口变更计数器
     @action updateRuwayPointSelectedDataChangeCounter() {
         let t = this.runwayPointSelectedDataChangeCounter + 1;
         this.runwayPointSelectedDataChangeCounter = t;
@@ -358,7 +359,7 @@ class RunwayDefaultEditForm {
         }
         return false
     }
-
+    // 将指定某条跑道下所有航路点勾选并将其他跑道的航路点清空勾选
     @action setSingleRunwayALLPointSelected  ( id){
 
         let pointSelectedData = { ...this.runwayPointSelectedData };
@@ -373,7 +374,7 @@ class RunwayDefaultEditForm {
         return pointSelectedData;
 
     }
-
+    // 清空指定某条跑道下航点勾选状态
     @action clearSingleRunwayPointSelected  (id){
         let pointSelectedData = { ...this.runwayPointSelectedData };
         for (let i in pointSelectedData) {
@@ -383,7 +384,7 @@ class RunwayDefaultEditForm {
         }
         return pointSelectedData;
     }
-
+    // 更新除指定跑道外的跑道走廊口勾选状态
     @action updateOtherRunwayPointSelected  (id){
         let pointSelectedData = { ...this.runwayPointSelectedData };
         let allPoint = this.allPoint;
@@ -393,6 +394,7 @@ class RunwayDefaultEditForm {
                 if (i == id) {
                     continue;
                 }else {
+                    // 将另一条跑道全部勾选走廊口
                     pointSelectedData[i] = [... allPoint]
                 }
             }

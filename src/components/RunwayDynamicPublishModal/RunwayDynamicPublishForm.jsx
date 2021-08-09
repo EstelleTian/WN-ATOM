@@ -277,13 +277,13 @@ function RunwayDynamicPublishForm(props) {
     }
 
     // 获取选中的状态中包含起飞状态的数量
-    const getSelecedDepNumber = ()=> {
+    const getSelecedDepNumber = () => {
         let statusSelectedData = { ...ruwayStatusSelectedData };
         let number = 0;
         for (let i in statusSelectedData) {
             let singleRunwayStatusSelectedData = [...statusSelectedData[i]];
             if (singleRunwayStatusSelectedData.includes("1")) {
-                number = number+1;
+                number = number + 1;
             }
         }
         return number
@@ -393,11 +393,11 @@ function RunwayDynamicPublishForm(props) {
         // 结束时间
         const endTime = values['endTime'];
 
-        opt.startYY = moment(startDate).format("YYYYMMDDHHmm").substring(0, 8),
-            opt.startHour = startTime,
-            opt.endYY = moment(endDate).format("YYYYMMDDHHmm").substring(0, 8),
-            opt.endHour = endTime,
-            opt.airportStr = apName;
+        opt.startYY = moment(startDate).format("YYYYMMDDHHmm").substring(0, 8);
+        opt.startHour = startTime;
+        opt.endYY = moment(endDate).format("YYYYMMDDHHmm").substring(0, 8);
+        opt.endHour = endTime;
+        opt.airportStr = apName;
         opt.operationMode = operationmode;
         // opt.groupId = groupId;
         opt.showOperationNear = showOperationNear;
