@@ -541,7 +541,7 @@ function RunwayDynamicPublishForm(props) {
     const requestSuccess = (data) => {
         RunwayDynamicPublishFormData.toggleLoad(false);
         // 触发获取跑道列表数据
-        runwayListData.triggerRequest();
+        runwayListData.setForceUpdate(true);
         Modal.success({
             title: "发布成功",
             content: (

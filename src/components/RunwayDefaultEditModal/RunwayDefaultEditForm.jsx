@@ -430,7 +430,7 @@ function RunwayDefaultEditForm(props) {
     const requestSuccess = (data) => {
         RunwayDefaultEditFormData.toggleLoad(false);
         // 触发获取跑道列表数据
-        runwayListData.triggerRequest();
+        runwayListData.setForceUpdate(true);
         Modal.success({
             title: "修改成功",
             content: (

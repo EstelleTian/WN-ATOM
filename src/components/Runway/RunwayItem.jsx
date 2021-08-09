@@ -241,7 +241,7 @@ function RunwayItem(props) {
             });
             resolve(data);
             // 触发获取跑道列表数据
-            runwayListData.triggerRequest();
+            runwayListData.setForceUpdate(true);
             Modal.success({
                 title: "终止成功",
                 content: (

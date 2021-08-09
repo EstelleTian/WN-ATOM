@@ -550,7 +550,7 @@ function RunwayDynamicEditForm(props) {
     const requestSuccess = (data) => {
         RunwayDynamicEditFormData.toggleLoad(false);
         // 触发获取跑道列表数据
-        runwayListData.triggerRequest();
+        runwayListData.setForceUpdate(true);
         Modal.success({
             title: "修改成功",
             content: (

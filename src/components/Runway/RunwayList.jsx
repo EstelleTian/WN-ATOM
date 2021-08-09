@@ -91,6 +91,7 @@ function List(props) {
     };
 
     useEffect(function(){
+        
         // 初次获取数据启用loading
         props.runwayListData.toggleLoad(true);
         // 获取数据
@@ -101,12 +102,14 @@ function List(props) {
     },[props.systemPage.userId])
 
     useEffect(function(){
-        // 获取数据
-        requestRunwayListData();
-        return function(){
-            clearTimeout(timer);
+        // 若强制更新标记为true 则请求跑道列表数据
+        if(runwayListData.forceUpdate){
+             // 获取数据
+            requestRunwayListData();
+            // 设置强制更新标记为false
+            runwayListData.setForceUpdate(false);
         }
-    },[counter])
+    },[runwayListData.forceUpdate])
     return (
         <Spin spinning={loading} >
             <div className="list_container" >

@@ -41,8 +41,8 @@ class RunwayListData{
     @observable runwayMap = {};
     //数据时间
     @observable generateTime = "";
-    //计数器用于变更此值以触发重新获取跑道列表
-    @observable counter = 0;
+    // 强制更新跑道列表
+    @observable forceUpdate = false;
     //定时器
     @observable timeoutId = "";
     //跑道过滤关键字
@@ -55,12 +55,12 @@ class RunwayListData{
         modalId: ""
     };
 
-    //触发请求
-    //更新表格loading状态
-    @action triggerRequest( ){
-        let t = this.counter;
-        t++;
-        this.counter = t;
+
+
+    //更新跑道强制更新标记
+    @action setForceUpdate( flag ){
+        
+        this.forceUpdate = flag;
     }
 
     //更新表格loading状态

@@ -80,7 +80,12 @@ const RunwayConfigUtil = {
      */
     getExecutionStatusZH : function (runwayData, type ) {
         let status="";
-        let isExecuting = runwayData.isExecuting || "";
+        let isExecuting = runwayData.isExecuting;
+        // 若isExecuting无效则返回空
+        if(!isValidVariable(isExecuting)){
+            return status;
+        }
+        // isExecuting转换为字符串
         isExecuting = isExecuting.toString();
         if(type === this.TYPE_DEFAULT){
             status = isExecuting === "1" ? "正在使用" : "动态范围外使用"

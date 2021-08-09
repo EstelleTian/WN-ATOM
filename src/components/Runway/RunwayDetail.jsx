@@ -67,6 +67,7 @@ function RunwayDetail(props) {
     const {
         listRWGapInfo,
         sign0,
+        statusZh,
         startTime,
         endTime,
         generateTime,
@@ -76,6 +77,9 @@ function RunwayDetail(props) {
 
         const runwayConEditBean = data.runwayConEditBean || [];
         const sign0 = runwayConEditBean.sign0 || ""; //配置状态
+        
+
+        
 
         const listRWGapInfoDefault = data.listRWGapInfoDefault || [];
         const listRWGapInfoDynamic = data.listRWGapInfoDynamic || [];
@@ -85,6 +89,10 @@ function RunwayDetail(props) {
         let updateTime = "";
         let operationModeStr = "";//运行模式
         let listRWGapInfo = [];
+        // 状态
+        let status = "";
+        // 跑道执行状态中文
+        let statusZh ="";
         if(type === RunwayConfigUtil.TYPE_DEFAULT ){
             listRWGapInfo = listRWGapInfoDefault;
         }else if(type === RunwayConfigUtil.TYPE_DYNAMIC ){
@@ -97,7 +105,8 @@ function RunwayDetail(props) {
              updateTime = item.updateTime || "";//终止时间
             
             const operationMode = item.operationmode; 
-            
+            // 跑道执行状态中文
+            statusZh = RunwayConfigUtil.getExecutionStatusZH(item, type);
             if( operationMode != "" ){
                 if( operationMode*1 == 100){
                     operationModeStr = "就近模式";
@@ -110,6 +119,7 @@ function RunwayDetail(props) {
         return {
             listRWGapInfo,
             sign0,
+            statusZh,
             startTime,
             endTime,
             generateTime,
@@ -197,7 +207,7 @@ function RunwayDetail(props) {
                                     </div>
                                     <div className="ant-col ant-form-item-control">
                                         <div className="ant-form-item-control-input">
-                                            <div className="ant-form-item-control-input-content">{sign0}</div>
+                                            <div className="ant-form-item-control-input-content">{statusZh}</div>
                                         </div>
                                     </div>
                                 </div>
