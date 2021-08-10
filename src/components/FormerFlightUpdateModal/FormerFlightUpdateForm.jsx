@@ -70,7 +70,7 @@ function FormerFlightUpdateForm(props) {
 
     // 变更选中航班
     const handleChangeSelectedFormerFlight = (value) => {
-        console.log(value)
+        // console.log(value)
     }
 
     // 处理表单提交数据
@@ -78,8 +78,6 @@ function FormerFlightUpdateForm(props) {
         try {
             // 触发表单验证取表单数据
             const values = await form.validateFields();
-            console.log(values)
-
             // 处理提交数据
             const paramsData = handleSubmitData(values);
             Modal.info({
@@ -217,7 +215,6 @@ function FormerFlightUpdateForm(props) {
         });
 
     });
-
 
     return (
         <Fragment>
