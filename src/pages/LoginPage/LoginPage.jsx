@@ -55,6 +55,7 @@ function LoginPage(props) {
       };
       const verifyObj = await requestGet2({
         url: ReqUrls.loginVerifyUrl,
+        
         params,
       });
       // alert("校验用户名密码接口请求结束");
@@ -66,7 +67,7 @@ function LoginPage(props) {
         params,
       });
       // alert("登录接口请求结束");
-      const { status, user = {} } = data;
+      const { status, user = {}, token = "" } = data;
       // let obj = {};
       // userConcernTrafficList.map((item) => {
       //   const name = item.concernTrafficName;
@@ -74,6 +75,7 @@ function LoginPage(props) {
       // });
 
       localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
       localStorage.setItem("openWind", "");
       // localStorage.setItem(
       //   "userConcernTrafficList",

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-07-05 08:37:42
+ * @LastEditTime: 2021-08-11 16:33:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -15,7 +15,7 @@ import { TopicConstant } from "utils/request-urls";
 import JmsWebsocket from "utils/jms-websocket";
 
 function Topic(props) {
-  const { location } = props;
+  const { location, from } = props;
   let timer = 0;
 
   const stompClientFunc = (username = "") => {
@@ -28,7 +28,6 @@ function Topic(props) {
     );
     // 连接JMS消息服务器
     jms_websocket.connect(function () {
-      
       //收到方案发布消息
       const topic_SCHEME_PUBLISH = "/exchange/TOPIC.SCHEME.PUBLISH.FLOW";
       jms_websocket.subscribe(topic_SCHEME_PUBLISH, function (d) {
@@ -141,11 +140,10 @@ function Topic(props) {
             switchKey === "cdmDataApplySwitch" &&
             isValidVariable(switchVal)
           ) {
-            setTimeout(function(){
+            setTimeout(function () {
               // 强制刷新航班表格
               props.flightTableData.setForceUpdate(true);
-            },1000*3)
-            
+            }, 1000 * 3);
           }
           // NTFM引接应用配置
           if (
@@ -155,13 +153,24 @@ function Topic(props) {
           ) {
             // 更新NTFM引接应用页面 ATOMConfigFormData Store数据
             props.NTFMConfigFormData.updateConfigValue(switchVal);
-            setTimeout(function(){
+            setTimeout(function () {
               // 强制刷新航班表格
               props.flightTableData.setForceUpdate(true);
-            },1000*3)
+            }, 1000 * 3);
           }
         }
       );
+      if (from === "web") {
+        // 收到各地CDM&NTFM引接应用配置变更消息
+        const topic_UUMA_ONLINEMANAGER =
+          "/exchange/EXCHANGE.UUMA.ONLINEMANAGER";
+        jms_websocket.subscribe(topic_UUMA_ONLINEMANAGER, function (d) {
+          //收到消息
+          const body = d.body;
+          const data = JSON.parse(body);
+          console.log(data);
+        });
+      }
     });
   };
 

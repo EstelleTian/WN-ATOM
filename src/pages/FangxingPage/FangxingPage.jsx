@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-02 09:57:31
+ * @LastEditTime: 2021-08-11 15:23:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -15,6 +15,7 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import NavBar from "components/NavBar/NavBar.jsx";
 import Topic from "components/NavBar/Topic.jsx";
 import DateRange from "components/Common/DateRange.jsx";
+import PostUserInfo from "components/Common/PostUserInfo.jsx";
 import FlightSearch from "components/FlightSearch/FlightSearch";
 import LeftMultiCanvas from "components/LeftMultiCanvas/LeftMultiCanvas";
 import RightMultiCanvas from "components/RightMultiCanvas/RightMultiCanvas";
@@ -37,6 +38,7 @@ function FangxingPage({ systemPage, match }) {
   const params = match.params || {};
   const systemType = params.systemType || "";
   let from = "";
+
   if (url.indexOf("web") > -1) {
     from = "web";
   }
@@ -63,9 +65,9 @@ function FangxingPage({ systemPage, match }) {
 
   return (
     <Layout className="">
-      <Topic></Topic>
+      <Topic from={from}></Topic>
       <DateRange></DateRange>
-
+      {from === "web" && <PostUserInfo />}
       <Layout className="">
         <Content className="site-layout">
           <div className="side_menu">

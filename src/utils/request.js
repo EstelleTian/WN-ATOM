@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:28
- * @LastEditTime: 2021-08-03 10:32:51
+ * @LastEditTime: 2021-08-11 10:25:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\utils\request.js
@@ -111,7 +111,7 @@ const requestGet2 = async ( parameters  ) => {
 };
 
 const request2 = async ( parameters ) => {
-    const {url, method, params, headers='application/json; charset=utf-8'} = parameters;
+    const {url, method="POST", params, headers='application/json; charset=utf-8'} = parameters;
     try{
         const response = await axios({
             method,
