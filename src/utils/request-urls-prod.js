@@ -203,6 +203,21 @@ const ReqUrls = {
     flightTableColumnConfigUrl: flightTableColumnConfigIP +"/hydrogen-param-config-server",
     // 方案中心-流控血缘关系
     schemeByIdIP: schemeByIdIP +"/scheme-flight-calculation-server/evaluation/schemeById",
+    
+    // 跑道配置-跑道模板管理
+    getRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/retrieve/",
+    // 跑道配置-跑道模板管理删除
+    dleRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/delete",
+    // 跑道配置-跑道模板管理添加(显示)
+    addRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/create/show/",
+    // 跑道配置-跑道模板管理更新(显示)
+    updateRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/retrieve/by_id/",
+    // 跑道配置-跑道模板管理添加(保存)
+    addUploadRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/create/",
+    // 跑道配置-跑道模板管理更新(保存)
+    updateUploadRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/update/",
+    // 动态跑道配置
+    loadRunwayTemplateListUrl: runwayIP+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/"
 };
 
 //协调相关url

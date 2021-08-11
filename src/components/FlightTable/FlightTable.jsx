@@ -119,7 +119,7 @@ function FTable({
   return (
     <Table
       columns={columns}
-      dataSource={showList}
+      dataSource={[]}
       size="small"
       bordered
       pagination={false}

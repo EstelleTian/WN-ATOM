@@ -13,9 +13,11 @@ import { observer, inject } from "mobx-react";
 import { DownOutlined } from "@ant-design/icons";
 import { Radio, Dropdown, Menu } from "antd";
 import RunwayDynamicPublishModal from "components/RunwayDynamicPublishModal/RunwayDynamicPublishModal";
+import RunwayFormworkmanagement from "components/RunwayDynamicPublishModal/RunwayFormworkmanagement";
 //参数配置页面
 function RunwayConfiguration({
   RunwayDynamicPublishFormData,
+  RunwayFormworkmanagementData,
   systemPage,
 }) {
   let hasAuth = systemPage.userHasAuth(12520);
@@ -34,15 +36,15 @@ function RunwayConfiguration({
           </Menu.Item>
           }
           
-          {/* {
-            systemPage.userHasAuth(12520) && <Menu.Item
+          {
+            systemPage.userHasAuth(12521) && <Menu.Item
             key="RunwayTemplate"
             value="RunwayTemplate"
-            onClick={}
+            onClick={showRunwayFormworkmanagement}
           >
             跑道模板管理
           </Menu.Item>
-          } */}
+          }
         </Menu>
       );
     }else {
@@ -55,6 +57,12 @@ function RunwayConfiguration({
   // 显示动态跑道发布模态框
   const showRunwayDynamicPublishModal = () => {
     RunwayDynamicPublishFormData.toggleModalVisible(true);
+    RunwayFormworkmanagementData.togIsGo('is')
+  };
+
+  // 显示跑道模板管理模态框
+  const showRunwayFormworkmanagement = () => {
+    RunwayFormworkmanagementData.toggleTemplateVisible(true);
   };
   
   return (
@@ -70,12 +78,14 @@ function RunwayConfiguration({
           跑道配置
         </Radio.Button>
       }
-      <RunwayDynamicPublishModal />
+      <RunwayDynamicPublishModal  />
+      <RunwayFormworkmanagement />
     </Fragment>
   );
 }
 
 export default inject(
   "RunwayDynamicPublishFormData",
+  "RunwayFormworkmanagementData",
   "systemPage",
 )(observer(RunwayConfiguration));
