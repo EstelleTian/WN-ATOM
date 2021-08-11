@@ -24,9 +24,7 @@ import { openMapFrame, } from 'utils/client'
 
 import { isValidObject, isValidVariable, formatTimeString } from 'utils/basic-verify'
 import 'components/NavBar/NavBar.scss'
-// import './TotalPage.scss'
-const FlightPerformance = lazy(() => import('components/FlightPerformance/FlightPerformance'));
-const CapacityFlowMonitor = lazy(() => import('components/CapacityFlowMonitor/CapacityFlowMonitor'));
+
 
 //总体监控-运行监控
 function OperationPane(props) {

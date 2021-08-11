@@ -29,6 +29,7 @@ function NTFMAdd(props){
         if( status === 500 ){
             antdMessage.error('获取的流控数据为空');
         }else{
+            // 更新数据
             setFlowData(data);
             // 更新方案表单store数据
             let tacticProcessInfo = data.tacticProcessInfo || {};
@@ -77,12 +78,15 @@ function NTFMAdd(props){
     };
 
     useEffect(() => {
+        // 取localStorage保存的消息数据
         let msgStr = localStorage.getItem("message");
+        // 转换为对象
         let json = JSON.parse(msgStr);
         setMessage(json);
+        // 将消息对象中的data字段值转为对象
         let { data = {} } = json;
         data = JSON.parse(data);
-        console.log("id:", data.id);
+        // 请求NTFM数据
         requestNTFMData(data);
     }, []);
 

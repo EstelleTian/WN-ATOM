@@ -52,30 +52,30 @@ function NTFMDetail(props) {
     const ntfmFlowBasicInfo = flowInfo.ntfmFlow || {};
     // 流控类型
     const ftmiType = ntfmFlowBasicInfo.ftmiType || "";
-    // 流控数据
+    // 交通流数据
     const singleTypeFlowData = getSingleTypeFlowData(ftmiType);
 
-    // 限制数据
+    // 交通流限制数据
     const trfdData = singleTypeFlowData.trfd || [];
-    // 措施豁免数据
+    // 交通流措施豁免数据
     const expdData = singleTypeFlowData.expd || [];
 
-    // FtmiType数据
+    // 流控措施数据
     const ntfmFtmiType = singleTypeFlowData.ntfmFtmiType || {};
     // 未成功转换的数据集合
     const unConvertedData = singleTypeFlowData.unConverted || [];
-    // 所有措施豁免未成功转换
+    // 交通流所有措施豁免未成功转换
     const unConvertedAllExpd = unConvertedData.includes('expd');
-    // 所有限制未成功转换
+    // 交通流所有限制未成功转换
     const unConvertedAllTrfd = unConvertedData.includes('trfd');
-    // 所有FtmiType数据未成功转换
+    // 流控措施数据所有FtmiType数据未成功转换
     const unConvertedAllFtmiType = unConvertedData.includes('ntfmFtmiType');
 
-    // 未成功转换的措施豁免字段数据
+    // 未成功转换的交通流措施豁免字段数据
     const unConverted_expd = singleTypeFlowData.unConverted_expd || {}
-    // 未成功转换的限制字段数据
+    // 未成功转换的交通流限制字段数据
     const unConverted_trfd = singleTypeFlowData.unConverted_trfd || {}
-    // 未成功转换的FtmiType数据字段集合
+    // 未成功转换的流控措施数据字段集合
     const unConverted_ntfmFtmiType = singleTypeFlowData.unConverted_ntfmFtmiType || []
 
     // NTFM流控名称
@@ -199,7 +199,7 @@ function NTFMDetail(props) {
         return false;
 
     }
-
+    // 检查数据中是否包含未转换的字段项
     const checkTrafficFlowDataIsIncludesUnConvertedField = (data, unConvertedData) => {
         for(let i=0; i<data.length; i++){
             let item = data[i];

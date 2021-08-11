@@ -57,7 +57,7 @@ function SchemeForm(props) {
     let [primaryBtnDisabled, setPrimaryBtnDisabled] = useState(false);
     // 另存为模板框态框是否显示
     let [saveAsTemplateModalVisible, setSaveAsTemplateModalVisible] = useState(false);
-    const { systemPage, schemeFormData, pageType, primaryButtonName, operationDescription } = props;
+    const { systemPage, schemeFormData, pageType, primaryButtonName, operationDescription, clearSimIdFlag } = props;
     // 编辑按钮
     const showEditBtn = props.showEditBtn || false;
     // 忽略按钮
@@ -1408,7 +1408,12 @@ function SchemeForm(props) {
             opt.method = "POST";
         } else if (pageType === SchemeFormUtil.PAGETYPE_MODIFYSIM) {
             // 若为模拟状态的方案修改，则使用modifySimulationSchemeUrl
-            opt.url = ReqUrls.modifySimulationSchemeUrl + user.id;
+            if(isValidVariable(clearSimIdFlag)){
+                // 若clearSimIdFlag 有效则url要接上clearSimIdFlag,用于后端通过此参数判断是否需要清除方案的simId
+                opt.url = ReqUrls.modifySimulationSchemeUrl + user.id+"/"+ clearSimIdFlag;
+            }else {
+                opt.url = ReqUrls.modifySimulationSchemeUrl + user.id;
+            }
             opt.method = "PUT";
         } else if (pageType === SchemeFormUtil.PAGETYPE_IMPORT
             || pageType === SchemeFormUtil.PAGETYPE_IMPORTWITHFORMER) {

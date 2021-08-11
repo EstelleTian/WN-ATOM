@@ -10,9 +10,9 @@ function PreDelay(props) {
     const executeKPIData = props.executeKPIData || {};
     const { loading, entiretyNormalRate, entiretyDepNormalRate, apEstimateRateMap, apDepEstimateRateMap } = props.executeKPIData
 
-    const executeData = executeKPIData.executeData || {};
-    let tacticProcessInfo = executeData.tacticProcessInfo || {};
-    let kpi = tacticProcessInfo.kpi || {};
+    // const executeData = executeKPIData.executeData || {};
+    // let tacticProcessInfo = executeData.tacticProcessInfo || {};
+    // let kpi = tacticProcessInfo.kpi || {};
     //  entiretyNormalRate 预计起飞正常率   
     //  entiretyDepNormalRate 实际起飞正常率
     // apEstimateRateMap 四大机场预计起飞正常率
@@ -31,7 +31,9 @@ function PreDelay(props) {
         }
         return result;
     }
+    // 预计起飞正常率
     normalRate = converPercent(entiretyNormalRate);
+    // 实际起飞正常率
     depNormalRate = converPercent(entiretyDepNormalRate);
     // 机场正常率排序依据
     const airportOrder = {
