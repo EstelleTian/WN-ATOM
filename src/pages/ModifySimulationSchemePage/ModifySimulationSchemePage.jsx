@@ -15,6 +15,8 @@ function ModifySchemePage(props) {
     let [flowData, setFlowData] = useState({});
     //  方案表单禁用状态
     let [disabledForm, setDisabledForm] = useState(true);
+    // simId 为url第二个参数,用于标记是否清除方案simId
+    let clearSimIdFlag = "";
 
     //更新方案数据
     const updateSchemeData = data => {
@@ -43,8 +45,12 @@ function ModifySchemePage(props) {
 
     // 请求方案数据
     const requestSchemeData = () => {
+        let params = props.location.search.replace(/\?/g, "");
+        let paramsArray = params.split('&');
         // 获取方案ID
-        let schemeID = props.location.search.replace(/\?/g, "");
+        let schemeID = paramsArray[0];
+        // simID
+        clearSimIdFlag = paramsArray[1];
         // 请求参数
         const opt = {
             url: ReqUrls.simulationSchemeDetailUrl + schemeID,
@@ -74,6 +80,7 @@ function ModifySchemePage(props) {
                     setDisabledForm={setDisabledForm}
                     showEditBtn={true}
                     showIgnoreBtn={false}
+                    clearSimIdFlag = {clearSimIdFlag}
                 />
             </div>
         </div>
