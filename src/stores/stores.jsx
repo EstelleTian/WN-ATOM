@@ -47,7 +47,8 @@ import { RunwayDynamicPublishFormData } from "./RunwayDynamicPublishStores";
 import { RunwayDynamicEditFormData } from "./RunwayDynamicEditStores";
 // 默认跑道修改
 import { RunwayDefaultEditFormData } from "./RunwayDefaultEditStores";
-
+ 
+import {RunwayFormworkmanagementData} from './RunwayFormworkmanagement';
 
 export {
   schemeListData,
@@ -78,6 +79,7 @@ export {
   ATOMConfigFormData,
   NTFMConfigFormData,
   RunwayDynamicPublishFormData,
+  RunwayFormworkmanagementData,
   RunwayDynamicEditFormData,
   RunwayDefaultEditFormData,
   fightSearch,
