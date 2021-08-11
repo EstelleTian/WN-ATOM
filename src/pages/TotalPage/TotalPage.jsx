@@ -6,77 +6,35 @@
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
  */
-import React, {
-  Fragment,
-  lazy,
-  Suspense,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
-import {
-  Layout,
-  Spin,
-  Row,
-  Col,
-  Avatar,
-  Radio,
-  message,
-  Button,
-  Tabs,
-} from "antd";
-
-import { UserOutlined, FileTextOutlined } from "@ant-design/icons";
-import { request } from "utils/request";
-import { ReqUrls } from "utils/request-urls";
+import React, {  useState,} from "react";
+import {  Tabs,} from "antd";
 import { inject, observer } from "mobx-react";
-
-import ModalBox from "components/ModalBox/ModalBox";
+// 主tab面板
 import PrimaryPane from "components/Total/PrimaryPane";
+// 用户组件
 import User from "components/NavBar/User";
-import LoadingIframe from "components/LoadingIframe/LoadingIframe";
-import { openMapFrame } from "utils/client";
 const { TabPane } = Tabs;
-
-// import NavBar  from 'components/NavBar/NavBar.jsx'
-import {
-  getFullTime,
-  isValidObject,
-  isValidVariable,
-  formatTimeString,
-  addStringTime,
-} from "utils/basic-verify";
-
 import "components/NavBar/NavBar.scss";
-
 import "./TotalPage.scss";
-
-// const FlightPerformance = lazy(() =>
-//   import("components/FlightPerformance/FlightPerformance")
-// );
-// const CapacityFlowMonitor = lazy(() =>
-//   import("components/CapacityFlowMonitor/CapacityFlowMonitor")
-// );
-
-const { Header, Footer, Sider, Content } = Layout;
 
 //总体监控布局模块
 function TotalPage(props) {
+  // 初始化tab面板数据对象
   const initialPanes = [
     {
       title: "总体监控",
       content: <PrimaryPane setActiveTabPane={setActiveTabPane}></PrimaryPane>,
-      // content: <div style={{background:"red"}}>ssss</div>,
       key: "primary",
       closable: false,
     },
   ];
+  // 活动tab面板  
   let [activeKey, setActiveKey] = useState(initialPanes[0].key);
+  // tab面板集合
   let [panes, setPanes] = useState(initialPanes);
 
   // 激活指定tab面板
   function setActiveTabPane({ key, title, content }) {
-    console.log(panes);
     // 解析出所有key
     let keys = panes.map((item) => item.key);
     // 查找对应key
@@ -114,7 +72,7 @@ function TotalPage(props) {
     setPanes(newPanes);
     setActiveKey(newActiveKey);
   }
-
+  //  切换面板
   const onChangeActivePane = (activeKey) => {
     setActiveKey(activeKey);
   };
@@ -152,9 +110,6 @@ function TotalPage(props) {
     </div>
   );
 }
-
-// export default withRouter(TodoPage);
-// export default TodoPage
 
 export default inject(
   "userSubscribeData",

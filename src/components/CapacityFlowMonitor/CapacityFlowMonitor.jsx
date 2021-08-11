@@ -41,7 +41,7 @@ const CapacityFlowMonitor = (props) => {
         return obj;
     };
     let weatherDataObj = formatWeatherData();
-
+    // 获取指定类型数据
     const getSingleTypeData = (type) => {
         let arr = [];
         // 遍历并取监控数据中对应类型的容流数据
