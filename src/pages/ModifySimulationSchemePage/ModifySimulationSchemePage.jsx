@@ -11,16 +11,14 @@ import { customNotice } from 'utils/common-funcs'
 
 
 function ModifySchemePage(props) {
-    //  方案数据
-    let [flowData, setFlowData] = useState({});
     //  方案表单禁用状态
     let [disabledForm, setDisabledForm] = useState(true);
-    // simId 为url第二个参数,用于标记是否清除方案simId
-    let clearSimIdFlag = "";
+
+    // clearSimIdFlag 是否清除方案simId标记
+    let [clearSimIdFlag, setClearSimIdFlag] = useState("")
 
     //更新方案数据
     const updateSchemeData = data => {
-        // setFlowData(data);
         // 更新方案表单store数据
         let tacticProcessInfo = data.tacticProcessInfo || {};
         props.schemeFormData.updateSchemeData(tacticProcessInfo);
@@ -45,12 +43,17 @@ function ModifySchemePage(props) {
 
     // 请求方案数据
     const requestSchemeData = () => {
+        // url 参数
         let params = props.location.search.replace(/\?/g, "");
+        // 以&分隔为数组
         let paramsArray = params.split('&');
         // 获取方案ID
         let schemeID = paramsArray[0];
-        // simID
-        clearSimIdFlag = paramsArray[1];
+        // clearSimId 清除simID标记的值
+        let clearSimId = paramsArray[1];
+        if(isValidVariable(clearSimId)){
+            setClearSimIdFlag(clearSimId);
+        }
         // 请求参数
         const opt = {
             url: ReqUrls.simulationSchemeDetailUrl + schemeID,
