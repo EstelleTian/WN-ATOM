@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-08-11 16:33:50
+ * @LastEditTime: 2021-08-11 16:42:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -160,17 +160,16 @@ function Topic(props) {
           }
         }
       );
-      if (from === "web") {
-        // 收到各地CDM&NTFM引接应用配置变更消息
-        const topic_UUMA_ONLINEMANAGER =
-          "/exchange/EXCHANGE.UUMA.ONLINEMANAGER";
-        jms_websocket.subscribe(topic_UUMA_ONLINEMANAGER, function (d) {
-          //收到消息
-          const body = d.body;
-          const data = JSON.parse(body);
-          console.log(data);
-        });
-      }
+      // if (from === "web") {
+      // const topic_UUMA_ONLINEMANAGER =
+      //   "/exchange/EXCHANGE.UUMA.ONLINEMANAGER";
+      // jms_websocket.subscribe(topic_UUMA_ONLINEMANAGER, function (d) {
+      //   //收到消息
+      //   const body = d.body;
+      //   const data = JSON.parse(body);
+      //   console.log(data);
+      // });
+      // }
     });
   };
 

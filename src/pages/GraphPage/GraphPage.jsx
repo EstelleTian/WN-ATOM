@@ -1,18 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Graph, Shape, Node, Point } from "@antv/x6";
-import { isValidVariable, getDayTimeFromString } from "utils/basic-verify";
+import {
+  isValidVariable,
+  getDayTimeFromString,
+  formatTimeString,
+} from "utils/basic-verify";
 import { requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import { customNotice } from "utils/common-funcs";
 import { NWGlobal } from "utils/global";
 import _ from "lodash";
-import { FlightCoordination } from "../../utils/flightcoordination";
-import "./GraphPage.scss";
+import { FlightCoordination } from "utils/flightcoordination";
 import { index } from "@antv/x6/lib/util/dom/elem";
-// import './imgs/aaa'
-// import isData from './indexs';
+import "./GraphPage.scss";
 
-const mergeNodeSon = (newNodeSon, oldNodeSon) => {
+//前后节点数据对比
+const mergeNodeSon = (newNodeSon = [], oldNodeSon = []) => {
   let mergeSon = [];
   let oldNames = oldNodeSon.reduce((result, item) => {
     return result + item.flowControlName || "";
@@ -36,16 +39,163 @@ const mergeNodeSon = (newNodeSon, oldNodeSon) => {
       oldItem["from"] = "delete";
       mergeSon.push(oldItem);
     }
-
   });
   return mergeSon;
 };
-//获取宽度
+
+//根据限制类型获取限制值
+const getRestrictionValue = (flowControlMeasure, restrictionMode) => {
+  if (!restrictionMode) {
+    restrictionMode = flowControlMeasure.restrictionMode || "";
+  }
+  let value = "";
+  if (restrictionMode === "MIT") {
+    const restrictionMITValue = flowControlMeasure.restrictionMITValue || "";
+    const restrictionMITValueUnit =
+      flowControlMeasure.restrictionMITValueUnit || "";
+    let unit = "";
+    if (restrictionMITValueUnit === "T") {
+      unit = "分钟";
+    } else if (restrictionMITValueUnit === "D") {
+      unit = "公里";
+    }
+    value = restrictionMITValue !== "" ? restrictionMITValue + unit : "";
+  } else if (restrictionMode === "AFP") {
+    const restrictionAFPValueSequence =
+      flowControlMeasure.restrictionAFPValueSequence || "";
+    value =
+      restrictionAFPValueSequence !== ""
+        ? restrictionAFPValueSequence + "架"
+        : "";
+  }
+  return value;
+};
+//处理方案类节点数据
+const handleBasicTacticNode = (basicTacticInfo = {}, ntfmMitMap = {}) => {
+  const id = basicTacticInfo.id || "";
+  const tacticName = basicTacticInfo.tacticName || "";
+  const tacticStatus = basicTacticInfo.tacticStatus || "";
+  const tacticTimeInfo = basicTacticInfo.tacticTimeInfo || {};
+  const basicFlowcontrol = basicTacticInfo.basicFlowcontrol || {};
+  const directionList = basicTacticInfo.directionList || [];
+  const tacticSourceId = basicTacticInfo.tacticSourceId || "";
+  const startTime = tacticTimeInfo.startTime || "";
+  const endTime = tacticTimeInfo.endTime || "";
+  const updateTime = tacticTimeInfo.updateTime || "";
+  const flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
+  const dcb = basicFlowcontrol.dcb || "";
+  const restrictionMode = flowControlMeasure.restrictionMode || "";
+  let targetUnit = "";
+  if (directionList.length > 0) {
+    const dirObj = directionList[0] || {};
+    targetUnit = dirObj.targetUnit || "";
+  }
+  // 调用格式化时间方法 进行拼接
+  const titleTim =
+    getDayTimeFromString(startTime, "", 2) +
+    " — " +
+    getDayTimeFromString(endTime, "", 2);
+  const restrictionValue = getRestrictionValue(
+    flowControlMeasure,
+    restrictionMode
+  );
+  let ntfmData = {};
+  if (tacticSourceId !== "") {
+    ntfmData = ntfmMitMap[tacticSourceId] || {};
+  }
+  // 定义主节点内容数
+  let node = {
+    id,
+    title: tacticName,
+    igada: targetUnit,
+    perform: FlightCoordination.getSchemeStatusZh(tacticStatus),
+    titleNam: restrictionMode,
+    titleTim,
+    titleDcb: dcb,
+    isTim: restrictionValue,
+    updateTime,
+    children: [],
+    ntfmData: ntfmData,
+  };
+
+  return node;
+};
+//处理方案下多个子流控节点数据
+const handleFlowListNode = (flowcontrolList = []) => {
+  let nodeList = [];
+  flowcontrolList.map((flow, index) => {
+    const {
+      flowControlName = "",
+      flowControlTimeInfo = {},
+      flowControlMeasure = {},
+      directionDoMain = {},
+      from = "",
+    } = flow;
+    const { startTime = "", endTime = "" } = flowControlTimeInfo;
+    // 调用格式化时间方法 进行拼接
+    const titleTim =
+      getDayTimeFromString(startTime, "", 2) +
+      " — " +
+      getDayTimeFromString(endTime, "", 2);
+    const { restrictionMode = "" } = flowControlMeasure;
+    const restrictionValue = getRestrictionValue(
+      flowControlMeasure,
+      restrictionMode
+    );
+    const targetUnit = directionDoMain.targetUnit || "";
+    let node = {
+      titleNam: restrictionMode,
+      titleTim,
+      isTim: restrictionValue,
+      text: flowControlName,
+      igada: targetUnit,
+      dles: from === "new" ? true : false,
+      news: from === "delete" ? true : false,
+    };
+
+    nodeList.push(node);
+  });
+  return nodeList;
+};
+
+//数据转换为图形数据
+const convertDataToGraph = (tacticInfos, ntfmMitMap) => {
+  let graphData = [];
+  //判断数据是否为空
+  if (tacticInfos.length > 0) {
+    let num = 0;
+    let xian1 = 0;
+    tacticInfos.map((item, index) => {
+      if (index > 0) {
+        const cur = item.flowcontrolList || [];
+        const prev = tacticInfos[index - 1].flowcontrolList || [];
+        item.flowcontrolList = mergeNodeSon(cur, prev);
+      }
+    });
+
+    tacticInfos.map((item, index) => {
+      // 设置默认数据
+      const basicTacticInfo = item.basicTacticInfo || {};
+      const flowcontrolList = item.flowcontrolList || [];
+
+      //处理方案类节点数据
+      const basicNode = handleBasicTacticNode(basicTacticInfo, ntfmMitMap);
+      //处理方案下多个子流控节点数据
+      const flowNodeList = handleFlowListNode(flowcontrolList);
+
+      basicNode["children"] = flowNodeList;
+
+      graphData.push(basicNode);
+    });
+  }
+  return graphData;
+};
+
 const GraphPage = (props) => {
-  // const [tacticId, setTacticId] = useState(
-  //   "44c7e44b-b8a0-4e29-b65d-5c4b9e03d6a0"
-  // );
-  const [tacticId, setTacticId] = useState("");
+  const [tacticId, setTacticId] = useState(
+    "feba6d4f-1778-4c5f-af02-55ddac8ae9aa"
+  );
+  // const [tacticId, setTacticId] = useState("");
   const [tacticInfos, setTacticInfos] = useState([]);
   const [screenWidth, setScreenWidth] = useState(
     document.getElementsByTagName("body")[0].offsetWidth
@@ -69,16 +219,16 @@ const GraphPage = (props) => {
       const res = await requestGet2({
         url: ReqUrls.schemeByIdIP + "/" + tacticId,
       });
-      const { tacticInfos = [] } = res;
-      let arr = [];
-      let len = tacticInfos.length;
-      for (let i = len; i > 0; i--) {
-        const item = tacticInfos[i - 1];
-        arr.push(item);
-      }
-      // console.log("arr", arr);656
-      // alert(arr.length);
-      setTacticInfos(arr);
+      const { tacticInfos = [], ntfmMitMap = {} } = res;
+      // let arr = [];
+      // let len = tacticInfos.length;
+      // for (let i = len; i > 0; i--) {
+      //   const item = tacticInfos[i - 1];
+      //   arr.push(item);
+      // }
+      // const graphData = convertDataToGraph(arr);
+      const graphData = convertDataToGraph(tacticInfos, ntfmMitMap);
+      setTacticInfos(graphData);
     } catch (e) {
       customNotice({
         type: "error",
@@ -169,7 +319,9 @@ const GraphPage = (props) => {
           wrap.innerHTML =
             `
       <div class='warpTop'>
-      <div class='sonText' title='子流程名称：`+items.text+`'>` +
+      <div class='sonText' title='子流程名称：` +
+            items.text +
+            `'>` +
             items.text +
             `</div>
       </div>
@@ -198,7 +350,9 @@ const GraphPage = (props) => {
             ` 
       <div class='warpTop'>
       <div class='wrapImg'></div>
-      <div class='sonText'title='子流程名称：`+items.text+`'>` +
+      <div class='sonText'title='子流程名称：` +
+            items.text +
+            `'>` +
             items.text +
             `</div>
       <span class='new' ></span>
@@ -227,7 +381,9 @@ const GraphPage = (props) => {
             `
           <div class='warpTop'>
           <div class='wrapImg'></div>
-          <div class='sonText'title='子流程名称：`+items.text+`'>` +
+          <div class='sonText'title='子流程名称：` +
+            items.text +
+            `'>` +
             items.text +
             `</div>
           </div>
@@ -385,154 +541,60 @@ const GraphPage = (props) => {
       };
       let graph = new Graph(option);
       graphRef.current = graph;
-      // 判断数据是否为空
-      if (tacticInfos.length > 0) {
-        let num = 0;
-        let xian1 = 0;
-        tacticInfos.map((item, index) => {
-          // 定义主节点内容数
-          let nodeA = {
-            id: "",
-            title: "",
-            igada: "",
-            perform: "",
-            titleNam: "",
-            titleTim: "",
-            titleDcb: "",
-            isTim: "",
-          };
-          // 定义子节点内容
-          let nodeS = {
-            titleNam: "",
-            titleTim: "",
-            isTim: "",
-            text: "",
-            igada: "",
-            dles: false,
-            news: false,
-          };
-          // 设置默认数据
-          let nodeBox = item.basicTacticInfo || {};
-          let nodeSon = item.flowcontrolList || [];
-          // 设置父节点内容
-          nodeA.title = nodeBox.tacticName || "";
-          nodeA.perform = FlightCoordination.getSchemeStatusZh(
-            nodeBox.tacticStatus
+      let num = 0;
+      let xian1 = 0;
+      let xx = 0;
+      tacticInfos.map((item, index) => {
+        // 添加主节点
+        const node01 = member(30 + num, 20, item.id, item, index, graph);
+        if (index > 0) {
+          const updateTime = formatTimeString(item.updateTime || "");
+
+          linkBox(
+            { x: 255 + xx, y: 55 },
+            { x: 445 + xx, y: 55 },
+            updateTime,
+            graph
           );
-          nodeA.titleTim =
-            // 调用格式化时间方法 进行拼接
-            getDayTimeFromString(nodeBox.tacticTimeInfo.startTime, "", 2) +
-            " — " +
-            getDayTimeFromString(nodeBox.tacticTimeInfo.endTime, "", 2);
-          const basicFlowcontrol = nodeBox.basicFlowcontrol || {};
-          const flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
-          nodeA.titleNam = flowControlMeasure.restrictionMode || "";
-          nodeA.igada = nodeBox.directionList[0].targetUnit;
-          let restrictionMITValue =
-            flowControlMeasure.restrictionMITValue || "";
-          if (restrictionMITValue === "") {
-            nodeS.isTim = "";
-          } else {
-            nodeA.isTim = restrictionMITValue + "分钟";
-          }
-          nodeA.id = nodeBox.id;
-          // DCB
-          nodeA.titleDcb = "中";
-          // 添加主节点
-          const node01 = member(30 + num, 20, nodeA.id, nodeA, index, graph);
-
-          num = num + 450;
-          let num2 = 160;
-          let xian2 = 180;
-
-          let xianBlo = {
-            dle: false,
-            new: false,
-          };
-          if (index > 0) {
-            let prevNodeSon = tacticInfos[index - 1].flowcontrolList;
-            nodeSon = mergeNodeSon(nodeSon, prevNodeSon);
-          }
-
-          nodeSon.map((item, index) => {
-            nodeS.text = item.flowControlName;
-            nodeS.titleTim =
-              getDayTimeFromString(item.flowControlTimeInfo.startTime, "", 2) +
-              " — " +
-              getDayTimeFromString(item.flowControlTimeInfo.endTime, "", 2);
-            const restrictionMITValue =
-              item.flowControlMeasure.restrictionMITValue || "";
-            if (restrictionMITValue === "") {
-              nodeS.isTim = "";
-            } else {
-              nodeS.isTim = restrictionMITValue + "分钟";
-            }
-            // 判断节点新增||删除，添加子节点
-            if (item.from === "new") {
-              nodeS.news = true;
-            } else if (item.from === "delete") {
-              nodeS.dles = true;
-            }
-            nodeS.titleNam = item.flowControlMeasure.restrictionMode;
-            if (item.directionDoMain.targetUnit === null) {
-              nodeS.igada = "";
-            } else {
-              nodeS.igada = item.directionDoMain.targetUnit;
-            }
-            const node02 = memberS(80 + xian1, num2, nodeS.title, nodeS, graph);
-
-            num2 = num2 + 110;
-            xian2 = xian2 + 110;
-            // 判断节点新增||删除，添加线
-            if (item.from === "delete") {
-              xianBlo.dle = true;
-            } else if (item.from === "new") {
-              xianBlo.new = true;
-            }
-            link(
-              node01,
-              node02,
-              [
-                { x: 30 + xian1, y: 140 },
-                { x: 30 + xian1, y: 400 },
-                { x: 50 + xian1, y: 400 },
-                { x: 50 + xian1, y: xian2 - 85 },
-              ],
-              xianBlo,
-              graph
-            );
-          });
-          xian1 = xian1 + 450;
-        });
-        // 判断数据是否为两条以上
-        if (tacticInfos.length > 1) {
-          let xx = 0;
-          for (let i = 0; i < tacticInfos.length; i++) {
-            if (tacticInfos[i + 1]) {
-              let updateTime =
-                tacticInfos[i + 1].basicTacticInfo.tacticTimeInfo.updateTime;
-              updateTime =
-                updateTime.slice(0, 4) +
-                "/" +
-                updateTime.slice(4, 6) +
-                "/" +
-                updateTime.slice(6, 8) +
-                " " +
-                updateTime.slice(8, 10) +
-                ":" +
-                updateTime.slice(10, 12);
-
-              linkBox(
-                { x: 255 + xx, y: 55 },
-                { x: 445 + xx, y: 55 },
-                updateTime,
-                graph
-              );
-              xx = xx + 450;
-            }
-          }
+          xx = xx + 450;
         }
-      }
+
+        num = num + 450;
+        let num2 = 160;
+        let xian2 = 180;
+
+        let xianBlo = {
+          dle: false,
+          new: false,
+        };
+        const children = item.children || [];
+        // 添加子节点
+        children.map((child, index) => {
+          const node02 = memberS(80 + xian1, num2, child.title, child, graph);
+
+          num2 = num2 + 110;
+          xian2 = xian2 + 110;
+          // 判断节点新增||删除，添加线
+          if (child.from === "delete") {
+            xianBlo.dle = true;
+          } else if (child.from === "new") {
+            xianBlo.new = true;
+          }
+          link(
+            node01,
+            node02,
+            [
+              { x: 30 + xian1, y: 140 },
+              { x: 30 + xian1, y: 400 },
+              { x: 50 + xian1, y: 400 },
+              { x: 50 + xian1, y: xian2 - 85 },
+            ],
+            xianBlo,
+            graph
+          );
+        });
+        xian1 = xian1 + 450;
+      });
 
       graph.scrollToPoint(0, 0);
     }
