@@ -167,7 +167,7 @@ const ReqUrls = {
     // 跑道配置-跑道模板管理更新(显示)
     updateRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/retrieve/by_id/",
     // 跑道配置-跑道模板管理添加(保存)
-    addUploadRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/create/",
+    addUploadRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/create/save/",
     // 跑道配置-跑道模板管理更新(保存)
     updateUploadRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/update/",
     // 动态跑道配置
