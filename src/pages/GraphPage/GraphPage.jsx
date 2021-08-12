@@ -209,11 +209,11 @@ const convertDataToGraph = (tacticInfos, ntfmMitMap) => {
 };
 
 const GraphPage = (props) => {
-  const [tacticId, setTacticId] = useState(
-    // "feba6d4f-1778-4c5f-af02-55ddac8ae9aa"
-    "RES_MIT_20210812064618R227_064624553R162"
-  );
-  // const [tacticId, setTacticId] = useState("");
+  // const [tacticId, setTacticId] = useState(
+  //   // "feba6d4f-1778-4c5f-af02-55ddac8ae9aa"
+  //   "RES_MIT_20210812064618R227_064624553R162"
+  // );
+  const [tacticId, setTacticId] = useState("");
   const [tacticInfos, setTacticInfos] = useState([]);
   const [screenWidth, setScreenWidth] = useState(
     document.getElementsByTagName("body")[0].offsetWidth
