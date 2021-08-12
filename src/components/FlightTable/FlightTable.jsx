@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-02 11:12:42
+ * @LastEditTime: 2021-08-12 11:19:48
  * @LastEditors: Please set LastEditors
  * @Description: 表格列表组件
  * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
@@ -119,7 +119,8 @@ function FTable({
   return (
     <Table
       columns={columns}
-      dataSource={[]}
+      // dataSource={[]}
+      dataSource={showList}
       size="small"
       bordered
       pagination={false}

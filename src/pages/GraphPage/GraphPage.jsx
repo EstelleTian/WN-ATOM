@@ -71,7 +71,11 @@ const getRestrictionValue = (flowControlMeasure, restrictionMode) => {
   return value;
 };
 //处理方案类节点数据
-const handleBasicTacticNode = (basicTacticInfo = {}, ntfmMitMap = {}) => {
+const handleBasicTacticNode = (
+  basicTacticInfo = {},
+  kpi = {},
+  ntfmMitMap = {}
+) => {
   const id = basicTacticInfo.id || "";
   const tacticName = basicTacticInfo.tacticName || "";
   const tacticStatus = basicTacticInfo.tacticStatus || "";
@@ -83,7 +87,19 @@ const handleBasicTacticNode = (basicTacticInfo = {}, ntfmMitMap = {}) => {
   const endTime = tacticTimeInfo.endTime || "";
   const updateTime = tacticTimeInfo.updateTime || "";
   const flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
-  const dcb = basicFlowcontrol.dcb || "";
+  const dcb = kpi.impactDegree || "";
+  let titleDcb = "";
+  switch (dcb) {
+    case "H":
+      titleDcb = "高";
+      break;
+    case "M":
+      titleDcb = "中";
+      break;
+    case "L":
+      titleDcb = "低";
+      break;
+  }
   const restrictionMode = flowControlMeasure.restrictionMode || "";
   let targetUnit = "";
   if (directionList.length > 0) {
@@ -111,7 +127,7 @@ const handleBasicTacticNode = (basicTacticInfo = {}, ntfmMitMap = {}) => {
     perform: FlightCoordination.getSchemeStatusZh(tacticStatus),
     titleNam: restrictionMode,
     titleTim,
-    titleDcb: dcb,
+    titleDcb,
     isTim: restrictionValue,
     updateTime,
     children: [],
@@ -177,9 +193,10 @@ const convertDataToGraph = (tacticInfos, ntfmMitMap) => {
       // 设置默认数据
       const basicTacticInfo = item.basicTacticInfo || {};
       const flowcontrolList = item.flowcontrolList || [];
+      const kpi = item.kpi || {};
 
       //处理方案类节点数据
-      const basicNode = handleBasicTacticNode(basicTacticInfo, ntfmMitMap);
+      const basicNode = handleBasicTacticNode(basicTacticInfo, kpi, ntfmMitMap);
       //处理方案下多个子流控节点数据
       const flowNodeList = handleFlowListNode(flowcontrolList);
 
@@ -193,7 +210,8 @@ const convertDataToGraph = (tacticInfos, ntfmMitMap) => {
 
 const GraphPage = (props) => {
   const [tacticId, setTacticId] = useState(
-    "feba6d4f-1778-4c5f-af02-55ddac8ae9aa"
+    // "feba6d4f-1778-4c5f-af02-55ddac8ae9aa"
+    "RES_MIT_20210812064618R227_064624553R162"
   );
   // const [tacticId, setTacticId] = useState("");
   const [tacticInfos, setTacticInfos] = useState([]);

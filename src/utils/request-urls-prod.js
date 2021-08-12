@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-08-11 19:04:13
+ * @LastEditTime: 2021-08-12 17:17:31
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -159,19 +159,19 @@ const ReqUrls = {
     schemeByIdIP: netIp +"/scheme-flight-calculation-server/evaluation/schemeById",
 
     // 跑道配置-跑道模板管理
-    getRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/retrieve/",
+    getRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/retrieve/",
     // 跑道配置-跑道模板管理删除
-    dleRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/delete",
+    dleRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/delete",
     // 跑道配置-跑道模板管理添加(显示)
-    addRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/create/show/",
+    addRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/create/show/",
     // 跑道配置-跑道模板管理更新(显示)
-    updateRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/retrieve/by_id/",
+    updateRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/retrieve/by_id/",
     // 跑道配置-跑道模板管理添加(保存)
-    addUploadRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/create/",
+    addUploadRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/create/",
     // 跑道配置-跑道模板管理更新(保存)
-    updateUploadRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/update/",
+    updateUploadRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/update/",
     // 动态跑道配置
-    loadRunwayTemplateListUrl: runwayIP+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/"
+    loadRunwayTemplateListUrl: netIp+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/"
 };
 
 //协调相关url
