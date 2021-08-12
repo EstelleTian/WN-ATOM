@@ -10,3 +10,11 @@
         bottom: 1px;
     }
 }
+.addList{
+    width: 50px;
+    cursor:pointer;
+    display: flex;
+    .iconAdd{
+       padding: 4px 1px 0 0 !important;
+    }
+}

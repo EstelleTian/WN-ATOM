@@ -4,7 +4,7 @@ import DraggableModal from 'components/DraggableModal/DraggableModal'
 import RunwayFormworkTable from './RunwayFormworkTable';
 import { requestGet2 } from "utils/request";
 import { Modal, Button, Space } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined,PlusSquareOutlined } from '@ant-design/icons';
 import { ReqUrls } from "utils/request-urls";
 import { customNotice } from "utils/common-funcs";
 import { Table } from 'antd';
@@ -243,7 +243,7 @@ function RunwayFormworkmanagement(props) {
                     <Table columns={columns} dataSource={runwayTemplate} pagination={false} bordered />
                     
                     <div className='template_configuration_bottom'>
-                        <div onClick={addRunwy}>增加</div>
+                        <div className='addList' onClick={addRunwy}><PlusSquareOutlined className='iconAdd' /> 增加</div>
                     </div>
                 </div>
             </DraggableModal>
