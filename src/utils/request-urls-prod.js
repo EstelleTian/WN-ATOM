@@ -157,21 +157,21 @@ const ReqUrls = {
     flightTableColumnConfigUrl: netIp +"/hydrogen-param-config-server",
     // 方案中心-流控血缘关系
     schemeByIdIP: netIp +"/scheme-flight-calculation-server/evaluation/schemeById",
-    
+
     // 跑道配置-跑道模板管理
-    getRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/retrieve/",
+    getRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/retrieve/",
     // 跑道配置-跑道模板管理删除
-    dleRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/delete",
+    dleRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/delete",
     // 跑道配置-跑道模板管理添加(显示)
-    addRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/create/show/",
+    addRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/create/show/",
     // 跑道配置-跑道模板管理更新(显示)
-    updateRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/retrieve/by_id/",
+    updateRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/retrieve/by_id/",
     // 跑道配置-跑道模板管理添加(保存)
-    addUploadRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/create/save/",
+    addUploadRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/create/",
     // 跑道配置-跑道模板管理更新(保存)
-    updateUploadRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/update/",
+    updateUploadRunwayTemplateUrl: runwayIP+"/hydrogen-cdm-runway-server/runway/mould/template/update/",
     // 动态跑道配置
-    loadRunwayTemplateListUrl: netIp+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/"
+    loadRunwayTemplateListUrl: runwayIP+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/"
 };
 
 //协调相关url

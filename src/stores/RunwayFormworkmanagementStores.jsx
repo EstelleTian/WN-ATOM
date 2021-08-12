@@ -91,6 +91,7 @@ class RunwayFormworkmanagement {
     }
     // 模板配置数据
     @action updateConfigData(data){
+        console.log(data);
         if (isValidObject(data)) {
             this.configData = data;
         } else {
@@ -109,7 +110,7 @@ class RunwayFormworkmanagement {
         const firstRunway = listRWGapInfo[0] || {};
         // 运行模式
         const operationmode = firstRunway.operationmode || "";
-        // this.airport = airport;
+        this.airport = airport;
         this.operationmode = operationmode;
         this.runwayPoint = runwayPoint;
         this.listRWGapInfo = listRWGapInfo;
@@ -136,7 +137,7 @@ class RunwayFormworkmanagement {
             let status = this.convertRunwayStauts(isDepRW);
             data[id] = status;
         }
-        console.log(data);
+        // console.log(data);
         return data;
     }
     // 转换跑道状态

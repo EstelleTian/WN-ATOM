@@ -1,28 +1,23 @@
 import React, { Fragment, useEffect,useState } from "react";
-import { Form, Radio, Row, Col, Button, Input, Modal, Space, Spin, Card, Select, DatePicker } from "antd";
+import { Form, Radio, Row, Col, Button, Input, Modal, Space, Spin, Card } from "antd";
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-
 import { inject, observer } from "mobx-react";
-import { request,requestGet } from "utils/request";
+import { request} from "utils/request";
 import { ReqUrls } from "utils/request-urls";
-import { isValidVariable, isValidObject, parseFullTime, formatTimeString } from 'utils/basic-verify';
-import { REGEXP } from 'utils/regExpUtil'
+import { isValidVariable, isValidObject } from 'utils/basic-verify';
 import moment from 'moment'
 import { difference } from 'lodash';
-
-// axios自带的qs库,用于将参数序列化
 import qs from 'qs'
 import RunwaySingleConfigDataForm from 'components/Runway/RunwaySingleConfigDataForm'
-import './RunwayDynamicPublishForm.scss'
+import '../RunwayDynamicPublishModal/RunwayDynamicPublishForm.scss'
 
 
-// 动态跑道发布表单
-function IsForm(props) {
+// 跑道模板配置表单
+function RunwayFormworkConfiguration(props) {
 
-    const { systemPage, RunwayDynamicPublishFormData,RunwayFormworkmanagementData, runwayListData } = props;
+    const { systemPage, RunwayFormworkmanagementData, runwayListData } = props;
     const mubanName = RunwayFormworkmanagementData.templateName;
     const [mubanNames,setMubanNames] = useState(mubanName)
-
     const dateFormat = 'YYYY-MM-DD';
     const dateTimeFormat = "YYYYMMDDHHmm"
     // 跑道状态选项
@@ -31,14 +26,10 @@ function IsForm(props) {
         { label: '降落', value: '-1' },
         { label: '关闭', value: '0' },
     ]
-
     // 模块状态
     const isGo = RunwayFormworkmanagementData.isGo;
     // GroupId
     const isGroupId = RunwayFormworkmanagementData.isGroupId;
-    // GroupId
-    
-    // setMubanNameis(mubanName)
     // 用户id
     const userId = systemPage.user.id || ""
     // 当前系统
@@ -49,7 +40,6 @@ function IsForm(props) {
     const airport = region;
     // 表单
     const [form] = Form.useForm();
-    // console.log(form);
     // loading
     const loading = RunwayFormworkmanagementData.loading;
     // 跑道状态勾选数值变更计数器
@@ -58,8 +48,6 @@ function IsForm(props) {
     const runwayPointSelectedDataChangeCounter = RunwayFormworkmanagementData.runwayPointSelectedDataChangeCounter;
     // 配置数据
     const configData = RunwayFormworkmanagementData.configData || {};
-    // 默认机场名称
-    const isApName = RunwayDynamicPublishFormData.airport || "";
     // 机场名称
     const apName = RunwayFormworkmanagementData.airport || "";
     // 运行模式
@@ -68,7 +56,6 @@ function IsForm(props) {
     const ruwayStatusSelectedData = RunwayFormworkmanagementData.ruwayStatusSelectedData || {};
     // 各跑道航路点勾选数值
     const runwayPointSelectedData = RunwayFormworkmanagementData.runwayPointSelectedData || {};
-
     // 终端当前时间
     let now = moment();
     // 开始日期 Date类型
@@ -87,10 +74,8 @@ function IsForm(props) {
     const runwayNumber = RunwayFormworkmanagementData.runwayNumber || 0;
     // 获取跑道配置字段及数值
     let runwayValues = updateRunwayFieldValue();
-    // console.log('runwayValues',runwayValues);
     // 所有航路点选项
     let runwayPointOptions = getRunwayPointOptions();
-
     // 表单初始化默认值
     let initialValues = {
         apName,
@@ -101,7 +86,6 @@ function IsForm(props) {
         endTime: endTimeString,
         ...runwayValues
     }
-
     // 更新跑道字段及字段数值
     function updateRunwayFieldValue() {
         let field = {}
@@ -214,7 +198,7 @@ function IsForm(props) {
                     closable: true,
                     content: (
                         <div>
-                            <p>确定提交动态跑道发布?</p>
+                            { isGo === 'updataRunwy'?<p>确定更新此条跑道?</p>:<p>确定提交跑道模板发布?</p> }
                         </div>
                     ),
                     okText: "确定",
@@ -260,7 +244,7 @@ function IsForm(props) {
                                 if (isGo === 'updataRunwy') {
                                     submitData(value);
                                 }else{
-                                    newSubmitData(value);
+                                    newSubmitData(newValue);
                                 };
                             }
                         },
@@ -269,7 +253,7 @@ function IsForm(props) {
             }
 
         } catch (errorInfo) {
-            console.log("Failed:", errorInfo);
+            // console.log("Failed:", errorInfo);
         }
     };
     // 获取所有航路点数据中在表单未勾选的数据项
@@ -292,27 +276,18 @@ function IsForm(props) {
      * 
      * */
     const handleSubmitData = (values) => {
-        // console.log('values',values);
         let opt = {};
         // 运行模式
         const operationmode = values.operationmode || "";
         // 跑道groupId
-        // const groupId = firstRunway.groupId || "";
         // 是否显示就近模式选项按钮
         const showOperationNear = 0;
-        // 开始日期
-        const startDate = values['startDate'];
-        // 结束日期
-        const endDate = values['endDate'];
-
-            // opt.startYY = moment(startDate).format("YYYYMMDDHHmm").substring(0, 8),
-            // opt.endYY = moment(endDate).format("YYYYMMDDHHmm").substring(0, 8),
-            opt.airportStr = apName;
-            opt.operationMode = operationmode;
-            opt.templateName = mubanNames
-            opt.groupId = isGroupId
-        // opt.groupId = groupId;
-            opt.showOperationNear = showOperationNear;
+        console.log('RunwayFormworkmanagementData.airport',RunwayFormworkmanagementData.airport);
+        opt.airportStr = apName;
+        opt.operationMode = operationmode;
+        opt.templateName = mubanNames
+        opt.groupId = isGroupId
+        opt.showOperationNear = showOperationNear;
 
         for (let i = 0; i < listRWGapInfo.length; i++) {
             let singleRunway = listRWGapInfo[i];
@@ -364,26 +339,14 @@ function IsForm(props) {
         return opt;
     };
     const newHandleSubmitData = (values) => {
-        // console.log('values',values);
         let opt = {};
         // 运行模式
         const operationmode = values.operationmode || "";
-        // 跑道groupId
-        // const groupId = firstRunway.groupId || "";
         // 是否显示就近模式选项按钮
         const showOperationNear = 0;
-        // 开始日期
-        const startDate = values['startDate'];
-        // 结束日期
-        const endDate = values['endDate'];
-
-            // opt.startYY = moment(startDate).format("YYYYMMDDHHmm").substring(0, 8),
-            // opt.endYY = moment(endDate).format("YYYYMMDDHHmm").substring(0, 8),
-            opt.airportStr = apName===''?'ZLXY':apName;
+            opt.airportStr = apName;
             opt.operationMode = operationmode;
-            opt.templateName = mubanNames === ''? '默认模板':mubanNames
-            opt.groupId = isGroupId===''?'121062':isGroupId
-        // opt.groupId = groupId;
+            opt.templateName = mubanNames === ''?'模板':mubanNames;
             opt.showOperationNear = showOperationNear;
 
         for (let i = 0; i < listRWGapInfo.length; i++) {
@@ -435,9 +398,10 @@ function IsForm(props) {
         }
         return opt;
     };
-    // 提交数据
+
+
     const submitData = (value) => {
-        console.log(value);
+        console.log('更新value',value);
         RunwayFormworkmanagementData.toggleLoad(true);
         const opt = {
             url: ReqUrls.updateUploadRunwayTemplateUrl + userId,
@@ -451,7 +415,7 @@ function IsForm(props) {
         request(opt);
     };
     const newSubmitData = (value) => {
-        console.log(value);
+        console.log('请求value',value);
         RunwayFormworkmanagementData.toggleLoad(true);
         const opt = {
             url: ReqUrls.addUploadRunwayTemplateUrl + userId,
@@ -490,12 +454,12 @@ function IsForm(props) {
 
     //获取配置数据成功
     const fetchSuccess = (data) => {
-        console.log('获取:',data);
         RunwayFormworkmanagementData.toggleLoad(false);
         let runwayData = {};
         if (isValidObject(data)) {
             runwayData = data
         }
+        runwayData.airportStr = apName
         RunwayFormworkmanagementData.updateConfigData(runwayData);
     };
 
@@ -580,7 +544,10 @@ function IsForm(props) {
         // 关闭模态框
         RunwayFormworkmanagementData.toAddVisible(false)
     }
-
+    // 获取模板名称内容
+    const inputValue = (event)=>{
+        setMubanNames(event.target.value)
+    }
     //configData发生变化触发更新
     useEffect(
         function () {
@@ -637,11 +604,10 @@ function IsForm(props) {
         },
         [runwayPointSelectedDataChangeCounter]
     );
-
     // 初始化获取配置数据
     useEffect(
         function () {
-            console.log(isGo);
+            // console.log(isGo);
             if (isGo === 'updataRunwy') {
                 fetchConfigData();
             }else{
@@ -659,9 +625,6 @@ function IsForm(props) {
         },
         []
     );
-    const inputValue = (event)=>{
-        setMubanNames(event.target.value)
-    }
 
     return (
         <Spin spinning={loading} >
@@ -727,7 +690,7 @@ function IsForm(props) {
 
                     <footer className="footer-bar">
                         <Space size="middle">
-                            <Button type="primary" onClick={handleSaveButtonClick}>提交</Button>
+                            <Button type="primary" onClick={handleSaveButtonClick}>{isGo === 'updataRunwy'? '修改':'提交'}</Button>
                             <Button onClick={closeModal}>关闭</Button>
                         </Space>
                     </footer>
@@ -739,6 +702,5 @@ function IsForm(props) {
 export default inject(
     "systemPage",
     "runwayListData",
-    "RunwayDynamicPublishFormData",
     "RunwayFormworkmanagementData"
-)(observer(IsForm));
+)(observer(RunwayFormworkConfiguration));

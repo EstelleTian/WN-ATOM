@@ -3,7 +3,6 @@ import React, { Fragment, } from "react";
 import { observer, inject } from "mobx-react";
 import DraggableModal from 'components/DraggableModal/DraggableModal'
 import RunwayDynamicPublishForm from 'components/RunwayDynamicPublishModal/RunwayDynamicPublishForm'
-import IsForm from 'components/RunwayDynamicPublishModal/isForm'
 
 // 动态跑道发布模态框
 function RunwayDynamicPublishModal(props) {

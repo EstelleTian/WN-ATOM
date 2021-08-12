@@ -1,27 +1,24 @@
 import React,{ Fragment, useEffect,useState } from 'react';
 import { observer, inject } from "mobx-react";
 import DraggableModal from 'components/DraggableModal/DraggableModal'
-import Tan from './tanchuang';
-import { Modal, Button, Space } from 'antd';
+import RunwayFormworkTable from './RunwayFormworkTable';
 import { requestGet2 } from "utils/request";
+import { Modal, Button, Space } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { ReqUrls } from "utils/request-urls";
 import { customNotice } from "utils/common-funcs";
-// import Form from "components/RunwayDynamicPublishModal/Form";
 import { Table } from 'antd';
 import './RunwayFormworkmanagement.scss'
 
-
-
+// 跑道模板列表
 function RunwayFormworkmanagement(props) {
     const [runwayTemplate,setRunwayTemplate] = useState()
 
+    
+    const { confirm } = Modal;
     const { RunwayFormworkmanagementData, systemPage } = props;
     // 模态框显隐
     const templateVisible = RunwayFormworkmanagementData.templateVisible
-    // 关闭模态框
-    const hideModal = () => {
-        RunwayFormworkmanagementData.toggleTemplateVisible(false)
-    }
     // 用户id
     const userId = systemPage.user.id || "";
     // 当前系统
@@ -31,60 +28,50 @@ function RunwayFormworkmanagement(props) {
     // 机场
     const airport = region;
 
+
+
+    const showConfirm = (row) => {
+      confirm({
+        title: '确定要删除此项吗?',
+        icon: <ExclamationCircleOutlined />,
+        onOk() {
+          delItem(row)
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
+    }
+
+    // 获取数据处理
+    const ProcessDataGet = (data)=>{
+      const arr = []
+      data.map((item,index)=>{
+        const obj = {}
+        if (item.logicRWDef === item.logicRWNameA) {
+          obj.logicRWTaxitime = item.logicRWTaxitimeA
+          obj.logicRWValue = item.logicRWValueA
+        }else if(item.logicRWDef === item.logicRWNameB){
+          obj.logicRWTaxitime = item.logicRWTaxitimeB
+          obj.logicRWValue = item.logicRWValueB
+        }  
+        obj.templateName =  item.templateName
+        obj.operationmode =  item.operationmode
+        obj.logicRWDef =  item.logicRWDef
+        obj.wayPoint =  item.wayPoint
+        obj.isDepRW =  item.isDepRW
+        obj.groupId =  item.groupId
+        obj.apName =  item.apName
+        obj.key =  item.key
+        arr.push(obj)
+      })
+      return arr
+    }
+
      //获取跑道模板数据
-  const getRunwayTemplate = async () => {
-    RunwayFormworkmanagementData.toggleLoad(true);
-    try {
-        const res = await requestGet2({
-          url: ReqUrls.getRunwayTemplateUrl + userId + '?airportStr=' + airport,
-        });
-        const {lstRWGapTemplateMap} = res
-        let arr = []
-        Object.values(lstRWGapTemplateMap).reverse().flat().map((item,index)=>{
-            item["key"] = item.id
-            arr.push(item)
-            return arr
-        })
-        setRunwayTemplate(arr)
-      } catch (e) {
-        customNotice({
-          type: "error",
-          message: e,
-        });
-      }
-  };
-  
-//   getRunwayTemplate() dleRunwayTemplateUrl
-  // useEffect(()=>{
-  //   getRunwayTemplate()
-  // },[])
-  useEffect(()=>{
-    getRunwayTemplate()
-  },[RunwayFormworkmanagementData.AddVisible])
-    const addRunwy = ()=>{
-      RunwayFormworkmanagementData.toAddVisible(true);
-        RunwayFormworkmanagementData.togIsGo('addRunwy')
-        RunwayFormworkmanagementData.toGroupId('')
-      }
-    const delItem = async(row)=>{
-      let dleitem = row.groupId
+    const getRunwayTemplate = async () => {
       RunwayFormworkmanagementData.toggleLoad(true);
-      // confirm({
-      //   title: 'Do you Want to delete these items?',
-      //   icon: <ExclamationCircleOutlined />,
-      //   content: 'Some descriptions',
-      //   onOk() {
-          
-      //   },
-      //   onCancel() {
-      //     console.log('Cancel');
-      //   },
-      // });
       try {
-        const res = await requestGet2({
-          url: ReqUrls.dleRunwayTemplateUrl + '?groupIds=' + dleitem,
-        });
-        if (res.bool) {
           const res = await requestGet2({
             url: ReqUrls.getRunwayTemplateUrl + userId + '?airportStr=' + airport,
           });
@@ -95,7 +82,33 @@ function RunwayFormworkmanagement(props) {
               arr.push(item)
               return arr
           })
-          setRunwayTemplate(arr)
+          setRunwayTemplate(ProcessDataGet(arr))
+        } catch (e) {
+          customNotice({
+            type: "error",
+            message: e,
+          });
+        }
+      };
+  
+    // 关闭模态框
+    const hideModal = () => {RunwayFormworkmanagementData.toggleTemplateVisible(false)}
+    // 增加选项将需要的值存入store
+    const addRunwy = ()=>{
+        RunwayFormworkmanagementData.toAddVisible(true);
+        RunwayFormworkmanagementData.togIsGo('addRunwy')
+        RunwayFormworkmanagementData.toGroupId('')
+      }
+    // 删除当前项
+    const delItem = async(row)=>{
+      let dleitem = row.groupId
+      RunwayFormworkmanagementData.toggleLoad(true);
+      try {
+        const res = await requestGet2({
+          url: ReqUrls.dleRunwayTemplateUrl + '?groupIds=' + dleitem,
+        });
+        if (res.bool) {
+          getRunwayTemplate()
         }
       } catch (e) {
         customNotice({
@@ -104,8 +117,6 @@ function RunwayFormworkmanagement(props) {
         });
       }
     }
-    let logicRWValue = 'logicRWValueA'
-    let logicRWTaxitime = 'logicRWTaxitimeA'
     const columns = [
         {
           title: '模板名称',
@@ -158,7 +169,6 @@ function RunwayFormworkmanagement(props) {
         },
         {
           title: '使用情况',
-          // 跑道状态 0:关闭  1:起飞  2:起降 -1:降落
           dataIndex: 'isDepRW',
           render: (value, row, index) => {
             const obj = {
@@ -178,11 +188,11 @@ function RunwayFormworkmanagement(props) {
         },
         {
           title: '起飞间隔',
-          dataIndex: 'logicRWValueA'
+          dataIndex: 'logicRWValue'
         },
         {
           title: '默认滑行',
-          dataIndex: 'logicRWTaxitimeA'
+          dataIndex: 'logicRWTaxitime'
         },
         {
           title: '走廊口',
@@ -194,7 +204,7 @@ function RunwayFormworkmanagement(props) {
           render: (value, row, index) => {
             const obj = {
               children: <div>
-                <a onClick={()=>delItem(row)}>删除</a>
+                <a onClick={()=>showConfirm(row)}>删除</a>
               </div>,
               props: {},
             };
@@ -207,6 +217,10 @@ function RunwayFormworkmanagement(props) {
           },
         }
       ];
+      // 动态更新跑道模板表格数据
+      useEffect(()=>{
+        getRunwayTemplate()
+      },[RunwayFormworkmanagementData.AddVisible])
     return (
         <Fragment>
             <DraggableModal
@@ -233,7 +247,7 @@ function RunwayFormworkmanagement(props) {
                     </div>
                 </div>
             </DraggableModal>
-            <Tan/>
+            <RunwayFormworkTable/>
         </Fragment>
     )
 }
