@@ -18,3 +18,15 @@
        padding: 4px 1px 0 0 !important;
     }
 }
+.footer-bar {
+    position: absolute;
+    bottom: 0;
+    right: 0px;
+    width: 100%;
+    background: #363636;
+    // border-top: 1px solid #4e4e4e;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: flex-end;
+    box-shadow: #5b5c5c 0px -1px 0px 0px;
+}

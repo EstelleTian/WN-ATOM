@@ -241,10 +241,11 @@ function RunwayFormworkmanagement(props) {
             >
                 <div className='template_configuration'>
                     <Table columns={columns} dataSource={runwayTemplate} pagination={false} bordered />
-                    
-                    <div className='template_configuration_bottom'>
-                        <div className='addList' onClick={addRunwy}><PlusSquareOutlined className='iconAdd' /> 增加</div>
-                    </div>
+                    <footer className="footer-bar">
+                        <Space size="middle">
+                            <Button type="primary" onClick={addRunwy} >增加</Button>
+                        </Space>
+                    </footer>
                 </div>
             </DraggableModal>
             <RunwayFormworkTable/>
