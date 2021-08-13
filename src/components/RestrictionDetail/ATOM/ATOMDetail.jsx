@@ -13,7 +13,7 @@ import './ATOMDetail.scss'
 
 //顶部导航模块
 function ATOMDetail(props){
-
+    // 高度
     const options = [
         { label: '是否同一高度', value: 'sameHeight' },
         { label: '起飞申请', value: 'takeoffApply' },
@@ -22,7 +22,9 @@ function ATOMDetail(props){
 
     const { flowData = {}, flowType, title } = props;
     const { atomFlowInfo = {}, formerAtomFlowInfo={} } = flowData;
+    // 流控信息对象
     let flowInfo = {};
+    // 通过flowType 更新流控信息对象值
     if(flowType ==="ATOMData"){
         flowInfo = atomFlowInfo;
     }else if (flowType ==="FormerATOMData"){

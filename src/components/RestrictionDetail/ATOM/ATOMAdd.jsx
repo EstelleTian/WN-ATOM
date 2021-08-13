@@ -26,6 +26,7 @@ function ATOMAdd(props) {
         if (status === 500) {
             antdMessage.error('获取的流控数据为空');
         } else {
+            // 更新数值
             setFlowData(data);
             // 更新方案表单store数据
             let tacticProcessInfo = data.tacticProcessInfo || {};
