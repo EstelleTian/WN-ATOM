@@ -47,7 +47,7 @@ function FlowcontrolDetailCard(props) {
             label: "TC",
             key: "restrictionTCPeriodDuration",
             flights:"restrictionTCPeriodValue",
-            interval:"restrictionMITTimeValue",
+            interval:"restrictionMITValue",
             unit: "",
         }
     };

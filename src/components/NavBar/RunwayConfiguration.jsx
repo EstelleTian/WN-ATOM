@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-08-12 17:20:30
+ * @LastEditTime: 2021-07-20 17:46:26
  * @LastEditTime: 2021-06-21 18:18:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
@@ -25,56 +25,59 @@ function RunwayConfiguration({
     if (hasAuth) {
       return (
         <Menu>
-          {systemPage.userHasAuth(12520) && (
-            <Menu.Item
-              key="RunwayDynamicPublish"
-              value="RunwayDynamicPublish"
-              onClick={showRunwayDynamicPublishModal}
-            >
-              动态跑道发布
-            </Menu.Item>
-          )}
-
-          {systemPage.userHasAuth(12521) && (
-            <Menu.Item
-              key="RunwayTemplate"
-              value="RunwayTemplate"
-              onClick={showRunwayFormworkmanagement}
-            >
-              跑道模板管理
-            </Menu.Item>
-          )}
+          {
+            systemPage.userHasAuth(12520) && <Menu.Item
+            key="RunwayDynamicPublish"
+            value="RunwayDynamicPublish"
+            onClick={showRunwayDynamicPublishModal}
+          >
+            动态跑道发布
+          </Menu.Item>
+          }
+          
+          {
+            systemPage.userHasAuth(12521) && <Menu.Item
+            key="RunwayTemplate"
+            value="RunwayTemplate"
+            onClick={showRunwayFormworkmanagement}
+          >
+            跑道模板管理
+          </Menu.Item>
+          }
         </Menu>
       );
-    } else {
-      return "";
+    }else {
+      return ""
     }
+    
   };
+
 
   // 显示动态跑道发布模态框
   const showRunwayDynamicPublishModal = () => {
     RunwayDynamicPublishFormData.toggleModalVisible(true);
-    RunwayFormworkmanagementData.togIsGo("is");
+    RunwayFormworkmanagementData.togIsGo('is')
   };
 
   // 显示跑道模板管理模态框
   const showRunwayFormworkmanagement = () => {
     RunwayFormworkmanagementData.toggleTemplateVisible(true);
   };
-
+  
   return (
     <Fragment>
-      {hasAuth ? (
-        <Dropdown overlay={menu}>
-          <Radio.Button value="runway">
-            跑道配置
-            <DownOutlined />
-          </Radio.Button>
-        </Dropdown>
-      ) : (
-        <Radio.Button value="runway">跑道配置</Radio.Button>
-      )}
-      <RunwayDynamicPublishModal />
+      
+      {
+        hasAuth ? <Dropdown overlay={menu}>
+        <Radio.Button value="runway">
+          跑道配置
+          <DownOutlined />
+        </Radio.Button>
+        </Dropdown> : <Radio.Button value="runway">
+          跑道配置
+        </Radio.Button>
+      }
+      <RunwayDynamicPublishModal  />
       <RunwayFormworkmanagement />
     </Fragment>
   );
@@ -83,5 +86,5 @@ function RunwayConfiguration({
 export default inject(
   "RunwayDynamicPublishFormData",
   "RunwayFormworkmanagementData",
-  "systemPage"
+  "systemPage",
 )(observer(RunwayConfiguration));

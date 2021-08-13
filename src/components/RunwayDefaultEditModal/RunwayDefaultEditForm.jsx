@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect,useState } from "react";
 import { Form, Radio, Row, Col, Button, Input, Modal, Space, Spin, Card, Select, DatePicker } from "antd";
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 
@@ -18,9 +18,11 @@ import RunwaySingleConfigDataForm from 'components/Runway/RunwaySingleConfigData
 
 // 默认跑道修改表单
 function RunwayDefaultEditForm(props) {
+    const [runwayTemplate,setRunwayTemplate] = useState()
     const dateFormat = 'YYYY-MM-DD';
     const timeFormat = 'HHmm';
     const dateTimeFormat = "YYYYMMDDHHmm"
+    const { Option } = Select;
 
     // 跑道状态选项
     const statusOptions = [
@@ -29,7 +31,9 @@ function RunwayDefaultEditForm(props) {
         { label: '关闭', value: '0' },
     ]
 
-    const { systemPage, RunwayDefaultEditFormData, runwayListData } = props;
+    const { systemPage, RunwayDefaultEditFormData, RunwayFormworkmanagementData,runwayListData } = props;
+    // 选择模板列表数据
+    const templateList = RunwayFormworkmanagementData.templateList
     // 用户id
     const userId = systemPage.user.id || ""
     // 当前系统
@@ -58,6 +62,7 @@ function RunwayDefaultEditForm(props) {
     // 各跑道航路点勾选数值
     const runwayPointSelectedData = RunwayDefaultEditFormData.runwayPointSelectedData || {};
 
+    const templateOptions = runwayTemplate? runwayTemplate.map((item) => <Option key={item.id}>{item.name}</Option>):'';
     // 终端当前时间
     let now = moment();
     const groupId = RunwayDefaultEditFormData.groupId || ""
@@ -452,6 +457,49 @@ function RunwayDefaultEditForm(props) {
         RunwayDefaultEditFormData.toggleModalVisible(false);
     }
 
+    const getnewarr=(keyArr,valueArr)=>{
+            const a = []
+            keyArr.map( (v,i) => {
+                var obj = {};
+                obj.name = keyArr[i]
+                obj.id = valueArr[i]
+                a.push(obj)
+            })
+            return a;
+        }
+
+    // 获取成功回调
+    const getListSuccessful = (data)=>{
+        let nameList = []
+        let idList = []
+          for (let i = 0; i < data.length; i++) {
+            nameList.push(data[i].templateName)
+            idList.push(data[i].groupId)
+        }
+        const mubanList = getnewarr([...new Set(nameList)],[...new Set(idList)]);
+        return mubanList
+    }
+    //获取配置数据
+    const updateList = (templateId) => {
+        RunwayFormworkmanagementData.toggleLoad(true);
+        const opt = {
+            url: ReqUrls.updateRunwayTemplateUrl + userId+ '?groupId=' + templateId + '&airportStr=' + apName,
+            method: "GET",
+            resFunc: (data) => findItem(data),
+            errFunc: (err) => fetchErr(err),
+        };
+        request(opt);
+    };
+
+    const findItem = (data)=>{
+        let arrItem = {};
+        if (isValidObject(data)) {
+            arrItem = data
+        }
+        arrItem.airportStr = apName
+        RunwayDefaultEditFormData.updateConfigData(arrItem);
+        RunwayFormworkmanagementData.toIsData(data);
+    }
     //groupId发生变化触发更新
     useEffect(
         function () {
@@ -519,6 +567,7 @@ function RunwayDefaultEditForm(props) {
         function () {
             //获取默认跑道配置数据
             fetchConfigData();
+            setRunwayTemplate(getListSuccessful(templateList));
         },
         [JSON.stringify(requestParams)]
     );
@@ -609,8 +658,12 @@ function RunwayDefaultEditForm(props) {
                                             style={{ width: '100%' }}
                                             placeholder="选择模板"
                                             allowClear={true}
+                                            onChange={updateList}
                                         >
+                                        {templateOptions}
                                         </Select>
+
+
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -648,4 +701,5 @@ export default inject(
     "systemPage",
     "runwayListData",
     "RunwayDefaultEditFormData",
+    "RunwayFormworkmanagementData"
 )(observer(RunwayDefaultEditForm));

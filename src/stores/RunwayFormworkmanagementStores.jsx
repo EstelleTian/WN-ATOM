@@ -15,6 +15,8 @@ class RunwayFormworkmanagement {
     constructor() {
         makeObservable(this)
     }
+    // 模板数据列表
+    @observable templateList = []
     //模态框是否显示
     @observable templateVisible = false;
     @observable ModifyVisible = false;
@@ -54,7 +56,6 @@ class RunwayFormworkmanagement {
     // 跑道配置中航路点复选框被勾选数值
     @observable runwayPointSelectedData = {};
 
-
     //更新表单模态框显示状态
     @action toggleTemplateVisible(visible) {
         this.templateVisible = visible;
@@ -89,9 +90,12 @@ class RunwayFormworkmanagement {
     @action toggleModalVisible(visible) {
         this.modalVisible = visible;
     }
+    // 模板数据列表操作
+    @action toTemplateList(data){
+        this.templateList = data
+    }
     // 模板配置数据
     @action updateConfigData(data){
-        console.log(data);
         if (isValidObject(data)) {
             this.configData = data;
         } else {
