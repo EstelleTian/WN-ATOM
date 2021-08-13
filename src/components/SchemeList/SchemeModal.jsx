@@ -138,7 +138,7 @@ const SchemeModal = (props) => {
                     visible={visible}
                     handleOk={() => setVisible(false)}
                     handleCancel={() => setVisible(false)}
-                    width={1250}
+                    width={1280}
                     maskClosable={false}
                     mask={true}
                     className="flight-table-config-modal"
