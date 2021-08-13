@@ -2324,7 +2324,7 @@ function SchemeForm(props) {
                     form={tacticMeasureForm} />
                 {
                     (restrictionMode === "CR" || restrictionMode === "GS") ? "" : (
-                        <Row className="info-row" >
+                        <Row className="info-row" style={{ borderTop: "none"}} >
                             <Col span={20}>
                                 <TacticReserveSlotForm
                                     disabledForm={props.disabledForm}
@@ -2425,7 +2425,7 @@ function SchemeForm(props) {
                             form={tacticArrApForm} />
                     </Col>
                 </Row>
-                <Row className="info-row" >
+                <Row className="info-row">
                     <Col span={8}>
                         <TacticExemptDepApForm
                             pageType={pageType}

@@ -73,7 +73,7 @@ function TacticMeasureForm(props) {
 
   useEffect(
     function () {
-      if (restrictionMode === "MIT") {
+      if (restrictionMode === "MIT" || restrictionMode == "AFP" || restrictionMode == "TC" ) {
         //重置表单，用以表单初始值赋值
         form.resetFields();
       }
@@ -101,7 +101,6 @@ function TacticMeasureForm(props) {
     restrictionMITTimeValue,
     distanceToTime,
   };
-    console.log('initialValues------',initialValues);
   /*
    * MIT限制类型下切换限制模式变更
    *
@@ -357,7 +356,7 @@ function TacticMeasureForm(props) {
             ]}
           >
             <Input
-              style={{ width: 150 }}
+              style={{ width: 120 }}
               disabled={props.disabledForm}
               // onChange={handleRestrictionModeValueChange}
               addonAfter="分钟"
@@ -380,7 +379,7 @@ function TacticMeasureForm(props) {
             ]}
           >
             <Input
-              style={{ width: 150 }}
+              style={{ width: 100 }}
               disabled={props.disabledForm}
               // onChange={handleRestrictionModeValueChange}
               addonAfter="架"
@@ -476,11 +475,9 @@ function TacticMeasureForm(props) {
 
   return (
     <Fragment>
-      <Row className="info-row">
-        <Col span={24}>
-          <Form form={form} labelAlign="left" initialValues={initialValues}>
-            <Row>
-              <Col span={8}>
+      <Form form={form} labelAlign="left" initialValues={initialValues}>
+            <Row className="info-row">
+              <Col span={24}>
                 <Form.Item
                   name="restrictionMode"
                   label="限制方式"
@@ -502,15 +499,15 @@ function TacticMeasureForm(props) {
                   </Select>
                 </Form.Item>
               </Col>
-              <Col span={16}>
-                {restrictionMode === "MIT" ? drawMITModeValue() : ""}
-                {restrictionMode === "AFP" ? drawAFPModeValue() : ""}
-                {restrictionMode === "TC" ? drawTCModeValue() : ""}
-              </Col>
+              </Row>
+              <Row className="info-row">
+                <Col span={24}>
+                  {restrictionMode === "MIT" ? drawMITModeValue() : ""}
+                  {restrictionMode === "AFP" ? drawAFPModeValue() : ""}
+                  {restrictionMode === "TC" ? drawTCModeValue() : ""}
+                </Col>
             </Row>
           </Form>
-        </Col>
-      </Row>
     </Fragment>
   );
 }
