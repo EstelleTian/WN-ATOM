@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-07-27 14:49:54
+ * @LastEditTime: 2021-08-13 14:20:27
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -21,6 +21,7 @@ import { isValidVariable } from "utils/basic-verify";
 import debounce from "lodash/debounce";
 import {
   openConfirmFrame,
+  openADPFrame,
   openTimeSlotFrameWithFlightId,
   openTclientFrameForMessage,
   openTclientFrameForMDRS,
@@ -148,7 +149,14 @@ const HandleBtn = function (props) {
         } else {
           openConfirmFrame(businessKey);
         }
-
+        break;
+      case "AdpApprovalProcess": //ADP审批流程
+        // console.log("方案审批流程",businessKey);
+        if (props.activeTab === "finished") {
+          // openDoneFrameById(businessKey);
+        } else {
+          openADPFrame(businessKey);
+        }
         break;
       case "VolumeApprovalProcess": //容量审批流程
         // console.log("容量审批流程",businessKey);

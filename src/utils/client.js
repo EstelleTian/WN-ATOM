@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-08-05 13:17:39
+ * @LastEditTime: 2021-08-13 14:20:36
  * @LastEditors: Please set LastEditors
  * @Description: 调用客户端方法
  * @FilePath: \WN-CDM\src\utils\global.js
@@ -238,6 +238,14 @@ const openConfirmFrame =(schemeId = "") => {
         console.error(error);
     }
 };
+//工作流-待办列表-主办-跳转到ADP
+const openADPFrame =(schemeId = "") => {
+    try {
+        jsEntity.openADPFrame(schemeId);
+    }catch(error){
+        console.error(error);
+    }
+};
 //工作流-已办-方案
 const openDoneFrameById =(schemeId = "") => {
     try {
@@ -328,7 +336,7 @@ const openTclientFrame =() => {
 export {
     updateMessageNum,openMessageRecordFrame, sendMsgToClient, openTimeSlotFrame, openTclientFrameForMessage, closeMessageDlg, openMessageDlg, openControlDetail, handleImportControl, saveUserInfo,
     closeCreateDlg, openBaseSchemeFrame, closeControlDetail,
-    openConfirmFrame, openDoneFrameById,openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
+    openConfirmFrame,openADPFrame, openDoneFrameById,openTimeSlotFrameWithFlightId, handleImportControlForUpdate, handleStopControl, handleUpdateFlowControl,
     openMapFrame, openCapacityFlowMonitorUnitTclientFrame, openFilterFrame,handleUpdateDirectionData, exitSystem, openRunningControlFlow,openDetails,
     openLocation,openTclientFrameForMDRS, handleCreateSchemeBySimulation,testInternet, getVersion,openCDMorCRSFrame, openTclientFrame
 }

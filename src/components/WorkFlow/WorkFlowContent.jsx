@@ -3,6 +3,7 @@ import { message, Button, Table, Spin, Popover } from "antd";
 import { ProfileOutlined } from "@ant-design/icons";
 import {
   openConfirmFrame,
+  openADPFrame,
   openTimeSlotFrameWithFlightId,
   openTclientFrameForMessage,
   openTclientFrameForMDRS,
@@ -334,6 +335,9 @@ const WorkFlowContent = (props) => {
       case "SchemeApprovalProcess": //方案审批流程
         console.log("方案审批流程", businessKey);
         openConfirmFrame(businessKey);
+        break;
+      case "AdpApprovalProcess": //ADP审批流程
+        openADPFrame(businessKey);
         break;
       case "VolumeApprovalProcess": //容量审批流程
         console.log("容量审批流程", businessKey);
