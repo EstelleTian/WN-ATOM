@@ -282,7 +282,7 @@ function RunwayFormworkConfiguration(props) {
         // 跑道groupId
         // 是否显示就近模式选项按钮
         const showOperationNear = 0;
-        console.log('RunwayFormworkmanagementData.airport',RunwayFormworkmanagementData.airport);
+        // console.log('RunwayFormworkmanagementData.airport',RunwayFormworkmanagementData.airport);
         opt.airportStr = apName;
         opt.operationMode = operationmode;
         opt.templateName = mubanNames
@@ -401,7 +401,7 @@ function RunwayFormworkConfiguration(props) {
 
 
     const submitData = (value) => {
-        console.log('更新value',value);
+        // console.log('更新value',value);
         RunwayFormworkmanagementData.toggleLoad(true);
         const opt = {
             url: ReqUrls.updateUploadRunwayTemplateUrl + userId,
@@ -415,7 +415,7 @@ function RunwayFormworkConfiguration(props) {
         request(opt);
     };
     const newSubmitData = (value) => {
-        console.log('请求value',value);
+        // console.log('请求value',value);
         RunwayFormworkmanagementData.toggleLoad(true);
         const opt = {
             url: ReqUrls.addUploadRunwayTemplateUrl + userId,
@@ -460,6 +460,7 @@ function RunwayFormworkConfiguration(props) {
             runwayData = data
         }
         runwayData.airportStr = apName
+        // console.log(runwayData);
         RunwayFormworkmanagementData.updateConfigData(runwayData);
     };
 
@@ -507,7 +508,7 @@ function RunwayFormworkConfiguration(props) {
         }
 
         Modal.error({
-            title: "发布失败",
+            title: isGo === 'updataRunwy'?"更新失败":"发布失败"  ,
             content: (
                 <span>
                     <span>失败</span>
@@ -525,7 +526,7 @@ function RunwayFormworkConfiguration(props) {
         // 触发获取跑道列表数据
         runwayListData.setForceUpdate(true);
         Modal.success({
-            title: "发布成功",
+            title:  isGo === 'updataRunwy'?"更新成功":"发布成功" ,
             content: (
                 <span>
                     <span>成功</span>
