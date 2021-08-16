@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect,useState } from "react";
 import { Form, Radio, Row, Col, Button, Input, Modal, Space, Spin, Card, Select, DatePicker } from "antd";
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 
 import { inject, observer } from "mobx-react";
-import { request } from "utils/request";
+import { request,requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
 import { isValidVariable, isValidObject, parseFullTime, formatTimeString } from 'utils/basic-verify';
 import { REGEXP } from 'utils/regExpUtil'
@@ -15,13 +15,14 @@ import qs from 'qs'
 import RunwaySingleConfigDataForm from 'components/Runway/RunwaySingleConfigDataForm'
 import './RunwayDynamicPublishForm.scss'
 
-
 // 动态跑道发布表单
 function RunwayDynamicPublishForm(props) {
+    
+    const [runwayTemplate,setRunwayTemplate] = useState()
     const dateFormat = 'YYYY-MM-DD';
     const timeFormat = 'HHmm';
     const dateTimeFormat = "YYYYMMDDHHmm"
-
+    const { Option } = Select;
     // 跑道状态选项
     const statusOptions = [
         { label: '起飞', value: '1' },
@@ -29,7 +30,9 @@ function RunwayDynamicPublishForm(props) {
         { label: '关闭', value: '0' },
     ]
 
-    const { systemPage, RunwayDynamicPublishFormData, runwayListData } = props;
+    const { systemPage, RunwayDynamicPublishFormData,RunwayFormworkmanagementData, runwayListData } = props;
+    // 选择模板列表数据
+    const templateList = RunwayFormworkmanagementData.templateList
     // 用户id
     const userId = systemPage.user.id || ""
     // 当前系统
@@ -56,7 +59,8 @@ function RunwayDynamicPublishForm(props) {
     const ruwayStatusSelectedData = RunwayDynamicPublishFormData.ruwayStatusSelectedData || {};
     // 各跑道航路点勾选数值
     const runwayPointSelectedData = RunwayDynamicPublishFormData.runwayPointSelectedData || {};
-
+    
+    const templateOptions = runwayTemplate? runwayTemplate.map((item) => <Option key={item.id}>{item.name}</Option>):'';
     // 终端当前时间
     let now = moment();
     // 开始日期 Date类型
@@ -88,6 +92,7 @@ function RunwayDynamicPublishForm(props) {
         endTime: endTimeString,
         ...runwayValues
     }
+    // console.log(initialValues);
 
     // 更新跑道字段及字段数值
     function updateRunwayFieldValue() {
@@ -277,13 +282,13 @@ function RunwayDynamicPublishForm(props) {
     }
 
     // 获取选中的状态中包含起飞状态的数量
-    const getSelecedDepNumber = () => {
+    const getSelecedDepNumber = ()=> {
         let statusSelectedData = { ...ruwayStatusSelectedData };
         let number = 0;
         for (let i in statusSelectedData) {
             let singleRunwayStatusSelectedData = [...statusSelectedData[i]];
             if (singleRunwayStatusSelectedData.includes("1")) {
-                number = number + 1;
+                number = number+1;
             }
         }
         return number
@@ -293,6 +298,7 @@ function RunwayDynamicPublishForm(props) {
         try {
             // 触发表单验证获取取表单数据
             const values = await form.validateFields();
+            // console.log(form);
             // 处理提交数据
             const value = handleSubmitData(values);
             // 未勾选的航路点
@@ -393,11 +399,11 @@ function RunwayDynamicPublishForm(props) {
         // 结束时间
         const endTime = values['endTime'];
 
-        opt.startYY = moment(startDate).format("YYYYMMDDHHmm").substring(0, 8);
-        opt.startHour = startTime;
-        opt.endYY = moment(endDate).format("YYYYMMDDHHmm").substring(0, 8);
-        opt.endHour = endTime;
-        opt.airportStr = apName;
+        opt.startYY = moment(startDate).format("YYYYMMDDHHmm").substring(0, 8),
+            opt.startHour = startTime,
+            opt.endYY = moment(endDate).format("YYYYMMDDHHmm").substring(0, 8),
+            opt.endHour = endTime,
+            opt.airportStr = apName;
         opt.operationMode = operationmode;
         // opt.groupId = groupId;
         opt.showOperationNear = showOperationNear;
@@ -479,7 +485,6 @@ function RunwayDynamicPublishForm(props) {
         };
         request(opt);
     };
-
     //获取配置数据成功
     const fetchSuccess = (data) => {
         RunwayDynamicPublishFormData.toggleLoad(false);
@@ -563,6 +568,53 @@ function RunwayDynamicPublishForm(props) {
         RunwayDynamicPublishFormData.toggleModalVisible(false);
     }
 
+    const getnewarr=(keyArr,valueArr)=>{
+            const a = []
+            keyArr.map( (v,i) => {
+                var obj = {};
+                obj.name = keyArr[i]
+                obj.id = valueArr[i]
+                a.push(obj)
+            })
+            return a;
+        }
+
+    // 获取成功回调
+    const getListSuccessful = (data)=>{
+        let nameList = []
+        let idList = []
+          for (let i = 0; i < data.length; i++) {
+            nameList.push(data[i].templateName)
+            idList.push(data[i].groupId)
+        }
+        const mubanList = getnewarr([...new Set(nameList)],[...new Set(idList)]);
+        return mubanList
+    }
+
+
+    //获取配置数据
+    const updateList = (templateId) => {
+        RunwayFormworkmanagementData.toggleLoad(true);
+        const opt = {
+            url: ReqUrls.updateRunwayTemplateUrl + userId+ '?groupId=' + templateId + '&airportStr=' + apName,
+            method: "GET",
+            resFunc: (data) => findItem(data),
+            errFunc: (err) => fetchErr(err),
+        };
+        request(opt);
+    };
+
+    const findItem = (data)=>{
+        let arrItem = {};
+        if (isValidObject(data)) {
+            arrItem = data
+        }
+        arrItem.airportStr = apName
+        RunwayDynamicPublishFormData.updateConfigData(arrItem);
+        RunwayDynamicPublishFormData.toIsData(data);
+    }
+
+
     //configData发生变化触发更新
     useEffect(
         function () {
@@ -625,6 +677,7 @@ function RunwayDynamicPublishForm(props) {
         function () {
             //获取配置数据
             fetchConfigData();
+            setRunwayTemplate(getListSuccessful(templateList));
         }, [airport]);
     //卸载时清空store数据
     useEffect(
@@ -636,7 +689,6 @@ function RunwayDynamicPublishForm(props) {
         },
         []
     );
-
     return (
         <Spin spinning={loading} >
             <div className="runway-edit-wrapper">
@@ -644,6 +696,7 @@ function RunwayDynamicPublishForm(props) {
                     form={form}
                     initialValues={initialValues}
                     // colon={false}
+                    // onValuesChange= {onUpdataValuesChange}
                     className="advanced_form"
                 >
                     <Fragment>
@@ -669,7 +722,7 @@ function RunwayDynamicPublishForm(props) {
                                         </Radio.Group>
                                     </Form.Item>
                                 </Col>
-                            </Row>
+                            </Row> 
                             <Row gutter={24} >
                                 <Col span={4}>
                                     <div className="ant-row ant-form-item">
@@ -678,8 +731,9 @@ function RunwayDynamicPublishForm(props) {
                                         </div>
                                     </div>
                                 </Col>
-
+                                
                                 <Col span={16}>
+                                <Fragment>
                                     <Form.Item
                                         label="开始时间"
                                         colon={false}
@@ -780,6 +834,7 @@ function RunwayDynamicPublishForm(props) {
                                             />
                                         </Form.Item>
                                     </Form.Item>
+                                </Fragment>
                                     <Form.Item
                                         name="operationmode"
                                         label="运行模式"
@@ -791,6 +846,7 @@ function RunwayDynamicPublishForm(props) {
                                         </Radio.Group>
                                     </Form.Item>
                                 </Col>
+                            
                             </Row>
                             <Row gutter={24} >
                                 <Col span={4}>
@@ -812,7 +868,9 @@ function RunwayDynamicPublishForm(props) {
                                             style={{ width: '100%' }}
                                             placeholder="选择模板"
                                             allowClear={true}
+                                            onChange={updateList}
                                         >
+                                            {templateOptions}
                                         </Select>
                                     </Form.Item>
                                 </Col>
@@ -851,4 +909,5 @@ export default inject(
     "systemPage",
     "runwayListData",
     "RunwayDynamicPublishFormData",
+    "RunwayFormworkmanagementData"
 )(observer(RunwayDynamicPublishForm));

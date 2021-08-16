@@ -38,7 +38,7 @@ function RunwayFormworkmanagement(props) {
           delItem(row)
         },
         onCancel() {
-          console.log('Cancel');
+          // console.log('Cancel');
         },
       });
     }
@@ -82,6 +82,7 @@ function RunwayFormworkmanagement(props) {
               arr.push(item)
               return arr
           })
+          RunwayFormworkmanagementData.toTemplateList(arr)
           setRunwayTemplate(ProcessDataGet(arr))
         } catch (e) {
           customNotice({
