@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-08-03 10:50:57
+ * @LastEditTime: 2021-08-16 14:10:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -60,6 +60,7 @@ const NewsSubscribePage = lazy(() =>
   import("../pages/NewsSubscribePage/NewsSubscribePage")
 );
 const GraphPage = lazy(() => import("../pages/GraphPage/GraphPage"));
+const WeatherPage = lazy(() => import("../pages/WeatherPage/WeatherPage"));
 
 export default [
   // 客户端登录页面
@@ -206,5 +207,12 @@ export default [
     component: withRouter(GraphPage),
     exact: true,
     title: "方案流程",
+  },
+  // 自观数据
+  {
+    path: "/weatherPage",
+    component: withRouter(WeatherPage),
+    exact: true,
+    title: "自观数据",
   },
 ];

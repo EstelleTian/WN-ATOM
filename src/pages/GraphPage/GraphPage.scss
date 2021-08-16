@@ -1,214 +1,107 @@
-
-#container{
-    // width: 100%;
-    // height: 100%;
-    top: 0!important;
-}
-
-.scheme-scroll-bar{
-    overflow: auto;
-}
-.wrapBox{
-    background-color: #35333370;
-    border: 3px solid #03e9f4;
-    box-shadow: 0 0 8px #03e9f4 inset;
-    .title {
-        font-size: 16px;
-        font-weight: bold;
-        white-space: pre-wrap;
+.graph_container{
+    .tacticName{
+        margin: 10px auto;
+        text-align: center;
         overflow: hidden;
+        width: 90%;
         text-overflow: ellipsis;
         white-space: nowrap;
-        color: #46bff7;
-    
+        font-size: 18px;
+    }
+    #container{
+        // width: 100%;
+        // height: 100%;
+        top: 0!important;
     }
     
-    .title:hover {
-        color: #fff;
-    }
-    .font{
-        white-space: pre-wrap;
-        display: block;
-        text-shadow: none;
-        width: 100%;
+    .scheme-scroll-bar{
+        overflow: auto;
     }
     
-    .isTim{
-        border-top: 0.1rem solid #7c7c7c;
-        border-bottom:0.1rem solid #7c7c7c;
-        text-align: center;
-        display: flex;
-        height: 30px;
-        justify-content: space-between;
-        font-size: 16px;
-        .titleNam {
-            font-family: "Times New Roman",
-                Times,
-                serif;
-            letter-spacing: 0.1rem;
-        }
-        .titDcb{
-            font-weight: 500;
-        }
-        .igada {
-            cursor: pointer;
-            width: 50px;
+    .wrapBox{
+        background-color: #35333370;
+        border: 3px solid #03e9f4;
+        box-shadow: 0 0 8px #03e9f4 inset;
+        border-radius: 10px 10px 10px 10px;
+        .title {
+            font-size: 16px;
+            font-weight: bold;
             white-space: pre-wrap;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            font-family: "Times New Roman",
-                Times,
-                serif;
-            letter-spacing: 0.01rem;
-            font-size: 14px;
-            line-height: 30px;
+            color: #46bff7;
         }
-    }
-    
-    .titleName {
-        font-size: 12px;
-        line-height: 35px;
-        display: flex;
-        text-align: center;
-        .titState{
-            display: flex;
-            justify-self: flex-end;
-            // text-shadow: 0 0 8px #03f43f;
-            padding: 0px 2px;
-            margin-right: 13px;
-            color:#03f43f;
-        }
-}
-}
-@keyframes ant-line {
-    to {
-        stroke-dashoffset: -1000
-    }
-}
-.titDcb {
-    font-weight: 500;
-}
-.wrapDle{
-    
-    text-align: center;
-    border: 2px dashed #7d7b7b;
-    background: #ebecee;
-    line-height: 26px;
-    border-radius: 10px;
-    font-size: 15px;
-    .sonText{
-        white-space: pre-wrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        text-decoration: line-through;
-    }
-    
-    .isTim{
-         border-top: 0.1rem solid rgb(88, 88, 88);
-         border-bottom:0.1rem solid rgb(88, 88, 88);
-         text-align: center;
-         padding: 0px 0.5rem;
-         display: flex;
-         height: 30px;
-         justify-content: space-between;
-         font-size: 13px;
-         line-height: 28px;
-         color: #7d7b7b;
-
-         .titleNam {
-             font-family: "Times New Roman",
-                 Times,
-                 serif;
-             letter-spacing: 0.1rem;
-         }
-
-
-         .igada {
-            cursor: pointer;
-            width: 50px;
-            white-space: pre-wrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-             font-family: "Times New Roman",
-                 Times,
-                 serif;
-                letter-spacing: 0.01rem;
-                font-size: 13px;
-                line-height: 29px;
-         }
-
-    }
-}
-.wrap {
-    .warpTop{
-        width: 100%;
-        height: 30%;
-        font-size: 15px;
-        border: 2px solid #03e9f4;
-        // text-shadow: 0 0 10px #03e9f4;
-        box-shadow: 0 0 10px #03e9f4 inset;
-        color: #fff;
-        border-radius: 10px 10px 0 0;
-        display: flex;
-        overflow: hidden;
-
-        .wrapImg {
-            background-position: 0.1rem;
-            width: 20%;
-            height: 100%;
-            box-shadow: 0 0 5px #03e9f4;
-            background-image: url(./box.png);
-            background-size: 100%;
-        }
-
-        .sonText {
-            display: block;
+        .warpTop{
             width: 100%;
-            
-        white-space: pre-wrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-            text-align: center;
-            line-height: 25px;
+            height: 25px;
+            font-size: 16px;
+            color: #46bff7;
+            @include display_flex();
+            @include flex();
+            overflow: hidden;
+            .ntfmImg{
+                float: left;
+                border-top: 14px solid #7c6142;
+                border-right: 14px solid transparent;
+                border-bottom: 14px solid transparent;
+                border-left: 14px solid #7c6142;
+                width: 0;
+                height: 0;
+            }
+            .ntfmImg>span{
+                content: "N";
+                color: #fff;
+                margin-top: -20px;
+                margin-left: -12px;
+                display: block;
+            }
+    
+            .sonText {
+                display: inline-block;
+                white-space: pre-wrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                text-align: center;
+                line-height: 25px;
+                height: 25px;
+                width: 100%;
+                @include flex();
+                
+            }
+       
+    
         }
-   
-
-    }
-    .warpBottom{
-        height: 100%;
-        height: 70%;
-        border: 2px solid #03e9f4;
-        border-top: none;
-        // text-shadow: 0 0 10px #03e9f4;
-        box-shadow: 0 0 10px #03e9f4 inset;
-        border-radius: 0 0 10px 10px;
+        
+        
+        .title:hover {
+            color: #fff;
+        }
+        .font{
+            white-space: pre-wrap;
+            display: block;
+            text-shadow: none;
+            width: 100%;
+        }
+        
         .isTim{
-            border-top: 0.1rem solid rgb(88, 88, 88);
-            border-bottom:0.1rem solid rgb(88, 88, 88);
+            border-top: 0.1rem solid #7c7c7c;
+            border-bottom:0.1rem solid #7c7c7c;
             text-align: center;
-            padding: 0px 0.5rem;
             display: flex;
             height: 30px;
             justify-content: space-between;
-            font-size: 13px;
-            line-height: 28px;
-            color: #fff;
-
+            font-size: 16px;
             .titleNam {
                 font-family: "Times New Roman",
                     Times,
                     serif;
                 letter-spacing: 0.1rem;
             }
-
-            .titDcb {
+            .titDcb{
                 font-weight: 500;
             }
-
             .igada {
                 cursor: pointer;
                 width: 50px;
@@ -220,77 +113,134 @@
                     Times,
                     serif;
                 letter-spacing: 0.01rem;
-                font-size: 13px;
-                line-height: 29px;
+                font-size: 14px;
+                line-height: 30px;
             }
         }
-        .titleName{
-            font-size: 14px;
+        
+        .titleName {
+            font-size: 12px;
             line-height: 35px;
-            color: #fff;
+            display: flex;
             text-align: center;
+            .titState{
+                display: flex;
+                justify-self: flex-end;
+                // text-shadow: 0 0 8px #03f43f;
+                padding: 0px 2px;
+                margin-right: 13px;
+                color:#03f43f;
+            }
+    }
+    }
+    @keyframes ant-line {
+        to {
+            stroke-dashoffset: -1000
         }
     }
+    .titDcb {
+        font-weight: 500;
+    }
+    .wrapDle{
+        
+        text-align: center;
+        border: 2px dashed #7d7b7b;
+        background: #ebecee;
+        line-height: 26px;
+        border-radius: 10px;
+        font-size: 15px;
+        .sonText{
+            white-space: pre-wrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-decoration: line-through;
+        }
+        
+        .isTim{
+             border-top: 0.1rem solid rgb(88, 88, 88);
+             border-bottom:0.1rem solid rgb(88, 88, 88);
+             text-align: center;
+             padding: 0px 0.5rem;
+             display: flex;
+             height: 30px;
+             justify-content: space-between;
+             font-size: 13px;
+             line-height: 28px;
+             color: #7d7b7b;
     
-}
-
-.neWrap{
-        .warpTop {
+             .titleNam {
+                 font-family: "Times New Roman",
+                     Times,
+                     serif;
+                 letter-spacing: 0.1rem;
+             }
+    
+    
+             .igada {
+                cursor: pointer;
+                width: 50px;
+                white-space: pre-wrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                 font-family: "Times New Roman",
+                     Times,
+                     serif;
+                    letter-spacing: 0.01rem;
+                    font-size: 13px;
+                    line-height: 29px;
+             }
+    
+        }
+    }
+    .wrap {
+        .warpTop{
             width: 100%;
             height: 30%;
             font-size: 15px;
-            border: 2px solid #77ff00;
-            text-shadow: 0 0 10px #77ff00;
-            box-shadow: 0 0 10px #77ff00 inset;
+            border: 2px solid #03e9f4;
+            // text-shadow: 0 0 10px #03e9f4;
+            box-shadow: 0 0 10px #03e9f4 inset;
             color: #fff;
+            border-radius: 10px 10px 0 0;
             display: flex;
-            // overflow: hidden;
-            .new {
-                display: block;
-                width: 1.2rem;
-                height: 0.9rem;
-                border-radius: 50%;
-                background: #77ff00;
-                position: relative;
-                left: 0.5rem;
-                bottom: 0.5rem;
-            }
+            overflow: hidden;
+    
             .wrapImg {
                 background-position: 0.1rem;
                 width: 20%;
                 height: 100%;
-                box-shadow: 0 0 5px #77ff00;
+                box-shadow: 0 0 5px #03e9f4;
                 background-image: url(./box.png);
                 background-size: 100%;
             }
-
+    
             .sonText {
                 display: block;
                 width: 100%;
                 
-        white-space: pre-wrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+            white-space: pre-wrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
                 text-align: center;
                 line-height: 25px;
             }
-
-
+       
+    
         }
-
-        .warpBottom {
+        .warpBottom{
             height: 100%;
             height: 70%;
-            border: 2px solid #77ff00;
+            border: 2px solid #03e9f4;
             border-top: none;
-            text-shadow: 0 0 10px #77ff00;
-            box-shadow: 0 0 10px #77ff00 inset;
-
-            .isTim {
-                //  text-align: center;
+            // text-shadow: 0 0 10px #03e9f4;
+            box-shadow: 0 0 10px #03e9f4 inset;
+            border-radius: 0 0 10px 10px;
+            .isTim{
                 border-top: 0.1rem solid rgb(88, 88, 88);
-                border-bottom: 0.1rem solid rgb(88, 88, 88);
+                border-bottom:0.1rem solid rgb(88, 88, 88);
                 text-align: center;
                 padding: 0px 0.5rem;
                 display: flex;
@@ -299,19 +249,18 @@
                 font-size: 13px;
                 line-height: 28px;
                 color: #fff;
-
+    
                 .titleNam {
                     font-family: "Times New Roman",
                         Times,
                         serif;
                     letter-spacing: 0.1rem;
                 }
-
+    
                 .titDcb {
                     font-weight: 500;
-                    //    color: rgb(224, 56, 56);
                 }
-
+    
                 .igada {
                     cursor: pointer;
                     width: 50px;
@@ -327,14 +276,118 @@
                     line-height: 29px;
                 }
             }
-
-            .titleName {
+            .titleName{
                 font-size: 14px;
                 line-height: 35px;
                 color: #fff;
                 text-align: center;
             }
         }
-
+        
+    }
     
+    .neWrap{
+            .warpTop {
+                width: 100%;
+                height: 30%;
+                font-size: 15px;
+                border: 2px solid #77ff00;
+                text-shadow: 0 0 10px #77ff00;
+                box-shadow: 0 0 10px #77ff00 inset;
+                color: #fff;
+                display: flex;
+                // overflow: hidden;
+                .new {
+                    display: block;
+                    width: 1.2rem;
+                    height: 0.9rem;
+                    border-radius: 50%;
+                    background: #77ff00;
+                    position: relative;
+                    left: 0.5rem;
+                    bottom: 0.5rem;
+                }
+                .wrapImg {
+                    background-position: 0.1rem;
+                    width: 20%;
+                    height: 100%;
+                    box-shadow: 0 0 5px #77ff00;
+                    background-image: url(./box.png);
+                    background-size: 100%;
+                }
+    
+                .sonText {
+                    display: block;
+                    width: 100%;
+                    
+            white-space: pre-wrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+                    text-align: center;
+                    line-height: 25px;
+                }
+    
+    
+            }
+    
+            .warpBottom {
+                height: 100%;
+                height: 70%;
+                border: 2px solid #77ff00;
+                border-top: none;
+                text-shadow: 0 0 10px #77ff00;
+                box-shadow: 0 0 10px #77ff00 inset;
+    
+                .isTim {
+                    //  text-align: center;
+                    border-top: 0.1rem solid rgb(88, 88, 88);
+                    border-bottom: 0.1rem solid rgb(88, 88, 88);
+                    text-align: center;
+                    padding: 0px 0.5rem;
+                    display: flex;
+                    height: 30px;
+                    justify-content: space-between;
+                    font-size: 13px;
+                    line-height: 28px;
+                    color: #fff;
+    
+                    .titleNam {
+                        font-family: "Times New Roman",
+                            Times,
+                            serif;
+                        letter-spacing: 0.1rem;
+                    }
+    
+                    .titDcb {
+                        font-weight: 500;
+                        //    color: rgb(224, 56, 56);
+                    }
+    
+                    .igada {
+                        cursor: pointer;
+                        width: 50px;
+                        white-space: pre-wrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        font-family: "Times New Roman",
+                            Times,
+                            serif;
+                        letter-spacing: 0.01rem;
+                        font-size: 13px;
+                        line-height: 29px;
+                    }
+                }
+    
+                .titleName {
+                    font-size: 14px;
+                    line-height: 35px;
+                    color: #fff;
+                    text-align: center;
+                }
+            }
+    
+        
+    }
 }
