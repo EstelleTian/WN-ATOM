@@ -74,8 +74,8 @@ function TacticMeasureForm(props) {
   useEffect(
     function () {
       if (restrictionMode === "MIT" || restrictionMode == "AFP" || restrictionMode == "TC" ) {
-        //重置表单，用以表单初始值赋值
-        form.resetFields();
+        //设置单位表单数值
+        form.setFieldsValue({restrictionMITValueUnit: restrictionMITValueUnit})
       }
     },
     [restrictionMITValueUnit]
