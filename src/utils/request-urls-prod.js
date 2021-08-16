@@ -171,7 +171,15 @@ const ReqUrls = {
     // 跑道配置-跑道模板管理更新(保存)
     updateUploadRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/update/",
     // 动态跑道配置
-    loadRunwayTemplateListUrl: netIp+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/"
+    loadRunwayTemplateListUrl: netIp+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/",
+    // 时隙交换备选航班获取
+    retrieveSubstitutionFmeUrl: netIp+"/hydrogen-flight-plan-server/retrieveSubstitutionFme/",
+    // 时隙交换申请
+    applyFlightExchangeSlotUrl: netIp+"/hydrogen-flight-coordination-server/flight/applyFlightExchangeSlot/",
+    // 时隙交换拒绝
+    refuseFlightExchangeSlotUrl: netIp+"/hydrogen-flight-coordination-server/flight/refuseFlightExchangeSlot/",
+    // 时隙交换同意
+    approveFlightExchangeSlotUrl: netIp+"/hydrogen-flight-coordination-server/flight/approveFlightExchangeSlot/",
 };
 
 //协调相关url

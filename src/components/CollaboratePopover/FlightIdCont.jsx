@@ -101,7 +101,8 @@ const FlightIdCont = (props) => {
   const showFlightExchangeSlotModal = useCallback(() => {
     //关闭协调窗口popover
     clearCollaboratePopoverData();
-    flightExchangeSlotFormData.updateClaimantFlightData(flight);
+    const flightId = flight.id || "";
+    flightExchangeSlotFormData.updateClaimantFlightCoordinationData(flight);
     flightExchangeSlotFormData.toggleModalVisible(true);
   }, []);
   //数据提交失败回调
@@ -269,34 +270,37 @@ const FlightIdCont = (props) => {
 
   return (
     <div className="clr_flightid">
-      <button
+      <Button
         className="c-btn c-btn-blue"
         onClick={() => {
           showFlightDetail(record);
         }}
       >
         查看航班详情
-      </button>
+      </Button>
 
     {systemPage.userHasAuth(13454) && (
-      <button
+      <Button
         className="c-btn c-btn-blue"
         onClick={() => {
           showFormerFlightUpdateModal(record);
         }}
       >
         指定前序航班
-      </button>
+      </Button>
     )}
       
-      {/* <button
+      {
+        !hadDEP && <Button
         className="c-btn c-btn-green"
         onClick={() => {
           showFlightExchangeSlotModal(record);
         }}
       >
         时隙交换
-      </button> */}
+      </Button>
+      }
+      
       {priority === FlightCoordination.PRIORITY_NORMAL &&
         systemPage.userHasAuth(13401) && (
           <PopconfirmFlightIdBtn

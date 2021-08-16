@@ -70,6 +70,8 @@ const rangeScopeIP= "http://10.25.1.10:80";
 const switchConfigIP= "http://10.25.1.10:80";
 // 系统各个标题IP（薛满林）
 const systemListIP= "http://10.25.1.10:80";
+// 时隙交换相关IP(韩涛)
+const flightExchangeSlotIP= "http://10.25.1.10:80";
 
 const ReqUrls = {
     //用户登录
@@ -203,6 +205,15 @@ const ReqUrls = {
     
     // 方案中心-流控血缘关系
     schemeByIdIP: schemeByIdIP +"/scheme-flight-calculation-server/evaluation/schemeById",
+
+    // 时隙交换备选航班获取
+    retrieveSubstitutionFmeUrl: flightExchangeSlotIP+"/hydrogen-flight-plan-server/retrieveSubstitutionFme/",
+    // 时隙交换申请
+    applyFlightExchangeSlotUrl: flightExchangeSlotIP+"/hydrogen-flight-coordination-server/flight/applyFlightExchangeSlot/",
+    // 时隙交换拒绝
+    refuseFlightExchangeSlotUrl: flightExchangeSlotIP+"/hydrogen-flight-coordination-server/flight/refuseFlightExchangeSlot/",
+    // 时隙交换同意
+    approveFlightExchangeSlotUrl: flightExchangeSlotIP+"/hydrogen-flight-coordination-server/flight/approveFlightExchangeSlot/",
 };
 
 //协调相关url
