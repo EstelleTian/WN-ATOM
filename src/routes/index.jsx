@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:23:17
- * @LastEditTime: 2021-08-03 10:50:57
+ * @LastEditTime: 2021-08-16 14:10:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\routes\index.jsx
@@ -208,11 +208,11 @@ export default [
     exact: true,
     title: "方案流程",
   },
-  // 流程图
+  // 自观数据
   {
     path: "/weatherPage",
     component: withRouter(WeatherPage),
     exact: true,
-    title: "时隙交换",
+    title: "自观数据",
   },
 ];
