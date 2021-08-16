@@ -60,6 +60,7 @@ const NewsSubscribePage = lazy(() =>
   import("../pages/NewsSubscribePage/NewsSubscribePage")
 );
 const GraphPage = lazy(() => import("../pages/GraphPage/GraphPage"));
+const WeatherPage = lazy(() => import("../pages/WeatherPage/WeatherPage"));
 
 export default [
   // 客户端登录页面
@@ -206,5 +207,12 @@ export default [
     component: withRouter(GraphPage),
     exact: true,
     title: "方案流程",
+  },
+  // 流程图
+  {
+    path: "/weatherPage",
+    component: withRouter(WeatherPage),
+    exact: true,
+    title: "时隙交换",
   },
 ];

@@ -20,7 +20,8 @@ const loginIP = "http://192.168.194.21:18380";
 //网关IP
 const netIp = "http://192.168.210.120:81";
 
-
+// 时隙交换
+const timeslotIp = "http://192.168.243.74:6104";
 
 const ReqUrls = {
     //用户登录
@@ -171,7 +172,10 @@ const ReqUrls = {
     // 跑道配置-跑道模板管理更新(保存)
     updateUploadRunwayTemplateUrl: netIp+"/hydrogen-cdm-runway-server/runway/mould/template/update/",
     // 动态跑道配置
-    loadRunwayTemplateListUrl: netIp+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/"
+    loadRunwayTemplateListUrl: netIp+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/",
+
+    // 时隙交换数据
+    TimeslotSwitchingUrl: timeslotIp+"/airport/weather/newest/"
 };
 
 //协调相关url
