@@ -4,6 +4,7 @@ import {
   isValidVariable,
   getDayTimeFromString,
   formatTimeString,
+  isValidObject,
 } from "utils/basic-verify";
 import { requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
@@ -24,20 +25,22 @@ const mergeNodeSon = (newNodeSon = [], oldNodeSon = []) => {
   newNodeSon.map((newItem, index) => {
     const newName = newItem.flowControlName || "";
     const res = _.findIndex(oldNodeSon, { flowControlName: newName });
+    let nItem = Object.assign({}, newItem);
     if (res !== -1) {
-      newItem["from"] = "update";
+      nItem["from"] = "update";
     } else {
-      newItem["from"] = "new";
+      nItem["from"] = "new";
     }
-    mergeSon.push(newItem);
+    mergeSon.push(nItem);
   });
   oldNodeSon.map((oldItem, index) => {
     let flag = false;
     const oldName = oldItem.flowControlName || "";
     const res = _.findIndex(newNodeSon, { flowControlName: oldName });
+    let nItem = Object.assign({}, oldItem);
     if (res === -1) {
-      oldItem["from"] = "delete";
-      mergeSon.push(oldItem);
+      nItem["from"] = "delete";
+      mergeSon.push(nItem);
     }
   });
   return mergeSon;
@@ -71,19 +74,14 @@ const getRestrictionValue = (flowControlMeasure, restrictionMode) => {
   return value;
 };
 //处理方案类节点数据
-const handleBasicTacticNode = (
-  basicTacticInfo = {},
-  kpi = {},
-  ntfmMitMap = {}
-) => {
+const handleBasicTacticNode = (basicTacticInfo = {}, kpi = {}) => {
   const id = basicTacticInfo.id || "";
   const tacticName = basicTacticInfo.tacticName || "";
   const tacticStatus = basicTacticInfo.tacticStatus || "";
   const tacticTimeInfo = basicTacticInfo.tacticTimeInfo || {};
   const basicFlowcontrol = basicTacticInfo.basicFlowcontrol || {};
   const directionList = basicTacticInfo.directionList || [];
-  const tacticSourceId = basicTacticInfo.tacticSourceId || "";
-  const ntfmObj = ntfmMitMap[tacticSourceId]|| {};
+
   const startTime = tacticTimeInfo.startTime || "";
   const endTime = tacticTimeInfo.endTime || "";
   const updateTime = tacticTimeInfo.updateTime || "";
@@ -116,10 +114,7 @@ const handleBasicTacticNode = (
     flowControlMeasure,
     restrictionMode
   );
-  let ntfmData = {};
-  if (tacticSourceId !== "") {
-    ntfmData = ntfmMitMap[tacticSourceId] || {};
-  }
+
   // 定义主节点内容数
   let node = {
     id,
@@ -132,7 +127,7 @@ const handleBasicTacticNode = (
     isTim: restrictionValue,
     updateTime,
     children: [],
-    ntfmData: ntfmData,
+    ntfmData: {},
   };
 
   return node;
@@ -166,8 +161,8 @@ const handleFlowListNode = (flowcontrolList = []) => {
       isTim: restrictionValue,
       text: flowControlName,
       igada: targetUnit,
-      dles: from === "new" ? true : false,
-      news: from === "delete" ? true : false,
+      dles: from === "delete" ? true : false,
+      news: from === "new" ? true : false,
     };
 
     nodeList.push(node);
@@ -176,8 +171,11 @@ const handleFlowListNode = (flowcontrolList = []) => {
 };
 
 //数据转换为图形数据
-const convertDataToGraph = (tacticInfos, ntfmMitMap) => {
+const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
   let graphData = [];
+  let activeTactic = {
+    tacticName: "",
+  };
   //判断数据是否为空
   if (tacticInfos.length > 0) {
     let num = 0;
@@ -195,38 +193,50 @@ const convertDataToGraph = (tacticInfos, ntfmMitMap) => {
       const basicTacticInfo = item.basicTacticInfo || {};
       const flowcontrolList = item.flowcontrolList || [];
       const kpi = item.kpi || {};
-
       //处理方案类节点数据
-      const basicNode = handleBasicTacticNode(basicTacticInfo, kpi, ntfmMitMap);
+      const basicNode = handleBasicTacticNode(basicTacticInfo, kpi);
+
+      const tacticSourceId = basicTacticInfo.tacticSourceId || "";
+      if (tacticSourceId !== "") {
+        const ntfmObj = ntfmTacticInfos[tacticSourceId] || {};
+        const ntfmObjBasicTacticInfo = ntfmObj.basicTacticInfo || {};
+        const ntfmData = handleBasicTacticNode(ntfmObjBasicTacticInfo, {});
+        basicNode["ntfmData"] = ntfmData;
+      }
       //处理方案下多个子流控节点数据
       const flowNodeList = handleFlowListNode(flowcontrolList);
 
       basicNode["children"] = flowNodeList;
 
       graphData.push(basicNode);
+
+      const id = basicTacticInfo.id || "";
+      if (isValidVariable(id) && isValidVariable(tacticId) && id === tacticId) {
+        const tacticName = basicTacticInfo.tacticName || "";
+        activeTactic.tacticName = tacticName;
+      }
     });
   }
-  return graphData;
+  return { graphData, activeTactic };
 };
 
 const GraphPage = (props) => {
-  // const [tacticId, setTacticId] = useState(
-  //   "82548b66-7e11-418a-b381-f3893a56c243"
-  // );
-  const [tacticId, setTacticId] = useState("");
+  const [tacticId, setTacticId] = useState(
+    "06bcc94f-56d7-4d90-8ba0-5de12a872841"
+  );
+  // const [tacticId, setTacticId] = useState("");
+  const [activeTactic, setActiveTactic] = useState({ tacticName: "" });
   const [tacticInfos, setTacticInfos] = useState([]);
-  const [screenWidth, setScreenWidth] = useState(
-    document.getElementsByTagName("body")[0].offsetWidth
-  );
-  const [screenHeight, setScreenHeight] = useState(
-    document.getElementsByTagName("body")[0].offsetHeight
-  );
+  const [screenWidth, setScreenWidth] = useState(877);
+  const [screenHeight, setScreenHeight] = useState(1035);
 
   const graphRef = useRef("");
   NWGlobal.setGraphSchemeId = (id) => {
+    // alert(id);
     setTacticId(id);
   };
   NWGlobal.setGraphSize = (width, height) => {
+    // alert(width + "  " + height);
     setScreenWidth(width * 1);
     setScreenHeight(height * 1);
   };
@@ -237,7 +247,7 @@ const GraphPage = (props) => {
       const res = await requestGet2({
         url: ReqUrls.schemeByIdIP + "/" + tacticId,
       });
-      const { tacticInfos = [], ntfmMitMap = {} } = res;
+      const { tacticInfos = [], ntfmTacticInfos = {} } = res;
       // let arr = [];
       // let len = tacticInfos.length;
       // for (let i = len; i > 0; i--) {
@@ -245,8 +255,13 @@ const GraphPage = (props) => {
       //   arr.push(item);
       // }
       // const graphData = convertDataToGraph(arr);
-      const graphData = convertDataToGraph(tacticInfos, ntfmMitMap);
+      const { graphData, activeTactic } = convertDataToGraph(
+        tacticInfos,
+        ntfmTacticInfos,
+        tacticId
+      );
       setTacticInfos(graphData);
+      setActiveTactic(activeTactic);
     } catch (e) {
       customNotice({
         type: "error",
@@ -262,7 +277,7 @@ const GraphPage = (props) => {
   }, [tacticId]);
 
   // 创建主节点
-  const member = (x, y, id, items, index, graph) => {
+  const member = (x, y, id, items, index, graph, type) => {
     return graph.addNode({
       shape: "html",
       id: id + index,
@@ -290,13 +305,21 @@ const GraphPage = (props) => {
         wrap.style.height = "100%";
         wrap.style.padding = "0.5rem 0.5rem";
         wrap.style.color = "#fff";
+        const imgClass = type === "ntfm" ? "ntfmImg" : "";
         wrap.innerHTML =
           `
-            <font class='font' title='方案名称：` +
+          <div class='warpTop'>
+      <div class='` +
+          imgClass +
+          `'></div>
+      <div class='sonText'title='方案名称：` +
           titleS +
-          `'><div class='title'>` +
+          `'>` +
           titleS +
-          `</div></font> <div class='isTim'>  <span class='titleNam' title='限制类型'>` +
+          `</div>
+      </div>
+          
+             <div class='isTim'>  <span class='titleNam' title='限制类型'>` +
           items.titleNam +
           `</span><span title='限制值'>` +
           items.isTim +
@@ -427,7 +450,7 @@ const GraphPage = (props) => {
   };
 
   // 创建edge边
-  const link = (source, target, vertices, is, graph) => {
+  const link = (source, target, vertices = {}, is, graph) => {
     if (is.dle) {
       return graph.addEdge({
         vertices,
@@ -537,6 +560,7 @@ const GraphPage = (props) => {
   useEffect(() => {
     // alert("useEffect " + tacticInfos.length);
     if (tacticInfos.length > 0) {
+      console.log(tacticInfos);
       if (graphRef.current !== "") {
         graphRef.current.dispose();
       }
@@ -562,66 +586,121 @@ const GraphPage = (props) => {
       let num = 0;
       let xian1 = 0;
       let xx = 0;
+
+      let baseWidth = 450;
       tacticInfos.map((item, index) => {
-        // 添加主节点
-        const node01 = member(30 + num, 20, item.id, item, index, graph);
+        let usedHeight = 0;
+        //添加NTFM节点
+        const ntfmData = item.ntfmData || {};
+        let ntfmNode;
+        const baseX = baseWidth * index;
+        if (isValidObject(ntfmData)) {
+          ntfmNode = member(
+            baseX,
+            0,
+            ntfmData.id,
+            ntfmData,
+            index,
+            graph,
+            "ntfm"
+          );
+          usedHeight = 100;
+        }
+        // 添加方案节点
+        const tacticNodeX = 30 + baseX;
+        let tacticNodeY = 20 + usedHeight;
+        const tacticNode = member(
+          tacticNodeX,
+          tacticNodeY,
+          item.id,
+          item,
+          index,
+          graph,
+          ""
+        );
+
+        if (isValidObject(ntfmData)) {
+          link(
+            ntfmNode,
+            tacticNode,
+            [
+              { x: baseX + 10, y: 100 },
+              { x: baseX + 10, y: tacticNodeY + 50 },
+              { x: tacticNodeX, y: tacticNodeY + 50 },
+            ],
+            {},
+            graph
+          );
+        }
+
         if (index > 0) {
           const updateTime = formatTimeString(item.updateTime || "");
-
+          //方案间箭头
           linkBox(
-            { x: 255 + xx, y: 55 },
-            { x: 445 + xx, y: 55 },
+            { x: tacticNodeX - baseWidth + 220, y: tacticNodeY + 50 },
+            { x: tacticNodeX - baseWidth + 420, y: tacticNodeY + 50 },
             updateTime,
             graph
           );
-          xx = xx + 450;
         }
+        usedHeight += 120;
+        // tacticNodeY = 120 + usedHeight;
 
-        num = num + 450;
-        let num2 = 160;
-        let xian2 = 180;
-
-        let xianBlo = {
-          dle: false,
-          new: false,
-        };
         const children = item.children || [];
+        const childX = 140 + baseX;
+        const childLen = children.length || 0;
         // 添加子节点
         children.map((child, index) => {
-          const node02 = memberS(80 + xian1, num2, child.title, child, graph);
+          const childY = usedHeight + 20 + index * 100;
+          const flowNode = memberS(childX, childY, child.title, child, graph);
 
-          num2 = num2 + 110;
-          xian2 = xian2 + 110;
           // 判断节点新增||删除，添加线
-          if (child.from === "delete") {
-            xianBlo.dle = true;
-          } else if (child.from === "new") {
-            xianBlo.new = true;
-          }
+          const lineStyle = {
+            dle: child.from === "delete",
+            new: child.from === "new",
+          };
+          const childBaseX = tacticNodeX;
+          const childBaseY = 120 + usedHeight;
           link(
-            node01,
-            node02,
+            tacticNode,
+            flowNode,
             [
-              { x: 30 + xian1, y: 140 },
-              { x: 30 + xian1, y: 400 },
-              { x: 50 + xian1, y: 400 },
-              { x: 50 + xian1, y: xian2 - 85 },
+              { x: childBaseX + 20, y: tacticNodeY + 100 },
+              { x: childBaseX + 20, y: childBaseY + (childLen * 50) / 2 },
+              { x: childBaseX + 50, y: childBaseY + (childLen * 50) / 2 },
+              { x: childX - 20, y: childY + 50 },
             ],
-            xianBlo,
+            lineStyle,
             graph
           );
         });
-        xian1 = xian1 + 450;
       });
 
       graph.scrollToPoint(0, 0);
     }
   }, [tacticInfos, screenWidth, screenHeight]);
 
+  useEffect(() => {
+    const bar = document.getElementsByClassName("scheme-scroll-bar");
+    if (bar.length > 0) {
+      const barDom = bar[0];
+      const content = barDom.getElementsByClassName(
+        "x6-graph-scroller-content"
+      );
+      const cont = content[0];
+      const cHeight = cont.offsetHeight;
+      const cWidth = cont.offsetWidth;
+      barDom.style = "width:" + cWidth + "px;" + "height:" + cHeight + "px;";
+      console.log(cHeight, cWidth);
+    }
+  }, [tacticInfos, screenWidth, screenHeight]);
   return (
-    <>
+    <div className="graph_container">
+      <div className="tacticName" title={activeTactic.tacticName}>
+        {activeTactic.tacticName}
+      </div>
       <div id="container"></div>
-    </>
+    </div>
   );
 };
 export default GraphPage;

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:28
- * @LastEditTime: 2021-08-11 10:25:02
+ * @LastEditTime: 2021-08-16 12:32:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\utils\request.js
@@ -79,70 +79,87 @@ const request = ( parameters ) => {
 };
 
 
-//无需传入回调，用promise
-const requestGet2 = async ( parameters  ) => {
-    const { url, params } = parameters;
-    try{
-        const response = await axios.get( url, {
-            params
-        })
+
+
+
+const ins = axios.create();
+// 第三步，响应阻拦
+ins.interceptors.response.use(
+    function (response) {
         const resStatus = response.status;
-        if( resStatus === 200 ){
-            const data = response.data;
-            if( isValidObject(data) && isValidVariable(data.status) ){
-                const status = data.status;
-                if( status === 200 ){
-                    return Promise.resolve( data );
-                }else{
-                    const error = data.error || {};
-                    const message = error.message || "";
-                    return Promise.reject(message);
-                }
-                
-            } 
-        }else{
-            return Promise.reject(`request ${url} failed.` );
-        }
-    }catch(e){
-        return Promise.reject(`request ${url} failed. ${e}` );
+            if( resStatus === 200 ){
+                const data = response.data;
+                if( isValidObject(data) && isValidVariable(data.status) ){
+                    const status = data.status;
+                    if( status === 200 ){
+                        return Promise.resolve( data );
+                    }else{
+                        const error = data.error || {};
+                        const message = error.message || "";
+                        return Promise.reject(message);
+                    }
+                    
+                } 
+            }
+    }, function (error) {
+        // 响应错误处理
+        return Promise.reject(error);
     }
+); 
+
+//无需传入回调，用promise
+const requestGet2 = async ( { url, params }  ) => {
+    return  ins.get(url, {
+                params
+            })
     
     
 };
 
 const request2 = async ( parameters ) => {
     const {url, method="POST", params, headers='application/json; charset=utf-8'} = parameters;
-    try{
-        const response = await axios({
-            method,
-            url,
-            data: params,
-            headers: {
-                'Content-Type': headers
-            }
-        });
-        // console.log("response", response)
-        const resStatus = response.status;
-        if( resStatus === 200 ){
-            const data = response.data;
-            if( isValidObject(data) && isValidVariable(data.status) ){
-                const status = data.status;
-                if( status === 200 ){
-                    return Promise.resolve( data );
-                }else{
-                    const error = data.error || {};
-                    const message = error.message || "";
-                    return Promise.reject(message);
-                }
-                
-            } 
-        }else{
-            return Promise.reject(`request ${url} failed.` );
+    return ins({
+        method,
+        url,
+        data: params,
+        headers: {
+            'Content-Type': headers
         }
-    }catch(e){
-        return Promise.reject(`request ${url} failed. ${e}` );
-    }
+    });
+    // try{
+    //     const response = await axios({
+    //         method,
+    //         url,
+    //         data: params,
+    //         headers: {
+    //             'Content-Type': headers
+    //         }
+    //     });
+    //     // console.log("response", response)
+    //     const resStatus = response.status;
+    //     if( resStatus === 200 ){
+    //         const data = response.data;
+    //         if( isValidObject(data) && isValidVariable(data.status) ){
+    //             const status = data.status;
+    //             if( status === 200 ){
+    //                 return Promise.resolve( data );
+    //             }else{
+    //                 const error = data.error || {};
+    //                 const message = error.message || "";
+    //                 return Promise.reject(message);
+    //             }
+                
+    //         } 
+    //     }else{
+    //         return Promise.reject(`request ${url} failed.` );
+    //     }
+    // }catch(e){
+    //     return Promise.reject(`request ${url} failed. ${e}` );
+    // }
    
 };
+
+
+
 
 export { requestGet, request, requestGet2, request2 };
