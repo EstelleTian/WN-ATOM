@@ -2198,8 +2198,6 @@ function SchemeForm(props) {
         }
     };
 
-
-
     // 初始化用户信息
     useEffect(function () {
         const user = localStorage.getItem("user");
@@ -2234,12 +2232,13 @@ function SchemeForm(props) {
             schemeFormData.updateInputMethod(SchemeFormUtil.INPUTMETHOD_SHORTCUT);
         }
     }, [pageType]);
-    // 速度值、快捷录入勾选变更后更新MIT流控时间间隔字段数值
-    useEffect(function () {
-        if (isValidVariable(distanceToTime) || shortcutFormSelecedData.length > 0) {
-            updateMITTimeValueChange();
-        }
-    }, [distanceToTime, shortcutFormSelecedData]);
+
+    // // 速度值、快捷录入勾选变更后更新MIT流控时间间隔字段数值
+    // useEffect(function () {
+    //     if (isValidVariable(distanceToTime) || shortcutFormSelecedData.length > 0) {
+    //         // updateMITTimeValueChange();
+    //     }
+    // }, [distanceToTime, shortcutFormSelecedData]);
     // MIT限制方式下的限制单位变更后更新MIT时间间隔字段数值
     useEffect(function () {
         // 若MIT限制类型单位为距离
