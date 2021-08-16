@@ -195,7 +195,7 @@ const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
       const kpi = item.kpi || {};
       //处理方案类节点数据
       const basicNode = handleBasicTacticNode(basicTacticInfo, kpi);
-
+      
       const tacticSourceId = basicTacticInfo.tacticSourceId || "";
       if (tacticSourceId !== "") {
         const ntfmObj = ntfmTacticInfos[tacticSourceId] || {};
@@ -221,10 +221,10 @@ const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
 };
 
 const GraphPage = (props) => {
-  const [tacticId, setTacticId] = useState(
-    "06bcc94f-56d7-4d90-8ba0-5de12a872841"
-  );
-  // const [tacticId, setTacticId] = useState("");
+  // const [tacticId, setTacticId] = useState(
+  //   "06bcc94f-56d7-4d90-8ba0-5de12a872841"
+  // );
+  const [tacticId, setTacticId] = useState("");
   const [activeTactic, setActiveTactic] = useState({ tacticName: "" });
   const [tacticInfos, setTacticInfos] = useState([]);
   const [screenWidth, setScreenWidth] = useState(877);
@@ -306,13 +306,12 @@ const GraphPage = (props) => {
         wrap.style.padding = "0.5rem 0.5rem";
         wrap.style.color = "#fff";
         const imgClass = type === "ntfm" ? "ntfmImg" : "";
-        wrap.innerHTML =
-          `
-          <div class='warpTop'>
-      <div class='` +
-          imgClass +
-          `'></div>
-      <div class='sonText'title='方案名称：` +
+        let innerHTML = `<div class='warpTop'>`;
+        if (imgClass !== "") {
+          innerHTML += `<div class='` + imgClass + `'><span>N</span></div>`;
+        }
+        innerHTML +=
+          `<div class='sonText'title='方案名称：` +
           titleS +
           `'>` +
           titleS +
@@ -336,6 +335,7 @@ const GraphPage = (props) => {
           `</span><span title='起止时间'>` +
           items.titleTim +
           `</span></div>`;
+        wrap.innerHTML = innerHTML;
         return wrap;
       },
     });

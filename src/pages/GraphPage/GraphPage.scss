@@ -37,32 +37,28 @@
             height: 25px;
             font-size: 16px;
             color: #46bff7;
-            // display: flex;
+            @include display_flex();
             @include flex();
             overflow: hidden;
             .ntfmImg{
-                position: relative;
-                left: 0;
-                top: 0;
-                border-top: 1.0rem solid #7c6142;
-                border-right: 1.0rem solid transparent;
-                border-bottom: 1.0rem solid transparent;
-                border-left: 1.0rem solid #7c6142;
+                float: left;
+                border-top: 14px solid #7c6142;
+                border-right: 14px solid transparent;
+                border-bottom: 14px solid transparent;
+                border-left: 14px solid #7c6142;
+                width: 0;
+                height: 0;
             }
-            .ntfmImg::after {
-                position: absolute;
-                display: block;
-                top: -20px;
-                left: -12px;
+            .ntfmImg>span{
                 content: "N";
                 color: #fff;
-                width: 20%;
-                height: 100%;
+                margin-top: -20px;
+                margin-left: -12px;
+                display: block;
             }
     
             .sonText {
                 display: inline-block;
-                width: 100%;
                 white-space: pre-wrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -70,6 +66,9 @@
                 text-align: center;
                 line-height: 25px;
                 height: 25px;
+                width: 100%;
+                @include flex();
+                
             }
        
     
