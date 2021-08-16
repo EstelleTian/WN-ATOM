@@ -73,6 +73,9 @@ const systemListIP= "http://10.25.1.10:80";
 // 时隙交换相关IP(韩涛)
 const flightExchangeSlotIP= "http://10.25.1.10:80";
 
+// 自关数据
+const timeslotIp = "http://10.25.1.10:80";
+
 const ReqUrls = {
     //用户登录
     loginUrl: loginIP+"/uuma-server/client/login",
@@ -214,6 +217,8 @@ const ReqUrls = {
     refuseFlightExchangeSlotUrl: flightExchangeSlotIP+"/hydrogen-flight-coordination-server/flight/refuseFlightExchangeSlot/",
     // 时隙交换同意
     approveFlightExchangeSlotUrl: flightExchangeSlotIP+"/hydrogen-flight-coordination-server/flight/approveFlightExchangeSlot/",
+    // 自关数据
+    TimeslotSwitchingUrl: timeslotIp+"/airport/weather/newest/",
 };
 
 //协调相关url
