@@ -223,8 +223,8 @@ function SchemeForm(props) {
                 ]
             }
         }
-        if (restrictionMode === "AFP" || restrictionMode === "MIT") {
-            // AFP 或 MIT 限制类型增加校验预留时隙表单
+        if (restrictionMode === "AFP" || restrictionMode === "MIT" || restrictionMode === "TC") {
+            // AFP、MIT、TC 限制类型增加校验预留时隙表单
             promiseArray = [
                 ...promiseArray,
                 tacticReserveSlotFormValidatePromise()
@@ -1543,8 +1543,8 @@ function SchemeForm(props) {
         tacticTimeInfo.startTime = startTime;
         // 更新方案结束时间
         tacticTimeInfo.endTime = endTime;
-        // AFP 或 MIT 限制类型增加预留时隙值
-        if (restrictionMode === "AFP" || restrictionMode === "MIT") {
+        // AFP、MIT、TC 限制类型增加预留时隙值
+        if (restrictionMode === "AFP" || restrictionMode === "MIT" || restrictionMode === "TC") {
             tacticTimeInfo.reserveSlot = reserveSlot;
         }
 
