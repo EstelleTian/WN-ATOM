@@ -87,4 +87,14 @@
             }
         }
     }
+    .Weather_time{
+        font-size: 16px;
+        color: #5ca443;
+        float: right;
+        margin-top: 10px;
+        >span{
+            padding-right: 10px;
+            // color:rgba(255, 255, 255, 0.85);
+        }
+    }
 }

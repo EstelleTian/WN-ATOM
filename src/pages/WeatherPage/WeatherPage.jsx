@@ -1,21 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Tabs, Tooltip, Modal } from "antd";
 import _ from "lodash";
 import { requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
-import { isValidVariable, isValidObject } from "utils/basic-verify";
+import {
+  isValidVariable,
+  isValidObject,
+  formatTimeString,
+} from "utils/basic-verify";
 import { customNotice } from "utils/common-funcs";
-import FeHelper from "./FeHelper.js";
+// import FeHelper from "./FeHelper.js";
 import "./WeatherPage.scss";
 
 function WeatherPage(props) {
-  const [isData, getIsData] = useState([]);
-
+  const [isData, setIsData] = useState([]);
+  const [generateTime, setGenerateTime] = useState("");
+  let timer = useRef();
   const { TabPane } = Tabs;
 
   //更新数据
   const updateData = (res) => {
     const orderList = ["05L", "05R", "23R", "23L"];
+    const generateTime = res.generateTime || "";
+
     const data = res.data || [];
     let arr = [];
     orderList.map((name) => {
@@ -24,8 +31,11 @@ function WeatherPage(props) {
         arr.push(data[index]);
       }
     });
-    getIsData(arr);
+
+    setIsData(arr);
+    setGenerateTime(generateTime);
   };
+
   //获取数据
   const getData = async () => {
     // updateData(FeHelper);
@@ -34,6 +44,9 @@ function WeatherPage(props) {
         url: ReqUrls.TimeslotSwitchingUrl + "ZLXY",
       });
       updateData(res);
+      timer.current = setTimeout(function () {
+        getData();
+      }, 60 * 1000);
     } catch (e) {
       let message = `获取数据失败`;
       if (isValidVariable(e)) {
@@ -100,6 +113,10 @@ function WeatherPage(props) {
             </div>
           );
         })}
+      </div>
+      <div className="Weather_time" title={generateTime}>
+        <span>数据更新时间：</span>
+        {formatTimeString(generateTime, 1)}
       </div>
     </div>
   );
