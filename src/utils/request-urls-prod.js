@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-08-12 17:17:31
+ * @LastEditTime: 2021-08-17 10:00:36
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -21,7 +21,7 @@ const loginIP = "http://192.168.194.21:18380";
 const netIp = "http://192.168.210.120:81";
 
 // 自关数据
-const timeslotIp = "http://192.168.243.74:6104";
+const timeslotIp = "http://192.168.243.74:18098";
 
 const ReqUrls = {
     //用户登录
