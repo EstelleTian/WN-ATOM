@@ -15,10 +15,14 @@ class FlightExchangeSlotForm{
     }
     //模态框是否显示
     @observable modalVisible = false;
+    //数据获取或提交请求中
+    @observable loading = false;
     // 申请航班id
     @observable claimantFlightid = "";
 
     // 申请航班
+    @observable claimantFlightCoordinationData = {};
+     // 申请航班(表单显示格式)
     @observable claimantFlightData = {};
     // 目标航班
     @observable targetFlightData = {};
@@ -30,11 +34,21 @@ class FlightExchangeSlotForm{
     @action toggleModalVisible(visible) {
         this.modalVisible = visible;
     }
-    // 更新航班数据
+    //更新loading状态
+    @action toggleLoad( load ){
+        this.loading = load;
+    }
+    // 更新航班数据(航班对象格式)
+    @action updateClaimantFlightCoordinationData (data){
+        // 更新航班数据
+        this.claimantFlightCoordinationData = data;
+        // 更新航班数据id
+        this.claimantFlightid = data.id || ""
+    }
+    // 更新航班数据(表单显示格式)
     @action updateClaimantFlightData (data) {
         // 更新航班数据
         this.claimantFlightData = data;
-        this.claimantFlightid = data.id || ""
     }
     // 更新前序航班数据
     @action updateTargetFlightData (data) {
@@ -47,7 +61,7 @@ class FlightExchangeSlotForm{
         let flightList = [];
         for( let i in flights){
             let id = i;
-            let flight = flights[i].flight || {};
+            let flight = flights[i] || {};
             idList.push(id);
             flightList.push(flight);
         }

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-08-17 09:44:15
+ * @LastEditTime: 2021-06-09 10:52:59
  * @LastEditors: Please set LastEditors
  * @Description: 航班号右键协调框
  * @FilePath:
@@ -78,7 +78,7 @@ const FlightIdCont = (props) => {
         flightDetailData.updateFlightDetailData(res);
       } catch (e) {
         let message = `获取航班${flight.flightid}详情数据失败`;
-        if (isValidVariable(e)) {
+        if(isValidVariable(e)){
           message = message + ":" + e;
         }
         customNotice({
@@ -87,6 +87,7 @@ const FlightIdCont = (props) => {
         });
       }
     }
+    
   };
   // 显示指定前序航班模态框
   const showFormerFlightUpdateModal = useCallback(() => {
@@ -101,6 +102,8 @@ const FlightIdCont = (props) => {
     //关闭协调窗口popover
     clearCollaboratePopoverData();
     flightExchangeSlotFormData.updateClaimantFlightData(flight);
+    const flightId = flight.id || "";
+    flightExchangeSlotFormData.updateClaimantFlightCoordinationData(flight);
     flightExchangeSlotFormData.toggleModalVisible(true);
   }, []);
   //数据提交失败回调
@@ -269,6 +272,7 @@ const FlightIdCont = (props) => {
   return (
     <div className="clr_flightid">
       <button
+      <Button
         className="c-btn c-btn-blue"
         onClick={() => {
           showFlightDetail(record);
@@ -276,19 +280,33 @@ const FlightIdCont = (props) => {
       >
         查看航班详情
       </button>
+      </Button>
 
-      {systemPage.userHasAuth(13454) && (
-        <button
-          className="c-btn c-btn-blue"
-          onClick={() => {
-            showFormerFlightUpdateModal(record);
-          }}
-        >
-          指定前序航班
-        </button>
-      )}
-
+    {systemPage.userHasAuth(13454) && (
+      <button
+        className="c-btn c-btn-blue"
+        onClick={() => {
+          showFormerFlightUpdateModal(record);
+        }}
+      >
+        指定前序航班
+      </button>
+    )}
+      
+    {systemPage.userHasAuth(13454) && (
+      <Button
+        className="c-btn c-btn-blue"
+        onClick={() => {
+          showFormerFlightUpdateModal(record);
+        }}
+      >
+        指定前序航班
+      </Button>
+    )}
+      
       {/* <button
+      {
+        !hadDEP && <Button
         className="c-btn c-btn-green"
         onClick={() => {
           showFlightExchangeSlotModal(record);
@@ -296,6 +314,9 @@ const FlightIdCont = (props) => {
       >
         时隙交换
       </button> */}
+      </Button>
+      }
+      
       {priority === FlightCoordination.PRIORITY_NORMAL &&
         systemPage.userHasAuth(13401) && (
           <PopconfirmFlightIdBtn

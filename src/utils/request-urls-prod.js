@@ -20,7 +20,7 @@ const loginIP = "http://192.168.194.21:18380";
 //网关IP
 const netIp = "http://192.168.210.120:81";
 
-// 时隙交换
+// 自关数据
 const timeslotIp = "http://192.168.243.74:6104";
 
 const ReqUrls = {
@@ -174,8 +174,17 @@ const ReqUrls = {
     // 动态跑道配置
     loadRunwayTemplateListUrl: netIp+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/",
 
-    // 时隙交换数据
-    TimeslotSwitchingUrl: timeslotIp+"/airport/weather/newest/"
+    // 自关数据
+    TimeslotSwitchingUrl: timeslotIp+"/airport/weather/newest/",
+
+     // 时隙交换备选航班获取
+     retrieveSubstitutionFmeUrl: netIp+"/hydrogen-flight-plan-server/retrieveSubstitutionFme/",
+     // 时隙交换申请
+     applyFlightExchangeSlotUrl: netIp+"/hydrogen-flight-coordination-server/flight/applyFlightExchangeSlot/",
+     // 时隙交换拒绝
+     refuseFlightExchangeSlotUrl: netIp+"/hydrogen-flight-coordination-server/flight/refuseFlightExchangeSlot/",
+     // 时隙交换同意
+     approveFlightExchangeSlotUrl: netIp+"/hydrogen-flight-coordination-server/flight/approveFlightExchangeSlot/",
 };
 
 //协调相关url
