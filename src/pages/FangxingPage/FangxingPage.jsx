@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-08-11 15:23:58
+ * @LastEditTime: 2021-08-18 09:14:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -18,6 +18,7 @@ import DateRange from "components/Common/DateRange.jsx";
 import PostUserInfo from "components/Common/PostUserInfo.jsx";
 import FlightSearch from "components/FlightSearch/FlightSearch";
 import LeftMultiCanvas from "components/LeftMultiCanvas/LeftMultiCanvas";
+import SideStickBar from "components/LeftMultiCanvas/SideStickBar";
 import RightMultiCanvas from "components/RightMultiCanvas/RightMultiCanvas";
 import { isValidVariable } from "utils/basic-verify";
 import "./FangxingPage.scss";
@@ -83,9 +84,11 @@ function FangxingPage({ systemPage, match }) {
               <div className="cont_left">
                 <div className="left_cont">
                   {systemPage.systemKind.indexOf("CRS") > -1 &&
-                    systemPage.leftActiveName !== "" && (
-                      <div className="left_left">{<LeftMultiCanvas />}</div>
-                    )}
+                  systemPage.leftActiveName !== "" ? (
+                    <div className="left_left">{<LeftMultiCanvas />}</div>
+                  ) : (
+                    <SideStickBar />
+                  )}
                   <div className="left_right">
                     <Suspense
                       fallback={
