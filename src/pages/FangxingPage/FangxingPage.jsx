@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-08-18 09:14:48
+ * @LastEditTime: 2021-08-18 18:16:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\FangxingPage\FangxingPage.jsx
@@ -83,11 +83,14 @@ function FangxingPage({ systemPage, match }) {
             <div className="nav_body">
               <div className="cont_left">
                 <div className="left_cont">
-                  {systemPage.systemKind.indexOf("CRS") > -1 &&
-                  systemPage.leftActiveName !== "" ? (
-                    <div className="left_left">{<LeftMultiCanvas />}</div>
+                  {systemPage.systemKind.indexOf("CRS") > -1 ? (
+                    systemPage.leftActiveName !== "" ? (
+                      <div className="left_left">{<LeftMultiCanvas />}</div>
+                    ) : (
+                      <SideStickBar />
+                    )
                   ) : (
-                    <SideStickBar />
+                    ""
                   )}
                   <div className="left_right">
                     <Suspense

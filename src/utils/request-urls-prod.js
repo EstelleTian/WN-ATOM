@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-08-17 10:00:36
+ * @LastEditTime: 2021-08-18 17:12:27
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -20,8 +20,8 @@ const loginIP = "http://192.168.194.21:18380";
 //网关IP
 const netIp = "http://192.168.210.120:81";
 
-// 自关数据
-const timeslotIp = "http://192.168.243.74:18098";
+// 自观数据
+const timeSlotIp = "http://192.168.243.74:18098";
 
 const ReqUrls = {
     //用户登录
@@ -174,11 +174,13 @@ const ReqUrls = {
     // 动态跑道配置
     loadRunwayTemplateListUrl: netIp+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/",
 
-    // 自关数据
-    TimeslotSwitchingUrl: timeslotIp+"/airport/weather/newest/",
+    // 自观
+    timeSlotSwitchingUrl: timeSlotIp+"/airport/weather/newest/",
 
      // 时隙交换备选航班获取
      retrieveSubstitutionFmeUrl: netIp+"/hydrogen-flight-plan-server/retrieveSubstitutionFme/",
+     // 验证航班是否可以进行时隙交换
+     judgeAbilityFlightUrl: netIp+"/hydrogen-flight-coordination-server/flight/judgeAbilityFlight/",
      // 时隙交换申请
      applyFlightExchangeSlotUrl: netIp+"/hydrogen-flight-coordination-server/flight/applyFlightExchangeSlot/",
      // 时隙交换拒绝

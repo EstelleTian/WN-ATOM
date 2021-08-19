@@ -10,14 +10,17 @@ function TacticIntervalArrApForm(props) {
   const { schemeFormData, form, pageType } = props;
   // 方案基础信息
   const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
+  const basicFlowcontrol = basicTacticInfo.basicFlowcontrol || {};
+  const flowControlMeasure = basicFlowcontrol.flowControlMeasure || {};
+
   // 方案名称
   const tacticName = basicTacticInfo.tacticName || "";
   // 所有区域标签机场数据
   const areaAirportListData = schemeFormData.areaAirportListData;
   // 特殊区域机场列表
   const specialAreaAirportListData = schemeFormData.specialAreaAirportListData;
-  let intervalArrFlight = isValidVariable(schemeFormData.intervalArrFlight)
-    ? schemeFormData.intervalArrFlight.split(";")
+  let intervalArrFlight = isValidVariable(flowControlMeasure.intervalArrFlight)
+    ? flowControlMeasure.intervalArrFlight.split(";")
     : [];
   // 格式化后的半数降落机场数值
   let formatIntervalArrAp = SchemeFormUtil.formatAreaLabel(

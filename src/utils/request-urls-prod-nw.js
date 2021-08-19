@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-08-03 09:05:39
+ * @LastEditTime: 2021-08-18 17:09:51
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -74,7 +74,7 @@ const systemListIP= "http://10.25.1.10:80";
 const flightExchangeSlotIP= "http://10.25.1.10:80";
 
 // 自关数据
-const timeslotIp = "http://10.25.1.10:80";
+const timeSlotIp = "http://10.25.1.10:80";
 
 const ReqUrls = {
     //用户登录
@@ -218,7 +218,7 @@ const ReqUrls = {
     // 时隙交换同意
     approveFlightExchangeSlotUrl: flightExchangeSlotIP+"/hydrogen-flight-coordination-server/flight/approveFlightExchangeSlot/",
     // 自关数据
-    TimeslotSwitchingUrl: timeslotIp+"/airport/weather/newest/",
+    timeSlotSwitchingUrl: timeSlotIp+"/airport/weather/newest/",
 };
 
 //协调相关url

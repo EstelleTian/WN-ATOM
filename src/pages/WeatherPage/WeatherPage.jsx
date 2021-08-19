@@ -41,7 +41,7 @@ function WeatherPage(props) {
     // updateData(FeHelper);
     try {
       const res = await requestGet2({
-        url: ReqUrls.TimeslotSwitchingUrl + "ZLXY",
+        url: ReqUrls.timeSlotSwitchingUrl + "ZLXY",
       });
       updateData(res);
       timer.current = setTimeout(function () {

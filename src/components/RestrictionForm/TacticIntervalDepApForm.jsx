@@ -13,13 +13,16 @@ function tacticIntervalDepApForm(props) {
     const { schemeFormData, form, pageType } = props;
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
+    const basicFlowcontrol = basicTacticInfo.basicFlowcontrol|| {};
+    const flowControlMeasure = basicFlowcontrol.flowControlMeasure|| {};
+
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
     // 所有区域标签机场数据
     const areaAirportListData = schemeFormData.areaAirportListData;
     // 特殊区域机场列表
     const specialAreaAirportListData = schemeFormData.specialAreaAirportListData;
-    let intervalDepFlight = isValidVariable(schemeFormData.intervalDepFlight) ? schemeFormData.intervalDepFlight.split(';') : [];
+    let intervalDepFlight = isValidVariable(flowControlMeasure.intervalDepFlight) ? flowControlMeasure.intervalDepFlight.split(';') : [];
     // 格式化后的半数起飞机场数值
     let formatIntervalDepAp = SchemeFormUtil.formatAreaLabel(intervalDepFlight, areaAirportListData);
     // 是否为禁用页面类型

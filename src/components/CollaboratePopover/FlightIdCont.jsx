@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-08-17 10:39:07
+ * @LastEditTime: 2021-08-18 18:09:33
  * @LastEditors: Please set LastEditors
  * @Description: 航班号右键协调框
  * @FilePath:
@@ -30,6 +30,7 @@ import PopconfirmFlightIdBtn from "./PopconfirmFlightIdBtn";
 
 //协调窗口
 const FlightIdCont = (props) => {
+  const [slotLoad, setSlotLoad] = useState(false);
   const [intervalLoad, setIntervalLoad] = useState(false);
   const [exemptLoad, setExemptLoad] = useState(false);
   const [singleExemptLoad, setSingleExemptLoad] = useState(false);
@@ -95,15 +96,42 @@ const FlightIdCont = (props) => {
     formerFlightUpdateFormData.updateFlightData(flight);
     formerFlightUpdateFormData.toggleModalVisible(true);
   }, []);
-
+  // 验证航班是否可以进行时隙交换
+  const judgeFlight = useCallback(async (record) => {
+    // collaboratePopoverData.setTipsObj({
+    //   ...collaboratePopoverData.selectedObj,
+    //   id: flight.id || "",
+    //   title: "2222222222222222",
+    // });
+    setSlotLoad(true);
+    try {
+      const flightId = flight.id || "";
+      const res = await requestGet2({
+        url: ReqUrls.judgeAbilityFlightUrl + flightId,
+      });
+      // console.log(res);
+      setSlotLoad(false);
+      showFlightExchangeSlotModal(record);
+    } catch (e) {
+      collaboratePopoverData.setTipsObj({
+        ...collaboratePopoverData.selectedObj,
+        type: "warn",
+        id: flight.id || "",
+        title: e,
+      });
+      setSlotLoad(false);
+      //关闭协调窗口popover
+      clearCollaboratePopoverData();
+    }
+  }, []);
   // 显示航班时隙交换模态框
   const showFlightExchangeSlotModal = useCallback(() => {
-    //关闭协调窗口popover
-    clearCollaboratePopoverData();
     flightExchangeSlotFormData.updateClaimantFlightData(flight);
     const flightId = flight.id || "";
     flightExchangeSlotFormData.updateClaimantFlightCoordinationData(flight);
     flightExchangeSlotFormData.toggleModalVisible(true);
+    //关闭协调窗口popover
+    clearCollaboratePopoverData();
   }, []);
   //数据提交失败回调
   const requestErr = (err, content) => {
@@ -288,17 +316,18 @@ const FlightIdCont = (props) => {
           指定前序航班
         </button>
       )}
-      {
-        !hadDEP && <Button
-        className="c-btn c-btn-green"
-        onClick={() => {
-          showFlightExchangeSlotModal(record);
-        }}
-      >
-        时隙交换
-      </Button>
-      }
-      
+      {!hadDEP && (
+        <Button
+          className="c-btn c-btn-green"
+          loading={slotLoad}
+          onClick={() => {
+            judgeFlight(record);
+          }}
+        >
+          时隙交换
+        </Button>
+      )}
+
       {priority === FlightCoordination.PRIORITY_NORMAL &&
         systemPage.userHasAuth(13401) && (
           <PopconfirmFlightIdBtn

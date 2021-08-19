@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-06-04 13:28:51
+ * @LastEditTime: 2021-08-18 18:05:06
  * @LastEditors: Please set LastEditors
  * @Description:tip提示框
  * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
@@ -49,43 +49,52 @@ const PositionPopover = (props) => {
     if (trDom.length === 0) {
       return;
     }
-    let tdDom = trDom[0].getElementsByClassName(name)[0];
-    //获取点击坐标数据
-    const bounds = tdDom.getBoundingClientRect();
-    const x = bounds.x || 0;
-    const y = bounds.y || 0;
-    const width = bounds.width || 0;
-    const height = bounds.height || 0;
+    let tdDom = trDom[0].getElementsByClassName(name);
+    if (tdDom.length > 0) {
+      tdDom = tdDom[0];
 
-    let left = x;
-    let screenHeight = document.getElementsByTagName("body")[0].offsetHeight;
-    let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
-    let top = y;
+      //获取点击坐标数据
+      const bounds = tdDom.getBoundingClientRect();
+      const x = bounds.x || 0;
+      const y = bounds.y || 0;
+      const width = bounds.width || 0;
+      const height = bounds.height || 0;
 
-    const current = tipsRef.current;
-    let tipHeight = 0;
-    let tipWidth = 0;
-    if (isValidVariable(current)) {
-      tipHeight = current.offsetHeight || 0;
-      tipWidth = current.offsetWidth || 0;
-    } else if (document.getElementsByClassName("collaborate_tips").length > 0) {
-      tipHeight =
-        document.getElementsByClassName("collaborate_tips")[0].offsetHeight ||
-        0;
-      tipWidth =
-        document.getElementsByClassName("collaborate_tips")[0].offsetWidth || 0;
+      let left = x;
+      let screenHeight = document.getElementsByTagName("body")[0].offsetHeight;
+      let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
+      let top = y;
+
+      const current = tipsRef.current;
+      let tipHeight = 0;
+      let tipWidth = 0;
+      if (isValidVariable(current)) {
+        tipHeight = current.offsetHeight || 0;
+        tipWidth = current.offsetWidth || 0;
+      } else if (
+        document.getElementsByClassName("collaborate_tips").length > 0
+      ) {
+        tipHeight =
+          document.getElementsByClassName("collaborate_tips")[0].offsetHeight ||
+          0;
+        tipWidth =
+          document.getElementsByClassName("collaborate_tips")[0].offsetWidth ||
+          0;
+      }
+
+      top = y - tipHeight;
+      left = x + width / 2 - tipWidth / 2;
+      console.log("left", left, "top", top);
+      setPosObj({ left, top });
     }
-
-    top = y - tipHeight;
-    left = x + width / 2 - tipWidth / 2;
-    // console.log("left", left, "top", top);
-    setPosObj({ left, top });
   };
 
   useEffect(() => {
-    // console.log("重新计算位置");
-    reCalcPos();
-  }, [selectedObj]);
+    console.log("重新计算位置");
+    if (isValidVariable(tipsObj.title)) {
+      reCalcPos();
+    }
+  }, [selectedObj, tipsObj]);
   return (
     <Fragment>
       {title !== "" && (

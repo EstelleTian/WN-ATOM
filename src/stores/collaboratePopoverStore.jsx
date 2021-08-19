@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-05-27 11:43:08
+ * @LastEditTime: 2021-08-18 18:00:34
  * @LastEditors: Please set LastEditors
  * @Description: 协调窗口相关store
  * @FilePath: \WN-CDM\src\stores\collaboratePopoverStore.jsx
