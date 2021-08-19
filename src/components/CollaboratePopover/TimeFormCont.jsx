@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-06-09 13:28:48
+ * @LastEditTime: 2021-08-19 14:33:24
  * @LastEditors: Please set LastEditors
  * @Description: 时间类协调窗口-
  * @FilePath: \WN-ATOM\src\components\FlightTable\TimeFormCont.jsx
@@ -105,8 +105,8 @@ const TimeFormCont = (props) => {
   //根据type和列名，生成url和params参数
   const handleUrlAndParams = (type, values) => {
     //方案id
-    // const activeSchemeId = schemeListData.activeSchemeId || "";
-    // const tacticName = schemeListData.getNameBySchemeActiveId(activeSchemeId); //方案名称
+    const activeSchemeId = schemeListData.activeSchemeId || "";
+    const tacticName = schemeListData.getNameBySchemeActiveId(activeSchemeId); //方案名称
 
     const { date, time } = values;
     const dateStr = moment(date).format("YYYYMMDD") || "";
@@ -116,8 +116,8 @@ const TimeFormCont = (props) => {
     let params = {
       flightCoordination: flight, //航班原fc
       userId,
-      // tacticId: activeSchemeId,
-      // tacticName,
+      tacticId: activeSchemeId,
+      tacticName,
       comment: values.comments || "", //备注
     };
     const flightId = flight.flightid || "";

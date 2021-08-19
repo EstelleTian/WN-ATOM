@@ -1,20 +1,20 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 12:59:35
- * @LastEditTime: 2021-08-19 14:16:02
+ * @LastEditTime: 2021-08-19 14:18:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\stores\todoListStores.jsx
  */
 import { makeObservable, observable, action, computed } from "mobx";
 
-// 放行监控-待办列表-数据
-class TODOList {
+// 放行监控-时隙交换-数据
+class ExchangeSlot {
   constructor() {
     makeObservable(this);
   }
   // 列表
-  @observable todos = [];
+  @observable slotList = [];
   //是否强制刷新
   @observable forceUpdate = false;
   //数据时间
@@ -23,30 +23,29 @@ class TODOList {
   @observable loading = false;
   //定时器
   @observable timeoutId = "";
-  //航班协调tab选中状态
-  @observable activeTab = "1";
+
   //高亮工作流id
   @observable focusFlightId = "";
   //高亮工作流id
   @observable focusSid = "";
 
-  //更新待办列表数据
-  @action updateTodosData(todos, generateTime) {
-    this.todos = todos;
+  //更新时隙交换列表数据
+  @action updateSlotListData(slotList, generateTime) {
+    this.slotList = slotList;
     this.generateTime = generateTime;
   }
   //更新loading状态
   @action toggleLoad(load) {
     this.loading = load;
   }
-  //修改--待办-强制更新
+  //修改--时隙交换-强制更新
   @action setForceUpdate(flag) {
     this.forceUpdate = flag;
   }
   //根据航班id查找定位流水id
   @action getIdByFlightId() {
     let key = "";
-    this.todos.map((todo) => {
+    this.slotList.map((todo) => {
       const flightObj = todo.flightObj || {};
       const id = flightObj.id || "";
       if (this.focusFlightId + "" === id + "") {
@@ -57,7 +56,6 @@ class TODOList {
   }
 }
 
-let todoList = new TODOList();
-// let myApplicationList = new MyApplicationList();
+let exchangeSlot = new ExchangeSlot();
 
-export { todoList };
+export { exchangeSlot };

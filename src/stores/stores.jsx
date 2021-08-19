@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-20 17:08:13
+ * @LastEditTime: 2021-08-19 14:17:02
  * @LastEditors: Please set LastEditors
  * @Description: store集合
  * @FilePath: \WN-CDM\src\stores\stores.jsx
@@ -22,6 +22,7 @@ import { infoHistoryData } from "./infoHistoryStores";
 import { capacity } from "./capacityStores";
 import { userSubscribeData } from "./totalPageStores";
 import { todoList } from "./todoListStores";
+import { exchangeSlot } from "./exchangeSlotStores";
 import { myApplicationList } from "./myApplicationListStores";
 import { runwayListData } from "./runwayStores";
 import { MDRSData } from "./mdrsStores";
@@ -48,7 +49,7 @@ import { RunwayDynamicEditFormData } from "./RunwayDynamicEditStores";
 // 默认跑道修改
 import { RunwayDefaultEditFormData } from "./RunwayDefaultEditStores";
 // 默认跑道修改
-import {RunwayFormworkmanagementData} from './RunwayFormworkmanagementStores';
+import { RunwayFormworkmanagementData } from "./RunwayFormworkmanagementStores";
 
 export {
   schemeListData,
@@ -83,5 +84,6 @@ export {
   RunwayDynamicEditFormData,
   RunwayDefaultEditFormData,
   fightSearch,
-  columnConfig
+  exchangeSlot,
+  columnConfig,
 };

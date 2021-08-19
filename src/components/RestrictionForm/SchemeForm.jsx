@@ -1445,11 +1445,11 @@ function SchemeForm(props) {
   const submitData = () => {
     const data = handleFormData();
     const { basicTacticInfo = {} } = schemeFormData.schemeData;
-    alert(
-      "intervalDepFlight: " +
-        data.basicTacticInfo.basicFlowcontrol.flowControlMeasure
-          .intervalDepFlight
-    );
+    // alert(
+    //   "intervalDepFlight: " +
+    //     data.basicTacticInfo.basicFlowcontrol.flowControlMeasure
+    //       .intervalDepFlight
+    // );
     // 方案id
     const { id } = basicTacticInfo;
     const opt = {

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-08-18 17:12:27
+ * @LastEditTime: 2021-08-19 14:37:03
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -187,6 +187,8 @@ const ReqUrls = {
      refuseFlightExchangeSlotUrl: netIp+"/hydrogen-flight-coordination-server/flight/refuseFlightExchangeSlot/",
      // 时隙交换同意
      approveFlightExchangeSlotUrl: netIp+"/hydrogen-flight-coordination-server/flight/approveFlightExchangeSlot/",
+     // 时隙交换列表
+     retrieveExchangeSlotInfoUrl: netIp+"/hydrogen-flight-coordination-server/flight/retrieveExchangeSlotInfo/",
 };
 
 //协调相关url

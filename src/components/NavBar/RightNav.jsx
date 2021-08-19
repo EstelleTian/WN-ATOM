@@ -4,6 +4,7 @@ import { UserOutlined, SearchOutlined } from "@ant-design/icons";
 import { observer, inject } from "mobx-react";
 // import { withRouter } from "react-router-dom";
 import TodoNav from "./TodoNav";
+import ExchangeSlotNav from "./ExchangeSlotNav";
 import SubTableNav from "./SubTableNav";
 import User from "./User";
 import { isValidVariable } from "utils/basic-verify";
@@ -90,6 +91,9 @@ function RightNav({ systemPage, schemeListData }) {
             >
               {/* 豁免、等待池、特殊、失效 */}
               <SubTableNav />
+              {/* 时隙交换列表 */}
+              {/* <ExchangeSlotNav /> */}
+              {systemPage.userHasAuth(12522) && <ExchangeSlotNav />}
               {/* 航班协调 */}
               {systemPage.userHasAuth(12505) && <TodoNav />}
             </Radio.Group>

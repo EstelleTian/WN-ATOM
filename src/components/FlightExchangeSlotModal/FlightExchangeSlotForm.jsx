@@ -11,6 +11,7 @@ import {
   Space,
   Divider,
   Collapse,
+  Checkbox,
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 
@@ -35,6 +36,8 @@ const { Option } = Select;
 function FlightExchangeSlotForm(props) {
   // 获取备选目标航班请求中标记
   let [fetching, setFetching] = useState(false);
+  // 跨公司开关
+  let [overKey, setOverKey] = useState(false);
   // 查询关键字
   let [searchKey, setSearchKey] = useState("");
 
@@ -93,6 +96,11 @@ function FlightExchangeSlotForm(props) {
     },
     [claimantFlightInfo]
   );
+  //申请航班信息变更
+  useEffect(function () {
+    console.log(222);
+    fetchAlterTargetFlightList("");
+  }, []);
 
   // 表单
   const [form] = Form.useForm();
@@ -119,12 +127,6 @@ function FlightExchangeSlotForm(props) {
       trailing: false,
     }
   );
-
-  // 变更选中航班
-  const handleChangeSelectedTargetFlight = (value) => {
-    // 更新选中的航班id值
-    // setTargetFlightId(value);
-  };
 
   // 处理表单提交数据
   const handleSubmitFormData = async () => {
@@ -216,12 +218,11 @@ function FlightExchangeSlotForm(props) {
     //重置表单，用以表单初始值赋值
     form.resetFields();
   };
-  //获取备选目标航班列表数据
+  //获取备选目标航班列表(航班B)数据
   const fetchAlterTargetFlightList = async (val) => {
     try {
       const userId = user.id || "";
       const result = await requestGet2({
-        // url: ReqUrls.retrieveSubstitutionFmeUrl + userId + "?queryKey=" + val + "&exchangeId=" + claimantFlightid + "&flightId=" + "&key=false",
         url:
           ReqUrls.retrieveSubstitutionFmeUrl +
           userId +
@@ -230,7 +231,8 @@ function FlightExchangeSlotForm(props) {
           "&exchangeId=" +
           claimantFlightid +
           "&flightId=" +
-          "&key=true",
+          "&key=" +
+          overKey,
       });
       const alterTargetFlights = result.result || {};
       flightExchangeSlotFormData.updateAlterTargetFlightList(
@@ -244,14 +246,13 @@ function FlightExchangeSlotForm(props) {
     }
   };
 
-  //获取申请航班数据
+  //获取申请航班(航班A)数据
   const fetchClaimantFlightData = async () => {
     //  启用loading
     flightExchangeSlotFormData.toggleLoad(true);
     try {
       const userId = user.id || "";
       const data = await requestGet2({
-        // url: ReqUrls.retrieveSubstitutionFmeUrl + userId + "?queryKey=" + "&exchangeId=" + "&flightId=" + claimantFlightid + "&key=false",
         url:
           ReqUrls.retrieveSubstitutionFmeUrl +
           userId +
@@ -259,7 +260,8 @@ function FlightExchangeSlotForm(props) {
           "&exchangeId=" +
           "&flightId=" +
           claimantFlightid +
-          "&key=true",
+          "&key=" +
+          overKey,
       });
       const result = data.result || {};
       const claimantFlight = result[claimantFlightid] || {};
@@ -344,6 +346,18 @@ function FlightExchangeSlotForm(props) {
                 </Panel>
               </Collapse>
             </div>
+            <div className="over_flag">
+              <Checkbox.Group
+                options={[{ label: "跨公司", value: "1" }]}
+                onChange={(checkedValues) => {
+                  if (checkedValues.indexOf("1") > -1) {
+                    setOverKey(true);
+                  } else {
+                    setOverKey(false);
+                  }
+                }}
+              />
+            </div>
           </Col>
         </Row>
         <Row gutter={24}>
@@ -392,7 +406,6 @@ function FlightExchangeSlotForm(props) {
                 allowClear={true}
                 filterOption={false}
                 onSearch={debounceFetcher}
-                onChange={handleChangeSelectedTargetFlight}
                 notFoundContent={
                   fetching ? (
                     <Spin size="small" />
