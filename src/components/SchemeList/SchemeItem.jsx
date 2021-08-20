@@ -193,11 +193,11 @@ function SchemeItem(props) {
     const restrictionTCPeriodValue =
       flowControlMeasure.restrictionTCPeriodValue || "";
     interVal =
-      restrictionMITValue +
-      "/" +
       restrictionTCPeriodDuration +
       "/" +
       restrictionTCPeriodValue +
+      "/" +
+      restrictionMITValue +
       restrictionMITValueUnit;
   }
   let unit = "";
