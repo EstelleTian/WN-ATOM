@@ -31,7 +31,8 @@ function TacticIntervalArrApForm(props) {
   const isDisabledPageType =
     SchemeFormUtil.getIsDisabledPageType().includes(pageType);
   // 是否禁用
-  const disabled = props.disabledForm || isDisabledPageType;
+  // const disabled = props.disabledForm || isDisabledPageType;
+  const disabled = false;
   // 表单初始化默认值
   let initialValues = {
     intervalArrFlight: formatIntervalArrAp,

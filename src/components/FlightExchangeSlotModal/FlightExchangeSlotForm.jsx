@@ -100,7 +100,7 @@ function FlightExchangeSlotForm(props) {
   useEffect(function () {
     console.log(222);
     fetchAlterTargetFlightList("");
-  }, []);
+  }, [overKey]);
 
   // 表单
   const [form] = Form.useForm();
