@@ -19,12 +19,12 @@
             @include display_flex();
             .WeatherPage_Title{
                 color: #3d8424;
-                font-size: 17px;
+                font-size: 24px;
                 font-weight: 600;
             }
             .WeatherPage_Angle{
                 width: 100%;
-                font-size: 10px;
+                font-size: 14px;
                 // height: 250px;
                 @include flex();
                 .ring{
@@ -53,9 +53,9 @@
                
             }
             .WeatherPage_Information{
-                margin-bottom: 15px;
+                // margin-bottom: 15px;
                 width: 100%;
-                font-size: 14px;
+                font-size: 20px;
                 display: flex;
                 flex-wrap: wrap;
                 @include flex();
@@ -63,22 +63,21 @@
                     width: 100%;
                     margin: 0 auto;
                     margin: 5px 0px;
-                    height: 20px;
+                    height: 24px;
                     display: flex;
-                    line-height: 20px;
+                    line-height: 24px;
                     .ItemLeft{
                         display: block;
-                        width: 100px;
-                        line-height: 20px;
+                        width: 140px;
+                        line-height: 24px;
                         text-align: right;
                     }
                     .ItemRight{
-                        font-size: 14px;
                         display: block;
                         margin-left: 1rem;
                         padding: 0 10px;
-                        line-height: 20px;
-                        width: 100px;
+                        line-height: 24px;
+                        width: 180px;
                         text-align: center;
                         background-color: #7c7c7cd7;
                         // width: 30%;
@@ -88,10 +87,9 @@
         }
     }
     .Weather_time{
-        font-size: 16px;
-        color: #5ca443;
-        float: right;
-        margin-top: 10px;
+        font-size: 24px;
+        text-align: center;
+        margin-top: 20px;
         >span{
             padding-right: 10px;
             // color:rgba(255, 255, 255, 0.85);

@@ -129,7 +129,13 @@
                 // text-shadow: 0 0 8px #03f43f;
                 padding: 0px 2px;
                 margin-right: 13px;
-                color:#03f43f;
+                color:#36a5da;
+            }
+            .FUTURE{
+                color: #10e99a;
+            }
+            .TERMINATED, .TERMINATED_MANUAL, .STOP, .FINISHED, .DISCARD{
+                color: #e95354;
             }
     }
     }

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-05 12:59:35
- * @LastEditTime: 2021-08-19 14:18:40
+ * @LastEditTime: 2021-08-24 15:53:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\stores\todoListStores.jsx
@@ -24,10 +24,14 @@ class ExchangeSlot {
   //定时器
   @observable timeoutId = "";
 
-  //高亮工作流id
+  //高亮航班id
   @observable focusFlightId = "";
   //高亮工作流id
   @observable focusSid = "";
+  //时隙交换详情模态框
+  @observable slotDetailModalVisible = false;
+  //时隙交换详情模态框-工作流id
+  @observable slotDetailId = "";
 
   //更新时隙交换列表数据
   @action updateSlotListData(slotList, generateTime) {

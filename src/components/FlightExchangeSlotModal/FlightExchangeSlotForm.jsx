@@ -41,7 +41,12 @@ function FlightExchangeSlotForm(props) {
   // 查询关键字
   let [searchKey, setSearchKey] = useState("");
 
-  const { flightExchangeSlotFormData, systemPage, schemeListData } = props;
+  const {
+    flightExchangeSlotFormData,
+    systemPage,
+    schemeListData,
+    exchangeSlot,
+  } = props;
   // 用户信息
   const user = systemPage.user || {};
 
@@ -97,10 +102,13 @@ function FlightExchangeSlotForm(props) {
     [claimantFlightInfo]
   );
   //申请航班信息变更
-  useEffect(function () {
-    console.log(222);
-    fetchAlterTargetFlightList("");
-  }, [overKey]);
+  useEffect(
+    function () {
+      console.log(222);
+      fetchAlterTargetFlightList("");
+    },
+    [overKey]
+  );
 
   // 表单
   const [form] = Form.useForm();
@@ -176,16 +184,16 @@ function FlightExchangeSlotForm(props) {
 
   // 处理表单提交数据
   const handleSubmitData = (values) => {
-    //  目标航班id
+    //  航班B id
     let targetFlightId = values.targetFlight;
-    //目标航班对象
+    //航班B 对象
     let targetFlightData = alterTargetFlightList.find(
       (item) => item.id == values.targetFlight
     );
-    // 目标航班信息
+    // 航班B信息
     let targetFlight = targetFlightData.itemText;
 
-    // 申请航班数据
+    // 航班A数据
     let claimantFlight = claimantFlightInfo;
     // 用户id
     let userId = user.id;
@@ -194,20 +202,20 @@ function FlightExchangeSlotForm(props) {
 
     let params = {
       userId,
-      //目标航班id
-      flightId: targetFlightId,
-      // 申请航班id
-      exchangeId: claimantFlightid.toString(),
-      // 目标航班信息
-      flightFlightItem: targetFlight,
-      // 申请航班信息
-      exchangeFlightItem: claimantFlight,
+      //航班A id
+      flightId: claimantFlightid.toString(),
+      //航班B id
+      exchangeId: targetFlightId,
+      //航班A 信息
+      flightFlightItem: claimantFlight,
+      //航班B 信息
+      exchangeFlightItem: targetFlight,
       // 方案id
       tacticId: schemeId,
       // 方案名称
       tacticName: "",
       // 跨公司开关
-      key: false,
+      key: overKey,
     };
     return params;
   };
@@ -309,6 +317,8 @@ function FlightExchangeSlotForm(props) {
     flightExchangeSlotFormData.toggleLoad(false);
     // 关闭表单模态框
     flightExchangeSlotFormData.toggleModalVisible(false);
+    //更新时隙交换列表
+    exchangeSlot.setForceUpdate(true);
     Modal.success({
       title: "提交成功",
       content: (
@@ -437,5 +447,6 @@ export default inject(
   "flightTableData",
   "schemeListData",
   "flightExchangeSlotFormData",
-  "systemPage"
+  "systemPage",
+  "exchangeSlot"
 )(observer(FlightExchangeSlotForm));

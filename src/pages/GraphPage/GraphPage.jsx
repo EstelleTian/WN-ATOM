@@ -121,6 +121,7 @@ const handleBasicTacticNode = (basicTacticInfo = {}, kpi = {}) => {
     title: tacticName,
     igada: targetUnit,
     perform: FlightCoordination.getSchemeStatusZh(tacticStatus),
+    tacticStatus: tacticStatus,
     titleNam: restrictionMode,
     titleTim,
     titleDcb,
@@ -195,7 +196,7 @@ const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
       const kpi = item.kpi || {};
       //处理方案类节点数据
       const basicNode = handleBasicTacticNode(basicTacticInfo, kpi);
-      
+
       const tacticSourceId = basicTacticInfo.tacticSourceId || "";
       if (tacticSourceId !== "") {
         const ntfmObj = ntfmTacticInfos[tacticSourceId] || {};
@@ -221,10 +222,10 @@ const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
 };
 
 const GraphPage = (props) => {
-  // const [tacticId, setTacticId] = useState(
-  //   "06bcc94f-56d7-4d90-8ba0-5de12a872841"
-  // );
-  const [tacticId, setTacticId] = useState("");
+  const [tacticId, setTacticId] = useState(
+    "045449df-c491-44c8-a631-76747d381348"
+  );
+  // const [tacticId, setTacticId] = useState("");
   const [activeTactic, setActiveTactic] = useState({ tacticName: "" });
   const [tacticInfos, setTacticInfos] = useState([]);
   const [screenWidth, setScreenWidth] = useState(877);
@@ -330,7 +331,9 @@ const GraphPage = (props) => {
           color +
           `'>` +
           items.titleDcb +
-          `</span> </div> <div class='titleName'><span title='方案状态'  class='titState'>` +
+          `</span> </div> <div class='titleName'><span title='方案状态'  class='titState ` +
+          items.tacticStatus +
+          `'>` +
           items.perform +
           `</span><span title='起止时间'>` +
           items.titleTim +

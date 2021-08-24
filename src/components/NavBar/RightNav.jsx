@@ -4,7 +4,7 @@ import { UserOutlined, SearchOutlined } from "@ant-design/icons";
 import { observer, inject } from "mobx-react";
 // import { withRouter } from "react-router-dom";
 import TodoNav from "./TodoNav";
-import ExchangeSlotNav from "./ExchangeSlotNav";
+import ExchangeSlotNav from "components/exchangeSlot/ExchangeSlotNav";
 import SubTableNav from "./SubTableNav";
 import User from "./User";
 import { isValidVariable } from "utils/basic-verify";

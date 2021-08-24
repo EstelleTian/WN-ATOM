@@ -64,6 +64,10 @@ function WeatherPage(props) {
   }, []);
   return (
     <div className="Weather">
+      <div className="Weather_time" title={generateTime}>
+        <span>ZLXY 机场跑道气象自观 </span>
+        <span>{formatTimeString(generateTime, 1)}</span>
+      </div>
       <div className="WeatherPageBox">
         {isData.map((item, index) => {
           return (
@@ -114,10 +118,7 @@ function WeatherPage(props) {
           );
         })}
       </div>
-      <div className="Weather_time" title={generateTime}>
-        <span>数据更新时间：</span>
-        {formatTimeString(generateTime, 1)}
-      </div>
+      
     </div>
   );
 }

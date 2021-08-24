@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-08-13 14:20:27
+ * @LastEditTime: 2021-08-24 15:09:09
  * @LastEditors: Please set LastEditors
  * @Description: 工作流列表
  * @FilePath: WorkFlowList.jsx
@@ -117,9 +117,14 @@ const HandleBtn = function (props) {
     const processVariables = instance.processVariables || {};
     switch (processDefinitionKey) {
       case "FlightApprovalProcess": //航班审批流程
+      case "SlotExchangeApprovalProcess": //时隙交换流程
         const tacticId = processVariables.tacticId || ""; //航班对应方案id
         const fmeId = processVariables.fmeId || ""; //航班id
         // alert("1  " + props.activeTab);
+        let activeTab = props.activeTab;
+        if (processDefinitionKey === "SlotExchangeApprovalProcess") {
+          activeTab = "slot";
+        }
         localStorage.setItem(
           "targetToFlight",
           JSON.stringify({
@@ -128,7 +133,7 @@ const HandleBtn = function (props) {
               flightId: fmeId,
               sid: record.sid,
             }),
-            fromType: props.activeTab,
+            fromType: activeTab,
           })
         );
         // openTimeSlotFrameWithFlightId(tacticId, fmeId, props.activeTab);

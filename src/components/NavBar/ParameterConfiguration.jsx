@@ -1,14 +1,14 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-07-20 17:46:26
+ * @LastEditTime: 2021-08-24 18:46:27
  * @LastEditTime: 2021-06-21 18:18:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\LeftBar.jsx
  */
 
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import { observer, inject } from "mobx-react";
 import { DownOutlined } from "@ant-design/icons";
 import { Radio, Dropdown, Menu } from "antd";
@@ -16,6 +16,7 @@ import FlightTableColumnConfigModal from "components/FlightTableColumnConfigModa
 import ATOMConfigModal from "components/ATOMConfigModal/ATOMConfigModal";
 import NTFMConfigModal from "components/NTFMConfigModal/NTFMConfigModal";
 import ATOMConfigInit from "components/ATOMConfigModal/ATOMConfigInit";
+import PositionModal from "components/Position/PositionModal";
 import ColumnDataInit from "./ColumnDataInit";
 
 //参数配置页面
@@ -25,6 +26,7 @@ function ParameterConfiguration({
   systemPage,
   columnConfig,
 }) {
+  const [positionModalVisible, setPositionModalVisible] = useState(false);
   const menu = function () {
     return (
       <Menu>
@@ -49,6 +51,9 @@ function ParameterConfiguration({
         >
           NTFM引接应用配置
         </Menu.Item>
+        <Menu.Item key="Position" value="Position" onClick={showPositionModal}>
+          备降停机位
+        </Menu.Item>
       </Menu>
     );
   };
@@ -67,6 +72,11 @@ function ParameterConfiguration({
     NTFMConfigFormData.toggleModalVisible(true);
   };
 
+  // 显示备降停机位模态框
+  const showPositionModal = () => {
+    setPositionModalVisible(true);
+  };
+
   return (
     <Fragment>
       <Dropdown overlay={menu}>
@@ -83,6 +93,7 @@ function ParameterConfiguration({
       <ATOMConfigInit />
       <ATOMConfigModal />
       <NTFMConfigModal />
+      <PositionModal visible={positionModalVisible} setPositionModalVisible={setPositionModalVisible}/>
     </Fragment>
   );
 }

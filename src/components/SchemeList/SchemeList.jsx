@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-07-28 14:06:34
+ * @LastEditTime: 2021-08-24 14:54:57
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: Please set LastEditors
  * @Description: 方案列表
@@ -39,6 +39,7 @@ import useSchemeList from "./useSchemeList";
 import useFlightsList from "./useFlightsList";
 import useExecuteKPIData from "./useExecuteKPIData";
 import "./SchemeList.scss";
+import { exchangeSlot } from "../../stores/exchangeSlotStores";
 
 // 接收storage同源消息
 window.addEventListener("storage", function (e) {
@@ -203,6 +204,7 @@ function SList(props) {
     performanceKPIData,
     systemPage,
     todoList,
+    exchangeSlot,
     myApplicationList,
   } = props;
   const params = match.params || {};
@@ -230,12 +232,11 @@ function SList(props) {
     toggleModalType,
   } = useSchemeModal({ systemPage });
 
-    useExecuteKPIData({
-      schemeListData,
-      executeKPIData,
-      systemPage,
-    });
-  
+  useExecuteKPIData({
+    schemeListData,
+    executeKPIData,
+    systemPage,
+  });
 
   //接收客户端传来方案id，用以自动切换到选中方案
   NWGlobal.setSchemeId = useCallback((schemeId, title) => {
@@ -287,17 +288,27 @@ function SList(props) {
     const flightId = flightObj.flightId || ""; //航班id
     const sid = flightObj.sid || ""; //流水号
     flightTableData.focusFlightId = flightId;
-    //验证航班协调按钮是否激活 todo为已激活
-    if (systemPage.modalActiveName !== "todo") {
-      systemPage.setModalActiveName("todo");
-    }
 
     if (fromType === "finished") {
+      //验证航班协调按钮是否激活 todo为已激活
+      if (systemPage.modalActiveName !== "todo") {
+        systemPage.setModalActiveName("todo");
+      }
       todoList.activeTab = "2";
       myApplicationList.focusSid = sid;
-    } else {
+    } else if (fromType === "todo") {
+      //验证航班协调按钮是否激活 todo为已激活
+      if (systemPage.modalActiveName !== "todo") {
+        systemPage.setModalActiveName("todo");
+      }
       todoList.activeTab = "1";
       todoList.focusSid = sid;
+    } else if (fromType === "slot") {
+      //验证时隙交换按钮是否激活 slot为已激活
+      if (systemPage.modalActiveName !== "slot") {
+        systemPage.setModalActiveName("slot");
+      }
+      exchangeSlot.focusSid = sid;
     }
   };
 
@@ -439,6 +450,7 @@ const SchemeList = withRouter(
     "performanceKPIData",
     "systemPage",
     "todoList",
+    "exchangeSlot",
     "myApplicationList"
   )(observer(SList))
 );
