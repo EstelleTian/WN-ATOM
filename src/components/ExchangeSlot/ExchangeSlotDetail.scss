@@ -1,0 +1,27 @@
+.exchange_slot_detail_canvas{
+
+    .flight_line{
+        font-size: 18px;
+        .name{
+            font-weight: bold;
+        }
+        .cont{
+            margin-top: 10px;
+            text-align: center;
+            .row_title{
+                font-size: 14px;
+                color: #828282;
+            }
+            .row_val{
+                margin-bottom: 10px;
+            }
+            .tactic_name{
+                text-align: left!important;
+            }
+            
+        }
+    }
+    .flight_line:nth-child(2){
+        margin-top: 30px;
+    }
+}

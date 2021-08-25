@@ -15,7 +15,7 @@ const TopicConstant={
     password:"AT0M_82325o5o",
 }
 //登录IP(姜浩)
-const loginIP = "http://10.25.1.57:18380";
+const loginIP = "http://10.25.1.55:80";
 
 // 工作流ip
 const workflowIP = "http://10.25.1.10:80";
