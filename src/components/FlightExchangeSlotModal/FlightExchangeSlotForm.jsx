@@ -32,6 +32,42 @@ const { Panel } = Collapse;
 
 const { Option } = Select;
 
+const convertSpace = (str = "") => {
+  const arr = str.split(" ");
+  let newStr = "";
+  if (arr.length > 0) {
+    newStr =
+      (arr[0] || "N/A") +
+      "    " +
+      (arr[1] || "N/A") +
+      "         " +
+      (arr[2] || "N/A") +
+      "     " +
+      (arr[3] || "N/A") +
+      "   " +
+      (arr[4] || "N/A") +
+      "   " +
+      (arr[5] || "N/A") +
+      "      " +
+      (arr[6] || "N/A") +
+      "        " +
+      (arr[7] || "N/A") +
+      "      " +
+      (arr[8] || "N/A");
+  }
+  return newStr;
+};
+const convertSpace2 = (str = "") => {
+  const arr = str.split(" ");
+  return (
+    <span className="slot_input_spans">
+      {arr.map((value, index) => (
+        <span key={index}>{value}</span>
+      ))}
+    </span>
+  );
+};
+
 //航班时隙交换表单
 function FlightExchangeSlotForm(props) {
   // 获取备选目标航班请求中标记
@@ -61,7 +97,7 @@ function FlightExchangeSlotForm(props) {
   const claimantFlightCoordinationData =
     flightExchangeSlotFormData.claimantFlightCoordinationData || {};
   // 申请航班格式化后的信息
-  const claimantFlightInfo = claimantFlightData.itemText || "";
+  let claimantFlightInfo = claimantFlightData.itemText || "";
   // 备选目标航班集合
   const alterTargetFlightList =
     flightExchangeSlotFormData.alterTargetFlightList || [];
@@ -75,6 +111,7 @@ function FlightExchangeSlotForm(props) {
     return data;
   });
 
+  // claimantFlightInfo = convertSpace(claimantFlightInfo);
   // 表单初始化默认值
   let initialValues = {
     claimantFlightid: claimantFlightInfo,
@@ -104,7 +141,6 @@ function FlightExchangeSlotForm(props) {
   //申请航班信息变更
   useEffect(
     function () {
-      console.log(222);
       fetchAlterTargetFlightList("");
     },
     [overKey]
@@ -114,7 +150,7 @@ function FlightExchangeSlotForm(props) {
   const [form] = Form.useForm();
   // 目标航班表单下拉选项
   const options = alterTargetFlightData.map((item) => (
-    <Option key={item.value}>{item.text}</Option>
+    <Option key={item.value}>{convertSpace2(item.text)}</Option>
   ));
   // 请求备选目标航班数据
   const debounceFetcher = debounce(
@@ -396,7 +432,9 @@ function FlightExchangeSlotForm(props) {
               label="航班A"
               rules={[{ required: true }]}
             >
-              <Input onBlur={(e) => {}} disabled={true} />
+              <div style={{ paddingLeft: "11px" }}>
+                {convertSpace2(claimantFlightInfo)}
+              </div>
             </Form.Item>
           </Col>
         </Row>
@@ -412,6 +450,7 @@ function FlightExchangeSlotForm(props) {
               <Select
                 showSearch
                 defaultActiveFirstOption={false}
+                defaultOpen={true}
                 showArrow={false}
                 allowClear={true}
                 filterOption={false}
