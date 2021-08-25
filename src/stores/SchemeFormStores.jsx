@@ -105,6 +105,8 @@ class SchemeForm {
 
     // 快捷录入表单选中的复选框
     @observable shortcutFormSelecedData = [];
+    // 快捷录入表单选中的方向项
+    @observable shortcutFormSelecedCode = [];
     // 包含-航班号
     @observable flightId = "";
     // 包含-尾流类型
@@ -753,11 +755,11 @@ class SchemeForm {
     }
     // 比对并计算中选中的数据
     @action filterShortcutFormSelecedData(selecedData) {
+
         let list = [];
         const _data = this.shortcutFormSelecedData;
         const len1 = _data.length;
         const len2 = selecedData.length;
-
         // 增加勾选
         if (len1 < len2) {
             // 查找出增加勾选的项
@@ -775,6 +777,20 @@ class SchemeForm {
             list = selecedData;
         }
         return list;
+    }
+    @action updateShortcutFormSelecedCode(data){
+        const isSeleced = JSON.parse(JSON.stringify(this.shortcutFormSelecedData))
+        console.log(782,isSeleced);
+        data.map((item,index)=>{
+            const value = JSON.parse(JSON.stringify(item))
+            const isItem = value.options
+            for (let i = 0; i < isItem.length; i++) {
+                if (isItem[i].value === isSeleced[0]) {
+                    // isStr =  value.description
+                    this.shortcutFormSelecedCode = value.description
+                }
+            }
+        })
     }
     // 数据回显示时使用方案单方向信息数据更新方案交通流快捷录入表单中选中的数据
     @action updateShortcutFormSelecedDataBySingleDirectionListData() {

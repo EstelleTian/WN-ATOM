@@ -147,7 +147,9 @@ function TacticShortcutInputForm(props) {
             url: ReqUrls.shortcutInputFormDataUrl+"input?region="+region,
             method: 'GET',
             params: {},
-            resFunc: (data) => updateShortcutInputFormData(data),
+            resFunc: (data) => {
+                updateShortcutInputFormData(data)
+            },
             errFunc: (err) => requestErr(err, '快捷录入表单数据获取失败'),
         };
         // 发送请求
@@ -157,6 +159,7 @@ function TacticShortcutInputForm(props) {
     const onChange = (list) => {
         // 更新stores
         schemeFormData.updateShortcutFormSelecedData(list);
+        schemeFormData.updateShortcutFormSelecedCode(shortcutFormData);
     };
 
     return (
