@@ -96,8 +96,10 @@ function SchemeForm(props) {
 
   // 快捷录入表单基础数据
   const shortcutFormData = schemeFormData.shortcutFormData || [];
+
   // 快捷录入表单勾选的复选框集合
   const shortcutFormSelecedData = schemeFormData.shortcutFormSelecedData || [];
+  const shortcutFormSelecedCode = schemeFormData.shortcutFormSelecedCode || '';
   // 用户信息
   const user = systemPage.user || {};
   // 用户名
@@ -172,7 +174,6 @@ function SchemeForm(props) {
 
   // 方案区域机场表单
   const [tacticAreaAirportForm] = Form.useForm();
-
   // 自动命名按钮点击事件
   const autofillTacticName = async () => {
     try {
@@ -221,6 +222,9 @@ function SchemeForm(props) {
   };
   // 校验并获取所有表单项字段值
   const getAllFieldsValue = () => {
+    console.log(inputMethod);
+    console.log(SchemeFormUtil.INPUTMETHOD_SHORTCUT);
+    console.log(SchemeFormUtil.INPUTMETHOD_CUSTOM);
     let promiseArray = [
       tacticModeFormValidatePromise(),
       tacticNameFormValidatePromise(),
@@ -676,6 +680,10 @@ function SchemeForm(props) {
       console.log("Failed:", errorInfo);
     }
   };
+
+
+  // schemeFormData.shortcutFormSelecedCode
+
 
   // 快捷录入表单校验Promise
   const tacticShortcutInputFormValidatePromise = () => {
@@ -1145,6 +1153,7 @@ function SchemeForm(props) {
       const fieldsValueArray = await getAllFieldsValue();
       // 转换表单数值
       const fieldsValue = convertFieldsValue(fieldsValueArray);
+      console.log('===',fieldsValueArray);
       // 检查开始时间与当前时间大小
       checkStartDateTimeRange(fieldsValue);
     } catch (errorInfo) {
@@ -1444,6 +1453,8 @@ function SchemeForm(props) {
    * */
   const submitData = () => {
     const data = handleFormData();
+    data.basicTacticInfo.tacticDirection = shortcutFormSelecedCode
+    console.log(data);
     const { basicTacticInfo = {} } = schemeFormData.schemeData;
     // alert(
     //   "intervalDepFlight: " +
@@ -1616,6 +1627,7 @@ function SchemeForm(props) {
     // 更新流控限制方式
     flowControlMeasure.restrictionMode = restrictionMode;
     // 获取表单中方案方向信息数据
+    
     let formDirectionData = getDirectionListData(formDataValue);
     // 方案方向信息集合中第一条数据
     let directionData = directionList[0] || {};
@@ -1717,6 +1729,7 @@ function SchemeForm(props) {
   const getDirectionListData = (formDataValue) => {
     let directionData = {};
     // 从所有表单数值取出指定项
+    
     const {
       useHeight,
       exemptHeight,

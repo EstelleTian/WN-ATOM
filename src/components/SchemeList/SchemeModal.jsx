@@ -45,10 +45,12 @@ const SchemeModal = (props) => {
 
   //获取方案数据成功回调方法
   const updateSchemeData = useCallback((data) => {
+
     //更新flowData
     setFlowData(data);
     // 更新方案表单store数据
     let tacticProcessInfo = data.tacticProcessInfo || {};
+    console.log(tacticProcessInfo);
     props.schemeFormData.updateSchemeData(tacticProcessInfo);
   });
   // 获取方案数据失败
@@ -87,6 +89,7 @@ const SchemeModal = (props) => {
   useEffect(
     function () {
       if (visible) {
+        console.log(modalType);
         if (modalType === "DETAIL") {
           //根据modalId获取方案详情
           requestSchemeDetail(modalId);
