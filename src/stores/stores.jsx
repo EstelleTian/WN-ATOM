@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-08-19 14:17:02
+ * @LastEditTime: 2021-08-26 08:40:38
  * @LastEditors: Please set LastEditors
  * @Description: store集合
  * @FilePath: \WN-CDM\src\stores\stores.jsx
@@ -50,6 +50,8 @@ import { RunwayDynamicEditFormData } from "./RunwayDynamicEditStores";
 import { RunwayDefaultEditFormData } from "./RunwayDefaultEditStores";
 // 默认跑道修改
 import { RunwayFormworkmanagementData } from "./RunwayFormworkmanagementStores";
+// 禁航信息
+import { prohibitedData } from "./prohibitedStores.jsx";
 
 export {
   schemeListData,
@@ -86,4 +88,5 @@ export {
   fightSearch,
   exchangeSlot,
   columnConfig,
+  prohibitedData
 };

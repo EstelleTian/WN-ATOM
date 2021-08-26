@@ -1,0 +1,37 @@
+.prohibited_canvas{
+    .prohibited_table{
+        position: relative;
+        .todo_opt_btn{
+            margin-right: 5px;
+        }
+        .ant-table-pagination.ant-pagination{
+            position: absolute;
+            bottom: -8px;
+            right: 0;
+        }
+        .ant-table-footer{
+            background-color: #393939;
+        }
+        .prohibited_add{
+            margin-top: 10px;
+        }
+    }
+
+}
+.prohibited_form{
+    #unit{
+        margin-left: 4px;
+        width: 282px;
+    }
+    .line_row{
+        margin-top: 20px;
+    }
+    .line_title{
+        text-align: right;
+        position: relative;
+        top: 5px;
+    }
+    .btns{
+        float: right;
+    }
+}

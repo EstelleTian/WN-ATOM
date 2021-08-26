@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-22 15:40:02
- * @LastEditTime: 2021-04-22 20:08:38
+ * @LastEditTime: 2021-08-26 15:46:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\LeftMultiCanvas\OptionBtn.jsx
@@ -25,10 +25,10 @@ export const OptionBtn = (props) => {
   const classStr = useMemo(() => {
     if (type === "agree") {
       return "todo_opt_btn todo_agree c-btn-blue";
-    } else if (type === "refuse") {
-      return "todo_opt_btn todo_refuse c-btn-red";
-    } else if (type === "reback") {
-      return "todo_opt_btn todo_reback c-btn-red";
+    } else if (type === "refuse" || type === "reback") {
+      return "todo_opt_btn todo_"+type+" c-btn-red";
+    } else if (type === "ignore") {
+      return "todo_opt_btn";
     } else {
       return "todo_opt_btn todo_confirm c-btn-green";
     }

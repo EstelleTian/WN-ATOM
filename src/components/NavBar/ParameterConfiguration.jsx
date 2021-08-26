@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-08-24 18:46:27
+ * @LastEditTime: 2021-08-26 15:51:14
  * @LastEditTime: 2021-06-21 18:18:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
@@ -11,22 +11,24 @@
 import React, { useEffect, Fragment, useState } from "react";
 import { observer, inject } from "mobx-react";
 import { DownOutlined } from "@ant-design/icons";
-import { Radio, Dropdown, Menu } from "antd";
+import { Radio, Dropdown, Menu, Badge } from "antd";
 import FlightTableColumnConfigModal from "components/FlightTableColumnConfigModal/FlightTableColumnConfigModal";
 import ATOMConfigModal from "components/ATOMConfigModal/ATOMConfigModal";
 import NTFMConfigModal from "components/NTFMConfigModal/NTFMConfigModal";
 import ATOMConfigInit from "components/ATOMConfigModal/ATOMConfigInit";
 import PositionModal from "components/Position/PositionModal";
+import ProhibitedNav from "components/Prohibited/ProhibitedNav";
 import ColumnDataInit from "./ColumnDataInit";
 
 //参数配置页面
 function ParameterConfiguration({
   ATOMConfigFormData,
   NTFMConfigFormData,
-  systemPage,
   columnConfig,
+  prohibitedData,
 }) {
   const [positionModalVisible, setPositionModalVisible] = useState(false);
+
   const menu = function () {
     return (
       <Menu>
@@ -54,6 +56,22 @@ function ParameterConfiguration({
         <Menu.Item key="Position" value="Position" onClick={showPositionModal}>
           备降停机位
         </Menu.Item>
+        {/* 禁航信息 */}
+        <Menu.Item
+          key="Prohibited"
+          value="Prohibited"
+          onClick={showProhibitedModal}
+        >
+          <span>
+            禁航信息管理
+            {/* {prohibitedData.dataList.length > 0 && (
+              <Badge
+                count={prohibitedData.dataList.length}
+                style={{ backgroundColor: "rgb(61, 132, 36)" }}
+              />
+            )} */}
+          </span>
+        </Menu.Item>
       </Menu>
     );
   };
@@ -70,6 +88,10 @@ function ParameterConfiguration({
   // 显示NTFM引接应用配置模态框
   const showNTFMConfigurationModal = () => {
     NTFMConfigFormData.toggleModalVisible(true);
+  };
+  // 显示禁航信息模态框
+  const showProhibitedModal = () => {
+    prohibitedData.setProhibitedListModalVisible(true);
   };
 
   // 显示备降停机位模态框
@@ -93,7 +115,12 @@ function ParameterConfiguration({
       <ATOMConfigInit />
       <ATOMConfigModal />
       <NTFMConfigModal />
-      <PositionModal visible={positionModalVisible} setPositionModalVisible={setPositionModalVisible}/>
+      <PositionModal
+        visible={positionModalVisible}
+        setPositionModalVisible={setPositionModalVisible}
+      />
+      {/* 禁航信息相关 */}
+      <ProhibitedNav />
     </Fragment>
   );
 }
@@ -101,6 +128,6 @@ function ParameterConfiguration({
 export default inject(
   "ATOMConfigFormData",
   "NTFMConfigFormData",
-  "systemPage",
-  "columnConfig"
+  "columnConfig",
+  "prohibitedData"
 )(observer(ParameterConfiguration));

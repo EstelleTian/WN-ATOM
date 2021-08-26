@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-08-24 16:41:14
+ * @LastEditTime: 2021-08-25 18:43:39
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\ExchangeSlotNav.jsx
@@ -205,7 +205,7 @@ const ExchangeSlotNav = ({ systemPage, exchangeSlot }) => {
 
       <DraggableModal
         title="时隙交换列表"
-        style={{ top: "110px", left: "320px" }}
+        style={{ top: "110px", right: "20px", float: "right" }}
         visible={slotModalVisible}
         handleOk={() => {}}
         handleCancel={hideModal}
@@ -218,7 +218,7 @@ const ExchangeSlotNav = ({ systemPage, exchangeSlot }) => {
       >
         <ExchangeSlotTable requestData={requestData} />
       </DraggableModal>
-      <ExchangeSlotDetail/>
+      <ExchangeSlotDetail />
     </Fragment>
   );
 };

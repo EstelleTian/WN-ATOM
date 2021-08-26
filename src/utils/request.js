@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:28
- * @LastEditTime: 2021-08-16 12:32:49
+ * @LastEditTime: 2021-08-25 18:59:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\utils\request.js
@@ -89,9 +89,10 @@ ins.interceptors.response.use(
         const resStatus = response.status;
             if( resStatus === 200 ){
                 const data = response.data;
-                if( isValidObject(data) && isValidVariable(data.status) ){
-                    const status = data.status;
-                    if( status === 200 ){
+                if( isValidObject(data) && (isValidVariable(data.status)||isValidVariable(data.code)) ){
+                    let status = data.status? data.status: data.code;
+
+                    if( status*1 === 200 ){
                         return Promise.resolve( data );
                     }else{
                         const error = data.error || {};

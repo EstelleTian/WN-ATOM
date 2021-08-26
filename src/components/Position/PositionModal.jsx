@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-08-24 19:53:23
+ * @LastEditTime: 2021-08-25 18:41:14
  * @LastEditors: Please set LastEditors
  * @Description: 备降停机位信息
  * @FilePath: \WN-ATOM\src\components\NavBar\PositionModal.jsx
@@ -255,7 +255,7 @@ const PositionModal = (props) => {
   return (
     <DraggableModal
       title="备降停机位信息"
-      style={{ top: "110px", left: "940px" }}
+      style={{ top: "110px", right: "20px", float: "right" }}
       visible={props.visible}
       handleOk={() => {}}
       handleCancel={hideModal}

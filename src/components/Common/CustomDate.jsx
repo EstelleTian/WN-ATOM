@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-04-25 13:08:37
+ * @LastEditTime: 2021-08-26 15:10:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \WN-CDM\src\pages\MDRS\MSRSForm.jsx
  */
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, Fragment, memo } from "react";
 import moment from "moment";
 import "moment/locale/zh-cn";
 import { DatePicker, Form, Input, Row, Col } from "antd";
@@ -15,18 +15,58 @@ import {
   parseFullTime,
   isValidObject,
   isValidVariable,
-} from "../../utils/basic-verify";
-import { REGEXP } from "../../utils/regExpUtil";
+} from "utils/basic-verify";
+import { REGEXP } from "utils/regExpUtil";
 import "./CustomDate.scss";
+
 const dateFormat = "YYYY-MM-DD";
 const timeFormat = "HHmm";
-//MDRS模块
-function CustomDate(props) {
+const dateTimeFormat = "YYYYMMDDHHmm";
+
+//将时间转换为时间控件格式---startTime 12位时间字符串
+const convertToFormData = (startTime = "", endTime = "") => {
+  // 终端当前时间
+  let now = moment();
+  // 开始日期 Date类型
+  const startDate = isValidVariable(startTime)
+    ? moment(startTime, dateFormat)
+    : moment(now, dateFormat);
+  // 结束日期 Date类型
+  const endDate = isValidVariable(endTime) ? moment(endTime, dateFormat) : "";
+  // 开始时间 HHmm
+  const startTimeString = isValidVariable(startTime)
+    ? startTime.substring(8, 12)
+    : moment(now).format(dateTimeFormat).substring(8, 12);
+  // 结束时间 HHmm
+  const endTimeString = isValidVariable(endTime)
+    ? endTime.substring(8, 12)
+    : "";
+  // 开始日期时间字符串(非编辑状态下显示)
+  const startDateTimeString = isValidVariable(startTime)
+    ? formatTimeString(startTime)
+    : "";
+  // 结束日期时间字符串(非编辑状态下显示)
+  const endDateTimeString = isValidVariable(endTime)
+    ? formatTimeString(endTime)
+    : "";
+  return {
+    startDate,
+    endDate,
+    startTime: startTimeString,
+    endTime: endTimeString,
+    startDateTimeString,
+    endDateTimeString,
+  };
+};
+//起止时间模块
+const CustomDate = memo(({ setDateForm }) => {
   const [form] = Form.useForm();
-  const { setDateForm, initialDatas } = props;
-  useEffect(function () {
+  useEffect(() => {
     setDateForm(form);
   }, []);
+
+  // 表单初始化默认值
+  let initialValues = convertToFormData();
 
   const updateEndTimeString = ({ target: { value } }) => {
     // 自动填充结束日期
@@ -217,7 +257,11 @@ function CustomDate(props) {
   };
 
   return (
-    <Form form={form} initialValues={initialDatas} className="custom_date_form">
+    <Form
+      form={form}
+      // initialValues={initialValues}
+      className="custom_date_form"
+    >
       <Form.Item
         name="startDate"
         className="date_item date_picker_form"
@@ -291,6 +335,6 @@ function CustomDate(props) {
       </Form.Item>
     </Form>
   );
-}
+});
 
-export default CustomDate;
+export { CustomDate, convertToFormData };

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-06-25 09:33:34
+ * @LastEditTime: 2021-08-25 18:43:18
  * @LastEditors: Please set LastEditors
  * @Description: 航班协调-按钮+模态框
  * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
@@ -203,7 +203,7 @@ function TodoNav(props) {
 
       <DraggableModal
         title="航班协调"
-        style={{ top: "110px", left: "320px" }}
+        style={{ top: "110px", right: "20px", float: "right" }}
         visible={todoModalVisible}
         handleOk={() => {}}
         handleCancel={hideModal}

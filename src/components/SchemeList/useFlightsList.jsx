@@ -27,13 +27,13 @@ function useFlightsList({
       }
       let { flights, generateTime, performKpiResult = {} } = flightData;
       if (flights !== null) {
-        flightTableData.updateFlightsList(
-          flights,
-          generateTime,
-          schemeListData.activeSchemeId
-        );
+        // flightTableData.updateFlightsList(
+        //   flights,
+        //   generateTime,
+        //   schemeListData.activeSchemeId
+        // );
         //注释 表格不要渲染测试时候用此方法
-        // flightTableData.updateFlightsList([], generateTime);
+        flightTableData.updateFlightsList([], generateTime);
         sessionStorage.setItem(
           "flightTableGenerateTime",
           generateTime,
