@@ -222,10 +222,10 @@ const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
 };
 
 const GraphPage = (props) => {
-  const [tacticId, setTacticId] = useState(
-    "045449df-c491-44c8-a631-76747d381348"
-  );
-  // const [tacticId, setTacticId] = useState("");
+  // const [tacticId, setTacticId] = useState(
+  //   "045449df-c491-44c8-a631-76747d381348"
+  // );
+  const [tacticId, setTacticId] = useState("");
   const [activeTactic, setActiveTactic] = useState({ tacticName: "" });
   const [tacticInfos, setTacticInfos] = useState([]);
   const [screenWidth, setScreenWidth] = useState(877);
