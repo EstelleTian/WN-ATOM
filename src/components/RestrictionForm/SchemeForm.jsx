@@ -7,7 +7,7 @@ import {
   ThunderboltFilled,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-// 测试 3
+
 import TacticInputMethodRadioGroup from "./TacticInputMethodRadioGroup";
 import TacticShortcutInputForm from "./TacticShortcutInputForm";
 import TacticModeForm from "./TacticModeForm";
@@ -1453,8 +1453,8 @@ function SchemeForm(props) {
    * */
   const submitData = () => {
     const data = handleFormData();
-    data.basicTacticInfo.tacticDirection = shortcutFormSelecedCode
-    console.log(data);
+       
+    data.basicTacticInfo.tacticDirection = shortcutFormSelecedCode && shortcutFormSelecedCode[0]?shortcutFormSelecedCode:''
     const { basicTacticInfo = {} } = schemeFormData.schemeData;
     // alert(
     //   "intervalDepFlight: " +
