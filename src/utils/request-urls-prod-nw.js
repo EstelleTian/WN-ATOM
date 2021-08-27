@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-08-25 18:52:09
+ * @LastEditTime: 2021-08-27 14:01:44
  * @LastEditors: Please set LastEditors
  * @Description: 生产环境-项目所有请求url
  * @FilePath: request-urls.js
@@ -175,7 +175,7 @@ const ReqUrls = {
     loadRunwayTemplateListUrl: netIp+"/hydrogen-cdm-runway-server/airport-regular/runway/config/retrieve/",
 
     // 自观
-    timeSlotSwitchingUrl: timeSlotIp+"/airport/weather/newest/",
+    timeSlotSwitchingUrl: netIp+"/airport/weather/newest/",
 
      // 时隙交换备选航班获取
      retrieveSubstitutionFmeUrl: netIp+"/hydrogen-flight-plan-server/retrieveSubstitutionFme/",
@@ -193,7 +193,9 @@ const ReqUrls = {
      retrieveExchangeSlotDetailUrl: netIp+"/hydrogen-flight-coordination-server/flight/instance/",
 
      //禁航信息列表
-     findNoTamByUnitTypeUrl:"http://192.168.194.61:18198/notam/findByUnitType/AIRPORT",
+     findNoTamByUnitTypeUrl: netIp+"/notam/findByUnitType/AIRPORT",
+     //禁航信息新增、修改
+     updateNoTamDataUrl: netIp+"/notam/saveNotam",
 };
 
 //协调相关url

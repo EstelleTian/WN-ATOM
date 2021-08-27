@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-08-26 16:08:04
+ * @LastEditTime: 2021-08-27 10:20:53
  * @LastEditors: Please set LastEditors
  * @Description: 禁航信息列表
  * @FilePath: \WN-ATOM\src\components\NavBar\PositionModal.jsx
@@ -154,12 +154,12 @@ const ProhibitedModal = (props) => {
         },
       };
       //发起时间排序
-      if (en === "startTime") {
-        tem["defaultSortOrder"] = "descend";
-        tem["sorter"] = (a, b) => {
-          return a.startTime * 1 - b.startTime * 1;
-        };
-      }
+      // if (en === "updateTime") {
+      //   tem["defaultSortOrder"] = "descend";
+      //   tem["sorter"] = (a, b) => {
+      //     return a.updateTime * 1 - b.updateTime * 1;
+      //   };
+      // }
       if (en === "startTime" || en === "endTime" || en === "updateTime") {
         tem["render"] = (text, record, index) => {
           const timeTitle = formatTimeString(text);
@@ -203,7 +203,7 @@ const ProhibitedModal = (props) => {
               break;
           }
           return (
-            <div title={text} className={`status-${text}`}>
+            <div title={text} className={`source-${text}`}>
               {statusCn}
             </div>
           );
@@ -367,8 +367,8 @@ const ProhibitedModal = (props) => {
       const endTime = item.endTime || "";
       //更新时间
       const updateTime = item.updateTime || "";
-      const status = item.status || "";
-      const source = item.source || "";
+      const status = item.status;
+      const source = item.source;
 
       let obj = {
         key: id,

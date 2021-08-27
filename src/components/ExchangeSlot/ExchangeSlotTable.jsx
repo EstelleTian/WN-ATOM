@@ -163,7 +163,7 @@ function ExchangeSlotTable({ systemPage, exchangeSlot, requestData }) {
                 详情
               </Button>
 
-              {agree && (
+              {agree && systemPage.userHasAuth(13447) && (
                 <OptionBtn
                   type="agree"
                   size="small"
@@ -173,7 +173,7 @@ function ExchangeSlotTable({ systemPage, exchangeSlot, requestData }) {
                   }}
                 />
               )}
-              {refuse && (
+              {refuse && systemPage.userHasAuth(13448) && (
                 <OptionBtn
                   type="refuse"
                   size="small"

@@ -523,17 +523,6 @@ function SchemeItem(props) {
             >
               {/* 详情 */}
             </div>
-            {props.systemPage.userHasAuth(11301) &&
-              !isNTFM &&
-              ["FUTURE", "RUNNING"].includes(tacticStatus) && (
-                <div
-                  className="opt item-icon edit-icon"
-                  onClick={showModify}
-                  title="方案调整"
-                >
-                  {/* 调整 */}
-                </div>
-              )}
 
             {/* {props.systemPage.userHasAuth(11301) &&
               ["TERMINATED_MANUAL", "TERMINATED_AUTO", "FINISHED"].includes(
@@ -583,7 +572,29 @@ function SchemeItem(props) {
                 {/* <DownOutlined /> */}
               </div>
             )}
-
+            {props.systemPage.userHasAuth(11505) && !isNTFM && (
+              <div
+                className="opt item-icon relation-icon"
+                onClick={(e) => {
+                  openFilterFrame(id, tacticName, targetUnits, interVal);
+                  e.stopPropagation();
+                }}
+                title="航图关联"
+              >
+                {/* 航图关联 */}
+              </div>
+            )}
+            {props.systemPage.userHasAuth(11301) &&
+              !isNTFM &&
+              ["FUTURE", "RUNNING"].includes(tacticStatus) && (
+                <div
+                  className="opt item-icon edit-icon"
+                  onClick={showModify}
+                  title="方案调整"
+                >
+                  {/* 调整 */}
+                </div>
+              )}
             {props.systemPage.userHasAuth(11201) &&
               !isNTFM &&
               ["FUTURE", "RUNNING"].includes(tacticStatus) && (
@@ -598,18 +609,6 @@ function SchemeItem(props) {
                   {/* 终止 */}
                 </div>
               )}
-            {props.systemPage.userHasAuth(11505) && !isNTFM && (
-              <div
-                className="opt item-icon relation-icon"
-                onClick={(e) => {
-                  openFilterFrame(id, tacticName, targetUnits, interVal);
-                  e.stopPropagation();
-                }}
-                title="航图关联"
-              >
-                {/* 航图关联 */}
-              </div>
-            )}
 
             {
               // (screenWidth > 1920)

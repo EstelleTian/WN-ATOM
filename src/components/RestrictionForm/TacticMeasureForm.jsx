@@ -12,10 +12,10 @@ function TacticMeasureForm(props) {
   const restrictionModeOptions = [
     { key: "AFP", text: "AFP", title: "AFP" },
     { key: "MIT", text: "MIT", title: "MIT" },
-    { "key": "CR", "text": "CR", "title": "改航"  },
+    { key: "CR", text: "CR", title: "改航" },
     { key: "GS", text: "GS", title: "GS" },
-    { "key": "TC", "text": "TC", "title": "总量控制"  },
-    {"key":"GDP", "text": "GDP"},
+    { key: "TC", text: "TC", title: "总量控制" },
+    // {"key":"GDP", "text": "GDP"},
     // {"key":"AS", "text": "指定时隙"},
     // {"key":"BREQ", "text": "上客申请"},
     // {"key":"REQ", "text": "开车申请"},
@@ -73,9 +73,15 @@ function TacticMeasureForm(props) {
 
   useEffect(
     function () {
-      if (restrictionMode === "MIT" || restrictionMode == "AFP" || restrictionMode == "TC" ) {
+      if (
+        restrictionMode === "MIT" ||
+        restrictionMode == "AFP" ||
+        restrictionMode == "TC"
+      ) {
         //设置单位表单数值
-        form.setFieldsValue({restrictionMITValueUnit: restrictionMITValueUnit})
+        form.setFieldsValue({
+          restrictionMITValueUnit: restrictionMITValueUnit,
+        });
       }
     },
     [restrictionMITValueUnit]
@@ -476,38 +482,38 @@ function TacticMeasureForm(props) {
   return (
     <Fragment>
       <Form form={form} labelAlign="left" initialValues={initialValues}>
-            <Row className="info-row">
-              <Col span={24}>
-                <Form.Item
-                  name="restrictionMode"
-                  label="限制方式"
-                  colon={false}
-                  required={true}
-                  className="advanced-item"
-                  rules={[{ required: true, message: "请选择限制方式" }]}
-                >
-                  <Select
-                    style={{ width: 120 }}
-                    onChange={handleRestrictionModeChange}
-                    disabled={disabled}
-                  >
-                    {restrictionModeOptions.map((mode) => (
-                      <Option title={mode.title} key={mode.key}>
-                        {mode.text}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-              </Row>
-              <Row className="info-row">
-                <Col span={24}>
-                  {restrictionMode === "MIT" ? drawMITModeValue() : ""}
-                  {restrictionMode === "AFP" ? drawAFPModeValue() : ""}
-                  {restrictionMode === "TC" ? drawTCModeValue() : ""}
-                </Col>
-            </Row>
-          </Form>
+        <Row className="info-row">
+          <Col span={24}>
+            <Form.Item
+              name="restrictionMode"
+              label="限制方式"
+              colon={false}
+              required={true}
+              className="advanced-item"
+              rules={[{ required: true, message: "请选择限制方式" }]}
+            >
+              <Select
+                style={{ width: 120 }}
+                onChange={handleRestrictionModeChange}
+                disabled={disabled}
+              >
+                {restrictionModeOptions.map((mode) => (
+                  <Option title={mode.title} key={mode.key}>
+                    {mode.text}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row className="info-row">
+          <Col span={24}>
+            {restrictionMode === "MIT" ? drawMITModeValue() : ""}
+            {restrictionMode === "AFP" ? drawAFPModeValue() : ""}
+            {restrictionMode === "TC" ? drawTCModeValue() : ""}
+          </Col>
+        </Row>
+      </Form>
     </Fragment>
   );
 }

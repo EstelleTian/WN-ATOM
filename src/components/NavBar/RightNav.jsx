@@ -92,7 +92,6 @@ function RightNav({ systemPage, schemeListData }) {
               {/* 豁免、等待池、特殊、失效 */}
               <SubTableNav />
               {/* 时隙交换列表 */}
-              {/* <ExchangeSlotNav /> */}
               {systemPage.userHasAuth(12522) && <ExchangeSlotNav />}
               {/* 航班协调 */}
               {systemPage.userHasAuth(12505) && <TodoNav />}

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-08-18 18:09:33
+ * @LastEditTime: 2021-08-27 13:26:34
  * @LastEditors: Please set LastEditors
  * @Description: 航班号右键协调框
  * @FilePath:
@@ -316,7 +316,7 @@ const FlightIdCont = (props) => {
           指定前序航班
         </button>
       )}
-      {!hadDEP && (
+      {!hadDEP && systemPage.userHasAuth(13446) && (
         <Button
           className="c-btn c-btn-green"
           loading={slotLoad}

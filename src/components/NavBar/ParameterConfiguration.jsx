@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-08-26 15:51:14
+ * @LastEditTime: 2021-08-27 13:32:36
  * @LastEditTime: 2021-06-21 18:18:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
@@ -18,6 +18,7 @@ import NTFMConfigModal from "components/NTFMConfigModal/NTFMConfigModal";
 import ATOMConfigInit from "components/ATOMConfigModal/ATOMConfigInit";
 import PositionModal from "components/Position/PositionModal";
 import ProhibitedNav from "components/Prohibited/ProhibitedNav";
+import ScoreModal from "components/Score/ScoreModal";
 import ColumnDataInit from "./ColumnDataInit";
 
 //参数配置页面
@@ -26,8 +27,10 @@ function ParameterConfiguration({
   NTFMConfigFormData,
   columnConfig,
   prohibitedData,
+  systemPage,
 }) {
   const [positionModalVisible, setPositionModalVisible] = useState(false);
+  const [scoreModalVisible, setScoreModalVisible] = useState(false);
 
   const menu = function () {
     return (
@@ -53,25 +56,38 @@ function ParameterConfiguration({
         >
           NTFM引接应用配置
         </Menu.Item>
-        <Menu.Item key="Position" value="Position" onClick={showPositionModal}>
-          备降停机位
-        </Menu.Item>
+        {systemPage.userHasAuth(12523) && (
+          <Menu.Item
+            key="Position"
+            value="Position"
+            onClick={showPositionModal}
+          >
+            备降停机位
+          </Menu.Item>
+        )}
+        {systemPage.userHasAuth(12524) && (
+          <Menu.Item key="score" value="score" onClick={showScoreModal}>
+            贡献值与诚信值管理
+          </Menu.Item>
+        )}
         {/* 禁航信息 */}
-        <Menu.Item
-          key="Prohibited"
-          value="Prohibited"
-          onClick={showProhibitedModal}
-        >
-          <span>
-            禁航信息管理
-            {/* {prohibitedData.dataList.length > 0 && (
+        {systemPage.userHasAuth(12525) && (
+          <Menu.Item
+            key="Prohibited"
+            value="Prohibited"
+            onClick={showProhibitedModal}
+          >
+            <span>
+              禁航信息管理
+              {/* {prohibitedData.dataList.length > 0 && (
               <Badge
                 count={prohibitedData.dataList.length}
                 style={{ backgroundColor: "rgb(61, 132, 36)" }}
               />
             )} */}
-          </span>
-        </Menu.Item>
+            </span>
+          </Menu.Item>
+        )}
       </Menu>
     );
   };
@@ -98,6 +114,10 @@ function ParameterConfiguration({
   const showPositionModal = () => {
     setPositionModalVisible(true);
   };
+  // 显示贡献值与诚信值管理模态框
+  const showScoreModal = () => {
+    setScoreModalVisible(true);
+  };
 
   return (
     <Fragment>
@@ -115,17 +135,23 @@ function ParameterConfiguration({
       <ATOMConfigInit />
       <ATOMConfigModal />
       <NTFMConfigModal />
-      <PositionModal
+      {systemPage.userHasAuth(12523) && <PositionModal
         visible={positionModalVisible}
         setPositionModalVisible={setPositionModalVisible}
-      />
+      />}
+      {/* 贡献值与诚信值管理 */}
+      {systemPage.userHasAuth(12524) &&<ScoreModal
+        visible={scoreModalVisible}
+        setScoreModalVisible={setScoreModalVisible}
+      />}
       {/* 禁航信息相关 */}
-      <ProhibitedNav />
+      {systemPage.userHasAuth(12525) && <ProhibitedNav />}
     </Fragment>
   );
 }
 
 export default inject(
+  "systemPage",
   "ATOMConfigFormData",
   "NTFMConfigFormData",
   "columnConfig",

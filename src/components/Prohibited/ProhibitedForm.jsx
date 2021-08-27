@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-08-26 15:30:26
+ * @LastEditTime: 2021-08-27 10:13:11
  * @LastEditors: Please set LastEditors
  * @Description: 禁航信息-添加、修改表单
  * @FilePath: \WN-ATOM\src\components\NavBar\PositionModal.jsx
@@ -146,7 +146,7 @@ const ProhibitedForm = (props) => {
         >
           <Row gutter={24} className="">
             <Col span={4} className="line_title">
-              机场：
+              目标机场：
             </Col>
             <Col span={10}>
               <Form.Item name="unit">
