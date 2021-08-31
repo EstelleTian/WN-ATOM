@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-12-21 18:41:43
- * @LastEditTime: 2021-02-24 14:54:33
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-31 14:45:58
+ * @LastEditors: liutianjiao
  * @Description: 消息中心数据存储
- * @FilePath: \WN-CDM\src\stores\infoStores.jsx
+ * @FilePath: \WN-ATOM\src\stores\newsStores.jsx
  */
 import { observable, action, computed, makeObservable } from 'mobx';
 
@@ -39,7 +39,7 @@ class NewsList{
     @action delNew( item ){
         this.list.remove( item );
     }
-    //删除消息
+    //获取消息长度
     @computed get newsLength( ){
         return this.list.length || 0;
     }

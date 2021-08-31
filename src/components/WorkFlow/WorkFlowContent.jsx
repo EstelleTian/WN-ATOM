@@ -310,7 +310,7 @@ const WorkFlowContent = (props) => {
       case "FlightApprovalProcess": //航班审批流程
         const tacticId = processVariables.tacticId || ""; //航班对应方案id
         const fmeId = processVariables.fmeId || ""; //航班id
-        // alert("2  " + props.activeTab);
+        // alert("2  " + props.from);
         localStorage.setItem(
           "targetToFlight",
           JSON.stringify({
@@ -319,17 +319,17 @@ const WorkFlowContent = (props) => {
               flightId: fmeId,
               sid: record.sid,
             }),
-            fromType: props.activeTab,
+            fromType: props.from,
           })
         );
-        // openTimeSlotFrameWithFlightId(tacticId, fmeId, props.activeTab);
+        // openTimeSlotFrameWithFlightId(tacticId, fmeId, props.from);
         openTimeSlotFrameWithFlightId(
           tacticId,
           JSON.stringify({
             flightId: fmeId,
             sid: modalId,
           }),
-          props.activeTab
+          props.from
         );
         break;
       case "SchemeApprovalProcess": //方案审批流程
@@ -337,7 +337,7 @@ const WorkFlowContent = (props) => {
         openConfirmFrame(businessKey);
         break;
       case "AdpApprovalProcess": //ADP审批流程
-        openADPFrame(businessKey);
+        openADPFrame(businessKey, props.from);
         break;
       case "VolumeApprovalProcess": //容量审批流程
         console.log("容量审批流程", businessKey);

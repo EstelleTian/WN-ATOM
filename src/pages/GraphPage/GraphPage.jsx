@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Graph, Shape, Node, Point } from "@antv/x6";
 import {
+  Spin
+} from "antd";
+import {
   isValidVariable,
   getDayTimeFromString,
   formatTimeString,
@@ -223,8 +226,9 @@ const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
 
 const GraphPage = (props) => {
   // const [tacticId, setTacticId] = useState(
-  //   "045449df-c491-44c8-a631-76747d381348"
+  //   "28ea85e5-0315-44a0-b0f5-18ed9cefd063"
   // );
+  const [loading, setLoading] = useState(true);
   const [tacticId, setTacticId] = useState("");
   const [activeTactic, setActiveTactic] = useState({ tacticName: "" });
   const [tacticInfos, setTacticInfos] = useState([]);
@@ -245,6 +249,7 @@ const GraphPage = (props) => {
   //获取方案血缘关系链数据
   const requestSchemeInfos = async () => {
     try {
+      setLoading(true);
       const res = await requestGet2({
         url: ReqUrls.schemeByIdIP + "/" + tacticId,
       });
@@ -263,11 +268,13 @@ const GraphPage = (props) => {
       );
       setTacticInfos(graphData);
       setActiveTactic(activeTactic);
+      setLoading(false);
     } catch (e) {
       customNotice({
         type: "error",
         message: e,
       });
+      setLoading(false);
     }
   };
 
@@ -698,11 +705,14 @@ const GraphPage = (props) => {
     }
   }, [tacticInfos, screenWidth, screenHeight]);
   return (
+    
     <div className="graph_container">
+      <Spin spinning={loading}>
       <div className="tacticName" title={activeTactic.tacticName}>
         {activeTactic.tacticName}
       </div>
       <div id="container"></div>
+      </Spin>
     </div>
   );
 };

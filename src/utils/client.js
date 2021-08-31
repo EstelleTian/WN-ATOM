@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 18:26:34
- * @LastEditTime: 2021-08-13 14:20:36
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-31 15:02:17
+ * @LastEditors: liutianjiao
  * @Description: 调用客户端方法
- * @FilePath: \WN-CDM\src\utils\global.js
+ * @FilePath: \WN-ATOM\src\utils\client.js
  */
 //消息模块-计数
 const updateMessageNum = (num) => {
@@ -239,9 +239,9 @@ const openConfirmFrame =(schemeId = "") => {
     }
 };
 //工作流-待办列表-主办-跳转到ADP
-const openADPFrame =(schemeId = "") => {
+const openADPFrame =(schemeId = "", fromType="") => {
     try {
-        jsEntity.openADPFrame(schemeId);
+        jsEntity.openADPFrame(schemeId, fromType);
     }catch(error){
         console.error(error);
     }

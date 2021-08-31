@@ -1,10 +1,10 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-08-27 14:01:44
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-31 15:40:48
+ * @LastEditors: liutianjiao
  * @Description: 生产环境-项目所有请求url
- * @FilePath: request-urls.js
+ * @FilePath: \WN-ATOM\src\utils\request-urls-prod-nw.js
  */
 //消息监听地址
 const TopicConstant={
@@ -20,8 +20,7 @@ const loginIP = "http://10.25.1.55:80";
 //网关IP
 const netIp = "http://10.25.1.10:80";
 
-// 自观数据IP
-const timeSlotIp = "http://192.168.243.74:18098";
+
 
 const ReqUrls = {
     //用户登录
@@ -35,8 +34,8 @@ const ReqUrls = {
     directionListUrl: netIp+"/hydrogen-flight-monitor-server-cache/crs/direction",
     
     //缩略地图
-    mapUrl: "http://192.168.194.40:8081/#/map",
-    mapWebUrl: "http://192.168.194.40:8082/#/map",
+    mapUrl: "http://10.25.1.51:8081/#/map",
+    mapWebUrl: "http://10.25.1.51:8082/#/map",
     //根据方案id获取正式发布方案数据,用于正式发布的方案调整页面初始化回显示和客户端回显
     schemeDataByIdForUpdateUrl: netIp+"/scheme-flow-server/implementTactics/",
     
@@ -193,9 +192,9 @@ const ReqUrls = {
      retrieveExchangeSlotDetailUrl: netIp+"/hydrogen-flight-coordination-server/flight/instance/",
 
      //禁航信息列表
-     findNoTamByUnitTypeUrl: netIp+"/notam/findByUnitType/AIRPORT",
+     findNoTamByUnitTypeUrl: netIp+"/data-receive-server-notam/notam/findByUnitType/AIRPORT",
      //禁航信息新增、修改
-     updateNoTamDataUrl: netIp+"/notam/saveNotam",
+     updateNoTamDataUrl: netIp+"/data-receive-server-notam/notam/saveNotam",
 };
 
 //协调相关url

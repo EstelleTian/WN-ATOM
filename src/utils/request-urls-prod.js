@@ -1,10 +1,10 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-08-27 14:00:50
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-30 14:06:00
+ * @LastEditors: liutianjiao
  * @Description: 生产环境-项目所有请求url
- * @FilePath: request-urls.js
+ * @FilePath: \WN-ATOM\src\utils\request-urls-prod.js
  */
 //消息监听地址
 const TopicConstant={
@@ -19,11 +19,6 @@ const TopicConstant={
 const loginIP = "http://192.168.194.21:18380";
 //网关IP
 const netIp = "http://192.168.210.120:81";
-
-// 自观数据IP
-const timeSlotIp = "http://192.168.243.74:18098";
-// 禁航信息IP
-const noTamIp = "http://192.168.194.61:18198";
 
 const ReqUrls = {
     //用户登录
@@ -195,9 +190,9 @@ const ReqUrls = {
      retrieveExchangeSlotDetailUrl: netIp+"/hydrogen-flight-coordination-server/flight/instance/",
 
      //禁航信息列表
-     findNoTamByUnitTypeUrl: netIp+"/notam/findByUnitType/AIRPORT",
+     findNoTamByUnitTypeUrl: netIp+"/data-receive-server-notam/notam/findByUnitType/AIRPORT",
      //禁航信息新增、修改
-     updateNoTamDataUrl: netIp+"/notam/saveNotam",
+     updateNoTamDataUrl: netIp+"/data-receive-server-notam/notam/saveNotam",
 };
 
 //协调相关url

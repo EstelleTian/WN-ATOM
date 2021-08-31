@@ -1,10 +1,10 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-08-24 15:09:09
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-31 15:00:25
+ * @LastEditors: liutianjiao
  * @Description: 工作流列表
- * @FilePath: WorkFlowList.jsx
+ * @FilePath: \WN-ATOM\src\components\WorkFlow\WorkFlowList.jsx
  */
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import ReactDom from "react-dom";
@@ -157,11 +157,7 @@ const HandleBtn = function (props) {
         break;
       case "AdpApprovalProcess": //ADP审批流程
         // console.log("方案审批流程",businessKey);
-        if (props.activeTab === "finished") {
-          // openDoneFrameById(businessKey);
-        } else {
-          openADPFrame(businessKey);
-        }
+        openADPFrame(businessKey, props.activeTab);
         break;
       case "VolumeApprovalProcess": //容量审批流程
         // console.log("容量审批流程",businessKey);
