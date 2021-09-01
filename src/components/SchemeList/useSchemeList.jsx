@@ -42,9 +42,12 @@ function useSchemeList({
   const timerFunc = (nextRefresh) => {
     // 清除定时器
     clearTimeout(timer);
-    timer = setTimeout(() => {
-      getSchemeList();
-    }, 30 * 1000);
+    if(nextRefresh){
+      timer = setTimeout(() => {
+        getSchemeList(nextRefresh);
+      }, 30 * 1000);
+    }
+    
   };
 
   //获取--方案列表 @nextRefresh 是否开启下一轮定时
@@ -127,7 +130,7 @@ function useSchemeList({
   }, []);
 
   useEffect(() => {
-    if (isValidVariable(systemPage.user.id)) {
+    if (isValidVariable(systemPage.user.id) && isValidVariable(systemPage.activeSystem.system)) {
       // 复制一份
       let newStatusValues = [...schemeListData.statusValues];
       //获取方案列表--开启下一轮更新
@@ -144,7 +147,7 @@ function useSchemeList({
       }
       curStatusValues.current = newStatusValues;
       schemeListData.toggleLoad(true);
-      getSchemeList();
+      getSchemeList(true);
     } else {
       //没有user id 清定时器
       if (isValidVariable(schemeTimeoutId.current)) {
@@ -154,26 +157,25 @@ function useSchemeList({
     }
   }, [
     systemPage.user.id,
-    // schemeListData.statusValues,
-    // schemeListData.NTFMShowType,
+    systemPage.activeSystem.system
   ]);
 
   //监听全局刷新
   useEffect(
     function () {
-      if (systemPage.pageRefresh && isValidVariable(systemPage.user.id)) {
+      if (systemPage.pageRefresh && isValidVariable(systemPage.user.id) && isValidVariable(systemPage.activeSystem.system)) {
         // console.log("方案刷新开启");
         schemeListData.toggleLoad(true);
-        getSchemeList();
+        getSchemeList(false);
       }
     },
-    [systemPage.pageRefresh, systemPage.user]
+    [systemPage.pageRefresh, systemPage.user, systemPage.activeSystem.system]
   );
 
   useEffect(() => {
     if (schemeListData.forceUpdate) {
       // console.log("方案列表强制更新");
-      getSchemeList();
+      getSchemeList(false);
       schemeListData.setForceUpdate(false);
     }
   }, [schemeListData.forceUpdate]);

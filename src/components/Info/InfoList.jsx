@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-08-13 14:16:29
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-01 10:57:42
+ * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
- * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
+ * @FilePath: \WN-ATOM\src\components\Info\InfoList.jsx
  */
 import React, { useEffect, useState } from "react";
 import { inject, observer } from "mobx-react";
@@ -22,6 +22,7 @@ import {
   openTclientFrameForMDRS,
   openDetails,
   openLocation,
+  openADPFrame
 } from "utils/client";
 
 const { Panel } = Collapse;
@@ -193,6 +194,26 @@ function InfoCardItem(props) {
                         航班定位
                       </Button>
                     )}
+                  </span>
+                )
+              }
+              {
+                // 预战术ADP信息
+                dataType === "ADPM" &&  (
+                  <span>
+                    <Button
+                      className="info_btn btn_blue"
+                      size="small"
+                      onClick={function (e) {
+                        const dataStr = message.data || "{}";
+                        const data = JSON.parse(dataStr) || {};
+                        const schemeId = data.id || "";
+                        openADPFrame(schemeId, "finished");
+                        e.stopPropagation();
+                      }}
+                    >
+                      查看ADP
+                    </Button>
                   </span>
                 )
               }
