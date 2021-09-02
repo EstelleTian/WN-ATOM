@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-09-01 10:57:42
+ * @LastEditTime: 2021-09-02 13:25:04
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\Info\InfoList.jsx
@@ -22,7 +22,8 @@ import {
   openTclientFrameForMDRS,
   openDetails,
   openLocation,
-  openADPFrame
+  openADPFrame,
+  openTimeSlotFrameWithFlightId
 } from "utils/client";
 
 const { Panel } = Collapse;
@@ -194,6 +195,44 @@ function InfoCardItem(props) {
                         航班定位
                       </Button>
                     )}
+                  </span>
+                )
+              }
+              {
+                // 航班禁航信息
+                dataType === "NOMAT" && (
+                // dataType === "PROI" && dataCode==="AADT"&& (
+                  
+                  <span>
+                    <Button
+                          className="info_btn btn_blue"
+                          size="small"
+                          onClick={function (e) {
+                            localStorage.setItem(
+                              "targetToFlight",
+                              JSON.stringify({
+                                tacticId: "",
+                                flightStr: JSON.stringify({
+                                  flightId: "",
+                                  sid: "",
+                                }),
+                                fromType: "notam",
+                              })
+                            );
+                            openTimeSlotFrameWithFlightId(
+                              "",
+                              JSON.stringify({
+                                flightId: "",
+                                sid: "",
+                              }),
+                              "notam"
+                            );
+                            // openDetails(message);
+                            e.stopPropagation();
+                          }}
+                        >
+                          查看禁航信息
+                        </Button>
                   </span>
                 )
               }

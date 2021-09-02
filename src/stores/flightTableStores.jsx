@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-06-29 14:09:06
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-02 11:24:18
+ * @LastEditors: liutianjiao
  * @Description: 影响航班表格数据存储
- * @FilePath: \WN-CDM\src\stores\flightTableStores.jsx
+ * @FilePath: \WN-ATOM\src\stores\flightTableStores.jsx
  */
 
 import { makeObservable, observable, action, computed } from "mobx";
@@ -345,6 +345,9 @@ class FlightTableData {
         if (isValidVariable(fVal)) {
           showList = showList.filter((flight) => {
             let cellVal = flight[en] || "";
+            if(typeof cellVal === 'object'){
+              cellVal = cellVal.value || "";
+            }
             cellVal = cellVal.toLowerCase() || "";
             if (cellVal.indexOf(fVal) > -1) {
               return true;

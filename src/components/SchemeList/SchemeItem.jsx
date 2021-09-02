@@ -7,13 +7,14 @@ import {
   isValidVariable,
   isValidObject,
   calculateStringTimeDiff,
+  parseFullTime
 } from "utils/basic-verify";
 import { FlightCoordination, reasonType } from "utils/flightcoordination";
 import { handleStopControl, openRunningControlFlow } from "utils/client";
 import { Window as WindowDHX } from "dhx-suite";
 import { openBaseSchemeFrame, openFilterFrame } from "utils/client";
 import WorkFlowContent from "components/WorkFlow/WorkFlowContent";
-import { Tag, Menu, Dropdown, Modal } from "antd";
+import { Tag, Menu, Dropdown, Modal, Badge } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 
 //获取屏幕宽度，适配 2k
@@ -146,6 +147,23 @@ function SchemeItem(props) {
     }
     return same;
   });
+
+  let dayCount = useCallback(()=>{
+    if(isValidVariable(startTime) &&isValidVariable(endTime)){
+      // let startTmp = parseFullTime(startTime.substring(0,8)+"0000");
+      // let endTmp = parseFullTime(endTime.substring(0,8)+"0000");
+      let diff = calculateStringTimeDiff(startTime.substring(0,8)+"0000", endTime.substring(0,8)+"0000");
+      diff = Math.abs(diff);
+      let count = Math.floor(diff/(60*60*24*1000))
+      if(count> 0 ){
+        return "+"+count
+      }else{
+        return 0
+      }
+
+    }
+  },[startTime,
+    endTime])
 
   let isActive = useMemo(() => {
     return schemeListData.activeSchemeId === item.id;
@@ -470,13 +488,19 @@ function SchemeItem(props) {
                 className="cell time_range"
                 title={startTime + "-" + endTime}
               >
-                {isSameDay ? (
+                <span>{startTimeFormat}</span>
+                <span style={{padding: '0px 3px'}}>-</span>
+                <Badge className="day_count_badge" count={dayCount()}>
+                  <span>{endTimeFormat}</span>
+                </Badge>
+                
+                {/* {isSameDay ? (
                   `${startTimeFormat} - ${endTimeFormat}`
                 ) : (
                   <Tag className="time-range-tag" color="#FA8C15">
                     {startTimeFormat} - {endTimeFormat}
                   </Tag>
-                )}
+                )} */}
               </div>
             </div>
             <div className="layout-row">

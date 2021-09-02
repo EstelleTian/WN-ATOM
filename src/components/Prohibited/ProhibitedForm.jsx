@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-08-27 10:13:11
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-02 13:18:46
+ * @LastEditors: liutianjiao
  * @Description: 禁航信息-添加、修改表单
- * @FilePath: \WN-ATOM\src\components\NavBar\PositionModal.jsx
+ * @FilePath: \WN-ATOM\src\components\Prohibited\ProhibitedForm.jsx
  */
 import React, {
   Fragment,

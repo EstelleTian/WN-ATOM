@@ -1,11 +1,11 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-08-24 14:54:57
+ * @LastEditTime: 2021-09-02 13:24:23
  * @LastEditTime: 2021-03-04 14:40:22
- * @LastEditors: Please set LastEditors
+ * @LastEditors: liutianjiao
  * @Description: 方案列表
- * @FilePath: \WN-CDM\src\components\SchemeList\SchemeList.jsx
+ * @FilePath: \WN-ATOM\src\components\SchemeList\SchemeList.jsx
  */
 import React, {
   useEffect,
@@ -206,6 +206,7 @@ function SList(props) {
     todoList,
     exchangeSlot,
     myApplicationList,
+    prohibitedData
   } = props;
   const params = match.params || {};
   const from = params.from || ""; //来源
@@ -263,6 +264,10 @@ function SList(props) {
 
   //根据工作待办-协调类-【主办】跳转到放行监控，并高亮待办航班
   NWGlobal.targetToFlight = (schemeId, flightObj, fromType) => {
+    if(fromType === 'notam'){
+      prohibitedData.setProhibitedListModalVisible(true);
+      return;
+    }
     //验证有没有这个方案
     if (isValidVariable(schemeId)) {
       const res = schemeListData.activeScheme(schemeId);
@@ -317,8 +322,14 @@ function SList(props) {
     debounce((id, title, from) => {
       // console.log("handleActive 方案:", id);
       if (!flightTableData.dataLoaded || from === "init") {
-        const res = schemeListData.toggleSchemeActive(id + "");
-        systemPage.setLeftNavSelectedName("");
+        let res = {};
+        if(systemPage.activeSystem.system.indexOf("CDM") > -1 && id=== schemeListData.activeSchemeId){
+          res = schemeListData.toggleSchemeActive("");
+          systemPage.setLeftNavSelectedName("all");
+        }else{
+          res = schemeListData.toggleSchemeActive(id + "");
+          systemPage.setLeftNavSelectedName("");
+        }
         if (res) {
           //来自客户端定位，滚动到对应位置
           if (from === "client") {
@@ -451,7 +462,8 @@ const SchemeList = withRouter(
     "systemPage",
     "todoList",
     "exchangeSlot",
-    "myApplicationList"
+    "myApplicationList",
+    "prohibitedData"
   )(observer(SList))
 );
 

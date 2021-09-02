@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-07-22 10:37:30
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-02 08:39:33
+ * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
- * @FilePath: \WN-CDM\src\pages\InfoPage\InfoPage.jsx
+ * @FilePath: \WN-ATOM\src\pages\InfoPage\InfoPage.jsx
  */
 import React, { useEffect, useState, useRef } from "react";
 import { Layout, Tooltip, Checkbox, Button } from "antd";
