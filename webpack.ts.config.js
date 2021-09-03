@@ -11,8 +11,7 @@ const { getThemeVariables } = require('antd/dist/theme');
 
 module.exports = {
     entry: {
-        bundle: './src/app.jsx',
-        // bundle: './src/index.tsx',
+        bundle: './src/index.tsx',
         vendor: ['react', 'react-dom', 'jquery', 'react-router', 'redux'],
     },
     output: {

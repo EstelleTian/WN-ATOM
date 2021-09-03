@@ -66,3 +66,12 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+2021-9-3 兼容 react+typescript 版本
+less-loader@5.0.0
+ts-loader@4.4.2
+node-sass@4.14.1
+sass-loader@10.1.1
+node 12.6.0
+启动 ts 项目: yarn ts-start
+启动非 ts 项目: yarn start
