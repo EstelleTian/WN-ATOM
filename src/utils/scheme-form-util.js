@@ -87,7 +87,7 @@ const SchemeFormUtil = {
     */
     getIsDisabledPageType : function(){
         return [
-            this.PAGETYPE_MODIFY,
+            // this.PAGETYPE_MODIFY,
             this.PAGETYPE_MODIFYSIM,
             this.PAGETYPE_CREATEBYSIM,
         ]
