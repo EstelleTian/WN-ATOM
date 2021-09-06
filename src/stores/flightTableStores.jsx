@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-09-02 11:24:18
+ * @LastEditTime: 2021-09-03 15:51:42
  * @LastEditors: liutianjiao
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-ATOM\src\stores\flightTableStores.jsx
@@ -310,8 +310,8 @@ class FlightTableData {
     //   }
     // });
     // let testList = [];
-    // if (this.list.length > 100) {
-    //   testList = this.list.slice(35, 60);
+    // if (this.list.length > 5) {
+    //   testList = this.list.slice(0, 3);
     // }
     // let showList = testList.map((flight) =>
     //   formatSingleFlight(flight, this.atomConfigValue)

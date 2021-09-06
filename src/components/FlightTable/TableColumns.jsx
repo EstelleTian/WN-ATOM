@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-08-02 16:34:45
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-03 15:48:14
+ * @LastEditors: liutianjiao
  * @Description: 表格列配置、列数据转换、右键协调渲染
- * @FilePath: \WN-CDM\src\pages\TablePage\TableColumns.js
+ * @FilePath: \WN-ATOM\src\components\FlightTable\TableColumns.jsx
  */
 import React from "react";
 import { Tag, Tooltip, Input } from "antd";
@@ -952,14 +952,14 @@ const getColumns = (
         }
       };
       tem["sorter"] = (a, b, dir) => {
-        // console.log("方向", dir);
+        // console.log("FFIXT排序", a, b, dir);
         // ascend 升序  descend 降序
         return sorFunc2(a, b, dir, sortNames, 0);
       };
     }
     if (en === "ATOT") {
       if (sortKey === en) {
-        console.log("sort ATOT", sortKey);
+        // console.log("sort ATOT", sortKey);
         //CDM按起飞时间基准开始排序
         tem["defaultSortOrder"] = "ascend";
       }
@@ -1003,7 +1003,8 @@ const getColumns = (
           }
         }
       };
-      tem["sorter"] = (a, b) => {
+      tem["sorter"] = (a, b, dir )=> {
+        // console.log("ATOT排序",a, b, dir);
         return sorFunc2(a, b, sortNames, 0);
       };
     }
