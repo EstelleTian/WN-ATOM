@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-09-03 15:51:42
+ * @LastEditTime: 2021-09-07 11:57:57
  * @LastEditors: liutianjiao
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-ATOM\src\stores\flightTableStores.jsx
@@ -150,6 +150,8 @@ class FlightTableData {
   @observable filterValues = {};
   //快速查询内容
   @observable searchVal = "";
+  //表格分页数
+  @observable pageNum = 1;
   //表格排序字段
   @observable sortKey = "FFIXT";
   //表格排序
@@ -310,8 +312,10 @@ class FlightTableData {
     //   }
     // });
     // let testList = [];
-    // if (this.list.length > 5) {
-    //   testList = this.list.slice(0, 3);
+    // if (this.list.length > 50) {
+    //   testList = this.list.slice(0, 50);
+    // }else{
+    //   testList = this.list
     // }
     // let showList = testList.map((flight) =>
     //   formatSingleFlight(flight, this.atomConfigValue)
@@ -372,82 +376,11 @@ class FlightTableData {
 
     const targetFlight = this.getTargetFlight(showList, this.systemName);
     console.timeEnd("getShowFlightsTime");
+    
+    showList = showList.slice(50*(this.pageNum-1),50*this.pageNum);
     return { showList, targetFlight };
   }
-  //获取真正展示的航班
-  @action getShowedFlights() {
-    //测试数据，只显示一条
-    // let testList = this.list.filter((flight) => {
-    //   let flightid = flight.flightid || "";
-    //   if (
-    //     flightid === "CQH8650" ||
-    //     flightid === "CES9602" ||
-    //     flightid === "DKH1290"
-    //   ) {
-    //     return true;
-    //   }
-    // });
-    // let testList = [];
-    // if (this.list.length > 100) {
-    //   testList = this.list.slice(35, 60);
-    // }
-    // let showList = testList.map((flight) =>
-    //   formatSingleFlight(flight, this.atomConfigValue)
-    // );
 
-    let showList = this.list.map((flight) =>
-      formatSingleFlight(flight, this.atomConfigValue)
-    );
-    const searchVal = this.searchVal.toLowerCase();
-    if (isValidVariable(searchVal)) {
-      showList = showList.filter((flight) => {
-        let FLIGHTID = flight.FLIGHTID || "";
-        FLIGHTID = FLIGHTID.toLowerCase() || "";
-        let FFIX = flight.FFIX || "";
-        FFIX = FFIX.toLowerCase() || "";
-        if (
-          FLIGHTID.indexOf(searchVal) !== -1 ||
-          FFIX.indexOf(searchVal) !== -1
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-    }
-    const filterValues = this.filterValues;
-    const fValues = Object.keys(filterValues);
-    if (fValues.length > 0) {
-      for (let en in filterValues) {
-        const fVal = filterValues[en] || "";
-        if (isValidVariable(fVal)) {
-          showList = showList.filter((flight) => {
-            let cellVal = flight[en] || "";
-            cellVal = cellVal.toLowerCase() || "";
-            if (cellVal.indexOf(fVal) > -1) {
-              return true;
-            } else {
-              return false;
-            }
-          });
-        }
-      }
-    }
-    //四字码、三字码
-    if (this.codeType === "IATA") {
-      showList = showList.map((flight) => {
-        //切换四字码、三字码取值
-        flight.FLIGHTID = flight.FLIGHTIDIATA;
-        flight.DEPAP = flight.DEPAPIATA;
-        flight.ARRAP = flight.ARRAPIATA;
-        flight.FORMER = flight.FORMERIATA;
-        return flight;
-      });
-    }
-    const targetFlight = this.getTargetFlight(showList, this.systemName);
-
-    return { showList, targetFlight };
-  }
   //获取和generatetime时间比最近的航班对象，用以自动滚动
   getTargetFlight(newList, systemName) {
     // console.log("list长度:" + this.list.length);
