@@ -27,7 +27,7 @@ import {
   scrollTopById,
   highlightRowByDom
 } from "./VirtualTableColumns";
-import "./VirtualTable.scss";
+import "./Tables.scss";
 
 //虚拟内容渲染
 const renderVirtualList = (
@@ -147,7 +147,7 @@ const renderVirtualList = (
   );
 };
 
-function VirtualTable(props) {
+function Tables(props) {
   let { columns, scroll, flightTableData, targetFlight } = props;
   //表格宽度
   const [tableWidth, setTableWidth] = useState(0);
@@ -186,4 +186,4 @@ function VirtualTable(props) {
     </ResizeObserver>
   );
 }
-export default VirtualTable;
+export default Tables;

@@ -8,7 +8,13 @@
         @include flex();
     }
 }
-
+.felxDev{
+    // display: flex;
+    position: fixed;
+    z-index: 999;
+    width: 200px;
+    overflow: hidden;
+}
 .flight_canvas{
     position: relative;
     .statistics{

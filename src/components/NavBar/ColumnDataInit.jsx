@@ -5,7 +5,7 @@ import { ReqUrls } from "utils/request-urls";
 import { isValidObject, isValidVariable } from "utils/basic-verify";
 
 //列配置获取数据
-function ColumnDataInit({ columnConfig, systemPage }) {
+function ColumnDataInit({ columnConfig, flightTableData,systemPage }) {
   const user = systemPage.user || {};
   const userId = user.id || "";
   const activeSystem = systemPage.activeSystem || {};
@@ -29,6 +29,9 @@ function ColumnDataInit({ columnConfig, systemPage }) {
 
   //获取配置数据成功
   const fetchSuccess = (data) => {
+    
+    flightTableData.updateGetState(true)
+    console.log(flightTableData.getState);
     const { userPropertys = [] } = data;
     let propertys = userPropertys[0] || {};
     columnConfig.setRequestData(propertys);
@@ -36,6 +39,7 @@ function ColumnDataInit({ columnConfig, systemPage }) {
 
   //数据获取失败回调
   const fetchErr = (err) => {
+    flightTableData.updateGetState(false)
     let errMsg = "";
     if (isValidObject(err) && isValidVariable(err.message)) {
       errMsg = err.message;
@@ -68,4 +72,4 @@ function ColumnDataInit({ columnConfig, systemPage }) {
   );
   return "";
 }
-export default inject("columnConfig", "systemPage")(observer(ColumnDataInit));
+export default inject("columnConfig","flightTableData", "systemPage")(observer(ColumnDataInit));
