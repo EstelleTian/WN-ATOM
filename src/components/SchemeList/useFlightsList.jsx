@@ -113,6 +113,8 @@ function useFlightsList({
         if (systemPage.systemKind.indexOf("CRS") > -1) {
           performanceKPIData.toggleLoad(showLoad, true);
         }
+        if(flightTableData.getState){
+        }
         const data = await requestGet2({
           url,
           params

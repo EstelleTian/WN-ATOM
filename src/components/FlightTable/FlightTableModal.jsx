@@ -200,7 +200,7 @@ const SearchInput = inject("flightTableData")(
 const TotalDom = inject("flightTableData")(
   observer((props) => {
     const { showList } = props.flightTableData.getShowFlights;
-
+    
     return <span className="total_num">总计{showList.length || 0}条</span>;
   })
 );

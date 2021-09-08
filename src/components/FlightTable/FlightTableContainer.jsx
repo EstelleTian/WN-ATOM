@@ -20,6 +20,7 @@ import {
   highlightRowByDom
 } from "./VirtualTableColumns";
 import VirtualTable from "./VirtualTable";
+import Tables from "./Tables";
 
 import "./FlightTable.scss";
 import { isValidObject } from "../../utils/basic-verify";
@@ -149,7 +150,8 @@ function FContainer({
   //   focusFlight();
   // });
   console.log("航班表格container渲染 " + flightTableData.focusFlightId);
-
+  console.log(columns);
+  console.log(456,showList);
   return (
     // <FTable
     //   columns={columns}
@@ -158,6 +160,8 @@ function FContainer({
     //   flightTableData={flightTableData}
     //   schemeListData={schemeListData}
     // />
+    <>
+    
     <VirtualTable
       columns={columns}
       dataSource={showList}
@@ -170,6 +174,8 @@ function FContainer({
         x: "100vw"
       }}
     />
+    </>
+    
     // <VirtualTable
     //   columns={columns}
     //   showList={showList}

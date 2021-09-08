@@ -2,7 +2,7 @@
  * @Author: liutianjiao
  * @Date: 2021-09-08 14:24:09
  * @LastEditors: liutianjiao
- * @LastEditTime: 2021-09-08 19:05:08
+ * @LastEditTime: 2021-09-08 19:38:58
  * @Description:
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTableColumns.jsx
  */
@@ -619,7 +619,7 @@ const getColumns = (
       tem["width"] = screenWidth > 1920 ? 95 : 80;
     }
     if (en === "FFIX") {
-      tem["width"] = screenWidth > 1920 ? 95 : 80;
+      tem["width"] = screenWidth > 1920 ? 110 : 90;
     }
     if (en === "CTOT" || en === "CTO" || en === "COBT") {
       tem["width"] = screenWidth > 1920 ? 95 : 80;

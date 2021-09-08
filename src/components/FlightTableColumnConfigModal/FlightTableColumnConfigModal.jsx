@@ -63,7 +63,7 @@ function FlightTableColumnConfigModal({ systemPage = {}, columnConfig }) {
           ...operation,
         },
       });
-      console.log(data);
+      console.log(66,data);
       const { userPropertys = [] } = data;
       let propertys = userPropertys[0] || {};
       columnConfig.setRequestData(propertys);

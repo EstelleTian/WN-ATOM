@@ -78,10 +78,11 @@ const VirtualCell = ({
     <div className="text_cell_center">{text}</div>
     // </Tooltip>
   );
-  if (columnName === "rowNum") {
+  if (columnName === "orgdata") {
+    cellClass += " notshow";
+  } else if (columnName === "rowNum") {
     popover = <div>{rowIndex + 1}</div>;
-  }
-  if (columnName === "FLIGHTID") {
+  } else if (columnName === "FLIGHTID") {
     let { orgdata = "{}" } = rawData;
     if (isValidVariable(orgdata)) {
       orgdata = JSON.parse(orgdata);
