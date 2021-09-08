@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-07-16 16:06:04
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-08 18:56:49
+ * @LastEditors: liutianjiao
  * @Description: 航班查询-单个航班详情
- * @FilePath: \WN-CDM\src\components\FlightSearch\FlightSearch.jsx
+ * @FilePath: \WN-ATOM\src\components\FlightSearch\FlightSummer.jsx
  */
 import React, { useCallback, useMemo, useEffect } from "react";
 import { observer, inject } from "mobx-react";
@@ -14,7 +14,7 @@ import {
   getDayTimeFromString,
   formatTimeString,
   isValidObject,
-  isValidVariable,
+  isValidVariable
 } from "utils/basic-verify";
 import { FlightCoordination, reasonType } from "utils/flightcoordination";
 import { customNotice } from "utils/common-funcs";
@@ -80,7 +80,7 @@ const FlightSummer = (props) => {
         flowControlName = "",
         flowControlReason = "",
         flowControlMeasure = {},
-        flowControlStatus = "",
+        flowControlStatus = ""
       } = data;
       const restrictionMode = flowControlMeasure.restrictionMode || "";
       //限制值
@@ -472,7 +472,7 @@ const FlightSummer = (props) => {
       flightDetailData.toggleModalVisible(true);
       try {
         const res = await requestGet2({
-          url: ReqUrls.getFlightDetailUrl + flightId,
+          url: ReqUrls.getFlightDetailUrl + flightId
         });
         //航班详情赋值
         flightDetailData.toggleFlightId(flightId);
@@ -480,7 +480,7 @@ const FlightSummer = (props) => {
       } catch (e) {
         customNotice({
           type: "error",
-          message: e,
+          message: e
         });
       }
     }
@@ -499,7 +499,7 @@ const FlightSummer = (props) => {
           <span
             className="title-flight-id"
             style={{
-              color: "#36a5da",
+              color: "#36a5da"
             }}
             onClick={(e) => {
               flightTableData.focusFlightId = flight.id;
@@ -530,7 +530,10 @@ const FlightSummer = (props) => {
       title={drawerTitle}
       placement="right"
       closable={true}
-      onClose={closeDrawer}
+      onClose={() => {
+        closeDrawer();
+        flightTableData.focusFlightId = "";
+      }}
       visible={fightSearch.drawerVisible}
       mask={false}
       getContainer={false}

@@ -2,7 +2,7 @@
  * @Author: liutianjiao
  * @Date: 2021-09-08 14:24:09
  * @LastEditors: liutianjiao
- * @LastEditTime: 2021-09-08 16:38:16
+ * @LastEditTime: 2021-09-08 19:05:08
  * @Description:
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTableColumns.jsx
  */
@@ -66,7 +66,15 @@ const scrollTopById = (rowIndex, classStr, gridRef) => {
   }
 };
 //设置行高亮-传入目标dom
-const highlightRowByDom = (targetDom) => {
+const highlightRowByDom = (id) => {
+  const flightCanvas = document.getElementsByClassName("virtual-grid");
+  if (flightCanvas.length > 0) {
+    const trs = flightCanvas[0].getElementsByClassName(id);
+    if (trs.length > 0) {
+      clearHighlightRowByDom(trs);
+      flightTableData.focusFlightId = "";
+    }
+  }
   let tClass = targetDom.getAttribute("class");
   const trs = targetDom.parentElement.children;
   clearHighlightRowByDom(trs);
@@ -493,228 +501,6 @@ const CDMNames = {
 
 const CRSSortNames = ["FFIXT", "EOBT", "ID"];
 const CDMSortNames = ["ATOT", "CTOT", "TOBT", "EOBT", "SOBT", "ID"];
-// 右键渲染模块内容
-let render = (opt) => {
-  const { text = "", record, index, col, colCN } = opt;
-  let color = "";
-  let popover = (
-    <Tooltip placement="bottom" title={text}>
-      <div className="text_cell_center">{text}</div>
-    </Tooltip>
-  );
-  if (col === "FLIGHTID") {
-    let { orgdata = "{}" } = record;
-    if (isValidVariable(orgdata)) {
-      orgdata = JSON.parse(orgdata);
-    }
-    let { priority = "" } = orgdata;
-    const fmeToday = orgdata.fmeToday || {};
-    let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
-    let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
-    let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
-    let areaStatusStr = ""; //航班在本区域内
-    let areaStatus = orgdata.areaStatus || "";
-    if (areaStatus === "INNER") {
-      areaStatusStr = "区内";
-    } else if (areaStatus === "OUTER") {
-      areaStatusStr = "区外";
-    }
-    let isInPoolFlight = FlightCoordination.isInPoolFlight(orgdata); //航班是否在等待池中
-    let isCoordinationResponseWaitingFlight =
-      FlightCoordination.isCoordinationResponseWaitingFlight(orgdata); //航班是否在协调响应等待中
-    let getCoordinationResponseWaitingType =
-      FlightCoordination.getCoordinationResponseWaitingType;
-    let flyStatusStr = "";
-    let flyStatus = orgdata.flyStatus || "";
-    if (flyStatus === "SKY") {
-      flyStatusStr = "空中";
-    } else if (flyStatus === "GROUND") {
-      flyStatusStr = "地面";
-    }
-    let colorClass = "";
-    if (isValidVariable(priority) && priority * 1 > 0) {
-      colorClass = "priority_" + priority;
-    }
-    if (isInPoolFlight) {
-      colorClass += " in_pool " + orgdata.poolStatus;
-    }
-    if (isCoordinationResponseWaitingFlight) {
-      colorClass += " WAIT";
-    }
-
-    popover = (
-      <Tooltip
-        placement="bottom"
-        title={`${
-          PriorityList[priority] || ""
-        } ${areaStatusStr} ${flyStatusStr} ${
-          isCoordinationResponseWaitingFlight
-            ? `${getCoordinationResponseWaitingType(orgdata)}协调中`
-            : ""
-        }`}
-      >
-        <div className={` ${colorClass}`}>
-          <div
-            className={`text_cell_center ${
-              isValidVariable(text) ? "" : "empty_cell"
-            }`}
-          >
-            <span className={`${areaStatus}`}>{text}</span>
-          </div>
-
-          <div
-            title={`${flyStatusStr}`}
-            className={`status_flag ${flyStatus}`}
-          ></div>
-        </div>
-      </Tooltip>
-    );
-  } else if (
-    col === "SOBT" ||
-    col === "EOBT" ||
-    col === "FEAL" ||
-    col === "EFPS_RWY" ||
-    col === "EFPS_TAXI" ||
-    col === "EFPS_ASRT" ||
-    col === "EFPS_ASAT"
-  ) {
-    popover = (
-      <Tooltip placement="bottom" title={getDayTimeFromString(text, "", 2)}>
-        <div className="text_cell_center">{getDayTimeFromString(text)}</div>
-      </Tooltip>
-    );
-  } else if (
-    col === "CTO" ||
-    col === "ETO" ||
-    col === "EAWT" ||
-    col === "OAWT" ||
-    col === "ATOT" ||
-    col === "TOBT" ||
-    col === "AOBT" ||
-    col === "ASBT" ||
-    col === "COBT" ||
-    col === "CTOT" ||
-    col === "AGCT" ||
-    col === "NCOBT" ||
-    col === "NCTOT" ||
-    col === "RCOBT" ||
-    col === "RCTOT"
-  ) {
-    popover = <RenderCell opt={opt} />;
-  } else if (col === "ALARM") {
-    popover = renderAlarmCellChildren(opt);
-  } else if (col === "FFIXT") {
-    let {
-      source = "",
-      value = "",
-      type = "",
-      title = "",
-      sourceZH = "",
-      meetIntervalValue = ""
-    } = text;
-    let ftime = "";
-    if (isValidVariable(value) && value.length >= 12) {
-      type = type === null ? "" : type;
-      ftime = getDayTimeFromString(value) + " " + type;
-    }
-    // let effectStatus = text.effectStatus || "";
-    // if (effectStatus * 1 === 200) {
-    //   source = "INVALID";
-    // }
-    const getTitle = (title) => {
-      if (!isValidVariable(title)) return "";
-      const titleArr = title.split("#");
-      return (
-        <div>
-          {titleArr.map((value, index) => (
-            <div key={index}>{value}</div>
-          ))}
-        </div>
-      );
-    };
-    popover = (
-      <Tooltip placement="bottom" title={getTitle(title)}>
-        <div
-          // col-key={col}
-          className={`full-cell time_${ftime} ${
-            isValidVariable(value) && source
-          }`}
-        >
-          <div
-            className={`interval ${ftime !== "" && source}`}
-            // title={getTitle(title)}
-          >
-            <span
-              className={`${
-                meetIntervalValue === "200" && ftime !== "" && "interval_red"
-              }`}
-            >
-              {ftime}
-            </span>
-          </div>
-        </div>
-      </Tooltip>
-    );
-  } else if (col === "RWY" || col === "POS") {
-    let {
-      source = "",
-      value = "",
-      type = "",
-      title = "",
-      sourceZH = ""
-    } = text;
-    const getTitle = (title) => {
-      if (!isValidVariable(title)) return "";
-      const titleArr = title.split("#");
-      return (
-        <div>
-          {titleArr.map((value, index) => (
-            <div key={index}>{value}</div>
-          ))}
-        </div>
-      );
-    };
-    popover = (
-      <Tooltip placement="bottom" title={getTitle(title)}>
-        <div
-          col-key={col}
-          className={`full-cell ${isValidVariable(value) && source} ${col}`}
-        >
-          <div className={`${isValidVariable(value) ? "" : "empty_cell"}`}>
-            <span className="">{value}</span>
-          </div>
-        </div>
-      </Tooltip>
-    );
-  } else if (col === "SLOT") {
-    // 时隙分配状态
-    // 行原始数据
-    let orgdata = JSON.parse(record.orgdata || "{}");
-    // 未分配时隙原因
-    let unSlotStatusReason = orgdata.unSlotStatusReason || "";
-    popover = (
-      <Tooltip
-        placement="bottom"
-        title={`${
-          isValidVariable(unSlotStatusReason) ? unSlotStatusReason : ""
-        }`}
-      >
-        <div col-key={col} className={`full-cell ${col}`}>
-          <div className={`${isValidVariable(text) ? "" : "empty_cell"}`}>
-            <span className="">{text}</span>
-          </div>
-        </div>
-      </Tooltip>
-    );
-  }
-  let obj = {
-    children: popover,
-    props: {
-      "col-key": col //td会增加这个属性
-    }
-  };
-  return obj;
-};
 
 //生成表配置
 const getColumns = (
@@ -767,11 +553,8 @@ const getColumns = (
       dataIndex: "rowNum",
       align: "center",
       key: "rowNum",
-      width: screenWidth > 1920 ? 70 : 70,
-      fixed: "left",
-      render: (text, record, index) => (
-        <div className="text_cell_right row_cell_pos">{index + 1}</div>
-      )
+      width: screenWidth > 1920 ? 70 : 70
+      // fixed: "left",
     }
   ];
   //生成表配置-全部
@@ -1006,11 +789,11 @@ const getColumns = (
         tem["defaultSortOrder"] = "ascend";
       }
       tem["width"] = screenWidth > 1920 ? 120 : 100;
-      tem["fixed"] = "left";
+      // tem["fixed"] = "left";
     }
 
     if (en === "STATUS") {
-      tem["width"] = screenWidth > 1920 ? 90 : 80;
+      tem["width"] = screenWidth > 1920 ? 100 : 80;
     }
     if (en === "NCOBT" || en === "NCTOT") {
       tem["width"] = screenWidth > 1920 ? 90 : 80;
@@ -1024,17 +807,6 @@ const getColumns = (
       tem["className"] = "notshow";
       tem["width"] = 0;
     }
-
-    tem["render"] = (text, record, index) => {
-      const opt = {
-        text,
-        record,
-        index,
-        col: en,
-        colCN: cn
-      };
-      return render(opt);
-    };
     if (sortable) {
       const handleInputVal = debounce((values) => {
         onCellFilter(en, values);
@@ -1095,131 +867,9 @@ const handleRightClickCell = (
   });
 };
 
-const { getAlarmValueZh } = FlightCoordination;
-
-const formatAlarmValue = (values) => {
-  let arr = values.map((item) => {
-    return getAlarmValueZh(item);
-  });
-  return arr;
-};
-//数据转换，将航班转化为表格格式
-const formatSingleFlight = (flight, atomConfigValue) => {
-  const alarmField = flight.alarmField || {};
-  const taskField = flight.taskField || {};
-  const eapField = flight.eapField || {};
-  const oapField = flight.oapField || {};
-  const tobtField = flight.tobtField || {};
-  const cobtField = flight.cobtField || {};
-  const ctotField = flight.ctotField || {};
-  const rctotField = flight.rctotField || {};
-  const nctotField = flight.nctotField || {};
-  const rcobtField = flight.rcobtField || {};
-  const ncobtField = flight.ncobtField || {};
-  const fmeToday = flight.fmeToday || {};
-  const ffixField = flight.ffixField || {};
-  const ctoField = flight.ctoField || {};
-  const etoField = flight.etoField || {};
-  const runwayField = flight.runwayField || {};
-  const positionField = flight.positionField || {};
-  const agctField = flight.agctField || {};
-  const aobtField = flight.aobtField || {};
-  const asbtField = flight.asbtField || {};
-  const efpsFlight = flight.efpsFlight || {};
-  let atd = flight.atd || "";
-  atd = atd === null ? "" : atd;
-  const atotField = {
-    value: atd,
-    source: isValidVariable(atd) ? "DEP" : ""
-  };
-
-  let taskVal = taskField.value || "";
-  if (!isValidVariable(taskVal) || taskVal === "普通") {
-    taskVal = "";
-  }
-  let alarms = flight.alarms || [];
-
-  let flightObj = {
-    key: flight.id,
-    id: flight.id,
-    FLIGHTID: flight.flightid,
-    FLIGHTIDIATA: flight.flightidIATA,
-    ALARM: formatAlarmValue(alarms).map((item) => (
-      <Tooltip key={item.key} title={item.descriptions}>
-        <Tag
-          className={`alarm-tag alarm_${item.key} alarm_pos_${item.pos} `}
-          key={item.key}
-          color={item.color}
-        >
-          {item.zh}
-        </Tag>
-      </Tooltip>
-    )),
-    TASK: taskVal,
-    EAW: eapField.name || "",
-    EAWT: eapField,
-    OAW: oapField.name || "",
-    OAWT: oapField,
-    TYPE: flight.aircrafttype || "",
-    DEPAP: flight.depap || "",
-    DEPAPIATA: flight.depapIATA || "",
-    ARRAP: flight.arrap || "",
-    ARRAPIATA: flight.arrapIATA || "",
-    SOBT: flight.sobt || "",
-    SLOT: flight.unSlotStatusReasonAbbr || "",
-    EOBT: flight.eobt || "",
-    TOBT: tobtField,
-    COBT: cobtField,
-    CTOT: ctotField,
-    AOBT: aobtField || {},
-    AGCT: agctField || {},
-    ASBT: asbtField || {},
-    ATOT: atotField,
-    FEAL: flight.formerArrtime || "",
-    FFIX: ffixField.name || "",
-    FFIXT: ffixField || {},
-    CTO: ctoField,
-    ETO: etoField,
-    STATUS: flight.flightStatus || "",
-    RWY: runwayField || {},
-    POS: positionField || {},
-    REGN: "",
-    TYPE: "",
-    WAKE: "",
-    CODE: "",
-    HOBT: "",
-    ALDT: "",
-    EXOT: "",
-    FORMERIATA: flight.formerFlightidIATA || "",
-    FORMER: flight.formerFlightid || "",
-    FEAT: "",
-    FLIGT_STATUS: "",
-    CLOSE_WAIT: "",
-    TAXI_WAIT: "",
-    DELAY: "",
-    CONTROL: "",
-    EFPS_SID: efpsFlight.sid || "",
-    EFPS_STATUS: efpsFlight.status || "",
-    EFPS_RWY: efpsFlight.linTime || "",
-    EFPS_TAXI: efpsFlight.taxTime || "",
-    EFPS_ASRT: efpsFlight.reqTime || "",
-    EFPS_ASAT: efpsFlight.pusTime || "",
-    NCOBT: ncobtField,
-    NCTOT: nctotField,
-    RCOBT: rcobtField,
-    RCTOT: rctotField,
-    // atomConfigValue: atomConfigValue,
-    atomConfigValue: flight.source || "",
-    orgdata: JSON.stringify(flight)
-  };
-
-  return flightObj;
-};
-
 export {
   CDMNames,
   getColumns,
-  formatSingleFlight,
   scrollTopById,
   highlightRowByDom,
   clearHighlightRowByDom,

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-09-07 16:45:42
+ * @LastEditTime: 2021-09-08 19:16:54
  * @LastEditors: liutianjiao
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-ATOM\src\stores\flightTableStores.jsx
@@ -11,7 +11,7 @@ import { makeObservable, observable, action, computed } from "mobx";
 import {
   isValidVariable,
   isValidObject,
-  calculateStringTimeDiff,
+  calculateStringTimeDiff
 } from "utils/basic-verify.js";
 import { formatSingleFlight } from "components/FlightTable/TableColumns";
 import { FlightCoordination } from "utils/flightcoordination.js";
@@ -169,6 +169,8 @@ class FlightTableData {
   @observable atomConfigValue = "";
   //上一次请求的方案id
   @observable runwayPopoverRef = {};
+  //自动滚动行号
+  @observable targetNum = 0;
   //更新表格loading显示
   @action toggleLoad(showLoad, dataLoaded) {
     this.loading = showLoad;
@@ -289,7 +291,7 @@ class FlightTableData {
   //获取航班高亮航班对象
   @computed get getSelectedFlight() {
     let resFlight = {
-      id: "",
+      id: ""
     };
     this.list.map((flight) => {
       if (flight.selected) {
@@ -349,7 +351,7 @@ class FlightTableData {
         if (isValidVariable(fVal)) {
           showList = showList.filter((flight) => {
             let cellVal = flight[en] || "";
-            if(typeof cellVal === 'object'){
+            if (typeof cellVal === "object") {
               cellVal = cellVal.value || "";
             }
             cellVal = cellVal.toLowerCase() || "";
@@ -376,7 +378,7 @@ class FlightTableData {
 
     const targetFlight = this.getTargetFlight(showList, this.systemName);
     console.timeEnd("getShowFlightsTime");
-    
+
     // showList = showList.slice(50*(this.pageNum-1),300*this.pageNum);
     return { showList, targetFlight };
   }

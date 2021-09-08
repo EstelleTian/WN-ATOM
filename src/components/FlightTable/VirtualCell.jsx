@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { Tag, Tooltip, Input } from "antd";
 import classNames from "classnames";
 import {
@@ -16,14 +16,34 @@ import {
   highlightRowByDom,
   handleRightClickCell
 } from "./VirtualTableColumns";
+
+const { getAlarmValueZh } = FlightCoordination;
+
+const formatAlarmValue = (values) => {
+  let arr = values.map((item) => {
+    return getAlarmValueZh(item);
+  });
+  return arr;
+};
 /**
  * 告警列单元格渲染格式化
  * */
-const renderAlarmCellChildren = (text) => {
+const renderAlarmCellChildren = (alarms) => {
   // 置空title属性,解决title显示[object,object]问题
   return (
-    <div className="alarm_cell" title="">
-      {text}
+    <div className={`alarm-cell`}>
+      {formatAlarmValue(alarms).map((item) => (
+        // <div key={item.key} title={item.descriptions}>
+        <Tag
+          title={item.descriptions}
+          className={`alarm-tag alarm_${item.key} alarm_pos_${item.pos} `}
+          key={item.key}
+          color={item.color}
+        >
+          {item.zh}
+        </Tag>
+        // </div>
+      ))}
     </div>
   );
 };
@@ -34,14 +54,12 @@ const VirtualCell = ({
   style,
   columnName,
   rawData,
-  columnsLen,
-  collaboratePopoverData
+  mergedColumnsLen,
+  collaboratePopoverData,
+  flightTableData
 }) => {
   //显示值
   let cellData = rawData[columnName];
-  // if (columnName === "rowNum" || columnName === "FLIGHTID") {
-  //   style.position = "sticky";
-  // }
   let text = cellData;
   // 显示值如果是对象，取value
   if (typeof cellData === "object") {
@@ -52,6 +70,9 @@ const VirtualCell = ({
   //航班号
   let id = rawData["id"] || "";
   cellClass += " " + id + "_" + columnName + " " + id + " " + columnName;
+  if (flightTableData.focusFlightId === id) {
+    cellClass += " active_row";
+  }
   let popover = (
     // <Tooltip placement="bottom" title={text}>
     <div className="text_cell_center">{text}</div>
@@ -171,7 +192,7 @@ const VirtualCell = ({
   ) {
     popover = <RenderVirtualCell cellData={cellData} columnName={columnName} />;
   } else if (columnName === "ALARM") {
-    popover = renderAlarmCellChildren(text);
+    popover = renderAlarmCellChildren(cellData);
   } else if (columnName === "FFIXT") {
     let {
       source = "",
@@ -275,13 +296,23 @@ const VirtualCell = ({
       // </Tooltip>
     );
   }
+  const handleRow = useCallback((event, record) => {
+    const id = record.id || "";
+    const focusFlightId = flightTableData.focusFlightId;
+    if (focusFlightId === id) {
+      flightTableData.focusFlightId = "";
+    } else {
+      flightTableData.focusFlightId = id;
+    }
+  }, []);
   return (
     <div
       className={`virtual-table-cell ${
-        columnIndex === columnsLen - 1 && "virtual-table-cell-last"
+        columnIndex === mergedColumnsLen - 1 && "virtual-table-cell-last"
       } ${cellClass}`}
-      style={style}
+      style={{ ...style, lineHeight: style.height + "px" }}
       onContextMenu={(event) => {
+        handleRow(event, rawData);
         handleRightClickCell(
           event,
           rawData,
@@ -290,10 +321,16 @@ const VirtualCell = ({
         );
         event.preventDefault();
       }}
+      onClick={(event) => {
+        handleRow(event, rawData);
+      }}
     >
       {popover}
     </div>
   );
 };
 
-export default inject("collaboratePopoverData")(observer(VirtualCell));
+export default inject(
+  "collaboratePopoverData",
+  "flightTableData"
+)(observer(VirtualCell));

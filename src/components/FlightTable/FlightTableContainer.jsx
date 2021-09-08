@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-09-08 15:03:17
+ * @LastEditTime: 2021-09-08 17:46:05
  * @LastEditors: liutianjiao
  * @Description: 表格列表组件
  * @FilePath: \WN-ATOM\src\components\FlightTable\FlightTableContainer.jsx
@@ -32,7 +32,6 @@ function FContainer({
   ATOMConfigFormData,
   columnConfig
 }) {
-  
   const onCellFilter = useCallback((name, value) => {
     console.log(name, value);
     flightTableData.setFilterValues(name, value);
@@ -129,28 +128,26 @@ function FContainer({
 
   let targetFlight = obj.targetFlight || {};
 
-  const focusFlight = useCallback(() => {
-    if (isValidVariable(flightTableData.focusFlightId)) {
-      console.log("航班定位");
-      //高亮航班
-      const flightCanvas = document.getElementsByClassName("flight_canvas");
-      const boxContent = flightCanvas[0].getElementsByClassName("box_content");
-      const tr = boxContent[0].getElementsByClassName(
-        flightTableData.focusFlightId
-      );
-      if (tr.length > 0) {
-        highlightRowByDom(tr[0]);
-        scrollTopById(flightTableData.focusFlightId, "flight_canvas");
-        // flightTableData.focusFlightId = "";
-      }
-    }
-  }, [flightTableData.focusFlightId]);
+  // const focusFlight = useCallback(() => {
+  //   if (isValidVariable(flightTableData.focusFlightId)) {
+  //     console.log("航班定位");
+  //     //高亮航班
+  //     const flightCanvas = document.getElementsByClassName("flight_canvas");
+  //     const boxContent = flightCanvas[0].getElementsByClassName("box_content");
+  //     const tr = boxContent[0].getElementsByClassName(
+  //       flightTableData.focusFlightId
+  //     );
+  //     if (tr.length > 0) {
+  //       highlightRowByDom(tr[0]);
+  //       scrollTopById(flightTableData.focusFlightId, "flight_canvas");
+  //       // flightTableData.focusFlightId = "";
+  //     }
+  //   }
+  // }, [flightTableData.focusFlightId]);
 
-
-
-  useEffect(() => {
-    focusFlight();
-  });
+  // useEffect(() => {
+  //   focusFlight();
+  // });
   console.log("航班表格container渲染 " + flightTableData.focusFlightId);
 
   return (

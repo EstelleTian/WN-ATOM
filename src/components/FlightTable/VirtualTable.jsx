@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-08 16:00:43
+ * @LastEditTime: 2021-09-08 19:27:20
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
  */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { VariableSizeGrid as Grid } from "react-window";
 import ResizeObserver from "rc-resize-observer";
@@ -67,38 +67,59 @@ const renderVirtualList = (
       shouldForceUpdate: true
     });
   };
-
+  const scrollCallback = useCallback((id, rawData) => {
+    // 计算目标航班所在行
+    let targetNum = 0;
+    let finished = false;
+    rawData.map((item) => {
+      if (!finished) {
+        targetNum += 1;
+        if (item.id === id) {
+          finished = true;
+        }
+      }
+    });
+    console.log("targetNum", targetNum);
+    scrollTopById(targetNum, "virtual-grid");
+  }, []);
   useEffect(() => resetVirtualGrid, [tableWidth]);
   useEffect(() => {
-    console.log("航班表格渲染 targetFlight变了", targetFlight.FLIGHTID);
     if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
-      console.log("航班表格渲染 滚动定位");
-      scrollTopById(targetNum, "virtual-grid");
+      console.log("航班表格渲染 自动滚动定位");
+      scrollCallback(targetFlight.id, rawData);
     }
-  }, [targetNum]);
+  }, [rawData]);
+
+  useEffect(() => {
+    if (isValidVariable(flightTableData.focusFlightId)) {
+      console.log("航班表格渲染 自动滚动定位");
+      scrollCallback(flightTableData.focusFlightId, rawData);
+    }
+  }, [flightTableData.focusFlightId]);
   ref.current = connectObject;
   if (rawData === undefined) {
     rawData = [];
   }
   const totalHeight = rawData.length * 45;
-  if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
-    // 计算目标航班所在行
-    let newTargetNum = 0;
-    let finished = false;
-    rawData.map((item) => {
-      if (!finished) {
-        newTargetNum += 1;
-        if (item.id === targetFlight.id) {
-          finished = true;
-        }
-      }
-    });
-    console.log("targetNum", newTargetNum);
-    if (newTargetNum > 0 && targetNum !== newTargetNum) {
-      // scrollTopById(newTargetNum, "virtual-grid");
-      setTargetNum(newTargetNum);
-    }
-  }
+  // if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
+  //   // 计算目标航班所在行
+  //   let newTargetNum = 0;
+  //   let finished = false;
+  //   rawData.map((item) => {
+  //     if (!finished) {
+  //       newTargetNum += 1;
+  //       if (item.id === targetFlight.id) {
+  //         finished = true;
+  //       }
+  //     }
+  //   });
+  //   console.log("targetNum", newTargetNum);
+  //   flightTableData.targetNum = newTargetNum;
+  //   // if (newTargetNum > 0) {
+  //   //   // scrollTopById(newTargetNum, "virtual-grid");
+  //   //   setTargetNum(newTargetNum);
+  //   // }
+  // }
 
   return (
     <Grid

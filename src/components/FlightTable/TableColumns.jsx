@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-09-08 15:33:34
+ * @LastEditTime: 2021-09-08 18:34:52
  * @LastEditors: liutianjiao
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-ATOM\src\components\FlightTable\TableColumns.jsx
@@ -18,19 +18,6 @@ import { FlightCoordination, PriorityList } from "utils/flightcoordination.js";
 import RenderCell from "./RenderCell";
 import FmeToday from "utils/fmetoday";
 import debounce from "lodash/debounce";
-
-/**
- * 告警列单元格渲染格式化
- * */
-const renderAlarmCellChildren = (opt) => {
-  const { text, record, index, col, colCN } = opt;
-  // 置空title属性,解决title显示[object,object]问题
-  return (
-    <div className="alarm_cell" title="">
-      {text}
-    </div>
-  );
-};
 
 /**
  * 根据航班id滚动到对应位置
@@ -608,8 +595,6 @@ let render = (opt) => {
     col === "RCTOT"
   ) {
     popover = <RenderCell opt={opt} />;
-  } else if (col === "ALARM") {
-    popover = renderAlarmCellChildren(opt);
   } else if (col === "FFIXT") {
     let {
       source = "",
@@ -713,6 +698,18 @@ let render = (opt) => {
         </div>
       </Tooltip>
     );
+  } else if (col === "ALARM") {
+    popover = formatAlarmValue(text).map((item) => (
+      <Tooltip key={item.key} title={item.descriptions}>
+        <Tag
+          className={`alarm-tag alarm_${item.key} alarm_pos_${item.pos} `}
+          key={item.key}
+          color={item.color}
+        >
+          {item.zh}
+        </Tag>
+      </Tooltip>
+    ));
   }
   let obj = {
     children: popover,
@@ -1156,17 +1153,7 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     id: flight.id,
     FLIGHTID: flight.flightid,
     FLIGHTIDIATA: flight.flightidIATA,
-    ALARM: formatAlarmValue(alarms).map((item) => (
-      <Tooltip key={item.key} title={item.descriptions}>
-        <Tag
-          className={`alarm-tag alarm_${item.key} alarm_pos_${item.pos} `}
-          key={item.key}
-          color={item.color}
-        >
-          {item.zh}
-        </Tag>
-      </Tooltip>
-    )),
+    ALARM: alarms,
     TASK: taskVal,
     EAW: eapField.name || "",
     EAWT: eapField,

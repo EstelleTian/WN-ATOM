@@ -9,7 +9,8 @@
   // border-bottom: 1px solid #4a4a4a;
   border: 1px solid #4a4a4a;
   background: #313131;
-  font-size: 20px;
+  font-size: 1rem;
+  // font-size: 20px;
 }
 // .virtual-table-cell.FLIGHTID,
 // .virtual-table-cell.rowNum {
@@ -269,3 +270,18 @@
     }
   }
 }
+// ----- start-------
+// react-window虚拟列表处理单元格样式
+.virtual-table {
+  .rowNum {
+    padding: 0 15px 0 0;
+    text-align: right;
+  }
+  .alarm-cell {
+    padding: 0 5px;
+  }
+  .text_cell_center {
+    left: 15px!important;
+  }
+}
+//----- end-------
