@@ -3,7 +3,7 @@ import React, {
   useCallback,
   useState,
   useMemo,
-  useRef,
+  useRef
 } from "react";
 import { requestGet2 } from "utils/request";
 import { isValidVariable, isValidObject } from "utils/basic-verify";
@@ -14,7 +14,7 @@ function useFlightsList({
   schemeListData,
   performanceKPIData,
   systemPage,
-  flightTableData,
+  flightTableData
 }) {
   let [flightsTimeoutId, setFlightsTimeoutId] = useState(0);
 
@@ -63,9 +63,9 @@ function useFlightsList({
         clearTimeout(flightsTimeoutId);
       }
       let timer = setTimeout(() => {
-        if (!flightTableData.dataLoaded) {
-          getFlightTableData(nextRefresh);
-        }
+        // if (!flightTableData.dataLoaded) {
+        //   getFlightTableData(nextRefresh);
+        // }
       }, 60 * 1000);
       setFlightsTimeoutId(timer);
     }
@@ -90,7 +90,7 @@ function useFlightsList({
           filterRegion: "",
           filterDepap: "",
           system: "",
-          region: "",
+          region: ""
         };
         const activeSystem = systemPage.activeSystem || {};
         params["filterArrap"] = activeSystem.filterArrap || "";
@@ -115,7 +115,7 @@ function useFlightsList({
         }
         const data = await requestGet2({
           url,
-          params,
+          params
         });
         console.time("tableTime");
         updateFlightTableData(data);
@@ -128,7 +128,7 @@ function useFlightsList({
       } catch (e) {
         customNotice({
           type: "error",
-          content: "航班列表数据获取失败",
+          content: "航班列表数据获取失败"
         });
         // 清空航班表格数据
         flightTableData.updateFlightsList([], "");

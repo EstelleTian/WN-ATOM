@@ -1,18 +1,17 @@
-
 //右键协调框-日期
-.clr_date{
-   width: 157px;
+.clr_date {
+  width: 157px;
 }
 //去掉antd form下边距
-.ffixt_form{
-  .ant-form-item{
-    margin-bottom: 0!important;
+.ffixt_form {
+  .ant-form-item {
+    margin-bottom: 0 !important;
   }
 }
 
 //航班号右键
-.clr_flightid{
-  button{
+.clr_flightid {
+  button {
     display: block;
     margin: 10px 0;
     min-width: 160px;
@@ -21,26 +20,36 @@
 }
 
 //单元格为空，样式占位
-.empty_cell{
+.empty_cell {
   height: 26px;
 }
-.ant-tooltip-inner{
+.ant-tooltip-inner {
   border: 1px solid #7c7c7c;
   background-color: #5f5f5f;
 }
 //表格
-.ant-table-body{
+.ant-table-body,
+.virtual-grid {
   //单元格内容左对齐
-  .ant-table-cell.CTO, .ant-table-cell.CTOT,.ant-table-cell.EAP{
-    text-align: left!important;
+  .ant-table-cell.CTO,
+  .ant-table-cell.CTOT,
+  .ant-table-cell.EAP {
+    text-align: left !important;
   }
-  .ant-table-cell{
-    &:hover{
+  //单元格内容左对齐
+  .virtual-table-cell.CTO,
+  .virtual-table-cell.CTOT,
+  .virtual-table-cell.EAP {
+    text-align: left !important;
+  }
+  .ant-table-cell,
+  .virtual-table-cell {
+    &:hover {
       cursor: pointer;
     }
   }
   //占满表格样式
-  .full-cell{
+  .full-cell {
     position: absolute;
     top: 0.55rem;
     left: 0.278rem;
@@ -52,10 +61,10 @@
     //bottom: 0;
     @include display_flex();
     @include flex();
-    &:hover{
+    &:hover {
       cursor: pointer;
     }
-    >div{
+    > div {
       @include display_flex();
       @include flex();
       align-items: center;
@@ -65,87 +74,90 @@
       //text-align: left;
     }
   }
-  .FFIX{
-    border-left: 2px solid #13c2c2!important;
+  .FFIX {
+    border-left: 2px solid #13c2c2 !important;
     // border-left: 2px solid #dadada!important;
     //border-right: 2px solid #868a8b!important;
   }
-  .FFIXT{
-    border-left: 2px solid #13c2c2!important;
-    border-right: 2px solid #13c2c2!important;
+  .FFIXT {
+    border-left: 2px solid #13c2c2 !important;
+    border-right: 2px solid #13c2c2 !important;
 
-    .full-cell{
+    .full-cell {
       // top: 0.1rem;
       // left: 0.2rem;
       // right: 0.2rem;
       // bottom: 0.1rem;
-      >div{
-        padding-left: 0!important;
+      > div {
+        padding-left: 0 !important;
       }
     }
   }
-  .ATOT{  }
-    .DEP{
-      background: #1e6083;
-    }
-
-  .CTOT.DEP,.CTO.DEP,.COBT.DEP{
-    background: #595959!important;
-    color: #999797;
-
+  .ATOT {
   }
-  .UPDATE{
+  .DEP {
+    background: #1e6083;
+  }
+
+  .CTOT.DEP,
+  .CTO.DEP,
+  .COBT.DEP {
+    background: #595959 !important;
+    color: #999797;
+  }
+  .UPDATE {
     background: #595959;
   }
 
-  .ATOM{
+  .ATOM {
     background: #427470;
   }
-  .NTFM{
+  .NTFM {
     background: #7c6142;
   }
   //人工
-  .MANUAL{
-    background: #B56334;
+  .MANUAL {
+    background: #b56334;
   }
   //预锁
-  .PRELOCK{
-    background: #8F8624;
+  .PRELOCK {
+    background: #8f8624;
   }
   //锁定
-  .LOCK{
+  .LOCK {
     background: #824c82;
   }
   //自动
-  .AUTO{
+  .AUTO {
     background: #347e4e;
   }
-  .WAIT{
+  .WAIT {
     background: #909246;
   }
-  
+
   //失效
-  .INVALID{
-    text-decoration:line-through;
+  .INVALID {
+    text-decoration: line-through;
     background: #605f5f;
-    >span{
-      background: none!important;
+    > span {
+      background: none !important;
     }
-    
   }
-  
-  .TOBT_FPL{  //TOBT报文
+
+  .TOBT_FPL {
+    //TOBT报文
     background: #1d5f35;
   }
-  .TOBT_PREDICT{  //快速过站推算
+  .TOBT_PREDICT {
+    //快速过站推算
     background: #828218;
   }
-  // 系统记录  
-  .RUNWAY_SLOT{
+  // 系统记录
+  .RUNWAY_SLOT {
     background: #188484;
   }
-  // 系统推算   
-  .RUNWAY_SYSTEM{
+  // 系统推算
+  .RUNWAY_SYSTEM {
     background: #808005;
   }
 
@@ -173,8 +185,8 @@
 }
 
 //时间类 --协调表单
-.time_form{
-  .comment_width{
+.time_form {
+  .comment_width {
     width: 64px;
   }
 }
@@ -183,10 +195,10 @@
 *   start---优先级底色
 *  ==============================================
 */
-.priority_48{
+.priority_48 {
   //background: rgba(139, 68, 88, 0.76);
 }
-.in_pool{
+.in_pool {
   //background: rgb(255, 102, 0);
 }
 /*
@@ -197,5 +209,3 @@
 //.alarm_200{
 //  color: rebeccapurple;
 //}
-
-

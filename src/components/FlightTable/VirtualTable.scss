@@ -1,4 +1,271 @@
- .rs-table-cell{
-  background-color: rgb(54,54,54)!important;
-  color: rgba(255, 255, 255, 0.85)
+.virtual-table .ant-table-container:before,
+.virtual-table .ant-table-container:after {
+  display: none;
+}
+.virtual-table-cell,
+[data-theme="dark"] .virtual-table-cell {
+  box-sizing: border-box;
+  // padding: 16px;
+  // border-bottom: 1px solid #4a4a4a;
+  border: 1px solid #4a4a4a;
+  background: #313131;
+  font-size: 20px;
+}
+// .virtual-table-cell.FLIGHTID,
+// .virtual-table-cell.rowNum {
+//   position: sticky !important;
+//   z-index: 2;
+// }
+.ant-table-wrapper {
+  min-height: 100px;
+  // max-height: 800px;
+}
+.ant-table-container {
+  @include display_flex(column);
+  .ant-table-body {
+    @include flex();
+  }
+}
+
+.flight_canvas {
+  position: relative;
+  .statistics {
+    position: absolute;
+    right: 12px;
+    top: 3px;
+    font-size: 1rem;
+    align-items: center;
+    @include display_flex();
+    @include flex();
+    .total_num {
+      position: relative;
+    }
+  }
+  .auto_scroll {
+    display: inline-block;
+    margin-right: 0.3rem;
+  }
+  .box_header {
+    .title {
+      overflow: hidden;
+      display: flex;
+      flex: 1;
+    }
+  }
+  // .ant-table-body{
+  //     min-height: 1175px;
+  // }
+
+  .tactic_title_span {
+    display: flex;
+    flex: 0 0 auto;
+    overflow: hidden;
+    width: calc(100% - 520px);
+    > span {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 5px;
+    }
+
+    .tactic_name {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      flex: 1;
+    }
+  }
+}
+.notshow {
+  display: none;
+}
+.ant-table-tbody > tr.ant-table-row:hover > td.ant-table-cell {
+  //background: rgba(89, 89, 89, 0.78);
+}
+.ant-table-cell {
+  background: #313131;
+  color: #c3c3c3;
+}
+.ant-table-cell.FFIX {
+  //background: #0e4980;
+}
+.ant-table-cell.FFIXT {
+  //background: #404040;
+}
+.in_range {
+  background: #303942;
+  .ant-table-cell {
+    background: #303942;
+  }
+
+  .ant-table-cell-fix-left,
+  .ant-table-cell-fix-right {
+    background: #303942;
+  }
+  .ant-table-cell.FFIXT {
+    //background: #424548;
+    background: #303942;
+  }
+}
+//航班范围内 奇数行 底色
+.odd.in_range {
+  .ant-table-cell {
+    background: #313e4b;
+  }
+}
+//航班范围内 奇数行 底色
+.groupb {
+  .ant-table-cell {
+    background: #6e464b;
+  }
+}
+//航班高亮配色
+.active_row > td {
+  // background-color: #706247 !important;
+  background-color: #3b8c9b !important;
+}
+
+//过点时间间隔样式
+.interval {
+  //position: relative;
+  //left: -6px;
+  > span {
+    padding: 0;
+  }
+}
+.interval_green {
+  //background: rgba(54, 159, 135,0.4);
+  //color: #3AE1B0;
+}
+.interval {
+  // margin: 0.5rem 0;
+}
+.interval_red {
+  background: #1a1919;
+  height: 18px;
+  line-height: 18px;
+}
+
+//表格 单元格 padding
+.flight_canvas {
+  .ant-table.ant-table-small {
+    font-size: 1rem;
+
+    .ant-table-title,
+    .ant-table-footer,
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td,
+    tfoot > tr > th,
+    tfoot > tr > td {
+      padding: 0.35rem;
+    }
+    .ant-table-thead {
+      font-size: 16px;
+    }
+  }
+}
+
+.alarm-tag.ant-tag {
+  padding: 0 2px;
+  margin-right: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+  top: -2px;
+}
+.alarm_cell {
+  overflow: hidden;
+  .alarm-tag {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .alarm_pos_1 {
+    left: 5px;
+  }
+  .alarm_pos_2 {
+    left: 35px;
+  }
+  .alarm_pos_3 {
+    left: 65px;
+  }
+  .alarm_pos_4 {
+    left: 95px;
+  }
+}
+.status_flag {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-top: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+//区内
+.inArea,
+.INNER {
+  color: #87c87f;
+  // border-top: 8px solid #5aa35a;
+  // border-right: 8px solid #5aa35a;
+}
+//区外
+.outArea,
+.OUTER {
+  // border-top: 8px solid #dbdbdb;
+  // border-right: 8px solid #eeeeee;
+}
+//空中
+.inAir,
+.SKY {
+  border-bottom: 8px solid #87d4df;
+  border-right: 8px solid #87d4df;
+}
+//地面
+.inGround,
+.GROUND {
+  border-bottom: 8px solid #907c44;
+  border-right: 8px solid #907c44;
+}
+
+//航班范围外 奇数行 底色
+.odd > td {
+  background-color: #3d3b3b;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.text_cell_center {
+  text-align: left !important;
+  position: relative;
+  left: 5px;
+}
+.text_cell_right {
+  text-align: right !important;
+  position: relative;
+  right: 5px;
+}
+.apply-interval-button-popconfirm {
+  .ant-popover-message-title {
+    font-size: 18px;
+  }
+}
+.icao_switch {
+  background-color: #266e90;
+}
+
+.flight_canvas .ant-table.ant-table-small .ant-table-thead > tr > th {
+  padding: 0.35rem 0 !important;
+  .ant-table-column-sorters {
+    padding: 0 !important;
+    .ant-table-column-sorter {
+      margin-top: -5px;
+    }
+    @media screen and (min-width: 1921px) {
+      .ant-table-column-sorter {
+        margin-top: -8px !important;
+        .ant-table-column-sorter-up,
+        .ant-table-column-sorter-down {
+          font-size: 14px;
+        }
+      }
+    }
+  }
 }

@@ -1,10 +1,10 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-02 11:13:56
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-08 09:21:56
+ * @LastEditors: liutianjiao
  * @Description: 表格列表组件
- * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
+ * @FilePath: \WN-ATOM\src\components\FlightTable\useAutoSize.jsx
  */
 
 import React, { useState, useEffect } from "react";
@@ -15,8 +15,7 @@ function useAutoSize(flightTableData) {
   useEffect(() => {
     const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
     const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
-    const tableHeader =
-      flightCanvas.getElementsByClassName("ant-table-header")[0];
+    const tableHeader = flightCanvas.getElementsByClassName("ant-table-header")[0];
     const tableBody = flightCanvas.getElementsByClassName("ant-table-body")[0];
     const tableBodyStyle = tableBody.getAttribute("style");
     tableBody.setAttribute("style", tableBodyStyle + "min-height: 0px;");

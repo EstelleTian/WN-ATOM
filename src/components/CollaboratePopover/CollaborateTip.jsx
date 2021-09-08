@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-08-18 18:05:06
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-08 14:48:55
+ * @LastEditors: liutianjiao
  * @Description:tip提示框
- * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
+ * @FilePath: \WN-ATOM\src\components\CollaboratePopover\CollaborateTip.jsx
  */
 import React, {
   useCallback,
@@ -12,7 +12,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  Fragment,
+  Fragment
 } from "react";
 import { observer, inject } from "mobx-react";
 import { request } from "utils/request";
@@ -46,10 +46,13 @@ const PositionPopover = (props) => {
     //根据id和name获取dom位置
     let canvasDom = document.getElementsByClassName("flight_canvas")[0];
     let trDom = canvasDom.getElementsByClassName(id);
-    if (trDom.length === 0) {
-      return;
+    let tdDom = [];
+    if (trDom.length > 0) {
+      tdDom = trDom[0].getElementsByClassName(name);
+    } else {
+      tdDom = canvasDom.getElementsByClassName(id + "_" + name);
     }
-    let tdDom = trDom[0].getElementsByClassName(name);
+
     if (tdDom.length > 0) {
       tdDom = tdDom[0];
 

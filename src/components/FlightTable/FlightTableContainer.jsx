@@ -1,25 +1,25 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-29 16:36:16
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-08 15:03:17
+ * @LastEditors: liutianjiao
  * @Description: 表格列表组件
- * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
+ * @FilePath: \WN-ATOM\src\components\FlightTable\FlightTableContainer.jsx
  */
 
-import React, { useEffect, useCallback, useMemo } from "react";
+import React, { useEffect, useCallback, useMemo, useRef } from "react";
 import { inject, observer } from "mobx-react";
 import { isValidVariable } from "utils/basic-verify";
 
-import { getColumns, scrollTopById, highlightRowByDom } from "./TableColumns";
-import FTable from "./FlightTable";
+// import { getColumns, scrollTopById, highlightRowByDom } from "./TableColumns";
+// import FTable from "./FlightTable";
 
-// import {
-//   getColumns,
-//   scrollTopById,
-//   highlightRowByDom,
-// } from "./VirtualTableColumns";
-// import VirtualTable from "./VirtualTable";
+import {
+  getColumns,
+  scrollTopById,
+  highlightRowByDom
+} from "./VirtualTableColumns";
+import VirtualTable from "./VirtualTable";
 
 import "./FlightTable.scss";
 import { isValidObject } from "../../utils/basic-verify";
@@ -30,8 +30,9 @@ function FContainer({
   collaboratePopoverData,
   systemPage,
   ATOMConfigFormData,
-  columnConfig,
+  columnConfig
 }) {
+  
   const onCellFilter = useCallback((name, value) => {
     console.log(name, value);
     flightTableData.setFilterValues(name, value);
@@ -68,13 +69,64 @@ function FContainer({
 
   //显示航班
   let obj = flightTableData.getShowFlights;
-
   let showList = obj.showList || [];
-  // let showList = useMemo(() => {
-  //   console.log(schemeListData.activeSchemeId);
-  //   let list = obj.showList || [];
-  //   return list;
-  // }, [obj, schemeListData.activeSchemeId]);
+  let schemeListObj = schemeListData.getTimeRange;
+  let activeSchemeId = schemeListObj.activeSchemeId || "";
+  let schemeStartTime = schemeListObj.schemeStartTime || "";
+  let schemeEndTime = schemeListObj.schemeEndTime || "";
+  const systemName = flightTableData.systemName || "";
+  const sortKey = flightTableData.sortKey || "";
+  if (isValidVariable(activeSchemeId)) {
+    let newShowList = [];
+    showList.map((record) => {
+      let orgdataStr = record["orgdata"] || "{}";
+      let orgdata = JSON.parse(orgdataStr);
+      let FFIXTField = record.FFIXT || {};
+      let FFIXT = FFIXTField.value || "";
+      let type = FFIXTField.type || "";
+      let id = record.id || "";
+      let atomConfigValue = record.atomConfigValue || "";
+      let isOutterFlight = false;
+
+      if (atomConfigValue * 1 === 300) {
+        if (orgdata.areaStatus === "OUTER" && type === "N") {
+          isOutterFlight = true;
+        }
+      } else {
+        if (orgdata.areaStatus === "OUTER" && (type === "N" || type === "R")) {
+          isOutterFlight = true;
+        }
+      }
+      if (
+        systemName.indexOf("CRS") > -1 &&
+        sortKey === "FFIXT" &&
+        isValidVariable(activeSchemeId) &&
+        !isOutterFlight
+      ) {
+        if (isValidVariable(FFIXT) && FFIXT.length >= 12) {
+          FFIXT = FFIXT.substring(0, 12);
+        }
+        let sTime = "";
+        if (isValidVariable(schemeStartTime) && schemeStartTime.length >= 12) {
+          sTime = schemeStartTime.substring(0, 12);
+        }
+        if (sTime * 1 <= FFIXT * 1) {
+          let eTime = "";
+          if (isValidVariable(schemeEndTime)) {
+            eTime = schemeEndTime.substring(0, 12);
+            if (FFIXT * 1 <= eTime * 1) {
+              record["cellClass"] = "in_range";
+            }
+          } else {
+            record["cellClass"] = " in_range";
+          }
+        }
+      }
+      newShowList.push(record);
+    });
+    showList = newShowList;
+  }
+
   let targetFlight = obj.targetFlight || {};
 
   const focusFlight = useCallback(() => {
@@ -94,25 +146,32 @@ function FContainer({
     }
   }, [flightTableData.focusFlightId]);
 
-  useEffect(() => {
-    console.log("航班表格渲染 targetFlight变了", targetFlight.FLIGHTID);
-    if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
-      console.log("航班表格渲染 滚动定位");
-      scrollTopById(targetFlight.id, "flight_canvas");
-    }
-  }, [targetFlight.id]);
+
 
   useEffect(() => {
     focusFlight();
   });
   console.log("航班表格container渲染 " + flightTableData.focusFlightId);
+
   return (
-    <FTable
+    // <FTable
+    //   columns={columns}
+    //   showList={showList}
+    //   targetFlight={targetFlight}
+    //   flightTableData={flightTableData}
+    //   schemeListData={schemeListData}
+    // />
+    <VirtualTable
       columns={columns}
-      showList={showList}
+      dataSource={showList}
       targetFlight={targetFlight}
       flightTableData={flightTableData}
       schemeListData={schemeListData}
+      scroll={{
+        // y: boxContentHeight,
+        y: 800,
+        x: "100vw"
+      }}
     />
     // <VirtualTable
     //   columns={columns}

@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-09-03 16:13:44
+ * @LastEditTime: 2021-09-08 13:49:03
  * @LastEditors: liutianjiao
  * @Description: 表格列表组件
  * @FilePath: \WN-ATOM\src\components\FlightTable\FlightTable.jsx
@@ -9,7 +9,10 @@
 
 import React, { useEffect, useCallback } from "react";
 import { Table } from "antd";
-import { highlightRowByDom,clearHighlightRowByDom } from "components/FlightTable/TableColumns";
+import {
+  highlightRowByDom,
+  clearHighlightRowByDom
+} from "components/FlightTable/TableColumns";
 import { isValidVariable } from "utils/basic-verify";
 import useAutoSize from "./useAutoSize";
 
@@ -20,7 +23,7 @@ function FTable({
   showList,
   targetFlight,
   flightTableData,
-  schemeListData,
+  schemeListData
 }) {
   const { tableWidth, tableHeight, setHeight } = useAutoSize(flightTableData);
 
@@ -35,16 +38,14 @@ function FTable({
     const focusFlightId = flightTableData.focusFlightId;
     // 点击行
     const dom = event.currentTarget;
-    if(focusFlightId === id ){
+    if (focusFlightId === id) {
       flightTableData.focusFlightId = "";
       const trs = dom.parentElement.children;
       clearHighlightRowByDom(trs);
-    }else{
-      flightTableData.focusFlightId = id
+    } else {
+      flightTableData.focusFlightId = id;
       highlightRowByDom(dom);
     }
-    
-    
   }, []);
 
   console.log("航班表格渲染 " + showList.length + "条");
@@ -137,7 +138,7 @@ function FTable({
       pagination={false}
       scroll={{
         x: tableWidth,
-        y: tableHeight,
+        y: tableHeight
       }}
       // loading={flightTableData.loading}
       onChange={onChange}
@@ -161,7 +162,7 @@ function FTable({
           onContextMenu: (event) => {
             // 点击行
             handleRow(event, record);
-          },
+          }
         };
       }}
     />

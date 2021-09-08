@@ -1,449 +1,186 @@
 /*
- * @Author: liutianjiao
- * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-01 16:12:29
- * @LastEditors: Please set LastEditors
- * @Description: 表格列表组件
- * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
+ * @Author: your name
+ * @Date: 2020-12-23 20:10:27
+ * @LastEditTime: 2021-09-08 16:00:43
+ * @LastEditors: liutianjiao
+ * @Description: In User Settings Edit
+ * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
  */
-
-import React, { useState, useEffect, useCallback } from "react";
-import { Tag, Tooltip, Input } from "antd";
+import React, { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
+import { VariableSizeGrid as Grid } from "react-window";
+import ResizeObserver from "rc-resize-observer";
 import classNames from "classnames";
-import { Table, Column, HeaderCell, Cell } from "rsuite-table";
-import { highlightRowByDom } from "./VirtualTableColumns";
+import { Table } from "antd";
+import _ from "lodash";
 import {
   isValidVariable,
   getDayTimeFromString,
-  getTimeAndStatus,
+  getTimeAndStatus
 } from "utils/basic-verify";
 import { FlightCoordination, PriorityList } from "utils/flightcoordination.js";
+import RenderCell from "./RenderCell";
+import VirtualCell from "./VirtualCell";
 import FmeToday from "utils/fmetoday";
-
-import "rsuite-table/lib/less/index.less";
+import {
+  getColumns,
+  scrollTopById,
+  highlightRowByDom
+} from "./VirtualTableColumns";
 import "./VirtualTable.scss";
 
-function useAutoSize() {
-  let [tableWidth, setWidth] = useState(0);
-  let [tableHeight, setHeight] = useState(0);
-  useEffect(() => {
-    console.log("tableWidth, tableHeight: ", tableWidth, tableHeight);
-    const flightCanvas = document.getElementsByClassName("flight_canvas")[0];
-    const boxContent = flightCanvas.getElementsByClassName("box_content")[0];
+//虚拟内容渲染
+const renderVirtualList = (
+  rawData = [],
+  { scrollbarSize, ref, onScroll },
+  props
+) => {
+  let {
+    columns,
+    scroll,
+    flightTableData,
+    targetFlight,
+    tableHeight,
+    tableWidth
+  } = props;
+  const gridRef = useRef();
+  const [targetNum, setTargetNum] = useState(0);
 
-    let width = boxContent.offsetWidth;
-    let height = boxContent.offsetHeight;
-    // height -= 40; //表头高度
-    if (Math.abs(tableHeight - height) > 5) {
-      setHeight(height);
-    }
-    setWidth(width);
-
-    flightCanvas.oncontextmenu = function () {
-      return false;
-    };
-  }, [tableWidth, tableHeight]);
-
-  return { tableWidth, tableHeight, setHeight };
-}
-
-const getTitle = (title) => {
-  if (!isValidVariable(title)) return "";
-  if (title * 1 > 0 && title.length >= 12) {
-    return <div>{getDayTimeFromString(title, "", 2)}</div>;
-  } else {
-    const titleArr = title.split("#");
-    return (
-      <div>
-        {titleArr.map((value, index) => (
-          <div key={index}>{value}</div>
-        ))}
-      </div>
-    );
-  }
-};
-const CustomCell = ({ rowData, dataKey, columnName, ...props }) => {
-  let text = rowData[columnName];
-  let orgData = rowData["orgdata"] || "{}";
-  if (isValidVariable(orgData)) {
-    orgData = JSON.parse(orgData);
-  }
-  let color = "";
-  let popover = null;
-  if (columnName === "rowNum") {
-    const index = props["aria-colindex"];
-    popover = (
-      <Cell {...props}>
-        <div className="text_cell_right row_cell_pos">{index}</div>
-      </Cell>
-    );
-  } else if (columnName === "FLIGHTID") {
-    let { priority = "" } = orgData;
-    const fmeToday = orgData.fmeToday || {};
-    let hadDEP = FmeToday.hadDEP(fmeToday); //航班已起飞
-    let hadARR = FmeToday.hadARR(fmeToday); //航班已落地
-    let hadFPL = FmeToday.hadFPL(fmeToday); //航班已发FPL报
-    let areaStatusStr = ""; //航班在本区域内
-    let areaStatus = orgData.areaStatus || "";
-    if (areaStatus === "INNER") {
-      areaStatusStr = "区内";
-    } else if (areaStatus === "OUTER") {
-      areaStatusStr = "区外";
-    }
-    let isInPoolFlight = FlightCoordination.isInPoolFlight(orgData); //航班是否在等待池中
-    let isCoordinationResponseWaitingFlight =
-      FlightCoordination.isCoordinationResponseWaitingFlight(orgData); //航班是否在协调响应等待中
-    let getCoordinationResponseWaitingType =
-      FlightCoordination.getCoordinationResponseWaitingType;
-    let flyStatusStr = "";
-    let flyStatus = orgData.flyStatus || "";
-    if (flyStatus === "SKY") {
-      flyStatusStr = "空中";
-    } else if (flyStatus === "GROUND") {
-      flyStatusStr = "地面";
-    }
-    let colorClass = "";
-    if (isValidVariable(priority) && priority * 1 > 0) {
-      colorClass = "priority_" + priority;
-    }
-    if (isInPoolFlight) {
-      colorClass += " in_pool " + orgData.poolStatus;
-    }
-    if (isCoordinationResponseWaitingFlight) {
-      colorClass += " WAIT";
-    }
-
-    popover = (
-      <Cell {...props}>
-        <Tooltip
-          placement="bottom"
-          title={`${
-            PriorityList[priority] || ""
-          } ${areaStatusStr} ${flyStatusStr} ${
-            isCoordinationResponseWaitingFlight
-              ? `${getCoordinationResponseWaitingType(orgData)}协调中`
-              : ""
-          }`}
-        >
-          <div className={` ${colorClass}`}>
-            <div
-              className={`text_cell_center ${
-                isValidVariable(text) ? "" : "empty_cell"
-              }`}
-            >
-              <span className={`${areaStatus}`}>{text}</span>
-            </div>
-
-            <div
-              title={`${flyStatusStr}`}
-              className={`status_flag ${flyStatus}`}
-            ></div>
-          </div>
-        </Tooltip>
-      </Cell>
-    );
-  } else if (
-    columnName === "SOBT" ||
-    columnName === "EOBT" ||
-    columnName === "FEAL"
-  ) {
-    popover = (
-      <Cell {...props}>
-        <Tooltip placement="bottom" title={getDayTimeFromString(text, "", 2)}>
-          <div className="text_cell_center">{getDayTimeFromString(text)}</div>
-        </Tooltip>
-      </Cell>
-    );
-  } else if (
-    columnName === "CTO" ||
-    columnName === "ETO" ||
-    columnName === "EAWT" ||
-    columnName === "OAWT" ||
-    columnName === "ATOT" ||
-    columnName === "TOBT" ||
-    columnName === "AOBT" ||
-    columnName === "ASBT" ||
-    columnName === "COBT" ||
-    columnName === "CTOT" ||
-    columnName === "AGCT" ||
-    columnName === "NCOBT" ||
-    columnName === "NCTOT" ||
-    columnName === "RCOBT" ||
-    columnName === "RCTOT"
-  ) {
-    let {
-      source = "",
-      value = "",
-      type = "",
-      title = "",
-      sourceZH = "",
-      effectStatus = "",
-      meetIntervalValue = "",
-    } = text;
-    let showVal = "";
-    if (isValidVariable(value) && value.length >= 12) {
-      type = type === null ? "" : type;
-      showVal = getDayTimeFromString(value) + " " + type;
-    }
-    if (!isValidVariable(title) && isValidVariable(value)) {
-      title = value;
-    }
-    popover = (
-      <Cell {...props}>
-        <Tooltip placement="bottom" title={getTitle(title)}>
-          <div
-            className={`full-cell ${columnName} ${
-              isValidVariable(value) ? source : ""
-            }  ${columnName}_${source}`}
-          >
-            <div className={`${isValidVariable(value) ? "" : "empty_cell"}`}>
-              <span className="">{showVal}</span>
-            </div>
-          </div>
-        </Tooltip>
-      </Cell>
-    );
-  } else if (columnName === "ALARM") {
-    popover = (
-      <Cell {...props}>
-        <div className="alarm_cell" title="">
-          {text}
-        </div>
-      </Cell>
-    );
-  } else if (columnName === "FFIXT") {
-    let {
-      source = "",
-      value = "",
-      type = "",
-      title = "",
-      sourceZH = "",
-      meetIntervalValue = "",
-    } = text;
-    let fTime = "";
-    if (isValidVariable(value) && value.length >= 12) {
-      type = type === null ? "" : type;
-      fTime = getDayTimeFromString(value) + " " + type;
-    }
-    popover = (
-      <Cell {...props}>
-        <Tooltip placement="bottom" title={getTitle(title)}>
-          <div
-            className={`full-cell time_${fTime} ${
-              isValidVariable(value) && source
-            }`}
-          >
-            <div className={`interval ${fTime !== "" && source}`}>
-              <span
-                className={`${
-                  meetIntervalValue === "200" && fTime !== "" && "interval_red"
-                }`}
-              >
-                {fTime}
-              </span>
-            </div>
-          </div>
-        </Tooltip>
-      </Cell>
-    );
-  } else if (columnName === "RWY" || columnName === "POS") {
-    let {
-      source = "",
-      value = "",
-      type = "",
-      title = "",
-      sourceZH = "",
-    } = text;
-
-    popover = (
-      <Cell {...props}>
-        <Tooltip placement="bottom" title={getTitle(title)}>
-          <div
-            className={`full-cell ${
-              isValidVariable(value) && source
-            } ${columnName}`}
-          >
-            <div className={`${isValidVariable(value) ? "" : "empty_cell"}`}>
-              <span className="">{value}</span>
-            </div>
-          </div>
-        </Tooltip>
-      </Cell>
-    );
-  } else if (columnName === "SLOT") {
-    // 未分配时隙原因
-    let unSlotStatusReason = orgData.unSlotStatusReason || "";
-    popover = (
-      <Cell {...props}>
-        <Tooltip
-          placement="bottom"
-          title={`${
-            isValidVariable(unSlotStatusReason) ? unSlotStatusReason : ""
-          }`}
-        >
-          <div className={`full-cell ${columnName}`}>
-            <div className={`${isValidVariable(text) ? "" : "empty_cell"}`}>
-              <span className="">{text}</span>
-            </div>
-          </div>
-        </Tooltip>
-      </Cell>
-    );
-  } else {
-    popover = (
-      <Cell {...props}>
-        <Tooltip placement="bottom" title={text}>
-          <div className="text_cell_center">{text}</div>
-        </Tooltip>
-      </Cell>
-    );
-  }
-
-  return popover;
-};
-
-function VirtualTable({
-  columns,
-  showList,
-  targetFlight,
-  flightTableData,
-  schemeListData,
-}) {
-  const { tableWidth, tableHeight, setHeight } = useAutoSize();
-
-  const onChange = useCallback((pagination, filters, sorter, extra) => {
-    console.log("onChange");
-    flightTableData.setSortOrder(sorter.order);
-    flightTableData.setSortKey(sorter.columnKey);
-  }, []);
-
-  const handleRow = useCallback((event, rowData) => {
-    // 点击行
-    const dom = event.currentTarget;
-    highlightRowByDom(dom);
-  }, []);
-
-  console.log("航班表格渲染 " + showList.length + "条");
-
-  let schemeListObj = schemeListData.getTimeRange;
-  let activeSchemeId = schemeListObj.activeSchemeId || "";
-  let schemeStartTime = schemeListObj.schemeStartTime || "";
-  let schemeEndTime = schemeListObj.schemeEndTime || "";
-
-  //设置表格行的 class
-  const setRowClassName = useCallback(
-    (
-      rowData,
-      index,
-      systemName,
-      sortKey,
-      activeSchemeId,
-      schemeStartTime,
-      schemeEndTime
-    ) => {
-      let orgdataStr = rowData["orgData"] || "{}";
-      let orgData = JSON.parse(orgdataStr);
-      let FFIXTField = rowData.FFIXT || {};
-      let FFIXT = FFIXTField.value || "";
-      let type = FFIXTField.type || "";
-      let id = rowData.id || "";
-      let atomConfigValue = rowData.atomConfigValue || "";
-      let isOutterFlight = false;
-      if (atomConfigValue * 1 === 300) {
-        if (orgData.areaStatus === "OUTER" && type === "N") {
-          isOutterFlight = true;
-        }
-      } else {
-        if (orgData.areaStatus === "OUTER" && (type === "N" || type === "R")) {
-          isOutterFlight = true;
+  const [connectObject] = useState(() => {
+    const obj = {};
+    Object.defineProperty(obj, "scrollLeft", {
+      get: () => null,
+      set: (scrollLeft) => {
+        if (gridRef.current) {
+          gridRef.current.scrollTo({
+            scrollLeft
+          });
         }
       }
-
-      if (
-        systemName.indexOf("CRS") > -1 &&
-        sortKey === "FFIXT" &&
-        isValidVariable(activeSchemeId) &&
-        !isOutterFlight
-      ) {
-        if (isValidVariable(FFIXT) && FFIXT.length >= 12) {
-          FFIXT = FFIXT.substring(0, 12);
-        }
-        let sTime = "";
-        if (isValidVariable(schemeStartTime) && schemeStartTime.length >= 12) {
-          sTime = schemeStartTime.substring(0, 12);
-        }
-        if (sTime * 1 <= FFIXT * 1) {
-          let eTime = "";
-          if (isValidVariable(schemeEndTime)) {
-            eTime = schemeEndTime.substring(0, 12);
-            if (FFIXT * 1 <= eTime * 1) {
-              id += " in_range";
-            }
-          } else {
-            id += " in_range";
-          }
-        }
-      }
-      // if (isOutterFlight) {
-      //   id += " groupb";
-      // }
-
-      if (index % 2 === 0) {
-        id += " even";
-      } else {
-        id += " odd";
-      }
-
-      return id;
-    },
-    []
-  );
-  console.log("renderFlightsTime 开始计时");
-  console.time("renderFlightsTime");
-  useEffect(() => {
-    console.timeEnd("renderFlightsTime");
+    });
+    return obj;
   });
-  return (
-    <Table
-      // bordered
-      virtualized
-      data={showList}
-      style={{ fontSize: "16px" }}
-      height={tableHeight}
-      width={tableWidth}
-    >
-      {columns.map((column) => {
-        if (column.fixed !== "") {
-          return (
-            <Column
-              className="aaaaa"
-              width={column.width}
-              key={column.key}
-              sortable
-              fixed={column.fixed}
-              resizable
-            >
-              <HeaderCell title={column.title}>{column.dataIndex}</HeaderCell>
-              <CustomCell columnName={column.dataIndex} />
-            </Column>
-          );
-        } else {
-          return (
-            <Column
-              width={column.width}
-              key={column.key}
-              sortable
-              // fixed={column.fixed || ""}
-              resizable
-            >
-              <HeaderCell title={column.title}>{column.dataIndex}</HeaderCell>
-              <Cell dataKey={column.dataIndex} />
-            </Column>
-          );
+  //重置Grid
+  const resetVirtualGrid = () => {
+    gridRef.current.resetAfterIndices({
+      columnIndex: 0,
+      shouldForceUpdate: true
+    });
+  };
+
+  useEffect(() => resetVirtualGrid, [tableWidth]);
+  useEffect(() => {
+    console.log("航班表格渲染 targetFlight变了", targetFlight.FLIGHTID);
+    if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
+      console.log("航班表格渲染 滚动定位");
+      scrollTopById(targetNum, "virtual-grid");
+    }
+  }, [targetNum]);
+  ref.current = connectObject;
+  if (rawData === undefined) {
+    rawData = [];
+  }
+  const totalHeight = rawData.length * 45;
+  if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
+    // 计算目标航班所在行
+    let newTargetNum = 0;
+    let finished = false;
+    rawData.map((item) => {
+      if (!finished) {
+        newTargetNum += 1;
+        if (item.id === targetFlight.id) {
+          finished = true;
         }
-      })}
-    </Table>
+      }
+    });
+    console.log("targetNum", newTargetNum);
+    if (newTargetNum > 0 && targetNum !== newTargetNum) {
+      // scrollTopById(newTargetNum, "virtual-grid");
+      setTargetNum(newTargetNum);
+    }
+  }
+
+  return (
+    <Grid
+      ref={gridRef}
+      className="virtual-grid"
+      columnCount={columns.length}
+      columnWidth={(index) => {
+        const { width } = columns[index];
+        return totalHeight > scroll.y && index === columns.length - 1
+          ? width - scrollbarSize - 1
+          : width;
+      }}
+      height={tableHeight}
+      rowCount={rawData.length}
+      rowHeight={() => 45}
+      width={tableWidth}
+      onScroll={({ scrollLeft }) => {
+        onScroll({
+          scrollLeft
+        });
+      }}
+    >
+      {({ columnIndex, rowIndex, style }) => {
+        //列名称
+        const columnName = columns[columnIndex].dataIndex;
+        // 单元格的值
+        if (rawData === undefined) {
+          rawData = [];
+        }
+        const columnsLen = columns.length;
+        return (
+          <VirtualCell
+            columnIndex={columnIndex}
+            rowIndex={rowIndex}
+            style={style}
+            columnName={columnName}
+            rawData={rawData[rowIndex] || {}}
+            columnsLen={columnsLen}
+          ></VirtualCell>
+        );
+      }}
+    </Grid>
+  );
+};
+
+function VirtualTable(props) {
+  let { columns, scroll, flightTableData, targetFlight } = props;
+  //表格宽度
+  const [tableWidth, setTableWidth] = useState(0);
+  const [tableHeight, setTableHeight] = useState(scroll.y);
+  return (
+    <ResizeObserver
+      onResize={(data) => {
+        setTableWidth(data.width);
+        const flightCanvas =
+          document.getElementsByClassName("flight_canvas")[0];
+        const boxContent =
+          flightCanvas.getElementsByClassName("box_content")[0];
+        const tableHeader =
+          flightCanvas.getElementsByClassName("ant-table-header")[0];
+        let boxContentHeight = boxContent.offsetHeight;
+        boxContentHeight -= tableHeader.offsetHeight; //表头高度
+        if (tableHeight * 1 !== boxContentHeight * 1) {
+          setTableHeight(boxContentHeight);
+        }
+      }}
+    >
+      <Table
+        {...props}
+        className="virtual-table"
+        columns={columns}
+        pagination={false}
+        components={{
+          body: (rawData = [], { scrollbarSize, ref, onScroll }) =>
+            renderVirtualList(
+              rawData,
+              { scrollbarSize, ref, onScroll },
+              { ...props, tableHeight, tableWidth }
+            )
+        }}
+      />
+    </ResizeObserver>
   );
 }
-
 export default VirtualTable;

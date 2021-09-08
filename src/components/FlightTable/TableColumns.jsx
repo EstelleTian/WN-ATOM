@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-09-03 15:48:14
+ * @LastEditTime: 2021-09-08 15:33:34
  * @LastEditors: liutianjiao
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-ATOM\src\components\FlightTable\TableColumns.jsx
@@ -9,15 +9,15 @@
 import React from "react";
 import { Tag, Tooltip, Input } from "antd";
 import {
+  isValidObject,
   isValidVariable,
   getDayTimeFromString,
-  getTimeAndStatus,
+  getTimeAndStatus
 } from "utils/basic-verify";
 import { FlightCoordination, PriorityList } from "utils/flightcoordination.js";
 import RenderCell from "./RenderCell";
 import FmeToday from "utils/fmetoday";
 import debounce from "lodash/debounce";
-import { isValidObject } from "../../utils/basic-verify";
 
 /**
  * 告警列单元格渲染格式化
@@ -43,6 +43,9 @@ const scrollTopById = (id, classStr) => {
     const contentH = boxContent[0].clientHeight; //表格外框高度
     const tableBody = boxContent[0].getElementsByClassName("ant-table-body");
     const tableTBody = boxContent[0].getElementsByClassName("ant-table-tbody");
+    if (tableTBody.length === 0) {
+      return;
+    }
     const tableTBodyH = tableTBody[0].clientHeight; //表格总高度
     // console.log("目标定位航班[contentH]是：");
     if (tableTBodyH * 1 > contentH * 1) {
@@ -92,27 +95,27 @@ const clearHighlightRowByDom = (trs) => {
 const CRSNames = {
   FLIGHTID: {
     en: "FLIGHTID",
-    cn: "航班号",
+    cn: "航班号"
   },
   ALARM: {
     en: "ALARM",
-    cn: "告警列",
+    cn: "告警列"
   },
   FFIX: {
     en: "FFIX",
-    cn: "基准点",
+    cn: "基准点"
   },
   FFIXT: {
     en: "FFIXT",
-    cn: "基准点时间",
+    cn: "基准点时间"
   },
   CTO: {
     en: "CTO",
-    cn: "计算基准点",
+    cn: "计算基准点"
   },
   ETO: {
     en: "ETO",
-    cn: "预计基准点",
+    cn: "预计基准点"
   },
   // COBT: {
   //   en: "COBT",
@@ -120,80 +123,80 @@ const CRSNames = {
   // },
   CTOT: {
     en: "CTOT",
-    cn: "计算起飞时间",
+    cn: "计算起飞时间"
   },
   SLOT: {
     en: "SLOT",
-    cn: "未分配时隙原因",
+    cn: "未分配时隙原因"
   },
   ATOT: {
     en: "ATOT",
-    cn: "实际起飞时间",
+    cn: "实际起飞时间"
   },
   DEPAP: {
     en: "DEPAP",
-    cn: "起飞机场",
+    cn: "起飞机场"
   },
   ARRAP: {
     en: "ARRAP",
-    cn: "降落机场",
+    cn: "降落机场"
   },
   EOBT: {
     en: "EOBT",
-    cn: "预计撤轮档时间",
+    cn: "预计撤轮档时间"
   },
   TOBT: {
     en: "TOBT",
-    cn: "目标撤轮档时间",
+    cn: "目标撤轮档时间"
   },
   RCTOT: {
     en: "RCTOT",
-    cn: "各地CDM计算起飞时间",
+    cn: "各地CDM计算起飞时间"
   },
   NCTOT: {
     en: "NCTOT",
-    cn: "NTFM计算起飞",
+    cn: "NTFM计算起飞"
   },
   ASBT: {
     en: "ASBT",
-    cn: "上客时间",
+    cn: "上客时间"
   },
 
   AGCT: {
     en: "AGCT",
-    cn: "关舱门时间",
+    cn: "关舱门时间"
   },
   AOBT: {
     en: "AOBT",
-    cn: "推出时间",
+    cn: "推出时间"
   },
   STATUS: {
     en: "STATUS",
-    cn: "航班状态",
+    cn: "航班状态"
   },
   FEAL: {
     en: "FEAL",
-    cn: "前段降落时间",
+    cn: "前段降落时间"
   },
   EAW: {
     en: "EAW",
-    cn: "入区域点",
+    cn: "入区域点"
   },
   EAWT: {
     en: "EAWT",
-    cn: "进区域点时间",
+    cn: "进区域点时间"
   },
   OAW: {
     en: "OAW",
-    cn: "出区域点",
+    cn: "出区域点"
   },
   OAWT: {
     en: "OAWT",
-    cn: "出区域点时间",
+    cn: "出区域点时间"
   },
   SOBT: {
     en: "SOBT",
-    cn: "计划撤轮档时间",
+    cn: "计划撤轮档时间"
   },
   // POS: {
   //   en: "POS",
@@ -209,175 +212,175 @@ const CRSNames = {
   // },
   orgdata: {
     en: "orgdata",
-    cn: "原数据",
-  },
+    cn: "原数据"
+  }
 };
 //表格列名称-中英-字典-分局CRS
 const FENJUCRSNames = {
   FLIGHTID: {
     en: "FLIGHTID",
-    cn: "航班号",
+    cn: "航班号"
   },
   ALARM: {
     en: "ALARM",
-    cn: "告警列",
+    cn: "告警列"
   },
   OAW: {
     en: "OAW",
-    cn: "出区域点",
+    cn: "出区域点"
   },
   OAWT: {
     en: "OAWT",
-    cn: "出区域点时间",
+    cn: "出区域点时间"
   },
   FFIX: {
     en: "FFIX",
-    cn: "基准点",
+    cn: "基准点"
   },
   FFIXT: {
     en: "FFIXT",
-    cn: "基准点时间",
+    cn: "基准点时间"
   },
   CTO: {
     en: "CTO",
-    cn: "计算基准点",
+    cn: "计算基准点"
   },
   ETO: {
     en: "ETO",
-    cn: "预计基准点",
+    cn: "预计基准点"
   },
   CTOT: {
     en: "CTOT",
-    cn: "计算起飞时间",
+    cn: "计算起飞时间"
   },
   EAW: {
     en: "EAW",
-    cn: "入区域点",
+    cn: "入区域点"
   },
   EAWT: {
     en: "EAWT",
-    cn: "进区域点时间",
+    cn: "进区域点时间"
   },
   SLOT: {
     en: "SLOT",
-    cn: "未分配时隙原因",
+    cn: "未分配时隙原因"
   },
   ATOT: {
     en: "ATOT",
-    cn: "实际起飞时间",
+    cn: "实际起飞时间"
   },
   DEPAP: {
     en: "DEPAP",
-    cn: "起飞机场",
+    cn: "起飞机场"
   },
   ARRAP: {
     en: "ARRAP",
-    cn: "降落机场",
+    cn: "降落机场"
   },
   EOBT: {
     en: "EOBT",
-    cn: "预计撤轮档时间",
+    cn: "预计撤轮档时间"
   },
   TOBT: {
     en: "TOBT",
-    cn: "目标撤轮档时间",
+    cn: "目标撤轮档时间"
   },
   NCOBT: {
     en: "NCOBT",
-    cn: "NTFM计算撤轮档",
+    cn: "NTFM计算撤轮档"
   },
   NCTOT: {
     en: "NCTOT",
-    cn: "NTFM计算起飞",
+    cn: "NTFM计算起飞"
   },
   ASBT: {
     en: "ASBT",
-    cn: "上客时间",
+    cn: "上客时间"
   },
 
   AGCT: {
     en: "AGCT",
-    cn: "关舱门时间",
+    cn: "关舱门时间"
   },
   AOBT: {
     en: "AOBT",
-    cn: "推出时间",
+    cn: "推出时间"
   },
   STATUS: {
     en: "STATUS",
-    cn: "航班状态",
+    cn: "航班状态"
   },
   FEAL: {
     en: "FEAL",
-    cn: "前段降落时间",
+    cn: "前段降落时间"
   },
   SOBT: {
     en: "SOBT",
-    cn: "计划撤轮档时间",
+    cn: "计划撤轮档时间"
   },
   POS: {
     en: "POS",
-    cn: "停机位",
+    cn: "停机位"
   },
   RWY: {
     en: "RWY",
-    cn: "跑道",
+    cn: "跑道"
   },
   orgdata: {
     en: "orgdata",
-    cn: "原数据",
-  },
+    cn: "原数据"
+  }
 };
 //表格列名称-中英-字典-CDM
 const CDMNames = {
   FLIGHTID: {
     en: "FLIGHTID",
     cn: "航班号",
-    display: 1,
+    display: 1
   },
   ALARM: {
     en: "ALARM",
-    cn: "告警列",
+    cn: "告警列"
   },
   POS: {
     en: "POS",
-    cn: "停机位",
+    cn: "停机位"
   },
   DEPAP: {
     en: "DEPAP",
-    cn: "起飞机场",
+    cn: "起飞机场"
   },
   ARRAP: {
     en: "ARRAP",
-    cn: "降落机场",
+    cn: "降落机场"
   },
   SOBT: {
     en: "SOBT",
-    cn: "计划撤轮档时间",
+    cn: "计划撤轮档时间"
   },
   EOBT: {
     en: "EOBT",
-    cn: "预计撤轮档时间",
+    cn: "预计撤轮档时间"
   },
   TOBT: {
     en: "TOBT",
-    cn: "目标撤轮档时间",
+    cn: "目标撤轮档时间"
   },
   COBT: {
     en: "COBT",
-    cn: "计算预撤时间",
+    cn: "计算预撤时间"
   },
   CTOT: {
     en: "CTOT",
-    cn: "计算起飞时间",
+    cn: "计算起飞时间"
   },
   SLOT: {
     en: "SLOT",
-    cn: "未分配时隙原因",
+    cn: "未分配时隙原因"
   },
   STATUS: {
     en: "STATUS",
-    cn: "状态",
+    cn: "状态"
   },
   // HOBT: {
   //   en: "HOBT",
@@ -385,114 +388,114 @@ const CDMNames = {
   // },
   ASBT: {
     en: "ASBT",
-    cn: "上客时间",
+    cn: "上客时间"
   },
   AGCT: {
     en: "AGCT",
-    cn: "关舱门时间",
+    cn: "关舱门时间"
   },
   AOBT: {
     en: "AOBT",
-    cn: "推出时间",
+    cn: "推出时间"
   },
   ATOT: {
     en: "ATOT",
-    cn: "实际起飞时间",
+    cn: "实际起飞时间"
   },
   RWY: {
     en: "RWY",
-    cn: "跑道",
+    cn: "跑道"
   },
   FFIX: {
     en: "FFIX",
-    cn: "受控航路点",
+    cn: "受控航路点"
   },
   FFIXT: {
     en: "FFIXT",
-    cn: "受控过点时间",
+    cn: "受控过点时间"
   },
   ALDT: {
     en: "ALDT",
-    cn: "实际降落时间",
+    cn: "实际降落时间"
   },
   REG: {
     en: "REG",
-    cn: "注册号",
+    cn: "注册号"
   },
   TYPE: {
     en: "TYPE",
-    cn: "航班机型",
+    cn: "航班机型"
   },
   WAKE: {
     en: "WAKE",
-    cn: "航班尾流类型",
+    cn: "航班尾流类型"
   },
   CODE: {
     en: "CODE",
-    cn: "航班ACODE",
+    cn: "航班ACODE"
   },
   EXOT: {
     en: "EXOT",
-    cn: "预计出港滑行时间",
+    cn: "预计出港滑行时间"
   },
 
   FORMER: {
     en: "FORMER",
-    cn: "前段航班",
+    cn: "前段航班"
   },
   FEAT: {
     en: "FEAT",
-    cn: "前段起飞时间",
+    cn: "前段起飞时间"
   },
   FEAL: {
     en: "FEAL",
-    cn: "前段降落时间",
+    cn: "前段降落时间"
   },
   FLIGT_STATUS: {
     en: "FLIGT_STATUS",
-    cn: "航班状态",
+    cn: "航班状态"
   },
   CLOSE_WAIT: {
     en: "CLOSE_WAIT",
-    cn: "关门等待",
+    cn: "关门等待"
   },
   TAXI_WAIT: {
     en: "TAXI_WAIT",
-    cn: "滑行等待",
+    cn: "滑行等待"
   },
   DELAY: {
     en: "DELAY",
-    cn: "延误时间",
+    cn: "延误时间"
   },
   CONTROL: {
     en: "CONTROL",
-    cn: "流控状态",
+    cn: "流控状态"
   },
 
   EFPS_SID: {
     en: "EFPS_SID",
-    cn: "EFPS_SID",
+    cn: "EFPS_SID"
   },
   EFPS_STATUS: {
     en: "EFPS_STATUS",
-    cn: "EFPS_航班状态",
+    cn: "EFPS_航班状态"
   },
   EFPS_RWY: {
     en: "EFPS_RWY",
-    cn: "EFPS_上跑道时间",
+    cn: "EFPS_上跑道时间"
   },
   EFPS_TAXI: {
     en: "EFPS_TAXI",
-    cn: "EFPS_开始滑行时间",
+    cn: "EFPS_开始滑行时间"
   },
   EFPS_ASRT: {
     en: "EFPS_ASRT",
-    cn: "EFPS_申请时间",
+    cn: "EFPS_申请时间"
   },
   EFPS_ASAT: {
     en: "EFPS_ASAT",
-    cn: "EFPS_推出时间",
-  },
+    cn: "EFPS_推出时间"
+  }
 };
 
 const CRSSortNames = ["FFIXT", "EOBT", "ID"];
@@ -614,7 +617,7 @@ let render = (opt) => {
       type = "",
       title = "",
       sourceZH = "",
-      meetIntervalValue = "",
+      meetIntervalValue = ""
     } = text;
     let ftime = "";
     if (isValidVariable(value) && value.length >= 12) {
@@ -665,7 +668,7 @@ let render = (opt) => {
       value = "",
       type = "",
       title = "",
-      sourceZH = "",
+      sourceZH = ""
     } = text;
     const getTitle = (title) => {
       if (!isValidVariable(title)) return "";
@@ -714,8 +717,8 @@ let render = (opt) => {
   let obj = {
     children: popover,
     props: {
-      "col-key": col, //td会增加这个属性
-    },
+      "col-key": col //td会增加这个属性
+    }
   };
   return obj;
 };
@@ -771,12 +774,12 @@ const getColumns = (
       dataIndex: "rowNum",
       align: "center",
       key: "rowNum",
-      width: screenWidth > 1920 ? 60 : 50,
+      width: screenWidth > 1920 ? 70 : 70,
       fixed: "left",
       render: (text, record, index) => (
         <div className="text_cell_right row_cell_pos">{index + 1}</div>
-      ),
-    },
+      )
+    }
   ];
   //生成表配置-全部
   for (let key in names) {
@@ -788,14 +791,14 @@ const getColumns = (
       dataIndex: en,
       align: "center",
       key: en,
-      width: screenWidth > 1920 ? 80 : 65,
+      width: screenWidth > 1920 ? 90 : 75,
       ellipsis: true,
       className: en,
       showSorterTooltip: false,
       onHeaderCell: (column) => {
         //配置表头属性，增加title值
         return {
-          title: cn,
+          title: cn
         };
       },
       onCell: (record) => {
@@ -803,9 +806,9 @@ const getColumns = (
           onContextMenu: (event) => {
             handleRightClickCell(event, record, collaboratePopoverData);
             event.preventDefault();
-          },
+          }
         };
-      },
+      }
     };
 
     //普通排序
@@ -1003,7 +1006,7 @@ const getColumns = (
           }
         }
       };
-      tem["sorter"] = (a, b, dir )=> {
+      tem["sorter"] = (a, b, dir) => {
         // console.log("ATOT排序",a, b, dir);
         return sorFunc2(a, b, sortNames, 0);
       };
@@ -1043,7 +1046,7 @@ const getColumns = (
         record,
         index,
         col: en,
-        colCN: cn,
+        colCN: cn
       };
       return render(opt);
     };
@@ -1060,7 +1063,7 @@ const getColumns = (
         ),
         dataIndex: en,
         align: "center",
-        children: [{ ...tem }],
+        children: [{ ...tem }]
       };
       columns.push(doubleTem);
     } else {
@@ -1100,7 +1103,7 @@ const handleRightClickCell = (event, record, collaboratePopoverData) => {
     x,
     y,
     width,
-    height,
+    height
   });
 };
 
@@ -1139,7 +1142,7 @@ const formatSingleFlight = (flight, atomConfigValue) => {
   atd = atd === null ? "" : atd;
   const atotField = {
     value: atd,
-    source: isValidVariable(atd) ? "DEP" : "",
+    source: isValidVariable(atd) ? "DEP" : ""
   };
 
   let taskVal = taskField.value || "";
@@ -1219,7 +1222,7 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     RCTOT: rctotField,
     // atomConfigValue: atomConfigValue,
     atomConfigValue: flight.source || "",
-    orgdata: JSON.stringify(flight),
+    orgdata: JSON.stringify(flight)
   };
 
   return flightObj;
@@ -1232,4 +1235,5 @@ export {
   scrollTopById,
   highlightRowByDom,
   clearHighlightRowByDom,
+  handleRightClickCell
 };

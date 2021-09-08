@@ -34,7 +34,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "prop-types": "^15.7.2",
     "qs": "^6.6.0",
-    "rc-resize-observer": "^0.3.0",
+    "rc-resize-observer": "^1.0.1",
     "rc-tween-one": "^2.7.3",
     "react": "^16.4.0",
     "react-audio-player": "^0.17.0",

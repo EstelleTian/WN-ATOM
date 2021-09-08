@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-09-07 11:57:57
+ * @LastEditTime: 2021-09-07 16:45:42
  * @LastEditors: liutianjiao
  * @Description: 影响航班表格数据存储
  * @FilePath: \WN-ATOM\src\stores\flightTableStores.jsx
@@ -377,7 +377,7 @@ class FlightTableData {
     const targetFlight = this.getTargetFlight(showList, this.systemName);
     console.timeEnd("getShowFlightsTime");
     
-    showList = showList.slice(50*(this.pageNum-1),50*this.pageNum);
+    // showList = showList.slice(50*(this.pageNum-1),300*this.pageNum);
     return { showList, targetFlight };
   }
 
