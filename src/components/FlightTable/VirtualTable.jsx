@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-08 20:37:59
+ * @LastEditTime: 2021-09-09 13:38:06
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
@@ -11,8 +11,9 @@ import ReactDOM from "react-dom";
 import { VariableSizeGrid as Grid } from "react-window";
 import ResizeObserver from "rc-resize-observer";
 import classNames from "classnames";
-import { Table } from "antd";
+import { ConfigProvider, Empty, Table } from "antd";
 import _ from "lodash";
+import zh_CN from "antd/lib/locale-provider/zh_CN";
 import {
   isValidVariable,
   getDayTimeFromString,
@@ -90,6 +91,24 @@ const renderVirtualList = (
     if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
       console.log("航班表格渲染 自动滚动定位");
       scrollCallback(targetFlight.id, rawData);
+    }
+  }, [rawData]);
+  useEffect(() => {
+    if (rawData.length === 0) {
+      const gridDom = document.getElementsByClassName("virtual-grid")[0];
+      const width = gridDom.offsetWidth;
+      ReactDOM.render(
+        <ConfigProvider locale={zh_CN}>
+          <Empty
+            className="table-empty"
+            style={{
+              width: width + "px"
+            }}
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+          />
+        </ConfigProvider>,
+        gridDom.firstElementChild
+      );
     }
   }, [rawData]);
 
