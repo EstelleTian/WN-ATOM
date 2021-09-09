@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-09-08 18:34:52
+ * @LastEditTime: 2021-09-08 20:08:32
  * @LastEditors: liutianjiao
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-ATOM\src\components\FlightTable\TableColumns.jsx
@@ -1182,20 +1182,20 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     STATUS: flight.flightStatus || "",
     RWY: runwayField || {},
     POS: positionField || {},
-    REGN: flight.fmeToday.pregistenum||'',
+    REGN: flight.fmeToday.pregistenum || "",
     TYPE: flight.fmeToday.paircrafttype || flight.fmeToday.saircrafttype,
-    WAKE: flight.aircraftWakes || '',
-    CODE: flight.fmeToday.racode||'',
-    HOBT: '',
-    ALDT: flight.fmeToday.parrtime||'',
-    EXOT: flight.taxi||"",
+    WAKE: flight.aircraftWakes || "",
+    CODE: flight.fmeToday.racode || "",
+    HOBT: "",
+    ALDT: flight.fmeToday.parrtime || "",
+    EXOT: flight.taxi || "",
     FORMERIATA: flight.formerFlightidIATA || "",
     FORMER: flight.formerFlightid || "",
-    FEAT: flight.formerDeptime||"",
-    FLIGT_STATUS:flight.status|| "",
-    CLOSE_WAIT: flight.closeWait||"",
-    TAXI_WAIT:flight.taxiWait|| "",
-    DELAY: flight.delay|| "",
+    FEAT: flight.formerDeptime || "",
+    FLIGT_STATUS: flight.status || "",
+    CLOSE_WAIT: flight.closeWait || "",
+    TAXI_WAIT: flight.taxiWait || "",
+    DELAY: flight.delay || "",
     CONTROL: "",
     EFPS_SID: efpsFlight.sid || "",
     EFPS_STATUS: efpsFlight.status || "",

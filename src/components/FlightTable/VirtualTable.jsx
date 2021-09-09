@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-08 19:27:20
+ * @LastEditTime: 2021-09-08 20:37:59
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
@@ -29,6 +29,9 @@ import {
 } from "./VirtualTableColumns";
 import "./VirtualTable.scss";
 
+//获取屏幕宽度，适配 2k
+let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
+
 //虚拟内容渲染
 const renderVirtualList = (
   rawData = [],
@@ -46,20 +49,20 @@ const renderVirtualList = (
   const gridRef = useRef();
   const [targetNum, setTargetNum] = useState(0);
 
-  const [connectObject] = useState(() => {
-    const obj = {};
-    Object.defineProperty(obj, "scrollLeft", {
-      get: () => null,
-      set: (scrollLeft) => {
-        if (gridRef.current) {
-          gridRef.current.scrollTo({
-            scrollLeft
-          });
-        }
-      }
-    });
-    return obj;
-  });
+  // const [connectObject] = useState(() => {
+  //   const obj = {};
+  //   Object.defineProperty(obj, "scrollLeft", {
+  //     get: () => null,
+  //     set: (scrollLeft) => {
+  //       if (gridRef.current) {
+  //         gridRef.current.scrollTo({
+  //           scrollLeft
+  //         });
+  //       }
+  //     }
+  //   });
+  //   return obj;
+  // });
   //重置Grid
   const resetVirtualGrid = () => {
     gridRef.current.resetAfterIndices({
@@ -96,30 +99,10 @@ const renderVirtualList = (
       scrollCallback(flightTableData.focusFlightId, rawData);
     }
   }, [flightTableData.focusFlightId]);
-  ref.current = connectObject;
+  // ref.current = connectObject;
   if (rawData === undefined) {
     rawData = [];
   }
-  const totalHeight = rawData.length * 45;
-  // if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
-  //   // 计算目标航班所在行
-  //   let newTargetNum = 0;
-  //   let finished = false;
-  //   rawData.map((item) => {
-  //     if (!finished) {
-  //       newTargetNum += 1;
-  //       if (item.id === targetFlight.id) {
-  //         finished = true;
-  //       }
-  //     }
-  //   });
-  //   console.log("targetNum", newTargetNum);
-  //   flightTableData.targetNum = newTargetNum;
-  //   // if (newTargetNum > 0) {
-  //   //   // scrollTopById(newTargetNum, "virtual-grid");
-  //   //   setTargetNum(newTargetNum);
-  //   // }
-  // }
 
   return (
     <Grid
@@ -128,13 +111,14 @@ const renderVirtualList = (
       columnCount={columns.length}
       columnWidth={(index) => {
         const { width } = columns[index];
-        return totalHeight > scroll.y && index === columns.length - 1
-          ? width - scrollbarSize - 1
-          : width;
+        return width;
       }}
       height={tableHeight}
       rowCount={rawData.length}
-      rowHeight={() => 45}
+      rowHeight={() => {
+        const h = screenWidth > 1920 ? 45 : 34;
+        return h;
+      }}
       width={tableWidth}
       onScroll={({ scrollLeft }) => {
         onScroll({
@@ -152,16 +136,15 @@ const renderVirtualList = (
         const columnsLen = columns.length;
         return (
           <>
-          <VirtualCell
-            columnIndex={columnIndex}
-            rowIndex={rowIndex}
-            style={style}
-            columnName={columnName}
-            rawData={rawData[rowIndex] || {}}
-            columnsLen={columnsLen}
-          ></VirtualCell>
+            <VirtualCell
+              columnIndex={columnIndex}
+              rowIndex={rowIndex}
+              style={style}
+              columnName={columnName}
+              rawData={rawData[rowIndex] || {}}
+              columnsLen={columnsLen}
+            ></VirtualCell>
           </>
-          
         );
       }}
     </Grid>
@@ -173,6 +156,10 @@ function VirtualTable(props) {
   //表格宽度
   const [tableWidth, setTableWidth] = useState(0);
   const [tableHeight, setTableHeight] = useState(scroll.y);
+  const onChange = useCallback((pagination, filters, sorter, extra) => {
+    flightTableData.setSortOrder(sorter.order);
+    flightTableData.setSortKey(sorter.columnKey);
+  }, []);
   return (
     <ResizeObserver
       onResize={(data) => {
@@ -195,6 +182,7 @@ function VirtualTable(props) {
         className="virtual-table"
         columns={columns}
         pagination={false}
+        onChange={onChange}
         components={{
           body: (rawData = [], { scrollbarSize, ref, onScroll }) =>
             renderVirtualList(

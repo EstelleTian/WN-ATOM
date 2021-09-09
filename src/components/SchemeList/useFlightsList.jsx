@@ -63,10 +63,10 @@ function useFlightsList({
         clearTimeout(flightsTimeoutId);
       }
       let timer = setTimeout(() => {
-        if (!flightTableData.dataLoaded) {
-          getFlightTableData(nextRefresh);
-        }
-      }, 20 * 1000);
+        // if (!flightTableData.dataLoaded) {
+        //   getFlightTableData(nextRefresh);
+        // }
+      }, 60 * 1000);
       setFlightsTimeoutId(timer);
     }
   }, []);
@@ -113,7 +113,7 @@ function useFlightsList({
         if (systemPage.systemKind.indexOf("CRS") > -1) {
           performanceKPIData.toggleLoad(showLoad, true);
         }
-        if(flightTableData.getState){
+        if (flightTableData.getState) {
         }
         const data = await requestGet2({
           url,

@@ -2,7 +2,7 @@
  * @Author: liutianjiao
  * @Date: 2021-09-08 14:24:09
  * @LastEditors: liutianjiao
- * @LastEditTime: 2021-09-08 19:38:58
+ * @LastEditTime: 2021-09-08 20:38:30
  * @Description:
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTableColumns.jsx
  */
@@ -571,10 +571,11 @@ const getColumns = (
       ellipsis: true,
       className: en,
       showSorterTooltip: false,
-      onHeaderCell: (column) => {
+      onHeaderCell: (columns, index) => {
         //配置表头属性，增加title值
         return {
-          title: cn
+          title: cn,
+          onClick: (event) => {}
         };
       }
     };
@@ -800,6 +801,20 @@ const getColumns = (
     }
     if (en === "DEPAP" || en === "ARRAP") {
       tem["width"] = screenWidth > 1920 ? 95 : 82;
+    }
+
+    if (
+      en === "FLIGT_STATUS" ||
+      en === "CLOSE_WAIT" ||
+      en === "EFPS_SID" ||
+      en === "TAXI_WAIT" ||
+      en === "EFPS_STATUS" ||
+      en === "EFPS_RWY" ||
+      en === "EFPS_TAXI" ||
+      en === "EFPS_ASRT" ||
+      en === "EFPS_ASAT"
+    ) {
+      tem["width"] = screenWidth > 1920 ? 130 : 120;
     }
 
     //隐藏列

@@ -31,7 +31,7 @@ const formatAlarmValue = (values) => {
 const renderAlarmCellChildren = (alarms) => {
   // 置空title属性,解决title显示[object,object]问题
   return (
-    <div className={`alarm-cell`}>
+    <div className={`alarm_cell`}>
       {formatAlarmValue(alarms).map((item) => (
         // <div key={item.key} title={item.descriptions}>
         <Tag
@@ -73,6 +73,14 @@ const VirtualCell = ({
   if (flightTableData.focusFlightId === id) {
     cellClass += " active_row";
   }
+  if ((rowIndex * 1) % 2 === 0) {
+    // 偶数行
+    cellClass += " even";
+  } else {
+    // 奇数行
+    cellClass += " odd";
+  }
+
   let popover = (
     // <Tooltip placement="bottom" title={text}>
     <div className="text_cell_center">{text}</div>
@@ -159,6 +167,8 @@ const VirtualCell = ({
     columnName === "SOBT" ||
     columnName === "EOBT" ||
     columnName === "FEAL" ||
+    columnName === "FEAT" ||
+    columnName === "ALDT" ||
     columnName === "EFPS_RWY" ||
     columnName === "EFPS_TAXI" ||
     columnName === "EFPS_ASRT" ||
@@ -306,6 +316,16 @@ const VirtualCell = ({
       flightTableData.focusFlightId = id;
     }
   }, []);
+
+  if (flightTableData.systemName === "CDM") {
+    if (flightTableData.sortKey !== "ATOT") {
+      cellClass = cellClass.replace("in_range", "");
+    }
+  } else {
+    if (flightTableData.sortKey !== "FFIXT") {
+      cellClass = cellClass.replace("in_range", "");
+    }
+  }
   return (
     <div
       className={`virtual-table-cell ${

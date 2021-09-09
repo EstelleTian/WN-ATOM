@@ -9,14 +9,16 @@
   // border-bottom: 1px solid #4a4a4a;
   border: 1px solid #4a4a4a;
   background: #313131;
+  color: #c3c3c3;
   font-size: 1rem;
   // font-size: 20px;
 }
-// .virtual-table-cell.FLIGHTID,
-// .virtual-table-cell.rowNum {
-//   position: sticky !important;
-//   z-index: 2;
-// }
+@media screen and (max-width: 1921px) {
+  .virtual-table-cell,
+  [data-theme="dark"] .virtual-table-cell {
+    font-size: 1.15rem;
+  }
+}
 .ant-table-wrapper {
   min-height: 100px;
   // max-height: 800px;
@@ -252,7 +254,7 @@
   background-color: #266e90;
 }
 
-.flight_canvas .ant-table.ant-table-small .ant-table-thead > tr > th {
+.flight_canvas .ant-table-thead > tr > th {
   padding: 0.35rem 0 !important;
   .ant-table-column-sorters {
     padding: 0 !important;
@@ -277,11 +279,19 @@
     padding: 0 15px 0 0;
     text-align: right;
   }
-  .alarm-cell {
+  .alarm_cell {
     padding: 0 5px;
   }
   .text_cell_center {
-    left: 15px!important;
+    left: 15px !important;
+  }
+  //航班范围内 奇数行 底色
+  .odd.in_range {
+    background: #313e4b;
+  }
+  //航班范围外 奇数行 底色
+  .odd {
+    background-color: #3d3b3b;
   }
 }
 //----- end-------

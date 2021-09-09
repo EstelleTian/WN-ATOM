@@ -2,20 +2,7 @@
 .virtual-table .ant-table-container:after {
   display: none;
 }
-.virtual-table-cell,
-[data-theme="dark"] .virtual-table-cell {
-  box-sizing: border-box;
-  // padding: 16px;
-  // border-bottom: 1px solid #4a4a4a;
-  border: 1px solid #4a4a4a;
-  background: #313131;
-  font-size: 20px;
-}
-// .virtual-table-cell.FLIGHTID,
-// .virtual-table-cell.rowNum {
-//   position: sticky !important;
-//   z-index: 2;
-// }
+
 .ant-table-wrapper {
   min-height: 100px;
   // max-height: 800px;
