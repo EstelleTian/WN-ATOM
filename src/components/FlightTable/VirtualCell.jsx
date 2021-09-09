@@ -32,12 +32,12 @@ const renderAlarmCellChildren = (alarms) => {
   // 置空title属性,解决title显示[object,object]问题
   return (
     <div className={`alarm_cell`}>
-      {formatAlarmValue(alarms).map((item) => (
+      {formatAlarmValue(alarms).map((item, index) => (
         // <div key={item.key} title={item.descriptions}>
         <Tag
           title={item.descriptions}
           className={`alarm-tag alarm_${item.key} alarm_pos_${item.pos} `}
-          key={item.key}
+          key={`${index}-${item.key}`}
           color={item.color}
         >
           {item.zh}

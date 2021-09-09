@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-09-09 09:20:12
+ * @LastEditTime: 2021-09-09 19:41:26
  * @LastEditors: liutianjiao
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-ATOM\src\components\FlightTable\TableColumns.jsx
@@ -405,8 +405,8 @@ const CDMNames = {
     en: "ALDT",
     cn: "实际降落时间"
   },
-  REG: {
-    en: "REG",
+  REGN: {
+    en: "REGN",
     cn: "注册号"
   },
   TYPE: {

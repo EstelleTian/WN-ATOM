@@ -39,21 +39,24 @@ function useSchemeList({
   let timer = 0;
   let [schemeTimeoutId, setSchemeTimeoutId] = useState(0);
   // 开启定时
-  const timerFunc = (nextRefresh) => {
+  const timerFunc = useCallback(function (nextRefresh) {
+    //开启定时
     if (nextRefresh) {
-      // 清除定时器
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        getSchemeList(nextRefresh);
+      if (isValidVariable(schemeTimeoutId)) {
+        clearTimeout(schemeTimeoutId);
+      }
+      let timer = setTimeout(() => {
+        if (!flightTableData.dataLoaded) {
+          getSchemeList(nextRefresh);
+        }
       }, 30 * 1000);
+      setSchemeTimeoutId(timer);
     }
-  };
+  }, []);
 
   //获取--方案列表 @nextRefresh 是否开启下一轮定时
   const getSchemeList = useCallback(
     async (nextRefresh = false) => {
-      // 清除定时器
-      clearTimeout(timer);
       try {
         let params = {
           status: "",
@@ -152,9 +155,8 @@ function useSchemeList({
       getSchemeList(true);
     } else {
       //没有user id 清定时器
-      if (isValidVariable(schemeTimeoutId.current)) {
-        clearTimeout(schemeTimeoutId.current);
-        schemeTimeoutId.current = "";
+      if (isValidVariable(schemeTimeoutId)) {
+        clearTimeout(schemeTimeoutId);
       }
     }
   }, [systemPage.user.id, systemPage.activeSystem.system]);
