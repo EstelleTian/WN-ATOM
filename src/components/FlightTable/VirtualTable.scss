@@ -122,9 +122,9 @@
   }
 }
 //航班高亮配色
-.active_row > td {
+.active_row {
   // background-color: #706247 !important;
-  background-color: #3b8c9b !important;
+  background-color: #44585c !important;
 }
 
 //过点时间间隔样式
@@ -278,6 +278,12 @@
 // ----- start-------
 // react-window虚拟列表处理单元格样式
 .virtual-table {
+  .ant-table-cell-fix-left {
+    position: sticky !important;
+  }
+  .ant-table-cell-fix-left.FLIGHTID {
+    left: 70px !important;
+  }
   .rowNum {
     padding: 0 15px 0 0;
     text-align: right;
@@ -295,6 +301,16 @@
   //航班范围外 奇数行 底色
   .odd {
     background-color: #3d3b3b;
+  }
+}
+.fixed-virtual-grid {
+  position: absolute !important;
+  top: 35px;
+  z-index: 3;
+  overflow: hidden !important;
+  .virtual-table-cell {
+    position: sticky !important;
+    display: inline-block;
   }
 }
 //----- end-------

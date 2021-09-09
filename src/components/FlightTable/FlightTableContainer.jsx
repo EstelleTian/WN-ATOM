@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-09-08 20:53:16
+ * @LastEditTime: 2021-09-09 13:53:15
  * @LastEditors: liutianjiao
  * @Description: 表格列表组件
  * @FilePath: \WN-ATOM\src\components\FlightTable\FlightTableContainer.jsx
@@ -151,6 +151,20 @@ function FContainer({
     //   schemeListData={schemeListData}
     // />
     <>
+      {/* <div className='felxDev'>
+      <Tables
+        columns={columns}
+        dataSource={showList}
+        targetFlight={targetFlight}
+        flightTableData={flightTableData}
+        schemeListData={schemeListData}
+        scroll={{
+          // y: boxContentHeight,
+          y: 800,
+          x: "100vw"
+        }}
+    />
+    </div> */}
       <VirtualTable
         columns={columns}
         dataSource={showList}

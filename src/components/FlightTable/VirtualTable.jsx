@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-09 13:38:06
+ * @LastEditTime: 2021-09-09 15:40:45
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
@@ -48,24 +48,15 @@ const renderVirtualList = (
     tableWidth
   } = props;
   const gridRef = useRef();
+  // const fixedGridRef = useRef();
   const [targetNum, setTargetNum] = useState(0);
 
-  // const [connectObject] = useState(() => {
-  //   const obj = {};
-  //   Object.defineProperty(obj, "scrollLeft", {
-  //     get: () => null,
-  //     set: (scrollLeft) => {
-  //       if (gridRef.current) {
-  //         gridRef.current.scrollTo({
-  //           scrollLeft
-  //         });
-  //       }
-  //     }
-  //   });
-  //   return obj;
-  // });
   //重置Grid
   const resetVirtualGrid = () => {
+    // fixedGridRef.current.resetAfterIndices({
+    //   columnIndex: 0,
+    //   shouldForceUpdate: true
+    // });
     gridRef.current.resetAfterIndices({
       columnIndex: 0,
       shouldForceUpdate: true
@@ -93,80 +84,119 @@ const renderVirtualList = (
       scrollCallback(targetFlight.id, rawData);
     }
   }, [rawData]);
-  useEffect(() => {
-    if (rawData.length === 0) {
-      const gridDom = document.getElementsByClassName("virtual-grid")[0];
-      const width = gridDom.offsetWidth;
-      ReactDOM.render(
-        <ConfigProvider locale={zh_CN}>
-          <Empty
-            className="table-empty"
-            style={{
-              width: width + "px"
-            }}
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-          />
-        </ConfigProvider>,
-        gridDom.firstElementChild
-      );
-    }
-  }, [rawData]);
-
-  useEffect(() => {
-    if (isValidVariable(flightTableData.focusFlightId)) {
-      console.log("航班表格渲染 自动滚动定位");
-      scrollCallback(flightTableData.focusFlightId, rawData);
-    }
-  }, [flightTableData.focusFlightId]);
+  // useEffect(() => {
+  //   if (isValidVariable(flightTableData.focusFlightId)) {
+  //     console.log("航班表格渲染 自动滚动定位");
+  //     scrollCallback(flightTableData.focusFlightId, rawData);
+  //   }
+  // }, [flightTableData.focusFlightId]);
   // ref.current = connectObject;
   if (rawData === undefined) {
     rawData = [];
   }
 
+  // const domDiv = document.getElementsByClassName("virtual-grid");
+  // const fiexdColumns = columns.slice(0, 2);
+  // let fiexdColumnsWidth = _.reduce(
+  //   fiexdColumns,
+  //   function (sum, n) {
+  //     return sum + n.width * 1;
+  //   },
+  //   0
+  // );
   return (
-    <Grid
-      ref={gridRef}
-      className="virtual-grid"
-      columnCount={columns.length}
-      columnWidth={(index) => {
-        const { width } = columns[index];
-        return width;
-      }}
-      height={tableHeight}
-      rowCount={rawData.length}
-      rowHeight={() => {
-        const h = screenWidth > 1920 ? 45 : 34;
-        return h;
-      }}
-      width={tableWidth}
-      onScroll={({ scrollLeft }) => {
-        onScroll({
-          scrollLeft
-        });
-      }}
-    >
-      {({ columnIndex, rowIndex, style }) => {
-        //列名称
-        const columnName = columns[columnIndex].dataIndex;
-        // 单元格的值
-        if (rawData === undefined) {
-          rawData = [];
-        }
-        const columnsLen = columns.length;
-        return (
-          <>
-            <VirtualCell
-              columnIndex={columnIndex}
-              rowIndex={rowIndex}
-              style={style}
-              columnName={columnName}
-              rawData={rawData[rowIndex] || {}}
-              columnsLen={columnsLen}
-            ></VirtualCell>
-          </>
-        );
-      }}
-    </Grid>
+    <>
+      {/* <Grid
+        ref={fixedGridRef}
+        className="fixed-virtual-grid"
+        columnCount={fiexdColumns.length}
+        columnWidth={(index) => {
+          const { width } = fiexdColumns[index];
+          return width;
+        }}
+        height={tableHeight}
+        rowCount={rawData.length}
+        rowHeight={() => {
+          const h = screenWidth > 1920 ? 45 : 34;
+          return h;
+        }}
+        width={tableWidth}
+        onScroll={({ scrollLeft }) => {
+          // domDiv[0].scrollTop = domDiv[1].scrollTop;
+          onScroll({
+            scrollLeft
+          });
+        }}
+      >
+        {({ columnIndex, rowIndex, style }) => {
+          // console.log(style);
+          //列名称
+          const columnName = fiexdColumns[columnIndex].dataIndex;
+          // 单元格的值
+          if (rawData === undefined) {
+            rawData = [];
+          }
+          const columnsLen = fiexdColumns.length;
+          return (
+            <>
+              <VirtualCell
+                columnIndex={columnIndex}
+                rowIndex={rowIndex}
+                style={style}
+                columnName={columnName}
+                rawData={rawData[rowIndex] || {}}
+                columnsLen={columnsLen}
+              ></VirtualCell>
+            </>
+          );
+        }}
+      </Grid> */}
+      <Grid
+        ref={gridRef}
+        className="virtual-grid"
+        columnCount={columns.length}
+        columnWidth={(index) => {
+          const { width } = columns[index];
+          return width;
+        }}
+        height={tableHeight}
+        rowCount={rawData.length}
+        rowHeight={() => {
+          const h = screenWidth > 1920 ? 45 : 34;
+          return h;
+        }}
+        width={tableWidth}
+        onScroll={({ scrollLeft }) => {
+          // domDiv[0].scrollTop = domDiv[1].scrollTop;
+          onScroll({
+            scrollLeft
+          });
+        }}
+      >
+        {({ columnIndex, rowIndex, style }) => {
+          // console.log(style);
+          //列名称
+          const columnName = columns[columnIndex].dataIndex;
+          // 单元格的值
+          if (rawData === undefined) {
+            rawData = [];
+          }
+          const columnsLen = columns.length;
+          return (
+            <>
+              <VirtualCell
+                columnIndex={columnIndex}
+                rowIndex={rowIndex}
+                style={style}
+                columnName={columnName}
+                rawData={rawData[rowIndex] || {}}
+                columnsLen={columnsLen}
+              ></VirtualCell>
+            </>
+          );
+        }}
+      </Grid>
+    </>
   );
 };
 
@@ -179,6 +209,7 @@ function VirtualTable(props) {
     flightTableData.setSortOrder(sorter.order);
     flightTableData.setSortKey(sorter.columnKey);
   }, []);
+
   return (
     <ResizeObserver
       onResize={(data) => {

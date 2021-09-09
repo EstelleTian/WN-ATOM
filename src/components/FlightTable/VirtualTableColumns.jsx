@@ -2,7 +2,7 @@
  * @Author: liutianjiao
  * @Date: 2021-09-08 14:24:09
  * @LastEditors: liutianjiao
- * @LastEditTime: 2021-09-09 09:21:05
+ * @LastEditTime: 2021-09-09 15:42:15
  * @Description:
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTableColumns.jsx
  */
@@ -554,7 +554,7 @@ const getColumns = (
       align: "center",
       key: "rowNum",
       width: screenWidth > 1920 ? 70 : 70
-      // fixed: "left",
+      // fixed: "left"
     }
   ];
   //生成表配置-全部
