@@ -3,7 +3,7 @@ import React, {
   useCallback,
   useState,
   useMemo,
-  useRef,
+  useRef
 } from "react";
 import { requestGet2 } from "utils/request";
 import { isValidVariable, isValidObject } from "utils/basic-verify";
@@ -15,7 +15,7 @@ function clearStoreData({
   schemeListData,
   executeKPIData,
   performanceKPIData,
-  flightTableData,
+  flightTableData
 }) {
   //清空方案列表 store 数据
   schemeListData.updateList([], "");
@@ -32,7 +32,7 @@ function useSchemeList({
   schemeListData,
   executeKPIData,
   performanceKPIData,
-  flightTableData,
+  flightTableData
 }) {
   const curStatusValues = useRef();
   // 定时器
@@ -40,14 +40,13 @@ function useSchemeList({
   let [schemeTimeoutId, setSchemeTimeoutId] = useState(0);
   // 开启定时
   const timerFunc = (nextRefresh) => {
-    // 清除定时器
-    clearTimeout(timer);
-    if(nextRefresh){
+    if (nextRefresh) {
+      // 清除定时器
+      clearTimeout(timer);
       timer = setTimeout(() => {
         getSchemeList(nextRefresh);
       }, 30 * 1000);
     }
-    
   };
 
   //获取--方案列表 @nextRefresh 是否开启下一轮定时
@@ -67,7 +66,7 @@ function useSchemeList({
           system: "",
           region: "",
           ntfmShowType: "",
-          direction: "ALL",
+          direction: "ALL"
         };
         const activeSystem = systemPage.activeSystem || {};
         params["filterArrap"] = activeSystem.filterArrap || "";
@@ -84,7 +83,7 @@ function useSchemeList({
 
         const data = await requestGet2({
           url: ReqUrls.schemeListUrl,
-          params,
+          params
         });
         //更新方案数据
         updateSchemeListData(data);
@@ -95,14 +94,14 @@ function useSchemeList({
       } catch (e) {
         customNotice({
           type: "error",
-          content: "方案列表数据获取失败",
+          content: "方案列表数据获取失败"
         });
         // 清空各模块store数据
         clearStoreData({
           schemeListData,
           executeKPIData,
           performanceKPIData,
-          flightTableData,
+          flightTableData
         });
         if (schemeListData.loading) {
           schemeListData.toggleLoad(false);
@@ -130,7 +129,10 @@ function useSchemeList({
   }, []);
 
   useEffect(() => {
-    if (isValidVariable(systemPage.user.id) && isValidVariable(systemPage.activeSystem.system)) {
+    if (
+      isValidVariable(systemPage.user.id) &&
+      isValidVariable(systemPage.activeSystem.system)
+    ) {
       // 复制一份
       let newStatusValues = [...schemeListData.statusValues];
       //获取方案列表--开启下一轮更新
@@ -155,15 +157,16 @@ function useSchemeList({
         schemeTimeoutId.current = "";
       }
     }
-  }, [
-    systemPage.user.id,
-    systemPage.activeSystem.system
-  ]);
+  }, [systemPage.user.id, systemPage.activeSystem.system]);
 
   //监听全局刷新
   useEffect(
     function () {
-      if (systemPage.pageRefresh && isValidVariable(systemPage.user.id) && isValidVariable(systemPage.activeSystem.system)) {
+      if (
+        systemPage.pageRefresh &&
+        isValidVariable(systemPage.user.id) &&
+        isValidVariable(systemPage.activeSystem.system)
+      ) {
         // console.log("方案刷新开启");
         schemeListData.toggleLoad(true);
         getSchemeList(false);
