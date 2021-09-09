@@ -235,6 +235,9 @@
 .uppercase {
   text-transform: uppercase;
 }
+.w-90 {
+  width: 90%;
+}
 .text_cell_center {
   text-align: left !important;
   position: relative;
@@ -263,7 +266,7 @@
     }
     @media screen and (min-width: 1921px) {
       .ant-table-column-sorter {
-        margin-top: -8px !important;
+        margin-top: -5px !important;
         .ant-table-column-sorter-up,
         .ant-table-column-sorter-down {
           font-size: 14px;

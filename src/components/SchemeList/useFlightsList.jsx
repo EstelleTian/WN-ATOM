@@ -63,9 +63,9 @@ function useFlightsList({
         clearTimeout(flightsTimeoutId);
       }
       let timer = setTimeout(() => {
-        // if (!flightTableData.dataLoaded) {
-        //   getFlightTableData(nextRefresh);
-        // }
+        if (!flightTableData.dataLoaded) {
+          getFlightTableData(nextRefresh);
+        }
       }, 60 * 1000);
       setFlightsTimeoutId(timer);
     }

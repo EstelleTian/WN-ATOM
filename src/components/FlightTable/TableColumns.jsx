@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-09-08 20:08:32
+ * @LastEditTime: 2021-09-09 09:20:12
  * @LastEditors: liutianjiao
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-ATOM\src\components\FlightTable\TableColumns.jsx
@@ -1054,7 +1054,7 @@ const getColumns = (
       const doubleTem = {
         title: (
           <Input
-            className="uppercase"
+            className="uppercase w-90"
             onChange={(e) => handleInputVal(e.target.value)}
           />
         ),

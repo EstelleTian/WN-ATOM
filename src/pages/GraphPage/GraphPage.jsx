@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Graph, Shape, Node, Point } from "@antv/x6";
-import {
-  Spin
-} from "antd";
+import { Spin, Empty } from "antd";
 import {
   isValidVariable,
   getDayTimeFromString,
   formatTimeString,
-  isValidObject,
+  isValidObject
 } from "utils/basic-verify";
 import { requestGet2 } from "utils/request";
 import { ReqUrls } from "utils/request-urls";
@@ -131,7 +129,7 @@ const handleBasicTacticNode = (basicTacticInfo = {}, kpi = {}) => {
     isTim: restrictionValue,
     updateTime,
     children: [],
-    ntfmData: {},
+    ntfmData: {}
   };
 
   return node;
@@ -145,7 +143,7 @@ const handleFlowListNode = (flowcontrolList = []) => {
       flowControlTimeInfo = {},
       flowControlMeasure = {},
       directionDoMain = {},
-      from = "",
+      from = ""
     } = flow;
     const { startTime = "", endTime = "" } = flowControlTimeInfo;
     // 调用格式化时间方法 进行拼接
@@ -166,7 +164,7 @@ const handleFlowListNode = (flowcontrolList = []) => {
       text: flowControlName,
       igada: targetUnit,
       dles: from === "delete" ? true : false,
-      news: from === "new" ? true : false,
+      news: from === "new" ? true : false
     };
 
     nodeList.push(node);
@@ -178,7 +176,7 @@ const handleFlowListNode = (flowcontrolList = []) => {
 const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
   let graphData = [];
   let activeTactic = {
-    tacticName: "",
+    tacticName: ""
   };
   //判断数据是否为空
   if (tacticInfos.length > 0) {
@@ -226,9 +224,9 @@ const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
 
 const GraphPage = (props) => {
   // const [tacticId, setTacticId] = useState(
-  //   "28ea85e5-0315-44a0-b0f5-18ed9cefd063"
+  //   "9feac108-f977-442f-a4fd-8d618bf14ee8"
   // );
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [tacticId, setTacticId] = useState("");
   const [activeTactic, setActiveTactic] = useState({ tacticName: "" });
   const [tacticInfos, setTacticInfos] = useState([]);
@@ -251,9 +249,10 @@ const GraphPage = (props) => {
     try {
       setLoading(true);
       const res = await requestGet2({
-        url: ReqUrls.schemeByIdIP + "/" + tacticId,
+        url: ReqUrls.schemeByIdIP + "/" + tacticId
       });
       const { tacticInfos = [], ntfmTacticInfos = {} } = res;
+
       // let arr = [];
       // let len = tacticInfos.length;
       // for (let i = len; i > 0; i--) {
@@ -266,13 +265,18 @@ const GraphPage = (props) => {
         ntfmTacticInfos,
         tacticId
       );
+      if (graphData.join("") === "") {
+        if (graphRef.current !== "") {
+          graphRef.current.dispose();
+        }
+      }
       setTacticInfos(graphData);
       setActiveTactic(activeTactic);
       setLoading(false);
     } catch (e) {
       customNotice({
         type: "error",
-        message: e,
+        message: e
       });
       setLoading(false);
     }
@@ -347,7 +351,7 @@ const GraphPage = (props) => {
           `</span></div>`;
         wrap.innerHTML = innerHTML;
         return wrap;
-      },
+      }
     });
   };
 
@@ -455,7 +459,7 @@ const GraphPage = (props) => {
           </div>`;
         }
         return wrap;
-      },
+      }
     });
   };
 
@@ -467,7 +471,7 @@ const GraphPage = (props) => {
         source: { cell: source },
         target: { cell: target },
         connector: {
-          name: "rounded",
+          name: "rounded"
         },
         attrs: {
           line: {
@@ -479,10 +483,10 @@ const GraphPage = (props) => {
             strokeDasharray: 5,
             stroke: "#ebecee",
             style: {
-              animation: "ant-line 30s infinite linear",
-            },
-          },
-        },
+              animation: "ant-line 30s infinite linear"
+            }
+          }
+        }
       });
     } else if (is.new) {
       return graph.addEdge({
@@ -490,7 +494,7 @@ const GraphPage = (props) => {
         source: { cell: source },
         target: { cell: target },
         connector: {
-          name: "rounded",
+          name: "rounded"
         },
         attrs: {
           line: {
@@ -499,9 +503,9 @@ const GraphPage = (props) => {
             strokeWidth: "2",
             stroke: "#77ff00",
             sourceMarker: null,
-            targetMarker: null,
-          },
-        },
+            targetMarker: null
+          }
+        }
       });
     } else {
       return graph.addEdge({
@@ -509,7 +513,7 @@ const GraphPage = (props) => {
         source: { cell: source },
         target: { cell: target },
         connector: {
-          name: "rounded",
+          name: "rounded"
         },
         attrs: {
           line: {
@@ -518,9 +522,9 @@ const GraphPage = (props) => {
             strokeWidth: "2",
             stroke: "#03e9f4",
             sourceMarker: null,
-            targetMarker: null,
-          },
-        },
+            targetMarker: null
+          }
+        }
       });
     }
   };
@@ -537,9 +541,9 @@ const GraphPage = (props) => {
           targetMarker: {
             size: 38,
             offset: 5,
-            name: "block",
+            name: "block"
           },
-          stroke: "#36a4da",
+          stroke: "#36a4da"
         },
         label: {
           textVerticalAnchor: "middle",
@@ -547,8 +551,8 @@ const GraphPage = (props) => {
           textAnchor: "middle",
           text: item,
           fontSize: 13,
-          fill: "#fff",
-        },
+          fill: "#fff"
+        }
       },
       markup: [
         {
@@ -556,14 +560,14 @@ const GraphPage = (props) => {
           selector: "line",
           attrs: {
             fill: "none",
-            pointerEvents: "none",
-          },
+            pointerEvents: "none"
+          }
         },
         {
           tagName: "text",
-          selector: "label",
-        },
-      ],
+          selector: "label"
+        }
+      ]
     });
   }
 
@@ -580,7 +584,7 @@ const GraphPage = (props) => {
         interacting: false,
         mousewheel: {
           enabled: true,
-          modifiers: ["ctrl", "meta"],
+          modifiers: ["ctrl", "meta"]
         },
         scroller: {
           enabled: true,
@@ -588,8 +592,8 @@ const GraphPage = (props) => {
           width: screenWidth,
           height: screenHeight,
           minVisibleWidth: screenWidth,
-          minVisibleHeight: screenHeight,
-        },
+          minVisibleHeight: screenHeight
+        }
       };
       let graph = new Graph(option);
       graphRef.current = graph;
@@ -636,7 +640,7 @@ const GraphPage = (props) => {
             [
               { x: baseX + 10, y: 100 },
               { x: baseX + 10, y: tacticNodeY + 50 },
-              { x: tacticNodeX, y: tacticNodeY + 50 },
+              { x: tacticNodeX, y: tacticNodeY + 50 }
             ],
             {},
             graph
@@ -667,7 +671,7 @@ const GraphPage = (props) => {
           // 判断节点新增||删除，添加线
           const lineStyle = {
             dle: child.from === "delete",
-            new: child.from === "new",
+            new: child.from === "new"
           };
           const childBaseX = tacticNodeX;
           const childBaseY = 120 + usedHeight;
@@ -678,7 +682,7 @@ const GraphPage = (props) => {
               { x: childBaseX + 20, y: tacticNodeY + 100 },
               { x: childBaseX + 20, y: childBaseY + (childLen * 50) / 2 },
               { x: childBaseX + 50, y: childBaseY + (childLen * 50) / 2 },
-              { x: childX - 20, y: childY + 50 },
+              { x: childX - 20, y: childY + 50 }
             ],
             lineStyle,
             graph
@@ -705,13 +709,24 @@ const GraphPage = (props) => {
     }
   }, [tacticInfos, screenWidth, screenHeight]);
   return (
-    
     <div className="graph_container">
       <Spin spinning={loading}>
-      <div className="tacticName" title={activeTactic.tacticName}>
-        {activeTactic.tacticName}
-      </div>
-      <div id="container"></div>
+        <div
+          className={`tacticName ${
+            isValidVariable(activeTactic.tacticName) ? "show" : "hiden"
+          }`}
+          title={activeTactic.tacticName}
+        >
+          {activeTactic.tacticName}
+        </div>
+        <div id="container"></div>
+        <div
+          className={`empty_canvas ${
+            isValidVariable(activeTactic.tacticName) ? "hiden" : "show"
+          }`}
+        >
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        </div>
       </Spin>
     </div>
   );

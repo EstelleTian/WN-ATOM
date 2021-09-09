@@ -2,7 +2,7 @@
  * @Author: liutianjiao
  * @Date: 2021-09-08 14:24:09
  * @LastEditors: liutianjiao
- * @LastEditTime: 2021-09-08 20:38:30
+ * @LastEditTime: 2021-09-09 09:21:05
  * @Description:
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTableColumns.jsx
  */
@@ -829,7 +829,7 @@ const getColumns = (
       const doubleTem = {
         title: (
           <Input
-            className="uppercase"
+            className="uppercase w-90"
             onChange={(e) => handleInputVal(e.target.value)}
           />
         ),
