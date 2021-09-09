@@ -30,7 +30,7 @@ function ColumnDataInit({ columnConfig, flightTableData,systemPage }) {
   //获取配置数据成功
   const fetchSuccess = (data) => {
     
-    flightTableData.updateGetState(true)
+    // flightTableData.updateGetState(true)
     console.log(flightTableData.getState);
     const { userPropertys = [] } = data;
     let propertys = userPropertys[0] || {};
@@ -39,7 +39,7 @@ function ColumnDataInit({ columnConfig, flightTableData,systemPage }) {
 
   //数据获取失败回调
   const fetchErr = (err) => {
-    flightTableData.updateGetState(false)
+    // flightTableData.updateGetState(false)
     let errMsg = "";
     if (isValidObject(err) && isValidVariable(err.message)) {
       errMsg = err.message;

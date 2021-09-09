@@ -151,6 +151,20 @@ function FContainer({
     //   schemeListData={schemeListData}
     // />
     <>
+    <div className='felxDev'>
+      <Tables
+        columns={columns}
+        dataSource={showList}
+        targetFlight={targetFlight}
+        flightTableData={flightTableData}
+        schemeListData={schemeListData}
+        scroll={{
+          // y: boxContentHeight,
+          y: 800,
+          x: "100vw"
+        }}
+    />
+    </div>
       <VirtualTable
         columns={columns}
         dataSource={showList}

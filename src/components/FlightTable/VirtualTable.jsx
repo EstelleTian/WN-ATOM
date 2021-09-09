@@ -49,7 +49,7 @@ const renderVirtualList = (
   const gridRef = useRef();
   const [targetNum, setTargetNum] = useState(0);
 
-  // const [connectObject] = useState(() => {
+    // const [connectObject] = useState(() => {
   //   const obj = {};
   //   Object.defineProperty(obj, "scrollLeft", {
   //     get: () => null,
@@ -92,11 +92,12 @@ const renderVirtualList = (
       scrollCallback(targetFlight.id, rawData);
     }
   }, [rawData]);
-
+// useEffect(()=>{
+// },[flightTableData.sortOrder])
   useEffect(() => {
     if (isValidVariable(flightTableData.focusFlightId)) {
       console.log("航班表格渲染 自动滚动定位");
-      scrollCallback(flightTableData.focusFlightId, rawData);
+      scrollCallback(flightTableData.focusFlightId, rawData); 
     }
   }, [flightTableData.focusFlightId]);
   // ref.current = connectObject;
@@ -104,6 +105,7 @@ const renderVirtualList = (
     rawData = [];
   }
 
+  const domDiv = document.getElementsByClassName('virtual-grid');
   return (
     <Grid
       ref={gridRef}
@@ -121,12 +123,14 @@ const renderVirtualList = (
       }}
       width={tableWidth}
       onScroll={({ scrollLeft }) => {
-        onScroll({
-          scrollLeft
-        });
+          domDiv[0].scrollTop=domDiv[1].scrollTop
+          onScroll({
+            scrollLeft
+          });
       }}
     >
       {({ columnIndex, rowIndex, style }) => {
+        // console.log(style);
         //列名称
         const columnName = columns[columnIndex].dataIndex;
         // 单元格的值
@@ -160,6 +164,10 @@ function VirtualTable(props) {
     flightTableData.setSortOrder(sorter.order);
     flightTableData.setSortKey(sorter.columnKey);
   }, []);
+  
+  // useEffect(()=>{
+  //   console.log(99);
+  // },[flightTableData.sortOrder])
   return (
     <ResizeObserver
       onResize={(data) => {
@@ -191,6 +199,7 @@ function VirtualTable(props) {
               { ...props, tableHeight, tableWidth }
             )
         }}
+        
       />
     </ResizeObserver>
   );
