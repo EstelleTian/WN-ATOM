@@ -198,13 +198,17 @@ const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
       //处理方案类节点数据
       const basicNode = handleBasicTacticNode(basicTacticInfo, kpi);
 
+      const tacticSource = basicTacticInfo.tacticSource || "";
       const tacticSourceId = basicTacticInfo.tacticSourceId || "";
-      if (tacticSourceId !== "") {
+      if (tacticSource === "EVENT:NTFM" && tacticSourceId !== "") {
         const ntfmObj = ntfmTacticInfos[tacticSourceId] || {};
         const ntfmObjBasicTacticInfo = ntfmObj.basicTacticInfo || {};
-        const ntfmData = handleBasicTacticNode(ntfmObjBasicTacticInfo, {});
-        basicNode["ntfmData"] = ntfmData;
+        if (isValidObject(ntfmObjBasicTacticInfo)) {
+          const ntfmData = handleBasicTacticNode(ntfmObjBasicTacticInfo, {});
+          basicNode["ntfmData"] = ntfmData;
+        }
       }
+
       //处理方案下多个子流控节点数据
       const flowNodeList = handleFlowListNode(flowcontrolList);
 
@@ -542,8 +546,7 @@ const GraphPage = (props) => {
             offset: 5,
             name: "block"
           },
-          stroke: "#36a4da",
-          
+          stroke: "#36a4da"
         },
         label: {
           textVerticalAnchor: "middle",
