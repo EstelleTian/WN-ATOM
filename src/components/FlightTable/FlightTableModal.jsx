@@ -153,11 +153,13 @@ const AutoScrollBtn = inject("flightTableData")(
 //快速过滤
 const FilterBtn = inject("flightTableData")(
   observer((props) => {
+    console.log(props);
     return (
       <div className="quick_filter">
         <Checkbox.Group
           options={[{ label: "快速过滤", value: "quick_filter" }]}
           onChange={(checkedValues) => {
+            // console.log(checkedValues);
             if (checkedValues.indexOf("quick_filter") === -1) {
               props.flightTableData.setFilterable(false);
               props.flightTableData.clearFilterValues();
@@ -200,7 +202,7 @@ const SearchInput = inject("flightTableData")(
 const TotalDom = inject("flightTableData")(
   observer((props) => {
     const { showList } = props.flightTableData.getShowFlights;
-    
+
     return <span className="total_num">总计{showList.length || 0}条</span>;
   })
 );
@@ -217,10 +219,10 @@ function FlightTableModal(props) {
       >
         <div className="statistics">
           <FilterBtn />
-          <AutoScrollBtn />
-          <ICAOSwitch />
-          <SearchInput />
-          <TotalDom />
+            <AutoScrollBtn />
+            <ICAOSwitch />
+            <SearchInput />
+            <TotalDom />
         </div>
         <TSpin />
 

@@ -1,7 +1,8 @@
 .graph_container {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  // overflow: hidden;
+  overflow-x: scroll;
   @include display_flex();
   .ant-spin-container {
     @include display_flex(column);
@@ -17,8 +18,8 @@
     font-size: 18px;
   }
   #container {
-    // width: 100%;
-    // height: 100%;
+    width:100%;
+    height: 100%;
     top: 0 !important;
   }
 

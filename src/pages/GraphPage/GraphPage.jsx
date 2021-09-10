@@ -270,7 +270,7 @@ const GraphPage = (props) => {
           graphRef.current.dispose();
         }
       }
-      setTacticInfos(graphData);
+      setTacticInfos(graphData.reverse());
       setActiveTactic(activeTactic);
       setLoading(false);
     } catch (e) {
@@ -536,14 +536,14 @@ const GraphPage = (props) => {
       attrs: {
         line: {
           connection: true,
-
           strokeWidth: 19,
           targetMarker: {
             size: 38,
             offset: 5,
             name: "block"
           },
-          stroke: "#36a4da"
+          stroke: "#36a4da",
+          
         },
         label: {
           textVerticalAnchor: "middle",
