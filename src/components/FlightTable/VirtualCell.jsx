@@ -83,7 +83,9 @@ const VirtualCell = ({
 
   let popover = (
     // <Tooltip placement="bottom" title={text}>
-    <div className="text_cell_center">{text}</div>
+    <div className="text_cell_center" title={text}>
+      {text}
+    </div>
     // </Tooltip>
   );
   if (columnName === "orgdata") {
@@ -268,9 +270,11 @@ const VirtualCell = ({
         className={`full-cell ${
           isValidVariable(value) && source
         } ${columnName}`}
-        title={title}
       >
-        <div className={`${isValidVariable(value) ? "" : "empty_cell"}`}>
+        <div
+          title={value}
+          className={`${isValidVariable(value) ? "" : "empty_cell"}`}
+        >
           <span className="">{value}</span>
         </div>
       </div>

@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-08-11 16:42:49
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-10 16:25:52
+ * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
  */
@@ -64,7 +64,7 @@ function Topic(props) {
         topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE,
         function (d) {
           //收到消息
-          // console.log(d);
+          console.log("收到方案消息用于【更新航班列表数据】", msg);
           const body = d.body;
           const msgObj = JSON.parse(body);
           const msg = msgObj.message || [];
@@ -73,6 +73,8 @@ function Topic(props) {
           // 消息中的方案ID集合中是否包含当前活动方案id
           let isIncludesActiveSchemeId = msg.includes(activeSchemeId);
           if (isIncludesActiveSchemeId) {
+            // 重新获取方案列表数据以刷新方案列表
+            props.schemeListData.setForceUpdate(true);
             // 强制刷新航班表格
             props.flightTableData.setForceUpdate(true);
           }
@@ -114,7 +116,7 @@ function Topic(props) {
             type: "error",
             message: "收到异步协调消息,更新航班数据" + message,
             msgType: "async",
-            duration: 10,
+            duration: 10
           });
         }
         //更新航班数据（一定是单条）
