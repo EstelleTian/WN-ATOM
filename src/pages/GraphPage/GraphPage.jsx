@@ -198,16 +198,16 @@ const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
       //处理方案类节点数据
       const basicNode = handleBasicTacticNode(basicTacticInfo, kpi);
 
-      const tacticSource = basicTacticInfo.tacticSource || "";
-      const tacticSourceId = basicTacticInfo.tacticSourceId || "";
-      if (tacticSource === "EVENT:NTFM" && tacticSourceId !== "") {
-        const ntfmObj = ntfmTacticInfos[tacticSourceId] || {};
-        const ntfmObjBasicTacticInfo = ntfmObj.basicTacticInfo || {};
-        if (isValidObject(ntfmObjBasicTacticInfo)) {
-          const ntfmData = handleBasicTacticNode(ntfmObjBasicTacticInfo, {});
-          basicNode["ntfmData"] = ntfmData;
-        }
-      }
+      // const tacticSource = basicTacticInfo.tacticSource || "";
+      // const tacticSourceId = basicTacticInfo.tacticSourceId || "";
+      // if (tacticSource === "EVENT:NTFM" && tacticSourceId !== "") {
+      //   const ntfmObj = ntfmTacticInfos[tacticSourceId] || {};
+      //   const ntfmObjBasicTacticInfo = ntfmObj.basicTacticInfo || {};
+      //   if (isValidObject(ntfmObjBasicTacticInfo)) {
+      //     const ntfmData = handleBasicTacticNode(ntfmObjBasicTacticInfo, {});
+      //     basicNode["ntfmData"] = ntfmData;
+      //   }
+      // }
 
       //处理方案下多个子流控节点数据
       const flowNodeList = handleFlowListNode(flowcontrolList);
@@ -541,10 +541,13 @@ const GraphPage = (props) => {
         line: {
           connection: true,
           strokeWidth: 19,
-          targetMarker: {
+          sourceMarker: {
             size: 38,
-            offset: 5,
+            offset: -10,
             name: "block"
+          },
+          targetMarker:{
+
           },
           stroke: "#36a4da"
         },
@@ -713,6 +716,7 @@ const GraphPage = (props) => {
   }, [tacticInfos, screenWidth, screenHeight]);
   return (
     <div className="graph_container">
+      
       <Spin spinning={loading}>
         <div
           className={`tacticName ${
@@ -722,7 +726,15 @@ const GraphPage = (props) => {
         >
           {activeTactic.tacticName}
         </div>
-        <div id="container"></div>
+        <div id="container">
+          <div className='notYet'>
+            <div className='notYetBox'>
+            {/* <i className='iconfont icon-wj-czwj notYetI' ></i> */}
+            <img src="./notYet.png" className='notYetI' alt="" />
+            <span>暂未选中</span>
+            </div>
+          </div>
+        </div>
         <div
           className={`empty_canvas ${
             isValidVariable(activeTactic.tacticName) ? "hiden" : "show"
