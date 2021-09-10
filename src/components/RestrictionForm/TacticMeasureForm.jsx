@@ -12,9 +12,9 @@ function TacticMeasureForm(props) {
   const restrictionModeOptions = [
     { key: "AFP", text: "AFP", title: "AFP" },
     { key: "MIT", text: "MIT", title: "MIT" },
-    { key: "CR", text: "CR", title: "改航" },
+    // { key: "CR", text: "CR", title: "改航" },
     { key: "GS", text: "GS", title: "GS" },
-    { key: "TC", text: "TC", title: "总量控制" },
+    { key: "TC", text: "TC", title: "总量控制" }
     // {"key":"GDP", "text": "GDP"},
     // {"key":"AS", "text": "指定时隙"},
     // {"key":"BREQ", "text": "上客申请"},
@@ -80,7 +80,7 @@ function TacticMeasureForm(props) {
       ) {
         //设置单位表单数值
         form.setFieldsValue({
-          restrictionMITValueUnit: restrictionMITValueUnit,
+          restrictionMITValueUnit: restrictionMITValueUnit
         });
       }
     },
@@ -105,7 +105,7 @@ function TacticMeasureForm(props) {
     restrictionMITValue,
     restrictionMITValueUnit,
     restrictionMITTimeValue,
-    distanceToTime,
+    distanceToTime
   };
   /*
    * MIT限制类型下切换限制模式变更
@@ -157,13 +157,13 @@ function TacticMeasureForm(props) {
           rules={[
             {
               required: true,
-              message: "请输入限制值",
+              message: "请输入限制值"
             },
             {
               type: "string",
               pattern: REGEXP.INTEGER0_999,
-              message: "请输入0~999范围内的整数",
-            },
+              message: "请输入0~999范围内的整数"
+            }
           ]}
         >
           <Input
@@ -187,13 +187,13 @@ function TacticMeasureForm(props) {
           rules={[
             {
               required: true,
-              message: "请输入速度值",
+              message: "请输入速度值"
             },
             {
               type: "string",
               pattern: REGEXP.INTEGER0_999,
-              message: "请输入0~999范围内的整数",
-            },
+              message: "请输入0~999范围内的整数"
+            }
           ]}
         >
           <Input style={{ width: 50 }} disabled={true} />
@@ -233,13 +233,13 @@ function TacticMeasureForm(props) {
           rules={[
             {
               required: true,
-              message: "请输入限制值",
+              message: "请输入限制值"
             },
             {
               type: "string",
               pattern: REGEXP.INTEGER0_999,
-              message: "请输入0~999范围内的整数",
-            },
+              message: "请输入0~999范围内的整数"
+            }
           ]}
         >
           <Input
@@ -276,8 +276,8 @@ function TacticMeasureForm(props) {
               {
                 type: "string",
                 pattern: REGEXP.INTEGER0_999,
-                message: "请输入0~999范围内的整数",
-              },
+                message: "请输入0~999范围内的整数"
+              }
             ]}
           >
             <Input
@@ -301,13 +301,13 @@ function TacticMeasureForm(props) {
             rules={[
               {
                 required: true,
-                message: "请输入速度值",
+                message: "请输入速度值"
               },
               {
                 type: "string",
                 pattern: REGEXP.INTEGER0_999,
-                message: "请输入0~999范围内的整数",
-              },
+                message: "请输入0~999范围内的整数"
+              }
             ]}
           >
             <Input style={{ width: 50 }} disabled={true} />
@@ -352,13 +352,13 @@ function TacticMeasureForm(props) {
             rules={[
               {
                 required: true,
-                message: "请输入限制值分钟数值",
+                message: "请输入限制值分钟数值"
               },
               {
                 type: "string",
                 pattern: REGEXP.INTEGER0_999,
-                message: "请输入0~999范围内的整数",
-              },
+                message: "请输入0~999范围内的整数"
+              }
             ]}
           >
             <Input
@@ -375,13 +375,13 @@ function TacticMeasureForm(props) {
             rules={[
               {
                 required: true,
-                message: "请输入限制值架次",
+                message: "请输入限制值架次"
               },
               {
                 type: "string",
                 pattern: REGEXP.INTEGER0_999,
-                message: "请输入0~999范围内的整数",
-              },
+                message: "请输入0~999范围内的整数"
+              }
             ]}
           >
             <Input
@@ -419,8 +419,8 @@ function TacticMeasureForm(props) {
               {
                 type: "string",
                 pattern: REGEXP.INTEGER0_999,
-                message: "请输入0~999范围内的整数",
-              },
+                message: "请输入0~999范围内的整数"
+              }
             ]}
           >
             <Input
@@ -444,13 +444,13 @@ function TacticMeasureForm(props) {
             rules={[
               {
                 required: true,
-                message: "请输入速度值",
+                message: "请输入速度值"
               },
               {
                 type: "string",
                 pattern: REGEXP.INTEGER0_999,
-                message: "请输入0~999范围内的整数",
-              },
+                message: "请输入0~999范围内的整数"
+              }
             ]}
           >
             <Input style={{ width: 50 }} disabled={true} />
