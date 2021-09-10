@@ -27,7 +27,7 @@ const SummaryCell = memo(
     basicTacticInfoReasonZh,
     basicTacticInfoRemark,
     updateTime,
-    tacticStatus,
+    tacticStatus
   }) => {
     const [visible, setVisible] = useState(false);
 
@@ -69,7 +69,7 @@ const SummaryCell = memo(
           <span
             style={{
               padding: "0 10px",
-              fontSize: "0.8rem",
+              fontSize: "0.8rem"
             }}
           >
             {isTerminated ? "终止时间:" : "发布时间:"}
@@ -77,7 +77,7 @@ const SummaryCell = memo(
           <span
             style={{
               padding: "0 10px",
-              fontSize: "0.8rem",
+              fontSize: "0.8rem"
             }}
           >
             {isTerminated
@@ -113,14 +113,14 @@ function SchemeItem(props) {
       publishTime,
       createTime,
       startCalculateTime = "",
-      updateTime = "",
+      updateTime = ""
     },
     basicFlowcontrol = {},
     directionList = [],
     schemeRelative = "",
     tacticMode = "",
     tempSyncSign = "0",
-    tacticSource = "",
+    tacticSource = ""
   } = item;
 
   // 是否为数据生成日期内的数据
@@ -148,22 +148,23 @@ function SchemeItem(props) {
     return same;
   });
 
-  let dayCount = useCallback(()=>{
-    if(isValidVariable(startTime) &&isValidVariable(endTime)){
+  let dayCount = useCallback(() => {
+    if (isValidVariable(startTime) && isValidVariable(endTime)) {
       // let startTmp = parseFullTime(startTime.substring(0,8)+"0000");
       // let endTmp = parseFullTime(endTime.substring(0,8)+"0000");
-      let diff = calculateStringTimeDiff(startTime.substring(0,8)+"0000", endTime.substring(0,8)+"0000");
+      let diff = calculateStringTimeDiff(
+        startTime.substring(0, 8) + "0000",
+        endTime.substring(0, 8) + "0000"
+      );
       diff = Math.abs(diff);
-      let count = Math.floor(diff/(60*60*24*1000))
-      if(count> 0 ){
-        return "+"+count
-      }else{
-        return 0
+      let count = Math.floor(diff / (60 * 60 * 24 * 1000));
+      if (count > 0) {
+        return "+" + count;
+      } else {
+        return 0;
       }
-
     }
-  },[startTime,
-    endTime])
+  }, [startTime, endTime]);
 
   let isActive = useMemo(() => {
     return schemeListData.activeSchemeId === item.id;
@@ -197,7 +198,7 @@ function SchemeItem(props) {
     restrictionMITValue = "",
     restrictionAFPValueSequence = "",
     restrictionMode = "",
-    restrictionMITValueUnit = "",
+    restrictionMITValueUnit = ""
   } = flowControlMeasure;
   //限制值
   let interVal = "";
@@ -268,7 +269,7 @@ function SchemeItem(props) {
     { key: "MIT", text: "MIT", title: "MIT" },
     { key: "CR", text: "CR", title: "改航" },
     { key: "GS", text: "GS", title: "GS" },
-    { key: "TC", text: "TC", title: "总量控制" },
+    { key: "TC", text: "TC", title: "总量控制" }
     // {"key":"GDP", "text": "GDP"},
     // {"key":"AS", "text": "指定时隙"},
     // {"key":"BREQ", "text": "上客申请"},
@@ -331,7 +332,7 @@ function SchemeItem(props) {
           x: 0,
           y: 0,
           width: 0,
-          height: 0,
+          height: 0
         });
       }
       const { activeSchemeCalculatingModalVisible } = props.schemeListData;
@@ -346,7 +347,7 @@ function SchemeItem(props) {
               props.schemeListData.toggleActiveSchemeCalculatingModalVisible(
                 false
               );
-            },
+            }
           });
           props.schemeListData.toggleActiveSchemeCalculatingModalVisible(true);
         }
@@ -378,7 +379,7 @@ function SchemeItem(props) {
         css: "bg-black",
         closable: true,
         movable: true,
-        resizable: true,
+        resizable: true
       });
       setWindow(newWindow);
       setWindowClass(windowClass);
@@ -489,11 +490,11 @@ function SchemeItem(props) {
                 title={startTime + "-" + endTime}
               >
                 <span>{startTimeFormat}</span>
-                <span style={{padding: '0px 3px'}}>-</span>
+                <span style={{ padding: "0px 3px" }}>-</span>
                 <Badge className="day_count_badge" count={dayCount()}>
                   <span>{endTimeFormat}</span>
                 </Badge>
-                
+
                 {/* {isSameDay ? (
                   `${startTimeFormat} - ${endTimeFormat}`
                 ) : (
@@ -625,6 +626,7 @@ function SchemeItem(props) {
                 <div
                   className="opt item-icon terminate-icon"
                   onClick={(e) => {
+                    // 重新获取方案列表数据以刷新方案列表
                     stopControl(id);
                     e.stopPropagation();
                   }}

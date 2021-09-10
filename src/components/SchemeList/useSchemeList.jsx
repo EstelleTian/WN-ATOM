@@ -39,20 +39,18 @@ function useSchemeList({
   let timer = 0;
   let [schemeTimeoutId, setSchemeTimeoutId] = useState(0);
   // 开启定时
-  const timerFunc = useCallback(function (nextRefresh) {
+  const timerFunc = function (nextRefresh) {
     //开启定时
     if (nextRefresh) {
       if (isValidVariable(schemeTimeoutId)) {
         clearTimeout(schemeTimeoutId);
       }
       let timer = setTimeout(() => {
-        if (!flightTableData.dataLoaded) {
-          getSchemeList(nextRefresh);
-        }
+        getSchemeList(nextRefresh);
       }, 30 * 1000);
       setSchemeTimeoutId(timer);
     }
-  }, []);
+  };
 
   //获取--方案列表 @nextRefresh 是否开启下一轮定时
   const getSchemeList = useCallback(
@@ -153,12 +151,13 @@ function useSchemeList({
       curStatusValues.current = newStatusValues;
       schemeListData.toggleLoad(true);
       getSchemeList(true);
-    } else {
-      //没有user id 清定时器
-      if (isValidVariable(schemeTimeoutId)) {
-        clearTimeout(schemeTimeoutId);
-      }
     }
+    //  else {
+    //   //没有user id 清定时器
+    //   if (isValidVariable(schemeTimeoutId)) {
+    //     clearTimeout(schemeTimeoutId);
+    //   }
+    // }
   }, [systemPage.user.id, systemPage.activeSystem.system]);
 
   //监听全局刷新
