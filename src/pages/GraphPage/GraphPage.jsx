@@ -728,7 +728,7 @@ const GraphPage = (props) => {
         </div>
         <div id="container">
           <div className='notYet'>
-            <i className='iconfont icon-wj-czwj notYet' ></i>
+            <i className='iconfont icon-wj-czwj notYetI' ></i>
             <span>暂未选中</span>
           </div>
         </div>
