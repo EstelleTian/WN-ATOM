@@ -315,7 +315,7 @@ class FlightTableData {
     // });
     // let testList = [];
     // if (this.list.length > 50) {
-    //   testList = this.list.slice(0, 50);
+      // testList = this.list.slice(0, 50);
     // }else{
     //   testList = this.list
     // }

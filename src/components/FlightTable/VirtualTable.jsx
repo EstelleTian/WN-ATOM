@@ -94,7 +94,6 @@ const renderVirtualList = (
   if (rawData === undefined) {
     rawData = [];
   }
-
   // const domDiv = document.getElementsByClassName("virtual-grid");
   // const fiexdColumns = columns.slice(0, 2);
   // let fiexdColumnsWidth = _.reduce(
@@ -165,7 +164,8 @@ const renderVirtualList = (
           const h = screenWidth > 1920 ? 45 : 34;
           return h;
         }}
-        width={tableWidth}
+        
+        width={tableWidth>0?tableWidth:0}
         onScroll={({ scrollLeft }) => {
           // domDiv[0].scrollTop = domDiv[1].scrollTop;
           onScroll({
@@ -174,7 +174,6 @@ const renderVirtualList = (
         }}
       >
         {({ columnIndex, rowIndex, style }) => {
-          // console.log(style);
           //列名称
           const columnName = columns[columnIndex].dataIndex;
           // 单元格的值
@@ -209,10 +208,11 @@ function VirtualTable(props) {
     flightTableData.setSortOrder(sorter.order);
     flightTableData.setSortKey(sorter.columnKey);
   }, []);
-
+  
   return (
     <ResizeObserver
       onResize={(data) => {
+        data.width>0?data.width:0
         setTableWidth(data.width);
         const flightCanvas =
           document.getElementsByClassName("flight_canvas")[0];

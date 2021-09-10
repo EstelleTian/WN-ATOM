@@ -8,12 +8,18 @@
         @include flex();
     }
 }
-
+.qwe{
+    width: 100%;
+}
+.titInput{
+    // position: absolute;
+    // top: 0;
+}
 .felxDev{
     // display: flex;
     position: fixed;
     z-index: 999;
-    width: 175px;
+    width: 190px;
     overflow: hidden;
 }
 .flight_canvas{

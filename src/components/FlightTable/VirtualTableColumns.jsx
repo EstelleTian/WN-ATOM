@@ -596,7 +596,7 @@ const getColumns = (
       if (data1.length >= 12) {
         data1 = data1.substring(0, 12);
       }
-
+      
       if (data2.length >= 12) {
         data2 = data2.substring(0, 12);
       }
