@@ -406,22 +406,22 @@
   width: 100%;
   height: 100vh;
   margin: auto;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   // img{
   //   width: 20rem;
   //   height: 20rem;
   // }
-  .notYetI{
-    // display: block;
-    // display: block;
+  .notYetBox{
     text-align: center;
-    color: #Fff;
-    font-size: 3rem;
+    font-size: 5rem;
+    .notYetI{
+      width: 20rem;
+      height: 20rem;
+      background: #fff;
+      margin: auto;
+    }
   }
-  text-align: center;
-  font-size: 5rem;
-  line-height: 90vh;
 }
