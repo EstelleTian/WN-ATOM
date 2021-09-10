@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-09-09 13:53:15
+ * @LastEditTime: 2021-09-10 20:04:52
  * @LastEditors: liutianjiao
  * @Description: 表格列表组件
  * @FilePath: \WN-ATOM\src\components\FlightTable\FlightTableContainer.jsx
@@ -170,6 +170,7 @@ function FContainer({
         dataSource={showList}
         targetFlight={targetFlight}
         flightTableData={flightTableData}
+        collaboratePopoverData={collaboratePopoverData}
         schemeListData={schemeListData}
         scroll={{
           // y: boxContentHeight,
@@ -177,7 +178,6 @@ function FContainer({
           x: "100vw"
         }}
       />
-     
     </>
 
     // <VirtualTable

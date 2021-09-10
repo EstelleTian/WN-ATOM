@@ -40,6 +40,8 @@ const renderAlarmCellChildren = (opt) => {
   );
 };
 
+//获取屏幕宽度，适配 2k
+let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 /**
  * 根据航班id滚动到对应位置
  * @param classStr  定位容器class
@@ -48,7 +50,7 @@ const scrollTopById = (rowIndex, classStr, gridRef) => {
   if (isValidVariable(rowIndex)) {
     const flightCanvas = document.getElementsByClassName(classStr);
     const contentH = flightCanvas[0].clientHeight; //表格外框高度
-    let mtop = rowIndex * 45;
+    let mtop = rowIndex * (screenWidth > 1920 ? 45 : 34);
     const halfH = Math.floor(contentH / 2);
     // console.log("目标定位航班是：",tr , trHeight, rowIndex, mtop);
     if (halfH < mtop) {
@@ -596,7 +598,7 @@ const getColumns = (
       if (data1.length >= 12) {
         data1 = data1.substring(0, 12);
       }
-      
+
       if (data2.length >= 12) {
         data2 = data2.substring(0, 12);
       }

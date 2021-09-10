@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-09-09 18:08:12
+ * @LastEditTime: 2021-09-10 20:06:27
  * @LastEditors: liutianjiao
  * @Description:tip提示框
  * @FilePath: \WN-ATOM\src\components\CollaboratePopover\CollaborateTip.jsx
@@ -50,8 +50,10 @@ const PositionPopover = (props) => {
     tdDom = canvasDom.getElementsByClassName(id + "_" + name);
 
     if (tdDom.length === 0) {
-      let trDom = canvasDom.getElementsByClassName(id);
-      tdDom = trDom[0].getElementsByClassName(name);
+      let idDom = canvasDom.getElementsByClassName(id);
+      if (idDom.length > 0) {
+        tdDom = idDom[0].getElementsByClassName(name);
+      }
     }
 
     if (tdDom.length > 0) {

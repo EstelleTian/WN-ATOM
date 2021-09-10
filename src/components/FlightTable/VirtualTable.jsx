@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-09 15:40:45
+ * @LastEditTime: 2021-09-10 20:12:37
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
@@ -43,6 +43,7 @@ const renderVirtualList = (
     columns,
     scroll,
     flightTableData,
+    collaboratePopoverData,
     targetFlight,
     tableHeight,
     tableWidth
@@ -79,11 +80,13 @@ const renderVirtualList = (
   }, []);
   useEffect(() => resetVirtualGrid, [tableWidth]);
   useEffect(() => {
+    // if (!isValidVariable(collaboratePopoverData.selectedObj.name)) {
     if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
       console.log("航班表格渲染 自动滚动定位");
       scrollCallback(targetFlight.id, rawData);
     }
-  }, [rawData]);
+    // }
+  }, [targetFlight.id]);
   // useEffect(() => {
   //   if (isValidVariable(flightTableData.focusFlightId)) {
   //     console.log("航班表格渲染 自动滚动定位");
@@ -164,8 +167,7 @@ const renderVirtualList = (
           const h = screenWidth > 1920 ? 45 : 34;
           return h;
         }}
-        
-        width={tableWidth>0?tableWidth:0}
+        width={tableWidth > 0 ? tableWidth : 0}
         onScroll={({ scrollLeft }) => {
           // domDiv[0].scrollTop = domDiv[1].scrollTop;
           onScroll({
@@ -208,11 +210,11 @@ function VirtualTable(props) {
     flightTableData.setSortOrder(sorter.order);
     flightTableData.setSortKey(sorter.columnKey);
   }, []);
-  
+
   return (
     <ResizeObserver
       onResize={(data) => {
-        data.width>0?data.width:0
+        data.width > 0 ? data.width : 0;
         setTableWidth(data.width);
         const flightCanvas =
           document.getElementsByClassName("flight_canvas")[0];
