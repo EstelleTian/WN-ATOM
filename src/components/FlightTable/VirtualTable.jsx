@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-10 20:12:37
+ * @LastEditTime: 2021-09-13 14:18:03
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
@@ -10,6 +10,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { VariableSizeGrid as Grid } from "react-window";
 import ResizeObserver from "rc-resize-observer";
+import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
 import classNames from "classnames";
 import { ConfigProvider, Empty, Table } from "antd";
 import _ from "lodash";
@@ -30,9 +31,43 @@ import {
 } from "./VirtualTableColumns";
 import "./VirtualTable.scss";
 
+const getColumnWidth = (index, columns) => {
+  const columnsItem = columns[index];
+  if (columnsItem.dataIndex == "FLIGHTID") {
+    columnsItem.width = 120;
+  } else if (columnsItem.dataIndex == "ALARM") {
+    columnsItem.width = 140;
+  } else if (
+    columnsItem.dataIndex == "DEPAP" ||
+    columnsItem.dataIndex == "ARRAP" ||
+    columnsItem.dataIndex == "CTOT" ||
+    columnsItem.dataIndex == "FFIXT" ||
+    columnsItem.dataIndex == "CTO" ||
+    columnsItem.dataIndex == "EAW" ||
+    columnsItem.dataIndex == "OAW"
+  ) {
+    columnsItem.width = 95;
+  } else if (columnsItem.dataIndex == "FFIX") {
+    columnsItem.width = 110;
+  } else if (
+    columnsItem.dataIndex == "SOBT" ||
+    columnsItem.dataIndex == "TOBT" ||
+    columnsItem.dataIndex == "EOBT" ||
+    columnsItem.dataIndex == "AGCT" ||
+    columnsItem.dataIndex == "AOBT" ||
+    columnsItem.dataIndex == "NCTOT" ||
+    columnsItem.dataIndex == "RCTOT"
+  ) {
+    columnsItem.width = 90;
+  }
+  console.log(columnsItem.width);
+  const { width } = columnsItem;
+  return width ? width : 90;
+};
+
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
-console.log(35,screenWidth);
+console.log(35, screenWidth);
 //虚拟内容渲染
 const renderVirtualList = (
   rawData = [],
@@ -49,20 +84,21 @@ const renderVirtualList = (
     tableWidth
   } = props;
   const gridRef = useRef();
-  // const fixedGridRef = useRef();
+  const fixedGridRef = useRef();
   const [targetNum, setTargetNum] = useState(0);
 
   //重置Grid
   const resetVirtualGrid = () => {
-    // fixedGridRef.current.resetAfterIndices({
-    //   columnIndex: 0,
-    //   shouldForceUpdate: true
-    // });
+    fixedGridRef.current.resetAfterIndices({
+      columnIndex: 0,
+      shouldForceUpdate: true
+    });
     gridRef.current.resetAfterIndices({
       columnIndex: 0,
       shouldForceUpdate: true
     });
   };
+
   const scrollCallback = useCallback((id, rawData) => {
     // 计算目标航班所在行
     let targetNum = 0;
@@ -97,137 +133,107 @@ const renderVirtualList = (
   if (rawData === undefined) {
     rawData = [];
   }
-  // const domDiv = document.getElementsByClassName("virtual-grid");
-  // const fiexdColumns = columns.slice(0, 2);
-  // let fiexdColumnsWidth = _.reduce(
-  //   fiexdColumns,
-  //   function (sum, n) {
-  //     return sum + n.width * 1;
-  //   },
-  //   0
-  // );
+  const fiexdColumns = columns.slice(0, 2);
+  let fiexdColumnsWidth = _.reduce(
+    fiexdColumns,
+    function (sum, n) {
+      return sum + n.width * 1;
+    },
+    0
+  );
   return (
-    <>
-      {/* <Grid
-        ref={fixedGridRef}
-        className="fixed-virtual-grid"
-        columnCount={fiexdColumns.length}
-        columnWidth={(index) => {
-          const { width } = fiexdColumns[index];
-          return width;
-        }}
-        height={tableHeight}
-        rowCount={rawData.length}
-        rowHeight={() => {
-          const h = screenWidth > 1920 ? 45 : 34;
-          return h;
-        }}
-        width={tableWidth}
-        onScroll={({ scrollLeft }) => {
-          // domDiv[0].scrollTop = domDiv[1].scrollTop;
-          onScroll({
-            scrollLeft
-          });
-        }}
-      >
-        {({ columnIndex, rowIndex, style }) => {
-          // console.log(style);
-          //列名称
-          const columnName = fiexdColumns[columnIndex].dataIndex;
-          // 单元格的值
-          if (rawData === undefined) {
-            rawData = [];
-          }
-          const columnsLen = fiexdColumns.length;
-          return (
-            <>
-              <VirtualCell
-                columnIndex={columnIndex}
-                rowIndex={rowIndex}
-                style={style}
-                columnName={columnName}
-                rawData={rawData[rowIndex] || {}}
-                columnsLen={columnsLen}
-              ></VirtualCell>
-            </>
-          );
-        }}
-      </Grid> */}
-      <Grid
-        ref={gridRef}
-        className="virtual-grid"
-        columnCount={columns.length}
-        columnWidth={(index) => {
-          // const { width } = columns[index];
-          const columnsItem = columns[index]
-          if (columnsItem.dataIndex == "FLIGHTID") {
-            columnsItem.width = 120
-          }else if (columnsItem.dataIndex == "ALARM") {
-            columnsItem.width = 140
-          }else if (
-            columnsItem.dataIndex == "DEPAP"||
-            columnsItem.dataIndex == "ARRAP"|| 
-            columnsItem.dataIndex == "CTOT"||
-            columnsItem.dataIndex == "FFIXT"||
-            columnsItem.dataIndex == "CTO" ||
-            columnsItem.dataIndex == "EAW" ||
-            columnsItem.dataIndex == "OAW" 
-            ) {
-              columnsItem.width = 95
-          }else if (columnsItem.dataIndex == "FFIX") {
-            columnsItem.width = 110
-          }else if (
-            columnsItem.dataIndex == "SOBT"||
-            columnsItem.dataIndex == "TOBT"||
-            columnsItem.dataIndex == "EOBT"||
-            columnsItem.dataIndex == "AGCT"||
-            columnsItem.dataIndex == "AOBT"||
-            columnsItem.dataIndex == "NCTOT"||
-            columnsItem.dataIndex == "RCTOT"
-            ) {
-            columnsItem.width = 90
-          }
-          console.log(columnsItem.width);
-          const { width } = columnsItem;
-          return width?width:90;
-        }}
-        height={tableHeight}
-        rowCount={rawData.length}
-        rowHeight={() => {
-          const h = screenWidth > 1920 ? 45 : 34;
-          return h;
-        }}
-        width={tableWidth > 0 ? tableWidth : 0}
-        onScroll={({ scrollLeft }) => {
-          // domDiv[0].scrollTop = domDiv[1].scrollTop;
-          onScroll({
-            scrollLeft
-          });
-        }}
-      >
-        {({ columnIndex, rowIndex, style }) => {
-          //列名称
-          const columnName = columns[columnIndex].dataIndex;
-          // 单元格的值
-          if (rawData === undefined) {
-            rawData = [];
-          }
-          const columnsLen = columns.length;
-          return (
-            <>
-              <VirtualCell
-                columnIndex={columnIndex}
-                rowIndex={rowIndex}
-                style={style}
-                columnName={columnName}
-                rawData={rawData[rowIndex] || {}}
-                columnsLen={columnsLen}
-              ></VirtualCell>
-            </>
-          );
-        }}
-      </Grid>
-    </>
+    <ScrollSync>
+      <>
+        <ScrollSyncPane>
+          <Grid
+            ref={fixedGridRef}
+            className="fixed-virtual-grid sticky"
+            columnCount={fiexdColumns.length}
+            columnWidth={(index) => {
+              return getColumnWidth(index, columns);
+            }}
+            height={tableHeight - 17}
+            rowCount={rawData.length}
+            rowHeight={() => {
+              const h = screenWidth > 1920 ? 45 : 34;
+              return h;
+            }}
+            width={fiexdColumnsWidth || 200}
+            onScroll={({ scrollLeft }) => {
+              onScroll({
+                scrollLeft
+              });
+            }}
+          >
+            {({ columnIndex, rowIndex, style }) => {
+              // console.log(style);
+              //列名称
+              const columnName = columns[columnIndex].dataIndex;
+              // 单元格的值
+              if (rawData === undefined) {
+                rawData = [];
+              }
+              const columnsLen = columns.length;
+              return (
+                <VirtualCell
+                  columnIndex={columnIndex}
+                  rowIndex={rowIndex}
+                  style={style}
+                  columnName={columnName}
+                  rawData={rawData[rowIndex] || {}}
+                  columnsLen={columnsLen}
+                  className="sticky"
+                />
+              );
+            }}
+          </Grid>
+        </ScrollSyncPane>
+        <ScrollSyncPane>
+          <Grid
+            ref={gridRef}
+            className="virtual-grid"
+            columnCount={columns.length}
+            columnWidth={(index) => {
+              return getColumnWidth(index, columns);
+            }}
+            height={tableHeight}
+            rowCount={rawData.length}
+            rowHeight={() => {
+              const h = screenWidth > 1920 ? 45 : 34;
+              return h;
+            }}
+            width={tableWidth > 0 ? tableWidth : 0}
+            onScroll={({ scrollLeft }) => {
+              onScroll({
+                scrollLeft
+              });
+            }}
+          >
+            {({ columnIndex, rowIndex, style }) => {
+              //列名称
+              const columnName = columns[columnIndex].dataIndex;
+              // 单元格的值
+              if (rawData === undefined) {
+                rawData = [];
+              }
+              const columnsLen = columns.length;
+              return (
+                <>
+                  <VirtualCell
+                    columnIndex={columnIndex}
+                    rowIndex={rowIndex}
+                    style={style}
+                    columnName={columnName}
+                    rawData={rawData[rowIndex] || {}}
+                    columnsLen={columnsLen}
+                  ></VirtualCell>
+                </>
+              );
+            }}
+          </Grid>
+        </ScrollSyncPane>
+      </>
+    </ScrollSync>
   );
 };
 

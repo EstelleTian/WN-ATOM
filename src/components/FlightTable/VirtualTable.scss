@@ -11,7 +11,7 @@
   background: #313131;
   color: #c3c3c3;
   font-size: 1rem;
-  overflow: hidden;
+  // font-size: 20px;
 }
 @media screen and (max-width: 1921px) {
   .virtual-table-cell,
@@ -303,14 +303,34 @@
     background-color: #3d3b3b;
   }
 }
-.fixed-virtual-grid {
-  position: absolute !important;
-  top: 35px;
-  z-index: 3;
-  overflow: hidden !important;
-  .virtual-table-cell {
-    position: sticky !important;
-    display: inline-block;
+@media screen and (min-width: 1921px) {
+  .fixed-virtual-grid {
+    top: 35px !important;
   }
 }
+.fixed-virtual-grid {
+  position: absolute !important;
+  top: 31px;
+  z-index: 3;
+}
+.virtual-scroll-container {
+  position: absolute !important;
+  .virtual-table-cell {
+    border: none !important;
+    background: none !important;
+  }
+}
+/*滚动条样式*/
+/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+.fixed-virtual-grid::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+// .virtual-grid::-webkit-scrollbar {
+//   width: 0;
+//   height: 0;
+// }
+
+/*滚动条样式*/
+
 //----- end-------
