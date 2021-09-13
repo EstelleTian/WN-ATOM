@@ -1196,7 +1196,7 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     CLOSE_WAIT: flight.closeWait || "",
     TAXI_WAIT: flight.taxiWait || "",
     DELAY: flight.delay || "",
-    CONTROL: "",
+    CONTROL: flight.impactTacticInfos ? flight.impactTacticInfos : '' ,
     EFPS_SID: efpsFlight.sid || "",
     EFPS_STATUS: efpsFlight.status || "",
     EFPS_RWY: efpsFlight.linTime || "",

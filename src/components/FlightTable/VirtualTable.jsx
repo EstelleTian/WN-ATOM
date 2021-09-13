@@ -32,7 +32,7 @@ import "./VirtualTable.scss";
 
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
-
+console.log(35,screenWidth);
 //虚拟内容渲染
 const renderVirtualList = (
   rawData = [],
@@ -156,7 +156,9 @@ const renderVirtualList = (
         columnCount={columns.length}
         columnWidth={(index) => {
           const { width } = columns[index];
-          return width;
+          console.log(159,columns[index]);
+          console.log(160,width);
+          return width?width:80;
         }}
         height={tableHeight}
         rowCount={rawData.length}

@@ -410,18 +410,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
+  color: #8a96a3;
   // img{
   //   width: 20rem;
   //   height: 20rem;
   // }
   .notYetBox{
+    // display: flex;
     text-align: center;
     font-size: 5rem;
     .notYetI{
-      width: 20rem;
+      width: 25rem;
       height: 20rem;
-      background: #fff;
+      // background: #fff;
       margin: auto;
     }
   }
