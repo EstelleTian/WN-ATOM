@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-01-20 16:46:22
- * @LastEditTime: 2021-05-27 13:28:45
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-13 18:04:40
+ * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
- * @FilePath: \WN-ATOM\src\components\FlightTable\PopoverTip.jsx
+ * @FilePath: \WN-ATOM\src\components\CollaboratePopover\CollaboratePopover.jsx
  */
 import React, {
   useCallback,
@@ -12,7 +12,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  Fragment,
+  Fragment
 } from "react";
 import { observer, inject } from "mobx-react";
 import { request } from "utils/request";
@@ -26,6 +26,7 @@ import FFixTCont from "./FFixTCont";
 import TimeFormCont from "./TimeFormCont";
 import FlightIdCont from "./FlightIdCont";
 import "./CollaboratePopover.scss";
+import { systemPage } from "../../stores/pageStores";
 
 const showPopoverNames = [
   "FLIGHTID",
@@ -37,7 +38,7 @@ const showPopoverNames = [
   "ASBT",
   "TOBT",
   "COBT",
-  "CTOT",
+  "CTOT"
 ];
 const PopoverCNNames = {
   FLIGHTID: "",
@@ -49,7 +50,7 @@ const PopoverCNNames = {
   ASBT: "上客时间修改",
   TOBT: "TOBT申请变更",
   COBT: "COBT时间变更",
-  CTOT: "CTOT时间变更",
+  CTOT: "CTOT时间变更"
 };
 
 //popover和tip组合协调窗口
@@ -60,7 +61,7 @@ const ColPopover = (props) => {
   const [posObj, setPosObj] = useState({});
 
   const popoverRef = useRef();
-  const { collaboratePopoverData = {} } = props;
+  const { collaboratePopoverData = {}, systemPage = {} } = props;
   const { selectedObj = {} } = collaboratePopoverData;
   let {
     name = "",
@@ -68,7 +69,7 @@ const ColPopover = (props) => {
     y = 0,
     width = 0,
     height = 0,
-    flightId = "",
+    flightId = ""
   } = selectedObj;
 
   //重置数据
@@ -82,7 +83,7 @@ const ColPopover = (props) => {
       x: 0,
       y: 0,
       width: 0,
-      height: 0,
+      height: 0
     });
   }, []);
   // 内容渲染
@@ -177,13 +178,41 @@ const ColPopover = (props) => {
     setPosObj({ left, top, pos });
   };
 
+  //是否有显示权限
+  const hasShowAuth = () => {
+    let auth = false;
+    if (showPopoverNames.indexOf(name) > -1) {
+      switch (name) {
+        case "TOBT": {
+          auth = systemPage.userHasAuth(13425);
+          break;
+        }
+        case "COBT": {
+          auth = systemPage.userHasAuth(13428);
+          break;
+        }
+        case "CTOT": {
+          auth = systemPage.userHasAuth(13434);
+          break;
+        }
+        case "FFIXT": {
+          auth = systemPage.userHasAuth(13440);
+          break;
+        }
+        default:
+          auth = true;
+      }
+    }
+    return auth;
+  };
+
   useEffect(() => {
     reCalcPos();
   }, [selectedObj]);
 
   return (
     <Fragment>
-      {showPopoverNames.indexOf(name) > -1 && (
+      {hasShowAuth() && (
         <div
           style={{ left: posObj.left + "px", top: posObj.top + "px" }}
           className={`collaborate_popover ${name}_popover ${posObj.pos}`}
@@ -197,4 +226,7 @@ const ColPopover = (props) => {
   );
 };
 
-export default inject("collaboratePopoverData")(observer(ColPopover));
+export default inject(
+  "collaboratePopoverData",
+  "systemPage"
+)(observer(ColPopover));

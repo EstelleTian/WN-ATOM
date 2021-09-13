@@ -278,6 +278,19 @@
 // ----- start-------
 // react-window虚拟列表处理单元格样式
 .virtual-table {
+  .ant-table-thead > tr:first-child {
+    display: none;
+  }
+  .ant-table-thead > tr:first-child {
+    th:nth-child(1) {
+      position: sticky !important;
+      left: 0 !important;
+    }
+    th:nth-child(2) {
+      position: sticky !important;
+      left: 70px !important;
+    }
+  }
   .ant-table-cell-fix-left {
     position: sticky !important;
   }
@@ -305,12 +318,16 @@
 }
 @media screen and (min-width: 1921px) {
   .fixed-virtual-grid {
-    top: 35px !important;
+    top: 35px;
+  }
+}
+@media screen and (max-width: 1920px) {
+  .fixed-virtual-grid {
+    top: 31px;
   }
 }
 .fixed-virtual-grid {
   position: absolute !important;
-  top: 31px;
   z-index: 3;
 }
 .virtual-scroll-container {

@@ -56,7 +56,8 @@ const VirtualCell = ({
   rawData,
   mergedColumnsLen,
   collaboratePopoverData,
-  flightTableData
+  flightTableData,
+  className = ""
 }) => {
   //显示值
   let cellData = rawData[columnName];
@@ -67,6 +68,7 @@ const VirtualCell = ({
   }
   let color = "";
   let cellClass = rawData.cellClass || "";
+  cellClass += " " + className;
   //航班号
   let id = rawData["id"] || "";
   cellClass += " " + id + "_" + columnName + " " + id + " " + columnName;
@@ -272,7 +274,7 @@ const VirtualCell = ({
         } ${columnName}`}
       >
         <div
-          title={value}
+          title={title}
           className={`${isValidVariable(value) ? "" : "empty_cell"}`}
         >
           <span className="">{value}</span>
@@ -332,9 +334,7 @@ const VirtualCell = ({
   }
   return (
     <div
-      className={`virtual-table-cell ${
-        columnIndex === mergedColumnsLen - 1 && "virtual-table-cell-last"
-      } ${cellClass}`}
+      className={`virtual-table-cell  ${cellClass}`}
       style={{ ...style, lineHeight: style.height + "px" }}
       onContextMenu={(event) => {
         handleRow(event, rawData);

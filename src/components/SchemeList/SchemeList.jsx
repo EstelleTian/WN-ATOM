@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-09-02 13:24:23
+ * @LastEditTime: 2021-09-13 18:01:31
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: liutianjiao
  * @Description: 方案列表
@@ -12,7 +12,7 @@ import React, {
   useCallback,
   useState,
   useMemo,
-  useRef,
+  useRef
 } from "react";
 import debounce from "lodash/debounce";
 import { withRouter } from "react-router-dom";
@@ -25,7 +25,7 @@ import {
   Badge,
   Button,
   Dropdown,
-  Menu,
+  Menu
 } from "antd";
 import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 
@@ -58,12 +58,12 @@ window.addEventListener("storage", function (e) {
 const plainOptions = [
   { label: "正在执行", value: "RUNNING" },
   { label: "将要执行", value: "FUTURE" },
-  { label: "已经终止", value: "TERMINATED" },
+  { label: "已经终止", value: "TERMINATED" }
 ];
 // NTFM方案过滤多选按钮组
 const NTFMOptions = [
   { label: "NTFM流控", value: "NTFM-ORIGINAL-100" },
-  { label: "NTFM消息", value: "NTFM-ORIGINAL-200" },
+  { label: "NTFM消息", value: "NTFM-ORIGINAL-200" }
 ];
 
 const useSchemeModal = ({ systemPage }) => {
@@ -90,7 +90,7 @@ const useSchemeModal = ({ systemPage }) => {
     userId: systemPage.user.id,
     setVisible,
     toggleModalVisible,
-    toggleModalType,
+    toggleModalType
   };
 };
 
@@ -215,13 +215,13 @@ function SList(props) {
     schemeListData,
     executeKPIData,
     performanceKPIData,
-    flightTableData,
+    flightTableData
   });
   useFlightsList({
     schemeListData,
     performanceKPIData,
     systemPage,
-    flightTableData,
+    flightTableData
   });
   const {
     userId,
@@ -230,13 +230,13 @@ function SList(props) {
     modalType,
     setVisible,
     toggleModalVisible,
-    toggleModalType,
+    toggleModalType
   } = useSchemeModal({ systemPage });
 
   useExecuteKPIData({
     schemeListData,
     executeKPIData,
-    systemPage,
+    systemPage
   });
 
   //接收客户端传来方案id，用以自动切换到选中方案
@@ -256,7 +256,7 @@ function SList(props) {
         customNotice({
           type: "warning",
           message: "暂未获取到方案，方案名称是：" + title,
-          duration: 20,
+          duration: 20
         });
       }
     });
@@ -264,7 +264,7 @@ function SList(props) {
 
   //根据工作待办-协调类-【主办】跳转到放行监控，并高亮待办航班
   NWGlobal.targetToFlight = (schemeId, flightObj, fromType) => {
-    if(fromType === 'notam'){
+    if (fromType === "notam") {
       prohibitedData.setProhibitedListModalVisible(true);
       return;
     }
@@ -320,13 +320,16 @@ function SList(props) {
   //高亮方案并获取航班数据和KPI数据
   const handleActive = useCallback(
     debounce((id, title, from) => {
-      // console.log("handleActive 方案:", id);
       if (!flightTableData.dataLoaded || from === "init") {
         let res = {};
-        if(systemPage.activeSystem.system.indexOf("CDM") > -1 && id=== schemeListData.activeSchemeId){
+
+        if (
+          systemPage.activeSystem.system.indexOf("CDM") > -1 &&
+          id === schemeListData.activeSchemeId
+        ) {
           res = schemeListData.toggleSchemeActive("");
           systemPage.setLeftNavSelectedName("all");
-        }else{
+        } else {
           res = schemeListData.toggleSchemeActive(id + "");
           systemPage.setLeftNavSelectedName("");
         }
@@ -345,7 +348,7 @@ function SList(props) {
         customNotice({
           type: "warning",
           message: "航班数据请求中,请稍后再试",
-          duration: 10,
+          duration: 10
         });
       }
     }, 500),
@@ -411,7 +414,7 @@ function SList(props) {
   }, [
     schemeList,
     schemeListData.activeSchemeId,
-    systemPage.leftNavSelectedName,
+    systemPage.leftNavSelectedName
   ]);
 
   // useEffect(() => {

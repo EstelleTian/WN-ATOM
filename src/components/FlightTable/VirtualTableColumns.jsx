@@ -2,7 +2,7 @@
  * @Author: liutianjiao
  * @Date: 2021-09-08 14:24:09
  * @LastEditors: liutianjiao
- * @LastEditTime: 2021-09-09 19:42:13
+ * @LastEditTime: 2021-09-13 16:26:58
  * @Description:
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTableColumns.jsx
  */
@@ -49,22 +49,18 @@ let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 const scrollTopById = (rowIndex, classStr, gridRef) => {
   if (isValidVariable(rowIndex)) {
     const flightCanvas = document.getElementsByClassName(classStr);
-    const contentH = flightCanvas[0].clientHeight; //表格外框高度
-    let mtop = rowIndex * (screenWidth > 1920 ? 45 : 34);
-    const halfH = Math.floor(contentH / 2);
-    // console.log("目标定位航班是：",tr , trHeight, rowIndex, mtop);
-    if (halfH < mtop) {
-      const scrollTop = Math.floor(mtop - halfH);
-      console.log("目标定位航班  滚动高度是：", scrollTop);
-      flightCanvas[0].scrollTop = scrollTop;
+    if (flightCanvas.length > 0) {
+      const contentH = flightCanvas[0].clientHeight; //表格外框高度
+      let mtop = rowIndex * (screenWidth > 1920 ? 45 : 34);
+      const halfH = Math.floor(contentH / 2);
+      // console.log("目标定位航班是：",tr , trHeight, rowIndex, mtop);
+      if (halfH < mtop) {
+        const scrollTop = Math.floor(mtop - halfH);
+        console.log("目标定位航班  滚动高度是：", scrollTop);
+        flightCanvas[0].scrollTop = scrollTop;
+      }
     }
 
-    // if (cellDom.length > 0) {
-    //   rowIndex = cellDom[0].innerHTML; //当前航班所在行号
-    //   console.log(rowIndex);
-    //   //滚动到指定行
-    //   gridRef.current.scrollToItem(rowIndex);
-    // }
   }
 };
 //设置行高亮-传入目标dom
@@ -551,12 +547,24 @@ const getColumns = (
   //表格列配置-默认-计数列
   let columns = [
     {
-      title: "行号",
+      title: (
+        <Input
+          className="uppercase w-90"
+          onChange={(e) => handleInputVal(e.target.value)}
+        />
+      ),
       dataIndex: "rowNum",
       align: "center",
-      key: "rowNum",
-      width: screenWidth > 1920 ? 70 : 70
-      // fixed: "left"
+      children: [
+        {
+          title: "行号",
+          dataIndex: "rowNum",
+          align: "center",
+          key: "rowNum",
+          width: screenWidth > 1920 ? 70 : 70,
+          fixed: "left"
+        }
+      ]
     }
   ];
   //生成表配置-全部
@@ -792,7 +800,7 @@ const getColumns = (
         tem["defaultSortOrder"] = "ascend";
       }
       tem["width"] = screenWidth > 1920 ? 120 : 100;
-      // tem["fixed"] = "left";
+      tem["fixed"] = "left";
     }
 
     if (en === "STATUS") {
@@ -814,9 +822,10 @@ const getColumns = (
       en === "EFPS_RWY" ||
       en === "EFPS_TAXI" ||
       en === "EFPS_ASRT" ||
+      en === "CONTROL" ||
       en === "EFPS_ASAT"
     ) {
-      tem["width"] = screenWidth > 1920 ? 130 : 120;
+      tem["width"] = screenWidth > 1920 ? 140 : 120;
     }
 
     //隐藏列
@@ -824,25 +833,25 @@ const getColumns = (
       tem["className"] = "notshow";
       tem["width"] = 0;
     }
-    if (sortable) {
-      const handleInputVal = debounce((values) => {
-        onCellFilter(en, values);
-      }, 500);
-      const doubleTem = {
-        title: (
-          <Input
-            className="uppercase w-90"
-            onChange={(e) => handleInputVal(e.target.value)}
-          />
-        ),
-        dataIndex: en,
-        align: "center",
-        children: [{ ...tem }]
-      };
-      columns.push(doubleTem);
-    } else {
-      columns.push(tem);
-    }
+    // if (sortable) {
+    const handleInputVal = debounce((values) => {
+      onCellFilter(en, values);
+    }, 500);
+    const doubleTem = {
+      title: (
+        <Input
+          className="uppercase w-90"
+          onChange={(e) => handleInputVal(e.target.value)}
+        />
+      ),
+      dataIndex: en,
+      align: "center",
+      children: [{ ...tem }]
+    };
+    columns.push(doubleTem);
+    // } else {
+    //   columns.push(tem);
+    // }
   }
   return columns;
 };

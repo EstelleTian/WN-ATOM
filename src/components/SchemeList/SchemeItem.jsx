@@ -97,13 +97,16 @@ function SchemeItem(props) {
   const [window, setWindow] = useState("");
   const [windowClass, setWindowClass] = useState("");
 
-  let { item, userHasAuth, generateTime, schemeListData } = props;
+  let { item, systemPage = {}, generateTime, schemeListData } = props;
+  let user = systemPage.user || {};
+  let username = user.username || "";
   let {
     id,
     isCalculated,
     tacticName,
     tacticStatus,
     tacticPublishUnit,
+    tacticPublishUser,
     tacticPublishUnitCH,
     basicTacticInfoReason,
     basicTacticInfoRemark,
@@ -549,7 +552,7 @@ function SchemeItem(props) {
               {/* 详情 */}
             </div>
 
-            {/* {props.systemPage.userHasAuth(11301) &&
+            {/* {systemPage.userHasAuth(11301) &&
               ["TERMINATED_MANUAL", "TERMINATED_AUTO", "FINISHED"].includes(
                 tacticStatus
               ) && (
@@ -557,7 +560,7 @@ function SchemeItem(props) {
                   重新发布
                 </div>
               )} */}
-            {props.systemPage.userHasAuth(11401) && !isNTFM && (
+            {systemPage.userHasAuth(11401) && !isNTFM && (
               <div
                 className="opt item-icon work-icon"
                 onClick={(e) => {
@@ -569,7 +572,7 @@ function SchemeItem(props) {
                 {/* 工作流 */}
               </div>
             )}
-            {props.systemPage.userHasAuth(11502) && !isNTFM && (
+            {systemPage.userHasAuth(11502) && !isNTFM && (
               <div
                 className="opt item-icon base-icon"
                 onClick={(e) => {
@@ -582,7 +585,7 @@ function SchemeItem(props) {
                 {/* <DownOutlined /> */}
               </div>
             )}
-            {props.systemPage.userHasAuth(11502) && !isNTFM && (
+            {systemPage.userHasAuth(11502) && !isNTFM && (
               <div
                 className="opt item-icon execute-icon"
                 onClick={(e) => {
@@ -597,7 +600,7 @@ function SchemeItem(props) {
                 {/* <DownOutlined /> */}
               </div>
             )}
-            {props.systemPage.userHasAuth(11505) && !isNTFM && (
+            {systemPage.userHasAuth(11505) && !isNTFM && (
               <div
                 className="opt item-icon relation-icon"
                 onClick={(e) => {
@@ -609,7 +612,8 @@ function SchemeItem(props) {
                 {/* 航图关联 */}
               </div>
             )}
-            {props.systemPage.userHasAuth(11301) &&
+            {systemPage.userHasAuth(11301) &&
+              tacticPublishUser === username &&
               !isNTFM &&
               ["FUTURE", "RUNNING"].includes(tacticStatus) && (
                 <div
@@ -620,7 +624,8 @@ function SchemeItem(props) {
                   {/* 调整 */}
                 </div>
               )}
-            {props.systemPage.userHasAuth(11201) &&
+            {systemPage.userHasAuth(11201) &&
+              tacticPublishUser === username &&
               !isNTFM &&
               ["FUTURE", "RUNNING"].includes(tacticStatus) && (
                 <div

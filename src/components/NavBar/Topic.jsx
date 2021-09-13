@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-12 14:15:12
- * @LastEditTime: 2021-09-10 16:25:52
+ * @LastEditTime: 2021-09-13 14:44:59
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\Topic.jsx
@@ -64,10 +64,10 @@ function Topic(props) {
         topic_EVENT_CENTER_TRAFFIC_FLOW_CHANGE,
         function (d) {
           //收到消息
-          console.log("收到方案消息用于【更新航班列表数据】", msg);
           const body = d.body;
           const msgObj = JSON.parse(body);
           const msg = msgObj.message || [];
+          console.log("收到方案消息用于【更新航班列表数据】", msg);
           // 当前活动方案id
           let activeSchemeId = props.schemeListData.activeSchemeId || "";
           // 消息中的方案ID集合中是否包含当前活动方案id

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-09-09 19:41:26
+ * @LastEditTime: 2021-09-13 14:28:29
  * @LastEditors: liutianjiao
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-ATOM\src\components\FlightTable\TableColumns.jsx
@@ -729,7 +729,7 @@ const getColumns = (
   onCellFilter = () => {}
 ) => {
   if (!isValidVariable(systemName)) {
-    console.log("sort systemName", systemName);
+    // console.log("sort systemName", systemName);
     return;
   }
   // console.log("systemName2", systemName);
@@ -760,7 +760,7 @@ const getColumns = (
   if (names[sortKey] === undefined) {
     sortKey = Object.keys(names)[0] || "FLIGHTID";
   }
-  console.log("sort ", sortKey, names);
+  // console.log("sort ", sortKey, names);
 
   //获取屏幕宽度，适配 2k
   let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
@@ -860,7 +860,7 @@ const getColumns = (
 
       // console.log("FFIXT 22");
       if (sortKey === en) {
-        console.log("sort FFIXT", sortKey);
+        // console.log("sort FFIXT", sortKey);
         tem["defaultSortOrder"] = "ascend";
       }
       let sortNames = CRSSortNames;
@@ -1195,7 +1195,7 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     CLOSE_WAIT: flight.closeWait || "",
     TAXI_WAIT: flight.taxiWait || "",
     DELAY: flight.delay || "",
-    CONTROL:flight.impactTacticInfos? '受控' : '' ,
+    CONTROL: flight.impactTacticInfos ? "受控" : "",
     EFPS_SID: efpsFlight.sid || "",
     EFPS_STATUS: efpsFlight.status || "",
     EFPS_RWY: efpsFlight.linTime || "",
@@ -1211,7 +1211,7 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     orgdata: JSON.stringify(flight)
   };
 
-  console.log(1215,flightObj.CONTROL);
+  // console.log(1215,flightObj.CONTROL);
   return flightObj;
 };
 

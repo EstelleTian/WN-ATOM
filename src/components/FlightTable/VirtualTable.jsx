@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-13 14:18:03
+ * @LastEditTime: 2021-09-13 17:26:01
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
@@ -18,7 +18,8 @@ import zh_CN from "antd/lib/locale-provider/zh_CN";
 import {
   isValidVariable,
   getDayTimeFromString,
-  getTimeAndStatus
+  getTimeAndStatus,
+  isValidObject
 } from "utils/basic-verify";
 import { FlightCoordination, PriorityList } from "utils/flightcoordination.js";
 import RenderCell from "./RenderCell";
@@ -32,42 +33,53 @@ import {
 import "./VirtualTable.scss";
 
 const getColumnWidth = (index, columns) => {
-  const columnsItem = columns[index];
-  if (columnsItem.dataIndex == "FLIGHTID") {
-    columnsItem.width = 120;
-  } else if (columnsItem.dataIndex == "ALARM") {
-    columnsItem.width = 140;
-  } else if (
-    columnsItem.dataIndex == "DEPAP" ||
-    columnsItem.dataIndex == "ARRAP" ||
-    columnsItem.dataIndex == "CTOT" ||
-    columnsItem.dataIndex == "FFIXT" ||
-    columnsItem.dataIndex == "CTO" ||
-    columnsItem.dataIndex == "EAW" ||
-    columnsItem.dataIndex == "OAW"
-  ) {
-    columnsItem.width = 95;
-  } else if (columnsItem.dataIndex == "FFIX") {
-    columnsItem.width = 110;
-  } else if (
-    columnsItem.dataIndex == "SOBT" ||
-    columnsItem.dataIndex == "TOBT" ||
-    columnsItem.dataIndex == "EOBT" ||
-    columnsItem.dataIndex == "AGCT" ||
-    columnsItem.dataIndex == "AOBT" ||
-    columnsItem.dataIndex == "NCTOT" ||
-    columnsItem.dataIndex == "RCTOT"
-  ) {
-    columnsItem.width = 90;
+  const columnsItem = columns[index] || {};
+  const children = columnsItem.children || [];
+  let width = "";
+  if (children.length > 0) {
+    width = children[0].width;
+  } else {
+    width = columnsItem.width;
   }
-  console.log(columnsItem.width);
-  const { width } = columnsItem;
+
+  if (!isValidVariable(width)) {
+    if (columnsItem.dataIndex == "FLIGHTID") {
+      width = 120;
+    } else if (columnsItem.dataIndex == "ALARM") {
+      width = 140;
+    } else if (
+      columnsItem.dataIndex == "DEPAP" ||
+      columnsItem.dataIndex == "ARRAP" ||
+      columnsItem.dataIndex == "CTOT" ||
+      columnsItem.dataIndex == "FFIXT" ||
+      columnsItem.dataIndex == "CTO" ||
+      columnsItem.dataIndex == "EAW" ||
+      columnsItem.dataIndex == "OAW"
+    ) {
+      width = 95;
+    } else if (columnsItem.dataIndex == "FFIX") {
+      width = 110;
+    } else if (
+      columnsItem.dataIndex == "SOBT" ||
+      columnsItem.dataIndex == "TOBT" ||
+      columnsItem.dataIndex == "EOBT" ||
+      columnsItem.dataIndex == "AGCT" ||
+      columnsItem.dataIndex == "AOBT" ||
+      columnsItem.dataIndex == "NCTOT" ||
+      columnsItem.dataIndex == "RCTOT"
+    ) {
+      width = 90;
+    } else {
+      width = 90;
+    }
+  }
+
   return width ? width : 90;
 };
 
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
-console.log(35, screenWidth);
+
 //虚拟内容渲染
 const renderVirtualList = (
   rawData = [],
@@ -113,8 +125,53 @@ const renderVirtualList = (
     });
     console.log("targetNum", targetNum);
     scrollTopById(targetNum, "virtual-grid");
+    scrollTopById(targetNum, "fixed-virtual-grid");
   }, []);
   useEffect(() => resetVirtualGrid, [tableWidth]);
+  // useEffect(() => resetVirtualGrid, [tableHeight]);
+  // useEffect(() => {
+  //   //表头第一个tr
+  //   const table = document.getElementsByClassName("virtual-table");
+  //   let h = screenWidth > 1920 ? 35 : 31;
+  //   const dom = document.getElementsByClassName("fixed-virtual-grid");
+  //   if (table.length > 0) {
+  //     const head = table[0].getElementsByClassName("ant-table-thead");
+  //     let newStyleArr = [];
+  //     if (head.length > 0) {
+  //       const tr = head[0].firstChild;
+  //       if (dom.length > 0) {
+  //         let style = dom[0].getAttribute("style");
+  //         let styleArr = style.split(";");
+
+  //         for (let i = 0; i < styleArr.length; i++) {
+  //           const str = styleArr[i] || "";
+  //           if (str.indexOf("top") > -1 && str.indexOf("-top") === -1) {
+  //           } else {
+  //             newStyleArr.push(str);
+  //           }
+  //         }
+  //       }
+  //       if (flightTableData.filterable) {
+  //         //显示表头第一个tr
+  //         let trStyle = tr.getAttribute("style");
+  //         tr.setAttribute("style", "display:table-row;");
+  //         if (dom.length > 0) {
+  //           let newStyle =
+  //             newStyleArr.join(";") + " top:" + (h * 1 + 45) + "px;";
+  //           dom[0].setAttribute("style", newStyle);
+  //         }
+  //       } else {
+  //         //隐藏表头第一个tr
+  //         let trStyle = tr.getAttribute("style");
+  //         tr.setAttribute("style", "display:none;");
+  //         if (dom.length > 0) {
+  //           let newStyle = newStyleArr.join(";") + " top:" + h + "px;";
+  //           dom[0].setAttribute("style", newStyle);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }, [flightTableData.filterable]);
   useEffect(() => {
     // if (!isValidVariable(collaboratePopoverData.selectedObj.name)) {
     if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
@@ -144,7 +201,7 @@ const renderVirtualList = (
   return (
     <ScrollSync>
       <>
-        <ScrollSyncPane>
+        <ScrollSyncPane group="vertical">
           <Grid
             ref={fixedGridRef}
             className="fixed-virtual-grid sticky"
@@ -188,7 +245,7 @@ const renderVirtualList = (
             }}
           </Grid>
         </ScrollSyncPane>
-        <ScrollSyncPane>
+        <ScrollSyncPane group="vertical">
           <Grid
             ref={gridRef}
             className="virtual-grid"
@@ -276,7 +333,7 @@ function VirtualTable(props) {
             renderVirtualList(
               rawData,
               { scrollbarSize, ref, onScroll },
-              { ...props, tableHeight, tableWidth }
+              { ...props, tableHeight, tableWidth, columns }
             )
         }}
       />
