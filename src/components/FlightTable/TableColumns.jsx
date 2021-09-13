@@ -1211,7 +1211,6 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     orgdata: JSON.stringify(flight)
   };
 
-  // console.log(1215,flightObj.CONTROL);
   return flightObj;
 };
 
