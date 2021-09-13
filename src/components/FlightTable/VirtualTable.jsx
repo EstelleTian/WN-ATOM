@@ -32,7 +32,7 @@ import "./VirtualTable.scss";
 
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
-
+console.log(35,screenWidth);
 //虚拟内容渲染
 const renderVirtualList = (
   rawData = [],
@@ -158,8 +158,38 @@ const renderVirtualList = (
         className="virtual-grid"
         columnCount={columns.length}
         columnWidth={(index) => {
-          const { width } = columns[index];
-          return width;
+          // const { width } = columns[index];
+          const columnsItem = columns[index]
+          if (columnsItem.dataIndex == "FLIGHTID") {
+            columnsItem.width = 120
+          }else if (columnsItem.dataIndex == "ALARM") {
+            columnsItem.width = 140
+          }else if (
+            columnsItem.dataIndex == "DEPAP"||
+            columnsItem.dataIndex == "ARRAP"|| 
+            columnsItem.dataIndex == "CTOT"||
+            columnsItem.dataIndex == "FFIXT"||
+            columnsItem.dataIndex == "CTO" ||
+            columnsItem.dataIndex == "EAW" ||
+            columnsItem.dataIndex == "OAW" 
+            ) {
+              columnsItem.width = 95
+          }else if (columnsItem.dataIndex == "FFIX") {
+            columnsItem.width = 110
+          }else if (
+            columnsItem.dataIndex == "SOBT"||
+            columnsItem.dataIndex == "TOBT"||
+            columnsItem.dataIndex == "EOBT"||
+            columnsItem.dataIndex == "AGCT"||
+            columnsItem.dataIndex == "AOBT"||
+            columnsItem.dataIndex == "NCTOT"||
+            columnsItem.dataIndex == "RCTOT"
+            ) {
+            columnsItem.width = 90
+          }
+          console.log(columnsItem.width);
+          const { width } = columnsItem;
+          return width?width:90;
         }}
         height={tableHeight}
         rowCount={rawData.length}
