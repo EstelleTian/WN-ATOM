@@ -1147,7 +1147,6 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     taskVal = "";
   }
   let alarms = flight.alarms || [];
-
   let flightObj = {
     key: flight.id,
     id: flight.id,
@@ -1196,7 +1195,7 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     CLOSE_WAIT: flight.closeWait || "",
     TAXI_WAIT: flight.taxiWait || "",
     DELAY: flight.delay || "",
-    CONTROL: flight.impactTacticInfos ? flight.impactTacticInfos : '' ,
+    CONTROL:flight.impactTacticInfos? '受控' : '' ,
     EFPS_SID: efpsFlight.sid || "",
     EFPS_STATUS: efpsFlight.status || "",
     EFPS_RWY: efpsFlight.linTime || "",
@@ -1212,6 +1211,7 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     orgdata: JSON.stringify(flight)
   };
 
+  console.log(1215,flightObj.CONTROL);
   return flightObj;
 };
 
