@@ -26,15 +26,19 @@ class SchemeForm {
     @observable tacticMode = "100";
     // 方案名称
     @observable tacticName = "";
+    // 原发转发 100原发 200转发
+    @observable tacticPrimaryForward = "";
+    // 原发单位
+    @observable tacticPrimaryUnit = "";
     // 方案原因
     @observable flowControlReason = "";
-    // 方案发布单位
+    // 方案录入单位
     @observable tacticPublishUnit = "";
-    // 方案发布单位中文
+    // 方案录入单位中文
     @observable tacticPublishUnitCH = "";
-    // 方案发布用户
+    // 方案录入用户
     @observable tacticPublishUser = "";
-    // 方案发布用户中文
+    // 方案录入用户中文
     @observable tacticPublishUserCH = "";
     // 方案开始时间
     @observable startTime = "";
@@ -166,13 +170,13 @@ class SchemeForm {
 
         // 方案名称
         const tacticName = basicTacticInfo.tacticName || "";
-        // 方案发布单位
+        // 方案录入单位
         const tacticPublishUnit = basicTacticInfo.tacticPublishUnit || "";
-        // 方案发布单位中文
+        // 方案录入单位中文
         const tacticPublishUnitCH = basicTacticInfo.tacticPublishUnitCH || "";
-        // 方案发布用户
+        // 方案录入用户
         const tacticPublishUser = basicTacticInfo.tacticPublishUser || "";
-        // 方案发布用户中文
+        // 方案录入用户中文
         const tacticPublishUserCH = basicTacticInfo.tacticPublishUserCH || "";
         // 方案基础流控对象
         const basicFlowcontrol = basicTacticInfo.basicFlowcontrol || {};
@@ -298,13 +302,13 @@ class SchemeForm {
         this.inputMethod = inputMethod;
         // 更新方案名称
         this.tacticName = tacticName;
-        // 更新方案发布单位
+        // 更新方案录入单位
         this.tacticPublishUnit = tacticPublishUnit;
-        // 更新发布单位中文
+        // 更新录入单位中文
         this.tacticPublishUnitCH = tacticPublishUnitCH;
-        // 更新发布用户
+        // 更新录入用户
         this.tacticPublishUser = tacticPublishUser;
-        // 更新发布用户中文
+        // 更新录入用户中文
         this.tacticPublishUserCH = tacticPublishUserCH;
         // 更新方案原因
         this.flowControlReason = flowControlReason;
@@ -617,27 +621,37 @@ class SchemeForm {
     @action updateTacticMode(mode) {
         this.tacticMode = mode;
     }
-    // 更新方案名称
+    // 更新方案名称 
     @action updateTacticName(name) {
         this.tacticName = name;
+    }
+    // 更新原发转发
+    @action updateTacticPrimaryForward(mode) {
+        console.log(mode);
+        this.tacticPrimaryForward = mode;
+    }
+    // 更新原发单位
+    @action updatePrimaryUnit(reason) {
+        console.log(636,reason);
+        this.tacticPrimaryUnit = reason;
     }
     // 更新方案原因
     @action updateTacticReason(reason) {
         this.flowControlReason = reason;
     }
-    // 更新方案发布单位
+    // 更新方案录入单位
     @action updateTacticPublishUnit(unit) {
         this.tacticPublishUnit = unit;
     }
-    // 更新发布单位中文
+    // 更新录入单位中文
     @action updateTacticPublishUnitCH(unitCH) {
         this.tacticPublishUnitCH = unitCH;
     }
-    // 更新发布用户
+    // 更新录入用户
     @action updateTacticPublishUser(user) {
         this.tacticPublishUser = user;
     }
-    // 更新发布用户中文
+    // 更新录入用户中文
     @action updateTacticPublishUserCH(userCH) {
         this.tacticPublishUserCH = userCH;
     }

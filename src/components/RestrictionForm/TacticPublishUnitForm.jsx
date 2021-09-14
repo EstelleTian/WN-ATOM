@@ -3,7 +3,7 @@ import { Form, Input } from 'antd'
 import { inject, observer } from "mobx-react";
 import { isValidVariable } from 'utils/basic-verify';
 
-//方案发布单位表单
+//方案录入单位表单
 function TacticPublishUnitForm(props) {
 
     const { schemeFormData, systemPage, form } = props;
@@ -11,9 +11,9 @@ function TacticPublishUnitForm(props) {
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
-    // 方案发布单位
+    // 方案录入单位
     let tacticPublishUnit = schemeFormData.tacticPublishUnit;
-    // 方案发布单位中文
+    // 方案录入单位中文
     let tacticPublishUnitCH = schemeFormData.tacticPublishUnitCH;
     // 用户信息
     const user = systemPage.user || {};
@@ -55,7 +55,7 @@ function TacticPublishUnitForm(props) {
                 <Form.Item
                     hidden
                     name="tacticPublishUnit"
-                    label="发布单位"
+                    label="录入单位"
                 >
                     <Input disabled={true} />
                 </Form.Item>
@@ -63,7 +63,7 @@ function TacticPublishUnitForm(props) {
                     colon={false}
                     className="advanced-item"
                     name="tacticPublishUnitCH"
-                    label="发布单位"
+                    label="录入单位"
                 >
                     <Input disabled={true} />
                 </Form.Item>

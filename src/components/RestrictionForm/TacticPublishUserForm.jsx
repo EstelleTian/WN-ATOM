@@ -4,16 +4,16 @@ import { inject, observer } from "mobx-react";
 import { isValidVariable } from 'utils/basic-verify';
 
 
-//方案发布用户表单
+//方案录入用户表单
 function TacticPublishUserForm(props) {
     const { schemeFormData, systemPage, form } = props;
     // 方案基础信息
     const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};
     // 方案名称
     const tacticName = basicTacticInfo.tacticName || "";
-    // 方案发布用户
+    // 方案录入用户
     let tacticPublishUser = schemeFormData.tacticPublishUser;
-    // 方案发布用户中文
+    // 方案录入用户中文
     let tacticPublishUserCH = schemeFormData.tacticPublishUserCH;
     // 用户信息
     const user = systemPage.user || {};
@@ -57,7 +57,7 @@ function TacticPublishUserForm(props) {
                 <Form.Item
                     hidden
                     name="tacticPublishUser"
-                    label="发布用户"
+                    label="录入用户"
                 >
                     <Input disabled={true} />
                 </Form.Item>
@@ -65,7 +65,7 @@ function TacticPublishUserForm(props) {
                     colon={false}
                     className="advanced-item"
                     name="tacticPublishUserCH"
-                    label="发布用户"
+                    label="录入用户"
                 >
                     <Input disabled={true} />
                 </Form.Item>

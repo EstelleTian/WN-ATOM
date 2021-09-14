@@ -125,7 +125,7 @@ function SchemeDetail(props) {
                                 <Col span={8}>
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                            <label className="ant-form-item-no-colon" title="发布单位">发布单位</label>
+                                            <label className="ant-form-item-no-colon" title="录入单位">录入单位</label>
                                         </div>
                                         <div className="ant-col ant-form-item-control">
                                             <div className="ant-form-item-control-input">
@@ -137,7 +137,7 @@ function SchemeDetail(props) {
                                 <Col span={8}>
                                     <div className="ant-row ant-form-item">
                                         <div className="ant-col ant-form-item-label ant-form-item-label-left">
-                                            <label className="ant-form-item-no-colon" title="发布用户">发布用户</label>
+                                            <label className="ant-form-item-no-colon" title="录入用户">录入用户</label>
                                         </div>
                                         <div className="ant-col ant-form-item-control">
                                             <div className="ant-form-item-control-input">
