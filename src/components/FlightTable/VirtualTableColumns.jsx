@@ -2,7 +2,7 @@
  * @Author: liutianjiao
  * @Date: 2021-09-08 14:24:09
  * @LastEditors: liutianjiao
- * @LastEditTime: 2021-09-13 16:26:58
+ * @LastEditTime: 2021-09-14 10:43:02
  * @Description:
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTableColumns.jsx
  */
@@ -60,7 +60,6 @@ const scrollTopById = (rowIndex, classStr, gridRef) => {
         flightCanvas[0].scrollTop = scrollTop;
       }
     }
-
   }
 };
 //设置行高亮-传入目标dom
@@ -561,8 +560,8 @@ const getColumns = (
           dataIndex: "rowNum",
           align: "center",
           key: "rowNum",
-          width: screenWidth > 1920 ? 70 : 70,
-          fixed: "left"
+          width: screenWidth > 1920 ? 70 : 70
+          // fixed: "left"
         }
       ]
     }
@@ -800,11 +799,17 @@ const getColumns = (
         tem["defaultSortOrder"] = "ascend";
       }
       tem["width"] = screenWidth > 1920 ? 120 : 100;
-      tem["fixed"] = "left";
+      // tem["fixed"] = "left";
+    }
+    if (en === "FORMER") {
+      tem["width"] = screenWidth > 1920 ? 140 : 120;
+    }
+    if (en === "CONTROL") {
+      tem["width"] = screenWidth > 1920 ? 120 : 100;
     }
 
     if (en === "STATUS") {
-      tem["width"] = screenWidth > 1920 ? 100 : 80;
+      tem["width"] = screenWidth > 1920 ? 140 : 120;
     }
     if (en === "NCOBT" || en === "NCTOT") {
       tem["width"] = screenWidth > 1920 ? 90 : 80;

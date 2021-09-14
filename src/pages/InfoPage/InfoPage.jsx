@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 18:39:39
- * @LastEditTime: 2021-09-02 08:39:33
+ * @LastEditTime: 2021-09-13 19:49:56
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\pages\InfoPage\InfoPage.jsx
@@ -16,7 +16,7 @@ import {
   closeMessageDlg,
   openMessageDlg,
   updateMessageNum,
-  openMessageRecordFrame,
+  openMessageRecordFrame
 } from "utils/client";
 // import Stomp from "stompjs";
 import JmsWebsocket from "utils/jms-websocket";
@@ -126,7 +126,7 @@ function InfoPage(props) {
       dataType: "FTMI",
       dataCode: "AFAO",
       source: "ATOM",
-      targetUnit: "SUBUL",
+      targetUnit: "SUBUL"
     };
     //  过滤命中规则的消息
     let hitMessage = message.filter((msg) => {
@@ -158,7 +158,7 @@ function InfoPage(props) {
     const { id, content, source, data = {} } = message;
     const dataId = data.id;
     const info = `接收外区流控信息！"${content}" 请立即处理！`;
-    alert(info);
+    // alert(info);
     openNewWindow(message);
   };
   // 打开新窗口

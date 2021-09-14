@@ -360,6 +360,7 @@ function SchemeItem(props) {
           props.schemeListData.toggleActiveSchemeCalculatingModalVisible(false);
         }
       }
+      // alert("激活的id是:"+id);
       props.handleActive(id);
       e.preventDefault();
       e.stopPropagation();

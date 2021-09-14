@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-13 17:26:01
+ * @LastEditTime: 2021-09-14 10:36:44
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
@@ -80,6 +80,47 @@ const getColumnWidth = (index, columns) => {
 //获取屏幕宽度，适配 2k
 let screenWidth = document.getElementsByTagName("body")[0].offsetWidth;
 
+const veriScroll = (l) => {
+  // // setTimeout(() => {
+  // console.log("横向假滚动", l.scrollLeft);
+  // const left = l.scrollLeft;
+  // l.scrollLeft = left * 1 + 1;
+  // l.scrollLeft = left;
+  // // }, 200);
+  const header = document.getElementsByClassName("ant-table-header");
+  const table = header[0].firstChild;
+  const thead = header[0].getElementsByClassName("ant-table-thead");
+  const curLeft = thead[0].scrollLeft;
+  console.log("curLeft", curLeft, "scrollLeft", l.scrollLeft);
+  if (curLeft * 1 !== l.scrollLeft) {
+    thead[0].scrollLeft = l.scrollLeft;
+    table.scrollLeft = l.scrollLeft;
+  }
+};
+
+const syncScroll = (l, r) => {
+  let flag = true;
+  let veriFlag = true;
+  l.addEventListener("mousewheel", function (e) {
+    flag = false;
+    l.addEventListener("scroll", function (e) {
+      if (!flag) {
+        r.scrollTop = l.scrollTop;
+        veriScroll(l);
+      }
+    });
+  });
+  // r.addEventListener("mousewheel", function (e) {
+  //   flag = true;
+  //   r.addEventListener("scroll", function (e) {
+  //     if (flag) {
+  //       l.scrollTop = r.scrollTop;
+  //       // veriScroll(l);
+  //     }
+  //   });
+  // });
+};
+
 //虚拟内容渲染
 const renderVirtualList = (
   rawData = [],
@@ -96,15 +137,15 @@ const renderVirtualList = (
     tableWidth
   } = props;
   const gridRef = useRef();
-  const fixedGridRef = useRef();
+  // const fixedGridRef = useRef();
   const [targetNum, setTargetNum] = useState(0);
 
   //重置Grid
   const resetVirtualGrid = () => {
-    fixedGridRef.current.resetAfterIndices({
-      columnIndex: 0,
-      shouldForceUpdate: true
-    });
+    // fixedGridRef.current.resetAfterIndices({
+    //   columnIndex: 0,
+    //   shouldForceUpdate: true
+    // });
     gridRef.current.resetAfterIndices({
       columnIndex: 0,
       shouldForceUpdate: true
@@ -125,68 +166,17 @@ const renderVirtualList = (
     });
     console.log("targetNum", targetNum);
     scrollTopById(targetNum, "virtual-grid");
-    scrollTopById(targetNum, "fixed-virtual-grid");
+    // scrollTopById(targetNum, "fixed-virtual-grid");
   }, []);
   useEffect(() => resetVirtualGrid, [tableWidth]);
-  // useEffect(() => resetVirtualGrid, [tableHeight]);
-  // useEffect(() => {
-  //   //表头第一个tr
-  //   const table = document.getElementsByClassName("virtual-table");
-  //   let h = screenWidth > 1920 ? 35 : 31;
-  //   const dom = document.getElementsByClassName("fixed-virtual-grid");
-  //   if (table.length > 0) {
-  //     const head = table[0].getElementsByClassName("ant-table-thead");
-  //     let newStyleArr = [];
-  //     if (head.length > 0) {
-  //       const tr = head[0].firstChild;
-  //       if (dom.length > 0) {
-  //         let style = dom[0].getAttribute("style");
-  //         let styleArr = style.split(";");
 
-  //         for (let i = 0; i < styleArr.length; i++) {
-  //           const str = styleArr[i] || "";
-  //           if (str.indexOf("top") > -1 && str.indexOf("-top") === -1) {
-  //           } else {
-  //             newStyleArr.push(str);
-  //           }
-  //         }
-  //       }
-  //       if (flightTableData.filterable) {
-  //         //显示表头第一个tr
-  //         let trStyle = tr.getAttribute("style");
-  //         tr.setAttribute("style", "display:table-row;");
-  //         if (dom.length > 0) {
-  //           let newStyle =
-  //             newStyleArr.join(";") + " top:" + (h * 1 + 45) + "px;";
-  //           dom[0].setAttribute("style", newStyle);
-  //         }
-  //       } else {
-  //         //隐藏表头第一个tr
-  //         let trStyle = tr.getAttribute("style");
-  //         tr.setAttribute("style", "display:none;");
-  //         if (dom.length > 0) {
-  //           let newStyle = newStyleArr.join(";") + " top:" + h + "px;";
-  //           dom[0].setAttribute("style", newStyle);
-  //         }
-  //       }
-  //     }
-  //   }
-  // }, [flightTableData.filterable]);
   useEffect(() => {
-    // if (!isValidVariable(collaboratePopoverData.selectedObj.name)) {
     if (flightTableData.autoScroll && isValidVariable(targetFlight.id)) {
       console.log("航班表格渲染 自动滚动定位");
       scrollCallback(targetFlight.id, rawData);
     }
-    // }
   }, [targetFlight.id]);
-  // useEffect(() => {
-  //   if (isValidVariable(flightTableData.focusFlightId)) {
-  //     console.log("航班表格渲染 自动滚动定位");
-  //     scrollCallback(flightTableData.focusFlightId, rawData);
-  //   }
-  // }, [flightTableData.focusFlightId]);
-  // ref.current = connectObject;
+
   if (rawData === undefined) {
     rawData = [];
   }
@@ -198,99 +188,106 @@ const renderVirtualList = (
     },
     0
   );
+  // 监听滚动条同步
+  // useEffect(() => {
+  //   const table1 = document.getElementsByClassName("virtual-grid");
+  //   const table2 = document.getElementsByClassName("fixed-virtual-grid");
+  //   if (table1.length > 0 && table2.length > 0) {
+  //     const flightCanvas = document.getElementsByClassName("virtual-table");
+  //     syncScroll(table1[0], table2[0]);
+  //   }
+  // }, []);
   return (
-    <ScrollSync>
-      <>
-        <ScrollSyncPane group="vertical">
-          <Grid
-            ref={fixedGridRef}
-            className="fixed-virtual-grid sticky"
-            columnCount={fiexdColumns.length}
-            columnWidth={(index) => {
-              return getColumnWidth(index, columns);
-            }}
-            height={tableHeight - 17}
-            rowCount={rawData.length}
-            rowHeight={() => {
-              const h = screenWidth > 1920 ? 45 : 34;
-              return h;
-            }}
-            width={fiexdColumnsWidth || 200}
-            onScroll={({ scrollLeft }) => {
-              onScroll({
-                scrollLeft
-              });
-            }}
-          >
-            {({ columnIndex, rowIndex, style }) => {
-              // console.log(style);
-              //列名称
-              const columnName = columns[columnIndex].dataIndex;
-              // 单元格的值
-              if (rawData === undefined) {
-                rawData = [];
-              }
-              const columnsLen = columns.length;
-              return (
-                <VirtualCell
-                  columnIndex={columnIndex}
-                  rowIndex={rowIndex}
-                  style={style}
-                  columnName={columnName}
-                  rawData={rawData[rowIndex] || {}}
-                  columnsLen={columnsLen}
-                  className="sticky"
-                />
-              );
-            }}
-          </Grid>
-        </ScrollSyncPane>
-        <ScrollSyncPane group="vertical">
-          <Grid
-            ref={gridRef}
-            className="virtual-grid"
-            columnCount={columns.length}
-            columnWidth={(index) => {
-              return getColumnWidth(index, columns);
-            }}
-            height={tableHeight}
-            rowCount={rawData.length}
-            rowHeight={() => {
-              const h = screenWidth > 1920 ? 45 : 34;
-              return h;
-            }}
-            width={tableWidth > 0 ? tableWidth : 0}
-            onScroll={({ scrollLeft }) => {
-              onScroll({
-                scrollLeft
-              });
-            }}
-          >
-            {({ columnIndex, rowIndex, style }) => {
-              //列名称
-              const columnName = columns[columnIndex].dataIndex;
-              // 单元格的值
-              if (rawData === undefined) {
-                rawData = [];
-              }
-              const columnsLen = columns.length;
-              return (
-                <>
-                  <VirtualCell
-                    columnIndex={columnIndex}
-                    rowIndex={rowIndex}
-                    style={style}
-                    columnName={columnName}
-                    rawData={rawData[rowIndex] || {}}
-                    columnsLen={columnsLen}
-                  ></VirtualCell>
-                </>
-              );
-            }}
-          </Grid>
-        </ScrollSyncPane>
-      </>
-    </ScrollSync>
+    <>
+      {/* <ScrollSyncPane group={["horizontal", "vertical"]}> */}
+      {/* <Grid
+        ref={fixedGridRef}
+        // className="fixed-virtual-grid sticky"
+        className="fixed-virtual-grid"
+        columnCount={fiexdColumns.length}
+        columnWidth={(index) => {
+          return getColumnWidth(index, columns);
+        }}
+        height={tableHeight - 17}
+        rowCount={rawData.length}
+        rowHeight={() => {
+          const h = screenWidth > 1920 ? 45 : 34;
+          return h;
+        }}
+        width={fiexdColumnsWidth || 200}
+        onScroll={({ scrollLeft }) => {
+          onScroll({
+            scrollLeft
+          });
+        }}
+      >
+        {({ columnIndex, rowIndex, style }) => {
+          //列名称
+          const columnName = columns[columnIndex].dataIndex;
+          // 单元格的值
+          if (rawData === undefined) {
+            rawData = [];
+          }
+          const columnsLen = columns.length;
+          return (
+            <VirtualCell
+              columnIndex={columnIndex}
+              rowIndex={rowIndex}
+              style={style}
+              columnName={columnName}
+              rawData={rawData[rowIndex] || {}}
+              columnsLen={columnsLen}
+              // className="sticky"
+            />
+          );
+        }}
+      </Grid> */}
+      {/* </ScrollSyncPane> */}
+      {/* <ScrollSyncPane group={["horizontal", "vertical"]}> */}
+      <Grid
+        ref={gridRef}
+        className="virtual-grid"
+        columnCount={columns.length}
+        columnWidth={(index) => {
+          return getColumnWidth(index, columns);
+        }}
+        height={tableHeight}
+        rowCount={rawData.length}
+        rowHeight={() => {
+          const h = screenWidth > 1920 ? 45 : 34;
+          return h;
+        }}
+        width={tableWidth > 0 ? tableWidth : 0}
+        onScroll={({ scrollLeft }) => {
+          onScroll({
+            scrollLeft
+          });
+        }}
+      >
+        {({ columnIndex, rowIndex, style }) => {
+          //列名称
+          const columnName = columns[columnIndex].dataIndex;
+          // 单元格的值
+          if (rawData === undefined) {
+            rawData = [];
+          }
+          const columnsLen = columns.length;
+          return (
+            <>
+              <VirtualCell
+                columnIndex={columnIndex}
+                rowIndex={rowIndex}
+                style={style}
+                columnName={columnName}
+                rawData={rawData[rowIndex] || {}}
+                columnsLen={columnsLen}
+              ></VirtualCell>
+            </>
+          );
+        }}
+      </Grid>
+      {/* </ScrollSyncPane> */}
+    </>
   );
 };
 
@@ -322,6 +319,7 @@ function VirtualTable(props) {
         }
       }}
     >
+      {/* <ScrollSync> */}
       <Table
         {...props}
         className="virtual-table"
@@ -337,6 +335,7 @@ function VirtualTable(props) {
             )
         }}
       />
+      {/* </ScrollSync> */}
     </ResizeObserver>
   );
 }

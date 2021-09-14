@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-09-13 18:01:31
+ * @LastEditTime: 2021-09-13 19:49:19
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: liutianjiao
  * @Description: 方案列表
@@ -327,9 +327,11 @@ function SList(props) {
           systemPage.activeSystem.system.indexOf("CDM") > -1 &&
           id === schemeListData.activeSchemeId
         ) {
-          res = schemeListData.toggleSchemeActive("");
+          // alert("切换模块11:" + id);
           systemPage.setLeftNavSelectedName("all");
+          res = schemeListData.toggleSchemeActive("");
         } else {
+          // alert("切换模块22:" + id);
           res = schemeListData.toggleSchemeActive(id + "");
           systemPage.setLeftNavSelectedName("");
         }
@@ -392,6 +394,12 @@ function SList(props) {
         systemPage.leftNavSelectedName === ""
       ) {
         //默认选第一条 已计算
+        // alert(
+        //   "默认选第一条 都是空 activeSchemeId:" +
+        //     schemeListData.activeSchemeId +
+        //     "  leftNavSelectedName:" +
+        //     systemPage.leftNavSelectedName
+        // );
         selectOne();
       } else {
         let activeList = schemeList.filter(
@@ -399,6 +407,7 @@ function SList(props) {
         );
         if (activeList.length === 0 && systemPage.leftNavSelectedName === "") {
           //默认选第一条 已计算
+          // alert("默认选第一条 进入逻辑判断二");
           selectOne();
         }
       }
