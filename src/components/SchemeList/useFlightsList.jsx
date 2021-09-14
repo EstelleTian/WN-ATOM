@@ -151,8 +151,10 @@ function useFlightsList({
 
   useEffect(() => {
     clearTimeout(flightsTimeoutId);
-    getFlightTableData(true, true);
-  }, [schemeListData.activeSchemeId]);
+    if (isValidVariable(systemPage.activeSystem.system)) {
+      getFlightTableData(true, true);
+    }
+  }, [schemeListData.activeSchemeId, systemPage.activeSystem]);
 
   //监听全局刷新
   useEffect(

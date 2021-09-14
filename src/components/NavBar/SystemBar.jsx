@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-08-31 16:16:11
+ * @LastEditTime: 2021-09-14 11:20:13
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\SystemBar.jsx
@@ -12,7 +12,7 @@ import React, {
   useState,
   useEffect,
   useCallback,
-  Fragment,
+  Fragment
 } from "react";
 import { observer, inject } from "mobx-react";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
@@ -92,7 +92,7 @@ function SystemBar(props) {
   const getSystemListById = useCallback(async (userId) => {
     try {
       const res = await requestGet2({
-        url: ReqUrls.systemListUrl + userId,
+        url: ReqUrls.systemListUrl + userId
       });
       const uumaSystemList = res.uumaSystemList || [];
       systemPage.setSystemList(uumaSystemList, systemType);
@@ -127,7 +127,7 @@ function SystemBar(props) {
     } catch (e) {
       customNotice({
         type: "error",
-        content: "获取用户可访问系统列表失败",
+        content: "获取用户可访问系统列表失败"
       });
     }
   }, []);
@@ -173,9 +173,8 @@ function SystemBar(props) {
     const userId = systemPage.user.id || "";
     if (isValidVariable(userId)) {
       //根据id获取系统列表
-      getSystemListById(userId);
 
-      
+      getSystemListById(userId);
     }
   }, [systemPage.user.id]);
 

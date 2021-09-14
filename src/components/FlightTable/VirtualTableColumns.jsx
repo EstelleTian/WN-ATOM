@@ -2,7 +2,7 @@
  * @Author: liutianjiao
  * @Date: 2021-09-08 14:24:09
  * @LastEditors: liutianjiao
- * @LastEditTime: 2021-09-14 10:43:02
+ * @LastEditTime: 2021-09-14 13:01:17
  * @Description:
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTableColumns.jsx
  */
@@ -560,8 +560,8 @@ const getColumns = (
           dataIndex: "rowNum",
           align: "center",
           key: "rowNum",
-          width: screenWidth > 1920 ? 70 : 70
-          // fixed: "left"
+          width: screenWidth > 1920 ? 70 : 70,
+          fixed: "left"
         }
       ]
     }
@@ -799,7 +799,7 @@ const getColumns = (
         tem["defaultSortOrder"] = "ascend";
       }
       tem["width"] = screenWidth > 1920 ? 120 : 100;
-      // tem["fixed"] = "left";
+      tem["fixed"] = "left";
     }
     if (en === "FORMER") {
       tem["width"] = screenWidth > 1920 ? 140 : 120;

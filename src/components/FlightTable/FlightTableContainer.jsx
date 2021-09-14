@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-09-13 17:25:53
+ * @LastEditTime: 2021-09-14 14:55:11
  * @LastEditors: liutianjiao
  * @Description: 表格列表组件
  * @FilePath: \WN-ATOM\src\components\FlightTable\FlightTableContainer.jsx
@@ -124,6 +124,7 @@ function FContainer({
     //表头第一个tr
     const table = document.getElementsByClassName("virtual-table");
     let h = screenWidth > 1920 ? 35 : 31;
+    let filterH = screenWidth > 1920 ? 45 : 41;
     const dom = document.getElementsByClassName("fixed-virtual-grid");
     if (table.length > 0) {
       const head = table[0].getElementsByClassName("ant-table-thead");
@@ -148,7 +149,7 @@ function FContainer({
           tr.setAttribute("style", "display:table-row;");
           if (dom.length > 0) {
             let newStyle =
-              newStyleArr.join(";") + " top:" + (h * 1 + 45) + "px;";
+              newStyleArr.join(";") + " top:" + (h * 1 + filterH) + "px;";
             dom[0].setAttribute("style", newStyle);
           }
         } else {
@@ -167,7 +168,7 @@ function FContainer({
   // useEffect(() => {
   //   calcShowList();
   // }, [flightTableData.sortKey]);
-  console.log("航班表格container渲染 " + flightTableData.focusFlightId);
+  // console.log("航班表格container渲染 " + flightTableData.focusFlightId);
   return (
     <>
       <VirtualTable

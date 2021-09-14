@@ -277,29 +277,29 @@
 // ----- start-------
 // react-window虚拟列表处理单元格样式
 .virtual-table {
-  .ant-table-thead,
-  .ant-table-header {
-    // overflow: auto !important;
-  }
+  // .ant-table-thead,
+  // .ant-table-header {
+  //   overflow: auto !important;
+  // }
   .ant-table-thead > tr:first-child {
     display: none;
   }
-  // .ant-table-thead > tr:first-child {
-  //   th:nth-child(1) {
-  //     position: sticky !important;
-  //     left: 0 !important;
-  //   }
-  //   th:nth-child(2) {
-  //     position: sticky !important;
-  //     left: 70px !important;
-  //   }
-  // }
-  // .ant-table-cell-fix-left {
-  //   position: sticky !important;
-  // }
-  // .ant-table-cell-fix-left.FLIGHTID {
-  //   left: 70px !important;
-  // }
+  .ant-table-thead > tr:first-child {
+    th:nth-child(1) {
+      position: sticky !important;
+      left: 0 !important;
+    }
+    th:nth-child(2) {
+      position: sticky !important;
+      left: 70px !important;
+    }
+  }
+  .ant-table-cell-fix-left {
+    position: sticky !important;
+  }
+  .ant-table-cell-fix-left.FLIGHTID {
+    left: 70px !important;
+  }
   .rowNum {
     padding: 0 15px 0 0;
     text-align: right;
