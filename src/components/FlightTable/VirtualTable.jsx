@@ -10,7 +10,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { VariableSizeGrid as Grid } from "react-window";
 import ResizeObserver from "rc-resize-observer";
-import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
+// import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
 import classNames from "classnames";
 import { ConfigProvider, Empty, Table } from "antd";
 import _ from "lodash";

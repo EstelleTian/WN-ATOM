@@ -2486,14 +2486,14 @@ function SchemeForm(props) {
         </Row>
             {/* TacticPrimaryForwardForm */}
         <Row className="info-row">
-          <Col span={12}>
+          <Col span={8}>
             <TacticPrimaryForwardForm
               pageType={pageType}
               disabledForm={props.disabledForm}
               form={tacticPrimaryForwardForm}
             />
           </Col>
-          <Col span={12}>
+          <Col span={8}>
             <TacticPrimaryUnitForm
               disabledForm={props.disabledForm}
               form={tacticPrimaryUnitForm}

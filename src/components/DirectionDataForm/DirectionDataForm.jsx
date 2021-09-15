@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import "moment/locale/zh-cn"
-import { Button, Modal, Form, Space, Card, Row, Col, Input, Select, Tooltip, Tag, Divider,Spin } from 'antd'
+import { Button, Modal, Form, Space, Card, Row, Col, Input, Select, Tooltip, Tag, Divider,Spin, Popover } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import ExemptCard from 'components/RestrictionForm/ExemptCard'
 import LimitedCard from 'components/RestrictionForm/LimitedCard'
@@ -11,6 +11,7 @@ import TacticAreaProvinceAirportInit from 'components/RestrictionForm/TacticArea
 import TacticSpecialAreaAirportInit from 'components/RestrictionForm/TacticSpecialAreaAirportInit'
 import { handleUpdateDirectionData } from 'utils/client'
 import { isValidObject, isValidVariable } from '../../utils/basic-verify'
+import { SchemeFormUtil } from "utils/scheme-form-util";
 const { Option } = Select;
 
 import { NWGlobal } from 'utils/global';
@@ -56,12 +57,12 @@ function DirectionDataForm(props) {
     // 区域标签机场集合
     const areaLabelAirport = [
         {
-            label: '兰州',
+            label: '兰州区域',
             airport: 'ZBAL;ZBAR;ZBEN;ZBUH;ZLDH;ZLDL;ZLGL;ZLGM;ZLGY;ZLHB;ZLHX;ZLIC;ZLJC;ZLJQ;ZLLL;ZLLN;ZLTS;ZLXH;ZLXN;ZLYS;ZLZW;ZLZY',
             code: 'ZLLL'
         },
         {
-            label: '西安',
+            label: '西安区域',
             airport: 'ZLAK;ZLHZ;ZLQY;ZLXY;ZLYA;ZLYL',
             code: 'ZLXY'
         },
@@ -636,17 +637,27 @@ function DirectionDataForm(props) {
     // 自定义 tag 内容 render
     const tagRender = ({ label, closable, onClose, value }) => {
         // 过滤出当前录入的标签下的机场集合
+        const isValue = [...new Set(value.split(';'))]
         let airport = filterAreaAirport(value);
-        return (
-            <Tooltip title={airport}>
-                <Tag
-                    closable={closable}
-                    onClose={onClose}
-                >
-                    {label.props ? label.props.children : value}
-                </Tag>
-            </Tooltip>
-        )
+        if (Array.isArray(isValue)) {
+            return (
+                isValue.map((item,i)=>{
+                    return(
+                        <Tooltip title={airport || item} key={item}>
+                            <Tag
+                                closable={closable}
+                                onClose={onClose}
+                            >
+                                {label.props ? label.props.children : item}
+                            </Tag>
+                        </Tooltip>
+                    )
+                }
+            )
+               
+            )
+        }
+        
     }
 
     // 区域标签快捷点选按钮点击
@@ -657,10 +668,12 @@ function DirectionDataForm(props) {
         const field = arr[0];
         // 区域code
         const code = arr[1];
+        // console.log(660,code);
         // 获取区域集合中对应code的label值
         let label = filterAreaLabel(code);
         // 获取当前字段值
         let fieldValue = form.getFieldValue(field);
+        console.log(676,fieldValue);
         // 若当前字段值中包含此标签label,则不作操作
         if (fieldValue.indexOf(label) > -1) {
             return;
@@ -670,6 +683,26 @@ function DirectionDataForm(props) {
         // 更新当前字段值
         updateFormAirportFieldValue(field, valueArr);
     }
+    // 快速录入指定区域机场
+    const shortcutInputValue = (label) => {
+        // 获取当前字段值
+        let fieldValue = form.getFieldValue("intervalDepFlight");
+        console.log(689,fieldValue);
+        // 若当前字段值中包含此标签label,则不作操作
+        if (fieldValue.indexOf(label) > -1) {
+        return;
+        }
+        // 反之将当前label追加到当前字段值中去
+        let valueArr = [...fieldValue, label];
+        // 处理机场数值
+        valueArr = SchemeFormUtil.handleAirportSelectInputValue(
+        valueArr,
+        areaAirportListData
+        );
+        // 更新表单数值
+        form.setFieldsValue({ intervalDepFlight: valueArr });
+    };
+    
     // 区域标签绘制
     function areaBlock(field) {
         return (
@@ -678,10 +711,21 @@ function DirectionDataForm(props) {
                 <Button size="small" onClick={() => { areaBlockChange(`${field}-ZLXY`) }}>西安</Button>
                 <Button size="small" onClick={() => { areaBlockChange(`${field}-ZSQD`) }}>山东</Button>
                 <Button size="small" onClick={() => { }}>更多</Button>
+                {/* <Popover
+                    trigger="click"
+                    placement="rightTop"
+                    content={
+                      <TacticAreaProvinceAirportList
+                        shortcutInputValue={shortcutInputValue}
+                        targetForm={form}
+                      />
+                    }
+                  >
+                    <Button size="small">省份</Button>
+                  </Popover> */}
             </Space>
         )
     }
-
 
     return (
         <Spin spinning={loading} >
@@ -839,7 +883,7 @@ function DirectionDataForm(props) {
                                     <Col span={8}>
                                         <Form.Item
                                             className="hidden-label"
-                                            name="depAp-area"
+                                            name="intervalDepFlight"
                                             label={` `}
                                         >
                                             {areaBlock('depAp')}

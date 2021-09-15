@@ -627,12 +627,15 @@ class SchemeForm {
     }
     // 更新原发转发
     @action updateTacticPrimaryForward(mode) {
-        console.log(mode);
+        if (mode == '100') {
+            this.updatePrimaryUnit('NW')
+        }
+        // console.log(mode);
         this.tacticPrimaryForward = mode;
     }
     // 更新原发单位
     @action updatePrimaryUnit(reason) {
-        console.log(636,reason);
+        // console.log(636,reason);
         this.tacticPrimaryUnit = reason;
     }
     // 更新方案原因
