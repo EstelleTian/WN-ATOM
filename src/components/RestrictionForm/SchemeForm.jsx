@@ -1467,6 +1467,7 @@ function SchemeForm(props) {
     //     data.basicTacticInfo.basicFlowcontrol.flowControlMeasure
     //       .intervalDepFlight
     // );
+    // console.log(data);
     // 方案id
     const { id } = basicTacticInfo;
     const opt = {

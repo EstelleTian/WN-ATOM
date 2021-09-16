@@ -13,10 +13,14 @@ function CreateSchemeBySimulationSchemePage(props) {
   let [disabledForm, setDisabledForm] = useState(false);
   //更新方案数据
   const updateSchemeData = (data) => {
+    // console.log(16,data.tacticProcessInfo.basicTacticInfo);
+    const sourceType = data.tacticProcessInfo.basicTacticInfo.sourceType
+    const tacticOriginalSource = data.tacticProcessInfo.basicTacticInfo.tacticOriginalSource
     // setFlowData(data);
     // 更新方案表单store数据
     let tacticProcessInfo = data.tacticProcessInfo || {};
-    
+    props.schemeFormData.updateTacticPrimaryForward(sourceType)
+    props.schemeFormData.updatePrimaryUnit(tacticOriginalSource)
     props.schemeFormData.updateSchemeData(tacticProcessInfo);
   };
 
