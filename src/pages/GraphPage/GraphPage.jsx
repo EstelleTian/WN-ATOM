@@ -291,7 +291,6 @@ const GraphPage = (props) => {
       requestSchemeInfos();
     }
   }, [tacticId]);
-
   // 创建主节点
   const member = (x, y, id, items, index, graph, type) => {
     return graph.addNode({

@@ -69,6 +69,7 @@ function tacticIntervalDepApForm(props) {
   const shortcutInputValue = (label) => {
     // 获取当前字段值
     let fieldValue = form.getFieldValue("intervalDepFlight");
+    // console.log(72,fieldValue);
     // 若当前字段值中包含此标签label,则不作操作
     if (fieldValue.indexOf(label) > -1) {
       return;

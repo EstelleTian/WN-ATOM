@@ -11,7 +11,9 @@ import {
 import TacticInputMethodRadioGroup from "./TacticInputMethodRadioGroup";
 import TacticShortcutInputForm from "./TacticShortcutInputForm";
 import TacticModeForm from "./TacticModeForm";
-import TacticNameForm from "./TacticNameForm";
+import TacticNameForm from "./TacticNameForm"; 
+import TacticPrimaryForwardForm from "./TacticPrimaryForwardForm";
+import TacticPrimaryUnitForm from "./TacticPrimaryUnitForm";
 import TacticPublishUnitForm from "./TacticPublishUnitForm";
 import TacticPublishUserForm from "./TacticPublishUserForm";
 import TacticReasonForm from "./TacticReasonForm";
@@ -119,11 +121,15 @@ function SchemeForm(props) {
   const inputMethod = schemeFormData.inputMethod;
   // 方案模式表单
   const [tacticModeForm] = Form.useForm();
-  // 方案名称表单
+  // 方案名称表单 
   const [tacticNameForm] = Form.useForm();
-  // 方案发布单位表单
+  // 原发转发表单  
+  const [tacticPrimaryForwardForm] = Form.useForm();
+  // 原发单位
+  const [tacticPrimaryUnitForm] = Form.useForm();
+  // 方案录入单位表单
   const [tacticPublishUnitForm] = Form.useForm();
-  // 方案发布用户表单
+  // 方案录入用户表单
   const [tacticPublishUserForm] = Form.useForm();
   // 方案原因表单
   const [tacticReasonForm] = Form.useForm();
@@ -1508,6 +1514,9 @@ function SchemeForm(props) {
   const handleFormData = () => {
     // 复制方案原始数据对象
     let schemeData = JSON.parse(JSON.stringify(schemeFormData.schemeData));
+    const tacticPrimaryForward = schemeFormData.tacticPrimaryForward;
+    let tacticPrimaryUnit = schemeFormData.tacticPrimaryUnit;
+    // console.log(tacticPrimaryForward);
     // 方案基本信息数据对象
     let basicTacticInfo = schemeData.basicTacticInfo;
     if (!isValidObject(basicTacticInfo)) {
@@ -1553,6 +1562,9 @@ function SchemeForm(props) {
       basicFlowcontrol.flowControlTimeInfo = {};
       flowControlTimeInfo = basicFlowcontrol.flowControlTimeInfo;
     }
+    // 方案来源数据 
+    schemeData.basicTacticInfo.sourceType = tacticPrimaryForward;
+    schemeData.basicTacticInfo.tacticOriginalSource = tacticPrimaryUnit;
     // 所有表单数值
     let formDataValue = getAllFormValue();
     // 转换为大写
@@ -1600,13 +1612,13 @@ function SchemeForm(props) {
     basicTacticInfo.inputMethod = inputMethod;
     // 更新方案名称
     basicTacticInfo.tacticName = tacticName;
-    // 方案发布单位
+    // 方案录入单位
     basicTacticInfo.tacticPublishUnit = tacticPublishUnit;
-    // 方案发布单位中文
+    // 方案录入单位中文
     basicTacticInfo.tacticPublishUnitCH = tacticPublishUnitCH;
-    // 方案发布用户
+    // 方案录入用户
     basicTacticInfo.tacticPublishUser = tacticPublishUser;
-    // 方案发布用户中文
+    // 方案录入用户中文
     basicTacticInfo.tacticPublishUserCH = tacticPublishUserCH;
     // 更新流控限制原因
     basicFlowcontrol.flowControlReason = flowControlReason;
@@ -1722,7 +1734,7 @@ function SchemeForm(props) {
       flowControlMeasure.alterRouteData4 = sortedAlterRouteData[3];
       flowControlMeasure.alterRouteData5 = sortedAlterRouteData[4];
     }
-
+    console.log(1731,schemeData);
     return schemeData;
   };
   // 获取方案方向数据
@@ -1873,19 +1885,26 @@ function SchemeForm(props) {
   const getAllFormValue = () => {
     // 方案模式
     const tacticMode = tacticModeForm.getFieldValue("tacticMode");
+    console.log(1882,tacticMode);
     // 方案名称
     const tacticName = tacticNameForm.getFieldValue("tacticName");
-    // 发布单位
+    // 原发转发
+    const tacticPrimaryForward = tacticPrimaryForwardForm.getFieldValue("tacticPrimaryForward");
+    console.log(1886,tacticPrimaryForward);
+    // 原发单位
+    const tacticPrimaryUnit = tacticPrimaryUnitForm.getFieldValue("tacticPrimaryUnit");
+    // 录入单位
     const tacticPublishUnit =
       tacticPublishUnitForm.getFieldValue("tacticPublishUnit");
-    // 发布单位中文
+    // 录入单位中文
     const tacticPublishUnitCH = tacticPublishUnitForm.getFieldValue(
       "tacticPublishUnitCH"
     );
-    // 发布用户
+    // 录入用户
     const tacticPublishUser =
       tacticPublishUserForm.getFieldValue("tacticPublishUser");
-    // 发布用户中文
+      // console.log(1960tacticPublishUser);
+    // 录入用户中文
     const tacticPublishUserCH = tacticPublishUserForm.getFieldValue(
       "tacticPublishUserCH"
     );
@@ -2424,7 +2443,8 @@ function SchemeForm(props) {
     },
     [restrictionMITValueUnit]
   );
-
+ // zlxyflwdev
+//  
   // 快捷录入表单数据变化、勾选项数据变化、基准点变化更新速度值
   useEffect(
     function () {
@@ -2463,6 +2483,22 @@ function SchemeForm(props) {
               </Form.Item>
             </Col>
           )}
+        </Row>
+            {/* TacticPrimaryForwardForm */}
+        <Row className="info-row">
+          <Col span={8}>
+            <TacticPrimaryForwardForm
+              pageType={pageType}
+              disabledForm={props.disabledForm}
+              form={tacticPrimaryForwardForm}
+            />
+          </Col>
+          <Col span={8}>
+            <TacticPrimaryUnitForm
+              disabledForm={props.disabledForm}
+              form={tacticPrimaryUnitForm}
+            />
+          </Col>
         </Row>
         <Row className="info-row">
           <Col span={8}>

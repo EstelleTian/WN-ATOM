@@ -346,7 +346,7 @@ function InfoCardItem(props) {
             <div>
               <div className="text">
                 <span className="info_name">{name}</span>
-                <span className="publishUnit">发布用户：{publishUser}</span>
+                <span className="publishUnit">录入用户：{publishUser}</span>
               </div>
               <div className="text">{content}</div>
             </div>
@@ -362,7 +362,7 @@ function InfoCardItem(props) {
                   -{name}{" "}
                 </span>
 
-                <span className="publishUnit">发布单位：{publishUnit}</span>
+                <span className="publishUnit">录入单位：{publishUnit}</span>
               </div>
               <div className="text">
                 {dataContent}
