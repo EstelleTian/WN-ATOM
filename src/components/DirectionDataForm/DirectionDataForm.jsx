@@ -26,7 +26,10 @@ function DirectionDataForm(props) {
     let [directionData, setDirectionData] = useState({});
     let [loading, setLoading] = useState(false);
 
-    
+  // 所有区域标签机场数据
+  const areaAirportListData = props.schemeFormData.areaAirportListData;
+const alist = props.schemeFormData.sortDirectionAirportData
+console.log(alist);
 
     NWGlobal.setEditDirectionData = function (str) {
 
@@ -68,8 +71,178 @@ function DirectionDataForm(props) {
         },
         {
             label: '山东',
-            airport: 'ZSHZ;ZSJG;ZSJN;ZSDY;ZSWF;ZSRZ;ZSLY;ZSYT;ZSWH;ZSQD',
-            code: 'ZSQD'
+            airport: 'ZSDY;ZSJG;ZSJN;ZSLY;ZSQD;ZSRZ;ZSWF;ZSWH;ZSHZ;ZSYT',
+            code: 'ZSYT'
+        },
+        {
+            label: '广东',
+            airport: 'ZGFS;ZGGG;ZGHZ;ZGLD;ZGMX;ZGNT;ZGOW;ZGSD;ZGSZ;ZGUH;ZGYJ;ZGZJ',
+            code: 'ZGZJ'
+        },
+        {
+            label: '广西',
+            airport: 'ZGBH;ZGBS;ZGHC;ZGKL;ZGNN;ZGWW;ZGWZ;ZGYL;ZGZH',
+            code: 'ZGZH'
+        },
+        {
+            label: '海南',
+            airport: 'ZJ??',
+            code: 'ZJ??'
+        },
+        {
+            label: '河南',
+            airport: 'ZHCC;ZHLY;ZHNY;ZHXY',
+            code: 'ZHXY'
+        },
+        {
+            label: '湖北',
+            airport: 'ZHES;ZHHH;ZHSN;ZHSS;ZHSY;ZHXF;ZHJZ;ZHYC',
+            code: 'ZHYC'
+        },
+        {
+            label: '湖南',
+            airport: 'ZGCD;ZGCJ;ZGDY;ZGHA;ZGHY;ZGLG;ZGSY;ZGYY',
+            code: 'ZGYY'
+        },
+        {
+            label: '安徽',
+            airport: 'ZSAQ;ZSFY;ZSWA;ZSJH;ZSOF;ZSTX',
+            code: 'ZSTX'
+        },
+        {
+            label: '福建',
+            airport: 'ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY',
+            code: 'ZSWY'
+        },
+        {
+            label: '江苏',
+            airport: 'ZSCG;ZSLG;ZSNJ;ZSNT;ZSSH;ZSWX;ZSXZ;ZSYA;ZSYN',
+            code: 'ZSYN'
+        },
+        {
+            label: '江西',
+            airport: 'ZSCN;ZSGS;ZSGZ;ZSJD;ZSJJ;ZSSR;ZSYC',
+            code: 'ZSYC'
+        },
+        {
+            label: '山东',
+            airport: 'SDY;ZSJG;ZSJN;ZSLY;ZSQD;ZSRZ;ZSWF;ZSWH;ZSHZ;ZSYT',
+            code: 'ZSYT'
+        },
+        {
+            label: '上海市',
+            airport: 'ZSPD;ZSSL;ZSSS',
+            code: 'ZSSS'
+        },
+        {
+            label: '浙江',
+            airport: 'ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS',
+            code: 'ZSZS'
+        },
+        {
+            label: '贵州',
+            airport: 'ZUAS;ZUBJ;ZUGY;ZUKJ;ZULB;ZUMT;ZUNP;ZUPS;ZUTR;ZUYI;ZUZY',
+            code: 'ZUZY'
+        },
+        {
+            label: '四川',
+            airport: 'ZUBZ;ZUDC;ZUDX;ZUGH;ZUGU;ZUGZ;ZUHY;ZUJZ;ZUKD;ZULZ;ZUMY;ZUNC;ZUSN;ZUUU;ZUXC;ZUXJ;ZUTF;ZUYB;ZUZH',
+            code: 'ZUZH'
+        },
+        {
+            label: '西藏',
+            airport: 'ZUAL;ZUBD;ZULS;ZUNZ;ZURK',
+            code: 'ZURK'
+        },
+        {
+            label: '云南',
+            airport: 'ZPBS;ZPCW;ZPDL;ZPDQ;ZPJH;ZPJM;ZPLC;ZPLJ;ZPMS;ZPNL;ZPPP;ZPSM;ZPTC;ZPWS;ZPZT',
+            code: 'ZPZT'
+        },
+        {
+            label: '重庆市',
+            airport: 'ZUCK;ZUQJ;ZUWS;ZUWL;ZUWX',
+            code: 'ZUWX'
+        },
+        {
+            label: '北京市',
+            airport: 'ZBAA;ZBAD',
+            code: 'ZBAD'
+        },
+        {
+            label: '河北',
+            airport: 'ZBCD;ZBDH;ZBHD;ZBSJ;ZBSN;ZBZJ',
+            code: 'ZBZJ'
+        },
+        {
+            label: '内蒙古',
+            airport: 'ZBAL;ZBAR;ZBCF;ZBDS;ZBEN;ZBER;ZBES;ZBHH;ZBHZ;ZBLA;ZBMZ;ZBOW;ZBTL;ZBUC;ZBUH;ZBUL;ZBXH;ZBYZ;ZBZL',
+            code: 'ZBZL'
+        },
+        {
+            label: '山西',
+            airport: 'ZBCZ;ZBDT;ZBLF;ZBLL;ZBPS;ZBXZ;ZBYC;ZBYN',
+            code: 'ZBYN'
+        },
+        {
+            label: '天津市',
+            airport: 'ZBTJ',
+            code: 'ZBTJ'
+        },
+        {
+            label: '宁夏',
+            airport: 'ZLGY;ZLIC;ZLZW',
+            code: 'ZLZW'
+        },
+        {
+            label: '甘肃',
+            airport: 'ZLDH;ZLJC;ZLJQ;ZLLL;ZLLN;ZLQY;ZLTS;ZLXH;ZLZY',
+            code: 'ZLZY'
+        },
+        {
+            label: '青海',
+            airport: 'ZLDL;ZLGL;ZLGM;ZLHB;ZLHX;ZLXN;ZLYS',
+            code: 'ZLYS'
+        },
+        {
+            label: '陕西',
+            airport: 'ZLAK;ZLHZ;ZLXY;ZLYA;ZLYL',
+            code: 'ZLYL'
+        },
+        {
+            label: '新疆',
+            airport: 'ZW??',
+            code: 'ZW??'
+        },
+        {
+            label: '黑龙江',
+            airport: 'ZYDQ;ZYDU;ZYFY;ZYHB;ZYHE;ZYJD;ZYJM;ZYJS;ZYJX;ZYLD;ZYMD;ZYMH;ZYQQ;ZYSF',
+            code: 'ZYSF'
+        },
+        {
+            label: '吉林',
+            airport: 'ZYBA;ZYBS;ZYCC;ZYJL;ZYSQ;ZYTN;ZYYJ',
+            code: 'ZYYJ'
+        },
+        {
+            label: '辽宁',
+            airport: 'ZYAS;ZYCH;ZYCY;ZYDD;ZYJZ;ZYTL;ZYTT;ZYTX;ZYYK',
+            code: 'ZYYK'
+        },
+        {
+            label: '香港',
+            airport: 'VHHH',
+            code: 'VHHH'
+        },
+        {
+            label: '澳门',
+            airport: 'VMMC',
+            code: 'VMMC'
+        },
+        {
+            label: '台湾',
+            airport: 'RC??',
+            code: 'RC??'
         },
     ]
 
@@ -229,7 +402,7 @@ function DirectionDataForm(props) {
     };
 
     const [form] = Form.useForm();
-    
+    console.log(form);
     useEffect(function () {
         //重置表单，用于重新初始表单的initialValues属性
         form.resetFields();
@@ -633,12 +806,29 @@ function DirectionDataForm(props) {
         }
         return ''
     }
+    const directArr = (val,airp)=>{
+        const visArr = SchemeFormUtil.handleAirportSelectInputValue(
+            val,
+            areaAirportListData
+            );
+            // 更新表单数值
+        form.setFieldsValue({ [airp] : visArr });
+    }
 
     // 自定义 tag 内容 render
     const tagRender = ({ label, closable, onClose, value }) => {
+        var str=value.split('');
+        for(var i = 0; i < str.length; i++) {
+            str[i].charCodeAt() >= 65 && str[i].charCodeAt() <= 90?str[i]: str[i] = str[i].toUpperCase();
+        }
+        value = str.join('')
         // 过滤出当前录入的标签下的机场集合
         const isValue = [...new Set(value.split(';'))]
+        // console.log(isValue);
         let airport = filterAreaAirport(value);
+        // console.log(isValue);
+        // 更新表单数值
+        // form.setFieldsValue({ [field] : valueArr });
         if (Array.isArray(isValue)) {
             return (
                 isValue.map((item,i)=>{
@@ -668,12 +858,10 @@ function DirectionDataForm(props) {
         const field = arr[0];
         // 区域code
         const code = arr[1];
-        // console.log(660,code);
         // 获取区域集合中对应code的label值
         let label = filterAreaLabel(code);
         // 获取当前字段值
         let fieldValue = form.getFieldValue(field);
-        console.log(676,fieldValue);
         // 若当前字段值中包含此标签label,则不作操作
         if (fieldValue.indexOf(label) > -1) {
             return;
@@ -683,14 +871,17 @@ function DirectionDataForm(props) {
         // 更新当前字段值
         updateFormAirportFieldValue(field, valueArr);
     }
+    const updataField = (field)=>{
+        props.schemeFormData.updateFieldItem(field)
+    }
     // 快速录入指定区域机场
     const shortcutInputValue = (label) => {
+        const field = props.schemeFormData.fieldListItem
         // 获取当前字段值
-        let fieldValue = form.getFieldValue("intervalDepFlight");
-        console.log(689,fieldValue);
+        let fieldValue = form.getFieldValue(field) || [];
         // 若当前字段值中包含此标签label,则不作操作
         if (fieldValue.indexOf(label) > -1) {
-        return;
+            return;
         }
         // 反之将当前label追加到当前字段值中去
         let valueArr = [...fieldValue, label];
@@ -699,19 +890,19 @@ function DirectionDataForm(props) {
         valueArr,
         areaAirportListData
         );
+        console.log(999,valueArr);
         // 更新表单数值
-        form.setFieldsValue({ intervalDepFlight: valueArr });
+        form.setFieldsValue({ [field] : valueArr });
     };
-    
     // 区域标签绘制
     function areaBlock(field) {
         return (
             <Space>
-                <Button size="small" onClick={() => { areaBlockChange(`${field}-ZLLL`) }}>兰州</Button>
-                <Button size="small" onClick={() => { areaBlockChange(`${field}-ZLXY`) }}>西安</Button>
-                <Button size="small" onClick={() => { areaBlockChange(`${field}-ZSQD`) }}>山东</Button>
-                <Button size="small" onClick={() => { }}>更多</Button>
-                {/* <Popover
+                <Button size="small" onClick={() => { areaBlockChange(`${field}-ZLLL`) }}>兰州区域</Button>
+                <Button size="small" onClick={() => { areaBlockChange(`${field}-ZLXY`) }}>西安区域</Button>
+                {/* <Button size="small" onClick={() => { areaBlockChange(`${field}-ZSQD`) }}>山东</Button> */}
+                {/* <Button size="small" onClick={() => { }}>更多</Button> */}
+                <Popover
                     trigger="click"
                     placement="rightTop"
                     content={
@@ -721,12 +912,12 @@ function DirectionDataForm(props) {
                       />
                     }
                   >
-                    <Button size="small">省份</Button>
-                  </Popover> */}
+                    <Button size="small" onClick={()=>updataField(field)}>省份</Button>
+                </Popover>
             </Space>
         )
     }
-
+    
     return (
         <Spin spinning={loading} >
         <div className="direction-edit-wrapper">
@@ -840,7 +1031,7 @@ function DirectionDataForm(props) {
                                         style={{ width: '100%' }}
                                         placeholder=""
                                         open={false}
-                                        // onChange={(val) => (console.log(val))}
+                                        onChange={(val) => (directArr(val,'depAp'))}
                                         className="text-uppercase"
                                         allowClear={true}
                                         tagRender={tagRender}
@@ -868,7 +1059,7 @@ function DirectionDataForm(props) {
                                         style={{ width: '100%' }}
                                         placeholder=""
                                         open={false}
-                                        // onChange={(val) => (console.log(val))}
+                                        onChange={(val) => (directArr(val,'arrAp'))}
                                         className="text-uppercase"
                                         allowClear={true}
                                         tagRender={tagRender}
@@ -914,7 +1105,7 @@ function DirectionDataForm(props) {
                                         style={{ width: '100%' }}
                                         placeholder=""
                                         open={false}
-                                        // onChange={(val) => (console.log(val))}
+                                        onChange={(val) => (directArr(val,'exemptDepAp'))}
                                         className="text-uppercase"
                                         allowClear={true}
                                         tagRender={tagRender}
@@ -941,7 +1132,7 @@ function DirectionDataForm(props) {
                                         style={{ width: '100%' }}
                                         placeholder=""
                                         open={false}
-                                        // onChange={(val) => (console.log(val))}
+                                        onChange={(val) => (directArr(val,'exemptArrAp'))}
                                         className="text-uppercase"
                                         allowClear={true}
                                         tagRender={tagRender}
