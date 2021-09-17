@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-09-13 19:49:19
+ * @LastEditTime: 2021-09-16 16:41:23
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: liutianjiao
  * @Description: 方案列表
@@ -96,9 +96,10 @@ const useSchemeModal = ({ systemPage }) => {
 
 //方案头
 const STitle = (props) => {
-  const { schemeListData } = props;
+  const { schemeListData, systemPage } = props;
   const { statusValues, NTFMShowType, filterCount } = schemeListData; //获取排序后的方案列表
   let [dropdownVisible, setDropdownVisible] = useState(false);
+  let [totalDropdownVisible, setTotalDropdownVisible] = useState(false);
 
   //状态-多选按钮组-切换事件
   const onChange = useCallback((checkedValues) => {
@@ -125,6 +126,9 @@ const STitle = (props) => {
 
   const handleDropdownVisible = (flage) => {
     setDropdownVisible(flage);
+  };
+  const handleTotalDropdownVisible = (flage) => {
+    setTotalDropdownVisible(flage);
   };
 
   const menu = (
@@ -154,6 +158,107 @@ const STitle = (props) => {
       </Spin>
     </div>
   );
+  //根据方向过滤方案
+  const schemeList = useMemo(() => {
+    let list = schemeListData.sortedList || [];
+    const activeDir = systemPage.activeDir || {};
+    let name = activeDir.name || "";
+    if (name !== "ALL") {
+      list = list.filter((item) => {
+        const tacticDirection = item.tacticDirection || "";
+        // console.log("tacticDirection", tacticDirection);
+        if (tacticDirection.indexOf(name) > -1) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
+
+    return list;
+  }, [schemeListData.sortedList, systemPage.activeDir]);
+
+  //根据方向过滤方案-归类
+  const schemeListObj = useMemo(() => {
+    let group = {
+      RUNNING: 0,
+      FUTURE: 0,
+      TERMINATED: 0,
+      "NTFM-ORIGINAL-100": 0,
+      "NTFM-ORIGINAL-200": 0
+    };
+    if (schemeList.length > 0) {
+      schemeList.map((item, index) => {
+        let tacticStatus = item.tacticStatus;
+        switch (tacticStatus) {
+          case "RUNNING":
+            group.RUNNING++;
+            break;
+          case "FUTURE":
+            group.FUTURE++;
+            break;
+          case "TERMINATED":
+          case "TERMINATED_MANUAL":
+          case "TERMINATED_AUTO":
+            group.TERMINATED++;
+            break;
+          case "NTFM-ORIGINAL-100":
+            group["NTFM-ORIGINAL-100"]++;
+            break;
+          case "NTFM-ORIGINAL-200":
+            group["NTFM-ORIGINAL-200"]++;
+            break;
+        }
+      });
+    }
+    return group;
+  }, [schemeList]);
+
+  let totalMenu = useMemo(() => {
+    return (
+      <div className="spin-menu-wrapper">
+        <Spin spinning={schemeListData.loading} indicator={null}>
+          <Menu className="spin-menu" selectable={false}>
+            <Menu.Item>
+              <span className="menu-item-label">状态:</span>
+              {plainOptions.map((option, index) => (
+                <span
+                  key={option.value}
+                  className="filter-wrapper"
+                  style={{ paddingRight: "8px" }}
+                >
+                  <span style={{ marginRight: "2px" }}>{option.label}</span>
+                  <Badge
+                    className="filter-badge"
+                    count={schemeListObj[option.value]}
+                    style={{ background: "#08c9f7" }}
+                  ></Badge>
+                </span>
+              ))}
+            </Menu.Item>
+            <Menu.Divider></Menu.Divider>
+            <Menu.Item>
+              <span className="menu-item-label">NTFM:</span>
+              {NTFMOptions.map((option, index) => (
+                <span
+                  key={option.value}
+                  className="filter-wrapper"
+                  style={{ paddingRight: "8px" }}
+                >
+                  <span style={{ marginRight: "2px" }}>{option.label}</span>
+                  <Badge
+                    className="filter-badge"
+                    count={schemeListObj[option.value]}
+                    style={{ background: "#08c9f7" }}
+                  ></Badge>
+                </span>
+              ))}
+            </Menu.Item>
+          </Menu>
+        </Spin>
+      </div>
+    );
+  }, [schemeListObj]);
 
   return (
     <div className="scheme-filter-items">
@@ -168,6 +273,29 @@ const STitle = (props) => {
           onChange={(e) => debounceUpdateSearchVal(e.target.value)}
         />
       </div>
+      {/* 总计 */}
+      <div className="filter-options" style={{ marginRight: "8px" }}>
+        <Dropdown
+          overlay={totalMenu}
+          onVisibleChange={handleTotalDropdownVisible}
+          visible={totalDropdownVisible}
+          trigger={["click"]}
+        >
+          <span className="filter-wrapper">
+            <span style={{ marginRight: "2px" }}>总计</span>
+            {schemeList.length > 0 ? (
+              <Badge
+                className="filter-badge"
+                count={schemeList.length}
+                style={{ background: "#08c9f7" }}
+              ></Badge>
+            ) : (
+              <FilterOutlined></FilterOutlined>
+            )}
+          </span>
+        </Dropdown>
+      </div>
+      {/* 显示条件 */}
       <div className="filter-options">
         <Dropdown
           overlay={menu}
@@ -192,7 +320,7 @@ const STitle = (props) => {
     </div>
   );
 };
-const SchemeTitle = inject("schemeListData")(observer(STitle));
+const SchemeTitle = inject("schemeListData", "systemPage")(observer(STitle));
 
 //方案列表
 function SList(props) {
@@ -364,7 +492,6 @@ function SList(props) {
     if (name !== "ALL") {
       list = list.filter((item) => {
         const tacticDirection = item.tacticDirection || "";
-        // console.log("tacticDirection", tacticDirection);
         if (tacticDirection.indexOf(name) > -1) {
           return true;
         } else {
@@ -372,7 +499,6 @@ function SList(props) {
         }
       });
     }
-
     return list;
   }, [schemeListData.sortedList, systemPage.activeDir]);
 

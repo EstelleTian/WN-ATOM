@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-14 15:00:46
+ * @LastEditTime: 2021-09-16 11:57:59
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
@@ -10,7 +10,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { VariableSizeGrid as Grid } from "react-window";
 import ResizeObserver from "rc-resize-observer";
-// import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
+import { ScrollSync, ScrollSyncPane } from "react-scroll-sync";
 import classNames from "classnames";
 import { ConfigProvider, Empty, Table } from "antd";
 import _ from "lodash";
