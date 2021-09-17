@@ -277,10 +277,10 @@
 // ----- start-------
 // react-window虚拟列表处理单元格样式
 .virtual-table {
-  .ant-table-thead,
-  .ant-table-header {
-    // overflow: auto !important;
-  }
+  // .ant-table-thead,
+  // .ant-table-header {
+  //   overflow: auto !important;
+  // }
   .ant-table-thead > tr:first-child {
     display: none;
   }
@@ -346,6 +346,10 @@
   width: 0;
   height: 0;
 }
+// .virtual-table .ant-table-header::-webkit-scrollbar {
+//   width: 0;
+//   height: 0;
+// }
 // .virtual-grid::-webkit-scrollbar {
 //   width: 0;
 //   height: 0;

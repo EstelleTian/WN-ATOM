@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-14 10:36:44
+ * @LastEditTime: 2021-09-17 09:32:11
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
@@ -128,7 +128,7 @@ const renderVirtualList = (
   props
 ) => {
   let {
-    columns,
+    columns = [],
     scroll,
     flightTableData,
     collaboratePopoverData,
@@ -180,14 +180,14 @@ const renderVirtualList = (
   if (rawData === undefined) {
     rawData = [];
   }
-  const fiexdColumns = columns.slice(0, 2);
-  let fiexdColumnsWidth = _.reduce(
-    fiexdColumns,
-    function (sum, n) {
-      return sum + n.width * 1;
-    },
-    0
-  );
+  // const fiexdColumns = columns.slice(0, 2);
+  // let fiexdColumnsWidth = _.reduce(
+  //   fiexdColumns,
+  //   function (sum, n) {
+  //     return sum + n.width * 1;
+  //   },
+  //   0
+  // );
   // 监听滚动条同步
   // useEffect(() => {
   //   const table1 = document.getElementsByClassName("virtual-grid");
