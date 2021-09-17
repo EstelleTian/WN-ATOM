@@ -281,6 +281,10 @@
   // .ant-table-header {
   //   overflow: auto !important;
   // }
+  $a: 17px;
+  .ant-table-header {
+    width: calc(100% - #{$a}) !important;
+  }
   .ant-table-thead > tr:first-child {
     display: none;
   }
