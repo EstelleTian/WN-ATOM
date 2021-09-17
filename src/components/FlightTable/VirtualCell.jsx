@@ -203,7 +203,8 @@ const VirtualCell = ({
     columnName === "NCOBT" ||
     columnName === "NCTOT" ||
     columnName === "RCOBT" ||
-    columnName === "RCTOT"
+    columnName === "RCTOT" ||
+    columnName === "OCTOT"
   ) {
     popover = <RenderVirtualCell cellData={cellData} columnName={columnName} />;
   } else if (columnName === "ALARM") {

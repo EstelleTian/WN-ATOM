@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 10:52:07
- * @LastEditTime: 2021-09-13 14:28:29
+ * @LastEditTime: 2021-09-17 08:53:26
  * @LastEditors: liutianjiao
  * @Description: 表格列配置、列数据转换、右键协调渲染
  * @FilePath: \WN-ATOM\src\components\FlightTable\TableColumns.jsx
@@ -592,7 +592,8 @@ let render = (opt) => {
     col === "NCOBT" ||
     col === "NCTOT" ||
     col === "RCOBT" ||
-    col === "RCTOT"
+    col === "RCTOT" ||
+    col === "OCTOT"
   ) {
     popover = <RenderCell opt={opt} />;
   } else if (col === "FFIXT") {
@@ -1135,6 +1136,7 @@ const formatSingleFlight = (flight, atomConfigValue) => {
   const aobtField = flight.aobtField || {};
   const asbtField = flight.asbtField || {};
   const efpsFlight = flight.efpsFlight || {};
+  const octotField = flight.octotField || {};
   let atd = flight.atd || "";
   atd = atd === null ? "" : atd;
   const atotField = {
@@ -1206,6 +1208,7 @@ const formatSingleFlight = (flight, atomConfigValue) => {
     NCTOT: nctotField,
     RCOBT: rcobtField,
     RCTOT: rctotField,
+    OCTOT: octotField,
     // atomConfigValue: atomConfigValue,
     atomConfigValue: flight.source || "",
     orgdata: JSON.stringify(flight)
