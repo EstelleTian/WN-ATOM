@@ -11,6 +11,7 @@ import { customNotice } from 'utils/common-funcs'
 
 
 function ModifySchemePage(props) {
+    console.log(222);
     //  方案表单禁用状态
     let [disabledForm, setDisabledForm] = useState(true);
 
@@ -19,8 +20,13 @@ function ModifySchemePage(props) {
 
     //更新方案数据
     const updateSchemeData = data => {
+        
+        const sourceType = data.tacticProcessInfo.basicTacticInfo.sourceType
+        const tacticOriginalSource = data.tacticProcessInfo.basicTacticInfo.tacticOriginalSource
         // 更新方案表单store数据
         let tacticProcessInfo = data.tacticProcessInfo || {};
+        props.schemeFormData.updateTacticPrimaryForward(sourceType)
+        props.schemeFormData.updatePrimaryUnit(tacticOriginalSource)
         props.schemeFormData.updateSchemeData(tacticProcessInfo);
     };
 

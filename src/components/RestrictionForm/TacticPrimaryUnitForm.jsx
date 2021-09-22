@@ -22,19 +22,25 @@ function TacticPrimaryForwardForm(props) {
     }
     // const basicTacticInfo = schemeFormData.schemeData.basicTacticInfo || {};=
     const tacticPrimaryForward = schemeFormData.tacticPrimaryForward;
-    let tacticPrimaryUnit = schemeFormData.tacticPrimaryUnit || "NW";
+    let tacticPrimaryUnit = schemeFormData.tacticPrimaryUnit ;
     // console.log(tacticPrimaryForward);
     const isWhether = (code)=>{
+        console.log(29,code);
         if (code == '100') {
             setWhether(true)
+            tacticPrimaryUnit="NW";
         }else{
             setWhether(false)
-            tacticPrimaryUnit="NW";
         }
     }
     useEffect(()=>{
         isWhether(tacticPrimaryForward)
+        console.log(39,tacticPrimaryUnit);
     },[])
+    useEffect(()=>{
+        form.resetFields();
+        isWhether(tacticPrimaryForward)
+    },[tacticPrimaryUnit])
     useEffect(()=>{
         form.resetFields();
         isWhether(tacticPrimaryForward)

@@ -14,6 +14,7 @@ import { inject, observer } from "mobx-react";
 
 
 function DisplaySimulationSchemeDetailPage(props){
+    console.log(111);
     //  方案数据
     // let [flowData, setFlowData] = useState({});
     //  方案表单禁用状态
@@ -21,10 +22,15 @@ function DisplaySimulationSchemeDetailPage(props){
 
     //更新方案数据
     const updateSchemeData = data => {
+        
+        const sourceType = data.tacticProcessInfo.basicTacticInfo.sourceType
+        const tacticOriginalSource = data.tacticProcessInfo.basicTacticInfo.tacticOriginalSource
         // let {  status } = data;
         // setFlowData(data);
         // 更新方案表单store数据
         let tacticProcessInfo = data.tacticProcessInfo || {};
+        props.schemeFormData.updateTacticPrimaryForward(sourceType)
+        props.schemeFormData.updatePrimaryUnit(tacticOriginalSource)
         props.schemeFormData.updateSchemeData(tacticProcessInfo);
     };
 

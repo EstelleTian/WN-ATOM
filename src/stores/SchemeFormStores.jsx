@@ -30,6 +30,8 @@ class SchemeForm {
     @observable tacticPrimaryForward = "";
     // 原发单位
     @observable tacticPrimaryUnit = "";
+    // 当前选项
+    @observable fieldListItem = "";
     // 方案原因
     @observable flowControlReason = "";
     // 方案录入单位
@@ -636,7 +638,12 @@ class SchemeForm {
     // 更新原发单位
     @action updatePrimaryUnit(reason) {
         // console.log(636,reason);
+        // console.log(reason);
         this.tacticPrimaryUnit = reason;
+    }
+    @action updateFieldItem(item){
+        // console.log(item);
+        this.fieldListItem = item
     }
     // 更新方案原因
     @action updateTacticReason(reason) {

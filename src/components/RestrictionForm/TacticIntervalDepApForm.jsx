@@ -56,6 +56,7 @@ function tacticIntervalDepApForm(props) {
       value,
       areaAirportListData
     );
+    // console.log(59,airport);
     return (
       <Tooltip title={airport}>
         <Tag closable={closable} onClose={onClose}>

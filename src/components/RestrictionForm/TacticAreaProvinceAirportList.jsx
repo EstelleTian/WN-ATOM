@@ -59,6 +59,7 @@ function TacticAreaProvinceAirportList(props) {
     // 更新目标表单数值
     const updateTargetFormValue = (provinceNameZH) => {
         props.shortcutInputValue(provinceNameZH)
+        // schemeFormData.updateAirportItem(provinceNameZH)
     }
     return (
         <Fragment>
