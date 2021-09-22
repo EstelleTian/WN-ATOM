@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-09-22 13:24:52
+ * @LastEditTime: 2021-09-22 13:42:07
  * @LastEditors: liutianjiao
  * @Description: 表格列表组件
  * @FilePath: \WN-ATOM\src\components\FlightTable\FlightTableContainer.jsx
@@ -123,15 +123,14 @@ function FContainer({
   useEffect(() => {
     //表头第一个tr
     const table = document.getElementsByClassName("virtual-table");
-    const thead = table[0].getElementsByClassName("ant-table-thead");
-    const lastTr = thead[0].lastChild;
-    const firstTr = thead[0].firstChild;
-    console.log("lastTr", lastTr, "firstTr", firstTr);
+    const head = table[0].getElementsByClassName("ant-table-thead");
+    const lastTr = head[0].lastChild;
+    const firstTr = head[0].firstChild;
     let h = lastTr.offsetHeight;
     let filterH = firstTr.offsetHeight;
+    console.log("head", head.offsetHeight, "lastTr", h, "firstTr", filterH);
     const dom = document.getElementsByClassName("fixed-virtual-grid");
     if (table.length > 0) {
-      const head = table[0].getElementsByClassName("ant-table-thead");
       let newStyleArr = [];
       if (head.length > 0) {
         const tr = head[0].firstChild;
@@ -152,6 +151,7 @@ function FContainer({
           let trStyle = tr.getAttribute("style");
           tr.setAttribute("style", "display:table-row;");
           if (dom.length > 0) {
+            filterH = firstTr.offsetHeight;
             let newStyle =
               newStyleArr.join(";") + " top:" + (h * 1 + filterH) + "px;";
             dom[0].setAttribute("style", newStyle);
