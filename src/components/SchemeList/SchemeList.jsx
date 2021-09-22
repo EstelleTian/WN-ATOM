@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-10 11:08:04
- * @LastEditTime: 2021-09-16 16:41:23
+ * @LastEditTime: 2021-09-17 16:38:38
  * @LastEditTime: 2021-03-04 14:40:22
  * @LastEditors: liutianjiao
  * @Description: 方案列表
@@ -283,15 +283,11 @@ const STitle = (props) => {
         >
           <span className="filter-wrapper">
             <span style={{ marginRight: "2px" }}>总计</span>
-            {schemeList.length > 0 ? (
-              <Badge
-                className="filter-badge"
-                count={schemeList.length}
-                style={{ background: "#08c9f7" }}
-              ></Badge>
-            ) : (
-              <FilterOutlined></FilterOutlined>
-            )}
+            <Badge
+              className="filter-badge"
+              count={schemeList.length}
+              style={{ background: "#08c9f7" }}
+            ></Badge>
           </span>
         </Dropdown>
       </div>

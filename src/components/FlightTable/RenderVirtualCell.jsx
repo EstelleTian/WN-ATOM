@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-09-08 17:14:57
+ * @LastEditTime: 2021-09-18 09:54:15
  * @LastEditors: liutianjiao
  * @Description:
  * @FilePath: \WN-ATOM\src\components\FlightTable\RenderVirtualCell.jsx
@@ -11,6 +11,7 @@ import React from "react";
 import { Tooltip } from "antd";
 import {
   getDayTimeFromString,
+  formatTimeString,
   getTimeAndStatus,
   isValidVariable,
   isValidObject
@@ -51,7 +52,7 @@ const RenderVirtualCell = ({ cellData, columnName }) => {
       className={`full-cell ${columnName} ${
         isValidVariable(value) ? source : ""
       }  ${columnName}_${source}`}
-      title={title}
+      title={formatTimeString(title)}
     >
       <div className={`${isValidVariable(value) ? "" : "empty_cell"}`}>
         <span className="">{showVal}</span>

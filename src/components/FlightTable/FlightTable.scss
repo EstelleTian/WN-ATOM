@@ -1,262 +1,271 @@
-.ant-table-wrapper{
-    min-height: 100px;
-    // max-height: 800px;
+.ant-table-wrapper {
+  min-height: 100px;
+  // max-height: 800px;
 }
-.ant-table-container{
-    @include display_flex(column);
-    .ant-table-body{
-        @include flex();
+.ant-table-container {
+  @include display_flex(column);
+  .ant-table-body {
+    @include flex();
+  }
+}
+.qwe {
+  width: 100%;
+}
+.titInput {
+  // position: absolute;
+  // top: 0;
+}
+.felxDev {
+  // display: flex;
+  position: fixed;
+  z-index: 999;
+  width: 190px;
+  overflow: hidden;
+}
+.flight_canvas {
+  position: relative;
+  .statistics {
+    position: absolute;
+    right: 12px;
+    top: 3px;
+    font-size: 1rem;
+    align-items: center;
+    @include display_flex();
+    @include flex();
+    .total_num {
+      position: relative;
     }
-}
-.qwe{
-    width: 100%;
-}
-.titInput{
-    // position: absolute;
-    // top: 0;
-}
-.felxDev{
-    // display: flex;
-    position: fixed;
-    z-index: 999;
-    width: 190px;
-    overflow: hidden;
-}
-.flight_canvas{
-    position: relative;
-    .statistics{
-        position: absolute;
-        right: 12px;
-        top: 3px;
-        font-size: 1rem;
-        align-items: center;
-        @include display_flex();
-        @include flex();
-        .total_num{
-            position: relative;
-        }
+  }
+  .auto_scroll {
+    display: inline-block;
+    margin-right: 0.3rem;
+  }
+  .box_header {
+    .title {
+      overflow: hidden;
+      display: flex;
+      flex: 1;
     }
-    .auto_scroll{
-        display: inline-block;
-        margin-right: 0.3rem;
-    }
-    .box_header{
-        .title {
-            overflow: hidden;
-            display: flex;
-            flex: 1;
-        }
-    }
-    // .ant-table-body{
-    //     min-height: 1175px;
-    // }
-    
-.tactic_title_span{
+  }
+  // .ant-table-body{
+  //     min-height: 1175px;
+  // }
+
+  .tactic_title_span {
     display: flex;
     flex: 0 0 auto;
     overflow: hidden;
     width: calc(100% - 520px);
-    >span{
-        display: inline-block;
-        vertical-align: top;
-        margin-right: 5px;
+    > span {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 5px;
     }
-    
-    .tactic_name{
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        flex: 1;
-    }
-}
 
+    .tactic_name {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      flex: 1;
+    }
+  }
+  .active-input {
+    border-color: #ff8c1f;
+    input {
+      color: #ff8c1f;
+    }
+  }
 }
-.notshow{
-    display: none;
+.notshow {
+  display: none;
 }
 .ant-table-tbody > tr.ant-table-row:hover > td.ant-table-cell {
-    //background: rgba(89, 89, 89, 0.78);
+  //background: rgba(89, 89, 89, 0.78);
 }
-.ant-table-cell{
-    background: #313131;
-    color: #c3c3c3;
+.ant-table-cell {
+  background: #313131;
+  color: #c3c3c3;
 }
-.ant-table-cell.FFIX{
-    //background: #0e4980;
+.ant-table-cell.FFIX {
+  //background: #0e4980;
 }
-.ant-table-cell.FFIXT{
-    //background: #404040;
+.ant-table-cell.FFIXT {
+  //background: #404040;
 }
-.in_range{
-    .ant-table-cell{
-        background: #303942;
-    }
+.in_range {
+  .ant-table-cell {
+    background: #303942;
+  }
 
-    .ant-table-cell-fix-left, .ant-table-cell-fix-right{
-        background: #303942;
-    }
-    .ant-table-cell.FFIXT{
-        //background: #424548;
-        background: #303942;
-    }
+  .ant-table-cell-fix-left,
+  .ant-table-cell-fix-right {
+    background: #303942;
+  }
+  .ant-table-cell.FFIXT {
+    //background: #424548;
+    background: #303942;
+  }
 }
 //航班范围内 奇数行 底色
-.odd.in_range{
-    .ant-table-cell{
-        background: #313e4b;
-    }
+.odd.in_range {
+  .ant-table-cell {
+    background: #313e4b;
+  }
 }
 //航班范围内 奇数行 底色
-.groupb{
-    .ant-table-cell{
-        background: #6e464b;
-    }
+.groupb {
+  .ant-table-cell {
+    background: #6e464b;
+  }
 }
 //航班高亮配色
-.active_row>td{
-    // background-color: #706247 !important;
-    background-color: #3b8c9b !important;
+.active_row > td {
+  // background-color: #706247 !important;
+  background-color: #3b8c9b !important;
 }
 
 //过点时间间隔样式
-.interval{
-    //position: relative;
-    //left: -6px;
-    >span{
-        padding: 0;
-    }
+.interval {
+  //position: relative;
+  //left: -6px;
+  > span {
+    padding: 0;
+  }
 }
-.interval_green{
-    //background: rgba(54, 159, 135,0.4);
-    //color: #3AE1B0;
+.interval_green {
+  //background: rgba(54, 159, 135,0.4);
+  //color: #3AE1B0;
 }
-.interval{
-    // margin: 0.5rem 0;
+.interval {
+  // margin: 0.5rem 0;
 }
-.interval_red{
-    background: #1a1919;
-    height: 18px;
-    line-height: 18px;
+.interval_red {
+  background: #1a1919;
+  height: 18px;
+  line-height: 18px;
 }
 
 //表格 单元格 padding
-.flight_canvas{
-    .ant-table.ant-table-small{
-        font-size: 1rem;
-    
-        .ant-table-title,
-        .ant-table-footer,
-        .ant-table-thead > tr > th,
-        .ant-table-tbody > tr > td,
-        tfoot > tr > th,
-        tfoot > tr > td {
-            padding: 0.35rem;
-        }
-        .ant-table-tbody{
-            font-size: 1.15rem;
-        }
-    } 
+.flight_canvas {
+  .ant-table.ant-table-small {
+    font-size: 1rem;
+
+    .ant-table-title,
+    .ant-table-footer,
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td,
+    tfoot > tr > th,
+    tfoot > tr > td {
+      padding: 0.35rem;
+    }
+    .ant-table-tbody {
+      font-size: 1.15rem;
+    }
+  }
 }
 
 .alarm-tag.ant-tag {
-    padding: 0 2px;
-    margin-right: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    position: relative;
-    top: -2px;
+  padding: 0 2px;
+  margin-right: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+  top: -2px;
 }
-.alarm_cell{
-    overflow: hidden;
-    .alarm-tag{
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-    .alarm_pos_1{
-        left: 5px;
-    }
-    .alarm_pos_2{
-        left: 35px;
-    }
-    .alarm_pos_3{
-        left: 65px;
-    }
-    .alarm_pos_4{
-        left: 95px;
-    }
-}
-.status_flag{
+.alarm_cell {
+  overflow: hidden;
+  .alarm-tag {
     position: absolute;
-    right: 0;
-    bottom: 0;
-    border-top: 8px solid transparent;
-    border-left: 8px solid transparent;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .alarm_pos_1 {
+    left: 5px;
+  }
+  .alarm_pos_2 {
+    left: 35px;
+  }
+  .alarm_pos_3 {
+    left: 65px;
+  }
+  .alarm_pos_4 {
+    left: 95px;
+  }
+}
+.status_flag {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-top: 8px solid transparent;
+  border-left: 8px solid transparent;
 }
 //区内
-.inArea,.INNER{
-    color: #87c87f;
-    // border-top: 8px solid #5aa35a;
-    // border-right: 8px solid #5aa35a;
+.inArea,
+.INNER {
+  color: #87c87f;
+  // border-top: 8px solid #5aa35a;
+  // border-right: 8px solid #5aa35a;
 }
 //区外
-.outArea,.OUTER{
-    // border-top: 8px solid #dbdbdb;
-    // border-right: 8px solid #eeeeee;
+.outArea,
+.OUTER {
+  // border-top: 8px solid #dbdbdb;
+  // border-right: 8px solid #eeeeee;
 }
 //空中
-.inAir,.SKY{
-    border-bottom: 8px solid #87d4df;
-    border-right: 8px solid #87d4df;
+.inAir,
+.SKY {
+  border-bottom: 8px solid #87d4df;
+  border-right: 8px solid #87d4df;
 }
 //地面
-.inGround,.GROUND{
-    border-bottom: 8px solid #907c44;
-    border-right: 8px solid #907c44;
+.inGround,
+.GROUND {
+  border-bottom: 8px solid #907c44;
+  border-right: 8px solid #907c44;
 }
 
 //航班范围外 奇数行 底色
-.odd>td{
-    background-color: #3d3b3b;
+.odd > td {
+  background-color: #3d3b3b;
 }
-.uppercase{
-   text-transform: uppercase;
+.uppercase {
+  text-transform: uppercase;
 }
-.text_cell_center{
-    text-align: left!important;
-    position: relative;
-    left: 5px;
+.text_cell_center {
+  text-align: left !important;
+  position: relative;
+  left: 5px;
 }
-.text_cell_right{
-    text-align: right!important;
-    position: relative;
-    right: 5px;
+.text_cell_right {
+  text-align: right !important;
+  position: relative;
+  right: 5px;
 }
 .apply-interval-button-popconfirm {
-    .ant-popover-message-title {
-        font-size: 18px;
-    }
+  .ant-popover-message-title {
+    font-size: 18px;
+  }
 }
-.icao_switch{
-    background-color: #266E90;
+.icao_switch {
+  background-color: #266e90;
 }
 
-.flight_canvas .ant-table.ant-table-small .ant-table-thead > tr > th{
-    padding: 0.35rem 0!important;
-    .ant-table-column-sorters{
-        padding: 0!important;
-        .ant-table-column-sorter{
-            margin-top: -5px;
-            
-        }
-        @media screen and ( min-width: 1921px){
-            .ant-table-column-sorter{
-                margin-top: -8px!important;
-                .ant-table-column-sorter-up, .ant-table-column-sorter-down {
-                    font-size: 14px;
-                }
-            }
-          }
-        
+.flight_canvas .ant-table.ant-table-small .ant-table-thead > tr > th {
+  padding: 0.35rem 0 !important;
+  .ant-table-column-sorters {
+    padding: 0 !important;
+    .ant-table-column-sorter {
+      margin-top: -5px;
     }
+    @media screen and (min-width: 1921px) {
+      .ant-table-column-sorter {
+        margin-top: -8px !important;
+        .ant-table-column-sorter-up,
+        .ant-table-column-sorter-down {
+          font-size: 14px;
+        }
+      }
+    }
+  }
 }

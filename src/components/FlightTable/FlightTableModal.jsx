@@ -1,10 +1,10 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-07-23 10:06:29
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-18 09:48:36
+ * @LastEditors: liutianjiao
  * @Description: 表格列表组件
- * @FilePath: \WN-CDM\src\components\FlightTable\FlightTable.jsx
+ * @FilePath: \WN-ATOM\src\components\FlightTable\FlightTableModal.jsx
  */
 
 import React, {
@@ -15,7 +15,7 @@ import React, {
   useRef,
   useMemo,
   Suspense,
-  Fragment,
+  Fragment
 } from "react";
 import { inject, observer } from "mobx-react";
 import { Table, Input, Checkbox, message, Spin, Switch } from "antd";
@@ -24,7 +24,7 @@ import {
   getColumns,
   formatSingleFlight,
   scrollTopById,
-  highlightRowByDom,
+  highlightRowByDom
 } from "components/FlightTable/TableColumns";
 
 // import CollaboratePopover from "components/CollaboratePopover/CollaboratePopover";
@@ -188,7 +188,9 @@ const SearchInput = inject("flightTableData")(
     return (
       <Input
         allowClear
-        className="text-uppercase"
+        className={`text-uppercase ${
+          isValidVariable(props.flightTableData.searchVal) && "active-input"
+        }`}
         style={{ width: "150px", marginRight: "15px" }}
         defaultValue={searchVal}
         placeholder="航班号快捷查询"
@@ -219,10 +221,10 @@ function FlightTableModal(props) {
       >
         <div className="statistics">
           <FilterBtn />
-            <AutoScrollBtn />
-            <ICAOSwitch />
-            <SearchInput />
-            <TotalDom />
+          <AutoScrollBtn />
+          <ICAOSwitch />
+          <SearchInput />
+          <TotalDom />
         </div>
         <TSpin />
 

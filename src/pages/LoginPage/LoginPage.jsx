@@ -139,10 +139,6 @@ function LoginPage(props) {
     }
   });
 
-  // useEffect(function(){
-  //     setValue(1);
-  // },[])
-
   useEffect(function () {
     let user = localStorage.getItem("user") || "{}";
     user = JSON.parse(user);

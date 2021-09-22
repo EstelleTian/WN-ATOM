@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-12-14 10:18:25
- * @LastEditTime: 2021-07-20 13:40:52
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-17 16:36:05
+ * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
- * @FilePath: \WN-CDM\src\stores\schemeStores.jsx
+ * @FilePath: \WN-ATOM\src\stores\schemeStores.jsx
  */
 
 import { makeObservable, observable, action, computed } from "mobx";
@@ -81,7 +81,7 @@ class SchemeListData {
   //方案详情-显隐状态和id
   @observable detailObj = {
     visible: false,
-    modalId: "",
+    modalId: ""
   };
 
   //更新表格loading状态
@@ -109,16 +109,19 @@ class SchemeListData {
   }
   //更新表格loading状态
   @action setStatusValues(values) {
+    console.log("aaa", values);
     this.statusValues = values;
     this.setFilterCount();
   }
   // 更新NTFM类型方案显示
   @action setNTFMShowType(values) {
+    console.log("aaa ntfm", values);
     this.NTFMShowType = values;
     this.setFilterCount();
   }
-  // 更新NTFM类型方案显示
+  // 更新显示条件计数
   @action setFilterCount() {
+    console.log("aaa", this.statusValues, this.NTFMShowType);
     this.filterCount = this.statusValues.length + this.NTFMShowType.length;
   }
   // 增加方案-单条
@@ -198,7 +201,7 @@ class SchemeListData {
     return {
       activeSchemeId: this.activeSchemeId,
       schemeStartTime: startTime,
-      schemeEndTime: endTime,
+      schemeEndTime: endTime
     };
   }
   //激活选中方案，重置其他方案
@@ -228,7 +231,7 @@ class SchemeListData {
     let list = [...this.list];
     const searchVal = this.searchVal.toLowerCase();
 
-    let statusValues = this.statusValues;
+    let statusValues = [...this.statusValues];
     //获取方案列表--开启下一轮更新
     let index = statusValues.indexOf("TERMINATED");
     if (index > -1) {
