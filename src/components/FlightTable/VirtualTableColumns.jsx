@@ -2,7 +2,7 @@
  * @Author: liutianjiao
  * @Date: 2021-09-08 14:24:09
  * @LastEditors: liutianjiao
- * @LastEditTime: 2021-09-14 13:01:17
+ * @LastEditTime: 2021-09-22 17:55:16
  * @Description:
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTableColumns.jsx
  */
@@ -590,7 +590,7 @@ const getColumns = (
     };
 
     //普通排序
-    const sortFunc = (a, b) => {
+    const sortFunc = (a, b, dir) => {
       let data1 = "";
       let data2 = "";
       if (typeof a[en] === "string") {
@@ -601,6 +601,14 @@ const getColumns = (
         const f2 = b[en] || {};
         data1 = f1.value || "";
         data2 = f2.value || "";
+      }
+      if (dir === "descend") {
+        if (!isValidVariable(data1)) {
+          data1 = "0";
+        }
+        if (!isValidVariable(data2)) {
+          data2 = "0";
+        }
       }
       if (data1.length >= 12) {
         data1 = data1.substring(0, 12);
@@ -719,6 +727,14 @@ const getColumns = (
         //   "data2",
         //   data2
         // );
+        if (dir === "descend") {
+          if (!isValidVariable(data1)) {
+            data1 = "0";
+          }
+          if (!isValidVariable(data2)) {
+            data2 = "0";
+          }
+        }
         if (isValidVariable(data1) && isValidVariable(data2)) {
           let res = data1.localeCompare(data2);
           if (0 !== res) {
@@ -747,7 +763,7 @@ const getColumns = (
 
       let sortNames = CDMSortNames;
       //field对象类型排序，用value再排
-      const sorFunc2 = (a, b, sortNames, ind) => {
+      const sorFunc2 = (a, b, dir, sortNames, ind) => {
         const sortName = sortNames[ind];
         let data1 = "";
         let data2 = "";
@@ -760,6 +776,15 @@ const getColumns = (
           data1 = f1.value || "";
           data2 = f2.value || "";
         }
+        if (dir === "descend") {
+          if (!isValidVariable(data1)) {
+            data1 = "0";
+          }
+          if (!isValidVariable(data2)) {
+            data2 = "0";
+          }
+        }
+
         if (data1.length >= 12) {
           data1 = data1.substring(0, 12);
         }
@@ -780,13 +805,13 @@ const getColumns = (
           return 1;
         } else {
           if (sortNames.length >= ind + 1) {
-            return sorFunc2(a, b, sortNames, ++ind);
+            return sorFunc2(a, b, dir, sortNames, ++ind);
           }
         }
       };
       tem["sorter"] = (a, b, dir) => {
-        // console.log("ATOT排序",a, b, dir);
-        return sorFunc2(a, b, sortNames, 0);
+        // console.log("ATOT排序", a, b, dir);
+        return sorFunc2(a, b, dir, sortNames, 0);
       };
     }
     if (en === "ALARM") {

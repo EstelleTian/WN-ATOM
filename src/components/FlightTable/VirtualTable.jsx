@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-22 13:34:13
+ * @LastEditTime: 2021-09-22 17:59:27
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
@@ -177,7 +177,7 @@ const renderVirtualList = (
       const flightCanvas = document.getElementsByClassName("virtual-table");
       syncScroll(table1[0], table2[0]);
     }
-  }, []);
+  }, [rawData]);
 
   if (rawData === undefined) {
     rawData = [];
@@ -296,7 +296,6 @@ function VirtualTable(props) {
     flightTableData.setSortOrder(sorter.order);
     flightTableData.setSortKey(sorter.columnKey);
   }, []);
-  
 
   return (
     <ResizeObserver
