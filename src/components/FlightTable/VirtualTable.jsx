@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-23 20:10:27
- * @LastEditTime: 2021-09-16 11:57:59
+ * @LastEditTime: 2021-09-22 13:16:44
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\FlightTable\VirtualTable.jsx
@@ -92,6 +92,29 @@ const syncHeaderScroll = () => {
   });
 };
 
+const syncScroll = (l, r) => {
+  let flag = true;
+  let veriFlag = true;
+  l.addEventListener("mousewheel", function (e) {
+    flag = false;
+    l.addEventListener("scroll", function (e) {
+      if (!flag) {
+        r.scrollTop = l.scrollTop;
+        veriScroll(l);
+      }
+    });
+  });
+  r.addEventListener("mousewheel", function (e) {
+    flag = true;
+    r.addEventListener("scroll", function (e) {
+      if (flag) {
+        l.scrollTop = r.scrollTop;
+        // veriScroll(l);
+      }
+    });
+  });
+};
+
 //虚拟内容渲染
 const renderVirtualList = (
   rawData = [],
@@ -148,6 +171,16 @@ const renderVirtualList = (
     }
   }, [targetFlight.id]);
 
+  // 监听滚动条同步
+  useEffect(() => {
+    const table1 = document.getElementsByClassName("virtual-grid");
+    const table2 = document.getElementsByClassName("fixed-virtual-grid");
+    if (table1.length > 0 && table2.length > 0) {
+      const flightCanvas = document.getElementsByClassName("virtual-table");
+      syncScroll(table1[0], table2[0]);
+    }
+  }, []);
+
   if (rawData === undefined) {
     rawData = [];
   }
@@ -165,36 +198,80 @@ const renderVirtualList = (
   }, []);
   return (
     <>
-      <ScrollSyncPane>
-        <Grid
-          ref={fixedGridRef}
-          className="fixed-virtual-grid sticky"
-          columnCount={fiexdColumns.length}
-          columnWidth={(index) => {
-            return getColumnWidth(index, columns);
-          }}
-          height={tableHeight - 17}
-          rowCount={rawData.length}
-          rowHeight={() => {
-            const h = screenWidth > 1920 ? 45 : 34;
-            return h;
-          }}
-          width={fiexdColumnsWidth || 200}
-          onScroll={({ scrollLeft }) => {
-            onScroll({
-              scrollLeft
-            });
-          }}
-        >
-          {({ columnIndex, rowIndex, style }) => {
-            //列名称
-            const columnName = columns[columnIndex].dataIndex;
-            // 单元格的值
-            if (rawData === undefined) {
-              rawData = [];
-            }
-            const columnsLen = columns.length;
-            return (
+      {/* <ScrollSyncPane> */}
+      <Grid
+        ref={fixedGridRef}
+        className="fixed-virtual-grid sticky"
+        columnCount={fiexdColumns.length}
+        columnWidth={(index) => {
+          return getColumnWidth(index, columns);
+        }}
+        height={tableHeight - 17}
+        rowCount={rawData.length}
+        rowHeight={() => {
+          const h = screenWidth > 1920 ? 45 : 34;
+          return h;
+        }}
+        width={fiexdColumnsWidth || 200}
+        onScroll={({ scrollLeft }) => {
+          onScroll({
+            scrollLeft
+          });
+        }}
+      >
+        {({ columnIndex, rowIndex, style }) => {
+          //列名称
+          const columnName = columns[columnIndex].dataIndex;
+          // 单元格的值
+          if (rawData === undefined) {
+            rawData = [];
+          }
+          const columnsLen = columns.length;
+          return (
+            <VirtualCell
+              columnIndex={columnIndex}
+              rowIndex={rowIndex}
+              style={style}
+              columnName={columnName}
+              rawData={rawData[rowIndex] || {}}
+              columnsLen={columnsLen}
+              // className="sticky"
+            />
+          );
+        }}
+      </Grid>
+      {/* </ScrollSyncPane> */}
+      {/* <ScrollSyncPane> */}
+      <Grid
+        ref={gridRef}
+        className="virtual-grid"
+        columnCount={columns.length}
+        columnWidth={(index) => {
+          return getColumnWidth(index, columns);
+        }}
+        height={tableHeight}
+        rowCount={rawData.length}
+        rowHeight={() => {
+          const h = screenWidth > 1920 ? 45 : 34;
+          return h;
+        }}
+        width={tableWidth > 0 ? tableWidth : 0}
+        onScroll={({ scrollLeft }) => {
+          onScroll({
+            scrollLeft
+          });
+        }}
+      >
+        {({ columnIndex, rowIndex, style }) => {
+          //列名称
+          const columnName = columns[columnIndex].dataIndex;
+          // 单元格的值
+          if (rawData === undefined) {
+            rawData = [];
+          }
+          const columnsLen = columns.length;
+          return (
+            <>
               <VirtualCell
                 columnIndex={columnIndex}
                 rowIndex={rowIndex}
@@ -202,56 +279,12 @@ const renderVirtualList = (
                 columnName={columnName}
                 rawData={rawData[rowIndex] || {}}
                 columnsLen={columnsLen}
-                // className="sticky"
-              />
-            );
-          }}
-        </Grid>
-      </ScrollSyncPane>
-      <ScrollSyncPane>
-        <Grid
-          ref={gridRef}
-          className="virtual-grid"
-          columnCount={columns.length}
-          columnWidth={(index) => {
-            return getColumnWidth(index, columns);
-          }}
-          height={tableHeight}
-          rowCount={rawData.length}
-          rowHeight={() => {
-            const h = screenWidth > 1920 ? 45 : 34;
-            return h;
-          }}
-          width={tableWidth > 0 ? tableWidth : 0}
-          onScroll={({ scrollLeft }) => {
-            onScroll({
-              scrollLeft
-            });
-          }}
-        >
-          {({ columnIndex, rowIndex, style }) => {
-            //列名称
-            const columnName = columns[columnIndex].dataIndex;
-            // 单元格的值
-            if (rawData === undefined) {
-              rawData = [];
-            }
-            const columnsLen = columns.length;
-            return (
-              <>
-                <VirtualCell
-                  columnIndex={columnIndex}
-                  rowIndex={rowIndex}
-                  style={style}
-                  columnName={columnName}
-                  rawData={rawData[rowIndex] || {}}
-                  columnsLen={columnsLen}
-                ></VirtualCell>
-              </>
-            );
-          }}
-        </Grid>
-      </ScrollSyncPane>
+              ></VirtualCell>
+            </>
+          );
+        }}
+      </Grid>
+      {/* </ScrollSyncPane> */}
     </>
   );
 };
@@ -284,23 +317,23 @@ function VirtualTable(props) {
         }
       }}
     >
-      <ScrollSync>
-        <Table
-          {...props}
-          className="virtual-table"
-          columns={columns}
-          pagination={false}
-          onChange={onChange}
-          components={{
-            body: (rawData = [], { scrollbarSize, ref, onScroll }) =>
-              renderVirtualList(
-                rawData,
-                { scrollbarSize, ref, onScroll },
-                { ...props, tableHeight, tableWidth, columns }
-              )
-          }}
-        />
-      </ScrollSync>
+      {/* <ScrollSync> */}
+      <Table
+        {...props}
+        className="virtual-table"
+        columns={columns}
+        pagination={false}
+        onChange={onChange}
+        components={{
+          body: (rawData = [], { scrollbarSize, ref, onScroll }) =>
+            renderVirtualList(
+              rawData,
+              { scrollbarSize, ref, onScroll },
+              { ...props, tableHeight, tableWidth, columns }
+            )
+        }}
+      />
+      {/* </ScrollSync> */}
     </ResizeObserver>
   );
 }

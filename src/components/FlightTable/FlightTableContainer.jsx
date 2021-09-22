@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date: 2020-12-09 21:19:04
- * @LastEditTime: 2021-09-14 14:55:11
+ * @LastEditTime: 2021-09-22 13:24:52
  * @LastEditors: liutianjiao
  * @Description: 表格列表组件
  * @FilePath: \WN-ATOM\src\components\FlightTable\FlightTableContainer.jsx
@@ -123,8 +123,12 @@ function FContainer({
   useEffect(() => {
     //表头第一个tr
     const table = document.getElementsByClassName("virtual-table");
-    let h = screenWidth > 1920 ? 35 : 31;
-    let filterH = screenWidth > 1920 ? 45 : 41;
+    const thead = table[0].getElementsByClassName("ant-table-thead");
+    const lastTr = thead[0].lastChild;
+    const firstTr = thead[0].firstChild;
+    console.log("lastTr", lastTr, "firstTr", firstTr);
+    let h = lastTr.offsetHeight;
+    let filterH = firstTr.offsetHeight;
     const dom = document.getElementsByClassName("fixed-virtual-grid");
     if (table.length > 0) {
       const head = table[0].getElementsByClassName("ant-table-thead");
