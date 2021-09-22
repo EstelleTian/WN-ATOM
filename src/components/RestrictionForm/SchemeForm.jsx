@@ -1515,7 +1515,7 @@ function SchemeForm(props) {
   const handleFormData = () => {
     // 复制方案原始数据对象
     let schemeData = JSON.parse(JSON.stringify(schemeFormData.schemeData));
-    const tacticPrimaryForward = schemeFormData.tacticPrimaryForward;
+    let tacticPrimaryForward = schemeFormData.tacticPrimaryForward;
     let tacticPrimaryUnit = schemeFormData.tacticPrimaryUnit;
     // console.log(tacticPrimaryForward);
     // 方案基本信息数据对象
@@ -1565,6 +1565,8 @@ function SchemeForm(props) {
     }
     // 方案来源数据 
     schemeData.basicTacticInfo.sourceType = tacticPrimaryForward;
+    
+    console.log(1519,schemeData);
     schemeData.basicTacticInfo.tacticOriginalSource = tacticPrimaryUnit;
     // 所有表单数值
     let formDataValue = getAllFormValue();
@@ -1886,7 +1888,7 @@ function SchemeForm(props) {
   const getAllFormValue = () => {
     // 方案模式
     const tacticMode = tacticModeForm.getFieldValue("tacticMode");
-    console.log(1882,tacticMode);
+    // console.log(1882,tacticMode);
     // 方案名称
     const tacticName = tacticNameForm.getFieldValue("tacticName");
     // 原发转发

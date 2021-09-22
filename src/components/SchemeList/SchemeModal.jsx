@@ -45,12 +45,17 @@ const SchemeModal = (props) => {
 
   //获取方案数据成功回调方法
   const updateSchemeData = useCallback((data) => {
-
     //更新flowData
     setFlowData(data);
     // 更新方案表单store数据
+    console.log(51,data);
+    console.log(52,data.tacticProcessInfo.basicTacticInfo.sourceType);
+    const sourceType = data.tacticProcessInfo.basicTacticInfo.sourceType
+    const tacticOriginalSource = data.tacticProcessInfo.basicTacticInfo.tacticOriginalSource
     let tacticProcessInfo = data.tacticProcessInfo || {};
     console.log(tacticProcessInfo);
+    props.schemeFormData.updateTacticPrimaryForward(sourceType)
+    props.schemeFormData.updatePrimaryUnit(tacticOriginalSource)
     props.schemeFormData.updateSchemeData(tacticProcessInfo);
   });
   // 获取方案数据失败

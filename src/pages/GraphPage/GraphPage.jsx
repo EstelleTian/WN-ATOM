@@ -198,16 +198,16 @@ const convertDataToGraph = (tacticInfos, ntfmTacticInfos, tacticId) => {
       //处理方案类节点数据
       const basicNode = handleBasicTacticNode(basicTacticInfo, kpi);
 
-      // const tacticSource = basicTacticInfo.tacticSource || "";
-      // const tacticSourceId = basicTacticInfo.tacticSourceId || "";
-      // if (tacticSource === "EVENT:NTFM" && tacticSourceId !== "") {
-      //   const ntfmObj = ntfmTacticInfos[tacticSourceId] || {};
-      //   const ntfmObjBasicTacticInfo = ntfmObj.basicTacticInfo || {};
-      //   if (isValidObject(ntfmObjBasicTacticInfo)) {
-      //     const ntfmData = handleBasicTacticNode(ntfmObjBasicTacticInfo, {});
-      //     basicNode["ntfmData"] = ntfmData;
-      //   }
-      // }
+      const tacticSource = basicTacticInfo.tacticSource || "";
+      const tacticSourceId = basicTacticInfo.tacticSourceId || "";
+      if (tacticSource === "EVENT:NTFM" && tacticSourceId !== "") {
+        const ntfmObj = ntfmTacticInfos[tacticSourceId] || {};
+        const ntfmObjBasicTacticInfo = ntfmObj.basicTacticInfo || {};
+        if (isValidObject(ntfmObjBasicTacticInfo)) {
+          const ntfmData = handleBasicTacticNode(ntfmObjBasicTacticInfo, {});
+          basicNode["ntfmData"] = ntfmData;
+        }
+      }
 
       //处理方案下多个子流控节点数据
       const flowNodeList = handleFlowListNode(flowcontrolList);
@@ -695,7 +695,8 @@ const GraphPage = (props) => {
         });
       });
 
-      graph.scrollToPoint(0, 0);
+      
+      // graph.scrollToPoint(0, 100)
     }
   }, [tacticInfos, screenWidth, screenHeight]);
 

@@ -25,7 +25,6 @@ function TacticPrimaryForwardForm(props) {
     let tacticPrimaryUnit = schemeFormData.tacticPrimaryUnit ;
     // console.log(tacticPrimaryForward);
     const isWhether = (code)=>{
-        console.log(29,code);
         if (code == '100') {
             setWhether(true)
             tacticPrimaryUnit="NW";
@@ -34,8 +33,9 @@ function TacticPrimaryForwardForm(props) {
         }
     }
     useEffect(()=>{
+        // console.log(36,tacticPrimaryForward);
         isWhether(tacticPrimaryForward)
-        console.log(39,tacticPrimaryUnit);
+        // console.log(39,tacticPrimaryUnit);
     },[])
     useEffect(()=>{
         form.resetFields();
