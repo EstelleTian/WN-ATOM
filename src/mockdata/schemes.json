@@ -1,0 +1,1917 @@
+{
+  "generateTime": "20210922093131",
+  "status": 200,
+  "tacticProcessInfos": [
+    {
+      "basicTacticInfo": {
+        "id": "92a3b795-6aa3-4019-9ea3-927ef8f0e354",
+        "generateTime": "202109210259",
+        "tacticName": "test2设备标注",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxytwr",
+        "tacticPublishUserCH": "西安塔台",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "塔台",
+        "tacticStatus": "TERMINATED_AUTO",
+        "directionList": [
+          {
+            "identifier": "bd03ccad-34dd-47e7-8dee-e48bb0972313",
+            "targetUnit": "NSH",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZUJZ;ZULS;ZLLN",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"bd03ccad-34dd-47e7-8dee-e48bb0972313\",\"targetUnit\":\"NSH\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZUJZ;ZULS;ZLLN\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109200300",
+          "id": "",
+          "publishTime": "202109200300",
+          "updateTime": "202109210300",
+          "startTime": "201912311149",
+          "startCalculateTime": "20210920030031",
+          "endCalculateTime": "20210921025942",
+          "startDataTime": "201912311149",
+          "endDataTime": "202109211059"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109200300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109200300\",\"updateTime\":\"202109210300\",\"startTime\":\"201912311149\",\"endTime\":null,\"startCalculateTime\":\"20210920030031\",\"endCalculateTime\":\"20210921025942\",\"startDataTime\":\"201912311149\",\"endDataTime\":\"202109211059\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183312",
+        "basicFlowcontrol": {
+          "id": "92a3b795-6aa3-4019-9ea3-927ef8f0e354",
+          "tacticId": "92a3b795-6aa3-4019-9ea3-927ef8f0e354",
+          "flowControlName": "test2设备标注",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "OTHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109200300",
+            "id": "",
+            "publishTime": "202109200300",
+            "updateTime": "202109210300",
+            "startTime": "201912311149",
+            "startCalculateTime": "20210920030031",
+            "endCalculateTime": "",
+            "startDataTime": "201912311149",
+            "endDataTime": "202109211059"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109200300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109200300\",\"updateTime\":\"202109210300\",\"startTime\":\"201912311149\",\"endTime\":null,\"startCalculateTime\":\"20210920030031\",\"endCalculateTime\":\"\",\"startDataTime\":\"201912311149\",\"endDataTime\":\"202109211059\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "bd03ccad-34dd-47e7-8dee-e48bb0972313",
+            "targetUnit": "NSH",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZUJZ;ZULS;ZLLN",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"bd03ccad-34dd-47e7-8dee-e48bb0972313\",\"targetUnit\":\"NSH\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZUJZ;ZULS;ZLLN\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183312",
+            "restrictionMode": "GS",
+            "restrictionRemark": "塔台测试",
+            "restrictionMITValue": "",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": ""
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183312\",\"restrictionMode\":\"GS\",\"restrictionRemark\":\"塔台测试\",\"restrictionMITValue\":\"\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "OTHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLXYACC,ZLXYAP,ZLLLACC",
+        "relationDataTimeStamp": "20210921025912",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "OTHER",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "46e4b695-8336-4548-99d3-93cb0ee4a026",
+        "generateTime": "202109211919",
+        "tacticName": "ZGSZ 限制间隔 30分钟",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxyflw",
+        "tacticPublishUserCH": "西安流量室",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "流量室",
+        "tacticStatus": "FINISHED",
+        "directionList": [
+          {
+            "identifier": "776d84f3-1fe2-4531-8bc2-f9c442069696",
+            "targetUnit": "SUBUL;AGULU;P233;DUBID",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "depAp": "",
+            "arrAp": "ZGSZ",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[()()(),(ZGSZ)()()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"776d84f3-1fe2-4531-8bc2-f9c442069696\",\"targetUnit\":\"SUBUL;AGULU;P233;DUBID\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"\",\"arrAp\":\"ZGSZ\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[()()(),(ZGSZ)()()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109211700",
+          "id": "",
+          "publishTime": "202109211700",
+          "updateTime": "202109211920",
+          "startTime": "202109211659",
+          "endTime": "202109211920",
+          "startCalculateTime": "20210921170101",
+          "endCalculateTime": "20210921191942",
+          "startDataTime": "202109211659",
+          "endDataTime": "202109211920"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109211700\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109211700\",\"updateTime\":\"202109211920\",\"startTime\":\"202109211659\",\"endTime\":\"202109211920\",\"startCalculateTime\":\"20210921170101\",\"endCalculateTime\":\"20210921191942\",\"startDataTime\":\"202109211659\",\"endDataTime\":\"202109211920\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183430",
+        "basicFlowcontrol": {
+          "id": "46e4b695-8336-4548-99d3-93cb0ee4a026",
+          "tacticId": "46e4b695-8336-4548-99d3-93cb0ee4a026",
+          "flowControlName": "ZGSZ 限制间隔 30分钟",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "WEATHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109211700",
+            "id": "",
+            "publishTime": "202109211700",
+            "updateTime": "202109211920",
+            "startTime": "202109211659",
+            "endTime": "202109211920",
+            "startCalculateTime": "20210921170101",
+            "endCalculateTime": "",
+            "startDataTime": "202109211659",
+            "endDataTime": "202109211920"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109211700\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109211700\",\"updateTime\":\"202109211920\",\"startTime\":\"202109211659\",\"endTime\":\"202109211920\",\"startCalculateTime\":\"20210921170101\",\"endCalculateTime\":\"\",\"startDataTime\":\"202109211659\",\"endDataTime\":\"202109211920\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "776d84f3-1fe2-4531-8bc2-f9c442069696",
+            "targetUnit": "SUBUL;AGULU;P233;DUBID",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "depAp": "",
+            "arrAp": "ZGSZ",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[()()(),(ZGSZ)()()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"776d84f3-1fe2-4531-8bc2-f9c442069696\",\"targetUnit\":\"SUBUL;AGULU;P233;DUBID\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"\",\"arrAp\":\"ZGSZ\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[()()(),(ZGSZ)()()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183430",
+            "restrictionMode": "MIT",
+            "restrictionMITValue": "30",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": "30"
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183430\",\"restrictionMode\":\"MIT\",\"restrictionRemark\":null,\"restrictionMITValue\":\"30\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"30\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "WEATHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLXYACC,ZLXYAP",
+        "relationDataTimeStamp": "20210921191912",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "NW_CDCQ",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "320aa9bf-c794-43c9-af39-119c93c91b2d",
+        "generateTime": "202109220259",
+        "tacticName": "test1设备标注",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxytwr",
+        "tacticPublishUserCH": "西安塔台",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "塔台",
+        "tacticStatus": "TERMINATED_AUTO",
+        "directionList": [
+          {
+            "identifier": "d5e34b44-1f7d-47cb-bac7-38a3990b3ef5",
+            "targetUnit": "TEBIB",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLTS;ZLGY;ZLQY",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"d5e34b44-1f7d-47cb-bac7-38a3990b3ef5\",\"targetUnit\":\"TEBIB\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLTS;ZLGY;ZLQY\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109210300",
+          "id": "",
+          "publishTime": "202109210300",
+          "updateTime": "202109220300",
+          "startTime": "201912311138",
+          "startCalculateTime": "20210921030029",
+          "endCalculateTime": "20210922025942",
+          "startDataTime": "201912311138",
+          "endDataTime": "202109221059"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109210300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109210300\",\"updateTime\":\"202109220300\",\"startTime\":\"201912311138\",\"endTime\":null,\"startCalculateTime\":\"20210921030029\",\"endCalculateTime\":\"20210922025942\",\"startDataTime\":\"201912311138\",\"endDataTime\":\"202109221059\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183394",
+        "basicFlowcontrol": {
+          "id": "320aa9bf-c794-43c9-af39-119c93c91b2d",
+          "tacticId": "320aa9bf-c794-43c9-af39-119c93c91b2d",
+          "flowControlName": "test1设备标注",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "OTHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109210300",
+            "id": "",
+            "publishTime": "202109210300",
+            "updateTime": "202109220300",
+            "startTime": "201912311138",
+            "startCalculateTime": "20210921030029",
+            "endCalculateTime": "",
+            "startDataTime": "201912311138",
+            "endDataTime": "202109221059"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109210300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109210300\",\"updateTime\":\"202109220300\",\"startTime\":\"201912311138\",\"endTime\":null,\"startCalculateTime\":\"20210921030029\",\"endCalculateTime\":\"\",\"startDataTime\":\"201912311138\",\"endDataTime\":\"202109221059\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "d5e34b44-1f7d-47cb-bac7-38a3990b3ef5",
+            "targetUnit": "TEBIB",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLTS;ZLGY;ZLQY",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"d5e34b44-1f7d-47cb-bac7-38a3990b3ef5\",\"targetUnit\":\"TEBIB\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLTS;ZLGY;ZLQY\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183394",
+            "restrictionMode": "GS",
+            "restrictionRemark": "塔台测试，勿删。",
+            "restrictionMITValue": "",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": ""
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183394\",\"restrictionMode\":\"GS\",\"restrictionRemark\":\"塔台测试，勿删。\",\"restrictionMITValue\":\"\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "OTHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLLLACC,ZLXYACC,ZLXYAP",
+        "relationDataTimeStamp": "20210922025912",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "OTHER",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "7d749b25-b8c2-4c70-ad57-84888798ab67",
+        "generateTime": "202109220259",
+        "tacticName": "test2设备标注",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxytwr",
+        "tacticPublishUserCH": "西安塔台",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "塔台",
+        "tacticStatus": "TERMINATED_AUTO",
+        "directionList": [
+          {
+            "identifier": "a852e52e-1305-4b0c-aed1-6dc00cb06228",
+            "targetUnit": "NSH",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZUJZ;ZULS;ZLLN",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"a852e52e-1305-4b0c-aed1-6dc00cb06228\",\"targetUnit\":\"NSH\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZUJZ;ZULS;ZLLN\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109210300",
+          "id": "",
+          "publishTime": "202109210300",
+          "updateTime": "202109220300",
+          "startTime": "201912311149",
+          "startCalculateTime": "20210921030029",
+          "endCalculateTime": "20210922025942",
+          "startDataTime": "201912311149",
+          "endDataTime": "202109221059"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109210300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109210300\",\"updateTime\":\"202109220300\",\"startTime\":\"201912311149\",\"endTime\":null,\"startCalculateTime\":\"20210921030029\",\"endCalculateTime\":\"20210922025942\",\"startDataTime\":\"201912311149\",\"endDataTime\":\"202109221059\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183395",
+        "basicFlowcontrol": {
+          "id": "7d749b25-b8c2-4c70-ad57-84888798ab67",
+          "tacticId": "7d749b25-b8c2-4c70-ad57-84888798ab67",
+          "flowControlName": "test2设备标注",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "OTHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109210300",
+            "id": "",
+            "publishTime": "202109210300",
+            "updateTime": "202109220300",
+            "startTime": "201912311149",
+            "startCalculateTime": "20210921030029",
+            "endCalculateTime": "",
+            "startDataTime": "201912311149",
+            "endDataTime": "202109221059"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109210300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109210300\",\"updateTime\":\"202109220300\",\"startTime\":\"201912311149\",\"endTime\":null,\"startCalculateTime\":\"20210921030029\",\"endCalculateTime\":\"\",\"startDataTime\":\"201912311149\",\"endDataTime\":\"202109221059\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "a852e52e-1305-4b0c-aed1-6dc00cb06228",
+            "targetUnit": "NSH",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZUJZ;ZULS;ZLLN",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"a852e52e-1305-4b0c-aed1-6dc00cb06228\",\"targetUnit\":\"NSH\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZUJZ;ZULS;ZLLN\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183395",
+            "restrictionMode": "GS",
+            "restrictionRemark": "塔台测试",
+            "restrictionMITValue": "",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": ""
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183395\",\"restrictionMode\":\"GS\",\"restrictionRemark\":\"塔台测试\",\"restrictionMITValue\":\"\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "OTHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLXYACC,ZLXYAP",
+        "relationDataTimeStamp": "20210922025912",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "OTHER",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "49b13e2e-3964-419d-b074-e2636392dcfe",
+        "generateTime": "202109220259",
+        "tacticName": "test1设备标注",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxytwr",
+        "tacticPublishUserCH": "西安塔台",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "塔台",
+        "tacticStatus": "RUNNING",
+        "directionList": [
+          {
+            "identifier": "9d36586d-5176-41a9-948e-e46fd1eb9b59",
+            "targetUnit": "TEBIB",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLTS;ZLGY;ZLQY",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"9d36586d-5176-41a9-948e-e46fd1eb9b59\",\"targetUnit\":\"TEBIB\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLTS;ZLGY;ZLQY\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109220300",
+          "publishTime": "202109220300",
+          "updateTime": "202109220259",
+          "startTime": "201912311138",
+          "startCalculateTime": "20210922030037",
+          "startDataTime": "201912311138",
+          "endDataTime": "202109221738"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109220300\",\"publishTime\":\"202109220300\",\"updateTime\":\"202109220259\",\"startTime\":\"201912311138\",\"startCalculateTime\":\"20210922030037\",\"startDataTime\":\"201912311138\",\"endDataTime\":\"202109221738\"}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183474",
+        "basicFlowcontrol": {
+          "id": "49b13e2e-3964-419d-b074-e2636392dcfe",
+          "tacticId": "49b13e2e-3964-419d-b074-e2636392dcfe",
+          "flowControlName": "test1设备标注",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "OTHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109220300",
+            "id": "",
+            "publishTime": "202109220300",
+            "updateTime": "202109220259",
+            "startTime": "201912311138",
+            "startCalculateTime": "20210922030037",
+            "endCalculateTime": "",
+            "startDataTime": "201912311138",
+            "endDataTime": "202109221059"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109220300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109220300\",\"updateTime\":\"202109220259\",\"startTime\":\"201912311138\",\"endTime\":null,\"startCalculateTime\":\"20210922030037\",\"endCalculateTime\":\"\",\"startDataTime\":\"201912311138\",\"endDataTime\":\"202109221059\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "9d36586d-5176-41a9-948e-e46fd1eb9b59",
+            "targetUnit": "TEBIB",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLTS;ZLGY;ZLQY",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"9d36586d-5176-41a9-948e-e46fd1eb9b59\",\"targetUnit\":\"TEBIB\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLTS;ZLGY;ZLQY\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183474",
+            "restrictionMode": "GS",
+            "restrictionRemark": "塔台测试，勿删。",
+            "restrictionMITValue": "",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": ""
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183474\",\"restrictionMode\":\"GS\",\"restrictionRemark\":\"塔台测试，勿删。\",\"restrictionMITValue\":\"\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "OTHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLLLACC,ZLXYACC,ZLXYAP",
+        "relationDataTimeStamp": "20210922093030",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "OTHER",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "94349737-37f6-4e95-be24-6c9747870603",
+        "generateTime": "202109220259",
+        "tacticName": "test2设备标注",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxytwr",
+        "tacticPublishUserCH": "西安塔台",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "塔台",
+        "tacticStatus": "RUNNING",
+        "directionList": [
+          {
+            "identifier": "69759e24-1e45-42ee-b815-620fcd9d25f4",
+            "targetUnit": "NSH",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZUJZ;ZULS;ZLLN",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"69759e24-1e45-42ee-b815-620fcd9d25f4\",\"targetUnit\":\"NSH\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZUJZ;ZULS;ZLLN\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109220300",
+          "publishTime": "202109220300",
+          "updateTime": "202109220259",
+          "startTime": "201912311149",
+          "startCalculateTime": "20210922030037",
+          "startDataTime": "201912311149",
+          "endDataTime": "202109221749"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109220300\",\"publishTime\":\"202109220300\",\"updateTime\":\"202109220259\",\"startTime\":\"201912311149\",\"startCalculateTime\":\"20210922030037\",\"startDataTime\":\"201912311149\",\"endDataTime\":\"202109221749\"}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183475",
+        "basicFlowcontrol": {
+          "id": "94349737-37f6-4e95-be24-6c9747870603",
+          "tacticId": "94349737-37f6-4e95-be24-6c9747870603",
+          "flowControlName": "test2设备标注",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "OTHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109220300",
+            "id": "",
+            "publishTime": "202109220300",
+            "updateTime": "202109220259",
+            "startTime": "201912311149",
+            "startCalculateTime": "20210922030037",
+            "endCalculateTime": "",
+            "startDataTime": "201912311149",
+            "endDataTime": "202109221059"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109220300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109220300\",\"updateTime\":\"202109220259\",\"startTime\":\"201912311149\",\"endTime\":null,\"startCalculateTime\":\"20210922030037\",\"endCalculateTime\":\"\",\"startDataTime\":\"201912311149\",\"endDataTime\":\"202109221059\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "69759e24-1e45-42ee-b815-620fcd9d25f4",
+            "targetUnit": "NSH",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZUJZ;ZULS;ZLLN",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"69759e24-1e45-42ee-b815-620fcd9d25f4\",\"targetUnit\":\"NSH\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZUJZ;ZULS;ZLLN\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZUJZ;ZULS;ZLLN)(NSH)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183475",
+            "restrictionMode": "GS",
+            "restrictionRemark": "塔台测试",
+            "restrictionMITValue": "",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": ""
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183475\",\"restrictionMode\":\"GS\",\"restrictionRemark\":\"塔台测试\",\"restrictionMITValue\":\"\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "OTHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLXYACC,ZLXYAP",
+        "relationDataTimeStamp": "20210922093030",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "OTHER",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "d2b28653-3ea6-4728-b27f-b1565602646b",
+        "generateTime": "202109220259",
+        "tacticName": "test3设备标注",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxytwr",
+        "tacticPublishUserCH": "西安塔台",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "流量室",
+        "tacticStatus": "TERMINATED_AUTO",
+        "directionList": [
+          {
+            "identifier": "800f0bcb-8a39-49ee-a565-b2009fe889b0",
+            "targetUnit": "ZLXY",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLAK",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"800f0bcb-8a39-49ee-a565-b2009fe889b0\",\"targetUnit\":\"ZLXY\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLAK\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109210300",
+          "id": "",
+          "publishTime": "202109210300",
+          "updateTime": "202109220300",
+          "startTime": "202101190737",
+          "startCalculateTime": "20210921030029",
+          "endCalculateTime": "20210922025942",
+          "startDataTime": "202101190737",
+          "endDataTime": "202109221059"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109210300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109210300\",\"updateTime\":\"202109220300\",\"startTime\":\"202101190737\",\"endTime\":null,\"startCalculateTime\":\"20210921030029\",\"endCalculateTime\":\"20210922025942\",\"startDataTime\":\"202101190737\",\"endDataTime\":\"202109221059\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183393",
+        "basicFlowcontrol": {
+          "id": "d2b28653-3ea6-4728-b27f-b1565602646b",
+          "tacticId": "d2b28653-3ea6-4728-b27f-b1565602646b",
+          "flowControlName": "test3设备标注",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "OTHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109210300",
+            "id": "",
+            "publishTime": "202109210300",
+            "updateTime": "202109220300",
+            "startTime": "202101190737",
+            "startCalculateTime": "20210921030029",
+            "endCalculateTime": "",
+            "startDataTime": "202101190737",
+            "endDataTime": "202109221059"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109210300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109210300\",\"updateTime\":\"202109220300\",\"startTime\":\"202101190737\",\"endTime\":null,\"startCalculateTime\":\"20210921030029\",\"endCalculateTime\":\"\",\"startDataTime\":\"202101190737\",\"endDataTime\":\"202109221059\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "800f0bcb-8a39-49ee-a565-b2009fe889b0",
+            "targetUnit": "ZLXY",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLAK",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"800f0bcb-8a39-49ee-a565-b2009fe889b0\",\"targetUnit\":\"ZLXY\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLAK\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183393",
+            "restrictionMode": "GS",
+            "restrictionRemark": "塔台进程单标注",
+            "restrictionMITValue": "",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": ""
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183393\",\"restrictionMode\":\"GS\",\"restrictionRemark\":\"塔台进程单标注\",\"restrictionMITValue\":\"\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "OTHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLXYACC,ZLXYAP",
+        "relationDataTimeStamp": "20210922025912",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "OTHER",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "aa910150-1606-44d0-ac79-ac35d9115ab4",
+        "generateTime": "202109212226",
+        "tacticName": "P234 落地(福建;浙江;ZGOW) 75公里",
+        "tacticPublishUser": "zlxyflw",
+        "tacticPublishUserCH": "西安流量室",
+        "tacticPublishUnit": "ZLXY_FLW",
+        "tacticPublishUnitCH": "西安流量室",
+        "tacticStatus": "RUNNING",
+        "directionList": [
+          {
+            "identifier": "5aeedf1e-8259-4316-a338-03bf1b4f63c5",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "arrAp": "ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"5aeedf1e-8259-4316-a338-03bf1b4f63c5\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"arrAp\":\"ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW\"}]",
+        "trafficFlowDomainIds": "5f0fa2af-56b3-42ab-9a1a-c732c24779b8",
+        "tacticTimeInfo": {
+          "generateTime": "202109212225",
+          "createTime": "202109212225",
+          "publishTime": "202109212226",
+          "updateTime": "202109212226",
+          "startTime": "202109220800",
+          "endTime": "202109222359",
+          "startCalculateTime": "20210921222651",
+          "startDataTime": "202109220800",
+          "endDataTime": "202109221759"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109212225\",\"createTime\":\"202109212225\",\"publishTime\":\"202109212226\",\"updateTime\":\"202109212226\",\"startTime\":\"202109220800\",\"endTime\":\"202109222359\",\"startCalculateTime\":\"20210921222651\",\"startDataTime\":\"202109220800\",\"endDataTime\":\"202109221759\"}",
+        "tacticSource": "HAND_WRITE:MANUAL",
+        "basicFlowcontrol": {
+          "generateTime": "202109212226",
+          "id": "a8e6e8f4-9d50-44a9-90d6-3b4948c1ac76",
+          "tacticId": "aa910150-1606-44d0-ac79-ac35d9115ab4",
+          "flowControlName": "P234 落地(福建;浙江;ZGOW) 75公里",
+          "flowControlTargetUnit": "ZL;ZBAAACC;ZBHHACC;ZBYNACC;ZHCCACC;ZWWWACC",
+          "flowControlReason": "SCHEDULE",
+          "flowControlTimeInfo": {
+            "generateTime": "202109212225",
+            "createTime": "202109212225",
+            "startTime": "202109220800",
+            "endTime": "202109222359",
+            "startDataTime": "202109220800",
+            "endDataTime": "202109221600"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109212225\",\"createTime\":\"202109212225\",\"startTime\":\"202109220800\",\"endTime\":\"202109222359\",\"startDataTime\":\"202109220800\",\"endDataTime\":\"202109221600\"}",
+          "flightPropertyDomain": {},
+          "flightPropertyDomainJson": "{}",
+          "directionDoMain": {
+            "identifier": "5aeedf1e-8259-4316-a338-03bf1b4f63c5",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "arrAp": "ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW"
+          },
+          "directionDoMainJson": "{\"identifier\":\"5aeedf1e-8259-4316-a338-03bf1b4f63c5\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"arrAp\":\"ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW\"}",
+          "flowControlMeasure": {
+            "restrictionMode": "MIT",
+            "restrictionMITValue": "75",
+            "restrictionMITValueUnit": "D",
+            "restrictionMITTimeValue": "6",
+            "distanceToTime": "14"
+          },
+          "flowControlMeasureJson": "{\"restrictionMode\":\"MIT\",\"restrictionMITValue\":\"75\",\"restrictionMITValueUnit\":\"D\",\"restrictionMITTimeValue\":\"6\",\"distanceToTime\":\"14\"}",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL",
+          "tacticMode": "100"
+        },
+        "basicTacticInfoReason": "SCHEDULE",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXN,ZLIC,ZLLL,ZLXY",
+        "relationArea": "ZLLLACC,ZLXYACC,ZLLLAP,ZLICAP,ZLXYAP",
+        "relationDataTimeStamp": "20210922093030",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "SHORTCUT",
+        "tacticDirection": "NW_GZWH"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "91ca0806-672c-4242-a529-386a98e39c76",
+        "generateTime": "202109211759",
+        "tacticName": "P234 浙江福建揭阳 限制间隔 6分钟",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxyflw",
+        "tacticPublishUserCH": "西安流量室",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "流量室",
+        "tacticStatus": "FINISHED",
+        "directionList": [
+          {
+            "identifier": "85e4adf6-09ae-4847-ab36-633ad2ae35e4",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "depAp": "",
+            "arrAp": "ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"85e4adf6-09ae-4847-ab36-633ad2ae35e4\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"\",\"arrAp\":\"ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109210925",
+          "id": "",
+          "publishTime": "202109210925",
+          "updateTime": "202109211800",
+          "startTime": "202109211200",
+          "endTime": "202109211800",
+          "startCalculateTime": "20210921092512",
+          "endCalculateTime": "20210921175942",
+          "startDataTime": "202109211200",
+          "endDataTime": "202109211800"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109210925\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109210925\",\"updateTime\":\"202109211800\",\"startTime\":\"202109211200\",\"endTime\":\"202109211800\",\"startCalculateTime\":\"20210921092512\",\"endCalculateTime\":\"20210921175942\",\"startDataTime\":\"202109211200\",\"endDataTime\":\"202109211800\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183402",
+        "basicFlowcontrol": {
+          "id": "91ca0806-672c-4242-a529-386a98e39c76",
+          "tacticId": "91ca0806-672c-4242-a529-386a98e39c76",
+          "flowControlName": "P234 浙江福建揭阳 限制间隔 6分钟",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "OTHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109210925",
+            "id": "",
+            "publishTime": "202109210925",
+            "updateTime": "202109211800",
+            "startTime": "202109211200",
+            "endTime": "202109211800",
+            "startCalculateTime": "20210921092512",
+            "endCalculateTime": "",
+            "startDataTime": "202109211200",
+            "endDataTime": "202109211800"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109210925\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109210925\",\"updateTime\":\"202109211800\",\"startTime\":\"202109211200\",\"endTime\":\"202109211800\",\"startCalculateTime\":\"20210921092512\",\"endCalculateTime\":\"\",\"startDataTime\":\"202109211200\",\"endDataTime\":\"202109211800\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "85e4adf6-09ae-4847-ab36-633ad2ae35e4",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "depAp": "",
+            "arrAp": "ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"85e4adf6-09ae-4847-ab36-633ad2ae35e4\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"\",\"arrAp\":\"ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183402",
+            "restrictionMode": "MIT",
+            "restrictionMITValue": "6",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": "6"
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183402\",\"restrictionMode\":\"MIT\",\"restrictionRemark\":null,\"restrictionMITValue\":\"6\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"6\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "OTHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXN,ZLIC,ZLLL,ZLXY",
+        "relationArea": "ZLLLACC,ZLXYACC,ZLLLAP,ZLICAP,ZLXYAP",
+        "relationDataTimeStamp": "20210921175912",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "NW_GZWH",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "4bddf123-6766-41b9-bedd-70da213d8c94",
+        "generateTime": "202109220759",
+        "tacticName": "P234 浙江福建揭阳6分钟",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxyflw",
+        "tacticPublishUserCH": "西安流量室",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "流量室",
+        "tacticStatus": "RUNNING",
+        "directionList": [
+          {
+            "identifier": "029b10f8-3f66-43b4-911f-c163f64931ad",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "depAp": "",
+            "arrAp": "ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"029b10f8-3f66-43b4-911f-c163f64931ad\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"\",\"arrAp\":\"ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109212224",
+          "publishTime": "202109212224",
+          "updateTime": "202109220759",
+          "startTime": "202109220800",
+          "endTime": "202109222359",
+          "startCalculateTime": "20210921222425",
+          "startDataTime": "202109220800",
+          "endDataTime": "202109221759"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109212224\",\"publishTime\":\"202109212224\",\"updateTime\":\"202109220759\",\"startTime\":\"202109220800\",\"endTime\":\"202109222359\",\"startCalculateTime\":\"20210921222425\",\"startDataTime\":\"202109220800\",\"endDataTime\":\"202109221759\"}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183470",
+        "basicFlowcontrol": {
+          "id": "4bddf123-6766-41b9-bedd-70da213d8c94",
+          "tacticId": "4bddf123-6766-41b9-bedd-70da213d8c94",
+          "flowControlName": "P234 浙江福建揭阳6分钟",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "SCHEDULE",
+          "flowControlTimeInfo": {
+            "generateTime": "202109212224",
+            "id": "",
+            "publishTime": "202109212224",
+            "updateTime": "202109220759",
+            "startTime": "202109220800",
+            "endTime": "202109222359",
+            "startCalculateTime": "20210921222425",
+            "endCalculateTime": "",
+            "startDataTime": "202109220800",
+            "endDataTime": "202109222359"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109212224\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109212224\",\"updateTime\":\"202109220759\",\"startTime\":\"202109220800\",\"endTime\":\"202109222359\",\"startCalculateTime\":\"20210921222425\",\"endCalculateTime\":\"\",\"startDataTime\":\"202109220800\",\"endDataTime\":\"202109222359\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "029b10f8-3f66-43b4-911f-c163f64931ad",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "depAp": "",
+            "arrAp": "ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"029b10f8-3f66-43b4-911f-c163f64931ad\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"\",\"arrAp\":\"ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183470",
+            "restrictionMode": "MIT",
+            "restrictionMITValue": "6",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": "6"
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183470\",\"restrictionMode\":\"MIT\",\"restrictionRemark\":null,\"restrictionMITValue\":\"6\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"6\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "SCHEDULE",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXN,ZLIC,ZLLL,ZLXY",
+        "relationArea": "ZLLLACC,ZLXYACC,ZLLLAP,ZLICAP,ZLXYAP",
+        "relationDataTimeStamp": "20210922093030",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "NW_GZWH",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "f64a3e07-2526-4455-b309-c99bd8e2d69f",
+        "generateTime": "202109211322",
+        "tacticName": "DUBID;AGULU;P233 落地(ZGSZ) 60分钟",
+        "tacticPublishUser": "zlxyflw",
+        "tacticPublishUserCH": "西安流量室",
+        "tacticPublishUnit": "ZLXY_FLW",
+        "tacticPublishUnitCH": "西安流量室",
+        "tacticStatus": "FINISHED",
+        "directionList": [
+          {
+            "identifier": "0052f652-6cdd-48fa-a444-98d10ee2d166",
+            "targetUnit": "DUBID;AGULU;P233",
+            "formerUnit": "ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZHHHACC;ZUUUACC;ZHHHACC;ZUUUACC",
+            "arrAp": "ZGSZ"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"0052f652-6cdd-48fa-a444-98d10ee2d166\",\"targetUnit\":\"DUBID;AGULU;P233\",\"formerUnit\":\"ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZHHHACC;ZUUUACC;ZHHHACC;ZUUUACC\",\"arrAp\":\"ZGSZ\"}]",
+        "trafficFlowDomainIds": "7980572c-fc97-406d-b5b9-bda944464977",
+        "tacticTimeInfo": {
+          "generateTime": "202109211322",
+          "createTime": "202109211323",
+          "publishTime": "202109211322",
+          "updateTime": "202109211601",
+          "startTime": "202109211327",
+          "endTime": "202109211600",
+          "startCalculateTime": "20210921132318",
+          "endCalculateTime": "20210921160139",
+          "startDataTime": "202109211327",
+          "endDataTime": "202109211600"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109211322\",\"id\":null,\"tacticId\":null,\"flowId\":null,\"createTime\":\"202109211323\",\"publishTime\":\"202109211322\",\"updateTime\":\"202109211601\",\"startTime\":\"202109211327\",\"endTime\":\"202109211600\",\"startCalculateTime\":\"20210921132318\",\"endCalculateTime\":\"20210921160139\",\"startDataTime\":\"202109211327\",\"endDataTime\":\"202109211600\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "HAND_WRITE:MANUAL",
+        "basicFlowcontrol": {
+          "generateTime": "202109211322",
+          "id": "0f563442-c230-405a-80eb-ee8ef9fb7674",
+          "tacticId": "f64a3e07-2526-4455-b309-c99bd8e2d69f",
+          "flowControlName": "DUBID;AGULU;P233 落地(ZGSZ) 60分钟",
+          "flowControlTargetUnit": "ZL;ZBAAACC;ZBHHACC;ZBYNACC;ZHCCACC;ZHHHACC;ZULSACC;ZUUUACC;ZWWWACC",
+          "flowControlReason": "WEATHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109211322",
+            "createTime": "202109211322",
+            "startTime": "202109211327",
+            "endTime": "202109211600",
+            "startDataTime": "202109211327",
+            "endDataTime": "202109211600"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109211322\",\"createTime\":\"202109211322\",\"startTime\":\"202109211327\",\"endTime\":\"202109211600\",\"startDataTime\":\"202109211327\",\"endDataTime\":\"202109211600\"}",
+          "flightPropertyDomain": {},
+          "flightPropertyDomainJson": "{}",
+          "directionDoMain": {
+            "identifier": "0052f652-6cdd-48fa-a444-98d10ee2d166",
+            "targetUnit": "DUBID;AGULU;P233",
+            "formerUnit": "ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZHHHACC;ZUUUACC;ZHHHACC;ZUUUACC",
+            "arrAp": "ZGSZ"
+          },
+          "directionDoMainJson": "{\"identifier\":\"0052f652-6cdd-48fa-a444-98d10ee2d166\",\"targetUnit\":\"DUBID;AGULU;P233\",\"formerUnit\":\"ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZHHHACC;ZUUUACC;ZHHHACC;ZUUUACC\",\"arrAp\":\"ZGSZ\"}",
+          "flowControlMeasure": {
+            "restrictionMode": "MIT",
+            "restrictionMITValue": "60",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": "60",
+            "distanceToTime": "15"
+          },
+          "flowControlMeasureJson": "{\"restrictionMode\":\"MIT\",\"restrictionMITValue\":\"60\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"60\",\"distanceToTime\":\"15\"}",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL",
+          "tacticMode": "100"
+        },
+        "basicTacticInfoReason": "WEATHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLXYACC,ZLXYAP",
+        "relationDataTimeStamp": "20210921160112",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "SHORTCUT",
+        "tacticDirection": "NW_CDCQ"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "0e31e301-f8cd-4913-853b-c78adca78e09",
+        "generateTime": "202109210953",
+        "tacticName": "P234 落地(福建;浙江;ZGOW) 75公里",
+        "tacticPublishUser": "zlxyflw",
+        "tacticPublishUserCH": "西安流量室",
+        "tacticPublishUnit": "ZLXY_FLW",
+        "tacticPublishUnitCH": "西安流量室",
+        "tacticStatus": "TERMINATED_MANUAL",
+        "directionList": [
+          {
+            "identifier": "9bf7a810-6724-40bb-8ffe-342d5253c4f7",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "arrAp": "ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"9bf7a810-6724-40bb-8ffe-342d5253c4f7\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"arrAp\":\"ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW\"}]",
+        "trafficFlowDomainIds": "1a7aee1c-7d1c-4953-98dc-750d3d0faff6",
+        "tacticTimeInfo": {
+          "generateTime": "202109202258",
+          "createTime": "202109202258",
+          "publishTime": "202109202258",
+          "updateTime": "202109210953",
+          "startTime": "202109210800",
+          "endTime": "202109212359",
+          "startCalculateTime": "20210920225905",
+          "endCalculateTime": "20210921095342",
+          "startDataTime": "202109210800",
+          "endDataTime": "202109210953"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109202258\",\"id\":null,\"tacticId\":null,\"flowId\":null,\"createTime\":\"202109202258\",\"publishTime\":\"202109202258\",\"updateTime\":\"202109210953\",\"startTime\":\"202109210800\",\"endTime\":\"202109212359\",\"startCalculateTime\":\"20210920225905\",\"endCalculateTime\":\"20210921095342\",\"startDataTime\":\"202109210800\",\"endDataTime\":\"202109210953\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "HAND_WRITE:MANUAL",
+        "basicFlowcontrol": {
+          "generateTime": "202109210953",
+          "id": "8979b926-c968-4bd4-bd42-368a576e3638",
+          "tacticId": "0e31e301-f8cd-4913-853b-c78adca78e09",
+          "flowControlName": "P234 落地(福建;浙江;ZGOW) 75公里",
+          "flowControlTargetUnit": "ZL;ZBAAACC;ZBHHACC;ZBYNACC;ZHCCACC;ZWWWACC",
+          "flowControlReason": "SCHEDULE",
+          "flowControlTimeInfo": {
+            "generateTime": "202109202258",
+            "createTime": "202109202258",
+            "startTime": "202109210800",
+            "endTime": "202109212359",
+            "startDataTime": "202109210800",
+            "endDataTime": "202109211600"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109202258\",\"createTime\":\"202109202258\",\"startTime\":\"202109210800\",\"endTime\":\"202109212359\",\"startDataTime\":\"202109210800\",\"endDataTime\":\"202109211600\"}",
+          "flightPropertyDomain": {},
+          "flightPropertyDomainJson": "{}",
+          "directionDoMain": {
+            "identifier": "9bf7a810-6724-40bb-8ffe-342d5253c4f7",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "arrAp": "ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW"
+          },
+          "directionDoMainJson": "{\"identifier\":\"9bf7a810-6724-40bb-8ffe-342d5253c4f7\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"arrAp\":\"ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW\"}",
+          "flowControlMeasure": {
+            "restrictionMode": "MIT",
+            "restrictionMITValue": "75",
+            "restrictionMITValueUnit": "D",
+            "restrictionMITTimeValue": "5",
+            "distanceToTime": "15"
+          },
+          "flowControlMeasureJson": "{\"restrictionMode\":\"MIT\",\"restrictionMITValue\":\"75\",\"restrictionMITValueUnit\":\"D\",\"restrictionMITTimeValue\":\"5\",\"distanceToTime\":\"15\"}",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL",
+          "tacticMode": "100"
+        },
+        "basicTacticInfoReason": "SCHEDULE",
+        "operation": "TERMINATED_MANUAL",
+        "relationAp": "ZLXN,ZLIC,ZLLL,ZLXY",
+        "relationArea": "ZLLLACC,ZLXYACC,ZLLLAP,ZLICAP,ZLXYAP",
+        "relationDataTimeStamp": "20210921095312",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "SHORTCUT",
+        "tacticDirection": "NW_GZWH"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "8f728473-5890-432b-903e-195b3728c4e5",
+        "generateTime": "202109211559",
+        "tacticName": "ZGSZ 限制间隔 60分钟",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxyflw",
+        "tacticPublishUserCH": "西安流量室",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "流量室",
+        "tacticStatus": "FINISHED",
+        "directionList": [
+          {
+            "identifier": "896a023c-ff04-48c9-9557-10296d29319b",
+            "targetUnit": "AGULU;P233;DUBID",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "depAp": "",
+            "arrAp": "ZGSZ",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[()()(),(ZGSZ)()()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"896a023c-ff04-48c9-9557-10296d29319b\",\"targetUnit\":\"AGULU;P233;DUBID\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"\",\"arrAp\":\"ZGSZ\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[()()(),(ZGSZ)()()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109211329",
+          "id": "",
+          "publishTime": "202109211329",
+          "updateTime": "202109211600",
+          "startTime": "202109211330",
+          "endTime": "202109211600",
+          "startCalculateTime": "20210921132949",
+          "endCalculateTime": "20210921155942",
+          "startDataTime": "202109211330",
+          "endDataTime": "202109211600"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109211329\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109211329\",\"updateTime\":\"202109211600\",\"startTime\":\"202109211330\",\"endTime\":\"202109211600\",\"startCalculateTime\":\"20210921132949\",\"endCalculateTime\":\"20210921155942\",\"startDataTime\":\"202109211330\",\"endDataTime\":\"202109211600\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183413",
+        "basicFlowcontrol": {
+          "id": "8f728473-5890-432b-903e-195b3728c4e5",
+          "tacticId": "8f728473-5890-432b-903e-195b3728c4e5",
+          "flowControlName": "ZGSZ 限制间隔 60分钟",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "WEATHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109211329",
+            "id": "",
+            "publishTime": "202109211329",
+            "updateTime": "202109211600",
+            "startTime": "202109211330",
+            "endTime": "202109211600",
+            "startCalculateTime": "20210921132949",
+            "endCalculateTime": "",
+            "startDataTime": "202109211330",
+            "endDataTime": "202109211600"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109211329\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109211329\",\"updateTime\":\"202109211600\",\"startTime\":\"202109211330\",\"endTime\":\"202109211600\",\"startCalculateTime\":\"20210921132949\",\"endCalculateTime\":\"\",\"startDataTime\":\"202109211330\",\"endDataTime\":\"202109211600\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "896a023c-ff04-48c9-9557-10296d29319b",
+            "targetUnit": "AGULU;P233;DUBID",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "depAp": "",
+            "arrAp": "ZGSZ",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[()()(),(ZGSZ)()()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"896a023c-ff04-48c9-9557-10296d29319b\",\"targetUnit\":\"AGULU;P233;DUBID\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"\",\"arrAp\":\"ZGSZ\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[()()(),(ZGSZ)()()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183413",
+            "restrictionMode": "MIT",
+            "restrictionMITValue": "60",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": "60"
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183413\",\"restrictionMode\":\"MIT\",\"restrictionRemark\":null,\"restrictionMITValue\":\"60\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"60\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "WEATHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLXYACC,ZLXYAP",
+        "relationDataTimeStamp": "20210921155912",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "NW_CDCQ",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "dca538e8-b5b4-4d88-89dd-fdc6dd950cf0",
+        "generateTime": "202109210259",
+        "tacticName": "test1设备标注",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxytwr",
+        "tacticPublishUserCH": "西安塔台",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "塔台",
+        "tacticStatus": "TERMINATED_AUTO",
+        "directionList": [
+          {
+            "identifier": "4580d49f-b629-4849-bd87-14afafda6476",
+            "targetUnit": "TEBIB",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLTS;ZLGY;ZLQY",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"4580d49f-b629-4849-bd87-14afafda6476\",\"targetUnit\":\"TEBIB\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLTS;ZLGY;ZLQY\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109200300",
+          "id": "",
+          "publishTime": "202109200300",
+          "updateTime": "202109210300",
+          "startTime": "201912311138",
+          "startCalculateTime": "20210920030031",
+          "endCalculateTime": "20210921025942",
+          "startDataTime": "201912311138",
+          "endDataTime": "202109211059"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109200300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109200300\",\"updateTime\":\"202109210300\",\"startTime\":\"201912311138\",\"endTime\":null,\"startCalculateTime\":\"20210920030031\",\"endCalculateTime\":\"20210921025942\",\"startDataTime\":\"201912311138\",\"endDataTime\":\"202109211059\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183311",
+        "basicFlowcontrol": {
+          "id": "dca538e8-b5b4-4d88-89dd-fdc6dd950cf0",
+          "tacticId": "dca538e8-b5b4-4d88-89dd-fdc6dd950cf0",
+          "flowControlName": "test1设备标注",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "OTHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109200300",
+            "id": "",
+            "publishTime": "202109200300",
+            "updateTime": "202109210300",
+            "startTime": "201912311138",
+            "startCalculateTime": "20210920030031",
+            "endCalculateTime": "",
+            "startDataTime": "201912311138",
+            "endDataTime": "202109211059"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109200300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109200300\",\"updateTime\":\"202109210300\",\"startTime\":\"201912311138\",\"endTime\":null,\"startCalculateTime\":\"20210920030031\",\"endCalculateTime\":\"\",\"startDataTime\":\"201912311138\",\"endDataTime\":\"202109211059\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "4580d49f-b629-4849-bd87-14afafda6476",
+            "targetUnit": "TEBIB",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLTS;ZLGY;ZLQY",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"4580d49f-b629-4849-bd87-14afafda6476\",\"targetUnit\":\"TEBIB\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLTS;ZLGY;ZLQY\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLTS;ZLGY;ZLQY)(TEBIB)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183311",
+            "restrictionMode": "GS",
+            "restrictionRemark": "塔台测试，勿删。",
+            "restrictionMITValue": "",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": ""
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183311\",\"restrictionMode\":\"GS\",\"restrictionRemark\":\"塔台测试，勿删。\",\"restrictionMITValue\":\"\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "OTHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLLLACC,ZLXYACC,ZLXYAP",
+        "relationDataTimeStamp": "20210921025912",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "OTHER",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "ebd90568-ff55-4c9f-a912-55f1ee8a0a69",
+        "generateTime": "202109210259",
+        "tacticName": "test3设备标注",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxytwr",
+        "tacticPublishUserCH": "西安塔台",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "流量室",
+        "tacticStatus": "TERMINATED_AUTO",
+        "directionList": [
+          {
+            "identifier": "842c74a3-d96e-4384-8ab9-fc0c45f3caf5",
+            "targetUnit": "ZLXY",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLAK",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"842c74a3-d96e-4384-8ab9-fc0c45f3caf5\",\"targetUnit\":\"ZLXY\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLAK\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109200300",
+          "id": "",
+          "publishTime": "202109200300",
+          "updateTime": "202109210300",
+          "startTime": "202101190737",
+          "startCalculateTime": "20210920030031",
+          "endCalculateTime": "20210921025942",
+          "startDataTime": "202101190737",
+          "endDataTime": "202109211059"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109200300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109200300\",\"updateTime\":\"202109210300\",\"startTime\":\"202101190737\",\"endTime\":null,\"startCalculateTime\":\"20210920030031\",\"endCalculateTime\":\"20210921025942\",\"startDataTime\":\"202101190737\",\"endDataTime\":\"202109211059\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183310",
+        "basicFlowcontrol": {
+          "id": "ebd90568-ff55-4c9f-a912-55f1ee8a0a69",
+          "tacticId": "ebd90568-ff55-4c9f-a912-55f1ee8a0a69",
+          "flowControlName": "test3设备标注",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "OTHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109200300",
+            "id": "",
+            "publishTime": "202109200300",
+            "updateTime": "202109210300",
+            "startTime": "202101190737",
+            "startCalculateTime": "20210920030031",
+            "endCalculateTime": "",
+            "startDataTime": "202101190737",
+            "endDataTime": "202109211059"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109200300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109200300\",\"updateTime\":\"202109210300\",\"startTime\":\"202101190737\",\"endTime\":null,\"startCalculateTime\":\"20210920030031\",\"endCalculateTime\":\"\",\"startDataTime\":\"202101190737\",\"endDataTime\":\"202109211059\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "842c74a3-d96e-4384-8ab9-fc0c45f3caf5",
+            "targetUnit": "ZLXY",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLAK",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"842c74a3-d96e-4384-8ab9-fc0c45f3caf5\",\"targetUnit\":\"ZLXY\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLAK\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183310",
+            "restrictionMode": "GS",
+            "restrictionRemark": "塔台进程单标注",
+            "restrictionMITValue": "",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": ""
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183310\",\"restrictionMode\":\"GS\",\"restrictionRemark\":\"塔台进程单标注\",\"restrictionMITValue\":\"\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "OTHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLXYACC,ZLXYAP",
+        "relationDataTimeStamp": "20210921025912",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "OTHER",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "34b52552-fbed-4b84-b85d-11a408f02b61",
+        "generateTime": "202109210924",
+        "tacticName": "P234 浙江福建揭阳 限制间隔 6分钟",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxyflw",
+        "tacticPublishUserCH": "西安流量室",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "流量室",
+        "tacticStatus": "TERMINATED_MANUAL",
+        "directionList": [
+          {
+            "identifier": "382cf6ca-ee0c-4553-930d-e1581fa7b1e5",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "depAp": "",
+            "arrAp": "ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"382cf6ca-ee0c-4553-930d-e1581fa7b1e5\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"\",\"arrAp\":\"ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109201959",
+          "id": "",
+          "publishTime": "202109201959",
+          "updateTime": "202109210925",
+          "startTime": "202109210800",
+          "endTime": "202109212359",
+          "startCalculateTime": "20210920195939",
+          "endCalculateTime": "20210921092442",
+          "startDataTime": "202109210800",
+          "endDataTime": "202109212359"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109201959\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109201959\",\"updateTime\":\"202109210925\",\"startTime\":\"202109210800\",\"endTime\":\"202109212359\",\"startCalculateTime\":\"20210920195939\",\"endCalculateTime\":\"20210921092442\",\"startDataTime\":\"202109210800\",\"endDataTime\":\"202109212359\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183367",
+        "basicFlowcontrol": {
+          "id": "34b52552-fbed-4b84-b85d-11a408f02b61",
+          "tacticId": "34b52552-fbed-4b84-b85d-11a408f02b61",
+          "flowControlName": "P234 浙江福建揭阳 限制间隔 6分钟",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "OTHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109201959",
+            "id": "",
+            "publishTime": "202109201959",
+            "updateTime": "202109210925",
+            "startTime": "202109210800",
+            "endTime": "202109212359",
+            "startCalculateTime": "20210920195939",
+            "endCalculateTime": "",
+            "startDataTime": "202109210800",
+            "endDataTime": "202109212359"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109201959\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109201959\",\"updateTime\":\"202109210925\",\"startTime\":\"202109210800\",\"endTime\":\"202109212359\",\"startCalculateTime\":\"20210920195939\",\"endCalculateTime\":\"\",\"startDataTime\":\"202109210800\",\"endDataTime\":\"202109212359\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "382cf6ca-ee0c-4553-930d-e1581fa7b1e5",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "depAp": "",
+            "arrAp": "ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"382cf6ca-ee0c-4553-930d-e1581fa7b1e5\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"\",\"arrAp\":\"ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[()()(),(ZSHC;ZSNB;ZSWZ;ZSYW;ZSAM;ZSFZ;ZSWY;ZSQZ;ZSLQ;ZGOW;ZSJU;ZSSM)()()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183367",
+            "restrictionMode": "MIT",
+            "restrictionMITValue": "6",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": "6"
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183367\",\"restrictionMode\":\"MIT\",\"restrictionRemark\":null,\"restrictionMITValue\":\"6\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"6\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "OTHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXN,ZLIC,ZLLL,ZLXY",
+        "relationArea": "ZLLLACC,ZLXYACC,ZLLLAP,ZLICAP,ZLXYAP",
+        "relationDataTimeStamp": "20210921092412",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "NW_GZWH",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "da566553-78b0-42dc-a203-36d55e8ef64b",
+        "generateTime": "202109220259",
+        "tacticName": "test3设备标注",
+        "tacticOriginalSource": "CDM",
+        "tacticPublishUser": "zlxytwr",
+        "tacticPublishUserCH": "西安塔台",
+        "tacticPublishUnit": "ZLXY",
+        "tacticPublishUnitCH": "流量室",
+        "tacticStatus": "RUNNING",
+        "directionList": [
+          {
+            "identifier": "d0ce9049-9a59-46a0-b6ed-407d58f1aab4",
+            "targetUnit": "ZLXY",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLAK",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"d0ce9049-9a59-46a0-b6ed-407d58f1aab4\",\"targetUnit\":\"ZLXY\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLAK\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}]",
+        "tacticTimeInfo": {
+          "generateTime": "202109220300",
+          "publishTime": "202109220300",
+          "updateTime": "202109220259",
+          "startTime": "202101190737",
+          "startCalculateTime": "20210922030037",
+          "startDataTime": "202101190737",
+          "endDataTime": "202109221737"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109220300\",\"publishTime\":\"202109220300\",\"updateTime\":\"202109220259\",\"startTime\":\"202101190737\",\"startCalculateTime\":\"20210922030037\",\"startDataTime\":\"202101190737\",\"endDataTime\":\"202109221737\"}",
+        "tacticSource": "EVENT:CDM",
+        "tacticSourceId": "183473",
+        "basicFlowcontrol": {
+          "id": "da566553-78b0-42dc-a203-36d55e8ef64b",
+          "tacticId": "da566553-78b0-42dc-a203-36d55e8ef64b",
+          "flowControlName": "test3设备标注",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlReason": "OTHER",
+          "flowControlTimeInfo": {
+            "generateTime": "202109220300",
+            "id": "",
+            "publishTime": "202109220300",
+            "updateTime": "202109220259",
+            "startTime": "202101190737",
+            "startCalculateTime": "20210922030037",
+            "endCalculateTime": "",
+            "startDataTime": "202101190737",
+            "endDataTime": "202109221059"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109220300\",\"id\":\"\",\"tacticId\":null,\"flowId\":null,\"createTime\":null,\"publishTime\":\"202109220300\",\"updateTime\":\"202109220259\",\"startTime\":\"202101190737\",\"endTime\":null,\"startCalculateTime\":\"20210922030037\",\"endCalculateTime\":\"\",\"startDataTime\":\"202101190737\",\"endDataTime\":\"202109221059\",\"reserveSlot\":null,\"type\":null}",
+          "flightPropertyDomainJson": "null",
+          "directionDoMain": {
+            "identifier": "d0ce9049-9a59-46a0-b6ed-407d58f1aab4",
+            "targetUnit": "ZLXY",
+            "behindUnit": "",
+            "depAp": "ZLXY",
+            "arrAp": "ZLAK",
+            "exemptDepAp": "",
+            "exemptArrAp": "",
+            "comments1": "[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]"
+          },
+          "directionDoMainJson": "{\"identifier\":\"d0ce9049-9a59-46a0-b6ed-407d58f1aab4\",\"targetUnit\":\"ZLXY\",\"formerUnit\":null,\"behindUnit\":\"\",\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"depAp\":\"ZLXY\",\"arrAp\":\"ZLAK\",\"exemptDepAp\":\"\",\"exemptArrAp\":\"\",\"comments1\":\"[(ZLXY)()(),(ZLAK)(ZLXY)()],[()()(),()()()]\",\"comments2\":null,\"comments3\":null,\"comments4\":null}",
+          "flowControlMeasure": {
+            "id": "183473",
+            "restrictionMode": "GS",
+            "restrictionRemark": "塔台进程单标注",
+            "restrictionMITValue": "",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": ""
+          },
+          "flowControlMeasureJson": "{\"generateTime\":null,\"id\":\"183473\",\"restrictionMode\":\"GS\",\"restrictionRemark\":\"塔台进程单标注\",\"restrictionMITValue\":\"\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"\",\"distanceToTime\":null,\"restrictionASValue\":null,\"restrictionASValueUnit\":null,\"restrictionTCPeriodValue\":null,\"restrictionTCPeriodDuration\":null,\"restrictionGDPTimeSequence\":null,\"restrictionGDPValueSequence\":null,\"restrictionAFPTimeSequence\":null,\"restrictionAFPValueSequence\":null,\"intervalDepFlight\":null,\"intervalArrFlight\":null,\"restrictionAAArea\":null,\"restrictionAAMinHeight\":null,\"restrictionAAMinHeightIncluded\":null,\"restrictionAAMaxHeight\":null,\"restrictionAAMaxHeightIncluded\":null,\"restrictionAAExemptMinHeight\":null,\"restrictionAAExemptMinHeightIncluded\":null,\"restrictionAAExemptMaxHeight\":null,\"restrictionAAExemptMaxHeightIncluded\":null,\"originRouteData\":null,\"originRouteDataJson\":null,\"alterRouteData1\":null,\"alterRouteData1Json\":null,\"alterRouteData2\":null,\"alterRouteData2Json\":null,\"alterRouteData3\":null,\"alterRouteData3Json\":null,\"alterRouteData4\":null,\"alterRouteData4Json\":null,\"alterRouteData5\":null,\"alterRouteData5Json\":null}",
+          "flowControlFlightJson": "null",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+        },
+        "basicTacticInfoReason": "OTHER",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXY",
+        "relationArea": "ZLXYACC,ZLXYAP",
+        "relationDataTimeStamp": "20210922093030",
+        "schemeVersion": "1.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "custom",
+        "tacticDirection": "OTHER",
+        "tempSyncSign": "100"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "50d23854-8a9e-4e97-b849-858a9f7be791",
+        "formerId": "0e31e301-f8cd-4913-853b-c78adca78e09",
+        "generateTime": "202109210953",
+        "tacticName": "P234 落地(福建;浙江;ZGOW) 75公里",
+        "tacticContentTable": "0e31e301-f8cd-4913-853b-c78adca78e09",
+        "tacticPublishUser": "zlxyflw",
+        "tacticPublishUserCH": "西安流量室",
+        "tacticPublishUnit": "ZLXY_FLW",
+        "tacticPublishUnitCH": "西安流量室",
+        "tacticStatus": "FINISHED",
+        "directionList": [
+          {
+            "identifier": "9bf7a810-6724-40bb-8ffe-342d5253c4f7",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "arrAp": "ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW"
+          }
+        ],
+        "directionListJson": "[{\"identifier\":\"9bf7a810-6724-40bb-8ffe-342d5253c4f7\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"arrAp\":\"ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW\"}]",
+        "trafficFlowDomainIds": "7bd2fdd4-b368-4394-906a-8e23e6df456d",
+        "tacticTimeInfo": {
+          "generateTime": "202109210952",
+          "createTime": "202109210953",
+          "publishTime": "202109210953",
+          "updateTime": "202109211801",
+          "startTime": "202109211200",
+          "endTime": "202109211800",
+          "startCalculateTime": "20210921095342",
+          "endCalculateTime": "20210921180139",
+          "startDataTime": "202109211200",
+          "endDataTime": "202109211800"
+        },
+        "tacticTimeInfoJson": "{\"generateTime\":\"202109210952\",\"id\":null,\"tacticId\":null,\"flowId\":null,\"createTime\":\"202109210953\",\"publishTime\":\"202109210953\",\"updateTime\":\"202109211801\",\"startTime\":\"202109211200\",\"endTime\":\"202109211800\",\"startCalculateTime\":\"20210921095342\",\"endCalculateTime\":\"20210921180139\",\"startDataTime\":\"202109211200\",\"endDataTime\":\"202109211800\",\"reserveSlot\":null,\"type\":null}",
+        "tacticSource": "HAND_WRITE:MANUAL",
+        "basicFlowcontrol": {
+          "generateTime": "202109210953",
+          "id": "3f722794-08f9-4890-9926-755b5499f9bb",
+          "tacticId": "50d23854-8a9e-4e97-b849-858a9f7be791",
+          "flowControlName": "P234 落地(福建;浙江;ZGOW) 75公里",
+          "flowControlTargetUnit": "ZL;ZBAAACC;ZBHHACC;ZBYNACC;ZHCCACC;ZWWWACC",
+          "flowControlReason": "SCHEDULE",
+          "flowControlTimeInfo": {
+            "generateTime": "202109210952",
+            "createTime": "202109210952",
+            "updateTime": "202109202258",
+            "startTime": "202109211200",
+            "endTime": "202109211800",
+            "startDataTime": "202109211200",
+            "endDataTime": "202109211800"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109210952\",\"createTime\":\"202109210952\",\"updateTime\":\"202109202258\",\"startTime\":\"202109211200\",\"endTime\":\"202109211800\",\"startDataTime\":\"202109211200\",\"endDataTime\":\"202109211800\"}",
+          "flightPropertyDomain": {},
+          "flightPropertyDomainJson": "{}",
+          "directionDoMain": {
+            "identifier": "9bf7a810-6724-40bb-8ffe-342d5253c4f7",
+            "targetUnit": "P234",
+            "formerUnit": "ZLXYACC;ZLLLACC",
+            "behindUnit": "ZHHHACC;ZUUUACC;ZGGGACC",
+            "arrAp": "ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW"
+          },
+          "directionDoMainJson": "{\"identifier\":\"9bf7a810-6724-40bb-8ffe-342d5253c4f7\",\"targetUnit\":\"P234\",\"formerUnit\":\"ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZHHHACC;ZUUUACC;ZGGGACC\",\"arrAp\":\"ZSAM;ZSFZ;ZSLO;ZSQZ;ZSSM;ZSWY;ZSHC;ZSJU;ZSLQ;ZSNB;ZSWZ;ZSYW;ZSZS;ZGOW\"}",
+          "flowControlMeasure": {
+            "restrictionMode": "MIT",
+            "restrictionMITValue": "75",
+            "restrictionMITValueUnit": "D",
+            "restrictionMITTimeValue": "6",
+            "distanceToTime": "14"
+          },
+          "flowControlMeasureJson": "{\"restrictionMode\":\"MIT\",\"restrictionMITValue\":\"75\",\"restrictionMITValueUnit\":\"D\",\"restrictionMITTimeValue\":\"6\",\"distanceToTime\":\"14\"}",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL",
+          "tacticMode": "100"
+        },
+        "basicTacticInfoReason": "SCHEDULE",
+        "operation": "PUBLISH",
+        "relationAp": "ZLXN,ZLIC,ZLLL,ZLXY",
+        "relationArea": "ZLLLACC,ZLXYACC,ZLLLAP,ZLICAP,ZLXYAP",
+        "relationDataTimeStamp": "20210921180112",
+        "schemeVersion": "2.0",
+        "calStatus": "CALCULATED",
+        "tacticMode": "100",
+        "inputMethod": "SHORTCUT",
+        "tacticDirection": "NW_GZWH"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "RES_MIT_20210921221603R358_221718816R806",
+        "tacticName": "过MOPMA,VISIN点 去福建、浙江落地 150km一架",
+        "tacticOriginalSource": "ZLXYCTA",
+        "tacticPublishUnit": "ZL_REGION",
+        "tacticPublishUnitCH": "ZL_REGION",
+        "tacticStatus": "RUNNING",
+        "directionList": [
+          {
+            "identifier": "e04dcd6b-44a4-447c-9f8b-81e73e12cc27",
+            "targetUnit": "MOPMA;VISIN"
+          }
+        ],
+        "tacticTimeInfo": {
+          "publishTime": "202109212217",
+          "startTime": "202109220720",
+          "endTime": "202109222320",
+          "startCalculateTime": "20210921221700"
+        },
+        "tacticSource": "NTFM-ORIGINAL-200",
+        "tacticSourceId": "RES_MIT_20210921221603R358_221718816R806",
+        "basicFlowcontrol": {
+          "resgId": "PRE_20210921221334_221718816R806",
+          "ftmId": "RES_MIT_20210921221603R358_221718816R806",
+          "id": "RES_MIT_20210921221603R358_221718816R806",
+          "tacticId": "RES_MIT_20210921221603R358_221718816R806",
+          "flowControlName": "过MOPMA,VISIN点 去福建、浙江落地 150km一架",
+          "flowControlOriginalSource": "ZLXYCTA",
+          "flowControlPublishType": "FORWARDING",
+          "flowControlPublishUnit": "ZL_REGION",
+          "flowControlTargetUnit": "ZLLLCTA",
+          "flowControlReason": "流量(上海区管)",
+          "flowControlReasonNum": "12",
+          "flowControlTimeInfo": {
+            "publishTime": "202109212217",
+            "startTime": "202109220720",
+            "endTime": "202109222320",
+            "startCalculateTime": "20210921221700"
+          },
+          "directionDoMain": {
+            "identifier": "e04dcd6b-44a4-447c-9f8b-81e73e12cc27",
+            "targetUnit": "MOPMA;VISIN"
+          },
+          "flowControlMeasure": {
+            "id": "RES_MIT_20210921221603R358_221718816R806",
+            "restrictionMode": "MIT",
+            "restrictionRemark": "过MOPMA,VISIN点 去福建、浙江落地 150km一架",
+            "restrictionMITValue": "150",
+            "restrictionMITValueUnit": "D",
+            "restrictionMITTimeValue": "150"
+          }
+        },
+        "basicTacticInfoRemark": "上海区管",
+        "basicTacticInfoReason": "流量(上海区管)",
+        "basicTacticInfoReasonNum": "12",
+        "schemeVersion": "N/A",
+        "calStatus": "CALCULATED",
+        "tacticDirection": "OTHER"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "RES_MIT_6081ab6c-864c-4e5f-9e56-025b2fb94ee7",
+        "tacticName": "过P114,P341点 去ZULS落地 10分钟一架\n豁免：陕西、ZLQY起飞 过P114,P341点 去ZULS落地",
+        "tacticOriginalSource": "ZULSCTA",
+        "tacticPublishUnit": "ZL_REGION",
+        "tacticPublishUnitCH": "ZL_REGION",
+        "tacticStatus": "RUNNING",
+        "directionList": [
+          {
+            "identifier": "91f89f12-3c50-4b5c-bac7-db17af1e7352",
+            "targetUnit": "P114;P341"
+          }
+        ],
+        "tacticTimeInfo": {
+          "publishTime": "202109212034",
+          "startTime": "202109220700",
+          "endTime": "202109222359",
+          "startCalculateTime": "20210921203400"
+        },
+        "tacticSource": "NTFM-ORIGINAL-100",
+        "tacticSourceId": "RES_MIT_6081ab6c-864c-4e5f-9e56-025b2fb94ee7",
+        "basicFlowcontrol": {
+          "resgId": "PRE_20210921200635_200635375R127",
+          "ftmId": "RES_MIT_6081ab6c-864c-4e5f-9e56-025b2fb94ee7",
+          "id": "RES_MIT_6081ab6c-864c-4e5f-9e56-025b2fb94ee7",
+          "tacticId": "RES_MIT_6081ab6c-864c-4e5f-9e56-025b2fb94ee7",
+          "flowControlName": "过P114,P341点 去ZULS落地 10分钟一架\n豁免：陕西、ZLQY起飞 过P114,P341点 去ZULS落地",
+          "flowControlOriginalSource": "ZULSCTA",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlPublishUnit": "ZL_REGION",
+          "flowControlTargetUnit": "ZLLLCTA",
+          "flowControlReason": "流量",
+          "flowControlReasonNum": "12",
+          "flowControlTimeInfo": {
+            "publishTime": "202109212034",
+            "startTime": "202109220700",
+            "endTime": "202109222359",
+            "startCalculateTime": "20210921203400"
+          },
+          "directionDoMain": {
+            "identifier": "91f89f12-3c50-4b5c-bac7-db17af1e7352",
+            "targetUnit": "P114;P341"
+          },
+          "flowControlMeasure": {
+            "id": "RES_MIT_6081ab6c-864c-4e5f-9e56-025b2fb94ee7",
+            "restrictionMode": "MIT",
+            "restrictionRemark": "过P114,P341点 去ZULS落地 10分钟一架\n豁免：陕西、ZLQY起飞 过P114,P341点 去ZULS落地",
+            "restrictionMITValue": "10",
+            "restrictionMITValueUnit": "T",
+            "restrictionMITTimeValue": "10"
+          }
+        },
+        "basicTacticInfoReason": "流量",
+        "basicTacticInfoReasonNum": "12",
+        "schemeVersion": "N/A",
+        "calStatus": "CALCULATED",
+        "tacticDirection": "OTHER"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "RES_MIT_20210921221932R403_222049037R536",
+        "tacticName": "经 P234点 去福建、浙江、ZGOW落地 75公里一架\n豁免：由ZUGU、ZBAL、ZBAR、ZBEN、ZBUH、ZLDH、ZLDL、ZLGL、ZLGM、ZLGY、ZLHB、ZLHX、ZLIC、ZLJC、ZLJQ、ZLLL、ZLLN、ZLTS、ZLXH、ZLXN、ZLYS、ZLZW、ZLZY起飞 经 P234点 ",
+        "tacticOriginalSource": "ZGGGCTA",
+        "tacticPublishUnit": "ZL_REGION",
+        "tacticPublishUnitCH": "ZL_REGION",
+        "tacticStatus": "RUNNING",
+        "directionList": [
+          {
+            "identifier": "b6cf66d2-0fe5-4294-8b65-894344743ab3",
+            "targetUnit": "P234"
+          }
+        ],
+        "tacticTimeInfo": {
+          "publishTime": "202109212221",
+          "startTime": "202109220800",
+          "endTime": "202109222359",
+          "startCalculateTime": "20210921222100"
+        },
+        "tacticSource": "NTFM-ORIGINAL-100",
+        "tacticSourceId": "RES_MIT_20210921221932R403_222049037R536",
+        "basicFlowcontrol": {
+          "resgId": "PRE_20210921221806_222049037R536",
+          "ftmId": "RES_MIT_20210921221932R403_222049037R536",
+          "id": "RES_MIT_20210921221932R403_222049037R536",
+          "tacticId": "RES_MIT_20210921221932R403_222049037R536",
+          "flowControlName": "经 P234点 去福建、浙江、ZGOW落地 75公里一架\n豁免：由ZUGU、ZBAL、ZBAR、ZBEN、ZBUH、ZLDH、ZLDL、ZLGL、ZLGM、ZLGY、ZLHB、ZLHX、ZLIC、ZLJC、ZLJQ、ZLLL、ZLLN、ZLTS、ZLXH、ZLXN、ZLYS、ZLZW、ZLZY起飞 经 P234点 ",
+          "flowControlOriginalSource": "ZGGGCTA",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlPublishUnit": "ZL_REGION",
+          "flowControlTargetUnit": "ZLXYCTA",
+          "flowControlReason": "流量(上海区管)",
+          "flowControlReasonNum": "12",
+          "flowControlTimeInfo": {
+            "publishTime": "202109212221",
+            "startTime": "202109220800",
+            "endTime": "202109222359",
+            "startCalculateTime": "20210921222100"
+          },
+          "directionDoMain": {
+            "identifier": "b6cf66d2-0fe5-4294-8b65-894344743ab3",
+            "targetUnit": "P234"
+          },
+          "flowControlMeasure": {
+            "id": "RES_MIT_20210921221932R403_222049037R536",
+            "restrictionMode": "MIT",
+            "restrictionRemark": "经 P234点 去福建、浙江、ZGOW落地 75公里一架\n豁免：由ZUGU、ZBAL、ZBAR、ZBEN、ZBUH、ZLDH、ZLDL、ZLGL、ZLGM、ZLGY、ZLHB、ZLHX、ZLIC、ZLJC、ZLJQ、ZLLL、ZLLN、ZLTS、ZLXH、ZLXN、ZLYS、ZLZW、ZLZY起飞 经 P234点 ",
+            "restrictionMITValue": "75",
+            "restrictionMITValueUnit": "D",
+            "restrictionMITTimeValue": "75"
+          }
+        },
+        "basicTacticInfoRemark": "上海区管",
+        "basicTacticInfoReason": "流量(上海区管)",
+        "basicTacticInfoReasonNum": "12",
+        "schemeVersion": "N/A",
+        "calStatus": "CALCULATED",
+        "tacticDirection": "OTHER"
+      },
+      "hourlyCapacity": {}
+    },
+    {
+      "basicTacticInfo": {
+        "id": "RCES_MIT_208copy",
+        "tacticName": "过JIG,MOPMA,P29,P421点 去福建、浙江、ZGOW落地 150km一架",
+        "tacticOriginalSource": "ZLXYCTA",
+        "tacticPublishUnit": "ZL_REGION",
+        "tacticPublishUnitCH": "ZL_REGION",
+        "tacticStatus": "RUNNING",
+        "directionList": [
+          {
+            "identifier": "9e2cd524-be63-4fef-8ad3-824f0b876c42",
+            "targetUnit": "JIG;MOPMA;P29;P421"
+          }
+        ],
+        "tacticTimeInfo": {
+          "publishTime": "202109212034",
+          "startTime": "202109220710",
+          "endTime": "202109222320",
+          "startCalculateTime": "20210921203400"
+        },
+        "tacticSource": "NTFM-ORIGINAL-100",
+        "tacticSourceId": "RCES_MIT_208copy",
+        "basicFlowcontrol": {
+          "resgId": "PRE_20210921200651_200651043R826",
+          "ftmId": "RCES_MIT_208copy",
+          "id": "RCES_MIT_208copy",
+          "tacticId": "RCES_MIT_208copy",
+          "flowControlName": "过JIG,MOPMA,P29,P421点 去福建、浙江、ZGOW落地 150km一架",
+          "flowControlOriginalSource": "ZLXYCTA",
+          "flowControlPublishType": "ORIGINAL",
+          "flowControlPublishUnit": "ZL_REGION",
+          "flowControlTargetUnit": "ZLLLCTA",
+          "flowControlReason": "流量",
+          "flowControlReasonNum": "12",
+          "flowControlTimeInfo": {
+            "publishTime": "202109212034",
+            "startTime": "202109220710",
+            "endTime": "202109222320",
+            "startCalculateTime": "20210921203400"
+          },
+          "directionDoMain": {
+            "identifier": "9e2cd524-be63-4fef-8ad3-824f0b876c42",
+            "targetUnit": "JIG;MOPMA;P29;P421"
+          },
+          "flowControlMeasure": {
+            "id": "RCES_MIT_208copy",
+            "restrictionMode": "MIT",
+            "restrictionRemark": "过JIG,MOPMA,P29,P421点 去福建、浙江、ZGOW落地 150km一架",
+            "restrictionMITValue": "150",
+            "restrictionMITValueUnit": "D",
+            "restrictionMITTimeValue": "150"
+          }
+        },
+        "basicTacticInfoReason": "流量",
+        "basicTacticInfoReasonNum": "12",
+        "schemeVersion": "N/A",
+        "calStatus": "CALCULATED",
+        "tacticDirection": "OTHER"
+      },
+      "hourlyCapacity": {}
+    }
+  ]
+}

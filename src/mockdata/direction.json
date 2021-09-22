@@ -1,0 +1,14 @@
+{
+  "generateTime": "202109220943",
+  "status": 200,
+  "result": {
+      "NW_BHT": "北京/呼/太",
+      "NW_BJZZ": "北京/郑州",
+      "NW_CDCQ": "重庆/成都",
+      "NW_GZWH": "广州/武汉",
+      "NW_LZ": "兰州",
+      "NW_ZULS": "拉萨",
+      "NW_ZWWW": "新疆",
+      "OTHER": "其他"
+  }
+}

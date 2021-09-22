@@ -8,7 +8,7 @@ import {
   saveUserInfo,
   exitSystem,
   testInternet,
-  getVersion,
+  getVersion
 } from "utils/client";
 import { NWGlobal } from "utils/global";
 
@@ -16,7 +16,7 @@ const msgStyle = {
   top: "110px",
   // left: '-55px',
   position: "relative",
-  fontSize: "1.5rem",
+  fontSize: "1.5rem"
 };
 
 function LoginPage(props) {
@@ -51,20 +51,21 @@ function LoginPage(props) {
       //校验用户名密码是否正确
       let params = {
         username: username,
-        cipher: cipher,
+        cipher: cipher
       };
-      const verifyObj = await requestGet2({
-        url: ReqUrls.loginVerifyUrl,
-        
-        params,
-      });
+      // const verifyObj = await requestGet2({
+      //   // url: ReqUrls.loginVerifyUrl,
+      //   url: "../../mockdata/userInfo.json",
+      //   params
+      // });
+      // console.log(verifyObj);
       // alert("校验用户名密码接口请求结束");
       params["macaddress"] = "4C-CC-6A-C9-BA-15";
       params["clientVersion"] = "9.9.9";
       //登录请求
       const data = await requestGet2({
         url: ReqUrls.loginUrl,
-        params,
+        params
       });
       // alert("登录接口请求结束");
       const { status, user = {}, token = "" } = data;
@@ -85,10 +86,11 @@ function LoginPage(props) {
         message.success({
           content: "登录成功",
           duration: 5,
-          style: msgStyle,
+          style: msgStyle
         });
         // alert("登录成功");
         saveUserInfo(username, password, value + "");
+        window.open("./#/clearance/web", "_self");
       } else if (pageType === "web") {
         window.open("./#/clearance/web", "_self");
       }
@@ -100,7 +102,7 @@ function LoginPage(props) {
       message.error({
         content: msg,
         duration: 10,
-        style: msgStyle,
+        style: msgStyle
       });
       setLoading(false);
     }
@@ -121,7 +123,7 @@ function LoginPage(props) {
         systemProgram,
         airports,
         description,
-        deiceGroupName,
+        deiceGroupName
       } = res.user;
       // 用户权限
       const { allAuthority } = res;
@@ -132,7 +134,7 @@ function LoginPage(props) {
         allAuthority, // 用户权限
         airports, // 用户机场
         description, // 用户中文名称
-        deiceGroupName, // 除冰分组
+        deiceGroupName // 除冰分组
       };
       // 更新用户信息
       updateUserInfo(params);
@@ -152,7 +154,7 @@ function LoginPage(props) {
     if (isValidVariable(username)) {
       if (username !== "") {
         form.setFieldsValue({
-          username,
+          username
         });
         //聚焦密码输入框
 

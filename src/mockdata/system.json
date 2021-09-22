@@ -1,0 +1,86 @@
+{
+  "generateTime": "202109220943",
+  "status": 200,
+  "uumaSystemList": [
+      {
+          "id": 5,
+          "systemType": "ZLXYCRS",
+          "systemName": "西安CRS",
+          "systemFullName": "西北地区协同放行（西安）",
+          "system": "CRS",
+          "filterRegion": "ZLXYACC;ZLLLACC;ZLXNAP;ZLICAP",
+          "region": "ZLXY",
+          "logo": "DEFAULT"
+      },
+      {
+          "id": 6,
+          "systemType": "ZLLLCRS",
+          "systemName": "兰州CRS",
+          "systemFullName": "西北地区协同放行（兰州）",
+          "system": "CRS",
+          "filterRegion": "ZLLLACC",
+          "region": "ZLLL",
+          "logo": "CONCERN"
+      },
+      {
+          "id": 8,
+          "systemType": "ZLICCRS",
+          "systemName": "银川CRS",
+          "systemFullName": "西北地区协同放行（宁夏分局）",
+          "system": "CRS",
+          "filterRegion": "ZLICAP",
+          "region": "ZLIC",
+          "logo": "CONCERN"
+      },
+      {
+          "id": 7,
+          "systemType": "ZLXNCRS",
+          "systemName": "西宁CRS",
+          "systemFullName": "西北地区协同放行（青海分局）",
+          "system": "CRS",
+          "filterRegion": "ZLXNAP",
+          "region": "ZLXN",
+          "logo": "CONCERN"
+      },
+      {
+          "id": 1,
+          "systemType": "ZLXYCDM",
+          "systemName": "西安CDM",
+          "systemFullName": "西安咸阳机场协同放行",
+          "system": "CDM",
+          "filterDepap": "ZLXY",
+          "region": "ZLXY",
+          "logo": "CONCERN"
+      },
+      {
+          "id": 2,
+          "systemType": "ZLLLCDM",
+          "systemName": "兰州CDM",
+          "systemFullName": "兰州中川机场协同放行",
+          "system": "CDM",
+          "filterDepap": "ZLLL",
+          "region": "ZLLL",
+          "logo": "CONCERN"
+      },
+      {
+          "id": 4,
+          "systemType": "ZLICCDM",
+          "systemName": "银川CDM",
+          "systemFullName": "银川河东机场协同放行",
+          "system": "CDM",
+          "filterDepap": "ZLIC",
+          "region": "ZLIC",
+          "logo": "CONCERN"
+      },
+      {
+          "id": 3,
+          "systemType": "ZLXNCDM",
+          "systemName": "西宁CDM",
+          "systemFullName": "西宁曹家堡机场协同放行",
+          "system": "CDM",
+          "filterDepap": "ZLXN",
+          "region": "ZLXN",
+          "logo": "CONCERN"
+      }
+  ]
+}

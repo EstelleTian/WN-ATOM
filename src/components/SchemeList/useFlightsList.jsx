@@ -81,7 +81,8 @@ function useFlightsList({
           return;
         }
         const userId = systemPage.user.id || "";
-        let url = ReqUrls.flightsDataNoIdUrl + userId;
+        // let url = ReqUrls.flightsDataNoIdUrl + userId;
+        let url = ReqUrls.flightsDataNoIdUrl;
         let params = {
           startTime: "",
           endTime: "",

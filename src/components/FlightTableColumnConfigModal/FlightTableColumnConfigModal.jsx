@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2021-03-04 16:39:47
- * @LastEditTime: 2021-07-20 20:28:36
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-09-22 09:48:40
+ * @LastEditors: liutianjiao
  * @Description: 航班协调-按钮+模态框
- * @FilePath: \WN-ATOM\src\components\NavBar\TodoNav.jsx
+ * @FilePath: \WN-ATOM\src\components\FlightTableColumnConfigModal\FlightTableColumnConfigModal.jsx
  */
 import React, {
   Fragment,
@@ -52,10 +52,12 @@ function FlightTableColumnConfigModal({ systemPage = {}, columnConfig }) {
       const columnDataStr = JSON.stringify(columnData);
       let operation = { ...requestData, value: columnDataStr };
       console.log(operation);
-      const url =
-        ReqUrls.flightTableColumnConfigUrl +
-        "/updateUserPropertyConfig?userId=" +
-        userId;
+      // const url =
+      //   ReqUrls.flightTableColumnConfigUrl +
+      //   "/updateUserPropertyConfig?userId=" +
+      //   userId;
+        const url =
+        ReqUrls.flightTableColumnConfigUrl;
       const data = await request2({
         url,
         method: "POST",

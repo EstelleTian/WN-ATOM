@@ -1,0 +1,1980 @@
+{
+  "generateTime": "202109220922",
+  "status": 200,
+  "user": {
+      "id": 100,
+      "username": "zlxyflwdev",
+      "password": "17fb23640c0e98fa643861e16cd2bfc9",
+      "roles": [
+          {
+              "id": 3,
+              "name": "ZLXY_FLW",
+              "description": "西安流量室",
+              "authorities": [
+                  {
+                      "id": 92,
+                      "code": 13404,
+                      "name": "13404",
+                      "description": "申请取消豁免"
+                  },
+                  {
+                      "id": 180,
+                      "code": 17200,
+                      "name": "17200",
+                      "description": "消息-查看ADP详情"
+                  },
+                  {
+                      "id": 43,
+                      "code": 15504,
+                      "name": "programme_monitoring",
+                      "description": "发布流控"
+                  },
+                  {
+                      "id": 154,
+                      "code": 12518,
+                      "name": "ruway_navigation ",
+                      "description": "跑道配置"
+                  },
+                  {
+                      "id": 141,
+                      "code": 13453,
+                      "name": "13453",
+                      "description": "清除指定航班跑道"
+                  },
+                  {
+                      "id": 137,
+                      "code": 11505,
+                      "name": "11505",
+                      "description": "方案航图关联"
+                  },
+                  {
+                      "id": 125,
+                      "code": 13437,
+                      "name": "13437",
+                      "description": "申请撤销CTOT"
+                  },
+                  {
+                      "id": 108,
+                      "code": 13420,
+                      "name": "13420",
+                      "description": "批复入等待池"
+                  },
+                  {
+                      "id": 118,
+                      "code": 13430,
+                      "name": "13430",
+                      "description": "拒绝调整COBT"
+                  },
+                  {
+                      "id": 33,
+                      "code": 13301,
+                      "name": "ffixt_update",
+                      "description": "FFixT修改"
+                  },
+                  {
+                      "id": 116,
+                      "code": 13428,
+                      "name": "13428",
+                      "description": "申请调整COBT"
+                  },
+                  {
+                      "id": 170,
+                      "code": 12522,
+                      "name": "flight_exchange_navigation",
+                      "description": "时隙交换流程"
+                  },
+                  {
+                      "id": 129,
+                      "code": 13441,
+                      "name": "13441",
+                      "description": "批复调整FFixT"
+                  },
+                  {
+                      "id": 4,
+                      "code": 11401,
+                      "name": "programme_work",
+                      "description": "方案工作流"
+                  },
+                  {
+                      "id": 99,
+                      "code": 13411,
+                      "name": "13411",
+                      "description": "批复取消单流控豁免"
+                  },
+                  {
+                      "id": 2,
+                      "code": 11301,
+                      "name": "programme_update",
+                      "description": "方案修改"
+                  },
+                  {
+                      "id": 112,
+                      "code": 13424,
+                      "name": "13424",
+                      "description": "拒绝出等待池"
+                  },
+                  {
+                      "id": 111,
+                      "code": 13423,
+                      "name": "13423",
+                      "description": "批复出等待池"
+                  },
+                  {
+                      "id": 100,
+                      "code": 13412,
+                      "name": "13412",
+                      "description": "拒绝取消单流控豁免"
+                  },
+                  {
+                      "id": 176,
+                      "code": 17101,
+                      "name": "17101",
+                      "description": "ADP审批"
+                  },
+                  {
+                      "id": 35,
+                      "code": 13303,
+                      "name": "ctot_update",
+                      "description": "CTOT修改"
+                  },
+                  {
+                      "id": 6,
+                      "code": 11502,
+                      "name": "programme_decision",
+                      "description": "方案决策依据"
+                  },
+                  {
+                      "id": 16,
+                      "code": 12506,
+                      "name": "programme_list_navigation",
+                      "description": "方案列表"
+                  },
+                  {
+                      "id": 36,
+                      "code": 14101,
+                      "name": "capacity_release",
+                      "description": "容量发布"
+                  },
+                  {
+                      "id": 96,
+                      "code": 13408,
+                      "name": "13408",
+                      "description": "批复单流控豁免"
+                  },
+                  {
+                      "id": 127,
+                      "code": 13439,
+                      "name": "13439",
+                      "description": "拒绝撤销CTOT"
+                  },
+                  {
+                      "id": 91,
+                      "code": 13403,
+                      "name": "13403",
+                      "description": "拒绝豁免"
+                  },
+                  {
+                      "id": 128,
+                      "code": 13440,
+                      "name": "13440",
+                      "description": "申请调整FFixT"
+                  },
+                  {
+                      "id": 130,
+                      "code": 13442,
+                      "name": "13442",
+                      "description": "拒绝调整FFixT"
+                  },
+                  {
+                      "id": 151,
+                      "code": 12515,
+                      "name": "atom_receive",
+                      "description": "ATOM引接配置"
+                  },
+                  {
+                      "id": 7,
+                      "code": 11402,
+                      "name": "programme_approval",
+                      "description": "方案审批"
+                  },
+                  {
+                      "id": 136,
+                      "code": 13448,
+                      "name": "13448",
+                      "description": "拒绝时隙交换"
+                  },
+                  {
+                      "id": 8,
+                      "code": 11403,
+                      "name": "programme_recall",
+                      "description": "方案撤回"
+                  },
+                  {
+                      "id": 145,
+                      "code": 15510,
+                      "name": "statistical_analysis_monitoring",
+                      "description": "统计分析"
+                  },
+                  {
+                      "id": 171,
+                      "code": 12523,
+                      "name": "pos_navigation",
+                      "description": "备降可用停机位"
+                  },
+                  {
+                      "id": 22,
+                      "code": 12512,
+                      "name": "flight_query",
+                      "description": "航班查询"
+                  },
+                  {
+                      "id": 104,
+                      "code": 13416,
+                      "name": "13416",
+                      "description": "申请取消半数间隔"
+                  },
+                  {
+                      "id": 121,
+                      "code": 13433,
+                      "name": "13433",
+                      "description": "拒绝撤销COBT"
+                  },
+                  {
+                      "id": 23,
+                      "code": 12513,
+                      "name": "implement_kpi",
+                      "description": "执行KPI"
+                  },
+                  {
+                      "id": 139,
+                      "code": 13451,
+                      "name": "13451",
+                      "description": "清除指定停机位"
+                  },
+                  {
+                      "id": 46,
+                      "code": 15507,
+                      "name": "information_monitoring",
+                      "description": "消息中心"
+                  },
+                  {
+                      "id": 20,
+                      "code": 12510,
+                      "name": "default_flight_navigation",
+                      "description": "默认机场交通流"
+                  },
+                  {
+                      "id": 40,
+                      "code": 15501,
+                      "name": "overall_monitoring",
+                      "description": "总体监控"
+                  },
+                  {
+                      "id": 9,
+                      "code": 11503,
+                      "name": "programme_details",
+                      "description": "消息-查看流控详情"
+                  },
+                  {
+                      "id": 131,
+                      "code": 13443,
+                      "name": "13443",
+                      "description": "申请撤销FFixT"
+                  },
+                  {
+                      "id": 115,
+                      "code": 13427,
+                      "name": "13427",
+                      "description": "拒绝调整TOBT"
+                  },
+                  {
+                      "id": 17,
+                      "code": 12507,
+                      "name": "external_flow_navigation",
+                      "description": "外部流控列表"
+                  },
+                  {
+                      "id": 177,
+                      "code": 17102,
+                      "name": "17102",
+                      "description": "ADP撤回"
+                  },
+                  {
+                      "id": 150,
+                      "code": 12514,
+                      "name": "parameter_configuration_navigation",
+                      "description": "系统参数配置"
+                  },
+                  {
+                      "id": 41,
+                      "code": 15502,
+                      "name": "release_monitoring",
+                      "description": "放行监控"
+                  },
+                  {
+                      "id": 132,
+                      "code": 13444,
+                      "name": "13444",
+                      "description": "批复撤销FFixT"
+                  },
+                  {
+                      "id": 124,
+                      "code": 13436,
+                      "name": "13436",
+                      "description": "拒绝调整CTOT"
+                  },
+                  {
+                      "id": 3,
+                      "code": 11201,
+                      "name": "programme_terminated",
+                      "description": "方案终止"
+                  },
+                  {
+                      "id": 34,
+                      "code": 13302,
+                      "name": "cobt_update",
+                      "description": "COBT修改"
+                  },
+                  {
+                      "id": 123,
+                      "code": 13435,
+                      "name": "13435",
+                      "description": "批复调整CTOT"
+                  },
+                  {
+                      "id": 143,
+                      "code": 15508,
+                      "name": "operation_situation_monitoring",
+                      "description": "运行态势"
+                  },
+                  {
+                      "id": 15,
+                      "code": 12505,
+                      "name": "agents_list_navigation",
+                      "description": "待办事项"
+                  },
+                  {
+                      "id": 19,
+                      "code": 12509,
+                      "name": "follow_flight_navigation",
+                      "description": "关注机场交通流"
+                  },
+                  {
+                      "id": 101,
+                      "code": 13413,
+                      "name": "13413",
+                      "description": "申请半数间隔"
+                  },
+                  {
+                      "id": 110,
+                      "code": 13422,
+                      "name": "13422",
+                      "description": "申请出等待池"
+                  },
+                  {
+                      "id": 182,
+                      "code": 17301,
+                      "name": "17301",
+                      "description": "我的已办-ADP已办"
+                  },
+                  {
+                      "id": 144,
+                      "code": 15509,
+                      "name": "sector_management_monitoring",
+                      "description": "扇区管理"
+                  },
+                  {
+                      "id": 156,
+                      "code": 11511,
+                      "name": "programme_flight_details",
+                      "description": "消息-航班详情"
+                  },
+                  {
+                      "id": 120,
+                      "code": 13432,
+                      "name": "13432",
+                      "description": "批复撤销COBT"
+                  },
+                  {
+                      "id": 155,
+                      "code": 11510,
+                      "name": "programme_cap",
+                      "description": "消息-查看容量管理 "
+                  },
+                  {
+                      "id": 153,
+                      "code": 12517,
+                      "name": "flight_query_navigation ",
+                      "description": "放行监控航班略情"
+                  },
+                  {
+                      "id": 183,
+                      "code": 15517,
+                      "name": "feafca_navigation",
+                      "description": "feafca管理功能菜单"
+                  },
+                  {
+                      "id": 45,
+                      "code": 15506,
+                      "name": "agency_monitoring",
+                      "description": "代办事项"
+                  },
+                  {
+                      "id": 38,
+                      "code": 14401,
+                      "name": "capacity_withdraw",
+                      "description": "容量撤回"
+                  },
+                  {
+                      "id": 133,
+                      "code": 13445,
+                      "name": "13445",
+                      "description": "拒绝撤销FFixT"
+                  },
+                  {
+                      "id": 157,
+                      "code": 11512,
+                      "name": "programme_flight",
+                      "description": "消息-航班定位"
+                  },
+                  {
+                      "id": 158,
+                      "code": 11513,
+                      "name": "programme_mdrs",
+                      "description": "消息-查看MDRS详情"
+                  },
+                  {
+                      "id": 134,
+                      "code": 13446,
+                      "name": "13446",
+                      "description": "申请时隙交换"
+                  },
+                  {
+                      "id": 107,
+                      "code": 13419,
+                      "name": "13419",
+                      "description": "申请入等待池"
+                  },
+                  {
+                      "id": 37,
+                      "code": 14302,
+                      "name": "capacity_update",
+                      "description": "容量修改"
+                  },
+                  {
+                      "id": 113,
+                      "code": 13425,
+                      "name": "13425",
+                      "description": "申请调整TOBT"
+                  },
+                  {
+                      "id": 179,
+                      "code": 17104,
+                      "name": "17104",
+                      "description": "ADP终止"
+                  },
+                  {
+                      "id": 173,
+                      "code": 12525,
+                      "name": "notam_navigation",
+                      "description": "数据NOTAM管理"
+                  },
+                  {
+                      "id": 10,
+                      "code": 11504,
+                      "name": "programme_capacity_flow",
+                      "description": "消息-查看容流监控"
+                  },
+                  {
+                      "id": 114,
+                      "code": 13426,
+                      "name": "13426",
+                      "description": "批复调整TOBT"
+                  },
+                  {
+                      "id": 181,
+                      "code": 17300,
+                      "name": "17300",
+                      "description": "我的待办-ADP主办"
+                  },
+                  {
+                      "id": 106,
+                      "code": 13418,
+                      "name": "13418",
+                      "description": "拒绝取消半数间隔"
+                  },
+                  {
+                      "id": 103,
+                      "code": 13415,
+                      "name": "13415",
+                      "description": "拒绝半数间隔"
+                  },
+                  {
+                      "id": 172,
+                      "code": 12524,
+                      "name": "contribution_integrity_navigation",
+                      "description": "贡献与诚信管理"
+                  },
+                  {
+                      "id": 105,
+                      "code": 13417,
+                      "name": "13417",
+                      "description": "批复取消半数间隔"
+                  },
+                  {
+                      "id": 89,
+                      "code": 13401,
+                      "name": "13401",
+                      "description": "申请豁免"
+                  },
+                  {
+                      "id": 148,
+                      "code": 15513,
+                      "name": "user_online_monitoring",
+                      "description": "在线用户"
+                  },
+                  {
+                      "id": 149,
+                      "code": 15514,
+                      "name": "user_monitoring",
+                      "description": "用户信息"
+                  },
+                  {
+                      "id": 135,
+                      "code": 13447,
+                      "name": "13447",
+                      "description": "批复时隙交换"
+                  },
+                  {
+                      "id": 97,
+                      "code": 13409,
+                      "name": "13409",
+                      "description": "拒绝单流控豁免"
+                  },
+                  {
+                      "id": 102,
+                      "code": 13414,
+                      "name": "13414",
+                      "description": "批复半数间隔"
+                  },
+                  {
+                      "id": 175,
+                      "code": 17100,
+                      "name": "17100",
+                      "description": "ADP提交"
+                  },
+                  {
+                      "id": 142,
+                      "code": 13454,
+                      "name": "13454",
+                      "description": "指定前序航班"
+                  },
+                  {
+                      "id": 21,
+                      "code": 12511,
+                      "name": "my_application_navigation",
+                      "description": "我的申请"
+                  },
+                  {
+                      "id": 147,
+                      "code": 15512,
+                      "name": "flight_plan_query_monitoring",
+                      "description": "飞行计划查询"
+                  },
+                  {
+                      "id": 174,
+                      "code": 15515,
+                      "name": "15515",
+                      "description": "战略管理"
+                  },
+                  {
+                      "id": 178,
+                      "code": 17103,
+                      "name": "17103",
+                      "description": "ADP编辑"
+                  },
+                  {
+                      "id": 39,
+                      "code": 14402,
+                      "name": "capacity_approve",
+                      "description": "容量审批"
+                  },
+                  {
+                      "id": 94,
+                      "code": 13406,
+                      "name": "13406",
+                      "description": "拒绝取消豁免"
+                  },
+                  {
+                      "id": 93,
+                      "code": 13405,
+                      "name": "13405",
+                      "description": "批复取消豁免"
+                  },
+                  {
+                      "id": 109,
+                      "code": 13421,
+                      "name": "13421",
+                      "description": "拒绝入等待池"
+                  },
+                  {
+                      "id": 126,
+                      "code": 13438,
+                      "name": "13438",
+                      "description": "批复撤销CTOT"
+                  },
+                  {
+                      "id": 152,
+                      "code": 12516,
+                      "name": "ntfm_receive",
+                      "description": "NTFM引接配置"
+                  },
+                  {
+                      "id": 5,
+                      "code": 11501,
+                      "name": "programme_simulation",
+                      "description": "方案模拟"
+                  },
+                  {
+                      "id": 138,
+                      "code": 13450,
+                      "name": "13450",
+                      "description": "指定停机位"
+                  },
+                  {
+                      "id": 117,
+                      "code": 13429,
+                      "name": "13429",
+                      "description": "批复调整COBT"
+                  },
+                  {
+                      "id": 44,
+                      "code": 15505,
+                      "name": "situation_monitoring",
+                      "description": "态势监控"
+                  },
+                  {
+                      "id": 90,
+                      "code": 13402,
+                      "name": "13402",
+                      "description": "批复豁免"
+                  },
+                  {
+                      "id": 122,
+                      "code": 13434,
+                      "name": "13434",
+                      "description": "申请调整CTOT"
+                  },
+                  {
+                      "id": 146,
+                      "code": 15511,
+                      "name": "pre_tactical_management_monitoring",
+                      "description": "预战术管理"
+                  },
+                  {
+                      "id": 98,
+                      "code": 13410,
+                      "name": "13410",
+                      "description": "申请取消单流控豁免"
+                  },
+                  {
+                      "id": 119,
+                      "code": 13431,
+                      "name": "13431",
+                      "description": "申请撤销COBT"
+                  },
+                  {
+                      "id": 95,
+                      "code": 13407,
+                      "name": "13407",
+                      "description": "申请单流控豁免"
+                  },
+                  {
+                      "id": 42,
+                      "code": 15503,
+                      "name": "capacity_monitoring",
+                      "description": "容流监控"
+                  },
+                  {
+                      "id": 1,
+                      "code": 11101,
+                      "name": "programme_publish",
+                      "description": "方案发布"
+                  },
+                  {
+                      "id": 140,
+                      "code": 13452,
+                      "name": "13452",
+                      "description": "指定航班跑道"
+                  }
+              ]
+          }
+      ],
+      "airports": "ALL/NONE",
+      "carriers": "ALL/NONE",
+      "descriptionCN": "西安流量室-开发",
+      "descriptionEN": "ZLXY_FLW",
+      "region": "ZLXY",
+      "concernTactic": "ALL",
+      "concernTraffic": "{\"identifier\":null,\"targetUnit\":\"ZLXY\",\"formerUnit\":null,\"behindUnit\":null,\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"comments1\":\"西安CDM\",\"comments2\":\"zlxyflw1\",\"comments3\":null,\"comments4\":\"pageShow:true\",\"depAp\":\"ZLXY\",\"arrAp\":null};{\"identifier\":null,\"targetUnit\":\"ZLLL\",\"formerUnit\":null,\"behindUnit\":null,\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"comments1\":\"兰州CDM\",\"comments2\":\"zlxyflw2\",\"comments3\":null,\"comments4\":\"pageShow:true\",\"depAp\":\"ZLLL\",\"arrAp\":null};{\"identifier\":null,\"targetUnit\":\"ZLIC\",\"formerUnit\":null,\"behindUnit\":null,\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"comments1\":\"银川CDM\",\"comments2\":\"zlxyflw3\",\"comments3\":null,\"comments4\":\"pageShow:true\",\"depAp\":\"ZLIC\",\"arrAp\":null};{\"identifier\":null,\"targetUnit\":\"ZLXN\",\"formerUnit\":null,\"behindUnit\":null,\"exemptFormerUnit\":null,\"exemptBehindUnit\":null,\"highLimit\":null,\"highLimitIncluded\":null,\"lowLimit\":null,\"lowLimitIncluded\":null,\"useHeight\":null,\"exemptHeight\":null,\"comments1\":\"西宁CDM\",\"comments2\":\"zlxyflw4\",\"comments3\":null,\"comments4\":\"pageShow:true\",\"depAp\":\"ZLXN\",\"arrAp\":null}",
+      "secondaryConfigs": [],
+      "unit": "ZLXY_FLW",
+      "unitCn": "西安流量室",
+      "capacityApply": "ZLXY,ZLXYAP,ZLXYACC",
+      "authorityRule": "{\"flight\":{\"level\":\"1\",\"airport\":\"ZLXY,ZLAK,ZLHZ,ZLQY,ZLYA,ZLYL/NONE\",\"carries\":\"ALL/NONE\"}}",
+      "defaulSystem": "ZLXYCRS",
+      "concernSystem": "ZLLLCRS;ZLICCRS;ZLXNCRS;ZLXYCDM;ZLLLCDM;ZLICCDM;ZLXNCDM",
+      "groups": []
+  },
+  "token": "ba6a005f-0320-4638-825f-24474923d695-zlxyflwdev",
+  "area": "ZLXY",
+  "serverIP": "192.168.210.120:81",
+  "urlMap": {
+      "url.flowprediction.accSectorFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector/{accSectorEnName}/{startTime}/{endTime}",
+      "url.nextday.pretactical.overall.scenario": "http://[0]/flow-pre-tactical-rest/overall/pre/{scenarioId}",
+      "url.nextday.capacity.schedule.area.scenario": "http://[0]/flow-pre-tactical-rest/capacity/schedule/area/{areaName}/{scenarioId}",
+      "url.flowprediction.pointFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/point/v1/{firId}/{enname}/{startTime}/{endTime}",
+      "url.nextday.adp.retrieve.process": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/process/{adpId}/{userName}",
+      "url.flowprediction.currentAccSectorFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector/{accSectorEnName}",
+      "url.history.flowprediction.combinedAccSectorFlowPrediction": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/accsector_combined/accSectorEnNames/{startTime}/{endTime}",
+      "url.rehearsal.capacity.dynamic.threshold": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/threshold",
+      "url.refly.flight.details.query.info": "http://[0]/refly-flight-server/refly/flight/details/info/{executeDate}/{arrap}",
+      "url.feafca.updates": "http://[0]/flow-feafca-rest/feafcas",
+      "url.flowprediction.searchTrafficFlowWithDirSnapshot": "http://[0]/traffic-flowprediction-server/trafficflow/v1/snapshot/{traffics}",
+      "url.refly.flight.flights.query.info": "http://[0]/refly-flight-server/refly/flight/filghts/info/{executeDate}/{arrap}\n",
+      "url.key.flowweather.latest.aes.stream": "http://[0]/flow-weather-base-rest-server/flow-weather-data/img/latest/aes",
+      "url.nextday.adp.terminated": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/terminated/{adpId}/{userName}",
+      "url.history.flowprediction.accSectorFlowPrediction": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/accsector/{accSectorEnName}/{startTime}/{endTime}",
+      "url.flowprediction.currentFlightAppFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/flight/app",
+      "url.flowprediction.routeFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/route/v1/{routeName}/{startTime}/{endTime}",
+      "url.nextday.flowprediction.accSectorFlowPrediction": "http://[0]/flow-pre-tactical-rest/flowprediction/area/accsector/{airport}/{startTime}/{endTime}",
+      "url.retrieveDataById": "http://[0]/hydrogen-flight-plan-server/flightPlan/findFmeById/{id}/{startTime}/{endTime}",
+      "url.feafca.name": "http://[0]/flow-feafca-rest/feafcas/name/{name}",
+      "url.all.refly.flight.flights.details.query.info": "http://[0]/refly-flight-server/refly/flight/filghts/details/info/{executeDate}",
+      "url.template.user.retrieve": "http://[0]/user-template-rest/template/user/{username}/{templatename}/{templatetype}",
+      "url.flight.query.flightid": "http://[0]/hydrogen-flight-plan-server/flightPlan/{flightid}/{startTime}/{endTime}",
+      "url.rehearsal.capacity.dynamic.area": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/area/{areaName}",
+      "url.template.user.retrieveByUserWithoutValue": "http://[0]/user-template-rest/template/user/withoutvalue/{username}",
+      "url.flowprediction.currentCombinedAccSectorFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector_combined/accSectorEnNames",
+      "url.capacity.dynamic.point.client": "http://[0]/flow-capacity-rest/capacity/dynamic/point/{firId}/{pointName}/{date}",
+      "url.flowprediction.currentPointFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/point/v1/{firId}/{enname}",
+      "url.scheme.assembly.current.kpi.schemeId": "http://[0]/scheme-assembly/v1/kpi/current/{id}",
+      "url.template.user.one": "http://[0]/user-template-rest/template/user/one/{id}",
+      "url.template.user.withobject": "http://[0]/user-template-rest/template/user/withobject",
+      "url.flowprediction.trafficFlowConstantWithDIrByIds": "http://[0]/trafficflow/v1/constant/save/{traffics}",
+      "url.flowprediction.currentFeaFcaFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/feafca/{feafcaId}",
+      "url.rehearsal.capacity.static.airport": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/airport/{airportName}",
+      "url.nextday.capacity.dynamic.area.scenario.history": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/area/{areaName}/{scenarioId}/{targetDate}",
+      "url.nextday.pretactical.restriction.scenario.date": "http://[0]/flow-pre-tactical-rest/restriction/pre/{scenarioId}/{targetDate}",
+      "url.history.flowprediction.pureAccSectorFlowPrediction": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/accsector_pure/{accSectorEnName}/{startTime}/{endTime}",
+      "url.schemeFlow.reback": "http://[0]/scheme-flow-server/simulationTactics/reback/{userName}/{schemeFlowId}",
+      "url.schemeFlow.retrieveId": "http://[0]/scheme-flow-server/simulationTactics/id/{userName}/{schemeFlowId}",
+      "url.nextday.flight.base.data.details": "http://[0]/flow-pre-tactical-rest/flight/base/data/details/{id}",
+      "url.flowprediction.currentFlightAccSectorFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/flight/accSector",
+      "url.flowprediction.combinedAccSectorFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector_combined/accSectorEnNames/{startTime}/{endTime}",
+      "url.template.user.retrieveByUserAndGroupNameWithoutValue": "http://[0]/atmm-atmb-server/template/user/group/withoutvalue/{username}",
+      "url.scheme.information.filter": "http://[0]/scheme-flight-calculation-server/evaluation/relation/filter/{startTime}/{endTime}",
+      "url.flowprediction.multiCustomRoutePointsFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/route/v1/multi/custom/points/{startTime}/{endTime}",
+      "url.flowprediction.currentAppFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector/{accSectorEnName}",
+      "url.flowprediction.airportFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/airport/v1/{airport}/{startTime}/{endTime}",
+      "url.flight.divert.retrieveControlDirection": "http://[0]/flight-reroute-server/reroute/divert/{startTime}/{endTime}",
+      "url.rehearsal.capacity.dynamic.threshold.airport": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/threshold/airport/{airportName}",
+      "url.findSchemeExemptClientRest": "http://[0]/findSchemeExempt/{trafficId}",
+      "url.template.user.more.delete": "http://[0]/user-template-rest/template/user/more/deletion",
+      "url.all.refly.flight.flights.query.info": "http://[0]/refly-flight-server/refly/flight/filghts/info/{executeDate}",
+      "url.flight.hovering.statistic.qurey.airport.date": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/airportDateTimeFlight/{queryTime}",
+      "url.flight.hovering.statistic": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/altitudetimes",
+      "url.flowprediction.currentFlightAppSectorFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/flight/appSector",
+      "url.template.user.retrieveByUserAndTypeWithoutValue": "http://[0]/user-template-rest/template/user/withoutvalue/{username}/{templatetype}",
+      "url.flowprediction.currentAccFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/acc/{accEnName}",
+      "url.flowprediction.currentDirectionFlowPrediction": "http://[0]/traffic-flowprediction-server/traffice/flow/v1/{startTime}/{endTime}",
+      "url.flight.hovering.statistic.qurey.airport.date.airport": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/airportDateTimeAirportFlight/{queryTime}/{airport}",
+      "url.refly.flight.hour.details.query.info": "http://[0]/refly-flight-server/refly/flight/details/info/{executeDate}/{arrap}/{hour}",
+      "url.flowprediction.accFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/acc/{accEnName}/{startTime}/{endTime}",
+      "url.rehearsal.capacity.dynamic": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic",
+      "url.flowprediction.currentFlightRouteFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/flight/route",
+      "url.schemeFlow.archive": "http://[0]/scheme-flow-archive/archive/findSchemeArchive/{schemeId}",
+      "url.rehearsal.capacity.dynamic.airport": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/airport/{airportName}",
+      "url.capacity.static": "http://[0]/flow-capacity-rest/capacity/static/{elementName}/{elementType}",
+      "url.schemeFlow.terminate": "http://[0]/scheme-flow-server/simulationTactics/terminate/{userName}/{schemeFlowId}",
+      "url.flowprediction.pureAccSectorFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector_pure/{accSectorEnName}/{startTime}/{endTime}",
+      "url.flowprediction.currentMultiCustomRoutePointsFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/route/v1/multi/custom/points",
+      "url.flight.fme.query": "http://[0]/hydrogen-flight-plan-server/flightPlan/fme",
+      "url.template.user.retrieveUserTemplateByType": "http://[0]/atmm-atmb-server/template/user/group/{username}/{templatetype}",
+      "url.nextday.adp.retrieve.id": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/retrieve/{adpId}",
+      "url.capactity.static.point": "http://[0]/flow-capacity-rest/capacity/static/point/{firId}/{pointName}",
+      "url.capacity.dynamic.route.client": "http://[0]/flow-capacity-rest/capacity/dynamic/route/{routeName}/{date}",
+      "url.findRetrieveAllDepRest": "http://[0]/hydrogen-flight-plan-server/findRetrieveAllDepRest",
+      "url.work.flow": "http://[0]/cdm-workflow-server/workflow/taskCount/{user}",
+      "url.nextday.capacity.dynamic": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/update",
+      "url.flightPlan.query": "http://[0]/hydrogen-flight-plan-server/flightPlan/",
+      "url.flowprediction.currentFlightAirportFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/flight/airport",
+      "url.nextday.adp.save": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/save",
+      "url.history.findFmeBaseDataById": "http://[0]/hydrogen-flow-history-server/flight_history_data/details/{id}/{date}",
+      "url.nextday.adp.generate": "http://[0]/flow-pre-tactical-adp-rest/flowADP/generate/{targetDate}",
+      "url.nextday.adp.status.retrieve.date": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/retrieveADPStautsByDate/{targetDate}",
+      "url.capacity.dynamic.point.str.end.client": "http://[0]/flow-capacity-rest/capacity/dynamic/retrievePoint/{firId}/{pointName}/{startTime}",
+      "url.capacity.dynamic": "http://[0]/flow-capacity-rest/capacity/dynamic/{elementName}/{elementType}/{date}",
+      "url.flowprediction.currentAppSectorFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/appsector/{appSectorEnName}",
+      "url.flight.hovering.statistic.qurey.accname.date": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/AccNameDateTimeFlight/{dateTime}",
+      "url.feafca.id": "http://[0]/flow-feafca-rest/feafcas/{id}",
+      "url.flowprediction.currentFlightPointFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/flight/point",
+      "url.schemeFlow.retrieveId.noWork": "http://[0]/scheme-flow-server/simulationTactics/id/{schemeFlowId}",
+      "url.template.user.retrieveAll": "http://[0]/user-template-rest/template/user/all",
+      "url.nextday.capacity.schedule.area.scenario.date": "http://[0]/flow-pre-tactical-rest/capacity/schedule/area/{areaName}/{scenarioId}/{targetDate}",
+      "url.nextday.capacity.schedule.airport.scenario.date": "http://[0]/flow-pre-tactical-rest/capacity/schedule/airport/{airportName}/{scenarioId}/{targetDate}",
+      "url.schemeFlow.publish": "http://[0]/scheme-flow-server/simulationTactics/approve/{userName}/{schemeFlowId}/{taskId}",
+      "url.all.refly.flight.total.details.query.info": "http://[0]/refly-flight-server/refly/flight/filghts/details/total/info/{executeDate}",
+      "url.flight.hovering.statistic.qurey.airport.allday": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/airportDateTimeAirportAllDayFlight/{dateTime}/{airport}",
+      "url.nextday.adp.generate.new": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/generate/{targetDate}",
+      "url.history.flowprediction.pointFlowPrediction": "http://[0]/hydrogen-flow-history-server/history/flowprediction/point/{firId}/{enname}/{startTime}/{endTime}",
+      "url.nextday.capacity.dynamic.airport.scenario": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/airport/{airportName}/{scenarioId}",
+      "url.flowprediction.currentFlightAccFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/flight/acc",
+      "url.feafca.del": "http://[0]/flow-feafca-rest/feafcas",
+      "url.template.user": "http://[0]/user-template-rest/template/user/",
+      "url.findSchemeReferenceRest": "http://[0]/scheme-reference-server/findSchemeReference/{schemeId}",
+      "url.nextday.adp.retrieve.date": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/retrieveByDate/{targetDate}",
+      "url.history.flowprediction.feaFcaFlowPrediction": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/feafca/{feafcaId}/{startTime}/{endTime}",
+      "url.history.flowprediction.appSectorFlowPrediction": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/appsector/{appSectorEnName}/{startTime}/{endTime}",
+      "url.capacity.dynamic.str.end.client": "http://[0]/flow-capacity-rest/capacity/dynamic/retrieveCapacityDynamic/{elementName}/{elementType}/{startTime}",
+      "url.ariport.weather.search.by.time.aiport": "http://[0]/atom-airport-weather-collect-server/airport/weather/search/{time}/{airport}",
+      "url.nextday.flowprediction.currentAirportFlowPrediction": "http://[0]/flow-pre-tactical-rest/flowprediction/airport/{airport}",
+      "url.nextday.capacity.dynamic.area.scenario": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/area/{areaName}/{scenarioId}",
+      "url.feafca.save": "http://[0]/flow-feafca-rest/feafcas/",
+      "url.feafca.update": "http://[0]/flow-feafca-rest/feafcas/single",
+      "url.nextday.capacity.dynamic.scenario": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/update/{scenarioId}",
+      "url.transfer.flow": "http://[0]/outer-restriction-server/restriction/outer/{data}",
+      "url.capacity.static.area": "http://[0]/flow-capacity-rest/capacity/static/area/{areaName}/{elementName}",
+      "url.template.user.save": "http://[0]/user-template-rest/template/user/value",
+      "url.template.user.retrieveByUserAndGroupName": "http://[0]/user-template-rest/template/user/group/{username}",
+      "url.flowprediction.trafficFlowMultiDirection": "http://[0]/traffic-flowprediction-server/trafficflow/v1/tmd/{startTime}/{endTime}/{ftt}/{redis}",
+      "url.history.flowprediction.airportFlowPrediction": "http://[0]/hydrogen-flow-history-server/history/flowprediction/airport/{airport}/{startTime}/{endTime}",
+      "url.template.user.retrieveAllWithoutValue": "http://[0]/user-template-rest/template/user/withoutvalue/all",
+      "url.rehearsal.capacity.dynamic.threshold.area": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/threshold/area/{areaName}",
+      "url.nextday.capacity.schedule.airport.scenario": "http://[0]/flow-pre-tactical-rest/capacity/schedule/airport/{airportName}/{scenarioId}",
+      "url.scheme.evaluation.retrieveControlDirection": "http://[0]/scheme-flight-calculation-server/evaluation/relation",
+      "url.sector.status.server.retrieveAllEfficientByEnname": "http://[0]/sector-status-server/sector-status/check/{enName}",
+      "url.sector.status.server.update": "http://[0]/sector-status-server/sector-status/update",
+      "url.nextday.adp.export_word": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/exportADPWord",
+      "url.flight.history.fmelist.query": "http://[0]/hydrogen-flight-plan-server/flightPlan/fmeList",
+      "url.findFmeBaseDataByIds": "http://[0]/hydrogen-flight-plan-server/findFmeBaseDataByIds",
+      "url.key.flowweather.radar.accuracys": "http://[0]/flow-weather-base-rest-server/flow-weather-data/imgs/accuracy",
+      "url.ariport.weather.search.by.timerange.airport": "http://[0]/atom-airport-weather-collect-server/airport/weather/search/{startTime}/{endTime}/{airport}",
+      "url.radar.data.by.fme": "http://192.168.210.120:80/flow-radar-trace-query/radarData/fmeId/{fmeIds}",
+      "url.scheme.flowcontrol.point": "http://[0]/scheme-flight-calculation-server/evaluation/targetUnit/{user}",
+      "url.nextday.capacity.dynamic.airport.scenario.history": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/airport/{airportName}/{scenarioId}/{targetDate}",
+      "url.rehearsal.capacity.static": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/threshold",
+      "url.flight.hovering.statistic.query.airport.all.info": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/airportAllInfo/{dateTime}",
+      "url.tactic.case": "http://[0]/tactic-case-server/tactic/case",
+      "url.flowprediction.appSectorFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/appsector/{appSectorEnName}/{startTime}/{endTime}",
+      "url.rehearsal.capacity.static.threshold.airport": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/threshold/airport/{airportName}",
+      "url.event.info.by.id": "http://[0]/cdm-nw-event-center-server/event/info/id/{eventID}",
+      "url.flowprediction.appFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/app/{appEnName}/{startTime}/{endTime}",
+      "url.nextday.pretactical.restriction.scenario": "http://[0]/flow-pre-tactical-rest/restriction/pre/{scenarioId}",
+      "url.scheme.evaluation.retrieveFlowControlEvaFme": "http://[0]/scheme-flight-calculation-server/evaluation/flow/EvaFme/{id}",
+      "url.history.flowprediction.routeFlowPrediction": "http://[0]/hydrogen-flow-history-server/history/flowprediction/route/{routeName}/{startTime}/{endTime}",
+      "url.refly.flight.flights.details.query.info": "http://[0]/refly-flight-server/refly/flight/filghts/details/info/{executeDate}/{arrap}",
+      "url.nextday.capacity.dynamic.airport": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/threshold/airport/{airportName}",
+      "url.feafca.all": "http://[0]/flow-feafca-rest/feafcas",
+      "url.flight.hovering.statistic.qurey.accname.date.airport": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/accNameDateTimeAirportFlight/{dateTime}/{airport}",
+      "url.flight.query.flightid.new": "http://[0]/hydrogen-flight-plan-server/flightPlan/now/{flightid}/{startTime}/{endTime}",
+      "url.flight.hovering.statistic.qurey.accname.date.airport.hour": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/accNameDateTimeAirportHourFlight/{dateTime}/{airport}/{hour}",
+      "url.nextday.adp.publish": "http://[0]/flow-pre-tactical-adp-rest/flowADP/publish/{adpId}",
+      "url.flight.hovering.statistic.qurey.airport.date.airport.hour": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/airportDateTimeAirportHourFlight/{dateTime}/{airport}/{hour}",
+      "url.nextday.adp.modify": "http://[0]/flow-pre-tactical-adp-rest/flowADP/saveOrModify",
+      "url.schemeFlow.retrieveUsername": "http://[0]/scheme-flow-server/implementTactics",
+      "url.sector.status.server.terminate": "http://[0]/sector-status-server/sector-status/terminate",
+      "url.flowprediction.directionCriteria": "http://[0]/traffic-flowprediction-server/trafficflow/v1/{startTime}/{endTime}/{ftt}/{redis}",
+      "url.rehearsal.capacity.static.area": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/area/{areaName}",
+      "url.tactic.suggest": "http://[0]/tactic-suggest-server/tactic/suggested",
+      "url.kpi.statistics": "http://[0]/kpi-statistical-server/kpi/statistics/v1/{id}",
+      "url.flight.hovering.statistic.qurey.whole.country": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/NationalAirportData/{dateTime}",
+      "url.nextday.adp.withdrawn": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/withdrawn/{adpId}/{userName}",
+      "url.schemeFlow.decision": "http://[0]/scheme-flow-server/basisTactics/{schemeFlowId}",
+      "url.rehearsal.capacity.static.threshold": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/threshold",
+      "url.capacity.dynamic.route.str.end.client": "http://[0]/flow-capacity-rest/capacity/dynamic/retrieveRoute/{routeName}/{startTime}",
+      "url.nextday.flowprediction.airportFlowPrediction": "http://[0]/flow-pre-tactical-rest/flowprediction/airport/{airport}/{startTime}/{endTime}",
+      "url.sector.status.server.retrieveAllEfficient": "http://[0]/sector-status-server/sector-status/all/efficient",
+      "url.flowprediction.currentRouteFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/route/v1/{routeName}",
+      "url.nextday.pretactical.overall.scenario.date": "http://[0]/flow-pre-tactical-rest/overall/pre/{scenarioId}/{targetDate}",
+      "url.key.flowweather.radar.accuracy": "http://[0]/flow-weather-base-rest-server/flow-weather-data/img/accuracy",
+      "url.findFmeBaseDataById": "http://[0]/hydrogen-flight-plan-server/findFmeBaseDataById/{id}",
+      "url.template.user.retrieveByUserAndType": "http://[0]/user-template-rest/template/user/{username}/{templatetype}",
+      "url.nwcdm.client.event.info.by.eventid": "http://[0]/cdm-nw-event-center-server/event/info/id/{eventID}",
+      "url.history.flowprediction.appFlowPrediction": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/app/{appEnName}/{startTime}/{endTime}",
+      "url.template.user.retrieveUserTemplateByTypeWithoutValue": "http://[0]/atmm-atmb-server/template/user/group/withoutvalue/{username}/{templatetype}",
+      "url.flowprediction.searchTrafficFlowByTacticId": "http://[0]/traffic-flowprediction-server/trafficflow/v1/tactic/{id}",
+      "url.schemeFlow.SUBMIT": "http://[0]/scheme-flow-server/simulationTactics/submit/{userName}/{schemeFlowId}/{taskId}",
+      "url.template.user.retrieveByUser": "http://[0]/user-template-rest/template/user/{username}",
+      "url.rehearsal.capacity.static.threshold.area": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/threshold/area/{areaName}",
+      "url.nextday.adp.submit": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/submit/{adpId}/{userName}",
+      "url.capacity.dynamic.area.elementName.client": "http://[0]/flow-capacity-rest/capacity/dynamic/area/{areaName}/{elementName}/{date}",
+      "url.template.user.delete": "http://[0]/user-template-rest/template/user/{id}",
+      "url.nextday.adp.rejected": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/rejected/{adpId}/{userName}/{taskId}",
+      "url.history.flowprediction.accFlowPrediction": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/acc/{accEnName}/{startTime}/{endTime}",
+      "url.current.tacticInfo": "http://[0]/current-kpi-server/kpi/current/v1/{id}",
+      "url.flowprediction.searchTrafficFlowConstantWithDir": "http://[0]/trafficflow/v1/constant/{traffics}",
+      "url.nextday.capacity.dynamic.area": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/area/{areaName}",
+      "url.flowprediction.feaFcaFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/feafca/{feafcaId}/{startTime}/{endTime}",
+      "url.flowprediction.currentAirportFlowPrediction": "http://[0]/traffic-flowprediction-server/flowprediction/airport/v1/{airport}",
+      "url.nextday.adp.agree": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/agree/{adpId}/{userName}/{taskId}",
+      "url.sector.status.server.retrieveAll": "http://[0]/sector-status-server/sector-status/all",
+      "url.schemeFlow.create": "http://[0]/scheme-flow-server/simulationTactics/{username}",
+      "url.radar.data.by.param.new": "http://192.168.210.120:80/flow-radar-trace-query/radarData/params",
+      "url.sector.status.server.publish": "http://[0]/sector-status-server/sector-status/publish",
+      "url.sector.status.retrieveEfficientByAcc": "http://[0]/sector-status-server/sector-status/acc/efficient/{accEnName}",
+      "url.schemeFlow.refuse": "http://[0]/scheme-flow-server/simulationTactics/refuse/{userName}/{schemeFlowId}/{taskId}"
+  },
+  "secondaryConfigs": [],
+  "urlMapCache": {
+      "url.flowprediction.accSectorFlowPrediction": {
+          "id": 14,
+          "key": "url.flowprediction.accSectorFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector/{accSectorEnName}/{startTime}/{endTime}",
+          "nodeAccessType": "flow-secondary-node"
+      },
+      "url.nextday.pretactical.overall.scenario": {
+          "id": 85,
+          "key": "url.nextday.pretactical.overall.scenario",
+          "value": "http://[0]/flow-pre-tactical-rest/overall/pre/{scenarioId}",
+          "remark": "查询某一场景ID的总体态势"
+      },
+      "url.nextday.capacity.schedule.area.scenario": {
+          "id": 134,
+          "key": "url.nextday.capacity.schedule.area.scenario",
+          "value": "http://[0]/flow-pre-tactical-rest/capacity/schedule/area/{areaName}/{scenarioId}",
+          "remark": "次日预演扇区动态容量"
+      },
+      "url.flowprediction.pointFlowPrediction": {
+          "id": 25,
+          "key": "url.flowprediction.pointFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/point/v1/{firId}/{enname}/{startTime}/{endTime}"
+      },
+      "url.nextday.adp.retrieve.process": {
+          "id": 172,
+          "key": "url.nextday.adp.retrieve.process",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/process/{adpId}/{userName}",
+          "remark": "获取ADP流程数据"
+      },
+      "url.flowprediction.currentAccSectorFlowPrediction": {
+          "id": 7,
+          "key": "url.flowprediction.currentAccSectorFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector/{accSectorEnName}",
+          "nodeAccessType": "flow-secondary-node"
+      },
+      "url.rehearsal.capacity.dynamic.threshold": {
+          "id": 71,
+          "key": "url.rehearsal.capacity.dynamic.threshold",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/threshold",
+          "remark": "动态容量阈值"
+      },
+      "url.history.flowprediction.combinedAccSectorFlowPrediction": {
+          "id": 185,
+          "key": "url.history.flowprediction.combinedAccSectorFlowPrediction",
+          "value": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/accsector_combined/accSectorEnNames/{startTime}/{endTime}"
+      },
+      "url.refly.flight.details.query.info": {
+          "id": 160,
+          "key": "url.refly.flight.details.query.info",
+          "value": "http://[0]/refly-flight-server/refly/flight/details/info/{executeDate}/{arrap}"
+      },
+      "url.flowprediction.searchTrafficFlowWithDirSnapshot": {
+          "id": 31,
+          "key": "url.flowprediction.searchTrafficFlowWithDirSnapshot",
+          "value": "http://[0]/traffic-flowprediction-server/trafficflow/v1/snapshot/{traffics}"
+      },
+      "url.feafca.updates": {
+          "id": 60,
+          "key": "url.feafca.updates",
+          "value": "http://[0]/flow-feafca-rest/feafcas"
+      },
+      "url.key.flowweather.latest.aes.stream": {
+          "id": 136,
+          "key": "url.key.flowweather.latest.aes.stream",
+          "value": "http://[0]/flow-weather-base-rest-server/flow-weather-data/img/latest/aes"
+      },
+      "url.refly.flight.flights.query.info": {
+          "id": 159,
+          "key": "url.refly.flight.flights.query.info",
+          "value": "http://[0]/refly-flight-server/refly/flight/filghts/info/{executeDate}/{arrap}\n"
+      },
+      "url.nextday.adp.terminated": {
+          "id": 187,
+          "key": "url.nextday.adp.terminated",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/terminated/{adpId}/{userName}",
+          "remark": "终止ADP"
+      },
+      "url.history.flowprediction.accSectorFlowPrediction": {
+          "id": 181,
+          "key": "url.history.flowprediction.accSectorFlowPrediction",
+          "value": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/accsector/{accSectorEnName}/{startTime}/{endTime}"
+      },
+      "url.flowprediction.currentFlightAppFlowPrediction": {
+          "id": 20,
+          "key": "url.flowprediction.currentFlightAppFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/flight/app"
+      },
+      "url.flowprediction.routeFlowPrediction": {
+          "id": 29,
+          "key": "url.flowprediction.routeFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/route/v1/{routeName}/{startTime}/{endTime}"
+      },
+      "url.nextday.flowprediction.accSectorFlowPrediction": {
+          "id": 133,
+          "key": "url.nextday.flowprediction.accSectorFlowPrediction",
+          "value": "http://[0]/flow-pre-tactical-rest/flowprediction/area/accsector/{airport}/{startTime}/{endTime}",
+          "remark": "查询按时间范围扇区流量预测"
+      },
+      "url.retrieveDataById": {
+          "id": 53,
+          "key": "url.retrieveDataById",
+          "value": "http://[0]/hydrogen-flight-plan-server/flightPlan/findFmeById/{id}/{startTime}/{endTime}"
+      },
+      "url.feafca.name": {
+          "id": 62,
+          "key": "url.feafca.name",
+          "value": "http://[0]/flow-feafca-rest/feafcas/name/{name}"
+      },
+      "url.all.refly.flight.flights.details.query.info": {
+          "id": 157,
+          "key": "url.all.refly.flight.flights.details.query.info",
+          "value": "http://[0]/refly-flight-server/refly/flight/filghts/details/info/{executeDate}"
+      },
+      "url.template.user.retrieve": {
+          "id": 118,
+          "key": "url.template.user.retrieve",
+          "value": "http://[0]/user-template-rest/template/user/{username}/{templatename}/{templatetype}"
+      },
+      "url.flight.query.flightid": {
+          "id": 128,
+          "key": "url.flight.query.flightid",
+          "value": "http://[0]/hydrogen-flight-plan-server/flightPlan/{flightid}/{startTime}/{endTime}"
+      },
+      "url.rehearsal.capacity.dynamic.area": {
+          "id": 70,
+          "key": "url.rehearsal.capacity.dynamic.area",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/area/{areaName}",
+          "remark": "查询扇区动态容量值"
+      },
+      "url.template.user.retrieveByUserWithoutValue": {
+          "id": 121,
+          "key": "url.template.user.retrieveByUserWithoutValue",
+          "value": "http://[0]/user-template-rest/template/user/withoutvalue/{username}"
+      },
+      "url.flowprediction.currentCombinedAccSectorFlowPrediction": {
+          "id": 6,
+          "key": "url.flowprediction.currentCombinedAccSectorFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector_combined/accSectorEnNames",
+          "nodeAccessType": "flow-secondary-node"
+      },
+      "url.capacity.dynamic.point.client": {
+          "id": 102,
+          "key": "url.capacity.dynamic.point.client",
+          "value": "http://[0]/flow-capacity-rest/capacity/dynamic/point/{firId}/{pointName}/{date}"
+      },
+      "url.flowprediction.currentPointFlowPrediction": {
+          "id": 24,
+          "key": "url.flowprediction.currentPointFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/point/v1/{firId}/{enname}"
+      },
+      "url.scheme.assembly.current.kpi.schemeId": {
+          "id": 50,
+          "key": "url.scheme.assembly.current.kpi.schemeId",
+          "value": "http://[0]/scheme-assembly/v1/kpi/current/{id}"
+      },
+      "url.template.user.withobject": {
+          "id": 112,
+          "key": "url.template.user.withobject",
+          "value": "http://[0]/user-template-rest/template/user/withobject"
+      },
+      "url.template.user.one": {
+          "id": 113,
+          "key": "url.template.user.one",
+          "value": "http://[0]/user-template-rest/template/user/one/{id}"
+      },
+      "url.flowprediction.trafficFlowConstantWithDIrByIds": {
+          "id": 44,
+          "key": "url.flowprediction.trafficFlowConstantWithDIrByIds",
+          "value": "http://[0]/trafficflow/v1/constant/save/{traffics}"
+      },
+      "url.flowprediction.currentFeaFcaFlowPrediction": {
+          "id": 11,
+          "key": "url.flowprediction.currentFeaFcaFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/feafca/{feafcaId}"
+      },
+      "url.rehearsal.capacity.static.airport": {
+          "id": 74,
+          "key": "url.rehearsal.capacity.static.airport",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/airport/{airportName}",
+          "remark": "查询机场静态容量"
+      },
+      "url.nextday.capacity.dynamic.area.scenario.history": {
+          "id": 82,
+          "key": "url.nextday.capacity.dynamic.area.scenario.history",
+          "value": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/area/{areaName}/{scenarioId}/{targetDate}",
+          "remark": "根据扇区名查询历史容量数据"
+      },
+      "url.nextday.pretactical.restriction.scenario.date": {
+          "id": 176,
+          "key": "url.nextday.pretactical.restriction.scenario.date",
+          "value": "http://[0]/flow-pre-tactical-rest/restriction/pre/{scenarioId}/{targetDate}",
+          "remark": "查询某一天的某一场景ID的限制列表",
+          "createtime": "202108191451"
+      },
+      "url.history.flowprediction.pureAccSectorFlowPrediction": {
+          "id": 186,
+          "key": "url.history.flowprediction.pureAccSectorFlowPrediction",
+          "value": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/accsector_pure/{accSectorEnName}/{startTime}/{endTime}"
+      },
+      "url.schemeFlow.reback": {
+          "id": 43,
+          "key": "url.schemeFlow.reback",
+          "value": "http://[0]/scheme-flow-server/simulationTactics/reback/{userName}/{schemeFlowId}"
+      },
+      "url.schemeFlow.retrieveId": {
+          "id": 37,
+          "key": "url.schemeFlow.retrieveId",
+          "value": "http://[0]/scheme-flow-server/simulationTactics/id/{userName}/{schemeFlowId}"
+      },
+      "url.nextday.flight.base.data.details": {
+          "id": 197,
+          "key": "url.nextday.flight.base.data.details",
+          "value": "http://[0]/flow-pre-tactical-rest/flight/base/data/details/{id}",
+          "remark": "战略功能查询航班详情"
+      },
+      "url.flowprediction.currentFlightAccSectorFlowPrediction": {
+          "id": 18,
+          "key": "url.flowprediction.currentFlightAccSectorFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/flight/accSector"
+      },
+      "url.flowprediction.combinedAccSectorFlowPrediction": {
+          "id": 16,
+          "key": "url.flowprediction.combinedAccSectorFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector_combined/accSectorEnNames/{startTime}/{endTime}",
+          "nodeAccessType": "flow-secondary-node"
+      },
+      "url.flowprediction.multiCustomRoutePointsFlowPrediction": {
+          "id": 28,
+          "key": "url.flowprediction.multiCustomRoutePointsFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/route/v1/multi/custom/points/{startTime}/{endTime}"
+      },
+      "url.scheme.information.filter": {
+          "id": 164,
+          "key": "url.scheme.information.filter",
+          "value": "http://[0]/scheme-flight-calculation-server/evaluation/relation/filter/{startTime}/{endTime}"
+      },
+      "url.template.user.retrieveByUserAndGroupNameWithoutValue": {
+          "id": 124,
+          "key": "url.template.user.retrieveByUserAndGroupNameWithoutValue",
+          "value": "http://[0]/atmm-atmb-server/template/user/group/withoutvalue/{username}"
+      },
+      "url.flowprediction.currentAppFlowPrediction": {
+          "id": 8,
+          "key": "url.flowprediction.currentAppFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector/{accSectorEnName}",
+          "nodeAccessType": "flow-secondary-node"
+      },
+      "url.flowprediction.airportFlowPrediction": {
+          "id": 3,
+          "key": "url.flowprediction.airportFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/airport/v1/{airport}/{startTime}/{endTime}",
+          "nodeAccessType": "flow-secondary-node"
+      },
+      "url.flight.divert.retrieveControlDirection": {
+          "id": 132,
+          "key": "url.flight.divert.retrieveControlDirection",
+          "value": "http://[0]/flight-reroute-server/reroute/divert/{startTime}/{endTime}"
+      },
+      "url.rehearsal.capacity.dynamic.threshold.airport": {
+          "id": 72,
+          "key": "url.rehearsal.capacity.dynamic.threshold.airport",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/threshold/airport/{airportName}",
+          "remark": "机场动态容量阈值"
+      },
+      "url.findSchemeExemptClientRest": {
+          "id": 51,
+          "key": "url.findSchemeExemptClientRest",
+          "value": "http://[0]/findSchemeExempt/{trafficId}"
+      },
+      "url.template.user.more.delete": {
+          "id": 115,
+          "key": "url.template.user.more.delete",
+          "value": "http://[0]/user-template-rest/template/user/more/deletion"
+      },
+      "url.all.refly.flight.flights.query.info": {
+          "id": 156,
+          "key": "url.all.refly.flight.flights.query.info",
+          "value": "http://[0]/refly-flight-server/refly/flight/filghts/info/{executeDate}"
+      },
+      "url.flight.hovering.statistic.qurey.airport.date": {
+          "id": 147,
+          "key": "url.flight.hovering.statistic.qurey.airport.date",
+          "value": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/airportDateTimeFlight/{queryTime}"
+      },
+      "url.flight.hovering.statistic": {
+          "id": 146,
+          "key": "url.flight.hovering.statistic",
+          "value": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/altitudetimes"
+      },
+      "url.flowprediction.currentFlightAppSectorFlowPrediction": {
+          "id": 21,
+          "key": "url.flowprediction.currentFlightAppSectorFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/flight/appSector"
+      },
+      "url.template.user.retrieveByUserAndTypeWithoutValue": {
+          "id": 122,
+          "key": "url.template.user.retrieveByUserAndTypeWithoutValue",
+          "value": "http://[0]/user-template-rest/template/user/withoutvalue/{username}/{templatetype}"
+      },
+      "url.flowprediction.currentAccFlowPrediction": {
+          "id": 4,
+          "key": "url.flowprediction.currentAccFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/acc/{accEnName}",
+          "nodeAccessType": "flow-secondary-node"
+      },
+      "url.flowprediction.currentDirectionFlowPrediction": {
+          "id": 1,
+          "key": "url.flowprediction.currentDirectionFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/traffice/flow/v1/{startTime}/{endTime}"
+      },
+      "url.refly.flight.hour.details.query.info": {
+          "id": 161,
+          "key": "url.refly.flight.hour.details.query.info",
+          "value": "http://[0]/refly-flight-server/refly/flight/details/info/{executeDate}/{arrap}/{hour}"
+      },
+      "url.flight.hovering.statistic.qurey.airport.date.airport": {
+          "id": 148,
+          "key": "url.flight.hovering.statistic.qurey.airport.date.airport",
+          "value": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/airportDateTimeAirportFlight/{queryTime}/{airport}"
+      },
+      "url.flowprediction.accFlowPrediction": {
+          "id": 5,
+          "key": "url.flowprediction.accFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/acc/{accEnName}/{startTime}/{endTime}",
+          "nodeAccessType": "flow-secondary-node"
+      },
+      "url.rehearsal.capacity.dynamic": {
+          "id": 68,
+          "key": "url.rehearsal.capacity.dynamic",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic",
+          "remark": "获取元素三天所有的容量值，每个元素当日有且仅有一条正在生效的容量值数据"
+      },
+      "url.flowprediction.currentFlightRouteFlowPrediction": {
+          "id": 22,
+          "key": "url.flowprediction.currentFlightRouteFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/flight/route"
+      },
+      "url.schemeFlow.archive": {
+          "id": 66,
+          "key": "url.schemeFlow.archive",
+          "value": "http://[0]/scheme-flow-archive/archive/findSchemeArchive/{schemeId}"
+      },
+      "url.rehearsal.capacity.dynamic.airport": {
+          "id": 69,
+          "key": "url.rehearsal.capacity.dynamic.airport",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/airport/{airportName}",
+          "remark": "查询机场动态容量值"
+      },
+      "url.schemeFlow.terminate": {
+          "id": 39,
+          "key": "url.schemeFlow.terminate",
+          "value": "http://[0]/scheme-flow-server/simulationTactics/terminate/{userName}/{schemeFlowId}"
+      },
+      "url.capacity.static": {
+          "id": 188,
+          "key": "url.capacity.static",
+          "value": "http://[0]/flow-capacity-rest/capacity/static/{elementName}/{elementType}",
+          "remark": "获取机场和区域静态容量"
+      },
+      "url.flowprediction.pureAccSectorFlowPrediction": {
+          "id": 15,
+          "key": "url.flowprediction.pureAccSectorFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/accsector_pure/{accSectorEnName}/{startTime}/{endTime}",
+          "nodeAccessType": "flow-secondary-node"
+      },
+      "url.flowprediction.currentMultiCustomRoutePointsFlowPrediction": {
+          "id": 27,
+          "key": "url.flowprediction.currentMultiCustomRoutePointsFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/route/v1/multi/custom/points"
+      },
+      "url.flight.fme.query": {
+          "id": 129,
+          "key": "url.flight.fme.query",
+          "value": "http://[0]/hydrogen-flight-plan-server/flightPlan/fme"
+      },
+      "url.nextday.adp.retrieve.id": {
+          "id": 143,
+          "key": "url.nextday.adp.retrieve.id",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/retrieve/{adpId}"
+      },
+      "url.template.user.retrieveUserTemplateByType": {
+          "id": 125,
+          "key": "url.template.user.retrieveUserTemplateByType",
+          "value": "http://[0]/atmm-atmb-server/template/user/group/{username}/{templatetype}"
+      },
+      "url.capactity.static.point": {
+          "id": 190,
+          "key": "url.capactity.static.point",
+          "value": "http://[0]/flow-capacity-rest/capacity/static/point/{firId}/{pointName}",
+          "remark": "获取航路点容量"
+      },
+      "url.capacity.dynamic.route.client": {
+          "id": 103,
+          "key": "url.capacity.dynamic.route.client",
+          "value": "http://[0]/flow-capacity-rest/capacity/dynamic/route/{routeName}/{date}"
+      },
+      "url.findRetrieveAllDepRest": {
+          "id": 52,
+          "key": "url.findRetrieveAllDepRest",
+          "value": "http://[0]/hydrogen-flight-plan-server/findRetrieveAllDepRest"
+      },
+      "url.work.flow": {
+          "id": 111,
+          "key": "url.work.flow",
+          "value": "http://[0]/cdm-workflow-server/workflow/taskCount/{user}"
+      },
+      "url.nextday.capacity.dynamic": {
+          "id": 83,
+          "key": "url.nextday.capacity.dynamic",
+          "value": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/update",
+          "remark": "修改或新增共用接口"
+      },
+      "url.flightPlan.query": {
+          "id": 127,
+          "key": "url.flightPlan.query",
+          "value": "http://[0]/hydrogen-flight-plan-server/flightPlan/"
+      },
+      "url.flowprediction.currentFlightAirportFlowPrediction": {
+          "id": 17,
+          "key": "url.flowprediction.currentFlightAirportFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/flight/airport"
+      },
+      "url.nextday.adp.save": {
+          "id": 167,
+          "key": "url.nextday.adp.save",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/save",
+          "remark": "ADP数据保存"
+      },
+      "url.history.findFmeBaseDataById": {
+          "id": 196,
+          "key": "url.history.findFmeBaseDataById",
+          "value": "http://[0]/hydrogen-flow-history-server/flight_history_data/details/{id}/{date}"
+      },
+      "url.nextday.adp.generate": {
+          "id": 141,
+          "key": "url.nextday.adp.generate",
+          "value": "http://[0]/flow-pre-tactical-adp-rest/flowADP/generate/{targetDate}"
+      },
+      "url.nextday.adp.status.retrieve.date": {
+          "id": 195,
+          "key": "url.nextday.adp.status.retrieve.date",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/retrieveADPStautsByDate/{targetDate}",
+          "remark": "根据日期查询状态为发布和终止的ADP"
+      },
+      "url.flowprediction.currentAppSectorFlowPrediction": {
+          "id": 10,
+          "key": "url.flowprediction.currentAppSectorFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/appsector/{appSectorEnName}"
+      },
+      "url.capacity.dynamic": {
+          "id": 100,
+          "key": "url.capacity.dynamic",
+          "value": "http://[0]/flow-capacity-rest/capacity/dynamic/{elementName}/{elementType}/{date}"
+      },
+      "url.capacity.dynamic.point.str.end.client": {
+          "id": 105,
+          "key": "url.capacity.dynamic.point.str.end.client",
+          "value": "http://[0]/flow-capacity-rest/capacity/dynamic/retrievePoint/{firId}/{pointName}/{startTime}"
+      },
+      "url.flowprediction.currentFlightPointFlowPrediction": {
+          "id": 23,
+          "key": "url.flowprediction.currentFlightPointFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/flight/point"
+      },
+      "url.feafca.id": {
+          "id": 63,
+          "key": "url.feafca.id",
+          "value": "http://[0]/flow-feafca-rest/feafcas/{id}"
+      },
+      "url.flight.hovering.statistic.qurey.accname.date": {
+          "id": 150,
+          "key": "url.flight.hovering.statistic.qurey.accname.date",
+          "value": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/AccNameDateTimeFlight/{dateTime}"
+      },
+      "url.schemeFlow.retrieveId.noWork": {
+          "id": 165,
+          "key": "url.schemeFlow.retrieveId.noWork",
+          "value": "http://[0]/scheme-flow-server/simulationTactics/id/{schemeFlowId}"
+      },
+      "url.template.user.retrieveAll": {
+          "id": 116,
+          "key": "url.template.user.retrieveAll",
+          "value": "http://[0]/user-template-rest/template/user/all"
+      },
+      "url.nextday.capacity.schedule.area.scenario.date": {
+          "id": 192,
+          "key": "url.nextday.capacity.schedule.area.scenario.date",
+          "value": "http://[0]/flow-pre-tactical-rest/capacity/schedule/area/{areaName}/{scenarioId}/{targetDate}",
+          "remark": "根据扇区名和日期查询容量数据"
+      },
+      "url.nextday.capacity.schedule.airport.scenario.date": {
+          "id": 191,
+          "key": "url.nextday.capacity.schedule.airport.scenario.date",
+          "value": "http://[0]/flow-pre-tactical-rest/capacity/schedule/airport/{airportName}/{scenarioId}/{targetDate}",
+          "remark": "根据机场名和日期查询计划值数据"
+      },
+      "url.schemeFlow.publish": {
+          "id": 36,
+          "key": "url.schemeFlow.publish",
+          "value": "http://[0]/scheme-flow-server/simulationTactics/approve/{userName}/{schemeFlowId}/{taskId}"
+      },
+      "url.all.refly.flight.total.details.query.info": {
+          "id": 162,
+          "key": "url.all.refly.flight.total.details.query.info",
+          "value": "http://[0]/refly-flight-server/refly/flight/filghts/details/total/info/{executeDate}"
+      },
+      "url.flight.hovering.statistic.qurey.airport.allday": {
+          "id": 153,
+          "key": "url.flight.hovering.statistic.qurey.airport.allday",
+          "value": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/airportDateTimeAirportAllDayFlight/{dateTime}/{airport}"
+      },
+      "url.nextday.adp.generate.new": {
+          "id": 173,
+          "key": "url.nextday.adp.generate.new",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/generate/{targetDate}",
+          "remark": "生成ADP数据"
+      },
+      "url.history.flowprediction.pointFlowPrediction": {
+          "id": 178,
+          "key": "url.history.flowprediction.pointFlowPrediction",
+          "value": "http://[0]/hydrogen-flow-history-server/history/flowprediction/point/{firId}/{enname}/{startTime}/{endTime}"
+      },
+      "url.flowprediction.currentFlightAccFlowPrediction": {
+          "id": 19,
+          "key": "url.flowprediction.currentFlightAccFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/flight/acc"
+      },
+      "url.nextday.capacity.dynamic.airport.scenario": {
+          "id": 88,
+          "key": "url.nextday.capacity.dynamic.airport.scenario",
+          "value": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/airport/{airportName}/{scenarioId}",
+          "remark": "根据机场名查询次日容量数据"
+      },
+      "url.feafca.del": {
+          "id": 61,
+          "key": "url.feafca.del",
+          "value": "http://[0]/flow-feafca-rest/feafcas"
+      },
+      "url.findSchemeReferenceRest": {
+          "id": 56,
+          "key": "url.findSchemeReferenceRest",
+          "value": "http://[0]/scheme-reference-server/findSchemeReference/{schemeId}"
+      },
+      "url.template.user": {
+          "id": 107,
+          "key": "url.template.user",
+          "value": "http://[0]/user-template-rest/template/user/"
+      },
+      "url.nextday.adp.retrieve.date": {
+          "id": 144,
+          "key": "url.nextday.adp.retrieve.date",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/retrieveByDate/{targetDate}"
+      },
+      "url.history.flowprediction.appSectorFlowPrediction": {
+          "id": 183,
+          "key": "url.history.flowprediction.appSectorFlowPrediction",
+          "value": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/appsector/{appSectorEnName}/{startTime}/{endTime}"
+      },
+      "url.history.flowprediction.feaFcaFlowPrediction": {
+          "id": 184,
+          "key": "url.history.flowprediction.feaFcaFlowPrediction",
+          "value": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/feafca/{feafcaId}/{startTime}/{endTime}"
+      },
+      "url.ariport.weather.search.by.time.aiport": {
+          "id": 98,
+          "key": "url.ariport.weather.search.by.time.aiport",
+          "value": "http://[0]/atom-airport-weather-collect-server/airport/weather/search/{time}/{airport}"
+      },
+      "url.capacity.dynamic.str.end.client": {
+          "id": 104,
+          "key": "url.capacity.dynamic.str.end.client",
+          "value": "http://[0]/flow-capacity-rest/capacity/dynamic/retrieveCapacityDynamic/{elementName}/{elementType}/{startTime}"
+      },
+      "url.nextday.flowprediction.currentAirportFlowPrediction": {
+          "id": 140,
+          "key": "url.nextday.flowprediction.currentAirportFlowPrediction",
+          "value": "http://[0]/flow-pre-tactical-rest/flowprediction/airport/{airport}",
+          "remark": "查询当前机场流量预测"
+      },
+      "url.feafca.save": {
+          "id": 65,
+          "key": "url.feafca.save",
+          "value": "http://[0]/flow-feafca-rest/feafcas/"
+      },
+      "url.nextday.capacity.dynamic.area.scenario": {
+          "id": 135,
+          "key": "url.nextday.capacity.dynamic.area.scenario",
+          "value": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/area/{areaName}/{scenarioId}",
+          "remark": "根据扇区名查询次日容量数据"
+      },
+      "url.feafca.update": {
+          "id": 59,
+          "key": "url.feafca.update",
+          "value": "http://[0]/flow-feafca-rest/feafcas/single"
+      },
+      "url.nextday.capacity.dynamic.scenario": {
+          "id": 90,
+          "key": "url.nextday.capacity.dynamic.scenario",
+          "value": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/update/{scenarioId}",
+          "remark": "修改或新增共用接口"
+      },
+      "url.transfer.flow": {
+          "id": 41,
+          "key": "url.transfer.flow",
+          "value": "http://[0]/outer-restriction-server/restriction/outer/{data}"
+      },
+      "url.capacity.static.area": {
+          "id": 189,
+          "key": "url.capacity.static.area",
+          "value": "http://[0]/flow-capacity-rest/capacity/static/area/{areaName}/{elementName}",
+          "remark": "获取areaName合并后的区域容量"
+      },
+      "url.template.user.save": {
+          "id": 108,
+          "key": "url.template.user.save",
+          "value": "http://[0]/user-template-rest/template/user/value"
+      },
+      "url.template.user.retrieveByUserAndGroupName": {
+          "id": 123,
+          "key": "url.template.user.retrieveByUserAndGroupName",
+          "value": "http://[0]/user-template-rest/template/user/group/{username}"
+      },
+      "url.flowprediction.trafficFlowMultiDirection": {
+          "id": 58,
+          "key": "url.flowprediction.trafficFlowMultiDirection",
+          "value": "http://[0]/traffic-flowprediction-server/trafficflow/v1/tmd/{startTime}/{endTime}/{ftt}/{redis}"
+      },
+      "url.history.flowprediction.airportFlowPrediction": {
+          "id": 180,
+          "key": "url.history.flowprediction.airportFlowPrediction",
+          "value": "http://[0]/hydrogen-flow-history-server/history/flowprediction/airport/{airport}/{startTime}/{endTime}"
+      },
+      "url.template.user.retrieveAllWithoutValue": {
+          "id": 120,
+          "key": "url.template.user.retrieveAllWithoutValue",
+          "value": "http://[0]/user-template-rest/template/user/withoutvalue/all"
+      },
+      "url.rehearsal.capacity.dynamic.threshold.area": {
+          "id": 73,
+          "key": "url.rehearsal.capacity.dynamic.threshold.area",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/threshold/area/{areaName}",
+          "remark": "扇区动态容量阈值"
+      },
+      "url.scheme.evaluation.retrieveControlDirection": {
+          "id": 57,
+          "key": "url.scheme.evaluation.retrieveControlDirection",
+          "value": "http://[0]/scheme-flight-calculation-server/evaluation/relation"
+      },
+      "url.nextday.capacity.schedule.airport.scenario": {
+          "id": 89,
+          "key": "url.nextday.capacity.schedule.airport.scenario",
+          "value": "http://[0]/flow-pre-tactical-rest/capacity/schedule/airport/{airportName}/{scenarioId}",
+          "remark": "次日预演机场动态容量"
+      },
+      "url.sector.status.server.retrieveAllEfficientByEnname": {
+          "id": 91,
+          "key": "url.sector.status.server.retrieveAllEfficientByEnname",
+          "value": "http://[0]/sector-status-server/sector-status/check/{enName}"
+      },
+      "url.sector.status.server.update": {
+          "id": 95,
+          "key": "url.sector.status.server.update",
+          "value": "http://[0]/sector-status-server/sector-status/update"
+      },
+      "url.nextday.adp.export_word": {
+          "id": 174,
+          "key": "url.nextday.adp.export_word",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/exportADPWord",
+          "remark": "导出ADPWord"
+      },
+      "url.findFmeBaseDataByIds": {
+          "id": 55,
+          "key": "url.findFmeBaseDataByIds",
+          "value": "http://[0]/hydrogen-flight-plan-server/findFmeBaseDataByIds"
+      },
+      "url.flight.history.fmelist.query": {
+          "id": 131,
+          "key": "url.flight.history.fmelist.query",
+          "value": "http://[0]/hydrogen-flight-plan-server/flightPlan/fmeList"
+      },
+      "url.key.flowweather.radar.accuracys": {
+          "id": 138,
+          "key": "url.key.flowweather.radar.accuracys",
+          "value": "http://[0]/flow-weather-base-rest-server/flow-weather-data/imgs/accuracy"
+      },
+      "url.ariport.weather.search.by.timerange.airport": {
+          "id": 99,
+          "key": "url.ariport.weather.search.by.timerange.airport",
+          "value": "http://[0]/atom-airport-weather-collect-server/airport/weather/search/{startTime}/{endTime}/{airport}"
+      },
+      "url.radar.data.by.fme": {
+          "id": 193,
+          "key": "url.radar.data.by.fme",
+          "value": "http://192.168.210.120:80/flow-radar-trace-query/radarData/fmeId/{fmeIds}"
+      },
+      "url.scheme.flowcontrol.point": {
+          "id": 166,
+          "key": "url.scheme.flowcontrol.point",
+          "value": "http://[0]/scheme-flight-calculation-server/evaluation/targetUnit/{user}"
+      },
+      "url.rehearsal.capacity.static": {
+          "id": 80,
+          "key": "url.rehearsal.capacity.static",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/threshold",
+          "remark": "静态容量阈值"
+      },
+      "url.nextday.capacity.dynamic.airport.scenario.history": {
+          "id": 81,
+          "key": "url.nextday.capacity.dynamic.airport.scenario.history",
+          "value": "http://[0]/flow-pre-tactical-rest/nextday/capacity/dynamic/airport/{airportName}/{scenarioId}/{targetDate}",
+          "remark": "根据机场名查询历史容量数据"
+      },
+      "url.tactic.case": {
+          "id": 42,
+          "key": "url.tactic.case",
+          "value": "http://[0]/tactic-case-server/tactic/case"
+      },
+      "url.flight.hovering.statistic.query.airport.all.info": {
+          "id": 155,
+          "key": "url.flight.hovering.statistic.query.airport.all.info",
+          "value": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/airportAllInfo/{dateTime}"
+      },
+      "url.flowprediction.appSectorFlowPrediction": {
+          "id": 12,
+          "key": "url.flowprediction.appSectorFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/appsector/{appSectorEnName}/{startTime}/{endTime}"
+      },
+      "url.rehearsal.capacity.static.threshold.airport": {
+          "id": 77,
+          "key": "url.rehearsal.capacity.static.threshold.airport",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/threshold/airport/{airportName}",
+          "remark": "机场静态容量阈值(告警)"
+      },
+      "url.flowprediction.appFlowPrediction": {
+          "id": 9,
+          "key": "url.flowprediction.appFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/app/{appEnName}/{startTime}/{endTime}"
+      },
+      "url.event.info.by.id": {
+          "id": 47,
+          "key": "url.event.info.by.id",
+          "value": "http://[0]/cdm-nw-event-center-server/event/info/id/{eventID}"
+      },
+      "url.nextday.pretactical.restriction.scenario": {
+          "id": 86,
+          "key": "url.nextday.pretactical.restriction.scenario",
+          "value": "http://[0]/flow-pre-tactical-rest/restriction/pre/{scenarioId}",
+          "remark": " 查询某一场景ID的限制列表"
+      },
+      "url.scheme.evaluation.retrieveFlowControlEvaFme": {
+          "id": 163,
+          "key": "url.scheme.evaluation.retrieveFlowControlEvaFme",
+          "value": "http://[0]/scheme-flight-calculation-server/evaluation/flow/EvaFme/{id}"
+      },
+      "url.refly.flight.flights.details.query.info": {
+          "id": 158,
+          "key": "url.refly.flight.flights.details.query.info",
+          "value": "http://[0]/refly-flight-server/refly/flight/filghts/details/info/{executeDate}/{arrap}"
+      },
+      "url.history.flowprediction.routeFlowPrediction": {
+          "id": 179,
+          "key": "url.history.flowprediction.routeFlowPrediction",
+          "value": "http://[0]/hydrogen-flow-history-server/history/flowprediction/route/{routeName}/{startTime}/{endTime}"
+      },
+      "url.nextday.capacity.dynamic.airport": {
+          "id": 84,
+          "key": "url.nextday.capacity.dynamic.airport",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/threshold/airport/{airportName}",
+          "remark": "机场动态容量阈值"
+      },
+      "url.feafca.all": {
+          "id": 64,
+          "key": "url.feafca.all",
+          "value": "http://[0]/flow-feafca-rest/feafcas"
+      },
+      "url.flight.hovering.statistic.qurey.accname.date.airport": {
+          "id": 151,
+          "key": "url.flight.hovering.statistic.qurey.accname.date.airport",
+          "value": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/accNameDateTimeAirportFlight/{dateTime}/{airport}"
+      },
+      "url.flight.query.flightid.new": {
+          "id": 130,
+          "key": "url.flight.query.flightid.new",
+          "value": "http://[0]/hydrogen-flight-plan-server/flightPlan/now/{flightid}/{startTime}/{endTime}"
+      },
+      "url.flight.hovering.statistic.qurey.accname.date.airport.hour": {
+          "id": 152,
+          "key": "url.flight.hovering.statistic.qurey.accname.date.airport.hour",
+          "value": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/accNameDateTimeAirportHourFlight/{dateTime}/{airport}/{hour}"
+      },
+      "url.nextday.adp.publish": {
+          "id": 142,
+          "key": "url.nextday.adp.publish",
+          "value": "http://[0]/flow-pre-tactical-adp-rest/flowADP/publish/{adpId}"
+      },
+      "url.flight.hovering.statistic.qurey.airport.date.airport.hour": {
+          "id": 149,
+          "key": "url.flight.hovering.statistic.qurey.airport.date.airport.hour",
+          "value": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/airportDateTimeAirportHourFlight/{dateTime}/{airport}/{hour}"
+      },
+      "url.schemeFlow.retrieveUsername": {
+          "id": 38,
+          "key": "url.schemeFlow.retrieveUsername",
+          "value": "http://[0]/scheme-flow-server/implementTactics"
+      },
+      "url.nextday.adp.modify": {
+          "id": 145,
+          "key": "url.nextday.adp.modify",
+          "value": "http://[0]/flow-pre-tactical-adp-rest/flowADP/saveOrModify"
+      },
+      "url.sector.status.server.terminate": {
+          "id": 96,
+          "key": "url.sector.status.server.terminate",
+          "value": "http://[0]/sector-status-server/sector-status/terminate"
+      },
+      "url.flowprediction.directionCriteria": {
+          "id": 32,
+          "key": "url.flowprediction.directionCriteria",
+          "value": "http://[0]/traffic-flowprediction-server/trafficflow/v1/{startTime}/{endTime}/{ftt}/{redis}"
+      },
+      "url.tactic.suggest": {
+          "id": 30,
+          "key": "url.tactic.suggest",
+          "value": "http://[0]/tactic-suggest-server/tactic/suggested"
+      },
+      "url.rehearsal.capacity.static.area": {
+          "id": 75,
+          "key": "url.rehearsal.capacity.static.area",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/area/{areaName}",
+          "remark": "查询扇区静态容量"
+      },
+      "url.kpi.statistics": {
+          "id": 46,
+          "key": "url.kpi.statistics",
+          "value": "http://[0]/kpi-statistical-server/kpi/statistics/v1/{id}"
+      },
+      "url.flight.hovering.statistic.qurey.whole.country": {
+          "id": 154,
+          "key": "url.flight.hovering.statistic.qurey.whole.country",
+          "value": "http://[0]/flight-hovering-statistics-server/flight-hovering-statistics/NationalAirportData/{dateTime}"
+      },
+      "url.nextday.adp.withdrawn": {
+          "id": 171,
+          "key": "url.nextday.adp.withdrawn",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/withdrawn/{adpId}/{userName}",
+          "remark": "ADP数据撤回"
+      },
+      "url.schemeFlow.decision": {
+          "id": 40,
+          "key": "url.schemeFlow.decision",
+          "value": "http://[0]/scheme-flow-server/basisTactics/{schemeFlowId}"
+      },
+      "url.rehearsal.capacity.static.threshold": {
+          "id": 76,
+          "key": "url.rehearsal.capacity.static.threshold",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/threshold",
+          "remark": "静态容量阈值"
+      },
+      "url.nextday.flowprediction.airportFlowPrediction": {
+          "id": 87,
+          "key": "url.nextday.flowprediction.airportFlowPrediction",
+          "value": "http://[0]/flow-pre-tactical-rest/flowprediction/airport/{airport}/{startTime}/{endTime}",
+          "remark": "查询按时间范围机场流量预测"
+      },
+      "url.capacity.dynamic.route.str.end.client": {
+          "id": 106,
+          "key": "url.capacity.dynamic.route.str.end.client",
+          "value": "http://[0]/flow-capacity-rest/capacity/dynamic/retrieveRoute/{routeName}/{startTime}"
+      },
+      "url.sector.status.server.retrieveAllEfficient": {
+          "id": 93,
+          "key": "url.sector.status.server.retrieveAllEfficient",
+          "value": "http://[0]/sector-status-server/sector-status/all/efficient"
+      },
+      "url.flowprediction.currentRouteFlowPrediction": {
+          "id": 26,
+          "key": "url.flowprediction.currentRouteFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/route/v1/{routeName}"
+      },
+      "url.key.flowweather.radar.accuracy": {
+          "id": 137,
+          "key": "url.key.flowweather.radar.accuracy",
+          "value": "http://[0]/flow-weather-base-rest-server/flow-weather-data/img/accuracy"
+      },
+      "url.nextday.pretactical.overall.scenario.date": {
+          "id": 175,
+          "key": "url.nextday.pretactical.overall.scenario.date",
+          "value": "http://[0]/flow-pre-tactical-rest/overall/pre/{scenarioId}/{targetDate}",
+          "remark": "查询某一天的某一场景ID的总体态势",
+          "createtime": "202108191451"
+      },
+      "url.findFmeBaseDataById": {
+          "id": 54,
+          "key": "url.findFmeBaseDataById",
+          "value": "http://[0]/hydrogen-flight-plan-server/findFmeBaseDataById/{id}"
+      },
+      "url.template.user.retrieveByUserAndType": {
+          "id": 119,
+          "key": "url.template.user.retrieveByUserAndType",
+          "value": "http://[0]/user-template-rest/template/user/{username}/{templatetype}"
+      },
+      "url.nwcdm.client.event.info.by.eventid": {
+          "id": 109,
+          "key": "url.nwcdm.client.event.info.by.eventid",
+          "value": "http://[0]/cdm-nw-event-center-server/event/info/id/{eventID}"
+      },
+      "url.template.user.retrieveUserTemplateByTypeWithoutValue": {
+          "id": 126,
+          "key": "url.template.user.retrieveUserTemplateByTypeWithoutValue",
+          "value": "http://[0]/atmm-atmb-server/template/user/group/withoutvalue/{username}/{templatetype}"
+      },
+      "url.history.flowprediction.appFlowPrediction": {
+          "id": 182,
+          "key": "url.history.flowprediction.appFlowPrediction",
+          "value": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/app/{appEnName}/{startTime}/{endTime}"
+      },
+      "url.flowprediction.searchTrafficFlowByTacticId": {
+          "id": 139,
+          "key": "url.flowprediction.searchTrafficFlowByTacticId",
+          "value": "http://[0]/traffic-flowprediction-server/trafficflow/v1/tactic/{id}"
+      },
+      "url.schemeFlow.SUBMIT": {
+          "id": 35,
+          "key": "url.schemeFlow.SUBMIT",
+          "value": "http://[0]/scheme-flow-server/simulationTactics/submit/{userName}/{schemeFlowId}/{taskId}"
+      },
+      "url.template.user.retrieveByUser": {
+          "id": 117,
+          "key": "url.template.user.retrieveByUser",
+          "value": "http://[0]/user-template-rest/template/user/{username}"
+      },
+      "url.rehearsal.capacity.static.threshold.area": {
+          "id": 78,
+          "key": "url.rehearsal.capacity.static.threshold.area",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/static/threshold/area/{areaName}",
+          "remark": "扇区静态容量阈值(告警)"
+      },
+      "url.nextday.adp.submit": {
+          "id": 168,
+          "key": "url.nextday.adp.submit",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/submit/{adpId}/{userName}",
+          "remark": "ADP数据提交"
+      },
+      "url.capacity.dynamic.area.elementName.client": {
+          "id": 101,
+          "key": "url.capacity.dynamic.area.elementName.client",
+          "value": "http://[0]/flow-capacity-rest/capacity/dynamic/area/{areaName}/{elementName}/{date}"
+      },
+      "url.template.user.delete": {
+          "id": 114,
+          "key": "url.template.user.delete",
+          "value": "http://[0]/user-template-rest/template/user/{id}"
+      },
+      "url.history.flowprediction.accFlowPrediction": {
+          "id": 177,
+          "key": "url.history.flowprediction.accFlowPrediction",
+          "value": "http://[0]/hydrogen-flow-history-server/history/flowprediction/area/acc/{accEnName}/{startTime}/{endTime}"
+      },
+      "url.nextday.adp.rejected": {
+          "id": 170,
+          "key": "url.nextday.adp.rejected",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/rejected/{adpId}/{userName}/{taskId}",
+          "remark": "ADP数据拒绝"
+      },
+      "url.flowprediction.searchTrafficFlowConstantWithDir": {
+          "id": 45,
+          "key": "url.flowprediction.searchTrafficFlowConstantWithDir",
+          "value": "http://[0]/trafficflow/v1/constant/{traffics}"
+      },
+      "url.current.tacticInfo": {
+          "id": 48,
+          "key": "url.current.tacticInfo",
+          "value": "http://[0]/current-kpi-server/kpi/current/v1/{id}"
+      },
+      "url.flowprediction.feaFcaFlowPrediction": {
+          "id": 13,
+          "key": "url.flowprediction.feaFcaFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/area/v1/feafca/{feafcaId}/{startTime}/{endTime}"
+      },
+      "url.nextday.capacity.dynamic.area": {
+          "id": 79,
+          "key": "url.nextday.capacity.dynamic.area",
+          "value": "http://[0]/flow-pre-tactical-capacity-rest/capacity/dynamic/area/{areaName}",
+          "remark": "查询扇区动态容量值"
+      },
+      "url.flowprediction.currentAirportFlowPrediction": {
+          "id": 2,
+          "key": "url.flowprediction.currentAirportFlowPrediction",
+          "value": "http://[0]/traffic-flowprediction-server/flowprediction/airport/v1/{airport}",
+          "nodeAccessType": "flow-secondary-node"
+      },
+      "url.nextday.adp.agree": {
+          "id": 169,
+          "key": "url.nextday.adp.agree",
+          "value": "http://[0]/flow-pre-tactical-adp-rest-test/flowADP/agree/{adpId}/{userName}/{taskId}",
+          "remark": "ADP数据同意"
+      },
+      "url.schemeFlow.create": {
+          "id": 33,
+          "key": "url.schemeFlow.create",
+          "value": "http://[0]/scheme-flow-server/simulationTactics/{username}"
+      },
+      "url.sector.status.server.retrieveAll": {
+          "id": 92,
+          "key": "url.sector.status.server.retrieveAll",
+          "value": "http://[0]/sector-status-server/sector-status/all"
+      },
+      "url.sector.status.server.publish": {
+          "id": 94,
+          "key": "url.sector.status.server.publish",
+          "value": "http://[0]/sector-status-server/sector-status/publish"
+      },
+      "url.radar.data.by.param.new": {
+          "id": 194,
+          "key": "url.radar.data.by.param.new",
+          "value": "http://192.168.210.120:80/flow-radar-trace-query/radarData/params"
+      },
+      "url.sector.status.retrieveEfficientByAcc": {
+          "id": 97,
+          "key": "url.sector.status.retrieveEfficientByAcc",
+          "value": "http://[0]/sector-status-server/sector-status/acc/efficient/{accEnName}"
+      },
+      "url.schemeFlow.refuse": {
+          "id": 34,
+          "key": "url.schemeFlow.refuse",
+          "value": "http://[0]/scheme-flow-server/simulationTactics/refuse/{userName}/{schemeFlowId}/{taskId}"
+      }
+  },
+  "userConcernTrafficList": [
+      {
+          "concernTrafficName": "西安CDM",
+          "concernTrafficId": "zlxyflw1",
+          "concernStatus": true
+      },
+      {
+          "concernTrafficName": "兰州CDM",
+          "concernTrafficId": "zlxyflw2",
+          "concernStatus": true
+      },
+      {
+          "concernTrafficName": "银川CDM",
+          "concernTrafficId": "zlxyflw3",
+          "concernStatus": true
+      },
+      {
+          "concernTrafficName": "西宁CDM",
+          "concernTrafficId": "zlxyflw4",
+          "concernStatus": true
+      }
+  ]
+}

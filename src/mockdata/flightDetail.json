@@ -1,0 +1,3164 @@
+{
+  "generateTime": "20210922095509",
+  "status": 200,
+  "flight": {
+      "id": 391959990,
+      "flightId": "CSN6998",
+      "carrier": "CSN",
+      "executeDate": "20210922",
+      "depAp": "ZSSS",
+      "arrAp": "ZWWW",
+      "status": "19",
+      "registeNum": "B1285",
+      "aircraftType": "B738",
+      "teleType": "FPL,DEP,",
+      "teleNew": "DEP",
+      "sDeptime": "202109220900",
+      "pDeptime": "202109220900",
+      "rDeptime": "202109220929",
+      "sArrtime": "202109221355",
+      "pArrtime": "202109221406",
+      "rArrtime": "",
+      "sRoute": "",
+      "pRoute": " PIKAS G330 PIMOL V14 NOBEM W73 VEMEX W163 HFE B208 ZHO  H14 ZS H132 DOVOP W541 ADNEN W94 QIY W213 SUNUV W197 ANDIM B215  IBANO G470 QTV W99 FKG B215 WUR",
+      "cplInfo": "",
+      "formerArrtime": "202109212139",
+      "ctobt": "202109220850",
+      "boardingTime": "",
+      "rCldtime": "",
+      "rOutTime": "",
+      "cobt": "",
+      "ctd": "",
+      "aobt": "",
+      "atd": "202109220929",
+      "etd": "202109220930",
+      "eobt": "202109220900",
+      "hobt": "",
+      "priority": 0,
+      "position": "",
+      "runWay": "18R",
+      "sobt": "202109220900",
+      "agct": "",
+      "aCtype": "B738",
+      "aldt": "",
+      "sid": "",
+      "taxi": "",
+      "formerId": 391940312,
+      "formerFlightId": "CSN6997",
+      "fcStatus": 19,
+      "formerArrAp": "ZSSS",
+      "formerDepAp": "ZWWW",
+      "sectorInfo": "ZSSSAP,ZLLLAR12,ZSSSAR34,ZSSSAR23,ZWWWAP,ZLLLAR07,ZSSSAR13,ZSSSAR04,ZWWWAR07,ZBAAAR30,ZLXYAR13,ZWWWAR04,ZBAAAR31,ZLXYAR11,ZLXYAR07,ZBAAAR28,ZLXYAR08,ZLXYAR09",
+      "accInfo": "ZSSSACC,ZBAAACC,ZLXYACC,ZLLLACC,ZWWWACC",
+      "nctot": "",
+      "ncobt": "",
+      "rctot": "202109220936",
+      "rcobt": "202109220916"
+  },
+  "formerFlight": {
+      "id": 391940312,
+      "flightId": "CSN6997",
+      "carrier": "CSN",
+      "executeDate": "20210921",
+      "depAp": "ZWWW",
+      "arrAp": "ZSSS",
+      "status": "3",
+      "registeNum": "B1285",
+      "aircraftType": "B738",
+      "teleType": "FPL,DEP,ARR,",
+      "teleNew": "ARR",
+      "sDeptime": "202109211715",
+      "pDeptime": "202109211715",
+      "rDeptime": "202109211746",
+      "sArrtime": "202109212200",
+      "pArrtime": "202109212119",
+      "rArrtime": "202109212139",
+      "sRoute": "",
+      "pRoute": " WUR X54 ESDEX W191 DNC W565 XIXAN W214 HO H14 P396  H131 P62 H11 ML W118 REVKU H48 FYG B208 MAGLI/K0777S0810 B208 HFE  R343 SASAN",
+      "cplInfo": "",
+      "formerArrtime": "",
+      "ctobt": "202109211705",
+      "boardingTime": "",
+      "rCldtime": "",
+      "rOutTime": "",
+      "cobt": "",
+      "ctd": "",
+      "aobt": "",
+      "atd": "202109211746",
+      "etd": "202109211740",
+      "eobt": "202109211715",
+      "hobt": "",
+      "priority": 0,
+      "position": "",
+      "runWay": "25",
+      "sobt": "202109211715",
+      "aCtype": "B738",
+      "aldt": "202109212139",
+      "sid": "",
+      "taxi": "",
+      "fcStatus": 0,
+      "nctot": "",
+      "ncobt": "",
+      "rctot": "202109211718",
+      "rcobt": "202109211702"
+  },
+  "mpi": "ID:ZSSS/E:20210922092900/A:20210922092900/P:20210922093000/S:null?ID:PIKAS/E:20210922094807/A:20210922094807/P:20210922094645/S:null?ID:UNTAN/E:20210922095143/A:20210922095143/P:20210922095004/S:null?ID:PIMOL/E:20210922095602/P:20210922095345/S:null?ID:AGPUX/E:20210922095812/P:20210922095559/S:null?ID:NOBEM/E:20210922100335/P:20210922100139/S:null?ID:VEMEX/E:20210922100750/P:20210922100508/S:null?ID:SUNBO/E:20210922100926/P:20210922100628/S:null?ID:HFE/E:20210922101523/P:20210922101148/S:null?ID:MAGLI/E:20210922101814/P:20210922101404/S:null?ID:GUXUV/E:20210922102101/P:20210922101652/S:null?ID:P343/E:20210922102329/P:20210922101924/S:null?ID:BIPIM/E:20210922102616/P:20210922102220/S:null?ID:FYG/E:20210922103038/P:20210922102656/S:null?ID:GUTOV/E:20210922104011/P:20210922103607/S:null?ID:ZHO/E:20210922104108/P:20210922103703/S:null?ID:P129/E:20210922104225/P:20210922103831/S:null?ID:P295/E:20210922104548/P:20210922104216/S:null?ID:P256/E:20210922105144/P:20210922104848/S:null?ID:LRU/E:20210922105516/P:20210922105216/S:null?ID:P320/E:20210922105810/P:20210922105528/S:null?ID:P338/E:20210922105908/P:20210922105632/S:null?ID:P541/E:20210922110010/P:20210922105736/S:null?ID:P357/E:20210922110701/P:20210922110440/S:null?ID:P63/E:20210922111205/P:20210922110952/S:null?ID:SHX/E:20210922111659/P:20210922111441/S:null?ID:ZS/E:20210922112535/P:20210922112330/S:null?ID:DOVOP/E:20210922113014/P:20210922112802/S:null?ID:TEBIB/E:20210922113806/P:20210922113625/S:null?ID:ADNEN/E:20210922114010/P:20210922113801/S:null?ID:QIY/E:20210922114241/P:20210922114033/S:null?ID:ODISA/E:20210922114506/P:20210922114257/S:null?ID:P03/E:20210922114927/P:20210922114721/S:null?ID:GUY/E:20210922115259/P:20210922115107/S:null?ID:OVTIB/E:20210922120401/P:20210922120236/S:null?ID:SUNUV/E:20210922120841/P:20210922120722/S:null?ID:BUKPU/E:20210922121538/P:20210922121505/S:null?ID:ANDIM/E:20210922122240/P:20210922122233/S:null?ID:LELUX/E:20210922122538/P:20210922122518/S:null?ID:LAXEV/E:20210922122812/P:20210922122814/S:null?ID:P434/E:20210922123110/P:20210922123114/S:null?ID:NOGEX/E:20210922123422/P:20210922123438/S:null?ID:P407/E:20210922124135/P:20210922124214/S:null?ID:OMGUP/E:20210922130030/P:20210922130207/S:null?ID:IGDON/E:20210922130504/P:20210922130656/S:null?ID:TODOD/E:20210922130816/P:20210922131016/S:null?ID:NIXUK/E:20210922131905/P:20210922132222/S:null?ID:IBANO/E:20210922132104/P:20210922132438/S:null?ID:BIKNO/E:20210922132924/P:20210922133335/S:null?ID:ZWWW/E:20210922142823/P:20210922143344/S:null?",
+  "efpsFlight": {},
+  "groundFlight": {},
+  "fttList": [
+      {
+          "legseq": 1,
+          "routeseq": 0,
+          "identifier": "ZSSS",
+          "name": "上海/虹桥",
+          "pointid": 89,
+          "pointtype": 9,
+          "pointtype2": 0,
+          "latitude": "311152",
+          "longitude": "1212010",
+          "pasttime": "20210922092900",
+          "spasttime": "20210922093000",
+          "ppasttime": "20210922093000",
+          "firid": 2,
+          "hlevel": "FL0",
+          "speed": 152,
+          "kdistance": 122,
+          "ekdistance": 0,
+          "kinterval": 1147,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361832,
+          "isYaw": 2,
+          "fmeId": 391959990,
+          "ato": {
+              "time": "20210922092900",
+              "type": "ATO",
+              "source": "FDT"
+          },
+          "eto": {
+              "time": "20210922092900",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922093600",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922093000",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922093000",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 1,
+          "name": "PIKAS",
+          "pointid": 1726,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "321000",
+          "longitude": "1204400",
+          "pasttime": "20210922094807",
+          "spasttime": "20210922094645",
+          "ppasttime": "20210922094645",
+          "firid": 2,
+          "hlevel": "FL248",
+          "speed": 357,
+          "kdistance": 42,
+          "ekdistance": 0,
+          "kinterval": 216,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361833,
+          "isYaw": 2,
+          "fmeId": 391959990,
+          "ato": {
+              "time": "20210922094807",
+              "type": "ATO",
+              "source": "FDT"
+          },
+          "eto": {
+              "time": "20210922094807",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922095500",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922094645",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922094645",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 2,
+          "name": "UNTAN",
+          "pointid": 1803,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "321214",
+          "longitude": "1201704",
+          "pasttime": "20210922095143",
+          "spasttime": "20210922095004",
+          "ppasttime": "20210922095004",
+          "firid": 2,
+          "hlevel": "FL256",
+          "speed": 384,
+          "kdistance": 38,
+          "ekdistance": 0,
+          "kinterval": 206,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361842,
+          "isYaw": 2,
+          "fmeId": 391959990,
+          "ato": {
+              "time": "20210922095143",
+              "type": "ATO",
+              "source": "FDT"
+          },
+          "eto": {
+              "time": "20210922095143",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922095800",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922095004",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922095004",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 3,
+          "name": "TOC",
+          "pointid": 0,
+          "pointtype": 25,
+          "pointtype2": 1,
+          "latitude": "321418",
+          "longitude": "1195241",
+          "pasttime": "20210922095509",
+          "spasttime": "20210922094941",
+          "ppasttime": "20210922094941",
+          "firid": 2,
+          "hlevel": "FL293",
+          "speed": 387,
+          "kdistance": 11,
+          "ekdistance": 0,
+          "kinterval": 53,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361837,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922095509",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922100200",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922094941",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922094941",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 4,
+          "name": "PIMOL",
+          "pointid": 1730,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "321445",
+          "longitude": "1194542",
+          "pasttime": "20210922095602",
+          "spasttime": "20210922095345",
+          "ppasttime": "20210922095345",
+          "firid": 2,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 27,
+          "ekdistance": 0,
+          "kinterval": 130,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361846,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922095602",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922100300",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922095345",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922095345",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 5,
+          "name": "AGPUX",
+          "pointid": 6131,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "321022",
+          "longitude": "1192925",
+          "pasttime": "20210922095812",
+          "spasttime": "20210922095559",
+          "ppasttime": "20210922095559",
+          "firid": 2,
+          "hlevel": "FL293",
+          "speed": 403,
+          "kdistance": 67,
+          "ekdistance": 0,
+          "kinterval": 323,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361852,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922095812",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922100500",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922095559",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922095559",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 6,
+          "name": "NOBEM",
+          "pointid": 20895,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "315925",
+          "longitude": "1184831",
+          "pasttime": "20210922100335",
+          "spasttime": "20210922100139",
+          "ppasttime": "20210922100139",
+          "firid": 2,
+          "hlevel": "FL293",
+          "speed": 403,
+          "kdistance": 53,
+          "ekdistance": 0,
+          "kinterval": 255,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361853,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922100335",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922101000",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922100139",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922100139",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 7,
+          "name": "VEMEX",
+          "pointid": 6992,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "314742",
+          "longitude": "1181804",
+          "pasttime": "20210922100750",
+          "spasttime": "20210922100508",
+          "ppasttime": "20210922100508",
+          "firid": 2,
+          "hlevel": "FL293",
+          "speed": 404,
+          "kdistance": 20,
+          "ekdistance": 0,
+          "kinterval": 96,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361854,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922100750",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922101400",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922100508",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922100508",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 8,
+          "name": "SUNBO",
+          "pointid": 20329,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "314727",
+          "longitude": "1180515",
+          "pasttime": "20210922100926",
+          "spasttime": "20210922100628",
+          "ppasttime": "20210922100628",
+          "firid": 2,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 74,
+          "ekdistance": 0,
+          "kinterval": 357,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361855,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922100926",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922101600",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922100628",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922100628",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 9,
+          "identifier": "HFE",
+          "name": "骆岗",
+          "pointid": 5471,
+          "pointtype": 2,
+          "pointtype2": 1,
+          "latitude": "314634",
+          "longitude": "1171801",
+          "pasttime": "20210922101523",
+          "spasttime": "20210922101148",
+          "ppasttime": "20210922101148",
+          "firid": 2,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 36,
+          "ekdistance": 0,
+          "kinterval": 171,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361856,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922101523",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922102200",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922101148",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922101148",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 10,
+          "name": "MAGLI",
+          "pointid": 22387,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "315900",
+          "longitude": "1170047",
+          "pasttime": "20210922101814",
+          "spasttime": "20210922101404",
+          "ppasttime": "20210922101404",
+          "firid": 2,
+          "hlevel": "FL293",
+          "speed": 407,
+          "kdistance": 35,
+          "ekdistance": 0,
+          "kinterval": 167,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361857,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922101814",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922102500",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922101404",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922101404",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 11,
+          "name": "GUXUV",
+          "pointid": 5472,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "321118",
+          "longitude": "1164342",
+          "pasttime": "20210922102101",
+          "spasttime": "20210922101652",
+          "ppasttime": "20210922101652",
+          "firid": 2,
+          "hlevel": "FL293",
+          "speed": 407,
+          "kdistance": 31,
+          "ekdistance": 0,
+          "kinterval": 148,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361858,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922102101",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922102800",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922101652",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922101652",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 12,
+          "name": "P343",
+          "pointid": 20332,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "322149",
+          "longitude": "1162810",
+          "pasttime": "20210922102329",
+          "spasttime": "20210922101924",
+          "ppasttime": "20210922101924",
+          "firid": 2,
+          "hlevel": "FL293",
+          "speed": 407,
+          "kdistance": 35,
+          "ekdistance": 0,
+          "kinterval": 167,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361859,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922102329",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922103000",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922101924",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922101924",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 13,
+          "name": "BIPIM",
+          "pointid": 20328,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "323356",
+          "longitude": "1161057",
+          "pasttime": "20210922102616",
+          "spasttime": "20210922102220",
+          "ppasttime": "20210922102220",
+          "firid": 2,
+          "hlevel": "FL293",
+          "speed": 407,
+          "kdistance": 55,
+          "ekdistance": 0,
+          "kinterval": 262,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361860,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922102616",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922103300",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922102220",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922102220",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 14,
+          "identifier": "FYG",
+          "name": "阜阳",
+          "pointid": 1659,
+          "pointtype": 2,
+          "pointtype2": 1,
+          "latitude": "325255",
+          "longitude": "1154353",
+          "pasttime": "20210922103038",
+          "spasttime": "20210922102656",
+          "ppasttime": "20210922102656",
+          "firid": 5,
+          "hlevel": "FL293",
+          "speed": 407,
+          "kdistance": 120,
+          "ekdistance": 0,
+          "kinterval": 573,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361861,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922103038",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922103700",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922102656",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922102656",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 15,
+          "name": "GUTOV",
+          "pointid": 24050,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "333532",
+          "longitude": "1144513",
+          "pasttime": "20210922104011",
+          "spasttime": "20210922103607",
+          "ppasttime": "20210922103607",
+          "firid": 5,
+          "hlevel": "FL293",
+          "speed": 407,
+          "kdistance": 12,
+          "ekdistance": 0,
+          "kinterval": 57,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361862,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922104011",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922104700",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922103607",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922103607",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 16,
+          "identifier": "ZHO",
+          "name": "周口",
+          "pointid": 2067,
+          "pointtype": 2,
+          "pointtype2": 1,
+          "latitude": "333951",
+          "longitude": "1143912",
+          "pasttime": "20210922104108",
+          "spasttime": "20210922103703",
+          "ppasttime": "20210922103703",
+          "firid": 5,
+          "hlevel": "FL293",
+          "speed": 407,
+          "kdistance": 16,
+          "ekdistance": 0,
+          "kinterval": 77,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361863,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922104108",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922104800",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922103703",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922103703",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 17,
+          "name": "P129",
+          "pointid": 24086,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "334230",
+          "longitude": "1142932",
+          "pasttime": "20210922104225",
+          "spasttime": "20210922103831",
+          "ppasttime": "20210922103831",
+          "firid": 5,
+          "hlevel": "FL293",
+          "speed": 403,
+          "kdistance": 42,
+          "ekdistance": 0,
+          "kinterval": 203,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361864,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922104225",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922104900",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922103831",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922103831",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 18,
+          "name": "P295",
+          "pointid": 7311,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "334921",
+          "longitude": "1140338",
+          "pasttime": "20210922104548",
+          "spasttime": "20210922104216",
+          "ppasttime": "20210922104216",
+          "firid": 5,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 74,
+          "ekdistance": 0,
+          "kinterval": 356,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361865,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922104548",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922105200",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922104216",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922104216",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 19,
+          "name": "P256",
+          "pointid": 7308,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "340133",
+          "longitude": "1131748",
+          "pasttime": "20210922105144",
+          "spasttime": "20210922104848",
+          "ppasttime": "20210922104848",
+          "firid": 5,
+          "hlevel": "FL293",
+          "speed": 403,
+          "kdistance": 44,
+          "ekdistance": 0,
+          "kinterval": 212,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361866,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922105144",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922105800",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922104848",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922104848",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 20,
+          "identifier": "LRU",
+          "name": "临汝",
+          "pointid": 2070,
+          "pointtype": 2,
+          "pointtype2": 1,
+          "latitude": "340851",
+          "longitude": "1125025",
+          "pasttime": "20210922105516",
+          "spasttime": "20210922105216",
+          "ppasttime": "20210922105216",
+          "firid": 5,
+          "hlevel": "FL293",
+          "speed": 403,
+          "kdistance": 36,
+          "ekdistance": 0,
+          "kinterval": 174,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361867,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922105516",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922110200",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922105216",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922105216",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 21,
+          "name": "P320",
+          "pointid": 7879,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "340639",
+          "longitude": "1122658",
+          "pasttime": "20210922105810",
+          "spasttime": "20210922105528",
+          "ppasttime": "20210922105528",
+          "firid": 5,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 12,
+          "ekdistance": 0,
+          "kinterval": 58,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361868,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922105810",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922110500",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922105528",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922105528",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 22,
+          "name": "P338",
+          "pointid": 7880,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "340556",
+          "longitude": "1121911",
+          "pasttime": "20210922105908",
+          "spasttime": "20210922105632",
+          "ppasttime": "20210922105632",
+          "firid": 5,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 13,
+          "ekdistance": 0,
+          "kinterval": 62,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361869,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922105908",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922110600",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922105632",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922105632",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 23,
+          "name": "P541",
+          "pointid": 172626,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "340512",
+          "longitude": "1121048",
+          "pasttime": "20210922110010",
+          "spasttime": "20210922105736",
+          "ppasttime": "20210922105736",
+          "firid": 5,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 85,
+          "ekdistance": 0,
+          "kinterval": 411,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361870,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922110010",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922110700",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922105736",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922105736",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 24,
+          "name": "P357",
+          "pointid": 8177,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "340012",
+          "longitude": "1111600",
+          "pasttime": "20210922110701",
+          "spasttime": "20210922110440",
+          "ppasttime": "20210922110440",
+          "firid": 5,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 63,
+          "ekdistance": 0,
+          "kinterval": 304,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361871,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922110701",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922111400",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922110440",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922110440",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 25,
+          "name": "P63",
+          "pointid": 1431,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "335612",
+          "longitude": "1103508",
+          "pasttime": "20210922111205",
+          "spasttime": "20210922110952",
+          "ppasttime": "20210922110952",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 61,
+          "ekdistance": 0,
+          "kinterval": 294,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361887,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922111205",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922111900",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922110952",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922110952",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 26,
+          "identifier": "SHX",
+          "name": "商县",
+          "pointid": 2064,
+          "pointtype": 2,
+          "pointtype2": 1,
+          "latitude": "335232",
+          "longitude": "1095600",
+          "pasttime": "20210922111659",
+          "spasttime": "20210922111441",
+          "ppasttime": "20210922111441",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 107,
+          "ekdistance": 0,
+          "kinterval": 516,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361892,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922111659",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922112300",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922111441",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922111441",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 27,
+          "identifier": "ZS",
+          "name": "烟庄",
+          "pointid": 2058,
+          "pointtype": 3,
+          "pointtype2": 1,
+          "latitude": "341321",
+          "longitude": "1085119",
+          "pasttime": "20210922112535",
+          "spasttime": "20210922112330",
+          "ppasttime": "20210922112330",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 403,
+          "kdistance": 61,
+          "ekdistance": 0,
+          "kinterval": 279,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361893,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922112535",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922113200",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922112330",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922112330",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 28,
+          "name": "DOVOP",
+          "pointid": 6971,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "344526",
+          "longitude": "1084230",
+          "pasttime": "20210922113014",
+          "spasttime": "20210922112802",
+          "ppasttime": "20210922112802",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 424,
+          "kdistance": 99,
+          "ekdistance": 0,
+          "kinterval": 472,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361894,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922113014",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922113700",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922112802",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922112802",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 29,
+          "name": "TEBIB",
+          "pointid": 6977,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "352109",
+          "longitude": "1075354",
+          "pasttime": "20210922113806",
+          "spasttime": "20210922113625",
+          "ppasttime": "20210922113625",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 407,
+          "kdistance": 26,
+          "ekdistance": 0,
+          "kinterval": 124,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361895,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922113806",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922114500",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922113625",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922113625",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 30,
+          "name": "ADNEN",
+          "pointid": 6973,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "353025",
+          "longitude": "1074114",
+          "pasttime": "20210922114010",
+          "spasttime": "20210922113801",
+          "ppasttime": "20210922113801",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 407,
+          "kdistance": 33,
+          "ekdistance": 0,
+          "kinterval": 151,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361896,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922114010",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922114700",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922113801",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922113801",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 31,
+          "identifier": "QIY",
+          "name": "庆阳",
+          "pointid": 5832,
+          "pointtype": 2,
+          "pointtype2": 1,
+          "latitude": "354756",
+          "longitude": "1073600",
+          "pasttime": "20210922114241",
+          "spasttime": "20210922114033",
+          "ppasttime": "20210922114033",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 423,
+          "kdistance": 30,
+          "ekdistance": 0,
+          "kinterval": 145,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361897,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922114241",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922114900",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922114033",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922114033",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 32,
+          "name": "ODISA",
+          "pointid": 23819,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "355152",
+          "longitude": "1071649",
+          "pasttime": "20210922114506",
+          "spasttime": "20210922114257",
+          "ppasttime": "20210922114257",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 54,
+          "ekdistance": 0,
+          "kinterval": 261,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361898,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922114506",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922115200",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922114257",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922114257",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 33,
+          "name": "P03",
+          "pointid": 7151,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "355854",
+          "longitude": "1064137",
+          "pasttime": "20210922114927",
+          "spasttime": "20210922114721",
+          "ppasttime": "20210922114721",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 44,
+          "ekdistance": 0,
+          "kinterval": 212,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361899,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922114927",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922115600",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922114721",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922114721",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 34,
+          "identifier": "GUY",
+          "name": "固原",
+          "pointid": 7134,
+          "pointtype": 2,
+          "pointtype2": 1,
+          "latitude": "360444",
+          "longitude": "1061250",
+          "pasttime": "20210922115259",
+          "spasttime": "20210922115107",
+          "ppasttime": "20210922115107",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 137,
+          "ekdistance": 0,
+          "kinterval": 662,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361900,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922115259",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922115900",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922115107",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922115107",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 35,
+          "name": "OVTIB",
+          "pointid": 23173,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "362400",
+          "longitude": "1044410",
+          "pasttime": "20210922120401",
+          "spasttime": "20210922120236",
+          "ppasttime": "20210922120236",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 58,
+          "ekdistance": 0,
+          "kinterval": 280,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361901,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922120401",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922121100",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922120236",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922120236",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 36,
+          "name": "SUNUV",
+          "pointid": 23042,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "363146",
+          "longitude": "1040645",
+          "pasttime": "20210922120841",
+          "spasttime": "20210922120722",
+          "ppasttime": "20210922120722",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 87,
+          "ekdistance": 0,
+          "kinterval": 417,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361902,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922120841",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922121500",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922120722",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922120722",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 37,
+          "name": "BUKPU",
+          "pointid": 23043,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "365613",
+          "longitude": "1031702",
+          "pasttime": "20210922121538",
+          "spasttime": "20210922121505",
+          "ppasttime": "20210922121505",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 405,
+          "kdistance": 88,
+          "ekdistance": 0,
+          "kinterval": 422,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361903,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922121538",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922122200",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922121505",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922121505",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 38,
+          "name": "ANDIM",
+          "pointid": 23041,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "372130",
+          "longitude": "1022623",
+          "pasttime": "20210922122240",
+          "spasttime": "20210922122233",
+          "ppasttime": "20210922122233",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 405,
+          "kdistance": 37,
+          "ekdistance": 0,
+          "kinterval": 178,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361904,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922122240",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922122900",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922122233",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922122233",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 39,
+          "name": "LELUX",
+          "pointid": 23838,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "372615",
+          "longitude": "1020207",
+          "pasttime": "20210922122538",
+          "spasttime": "20210922122518",
+          "ppasttime": "20210922122518",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 32,
+          "ekdistance": 0,
+          "kinterval": 154,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361905,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922122538",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922123200",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922122518",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922122518",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 40,
+          "name": "LAXEV",
+          "pointid": 23040,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "373017",
+          "longitude": "1014108",
+          "pasttime": "20210922122812",
+          "spasttime": "20210922122814",
+          "ppasttime": "20210922122814",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 37,
+          "ekdistance": 0,
+          "kinterval": 178,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361906,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922122812",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922123500",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922122814",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922122814",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 41,
+          "name": "P434",
+          "pointid": 23053,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "373914",
+          "longitude": "1011858",
+          "pasttime": "20210922123110",
+          "spasttime": "20210922123114",
+          "ppasttime": "20210922123114",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 404,
+          "kdistance": 40,
+          "ekdistance": 0,
+          "kinterval": 192,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361907,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922123110",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922123800",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922123114",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922123114",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 42,
+          "name": "NOGEX",
+          "pointid": 23039,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "374945",
+          "longitude": "1005508",
+          "pasttime": "20210922123422",
+          "spasttime": "20210922123438",
+          "ppasttime": "20210922123438",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 404,
+          "kdistance": 90,
+          "ekdistance": 0,
+          "kinterval": 433,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361908,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922123422",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922124100",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922123438",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922123438",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 43,
+          "name": "P407",
+          "pointid": 23451,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "381302",
+          "longitude": "1000042",
+          "pasttime": "20210922124135",
+          "spasttime": "20210922124214",
+          "ppasttime": "20210922124214",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 404,
+          "kdistance": 236,
+          "ekdistance": 0,
+          "kinterval": 1135,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361909,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922124135",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922124800",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922124214",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922124214",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 44,
+          "name": "OMGUP",
+          "pointid": 23045,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "391346",
+          "longitude": "0973733",
+          "pasttime": "20210922130030",
+          "spasttime": "20210922130207",
+          "ppasttime": "20210922130207",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 404,
+          "kdistance": 57,
+          "ekdistance": 0,
+          "kinterval": 274,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361910,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922130030",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922130700",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922130207",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922130207",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 45,
+          "name": "IGDON",
+          "pointid": 23807,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "392801",
+          "longitude": "0970200",
+          "pasttime": "20210922130504",
+          "spasttime": "20210922130656",
+          "ppasttime": "20210922130656",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 404,
+          "kdistance": 40,
+          "ekdistance": 0,
+          "kinterval": 192,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361911,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922130504",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922131200",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922130656",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922130656",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 46,
+          "name": "TODOD",
+          "pointid": 23051,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "393751",
+          "longitude": "0963722",
+          "pasttime": "20210922130816",
+          "spasttime": "20210922131016",
+          "ppasttime": "20210922131016",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 404,
+          "kdistance": 141,
+          "ekdistance": 0,
+          "kinterval": 649,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361913,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922130816",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922131500",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922131016",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922131016",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 47,
+          "name": "NIXUK",
+          "pointid": 23052,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "401200",
+          "longitude": "0950843",
+          "pasttime": "20210922131905",
+          "spasttime": "20210922132222",
+          "ppasttime": "20210922132222",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 422,
+          "kdistance": 26,
+          "ekdistance": 0,
+          "kinterval": 119,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361914,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922131905",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922132600",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922132222",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922132222",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 48,
+          "name": "IBANO",
+          "pointid": 23038,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "401821",
+          "longitude": "0945200",
+          "pasttime": "20210922132104",
+          "spasttime": "20210922132438",
+          "ppasttime": "20210922132438",
+          "firid": 6,
+          "hlevel": "FL293",
+          "speed": 422,
+          "kdistance": 109,
+          "ekdistance": 0,
+          "kinterval": 500,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361917,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922132104",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922132800",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922132438",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922132438",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 49,
+          "name": "BIKNO",
+          "pointid": 1619,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "405454",
+          "longitude": "0935053",
+          "pasttime": "20210922132924",
+          "spasttime": "20210922133335",
+          "ppasttime": "20210922133335",
+          "firid": 7,
+          "hlevel": "FL293",
+          "speed": 423,
+          "kdistance": 223,
+          "ekdistance": 0,
+          "kinterval": 1024,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361918,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922132924",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922133600",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922133335",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922133335",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 50,
+          "name": "OLMIX",
+          "pointid": 172447,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "422005",
+          "longitude": "0915657",
+          "pasttime": "20210922134628",
+          "spasttime": "20210922135042",
+          "ppasttime": "20210922135042",
+          "firid": 7,
+          "hlevel": "FL293",
+          "speed": 423,
+          "kdistance": 29,
+          "ekdistance": 0,
+          "kinterval": 133,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361921,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922134628",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922135300",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922135042",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922135042",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 51,
+          "name": "IPMUN",
+          "pointid": 6231,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "423106",
+          "longitude": "0914139",
+          "pasttime": "20210922134841",
+          "spasttime": "20210922135255",
+          "ppasttime": "20210922135255",
+          "firid": 7,
+          "hlevel": "FL293",
+          "speed": 423,
+          "kdistance": 57,
+          "ekdistance": 0,
+          "kinterval": 261,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361923,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922134841",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922135500",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922135255",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922135255",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 52,
+          "name": "TAMOX",
+          "pointid": 1632,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "425255",
+          "longitude": "0911227",
+          "pasttime": "20210922135302",
+          "spasttime": "20210922135743",
+          "ppasttime": "20210922135743",
+          "firid": 7,
+          "hlevel": "FL293",
+          "speed": 423,
+          "kdistance": 58,
+          "ekdistance": 0,
+          "kinterval": 266,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361927,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922135302",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922140000",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922135743",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922135743",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 53,
+          "name": "TOD",
+          "pointid": 0,
+          "pointtype": 26,
+          "pointtype2": 1,
+          "latitude": "431501",
+          "longitude": "0904208",
+          "pasttime": "20210922135728",
+          "spasttime": "20210922141236",
+          "ppasttime": "20210922141236",
+          "firid": 7,
+          "hlevel": "FL293",
+          "speed": 423,
+          "kdistance": 19,
+          "ekdistance": 0,
+          "kinterval": 92,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361963,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922135728",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922140400",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922141236",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922141236",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 54,
+          "name": "ESBID",
+          "pointid": 23248,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "432224",
+          "longitude": "0903205",
+          "pasttime": "20210922135900",
+          "spasttime": "20210922140407",
+          "ppasttime": "20210922140407",
+          "firid": 7,
+          "hlevel": "FL293",
+          "speed": 402,
+          "kdistance": 50,
+          "ekdistance": 0,
+          "kinterval": 245,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361931,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922135900",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922140600",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922140407",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922140407",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 55,
+          "name": "IRPEP",
+          "pointid": 172446,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "434037",
+          "longitude": "0900448",
+          "pasttime": "20210922140305",
+          "spasttime": "20210922140757",
+          "ppasttime": "20210922140757",
+          "firid": 7,
+          "hlevel": "FL293",
+          "speed": 376,
+          "kdistance": 51,
+          "ekdistance": 0,
+          "kinterval": 278,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361954,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922140305",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922141000",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922140757",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922140757",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 56,
+          "identifier": "QTV",
+          "name": "奇台",
+          "pointid": 7051,
+          "pointtype": 2,
+          "pointtype2": 1,
+          "latitude": "435911",
+          "longitude": "0893633",
+          "pasttime": "20210922140743",
+          "spasttime": "20210922141152",
+          "ppasttime": "20210922141152",
+          "firid": 7,
+          "hlevel": "FL243",
+          "speed": 353,
+          "kdistance": 62,
+          "ekdistance": 0,
+          "kinterval": 353,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361958,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922140743",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922141400",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922141152",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922141152",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 57,
+          "name": "AGOXA",
+          "pointid": 7135,
+          "pointtype": 5,
+          "pointtype2": 1,
+          "latitude": "440431",
+          "longitude": "0885042",
+          "pasttime": "20210922141336",
+          "spasttime": "20210922141719",
+          "ppasttime": "20210922141719",
+          "firid": 7,
+          "hlevel": "FL145",
+          "speed": 330,
+          "kdistance": 70,
+          "ekdistance": 0,
+          "kinterval": 462,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361967,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922141336",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922142000",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922141719",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922141719",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 58,
+          "identifier": "FKG",
+          "name": "阜康",
+          "pointid": 2114,
+          "pointtype": 2,
+          "pointtype2": 1,
+          "latitude": "441016",
+          "longitude": "0875854",
+          "pasttime": "20210922142118",
+          "spasttime": "20210922142458",
+          "ppasttime": "20210922142458",
+          "firid": 7,
+          "hlevel": "FL78",
+          "speed": 270,
+          "kdistance": 47,
+          "ekdistance": 0,
+          "kinterval": 399,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361972,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922142118",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922142800",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922142458",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922142458",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 59,
+          "identifier": "WUR",
+          "name": "乌鲁木齐",
+          "pointid": 1907,
+          "pointtype": 2,
+          "pointtype2": 1,
+          "latitude": "435451",
+          "longitude": "0873027",
+          "pasttime": "20210922142757",
+          "spasttime": "20210922143318",
+          "ppasttime": "20210922143318",
+          "firid": 7,
+          "hlevel": "FL78",
+          "speed": 222,
+          "kdistance": 3,
+          "ekdistance": 0,
+          "kinterval": 26,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361973,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922142757",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922143400",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922143318",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922143318",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      },
+      {
+          "legseq": 1,
+          "routeseq": 60,
+          "identifier": "ZWWW",
+          "name": "乌鲁木齐/地窝堡",
+          "pointid": 120,
+          "pointtype": 10,
+          "pointtype2": 2,
+          "latitude": "435426",
+          "longitude": "872827",
+          "pasttime": "20210922142823",
+          "spasttime": "20210922143344",
+          "ppasttime": "20210922143344",
+          "firid": 7,
+          "hlevel": "FL21",
+          "speed": 222,
+          "kdistance": 0,
+          "ekdistance": 0,
+          "kinterval": 0,
+          "cprid": 1,
+          "prkey": 391959990,
+          "tratid": 39945361974,
+          "isYaw": 3,
+          "fmeId": 391959990,
+          "ato": {},
+          "eto": {
+              "time": "20210922142823",
+              "type": "ETO",
+              "source": "FDT"
+          },
+          "ncto": {},
+          "cto": {},
+          "rcto": {
+              "time": "20210922143500",
+              "type": "RCTO",
+              "source": "CTOT_ATOM"
+          },
+          "tto": {},
+          "pto": {
+              "time": "20210922143344",
+              "type": "PTO",
+              "source": "FDT"
+          },
+          "sto": {
+              "time": "20210922143344",
+              "type": "STO",
+              "source": "FDT"
+          },
+          "ppto": {}
+      }
+  ],
+  "recordMap": {},
+  "flowcontrols": [
+      {
+          "generateTime": "202109220928",
+          "id": "fcbad092-ca4d-4d27-a255-044957ad2693",
+          "tacticId": "eed72d05-491e-4fae-940d-227ba87c0742",
+          "flowControlName": "NOGEX;P196;GOBIN 3架/小时 最小间隔20分钟",
+          "flowControlTargetUnit": "ZL;ZBAAACC;ZHCCACC;ZHHHACC;ZUUUACC;ZWWWACC",
+          "flowControlStatus": "RUNNING",
+          "flowControlReason": "CONTROL",
+          "flowControlTimeInfo": {
+              "generateTime": "202109220926",
+              "createTime": "202109220926",
+              "startTime": "202109220940",
+              "endTime": "202109222300",
+              "startDataTime": "202109220940",
+              "endDataTime": "202109221740"
+          },
+          "flowControlTimeInfoJson": "{\"generateTime\":\"202109220926\",\"createTime\":\"202109220926\",\"startTime\":\"202109220940\",\"endTime\":\"202109222300\",\"startDataTime\":\"202109220940\",\"endDataTime\":\"202109221740\"}",
+          "flightPropertyDomain": {},
+          "flightPropertyDomainJson": "{}",
+          "directionDoMain": {
+              "identifier": "941041f7-4893-4c09-800c-1633c4b9a674",
+              "targetUnit": "NOGEX;P196;GOBIN",
+              "formerUnit": "ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC",
+              "behindUnit": "ZUUUACC;ZULSACC;ZWWWACC;ZUUUACC;ZULSACC;ZWWWACC;ZUUUACC;ZULSACC;ZWWWACC"
+          },
+          "directionDoMainJson": "{\"identifier\":\"941041f7-4893-4c09-800c-1633c4b9a674\",\"targetUnit\":\"NOGEX;P196;GOBIN\",\"formerUnit\":\"ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC;ZLXYACC;ZLLLACC\",\"behindUnit\":\"ZUUUACC;ZULSACC;ZWWWACC;ZUUUACC;ZULSACC;ZWWWACC;ZUUUACC;ZULSACC;ZWWWACC\"}",
+          "flowControlMeasure": {
+              "restrictionMode": "AFP",
+              "restrictionMITValue": "20",
+              "restrictionMITValueUnit": "T",
+              "restrictionMITTimeValue": "20",
+              "distanceToTime": "14",
+              "restrictionAFPValueSequence": "3"
+          },
+          "flowControlMeasureJson": "{\"restrictionMode\":\"AFP\",\"restrictionMITValue\":\"20\",\"restrictionMITValueUnit\":\"T\",\"restrictionMITTimeValue\":\"20\",\"distanceToTime\":\"14\",\"restrictionAFPValueSequence\":\"3\"}",
+          "sourceFlowControl": "SOURCE_FLOWCONTROL"
+      }
+  ]
+}

@@ -5,7 +5,7 @@ import { ReqUrls } from "utils/request-urls";
 import { isValidObject, isValidVariable } from "utils/basic-verify";
 
 //列配置获取数据
-function ColumnDataInit({ columnConfig, flightTableData,systemPage }) {
+function ColumnDataInit({ columnConfig, flightTableData, systemPage }) {
   const user = systemPage.user || {};
   const userId = user.id || "";
   const activeSystem = systemPage.activeSystem || {};
@@ -13,23 +13,23 @@ function ColumnDataInit({ columnConfig, flightTableData,systemPage }) {
   //获取配置数据
   const fetchConfigData = () => {
     const opt = {
-      url:
-        ReqUrls.flightTableColumnConfigUrl +
-        "/retrieveUserPropertyGridTable" +
-        "?userId=" +
-        userId +
-        "&keys=" +
-        systemType,
+      // url:
+      //   ReqUrls.flightTableColumnConfigUrl +
+      //   "/retrieveUserPropertyGridTable" +
+      //   "?userId=" +
+      //   userId +
+      //   "&keys=" +
+      //   systemType,
+      url: ReqUrls.flightTableColumnConfigUrl,
       method: "GET",
       resFunc: (data) => fetchSuccess(data),
-      errFunc: (err) => fetchErr(err),
+      errFunc: (err) => fetchErr(err)
     };
     request(opt);
   };
 
   //获取配置数据成功
   const fetchSuccess = (data) => {
-    
     // flightTableData.updateGetState(true)
     console.log(flightTableData.getState);
     const { userPropertys = [] } = data;
@@ -56,7 +56,7 @@ function ColumnDataInit({ columnConfig, flightTableData,systemPage }) {
         </span>
       ),
       centered: true,
-      okText: "确定",
+      okText: "确定"
     });
   };
 
@@ -72,4 +72,8 @@ function ColumnDataInit({ columnConfig, flightTableData,systemPage }) {
   );
   return "";
 }
-export default inject("columnConfig","flightTableData", "systemPage")(observer(ColumnDataInit));
+export default inject(
+  "columnConfig",
+  "flightTableData",
+  "systemPage"
+)(observer(ColumnDataInit));

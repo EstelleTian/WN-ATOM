@@ -1,0 +1,23 @@
+{
+  "expressResultIndicatior": null,
+  "generateTime": "20210922093825",
+  "startTime": null,
+  "endTime": null,
+  "exception": null,
+  "status": 200,
+  "code": null,
+  "warn": null,
+  "error": null,
+  "valueMap": null,
+  "userPropertys": [
+      {
+          "id": 155079561,
+          "username": "zlxyflwdev",
+          "program": "grid_table",
+          "key": "ZLXYCRS",
+          "value": "{\"FLIGHTID\":{\"en\":\"FLIGHTID\",\"cn\":\"航班号\",\"display\":1,\"key\":0},\"ALARM\":{\"en\":\"ALARM\",\"cn\":\"告警列\",\"display\":1,\"key\":1},\"FFIX\":{\"en\":\"FFIX\",\"cn\":\"基准点\",\"display\":1,\"key\":2},\"FFIXT\":{\"en\":\"FFIXT\",\"cn\":\"基准点时间\",\"display\":1,\"key\":3},\"CTO\":{\"en\":\"CTO\",\"cn\":\"计算基准点\",\"display\":1,\"key\":4},\"ETO\":{\"en\":\"ETO\",\"cn\":\"预计基准点\",\"display\":1,\"key\":5},\"COBT\":{\"en\":\"COBT\",\"cn\":\"计算预撤时间\",\"display\":1,\"key\":6},\"CTOT\":{\"en\":\"CTOT\",\"cn\":\"计算起飞时间\",\"display\":1,\"key\":7},\"SLOT\":{\"en\":\"SLOT\",\"cn\":\"未分配时隙原因\",\"display\":1,\"key\":8},\"ATOT\":{\"en\":\"ATOT\",\"cn\":\"实际起飞时间\",\"display\":1,\"key\":9},\"DEPAP\":{\"en\":\"DEPAP\",\"cn\":\"起飞机场\",\"display\":1,\"key\":10},\"ARRAP\":{\"en\":\"ARRAP\",\"cn\":\"降落机场\",\"display\":1,\"key\":11},\"EOBT\":{\"en\":\"EOBT\",\"cn\":\"预计撤轮档时间\",\"display\":1,\"key\":12},\"TOBT\":{\"en\":\"TOBT\",\"cn\":\"目标撤轮档时间\",\"display\":1,\"key\":13},\"SOBT\":{\"en\":\"SOBT\",\"cn\":\"计划撤轮档时间\",\"display\":1,\"key\":14},\"RCTOT\":{\"en\":\"RCTOT\",\"cn\":\"各地CDM计算起飞时间\",\"display\":1,\"key\":15},\"NCTOT\":{\"en\":\"NCTOT\",\"cn\":\"NCTOT\",\"display\":1,\"key\":16},\"OCTOT\":{\"en\":\"OCTOT\",\"cn\":\"时隙优化数据\",\"display\":1,\"key\":29},\"ASBT\":{\"en\":\"ASBT\",\"cn\":\"上客时间\",\"display\":1,\"key\":17},\"AGCT\":{\"en\":\"AGCT\",\"cn\":\"关舱门时间\",\"display\":1,\"key\":18},\"AOBT\":{\"en\":\"AOBT\",\"cn\":\"推出时间\",\"display\":1,\"key\":19},\"STATUS\":{\"en\":\"STATUS\",\"cn\":\"航班状态\",\"display\":1,\"key\":20},\"FEAL\":{\"en\":\"FEAL\",\"cn\":\"前段降落时间\",\"display\":1,\"key\":21},\"EAW\":{\"en\":\"EAW\",\"cn\":\"入区域点\",\"display\":1,\"key\":22},\"EAWT\":{\"en\":\"EAWT\",\"cn\":\"进区域点时间\",\"display\":1,\"key\":23},\"OAW\":{\"en\":\"OAW\",\"cn\":\"出区域点\",\"display\":1,\"key\":24},\"OAWT\":{\"en\":\"OAWT\",\"cn\":\"出区域点时间\",\"display\":1,\"key\":25},\"POS\":{\"en\":\"POS\",\"cn\":\"停机位\",\"display\":0,\"key\":26},\"RWY\":{\"en\":\"RWY\",\"cn\":\"跑道\",\"display\":0,\"key\":27},\"TYPE\":{\"en\":\"TYPE\",\"cn\":\"机型\",\"display\":0,\"key\":28}}",
+          "advance": null,
+          "remark": null
+      }
+  ]
+}

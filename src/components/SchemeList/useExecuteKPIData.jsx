@@ -3,7 +3,7 @@ import React, {
   useCallback,
   useState,
   useMemo,
-  useRef,
+  useRef
 } from "react";
 import { requestGet2 } from "utils/request";
 import { isValidVariable, isValidObject } from "utils/basic-verify";
@@ -29,7 +29,7 @@ function useExecuteKPIData({ schemeListData, executeKPIData, systemPage }) {
       executeKPIData.updateExecuteKPIData({}, generateTime);
       customNotice({
         type: "error",
-        content: "获取的KPI数据为空",
+        content: "获取的KPI数据为空"
       });
     }
   }, []);
@@ -50,8 +50,9 @@ function useExecuteKPIData({ schemeListData, executeKPIData, systemPage }) {
     try {
       let activeSchemeId = schemeListData.activeSchemeId || "";
       const data = await requestGet2({
-        url: ReqUrls.executeKPIDataUrl + activeSchemeId,
-        params: {},
+        // url: ReqUrls.executeKPIDataUrl + activeSchemeId,
+        url: ReqUrls.executeKPIDataUrl,
+        params: {}
       });
       updateKPIData(data);
       executeKPIData.toggleLoad(false);
@@ -59,7 +60,7 @@ function useExecuteKPIData({ schemeListData, executeKPIData, systemPage }) {
     } catch (e) {
       customNotice({
         type: "error",
-        content: "KPI数据获取失败",
+        content: "KPI数据获取失败"
       });
       // 置空KPIstore数据
       executeKPIData.updateExecuteKPIData({}, "");

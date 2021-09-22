@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-03-03 20:22:17
- * @LastEditTime: 2021-09-14 11:20:13
+ * @LastEditTime: 2021-09-22 09:46:36
  * @LastEditors: liutianjiao
  * @Description: In User Settings Edit
  * @FilePath: \WN-ATOM\src\components\NavBar\SystemBar.jsx
@@ -92,7 +92,8 @@ function SystemBar(props) {
   const getSystemListById = useCallback(async (userId) => {
     try {
       const res = await requestGet2({
-        url: ReqUrls.systemListUrl + userId
+        // url: ReqUrls.systemListUrl + userId
+        url: ReqUrls.systemListUrl
       });
       const uumaSystemList = res.uumaSystemList || [];
       systemPage.setSystemList(uumaSystemList, systemType);
