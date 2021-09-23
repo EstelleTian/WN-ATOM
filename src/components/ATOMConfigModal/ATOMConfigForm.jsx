@@ -118,7 +118,8 @@ function ATOMConfigForm(props) {
     //获取配置数据
     const fetchConfigData = () => {
         const opt = {
-            url: ReqUrls.switchConfigUrl + "/switch/cdmDataApplySwitch",
+            // url: ReqUrls.switchConfigUrl + "/switch/cdmDataApplySwitch",
+            url:  "../../mockdata/cdmDataApplySwitch.json",
             method: "GET",
             resFunc: (data) => fetchSuccess(data),
             errFunc: (err) => fetchErr(err),

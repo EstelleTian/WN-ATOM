@@ -1,7 +1,7 @@
 /*
  * @Author: liutianjiao
  * @Date:
- * @LastEditTime: 2021-09-22 09:55:34
+ * @LastEditTime: 2021-09-23 09:23:13
  * @LastEditors: liutianjiao
  * @Description: 生产环境-项目所有请求url
  * @FilePath: \WN-ATOM\src\utils\request-urls-mock.js
@@ -186,8 +186,7 @@ const ReqUrls = {
   getHistoryNewsUrl:
     netIp + "/cdm-nw-event-center-server/event/info/history/user/id",
   //计划时间范围获取-(薛满林)
-  rangeScopeUrl:
-    netIp + "/hydrogen-flight-monitor-server-cache/plan/time/scope",
+  rangeScopeUrl: "../../mockdata/scope.json",
   // 开关配置
   switchConfigUrl: netIp + "/hydrogen-ntfm-info-receive-server/switchConfig",
   // 表格列配置

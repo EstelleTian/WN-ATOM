@@ -14,7 +14,8 @@ function ATOMConfigInit({ ATOMConfigFormData, flightTableData }) {
   const fetchConfigData = () => {
     clearTimeout(timer);
     const opt = {
-      url: ReqUrls.switchConfigUrl + "/switch/cdmDataApplySwitch",
+      // url: ReqUrls.switchConfigUrl + "/switch/cdmDataApplySwitch",
+      url:  "../../mockdata/cdmDataApplySwitch.json",
       method: "GET",
       resFunc: (data) => fetchSuccess(data),
       errFunc: (err) => fetchErr(err),

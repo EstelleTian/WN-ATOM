@@ -72,7 +72,8 @@ const FlightIdCont = (props) => {
       flightDetailData.toggleModalVisible(true);
       try {
         const res = await requestGet2({
-          url: ReqUrls.getFlightDetailUrl + flightId,
+          // url: ReqUrls.getFlightDetailUrl + flightId,
+          url: ReqUrls.getFlightDetailUrl,
         });
         //航班详情赋值
         flightDetailData.toggleFlightId(flightId);

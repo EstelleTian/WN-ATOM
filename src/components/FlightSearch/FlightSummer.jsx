@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-15 15:54:57
- * @LastEditTime: 2021-09-08 18:56:49
+ * @LastEditTime: 2021-09-23 09:29:32
  * @LastEditors: liutianjiao
  * @Description: 航班查询-单个航班详情
  * @FilePath: \WN-ATOM\src\components\FlightSearch\FlightSummer.jsx
@@ -472,7 +472,8 @@ const FlightSummer = (props) => {
       flightDetailData.toggleModalVisible(true);
       try {
         const res = await requestGet2({
-          url: ReqUrls.getFlightDetailUrl + flightId
+          // url: ReqUrls.getFlightDetailUrl + flightId
+          url: ReqUrls.getFlightDetailUrl
         });
         //航班详情赋值
         flightDetailData.toggleFlightId(flightId);
